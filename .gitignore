@@ -7,4 +7,7 @@ venv/
 .env
 output_json_segments/
 output_full_doc_json/
+metadata_dai_chanh.json
+chroma_db_kinhsach/
+*.sqlite3
 *.log
