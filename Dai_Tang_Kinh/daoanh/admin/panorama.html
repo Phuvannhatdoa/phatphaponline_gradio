@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Ảnh TTL Rebuild v4.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* LAYOUT - Critical for 3-column display */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; overflow: hidden; }
+        body { 
+            display: flex; 
+            height: 100vh; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #020617; 
+            color: #f8fafc; 
+        }
+        
+        /* SIDEBAR - Queue list */
+        aside {
+            width: 180px; 
+            min-width: 180px;
+            background: #0f172a; 
+            border-right: 1px solid #1e293b; 
+            display: flex; 
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        /* MAIN GRID - 3 Columns */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* GRID CONTAINER - 3 Columns */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 25% 40% 35%;
+            height: 100%;
+            background: #334155;
+            gap: 1px;
+        }
+        
+        /* COLUMNS */
+        .col {
+            background: #020617;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .col-3-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 8px;
+            overflow: hidden;
+        }
+        
+        /* COL-HEADER */
+        .col-header {
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.4);
+            border-bottom: 1px solid #1e293b;
+            font-size: 9px;
+            font-weight: 900;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .col-1 .col-header { color: #3b82f6; border-left: 3px solid #3b82f6; }
+        .col-2 .col-header { color: #f59e0b; border-left: 3px solid #f59e0b; }
+        .col-3 .col-header { color: #d97706; border-left: 3px solid #d97706; }
+        
+        /* SUBSECTIONS in Column 2 */
+        .col-sub { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 8px; 
+            border-bottom: 1px solid #1e293b; 
+        }
+        .col-sub:last-child { border-bottom: none; }
+        
+        .sub-header { 
+            font-size: 8px; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            margin-bottom: 6px; 
+            display: flex; 
+            justify-content: space-between; 
+        }
+        
+        .sub-a .sub-header { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .sub-b .sub-header { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .sub-c .sub-header { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+        .sub-d .sub-header { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+        
+        /* SEARCH INPUT */
+        .sidebar-header {
+            padding: 8px;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 11px;
+            color: #94a3b8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .search-input {
+            width: 150px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #334155;
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 11px;
+            color: #fff;
+            margin-top: 4px;
+        }
+        .search-input:focus { outline: none; border-color: #d97706; }
+        .search-input::placeholder { color: #64748b; }
+        
+        /* QUEUE LIST */
+        .queue-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px;
+        }
+        
+        .queue-item {
+            padding: 4px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 2px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid transparent;
+        }
+        .queue-item:hover { background: rgba(255,255,255,0.05); }
+        .queue-item.active {
+            background: rgba(217,119,6,0.15);
+            border-left: 3px solid #d97706;
+        }
+        
+        /* STATUS BAR */
+        .status-bar {
+            height: 36px;
+            background: #000;
+            border-bottom: 1px solid #1e293b;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        /* CARDS */
+        .card { 
+            border: 1px solid #334155; 
+            border-radius: 6px; 
+            padding: 8px; 
+            background: rgba(255,255,255,0.02); 
+            margin-bottom: 6px; 
+        }
+        .field { display: flex; padding: 2px 0; font-size: 9px; }
+        .label { width: 60px; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+        .val { flex: 1; }
+        
+        /* EDITOR & PREVIEW */
+        .editor-section { margin-bottom: 8px; }
+        .preview-section { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+        
+        .editor { 
+            background: #000; 
+            color: #a5b4fc; 
+            width: 100%; 
+            height: 180px; 
+            padding: 10px; 
+            border: 1px solid #334155; 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 11px;
+            resize: none; 
+            outline: none; 
+            border-radius: 6px; 
+            display: block; 
+        }
+        .editor:focus { border-color: #d97706; }
+        
+        .preview { 
+            background: #f8fafc; 
+            color: #0f172a; 
+            padding: 12px; 
+            overflow-y: auto; 
+            border-radius: 6px; 
+            font-size: 11px; 
+            flex: 1;
+        }
+        
+        /* BUTTON */
+        .btn-save { 
+            background: #d97706; 
+            color: white; 
+            padding: 8px 16px; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            border: none; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 8px; 
+        }
+        .btn-save:hover { background: #b45309; }
+        
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 4px; }
+        
+        /* LOADING */
+        .loading { text-align: center; color: #64748b; font-size: 12px; padding: 20px; }
+        .han-nom { font-family: 'Noto Serif TC', serif; }
+    </style>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='.9em' font-size='90'>🪷</text></svg>">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <aside>
+        <div class="sidebar-header">
+            <h1 style="font-size:12px;font-weight:900;color:#fff">TTL REBUILD v4.0</h1>
+            <p style="font-size:8px;color:#d97706">3 CỘT: DILA | DATA SOURCES | MASTER</p>
+            <input type="text" id="search-input" class="search-input" placeholder="Tìm tên..." onkeyup="render()">
+        </div>
+        <div class="queue-list" id="queue-list">
+            <p class="loading">ĐANG TẢI...</p>
+        </div>
+    </aside>
+    
+    <!-- MAIN -->
+    <main>
+        <div class="status-bar">
+            <span style="color:#d97706;font-weight:700">TRẠNG THÁI: </span>
+            <span id="status-text" style="color:#94a3b8;margin-left:8px">Sẵn sàng</span>
+        </div>
+        
+        <!-- 3-COLUMN GRID -->
+        <div class="grid-3">
+            <!-- Column 1: DILA Authority -->
+            <div class="col col-1">
+                <div class="col-header">
+                    <span>1. DILA Authority</span>
+                    <i class="fas fa-address-book"></i>
+                </div>
+                <div class="queue-list" id="c1"></div>
+            </div>
+            
+            <!-- Column 2: 4 Sub-sections -->
+            <div class="col col-2">
+                <div class="col-header">
+                    <span>2. Data Sources (4 khu)</span>
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="col-sub sub-a">
+                    <div class="sub-header">
+                        <span>A. Marcus SNA</span>
+                        <span style="font-size:7px">Network</span>
+                    </div>
+                    <div id="sub-marcus"></div>
+                </div>
+                <div class="col-sub sub-b">
+                    <div class="sub-header">
+                        <span>B. VPS TTL</span>
+                        <span style="font-size:7px">/ttl/old/</span>
+                    </div>
+                    <div id="sub-vps"></div>
+                </div>
+                <div class="col-sub sub-c">
+                    <div class="sub-header">
+                        <span>C. Startdict</span>
+                        <span style="font-size:7px">Lexicon</span>
+                    </div>
+                    <div id="sub-lexicon"></div>
+                </div>
+                <div class="col-sub sub-d">
+                    <div class="sub-header">
+                        <span>D. Trước Tác</span>
+                        <span style="font-size:7px">Works</span>
+                    </div>
+                    <div id="sub-truoctac"></div>
+                </div>
+            </div>
+            
+            <!-- Column 3: TTL Editor + Preview -->
+            <div class="col col-3">
+                <div class="col-header">
+                    <span>3. Master Builder</span>
+                    <span id="current-id" style="font-size:7px;color:#64748b"></span>
+                </div>
+                <div class="col-3-content">
+                    <div class="editor-section">
+                        <div style="font-size:8px;font-weight:700;text-transform:uppercase;margin-bottom:4px">
+                            <i class="fas fa-code"></i> TTL Editor
+                        </div>
+                        <textarea id="ttl-editor" class="editor" spellcheck="false" placeholder="TTL content..." oninput="markDirty()"></textarea>
+                        <button onclick="saveTTL()" class="btn-save"><i class="fas fa-save"></i> LƯU TTL MỚI</button>
+                    </div>
+                    <div class="preview-section">
+                        <div style="font-size:8px;font-weight:700;text-transform:uppercase;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center">
+                            <span><i class="fas fa-eye"></i> Preview</span>
+                            <button onclick="expandPreview()" style="background:#d97706;color:black;border:none;border-radius:4px;padding:4px 8px;font-size:9px;cursor:pointer;font-weight:700">
+                                <i class="fas fa-expand"></i> Phóng to
+                            </button>
+                        </div>
+                        <div id="preview" class="preview"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+const API = '/api';
+let queue = [], cur = 0, dirty = false;
+
+function el(id) { return document.getElementById(id); }
+
+async function api(url) {
+    try { 
+        var r = await fetch(API + url); 
+        if (!r.ok) throw 'err'; 
+        return await r.json(); 
+    } catch(e) { 
+        console.error(url, e); 
+        return null; 
+    }
+}
+
+async function loadQueue() {
+    try {
+        var d = await api('/rebuild/queue');
+        console.log('Queue data:', d);
+        if (d && d.queue) { 
+            queue = d.queue; 
+            console.log('Loaded', queue.length, 'items');
+            render(); 
+            if (queue.length) load(0); 
+        } else {
+            console.log('No queue data:', d);
+            el('status-text').innerText = 'KHÔNG CÓ DỮ LIỆU';
+        }
+    } catch(e) {
+        console.error('loadQueue error:', e);
+        el('status-text').innerText = 'LỖI: ' + e.message;
+    }
+}
+
+function render() {
+    var q = (el('search-input')?.value||'').toLowerCase();
+    var f = queue.filter(i => (i.name_vi||'').toLowerCase().includes(q) || (i.id||'').toLowerCase().includes(q));
+    el('queue-list').innerHTML = f.map((it,i) => {
+        var idx = queue.findIndex(x => x.id === it.id);
+        return '<div onclick="load(' + idx + ')" class="queue-item ' + (idx===cur?'active':'') + '">' + (it.name_vi || it.id) + '</div>';
+    }).join('');
+}
+
+async function load(idx) {
+    cur = idx; 
+    var it = queue[idx]; 
+    if (!it) { console.error('No item at index', idx); return; }
+    render();
+    el('status-text').innerText = 'ĐANG TẢI: ' + it.name_vi;
+    
+    var id = it.id || it.filename?.replace('.ttl','').replace('TS-','');
+    el('current-id').innerText = it.name_vi || id;
+    
+    // Store name_zh for color matching across columns
+    var nameZhDILA = '';
+    var nameZhVPS = '';
+    var nameZhLex = '';
+    
+    try {
+        // Load DILA
+        var dila = await api('/dossier/' + id);
+        if (dila) {
+            nameZhDILA = dila.zh || '';
+            renderDILA(dila, nameZhDILA);
+        }
+        
+        // Load Marcus
+        var marcus = await api('/monk/' + id + '/marcus');
+        if (marcus) renderMarcus(marcus);
+        
+        // Load VPS TTL (save for template)
+        var vpsData = null;
+        var vps = await api('/monk/' + id + '/vps_ttl');
+        if (vps && !vps.error) {
+            vpsData = vps;
+            var content = vps.ttl_content_full || vps.ttl_content || '';
+            var nameZhMatch = content.match(/rdfs:label\s+"([\u4e00-\u9fff]+)"@zh/);
+            nameZhVPS = nameZhMatch ? nameZhMatch[1] : '';
+            renderVPS(vps, nameZhVPS);
+        }
+        
+        // Load Lexicon
+        var lex = await api('/monk/' + id + '/lexicon');
+        if (lex && lex.aliases) {
+            nameZhLex = lex.aliases.name_zh || '';
+            renderLexicon(lex, nameZhLex);
+        } else if (lex) {
+            renderLexicon(lex, '');
+        }
+        
+        // Load Truoc Tac
+        var tt = await api('/monk/' + id + '/truoctac');
+        if (tt) renderTruocTac(tt);
+        
+        // Generate TTL from template with data from columns 1,2
+        await generateTTL(dila, marcus, tt, vpsData);
+        
+        el('status-text').innerText = 'SẴN SÀNG';
+    } catch(e) { 
+        el('status-text').innerText = 'LỖI: ' + e.message; 
+    }
+}
+
+function renderDILA(d, nameZhDILA) {
+    var dd = d.dila_data || {};
+    // Extract name_vi from places objects or simple strings
+    var places = (dd.places || []).map(function(p){
+        return (typeof p === 'object' && p.name_vi) ? p.name_vi : (typeof p === 'string' ? p : '');
+    }).filter(function(x){return x;}).join(', ') || '—';
+    var works = (dd.works || []).map(function(w){
+        return (typeof w === 'object' && w.title) ? w.title : (typeof w === 'string' ? w : '');
+    }).filter(function(x){return x;}).slice(0,3).join(', ') || '—';
+    
+    // Determine matching color based on name_zh
+    var matchColor = '#fbbf24';
+    if (nameZhDILA && nameZhDILA.length) matchColor = '#fbbf24';
+    
+    el('c1').innerHTML = '<div class="card" style="border-color:#3b82f6;background:rgba(59,130,246,0.1)">' 
+        + '<p style="font-size:8px;color:#60a5fa;font-weight:700;text-transform:uppercase">DILA Authority</p>'
+        + '<p class="han-nom" style="font-size:18px;color:' + matchColor + ';margin-top:4px">' + (d.zh || '') + '</p>'
+        + '<p style="font-size:12px;color:#3b82f6;font-weight:700">' + (d.name_vi || d.id) + '</p>'
+        + '</div>'
+        + '<div class="card">'
+        + '<div class="field"><span class="label">Sinh</span><span class="val">' + (dd.birth || '—') + '</span></div>'
+        + '<div class="field"><span class="label">Tịch</span><span class="val">' + (dd.death || '—') + '</span></div>'
+        + '<div class="field"><span class="label">Tông</span><span class="val" style="color:#60a5fa">' + (dd.lineage || '—') + '</span></div>'
+        + '</div>'
+        + '<div class="card">'
+        + '<p style="font-size:9px;color:#94a3b8;margin-bottom:4px">ĐẠO TRÀNG (' + places.split(',').length + ')</p>'
+        + '<p style="font-size:9px;color:#cbd5e1">' + places + '</p>'
+        + '</div>'
+        + '<div class="card">'
+        + '<p style="font-size:9px;color:#94a3b8;margin-bottom:4px">TÁC PHẨM (' + (dd.works||[]).length + ')</p>'
+        + '<p style="font-size:9px;color:#cbd5e1">' + works + '</p>'
+        + '</div>';
+}
+
+function renderMarcus(m) {
+    var monkName = el('current-id')?.innerText || '';
+    // Check if empty
+    var hasTeachers = m.teachers && m.teachers.length > 0;
+    var hasStudents = m.students && m.students.length > 0;
+    var hasData = hasTeachers || hasStudents;
+    
+    el('sub-marcus').innerHTML = hasData
+        ? '<div class="field"><span class="label">Thầy</span><span class="val">' + (m.teachers||[]).join(', ') + '</span></div>'
+            + '<div class="field"><span class="label">Trò</span><span class="val">' + (m.students||[]).join(', ') + '</span></div>'
+            + '<div class="field"><span class="label">Edges</span><span class="val">' + (m.edges||0) + '</span></div>'
+        : '<p style="font-size:9px;color:#64748b">Người Việt - chưa có trong DB</p>'
+            + '<p style="font-size:8px;color:#94a3b8;margin-top:4px">' + monkName + '</p>'
+            + (m.ttl_teachers && m.ttl_teachers.length ? '<p style="font-size:7px;color:#10b981;margin-top:2px">TTL Teacher: ' + m.ttl_teachers.join(', ') + '</p>' : '');
+}
+
+function renderVPS(v, nameZhVPS) {
+    var content = v.ttl_content_full || v.ttl_content || '';
+    var nameZh = content.match(/rdfs:label\s+"([\u4e00-\u9fff]+)"@zh/);
+    var lineageMatch = content.match(/bkg:dharmaLineageName\s+"([^"]+)"/);
+    
+    // Show FULL TTL content - no truncation
+    var ttlFull = content || '';
+    
+    // Match color based on name_zh
+    var matchColor = (nameZhVPS && nameZhVPS.length) ? '#fbbf24' : '#fff';
+    
+    el('sub-vps').innerHTML = '<div style="font-size:11px;color:#10b981;font-weight:700;margin-bottom:6px">' + (v.ttl_file || '') + '</div>'
+        + (nameZh ? '<div style="font-size:14px;color:' + matchColor + ';font-family:Noto Serif TC,serif;margin-bottom:8px">' + nameZh[1] + '</div>' : '')
+        + (lineageMatch ? '<div class="field"><span class="label">Dòng</span><span class="val" style="color:#10b981">' + lineageMatch[1] + '</span></div>' : '')
+        + '<div style="font-size:9px;color:#94a3b8;margin-top:8px;margin-bottom:4px">NỘI DUNG TTL ĐẦY ĐỦ</div>'
+        + '<div style="font-size:9px;color:#cbd5e1;line-height:1.5;max-height:400px;overflow:auto;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;font-family:JetBrains Mono,monospace;white-space:pre-wrap;word-break:break-all">' + ttlFull.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
+}
+
+function renderLexicon(l, nameZhLex) {
+    var monkName = el('current-id')?.innerText || '';
+    var aliases = l.aliases || {};
+    var matchColor = (nameZhLex && nameZhLex.length) ? '#fbbf24' : '#fff';
+    
+    el('sub-lexicon').innerHTML = l.entries?.length
+        ? '<div style="font-size:9px"><b>' + l.count + '</b> entries (Hàn Lâm › Phổ Thông › Tham Khảo)</div>'
+           + (Object.keys(aliases).length ? '<div style="font-size:8px;margin:4px 0;color:' + matchColor + '">CJK: ' + (aliases.name_zh || '') + ' | JP: ' + (aliases.name_jp || '') + '</div>' : '')
+           + '<div style="font-size:10px;color:#fbbf24;margin-top:4px;padding:6px;background:rgba(251,191,36,0.1);border-radius:3px;border-left:3px solid #fbbf24;max-height:200px;overflow:auto;line-height:1.5">' + (l.entries[0].definition || l.entries[0].term) + '</div>'
+           + '<div style="font-size:7px;color:#94a3b8;margin-top:4px">Nguồn: ' + l.entries[0].source + '</div>'
+           + '<div style="font-size:7px;color:#64748b;margin-top:2px">Other: ' + l.entries.slice(1,6).map(function(e){return e.term;}).join(', ') + '</div>'
+        : '<p style="font-size:9px;color:#64748b">No Startdict entries for "' + monkName + '"</p>';
+}
+
+function renderTruocTac(t) {
+    var monkName = el('current-id')?.innerText || '';
+    el('sub-truoctac').innerHTML = t.works?.length
+        ? `<div style="font-size:9px"><b>${t.count}</b> tác phẩm in Đại Tạng</div>
+           <div style="font-size:8px;color:#94a3b8;margin-top:4px;max-height:100px;overflow:auto">${t.works.map(w => '<div style="margin-bottom:3px;border-bottom:1px solid #334155;padding-bottom:2px">• ' + (w.title_vi || w.title_zh || w.volume || '') + '</div>').join('')}</div>`
+        : `<p style="font-size:9px;color:#64748b">No works in Đại Tạng for "${monkName}"</p>`;
+}
+
+async function generateTTL(dila, marcus, truoctac, vpsData) {
+    var name = dila?.name_vi || '';
+    var nameZh = dila?.zh || '';
+    var birth = dila?.dila_data?.birth || '';
+    var death = dila?.dila_data?.death || '';
+    var lineage = dila?.dila_data?.lineage || marcus?.lineage || '';
+    var dilaId = dila?.id || '';
+    var marcusId = marcus?.marcus_id || '';
+    
+    // From VPS TTL (column 2) - Enhanced extraction
+    var vpsContent = vpsData?.ttl_content_full || vpsData?.ttl_content || '';
+    
+    // 1. Chinese name
+    var vpsLabel = vpsContent.match(/rdfs:label\s+"([\u4e00-\u9fff]+)"@zh/)?.[1] || '';
+    var vpsLineage = vpsContent.match(/bkg:dharmaLineageName\s+"([^"]+)"/)?.[1] || '';
+    
+    // 2. Birth/Death - extract from bkg:year in BirthEvent/DeathEvent
+    var vpsBirth = '';
+    var vpsDeath = '';
+    var birthEventMatch = vpsContent.match(/bkg:BirthEvent.*?bkg:year\s+"(\d{4})"/s);
+    var deathEventMatch = vpsContent.match(/bkg:DeathEvent.*?bkg:year\s+"(\d{4})"/s);
+    if (birthEventMatch) vpsBirth = birthEventMatch[1];
+    if (deathEventMatch) vpsDeath = deathEventMatch[1];
+    
+    // 3. Teachers (multiple) - unique only
+    var teachersFromVPS = [];
+    var teacherSet = new Set();
+    var teacherMatches = vpsContent.matchAll(/bkg:hasTeacher\s+<ex:monk\/([^>]+)>/g);
+    for (var m of teacherMatches) {
+        if (!teacherSet.has(m[1])) {
+            teacherSet.add(m[1]);
+            teachersFromVPS.push(m[1]);
+        }
+    }
+    var primaryTeacher = teachersFromVPS[0] || 'unknown';
+    
+    // 4. Disciples - extract all unique
+    var disciplesFromVPS = [];
+    var discipleSet = new Set();
+    var discipleMatches = vpsContent.matchAll(/bkg:hasDisciple\s+<ex:monk\/([^>]+)>/g);
+    for (var dm of discipleMatches) {
+        if (!discipleSet.has(dm[1])) {
+            discipleSet.add(dm[1]);
+            disciplesFromVPS.push(dm[1]);
+        }
+    }
+    
+    // Extract Chinese name - try multiple patterns
+    var vpsNameZh = '';
+    // Pattern 1: skos:prefLabel "漢字"@zh
+    var zhMatch1 = vpsContent.match(/skos:prefLabel\s+"([\u4e00-\u9fff]+)"@zh/);
+    // Pattern 2: skos:altLabel "漢字"@zh  
+    var zhMatch2 = vpsContent.match(/skos:altLabel\s+"([\u4e00-\u9fff]+)"@zh/);
+    // Pattern 3: rdfs:label "漢字"@zh (at the start of TTL)
+    var zhMatch3 = vpsContent.match(/^[^@]*rdfs:label\s+"([\u4e00-\u9fff]+)"@zh/m);
+    vpsNameZh = zhMatch1 ? zhMatch1[1] : (zhMatch2 ? zhMatch2[1] : (zhMatch3 ? zhMatch3[1] : ''));
+    
+    // 5. Movement events
+    var movementMatch = vpsContent.match(/da:hasMovement\s+\[([\s\S]*?)\]/g) || [];
+    
+    // Extract FULL bio from VPS TTL (no limit)
+    var vpsBio = '';
+    if (vpsContent) {
+        var vpsBioMatch = vpsContent.match(/bkg:biographicalNote\s+"""([\s\S]*?)"""/);
+        vpsBio = vpsBioMatch ? vpsBioMatch[1] : '';
+    }
+    
+    // Ưu tiên: DILA bio → VPS bio
+    var bio = dila?.dila_data?.bio || vpsBio || '';
+    
+    // Use VPS name_zh if DILA empty
+    var finalNameZh = nameZh || vpsNameZh || '';
+    
+    // Use VPS birth/death if DILA empty
+    var finalBirth = birth || vpsBirth || '';
+    var finalDeath = death || vpsDeath || '';
+    
+    console.log('[generateTTL] Name ZH:', finalNameZh, '(from VPS: ' + vpsNameZh + ')');
+    console.log('[generateTTL] Birth:', finalBirth, 'Death:', finalDeath);
+    console.log('[generateTTL] Teachers:', teachersFromVPS.length, 'Disciples:', disciplesFromVPS.length);
+    
+    // From truoctac
+    var works = (truoctac?.works || []).map(w => w.title_vi).slice(0,5);
+    var marcusTeachers = (marcus?.teachers || []).slice(0,3);
+    var marcusStudents = (marcus?.students || []).slice(0,5);
+    
+    // Check if VPS has full data to use as base
+    var hasVPSFullData = vpsContent && vpsContent.length > 500;
+    
+    // Build TTL - prefer VPS if full, else create from parts
+    var ttl;
+    if (hasVPSFullData) {
+        // Use VPS content but enrich with DILA/Marcus data
+        ttl = vpsContent;
+        
+        // Add/replace key fields
+        if (dila?.id) {
+            ttl = ttl.replace(/da:dilaId\s+"[^"]*"/, 'da:dilaId "' + dila.id + '"');
+        }
+        if (marcus?.marcus_id) {
+            ttl = ttl.replace(/da:marcusId\s+"[^"]*"/, 'da:marcusId "' + marcus.marcus_id + '"');
+        }
+        
+        // Update rdfs:label if different
+        if (name && !ttl.includes('rdfs:label "' + name + '"@vi')) {
+            ttl = ttl.replace(/rdfs:label\s+"[^"]*"@vi/, 'rdfs:label "' + name + '"@vi');
+        }
+    } else {
+        // Create from template as fallback - keep existing code
+        var allTeachersList = [...new Set([...teachersFromVPS, ...marcusTeachers])].slice(0,5);
+        var allDisciplesList = [...new Set([...disciplesFromVPS, ...marcusStudents])].slice(0,10);
+        
+        // Use data from column 1,2 to fill template
+        var templateTTL = `@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix da: <http://daoanh.vn/ontology/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+### --- THÔNG TIN THIỀN SƯ --- ###
+<ex:monk/${monkId}> a bkg:Monk ;
+    # 1. Định danh đa ngữ
+    skos:prefLabel "${name}"@vi ;
+    skos:altLabel "${name}"@en, "${finalNameZh}"@zh ;
+    
+    # 2. Chìa khóa tích hợp
+    da:dilaId "${dilaId}" ; 
+    da:cbetaAuthorId "" ;
+    da:marcusId "${marcusId}" ;
+    owl:sameAs <> ;
+
+    # 3. Thuộc tính định danh CIDOC-CRM
+    crm:P1_is_identified_by [ 
+        a crm:E41_Appellation ; 
+        rdfs:label "${name}"@vi ; 
+        bkg:hasAppellationType "bkg:SecularName" 
+    ] ;
+
+    # 4. Tông phái & Truyền thừa
+    crm:P107_has_current_or_former_member <ex:lineage/${(lineage||vpsLineage||'unknown').replace(/\s+/g,'_')}> ;
+    da:dharmaLineageName "${lineage || vpsLineage}"@vi ;
+${allTeachersList.length > 0 ? allTeachersList.map(t => '    bkg:hasTeacher <ex:monk/' + t + '> ;').join('\n') : '    bkg:hasTeacher <ex:monk/' + primaryTeacher + '> ;'}
+
+    # 5. Birth/Death
+    bkg:birthYear "${finalBirth}"^^xsd:gYear ;
+    bkg:deathYear "${finalDeath}"^^xsd:gYear ;
+
+    # 6. Tiểu sử
+    bkg:biographicalNote """${bio}"""@vi ;
+${allDisciplesList.length > 0 ? '\n    # 7. Đệ tử\n' + allDisciplesList.map(d => '    bkg:hasDisciple <ex:monk/' + d + '> ;').join('\n') : ''}
+`;
+        ttl = templateTTL;
+    }
+    
+    el('ttl-editor').value = ttl;
+    refreshPreview();
+    dirty = false;
+    
+    // Play success sound
+    try {
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.frequency.value = 880;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.3);
+    } catch(e) {}
+}
+
+function refreshPreview() {
+    var ttl = el('ttl-editor').value;
+    var nameMatch = ttl.match(/rdfs:label\s+"([^"]+)"@vi/);
+    var lineageMatch = ttl.match(/bkg:dharmaLineageName\s+"([^"]+)"@vi/);
+    var bioMatch = ttl.match(/bkg:biographicalNote\s+"""([\s\S]*?)"""/);
+    
+    el('preview').innerHTML = `
+        <h2 style="font-family:'Noto Serif TC',serif;font-size:14px;color:#d97706;margin-bottom:4px">${nameMatch ? nameMatch[1] : 'Chưa đặt tên'}</h2>
+        <div style="font-size:8px;background:#fef3c7;color:#92400e;padding:3px 6px;border-radius:4px;margin-bottom:6px;display:inline-block">
+            ${lineageMatch ? lineageMatch[1] : 'Chưa xác định'}
+        </div>
+        <div style="font-size:10px;line-height:1.4;color:#334155;text-align:justify;max-height:300px;overflow:auto;border:1px solid #e5e7eb;padding:8px;border-radius:4px">
+            ${(bioMatch ? bioMatch[1] : 'Nội dung trống')}
+        </div>
+    `;
+}
+
+function expandPreview() {
+    var ttl = el('ttl-editor').value;
+    var nameMatch = ttl.match(/rdfs:label\s+"([^"]+)"@vi/);
+    var nameZhMatch = ttl.match(/@zh/);
+    var nameZh = '';
+    var zhInline = ttl.match(/,?\s*\"([\u4e00-\u9fff]+)\"@zh/);
+    if (zhInline) nameZh = zhInline[1];
+    
+    var lineageMatch = ttl.match(/bkg:dharmaLineageName\s+\"([^\"]+)\"/);
+    var bioMatch = ttl.match(/bkg:biographicalNote\s+\"\"\"([\s\S]*?)\"\"\"/);
+    
+    // Build full preview HTML
+    var previewHTML = `
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Preview - ${nameMatch ? nameMatch[1] : 'TTL'}</title>
+        <script src="https://cdn.tailwindcss.com"><\/script>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+            body { 
+                font-family: 'Noto Serif TC', serif; 
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #f8fafc; 
+                padding: 24px; 
+                min-height: 100vh;
+            }
+            .ttl-card {
+                background: rgba(255,255,255,0.05);
+                border: 1px solid #d97706;
+                border-radius: 12px;
+                padding: 20px;
+                max-width: 900px;
+                margin: 0 auto;
+            }
+            .name-vi { font-size: 28px; color: #d97706; font-weight: 700; margin-bottom: 4px; }
+            .name-zh { font-size: 22px; color: #fbbf24; margin-bottom: 12px; }
+            .lineage { 
+                display: inline-block; 
+                background: rgba(251,191,36,0.2); 
+                color: #fbbf24;
+                padding: 4px 12px; 
+                border-radius: 20px;
+                font-size: 12px;
+                margin-bottom: 16px;
+            }
+            .bio {
+                font-size: 13px;
+                line-height: 1.6;
+                color: #cbd5e1;
+                text-align: justify;
+                white-space: pre-wrap;
+                max-height: none;
+                overflow: visible;
+            }
+            .close-btn {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #d97706;
+                color: black;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 20px;
+                font-weight: 700;
+                cursor: pointer;
+            }
+            .close-btn:hover { background: #fbbf24; }
+        <\/style>
+    <\/head>
+    <body>
+        <button class="close-btn" onclick="window.close()">
+            <i class="fas fa-times"></i> Đóng
+        </button>
+        <div class="ttl-card">
+            <div class="name-vi">${nameMatch ? nameMatch[1] : 'Chưa đặt tên'}</div>
+            ${nameZh ? '<div class="name-zh">' + nameZh + '</div>' : ''}
+            <div class="lineage">${lineageMatch ? lineageMatch[1] : 'Chưa xác định'}</div>
+            <div class="bio">${bioMatch ? bioMatch[1] : 'Nội dung trống'}</div>
+        </div>
+    <\/body>
+    <\/html>
+    `;
+    
+    // Open new window
+    var win = window.open('', '_blank', 'width=1000,height=800');
+    win.document.write(previewHTML);
+    win.document.close();
+}
+
+function markDirty() {
+    dirty = true;
+    el('status-text').innerText = 'ĐÃ CHỈNH SỬA (chưa lưu)';
+    refreshPreview();
+}
+
+async function saveTTL() {
+    var it = queue[cur];
+    if (!it) return;
+    
+    var id = it.id || it.filename?.replace('.ttl','') || it.name_vi;
+    if (id?.startsWith('TS-')) id = id.substring(3);
+    var ttl_content = el('ttl-editor').value;
+    var filename = it.filename || it.id + '.ttl';
+    
+    // Sound notification
+    function playSuccessSound() {
+        try {
+            var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            var oscillator = audioCtx.createOscillator();
+            var gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.frequency.value = 880;
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.5);
+        } catch(e) { console.log('Audio error:', e); }
+    }
+    
+    try {
+        // Save to SQL master table
+        var r = await fetch(API + '/rebuild/save_master', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: id, ttl_content: ttl_content, filename: filename})
+        });
+        var d = await r.json();
+        if (d.success) {
+            el('status-text').innerText = 'ĐÃ LƯU MASTER: ' + d.name_vi;
+            dirty = false;
+            playSuccessSound();
+            alert('✓ Saved to SQL Master: ' + d.name_vi);
+        } else {
+            alert('Error: ' + (d.error || 'Unknown'));
+        }
+    } catch(e) { 
+        alert('Error: ' + e); 
+    }
+}
+
+loadQueue();
+    </script>
+</body>
+</html>

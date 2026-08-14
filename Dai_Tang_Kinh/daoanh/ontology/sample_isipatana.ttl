@@ -1,0 +1,108 @@
+# ============================================================
+# SAMPLE: Vườn Lộc Uyển (Isipatana/Migadasi)
+# Đây là file mẫu để Admin duyệt trước khi nạp 5.000 địa danh
+# Date: 2026-03-22
+# ============================================================
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix schema: <http://schema.org/> .
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ----------------------------------------------------------
+# INSTANCE: Vườn Lộc Uyển (Isipatana)
+# Thánh tích quan trọng nhất của Phật giáo
+# Nơi Đức Phật thuyết pháp Chuyển Pháp Luân lần đầu
+# ----------------------------------------------------------
+
+bkg:place_ISIPATANA a bkg:BuddhistPlace ;
+
+    # === ID & URI ===
+    bkg:placeURI "http://www.phatphaponline.org/places/ISIPATANA" ;
+    bkg:dilaID "PL001" ;
+    bkg:cbetaID "G0123" ;
+    bkg:wikidataID "Q263600" ;
+
+    # === Tên đa ngôn ngữ ===
+    bkg:nameVietnamese "Vườn Lộc Uyển"@vi ;
+    bkg:nameChinese "鹿野苑"@zh ;
+    bkg:namePali "Isipatana"@pi ;
+    bkg:nameSanskrit "Mṛgadāya"@sa ;
+    bkg:nameEnglish "Deer Park"@en ;
+    rdfs:label "Vườn Lộc Uyển"@vi ;
+
+    # === GPS Coordinates ===
+    geo:lat "25.1389"^^xsd:float ;
+    geo:long "83.0261"^^xsd:float ;
+    geo:alt "76"^^xsd:float ;
+
+    # === Phân loại ===
+    bkg:placeType bkg:SacredSite ;
+    bkg:period bkg:AncientIndia ;
+
+    # === Mô tả tiếng Việt ===
+    schema:description """Vườn Lộc Uyển (Isipatana, Hán: 鹿野苑, Nghĩa: Vườn nuôi nai) là một trong Tứ Động Tâm của Phật giáo, tọa lạc tại Sarnath, gần Varanasi, Ấn Độ.
+
+Đây là nơi Đức Phật Thích Ca Mâu Ni thuyết pháp Chuyển Pháp Luân lần đầu tiên (Dhammacakkappavattana Sutta) cho 5 vị Tỳ Kheo đầu tiên, khai tâm Tam Bảo và hình thành Tăng Đoàn đầu tiên trong lịch sử Phật giáo, vào khoảng tháng 11-12 năm 528 TCN.
+
+Sau đó, Tổ sư Trúc Lung Ma Đa (Mục Kiền Liên) đã truyền bá Phật pháp từ Ấn Độ sang Trung Hoa, và dòng thiền này tiếp tục được truyền sang Việt Nam qua các thế hệ Tổ sư."""@vi ;
+
+    # === Thông tin lịch sử ===
+    bkg:historicalNote """- Năm 528 TCN: Đức Phật thuyết pháp Chuyển Pháp Luân tại đây
+- Thế kỷ III SCN: Vua A Dục xây dựng ngôi đền lớn
+- Thế kỷ VII: Ngài Huyền Trang viếng thăm và ghi chép
+- Thế kỷ XIII-XIV: Du học giả Việt Nam sang Ấn Độ học Phật pháp
+- 1931: Phật tử Ấn Độ và Sri Lanka xây dựng lại ngôi đền
+- Hiện tại: Có chùa Dhammakaya Cetiya và tượng Phật cao 30m"""@vi ;
+
+    # === Dòng thiền liên quan ===
+    bkg:dharmaLineage "Thiền Tông Ấn Độ"@vi ;
+
+    # === Kinh văn liên quan ===
+    bkg:relatedSutras "Chuyển Pháp Luân Kinh (Dhammacakkappavattana Sutta), Tăng Nhất A Hàm"@vi ;
+
+    # === Nhân vật liên quan ===
+    bkg:relatedPerson bkg:person_SHAKYAMUNI ;
+    bkg:relatedPerson bkg:person_KONDANNA ;
+    bkg:relatedPerson bkg:person_BHADRIKA ;
+    bkg:relatedPerson bkg:person_VAPPA ;
+    bkg:relatedPerson bkg:person_MAHANAMA ;
+
+    # === Thời gian ===
+    bkg:foundedYear "-528"^^xsd:integer ;
+    bkg:activePeriod "-528 đến thế kỷ XIII"@vi ;
+    bkg:status "Còn tồn tại"@vi ;
+
+    # === Nguồn tham khảo ===
+    bkg:sourceReference "CBETA T01 No.1; DILA Place Entity P001; Wikidata Q263600; Mahavamsa Chapter 14"@vi ;
+
+    # === Độ tin cậy (Admin đánh giá) ===
+    bkg:confidence "0.95"^^xsd:float .
+
+# ----------------------------------------------------------
+# RELATED ENTITIES (Placeholder - sẽ link đến Person entities)
+# ----------------------------------------------------------
+
+bkg:person_SHAKYAMUNI a bkg:BuddhistPerson ;
+    rdfs:label "Đức Phật Thích Ca Mâu Ni"@vi .
+
+bkg:person_KONDANNA a bkg:BuddhistPerson ;
+    rdfs:label "Tôn Giả Đại Kiều Trần Như"@vi .
+
+bkg:person_BHADRIKA a bkg:BuddhistPerson ;
+    rdfs:label "Tôn Giả Bạc Chiên"@vi .
+
+bkg:person_VAPPA a bkg:BuddhistPerson ;
+    rdfs:label "Tôn Giả Ma Ha Bạt Đề"@vi .
+
+bkg:person_MAHANAMA a bkg:BuddhistPerson ;
+    rdfs:label "Tôn Giả Ma Ha Nam"@vi .
+
+# ----------------------------------------------------------
+# GIAO DIỆN ĐỊA LÝ (Geography Display)
+# ----------------------------------------------------------
+
+# Vị trí: Sarnath, Uttar Pradesh, Ấn Độ
+# Bản đồ: https://www.openstreetmap.org/?mlat=25.1389&mlon=83.0261

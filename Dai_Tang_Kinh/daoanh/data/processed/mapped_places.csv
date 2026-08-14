@@ -1,0 +1,188 @@
+raw_name,matched_name,matched_id,confidence,gps_found,lat,lon,frequency,source
+Báo Quốc,報Quốc,PL000000026436,1.0,False,,,77,DILA
+Huế,順化Thành,PL000000060486,0.7,False,,,35,DILA
+Linh Sơn,Linh Sơn,PL000000032725,1.0,False,,,35,DILA
+Trúc Lâm,竹Lâm,PL000000034071,1.0,False,,,26,DILA
+Quảng Ngãi,廣義Thành,PL000000059334,1.0,False,,,18,DILA
+Châu Lâm,Châu,PL000000027906,0.7,False,,,16,DILA
+thành phố,順化Thành,PL000000060486,0.7,False,,,14,DILA
+gia,Giang北,PL000000000093,0.7,False,,,13,DILA
+Trung Quốc,Trung Quốc,PL000000000089,1.0,False,,,13,DILA
+Việt Nam,Việt Nam,PL000000055094,1.0,False,,,12,DILA
+Phổ Đà,Phổ Đà Sơn,PL000000013847,0.7,False,,,12,DILA
+Long Sơn,龍Sơn,PL000000038492,1.0,False,,,11,DILA
+ĐÀM CHÂU,Châu,PL000000027906,0.7,False,,,10,DILA
+Minh Châu,Châu,PL000000027906,0.7,False,,,8,DILA
+Hàng Châu,Châu,PL000000027906,0.7,False,,,7,DILA
+Phước Châu,Châu,PL000000027906,0.7,False,,,6,DILA
+Nhật Bản,Nhật Bản,PL000000048414,1.0,False,,,6,DILA
+Tương Châu,Châu,PL000000027906,0.7,False,,,6,DILA
+Ấn Độ,Ấn Độ,PL000000060139,1.0,False,,,5,DILA
+Kim Sơn,Kim Sơn Tự,PL000000059692,0.7,False,,,5,DILA
+Việt Châu,Châu,PL000000027906,0.7,False,,,5,DILA
+Tùy Châu,Châu,PL000000027906,0.7,False,,,5,DILA
+Đài Châu,Châu,PL000000027906,0.7,False,,,5,DILA
+chùa Châu,Châu,PL000000027906,0.7,False,,,4,DILA
+Chân Châu,Châu,PL000000027906,0.7,False,,,4,DILA
+Trường An,Trường An,PL000000042545,1.0,False,,,4,DILA
+trường An,Trường An,PL000000042545,1.0,False,,,3,DILA
+nhà,SơnHà,PL000000007604,0.7,False,,,3,DILA
+hoa,Cửu Hoa Sơn,PL000000016725,0.7,False,,,3,DILA
+Thiều Châu,Châu,PL000000027906,0.7,False,,,3,DILA
+Hồng Châu,Châu,PL000000027906,0.7,False,,,3,DILA
+Hoa Sơn,Cửu Hoa Sơn,PL000000016725,0.7,False,,,3,DILA
+Châu Long,Châu,PL000000027906,0.7,False,,,3,DILA
+châu Hà,Châu,PL000000027906,0.7,False,,,3,DILA
+Thái Bình,太平,PL000000060154,1.0,False,,,3,DILA
+CÁT CHÂU,Châu,PL000000027906,0.7,False,,,3,DILA
+Dĩnh Châu,Châu,PL000000027906,0.7,False,,,3,DILA
+Thiếu Lâm,Thiếu Lâm Tự,PL000000023255,0.7,False,,,2,DILA
+Thụy Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+Thái Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+Đặng Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+Nhữ Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+thiên,Thiên Đài Sơn,PL000000038254,0.7,False,,,2,DILA
+tháp,白ThápSơn,PL000000000280,0.7,False,,,2,DILA
+Châu Phong,Châu,PL000000027906,0.7,False,,,2,DILA
+bang Texas,德Châu,PL000000058807,0.7,False,,,2,DILA
+thành,北京Thành,PL000000000233,0.7,False,,,2,DILA
+Paris,巴黎,PL000000059433,1.0,False,,,2,DILA
+ghi,羯朱嗢祇羅Quốc,PL000000048305,0.7,False,,,2,DILA
+Bảo An,保安,PL000000043681,1.0,False,,,2,DILA
+Thành phố,順化Thành,PL000000060486,0.7,False,,,2,DILA
+Châu Chữ,Châu,PL000000027906,0.7,False,,,2,DILA
+Trấn Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+HỒNG CHÂU,Châu,PL000000027906,0.7,False,,,2,DILA
+Lễ Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+TƯƠNG CHÂU,Châu,PL000000027906,0.7,False,,,2,DILA
+Tứ Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+Bảo Phước,保福Tự,PL000000034685,1.0,False,,,2,DILA
+Trừ Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+NGẠC CHÂU,Châu,PL000000027906,0.7,False,,,2,DILA
+Tuyền Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+Giang Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+Quảng Châu,Châu,PL000000027906,0.7,False,,,2,DILA
+trường,Trường An,PL000000042545,0.7,False,,,2,DILA
+quan,羅浮Quan,PL000000000073,0.7,False,,,2,DILA
+Tuyên Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Hành Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Truy Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Đồng Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Châu,Châu,PL000000027906,1.0,False,,,1,DILA
+Kiếm Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Giảng Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+唯向菩提院,菩提Viện,PL000000050556,0.7,False,,,1,DILA
+qua,羅浮Quan,PL000000000073,0.7,False,,,1,DILA
+Nam châu,Châu,PL000000027906,0.7,False,,,1,DILA
+敕賜靈應寺,靈應Tự,PL000000044915,0.7,False,,,1,DILA
+Thái Hòa,太和,PL000000040459,1.0,False,,,1,DILA
+thôn Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Linh Ẩn,Linh Ẩn Tự,PL000000055190,0.7,False,,,1,DILA
+Châu Quang,Châu,PL000000027906,0.7,False,,,1,DILA
+Đại An,大安,PL000000044007,1.0,False,,,1,DILA
+Châu Âu,Châu,PL000000027906,0.7,False,,,1,DILA
+Bảo châu,Châu,PL000000027906,0.7,False,,,1,DILA
+An Bình,安平,PL000000038255,1.0,False,,,1,DILA
+Philadelphia,費城,PL000000060015,1.0,False,,,1,DILA
+Thạch Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+che,羅爛城,PL000000000017,0.7,False,,,1,DILA
+khu,珂咄羅Quốc,PL000000049665,0.7,False,,,1,DILA
+Mỹ châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Việt,Việt Nam,PL000000055094,0.7,False,,,1,DILA
+Châu Đốc,Châu,PL000000027906,0.7,False,,,1,DILA
+Thành Phố,順化Thành,PL000000060486,0.7,False,,,1,DILA
+An Lạc,安樂,PL000000035241,1.0,False,,,1,DILA
+California có,加Châu,PL000000058375,0.7,False,,,1,DILA
+Paris Pháp,巴黎,PL000000059433,0.7,False,,,1,DILA
+Paris một,巴黎,PL000000059433,0.7,False,,,1,DILA
+Max,路德維希-馬克西米利安-慕尼黑大學,PL000000059813,0.7,False,,,1,DILA
+Thái Lan,Thái Lan,PL000000049622,1.0,False,,,1,DILA
+Kinh Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Lạc Dương,Lạc Dương,PL000000023898,1.0,False,,,1,DILA
+Đăng Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+TRlỀU CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+bình,和平,PL000000031517,0.7,False,,,1,DILA
+PHẦN CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+đức,德安Phủ,PL000000027677,0.7,False,,,1,DILA
+Triều Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Nam Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+các châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Hang,上Hải虹橋機場,PL000000058538,0.7,False,,,1,DILA
+BÀNH CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+LÃNG CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+DĨNH CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+QUÂN CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+Phúc Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Huệ Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Phổ Chiếu,普照,PL000000028286,1.0,False,,,1,DILA
+Thấp Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Thường Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Huy Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Xử Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Ôn Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Lãng Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+GIA CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+PHỦ CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+U Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+KIẾN CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+THIỀU CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+bổn châu,Châu,PL000000027906,0.7,False,,,1,DILA
+PHƯỚC CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+Ích Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Bồ Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Mục Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Lô Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Tín Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Tháp Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Nhiêu Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+壬戌春重開戒壇於圓通寺,圓通Tự,PL000000060092,0.7,False,,,1,DILA
+中華福建省溫陵桑蓮寺,福建Tỉnh,PL000000058552,0.7,False,,,1,DILA
+天台山禪宗寺,比叡Sơn,PL000000057106,0.7,False,,,1,DILA
+清涼寺,清涼Tự,PL000000059165,1.0,False,,,1,DILA
+Cát Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Nghi Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Ðàm châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Nhữ châu,Châu,PL000000027906,0.7,False,,,1,DILA
+敕賜國恩寺,龍SơnTự,PL000000031861,0.7,False,,,1,DILA
+TUYỀN CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+Qua Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+NHỮ CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+TUYÊN CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+Cổ Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Giao Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Trì Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Quân Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+THAI CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+LỄ CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+VIỆT CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+Phủ Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+TRÁC CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+Hồ Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Hun,臺中Huyện,PL000000050045,0.7,False,,,1,DILA
+Vụ Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+興隆寺,興隆Tự,PL000000059326,1.0,False,,,1,DILA
+新平縣新富臨村福安禪寺,新平Huyện,PL000000039482,0.7,False,,,1,DILA
+臨濟正宗三十五世興隆堂,興隆Đường,PL000000052504,0.7,False,,,1,DILA
+開山興隆寺,興隆Tự,PL000000059326,0.7,False,,,1,DILA
+Dương Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+hạt châu,Châu,PL000000027906,0.7,False,,,1,DILA
+ban,佛焚身地,PL000000048384,0.7,False,,,1,DILA
+Hoạt Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+CHƯƠNG CHÂU,Châu,PL000000027906,0.7,False,,,1,DILA
+Paris hiện,巴黎,PL000000059433,0.7,False,,,1,DILA
+Anh,QuanHảiTự ,PL000000005353,0.7,False,,,1,DILA
+châu Âu,Châu,PL000000027906,0.7,False,,,1,DILA
+Đàm Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Quả Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+châu thành,Châu,PL000000027906,0.7,False,,,1,DILA
+Hoài Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Trung,Trung Quốc,PL000000000089,0.7,False,,,1,DILA
+Thượng,Thượng Hải,PL000000008392,0.7,False,,,1,DILA
+Hiệp Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+Tháp,白ThápSơn,PL000000000280,0.7,False,,,1,DILA
+洪福寺,洪福Tự,PL000000059972,1.0,False,,,1,DILA
+Tô Châu,Châu,PL000000027906,0.7,False,,,1,DILA
+四十世崇興廣濟寺,廣濟Tự,PL000000060130,0.7,False,,,1,DILA
+chung,臺中Huyện,PL000000050045,0.7,False,,,1,DILA
+ven,迦蘭陀竹Viên精舍,PL000000048271,0.7,False,,,1,DILA
+châu Kim,Châu,PL000000027906,0.7,False,,,1,DILA

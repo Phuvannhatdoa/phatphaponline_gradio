@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Ảnh - Tra Cứu Phật Học</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&display=swap');
+        
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-page: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+        
+        .search-bar {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #1e293b 100%);
+            border-bottom: 2px solid var(--primary);
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .search-input {
+            max-width: 600px;
+            width: 100%;
+            padding: 16px 24px 16px 50px;
+            font-size: 18px;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(217, 119, 6, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+        
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        
+        .result-card:hover {
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+        
+        .result-type {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+        
+        .type-monk { background: #3b82f6; color: white; }
+        .type-place { background: #10b981; color: white; }
+        .type-work { background: #d97706; color: black; }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+        
+        .admin-badge {
+            background: var(--primary);
+            color: black;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        
+        .admin-badge:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-black text-xl">
+                    <i class="fa-solid fa-dharmachakra"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-black text-white uppercase">Đạo Ảnh</h1>
+                    <p class="text-[10px] text-amber-500 font-bold">Phật Học Việt Nam</p>
+                </div>
+            </div>
+            <a href="/daoanh/login.html" class="admin-badge">
+                <i class="fa-solid fa-gear mr-2"></i>Admin
+            </a>
+        </div>
+    </header>
+
+    <!-- Search Hero -->
+    <div class="search-bar">
+        <h2 class="text-2xl font-bold text-white mb-2">Tra Cứu Thiền Tông Việt Nam</h2>
+        <p class="text-slate-400 mb-8">Tìm kiếm thiền sư, chùa chiền, kinh sách</p>
+        
+        <div class="relative max-w-xl mx-auto">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Nhập tên thiền sư, chùa, hoặc kinh..." onkeyup="search(this.value)">
+        </div>
+    </div>
+
+    <!-- Search Results -->
+    <div id="results" class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Quick Links -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <a href="/daoanh/phahe.html" class="feature-card">
+                <div class="feature-icon text-blue-400"><i class="fa-solid fa-sitemap"></i></div>
+                <h3 class="font-bold text-white">Phổ Hệ Truyền Thừa</h3>
+                <p class="text-slate-400 text-sm mt-2">Xem cây phổ hệ truyền thừa tổ sư</p>
+            </a>
+            <a href="/daoanh/canon" class="feature-card">
+                <div class="feature-icon text-amber-400"><i class="fa-solid fa-book"></i></div>
+                <h3 class="font-bold text-white">Đại Tạng Kinh</h3>
+                <p class="text-slate-400 text-sm mt-2">Tra cứu kinh điển</p>
+            </a>
+            <a href="/daoanh/places" class="feature-card">
+                <div class="feature-icon text-green-400"><i class="fa-solid fa-map-location-dot"></i></div>
+                <h3 class="font-bold text-white">Chùa Việt Nam</h3>
+                <p class="text-slate-400 text-sm mt-2">Tìm chùa theo vùng</p>
+            </a>
+        </div>
+        
+        <!-- Results Area -->
+        <div id="search-results"></div>
+    </div>
+
+    <!-- Map Container (hidden by default, shown when lat/long params present) -->
+    <div id="map-container" style="display:none; max-width:1200px; margin:0 auto; padding:0 20px 40px;">
+        <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-map-location-dot text-green-400"></i>
+            Bản đồ địa danh
+            <span id="map-count" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400"></span>
+        </h3>
+        <div id="map" style="height:500px; border-radius:16px; border:1px solid #334155;"></div>
+        <div id="nearby-places" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">
+                <span class="text-amber-500">Đạo Ảnh</span> - Hệ thống tra cứu Phật học Việt Nam<br>
+                <span class="text-slate-600">Dữ liệu: DILA Authority, CBETA, StartDict</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE = '/daoanh/api';
+        let searchTimeout;
+
+        // ===== URL PARAM PARSING =====
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLat = urlParams.get('lat');
+        const urlLong = urlParams.get('long');
+        const urlLayer = urlParams.get('layer');
+        const urlHl = urlParams.get('hl');
+        const urlZoom = urlParams.get('zoom');
+
+        // ===== MAP FUNCTIONS =====
+        let map = null;
+        let markersLayer = null;
+        const placeIcon = L.divIcon({
+            html: '<div style="background:#d97706;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid #fbbf24;box-shadow:0 0 20px rgba(217,119,6,0.4);font-size:16px;"><i class="fa-solid fa-place-of-worship" style="color:white"></i></div>',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+            className: ''
+        });
+        const historicIcon = L.divIcon({
+            html: '<div style="background:#3b82f6;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #60a5fa;font-size:13px;"><i class="fa-solid fa-landmark" style="color:white"></i></div>',
+            iconSize: [28, 28],
+            iconAnchor: [14, 14],
+            className: ''
+        });
+        const naturalIcon = L.divIcon({
+            html: '<div style="background:#10b981;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #34d399;font-size:13px;"><i class="fa-solid fa-tree" style="color:white"></i></div>',
+            iconSize: [28, 28],
+            iconAnchor: [14, 14],
+            className: ''
+        });
+
+        function initMapFromUrl() {
+            if (!urlLat || !urlLong) return;
+            const lat = parseFloat(urlLat);
+            const long = parseFloat(urlLong);
+            if (isNaN(lat) || isNaN(long)) return;
+
+            document.getElementById('map-container').style.display = 'block';
+            document.getElementById('results').style.marginTop = '20px';
+
+            map = L.map('map', {
+                center: [lat, long],
+                zoom: urlZoom ? parseInt(urlZoom) : 15,
+                zoomControl: true,
+                attributionControl: true
+            });
+
+            L.tileLayer('https://mt1.google.com/vt/lyrs=p&hl=vi&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                attribution: '&copy; Google Maps'
+            }).addTo(map);
+
+            markersLayer = L.layerGroup().addTo(map);
+
+            // Center marker
+            L.marker([lat, long], {
+                icon: L.divIcon({
+                    html: '<div style="background:#ef4444;width:20px;height:20px;border-radius:50%;border:3px solid white;box-shadow:0 0 20px rgba(239,68,68,0.5);"></div>',
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10],
+                    className: ''
+                })
+            }).addTo(map).bindPopup('<b>Tọa độ trung tâm</b><br>' + lat + ', ' + long);
+
+            // Query nearby religious/historical/natural places via Overpass API
+            queryNearbyPlaces(lat, long);
+
+            // Auto-search places in DB
+            autoSearchPlaces(lat, long);
+        }
+
+        async function queryNearbyPlaces(lat, long) {
+            // Overpass API - only religion, natural, historical (NO business/shopping)
+            const overpassQuery = `[out:json][timeout:15];area(3600000001)->.searchArea;(\n  node["amenity"="place_of_worship"](around:3000,${lat},${long});\n  node["historic"](around:3000,${lat},${long});\n  node["tourism"="attraction"](around:3000,${lat},${long});\n  node["leisure"="park"](around:3000,${lat},${long});\n  node["natural"="peak"](around:3000,${lat},${long});\n);out center 20;`;
+
+            try {
+                const res = await fetch('https://overpass-api.de/api/interpreter', {
+                    method: 'POST',
+                    body: 'data=' + encodeURIComponent(overpassQuery),
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+                const data = await res.json();
+                const elements = data.elements || [];
+                document.getElementById('map-count').textContent = elements.length + ' địa danh';
+
+                const container = document.getElementById('nearby-places');
+                container.innerHTML = '';
+
+                elements.forEach(el => {
+                    const elLat = el.lat || (el.center && el.center.lat);
+                    const elLon = el.lon || (el.center && el.center.lon);
+                    if (!elLat || !elLon) return;
+
+                    const tags = el.tags || {};
+                    const name = tags.name || tags['name:vi'] || tags['name:zh'] || 'Không tên';
+                    const type = tags.amenity || tags.historic || tags.tourism || tags.leisure || tags.natural || 'place';
+                    const icon = (type === 'place_of_worship') ? placeIcon :
+                                 (type === 'historic' || type === 'attraction') ? historicIcon : naturalIcon;
+
+                    L.marker([elLat, elLon], { icon }).addTo(markersLayer)
+                        .bindPopup('<b>' + name + '</b><br><span class="text-slate-400 text-xs">' + type + '</span>');
+
+                    container.innerHTML += `
+                        <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-4 hover:border-amber-500/30 transition-all">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded ${
+                                    type === 'place_of_worship' ? 'bg-amber-500/10 text-amber-500' :
+                                    type === 'historic' ? 'bg-blue-500/10 text-blue-400' :
+                                    'bg-emerald-500/10 text-emerald-400'
+                                }">${type}</span>
+                            </div>
+                            <p class="text-sm font-bold text-white">${name}</p>
+                            <p class="text-[10px] text-slate-600 font-mono mt-1">${elLat.toFixed(4)}, ${elLon.toFixed(4)}</p>
+                        </div>`;
+                });
+            } catch (e) {
+                console.error('Overpass error:', e);
+                document.getElementById('map-count').textContent = 'Lỗi tải dữ liệu';
+            }
+        }
+
+        async function autoSearchPlaces(lat, long) {
+            try {
+                const res = await fetch(API_BASE + '/search?q=' + encodeURIComponent(lat + ',' + long));
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.places && data.places.length > 0) {
+                        searchInput = document.getElementById('search-input');
+                        if (searchInput) searchInput.value = lat + ',' + long;
+                        displayResults(data);
+                    }
+                }
+            } catch (e) {
+                console.error('Auto search error:', e);
+            }
+        }
+
+        // ===== SEARCH FUNCTIONS =====
+        function search(query) {
+            clearTimeout(searchTimeout);
+            
+            if (query.length < 2) {
+                document.getElementById('search-results').innerHTML = '';
+                return;
+            }
+            
+            searchTimeout = setTimeout(async () => {
+                try {
+                    const res = await fetch(API_BASE + '/search?q=' + encodeURIComponent(query));
+                    const data = await res.json();
+                    
+                    displayResults(data);
+                } catch(e) {
+                    console.error('Search error:', e);
+                }
+            }, 300);
+        }
+        
+        function displayResults(data) {
+            const container = document.getElementById('search-results');
+            const monks = data.monks || [];
+            const places = data.places || [];
+            const works = data.works || [];
+            
+            if (monks.length === 0 && places.length === 0 && works.length === 0) {
+                container.innerHTML = '<div class="text-center text-slate-500 py-8">Không tìm thấy kết quả</div>';
+                return;
+            }
+            
+            let html = '';
+            
+            // Monks
+            if (monks.length > 0) {
+                html += '<h3 class="font-bold text-white mb-4"><i class="fa-solid fa-user mr-2 text-blue-400"></i>Thiền sư (' + monks.length + ')</h3>';
+                monks.slice(0, 5).forEach(m => {
+                    html += '<div class="result-card" onclick="window.open(\'/daoanh/lineage?name=' + encodeURIComponent(m.name || m.name_vi || '') + '\', \'_blank\')">';
+                    html += '<span class="result-type type-monk">Thiền sư</span>';
+                    html += '<h4 class="font-bold text-white">' + (m.name_vi || m.name || m.name_zh) + '</h4>';
+                    if (m.name_zh) html += '<p class="text-slate-400 han-nom">' + m.name_zh + '</p>';
+                    html += '</div>';
+                });
+            }
+            
+            // Places
+            if (places.length > 0) {
+                html += '<h3 class="font-bold text-white mb-4 mt-6"><i class="fa-solid fa-place mr-2 text-green-400"></i>Chùa (' + places.length + ')</h3>';
+                places.slice(0, 5).forEach(p => {
+                    const gps = (p.gps_lat && p.gps_long) ? ('&lat=' + p.gps_lat + '&long=' + p.gps_long) : '';
+                    html += '<div class="result-card" onclick="window.open(\'/daoanh/index.html?' + gps.substring(1) + '\', \'_blank\')">';
+                    html += '<span class="result-type type-place">Chùa</span>';
+                    html += '<h4 class="font-bold text-white">' + (p.name || p.name_vi) + '</h4>';
+                    if (p.name_zh) html += '<p class="text-slate-400 han-nom">' + p.name_zh + '</p>';
+                    if (p.province) html += '<p class="text-slate-500 text-xs mt-1">' + p.province + '</p>';
+                    html += '</div>';
+                });
+            }
+            
+            // Works
+            if (works.length > 0) {
+                html += '<h3 class="font-bold text-white mb-4 mt-6"><i class="fa-solid fa-book mr-2 text-amber-400"></i>Kinh sách (' + works.length + ')</h3>';
+                works.slice(0, 5).forEach(w => {
+                    html += '<div class="result-card">';
+                    html += '<span class="result-type type-work">Kinh</span>';
+                    html += '<h4 class="font-bold text-white">' + (w.title_vi || w.title) + '</h4>';
+                    if (w.author) html += '<p class="text-slate-400">' + w.author + '</p>';
+                    if (w.era) html += '<p class="text-slate-500 text-sm">' + w.era + '</p>';
+                    html += '</div>';
+                });
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Đạo Ảnh Webview v1.0 ready');
+            if (urlLayer === 'terrain') {
+                document.querySelector('.search-bar').style.background = 
+                    'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+            }
+            if (urlHl === 'vi') {
+                document.documentElement.lang = 'vi';
+            }
+            initMapFromUrl();
+        });
+    </script>
+</body>
+</html>

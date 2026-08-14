@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cây truyền thừa Thiền Tông</title>
+
+  <!-- vis-network -->
+  <script src="https://unpkg.com/vis-network@10.0.1/standalone/umd/vis-network.min.js"></script>
+
+  <!-- ===== STYLES (thay toàn bộ block <style>) ===== -->
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --accent:#1a73e8;
+      --muted:#6b7280;
+      --success:#34a853;
+      --warning:#fbbc04;
+      --danger:#dc3545;
+      --soft-border: rgba(16,24,40,0.06);
+    }
+    html,body { height:100%; }
+    body {
+      font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif;
+      margin:0; padding:14px; background:var(--bg); color:#111827;
+    }
+    h3 { text-align:center; color:var(--accent); margin:8px 0 14px; font-size:1.9rem; font-weight:700; }
+    .controls {
+      display:flex; flex-wrap:wrap; gap:18px; align-items:center;
+      justify-content:center; padding:12px; background:var(--card);
+      border-radius:12px; box-shadow:0 6px 18px rgba(2,6,23,0.06);
+      margin-bottom:12px;
+    }
+    .controls > div { display:flex; gap:10px; align-items:center; }
+    label { font-size:15px; color:var(--muted); min-width:110px; }
+    select, input[type="text"] {
+      padding:10px 12px; border-radius:8px; border:1px solid var(--soft-border);
+      font-size:15px; min-width:220px; outline:none;
+    }
+    select:focus, input[type="text"]:focus { box-shadow:0 6px 18px rgba(26,115,232,0.12); border-color:var(--accent); }
+    button {
+      background:var(--accent); color:#fff; border:none; padding:9px 14px; border-radius:8px;
+      cursor:pointer; font-size:15px;
+    }
+    button.secondary { background:#fff; color:var(--accent); border:1px solid var(--soft-border); }
+    .search-container { position:relative; }
+    #search-suggestions {
+      position:absolute; left:0; right:0; top:calc(100% + 6px); z-index:2000; background:#fff;
+      border-radius:8px; box-shadow:0 10px 30px rgba(2,6,23,0.08); max-height:220px; overflow:auto; padding:6px 0;
+      list-style:none; margin:0;
+    }
+    #search-suggestions li { padding:8px 12px; cursor:pointer; color:#0f172a; }
+    #search-suggestions li:hover { background:#f3f4f6; }
+
+    #network-container {
+      background:var(--card); border-radius:12px; padding:10px; box-shadow:0 10px 30px rgba(2,6,23,0.06);
+      border:1px solid var(--soft-border);
+      min-height:720px;
+    }
+    #network { width:100%; height:760px; border-radius:8px; }
+
+    #loading-message { display:none; padding:14px; color:var(--muted); text-align:center; font-weight:600; }
+
+    /* Popup */
+    #popup {
+      display:none; position:fixed; right:20px; top:20px; z-index:3000; width:480px;
+      background:#fff; border-radius:10px; padding:18px; box-shadow:0 20px 50px rgba(2,6,23,0.16);
+      border:1px solid var(--soft-border);
+      max-height:86vh; overflow:auto;
+    }
+    #popup h3 { margin:0 0 8px; font-size:1.25rem; color:var(--accent); }
+    #popup .close { float:right; border:none; background:transparent; font-size:20px; cursor:pointer; color:#666; }
+    .popup-content-wrapper { max-height:70vh; overflow:auto; padding-top:8px; color:#0f172a; line-height:1.5; }
+
+    .alert-message { color:var(--danger); font-weight:700; margin-top:8px; display:block; }
+
+    /* vis controls styling tweaks */
+    .vis-network .vis-navigation div { background:#fff !important; border-radius:6px !important; }
+    .vis-network .vis-navigation .vis-button::after { color:#374151; font-weight:700; }
+  </style>
+  <!-- ===== end style ===== -->
+</head>
+<body>
+
+<h3>Cây Truyền Thừa Thiền Tông</h3>
+
+<div class="controls">
+  <div>
+    <label for="lineage-select">Chọn Tông phái:</label>
+    <select id="lineage-select"><option value="">-- Đang tải... --</option></select>
+  </div>
+
+  <div class="search-container">
+    <label for="search-input">Tìm kiếm theo tên:</label>
+    <input id="search-input" type="text" placeholder="Nhập tên Thiền sư...">
+    <ul id="search-suggestions" style="display:none"></ul>
+  </div>
+
+  <div>
+    <button id="search-button">Tìm kiếm</button>
+    <button id="reset-button" class="secondary">Reset</button>
+  </div>
+</div>
+
+<div id="network-container">
+  <div id="loading-message">Đang tải dữ liệu, vui lòng đợi...</div>
+  <div id="network"></div>
+</div>
+
+<div id="popup">
+  <button class="close" onclick="document.getElementById('popup').style.display='none'">✖</button>
+  <h3 id="popup-title"></h3>
+  <div class="popup-content-wrapper">
+    <div id="popup-lineage" style="font-weight:600;color:#374151;margin-bottom:8px"></div>
+    <div id="popup-content"></div>
+  </div>
+</div>
+
+<script>
+/* ========= CONFIG ========= */
+const FUSEKI_ENDPOINT = "https://phatphaponline.org/query"; // may be CORS restricted
+const LINEAGE_DATA_URL = "./lineage_graph.jsonld";          // fallback local
+const FETCH_TIMEOUT = 14000;
+
+/* ========= COLOR / NODE STYLES ========= */
+const LINEAGE_COLORS = [
+  '#1a73e8','#34a853','#ea4335','#fbbc04','#9c27b0',
+  '#00bcd4','#e91e63','#673ab7','#009688','#8bc34a'
+];
+const DEFAULT_EDGE_COLOR = '#94a3b8';
+const HIGHLIGHT_NODE_COLOR = { background:'#e6fff3', border:'#16a34a' };
+const FOUNDER_NODE_COLOR = { background:'#fff8dd', border:'#f59e0b' };
+const NORMAL_NODE_COLOR = { background:'#eef2ff', border:'#2563eb' };
+const COLLAPSED_NODE_COLOR = { background:'#f8fafc', border:'#94a3b8' };
+
+/* ========= STATE ========= */
+let network;
+let visNodes = new vis.DataSet();
+let visEdges = new vis.DataSet();
+
+let fullGraph = { nodes: new Map(), edges: new Map() }; // key: uri (full), value: meta / {from,to}
+let childMap = {};   // parentUri -> [childUri,...]
+let allLineages = {}; // lineageUri -> { standardName, founder }
+let lineageColorMap = {};
+let lastSearchResults = [];
+let lastHighlightedNode = null;
+
+/* ========= UTILS ========= */
+function pickLabel(v){
+  if (!v) return undefined;
+  if (Array.isArray(v)) return pickLabel(v[0]);
+  if (typeof v === 'string') return v;
+  if (v['@value']) return v['@value'];
+  if (v.value) return v.value;
+  return undefined;
+}
+function toArray(x){ if (!x) return []; return Array.isArray(x)? x : [x]; }
+function fetchWithTimeout(url, opts={}, timeout=FETCH_TIMEOUT){
+  return Promise.race([
+    fetch(url, opts),
+    new Promise((_, rej) => setTimeout(()=>rej(new Error('timeout')), timeout))
+  ]);
+}
+function normalizeUri(u){ return String(u||'').trim(); }
+
+/* ========= VIS DEFAULT OPTIONS (fixed widthConstraint keys) ========= */
+const defaultOptions = {
+  nodes: {
+    shape: 'box',
+    borderWidth: 2,
+    font: { size: 16, color: '#0f172a' },
+    widthConstraint: { minimum: 140, maximum: 360 },
+    margin: 12
+  },
+  edges: {
+    color: { color: DEFAULT_EDGE_COLOR, highlight: '#5b6770', hover: '#5b6770' },
+    smooth: { enabled: true, type: 'cubicBezier', forceDirection: 'vertical', roundness: 0.35 },
+    arrows: { to: { enabled: true, scaleFactor: 0.8, type: 'arrow' } },
+    width: 1.8
+  },
+  layout: { hierarchical: { enabled: true, direction: 'UD', levelSeparation: 260, nodeSpacing: 260, sortMethod: 'directed' } },
+  interaction: { hover: true, navigationButtons: true, tooltipDelay: 200 },
+  physics: { enabled: false }
+};
+
+/* ========= DATA LOADING ========= */
+/* Try SPARQL first (if CORS allowed), else JSON-LD fallback */
+async function loadAllData(){
+  showLoading('Đang tải dữ liệu gốc (SPARQL -> JSON-LD)...');
+  let usedJSONLD = false;
+  try {
+    await loadFromSparql(); // try building fullGraph
+  } catch(sparr) {
+    console.warn('SPARQL failed, fallback to JSON-LD:', sparr);
+    usedJSONLD = true;
+    try {
+      await loadFromJSONLD();
+    } catch(jerr) {
+      console.error('JSON-LD fallback failed', jerr);
+      throw new Error('Không thể nạp dữ liệu từ SPARQL và JSON-LD.');
+    }
+  }
+  // After load, normalize childMap and lineage selects
+  buildChildMap();
+  populateLineageSelect();
+  hideLoading();
+}
+
+/* Load from SPARQL (best-effort). Builds fullGraph.nodes and fullGraph.edges */
+async function loadFromSparql(){
+  // SPARQL: select all monks and relationships (best-effort)
+  const query = `
+    PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT DISTINCT ?s ?sLabel ?sIsFounder ?sGeneration ?sLineage ?o ?oLabel WHERE {
+      GRAPH <http://data.phatphaponline.org/graph/monks> {
+        { ?s a bkg:Monk . }
+        OPTIONAL { ?s rdfs:label ?sLabel . }
+        OPTIONAL { ?s bkg:isLineageFounder ?sIsFounder . }
+        OPTIONAL { ?s bkg:generationOrder ?sGeneration . }
+        OPTIONAL { ?s bkg:dharmaLineage ?sLineage . }
+        OPTIONAL { ?s bkg:hasDisciple ?o . }
+        OPTIONAL { ?o rdfs:label ?oLabel . }
+      }
+    }
+  `;
+  const res = await fetchWithTimeout(FUSEKI_ENDPOINT, {
+    method:'POST',
+    headers:{ 'Content-Type':'application/sparql-query','Accept':'application/sparql-results+json' },
+    body: query
+  });
+  if (!res.ok) throw new Error('SPARQL HTTP '+res.status);
+  const data = await res.json();
+  // build nodes/edges
+  const nodesMap = new Map();
+  const edgesMap = new Map();
+
+  (data.results.bindings || []).forEach(b => {
+    const s = b.s?.value; if (!s) return;
+    const o = b.o?.value || null;
+    const sLabel = b.sLabel?.value || s.split('/').pop();
+    const sIsFounder = (b.sIsFounder?.value || '').toLowerCase() === 'true';
+    const sGen = b.sGeneration ? parseInt(b.sGeneration.value) : undefined;
+    const sLineage = b.sLineage?.value || null;
+
+    if (!nodesMap.has(s)){
+      nodesMap.set(s, {
+        id: s,
+        label: sLabel,
+        isFounder: sIsFounder,
+        generation: sGen,
+        lineage: sLineage
+      });
+    } else {
+      const ex = nodesMap.get(s);
+      if (!ex.label) ex.label = sLabel;
+      if (sIsFounder) ex.isFounder = true;
+      if (sGen && ex.generation===undefined) ex.generation = sGen;
+      if (sLineage && !ex.lineage) ex.lineage = sLineage;
+    }
+
+    if (o) {
+      if (!nodesMap.has(o)) {
+        nodesMap.set(o, { id:o, label:(b.oLabel?.value || o.split('/').pop()), isFounder:false });
+      }
+      const key = `${s}->${o}`;
+      if (!edgesMap.has(key)) {
+        edgesMap.set(key, { id:key, from:s, to:o });
+      }
+    }
+  });
+
+  // set to fullGraph
+  fullGraph.nodes = nodesMap;
+  fullGraph.edges = edgesMap;
+
+  // also try to load lineage records (optional) from JSON-LD to get labels / founders
+  try {
+    const jsonld = await (await fetch(LINEAGE_DATA_URL)).json();
+    const graph = jsonld['@graph'] || [];
+    graph.filter(x => (x['@type']||'').includes && (String(x['@type']).includes('DharmaLineage') || (x['@type']||'').includes('bkg:DharmaLineage')))
+      .forEach(item => {
+        const lid = item['@id'] || item['@id'];
+        const name = pickLabel(item['rdfs:label'] || item['label']) || lid;
+        const founder = item['bkg:hasFounder'] ? (typeof item['bkg:hasFounder'] === 'string' ? item['bkg:hasFounder'] : item['bkg:hasFounder']['@id']) : null;
+        allLineages[lid] = { standardName: name, founder: founder };
+      });
+    // color mapping
+    let i=0; for (const k in allLineages) lineageColorMap[k] = LINEAGE_COLORS[(i++)%LINEAGE_COLORS.length];
+  } catch(e){ /* ignore */ }
+}
+
+/* Load from local JSON-LD (fallback) */
+async function loadFromJSONLD(){
+  const res = await fetchWithTimeout(LINEAGE_DATA_URL);
+  if (!res.ok) throw new Error('JSON-LD HTTP ' + res.status);
+  const data = await res.json();
+  const graph = data['@graph'] || [];
+
+  const nodesMap = new Map();
+  const edgesMap = new Map();
+
+  // first: read lineages
+  let colorIdx = 0;
+  graph.forEach(item => {
+    const types = item['@type'] || [];
+    const tstr = Array.isArray(types) ? types.join(' ') : String(types);
+    if (tstr.includes('DharmaLineage') || tstr.includes('bkg:DharmaLineage')) {
+      const lid = item['@id'];
+      const name = pickLabel(item['rdfs:label'] || item['label']) || lid;
+      const founderRef = item['bkg:hasFounder'];
+      const founder = founderRef ? (typeof founderRef === 'string' ? founderRef : founderRef['@id']) : null;
+      allLineages[lid] = { standardName: name, founder: founder };
+      lineageColorMap[lid] = LINEAGE_COLORS[colorIdx % LINEAGE_COLORS.length]; colorIdx++;
+    }
+  });
+
+  // then monks
+  graph.forEach(item => {
+    const types = item['@type'] || [];
+    const tstr = Array.isArray(types) ? types.join(' ') : String(types);
+    if (!(tstr.includes('Monk') || tstr.includes('bkg:Monk'))) return;
+    const id = item['@id'];
+    if (!id) return;
+    const label = pickLabel(item['rdfs:label'] || item['label']) || id.split('/').pop();
+    const isFounderRaw = item['bkg:isLineageFounder'];
+    let isFounder = false;
+    if (typeof isFounderRaw === 'boolean') isFounder = isFounderRaw;
+    else if (typeof isFounderRaw === 'string') isFounder = isFounderRaw.toLowerCase() === 'true';
+    // also check if appears as founder in a lineage entry
+    if (!isFounder && Object.values(allLineages).some(l => l.founder === id)) isFounder = true;
+
+    const generation = item['bkg:generationOrder'] ? parseInt(item['bkg:generationOrder']) : undefined;
+    const lineageRef = item['bkg:dharmaLineage'] || item['bkg:inLineage'] || null;
+    const lineageVal = lineageRef ? (typeof lineageRef === 'string' ? lineageRef : (lineageRef['@id'] || null)) : null;
+
+    nodesMap.set(id, { id, label, isFounder, generation, lineage: lineageVal });
+
+    // disciples edges
+    const disciples = toArray(item['bkg:hasDisciple'] || item['bkg:hasDisciple']);
+    disciples.forEach(d => {
+      const did = (typeof d === 'string') ? d : (d && d['@id']);
+      if (!did) return;
+      const key = `${id}->${did}`;
+      if (!edgesMap.has(key)) edgesMap.set(key, { id:key, from:id, to:did });
+    });
+  });
+
+  // ensure lineages' founders included
+  for (const lid in allLineages){
+    const founder = allLineages[lid].founder;
+    if (founder && !nodesMap.has(founder)) {
+      const label = founder.split('/').pop();
+      nodesMap.set(founder, { id:founder, label, isFounder:true });
+    }
+  }
+
+  fullGraph.nodes = nodesMap;
+  fullGraph.edges = edgesMap;
+}
+
+/* Build childMap for expand/collapse */
+function buildChildMap(){
+  childMap = {};
+  for (const [edgeId, edge] of fullGraph.edges.entries()){
+    (childMap[edge.from] ||= []).push(edge.to);
+  }
+}
+
+/* ========= UI populate lineage select ========= */
+function populateLineageSelect(){
+  const sel = document.getElementById('lineage-select');
+  sel.innerHTML = '';
+  const defaultOpt = document.createElement('option'); defaultOpt.value=''; defaultOpt.textContent='-- Tất cả --';
+  sel.appendChild(defaultOpt);
+
+  // sort by label if available
+  const arr = Object.entries(allLineages).map(([k,v])=>({ id:k, name:v.standardName || k }));
+  arr.sort((a,b)=> a.name.localeCompare(b.name,'vi'));
+  arr.forEach(it=>{
+    const o = document.createElement('option'); o.value = it.id; o.textContent = it.name; sel.appendChild(o);
+  });
+}
+
+/* ========= DRAW / LAZY LOAD logic ========= */
+
+/* Utility: create vis-node object from fullGraph node entry */
+function mkVisNode(meta){
+  const id = meta.id;
+  const hasChildren = (childMap[id] && childMap[id].length > 0);
+  const label = meta.label || id.split('/').pop();
+  const isFounder = !!meta.isFounder;
+  return {
+    id: id,
+    label: label,
+    title: isFounder ? `Tổ sáng lập` : undefined,
+    color: isFounder ? FOUNDER_NODE_COLOR : (hasChildren ? COLLAPSED_NODE_COLOR : NORMAL_NODE_COLOR),
+    visStatus: hasChildren ? 'collapsed' : 'leaf'
+  };
+}
+
+/* Initialize network instance (only once) */
+function initNetwork(){
+  const container = document.getElementById('network');
+  const data = { nodes: visNodes, edges: visEdges };
+  network = new vis.Network(container, data, defaultOptions);
+
+  // ensure font readable at default zoom:
+  network.on('initRedraw', ()=> {
+    // nothing by default
+  });
+
+  // click => popup (single click)
+  network.on('click', params => {
+    if (params.nodes && params.nodes.length) {
+      const id = params.nodes[0];
+      showBioPopup(id);
+    }
+  });
+
+  // double click toggles subtree
+  network.on('doubleClick', params => {
+    if (params.nodes && params.nodes.length) {
+      const id = params.nodes[0];
+      toggleSubtree(id);
+    }
+  });
+}
+
+/* Draw top-level "home" view: main tree (founders centered) + minimal branches */
+function drawHomeView(){
+  visNodes.clear(); visEdges.clear();
+
+  // Choose maintree founders: nodes where isFounder true
+  const founders = Array.from(fullGraph.nodes.values()).filter(n=>n.isFounder);
+  // If no explicit founders, fallback to nodes with no parent
+  const noParent = Array.from(fullGraph.nodes.values()).filter(n=>{
+    let hasParent=false;
+    for (const e of fullGraph.edges.values()){
+      if (e.to === n.id) { hasParent=true; break; }
+    }
+    return !hasParent;
+  });
+  const mainFounders = founders.length ? founders : noParent.slice(0, 20);
+
+  // Add founder nodes to vis
+  mainFounders.forEach(meta => {
+    visNodes.add(mkVisNode(meta));
+  });
+
+  // Optionally add their direct children collapsed (lazy): we will not add children nodes here, only edges between founders if any
+  // To position the founders centrally, we can add a virtual center node connected to founders then hide it
+  const virtualCenterId = '__virtual_center_root__';
+  visNodes.add({ id: virtualCenterId, label: '', hidden: true });
+  mainFounders.forEach(f => {
+    const edgeId = `${virtualCenterId}->${f.id}`;
+    visEdges.add({ id:edgeId, from:virtualCenterId, to:f.id, hidden:true });
+  });
+
+  network.setData({ nodes: visNodes, edges: visEdges });
+  network.fit();
+
+  // Auto-collapse: nothing to do; founders can be double-clicked to expand
+}
+
+/* Draw lineage view: show subtree for selected lineage (full reachable nodes from founder) */
+function drawLineageView(lineageId){
+  visNodes.clear(); 
+  visEdges.clear();
+
+  const info = allLineages[lineageId];
+  if (!info) { 
+    drawHomeView(); 
+    return; 
+  }
+
+  const founderUri = info.founder;
+  const keep = new Set();
+  const queue = [];
+
+  // 1. Bắt đầu từ founder
+  if (founderUri && fullGraph.nodes.has(founderUri)) {
+    queue.push(founderUri);
+    keep.add(founderUri);
+  }
+
+  // 2. Thêm tất cả nodes có lineage = lineageId (để không bỏ sót)
+  for (const node of fullGraph.nodes.values()){
+    if (node.lineage === lineageId) {
+      keep.add(node.id);
+      queue.push(node.id);
+    }
+  }
+
+  // 3. BFS duyệt hết disciples
+  while(queue.length){
+    const cur = queue.shift();
+    const kids = childMap[cur] || [];
+    kids.forEach(kid=>{
+      if (!keep.has(kid)) {
+        keep.add(kid);
+        queue.push(kid);
+      }
+    });
+  }
+
+  // 4. Vẽ nodes
+  for (const id of keep){
+    const meta = fullGraph.nodes.get(id);
+    if (meta) visNodes.add(mkVisNode(meta));
+  }
+
+  // 5. Vẽ edges
+  for (const [eid, e] of fullGraph.edges.entries()){
+    if (keep.has(e.from) && keep.has(e.to)) {
+      const edgeColor = lineageColorMap[lineageId] || DEFAULT_EDGE_COLOR;
+      visEdges.add({
+        id: eid, from: e.from, to: e.to,
+        color:{ color:edgeColor, highlight: edgeColor },
+        arrows:{ to:{ enabled:true } },
+        smooth:{ enabled:true, type:'cubicBezier', roundness: 0.3 }
+      });
+    }
+  }
+
+  // 6. Render
+  network.setData({ nodes: visNodes, edges: visEdges });
+  network.fit({ animation:{duration:500} });
+}
+
+/* Toggle subtree expand/collapse */
+function toggleSubtree(nodeId){
+  const node = visNodes.get(nodeId);
+  if (!node) return;
+  if (node.visStatus === 'expanded'){
+    // collapse: remove all descendant nodes that are only reachable via this node
+    const toRemove = new Set();
+    const collectDesc = (nd) => {
+      const kids = childMap[nd] || [];
+      kids.forEach(k=>{
+        // check incoming visible edges other than from nd
+        const incoming = visEdges.get().filter(e => e.to === k && e.from !== nd);
+        if (incoming.length === 0 && visNodes.get(k)) {
+          toRemove.add(k);
+          collectDesc(k);
+        }
+      });
+    };
+    collectDesc(nodeId);
+    if (toRemove.size) {
+      // remove edges to these nodes
+      Array.from(visEdges.get()).forEach(e => {
+        if (toRemove.has(e.from) || toRemove.has(e.to)) {
+          try { visEdges.remove(e.id); } catch(e) {}
+        }
+      });
+      // remove nodes
+      try { visNodes.remove(Array.from(toRemove)); } catch(e){ console.warn(e); }
+    }
+    node.visStatus = 'collapsed';
+    node.color = node.color || COLLAPSED_NODE_COLOR;
+    visNodes.update(node);
+  } else {
+    // expand direct children
+    expandDirectChildren(nodeId);
+    node.visStatus = 'expanded';
+    node.color = node.color || NORMAL_NODE_COLOR;
+    visNodes.update(node);
+  }
+}
+
+/* Expand direct children (one level) — lazily add nodes & edges */
+function expandDirectChildren(nodeId){
+  const kids = childMap[nodeId] || [];
+  kids.forEach(kid => {
+    if (!fullGraph.nodes.has(kid)) return;
+    // add node if not present
+    if (!visNodes.get(kid)) {
+      const meta = fullGraph.nodes.get(kid);
+      visNodes.add(mkVisNode(meta));
+    }
+    // add edge if not present
+    const eid = `${nodeId}->${kid}`;
+    if (!visEdges.get(eid) && fullGraph.edges.has(eid)){
+      // color the edge by founder's lineage if possible
+      const found = findFounderOfNode(nodeId);
+      const color = found?.lineageId ? (lineageColorMap[found.lineageId]||DEFAULT_EDGE_COLOR) : DEFAULT_EDGE_COLOR;
+      visEdges.add({ id:eid, from:nodeId, to:kid, color:{ color: color, highlight: color }, arrows:{ to:{ enabled:true } }, smooth:{ enabled:true, type:'cubicBezier', roundness:0.3 } });
+    }
+  });
+}
+
+/* Find founder for a node by walking up using fullGraph.edges (global) */
+function findFounderOfNode(nodeId){
+  // Build reverse map once (child->parents) from fullGraph.edges
+  const parentMap = new Map();
+  for (const [eid, e] of fullGraph.edges.entries()){
+    parentMap.set(e.to, e.from);
+  }
+  let cur = nodeId;
+  const visited = new Set();
+  while(cur && !visited.has(cur)){
+    visited.add(cur);
+    // check if current is founder of known lineage
+    for (const lid in allLineages){
+      if (allLineages[lid].founder === cur) return { founderId: cur, lineageId: lid };
+    }
+    const meta = fullGraph.nodes.get(cur);
+    if (meta && meta.isFounder){
+      // attempt to find associated lineage id
+      const lidKey = Object.keys(allLineages).find(l => allLineages[l].founder === cur);
+      return { founderId: cur, lineageId: lidKey || null };
+    }
+    const parent = parentMap.get(cur);
+    if (!parent) {
+      // reached top
+      if (cur === 'http://buddhist-kg.org/resource/Shakyamuni_Buddha') return { founderId: cur, lineageId: null };
+      return { founderId: cur, lineageId: null };
+    }
+    cur = parent;
+  }
+  return null;
+}
+
+/* ========= SEARCH / UI helpers ========= */
+function setupSearchUI(){
+  const input = document.getElementById('search-input');
+  const suggestions = document.getElementById('search-suggestions');
+  input.addEventListener('input', (e)=>{
+    const q = (e.target.value||'').trim().toLowerCase();
+    suggestions.innerHTML = '';
+    if (!q) { suggestions.style.display='none'; return; }
+    const matches = Array.from(fullGraph.nodes.values())
+      .filter(n => (n.label || '').toLowerCase().includes(q)).slice(0,12);
+    if (!matches.length){ suggestions.style.display='none'; return; }
+    suggestions.style.display='block';
+    matches.forEach(m=>{
+      const li = document.createElement('li'); li.textContent = m.label || m.id;
+      li.onclick = ()=>{ input.value = m.label; suggestions.innerHTML=''; suggestions.style.display='none'; searchAndFocus(m.id); };
+      suggestions.appendChild(li);
+    });
+  });
+
+  document.getElementById('search-button').addEventListener('click', ()=>{
+    const q = (input.value||'').trim().toLowerCase();
+    if (!q) return;
+    const found = Array.from(fullGraph.nodes.values()).find(n => (n.label||'').toLowerCase()===q) || Array.from(fullGraph.nodes.values()).find(n => (n.label||'').toLowerCase().includes(q));
+    if (!found) { alert('Không tìm thấy: '+ input.value); return; }
+    searchAndFocus(found.id);
+  });
+
+  // hide suggestions on outside click
+  document.addEventListener('click', (ev)=>{
+    if (!ev.target.closest('.search-container')) {
+      const s = document.getElementById('search-suggestions');
+      if (s) { s.innerHTML=''; s.style.display='none'; }
+    }
+  });
+}
+
+/* Search and set tree / focus */
+async function searchAndFocus(nodeId){
+  // find its founder/lineage
+  const found = findFounderOfNode(nodeId);
+  const lineageId = found?.lineageId || null;
+  if (lineageId) {
+    document.getElementById('lineage-select').value = lineageId;
+    drawLineageView(lineageId);
+    // wait small delay then ensure node is present and focus
+    setTimeout(()=> {
+      if (visNodes.get(nodeId)) {
+        highlightNode(nodeId);
+        network.focus(nodeId, { scale: 1.4, animation:{ duration:700 } });
+      } else {
+        // try to expand path to node by BFS from founder
+        expandPathTo(nodeId);
+      }
+    }, 200);
+  } else {
+    // no lineage found -> draw home and attempt to expand path via parents
+    document.getElementById('lineage-select').value = '';
+    drawHomeView();
+    setTimeout(()=> expandPathTo(nodeId), 300);
+  }
+}
+
+/* Try to expand recursively along ancestors to make node visible */
+function expandPathTo(targetId){
+  // build reverse parentMap from fullGraph
+  const parents = new Map();
+  for (const e of fullGraph.edges.values()) parents.set(e.to, e.from);
+  let cur = targetId;
+  const path = [];
+  while(cur && fullGraph.nodes.has(cur)){
+    path.push(cur);
+    const p = parents.get(cur);
+    if (!p) break;
+    cur = p;
+  }
+  // path is target -> ... -> top; reverse
+  path.reverse();
+  // expand iteratively along path
+  let idx = 0;
+  function step(){
+    if (idx>=path.length-1) {
+      if (visNodes.get(targetId)) { highlightNode(targetId); network.focus(targetId, { scale:1.3 }); }
+      return;
+    }
+    const node = path[idx];
+    // ensure node is visible
+    if (!visNodes.get(node)) visNodes.add(mkVisNode(fullGraph.nodes.get(node)));
+    // expand children to create next node
+    expandDirectChildren(node);
+    idx++;
+    setTimeout(step, 150);
+  }
+  step();
+}
+
+/* Highlight connected nodes / edges */
+function highlightNode(nodeId){
+  resetHighlights();
+  lastHighlightedNode = nodeId;
+  const connNodes = network.getConnectedNodes(nodeId);
+  const connEdges = network.getConnectedEdges(nodeId);
+  const nodesUpdate = [{ id: nodeId, color: HIGHLIGHT_NODE_COLOR }];
+  connNodes.forEach(nid => nodesUpdate.push({ id:nid, color: { background:'#eef2ff', border:'#2563eb' } }));
+  visNodes.update(nodesUpdate);
+  const edgesUpdate = connEdges.map(eid=>{
+    const e = visEdges.get(eid);
+    return { id: eid, color: { color:'#1f2937', highlight:'#1f2937' }, width: 3 };
+  });
+  visEdges.update(edgesUpdate);
+}
+
+/* Reset highlight */
+function resetHighlights(){
+  // restore nodes
+  const updates = [];
+  visNodes.forEach(node => {
+    const meta = fullGraph.nodes.get(node.id);
+    if (!meta) return;
+    let color = meta.isFounder ? FOUNDER_NODE_COLOR : (childMap[node.id] && childMap[node.id].length ? COLLAPSED_NODE_COLOR : NORMAL_NODE_COLOR);
+    updates.push({ id: node.id, color: color });
+  });
+  if (updates.length) visNodes.update(updates);
+  // restore edges
+  const eUpdates = [];
+  visEdges.forEach(e => {
+    const found = findFounderOfNode(e.from);
+    const color = found?.lineageId ? (lineageColorMap[found.lineageId]||DEFAULT_EDGE_COLOR) : DEFAULT_EDGE_COLOR;
+    eUpdates.push({ id: e.id, color:{ color: color, highlight: color }, width: defaultOptions.edges.width });
+  });
+  if (eUpdates.length) visEdges.update(eUpdates);
+  lastHighlightedNode = null;
+}
+
+/* ========= POPUP / BIO ========= */
+async function showBioPopup(uri){
+  const meta = fullGraph.nodes.get(uri);
+  const title = meta?.label || uri;
+  document.getElementById('popup-title').innerText = title;
+  const lineageText = meta?.lineage ? (`Dòng: ${ (allLineages[meta.lineage] && allLineages[meta.lineage].standardName) || meta.lineage }`) : 'Dòng: Không rõ';
+  document.getElementById('popup-lineage').innerText = lineageText;
+  // try SPARQL to fetch biographical note
+  const query = `
+    PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+    SELECT ?bio WHERE {
+      GRAPH <http://data.phatphaponline.org/graph/monks> {
+        OPTIONAL { <${uri}> bkg:biographicalNote ?bio . }
+      }
+    } LIMIT 1
+  `;
+  let content = '<div>Không có tiểu sử.</div>';
+  try {
+    const res = await fetchWithTimeout(FUSEKI_ENDPOINT, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/sparql-query','Accept':'application/sparql-results+json' },
+      body: query
+    });
+    if (res.ok){
+      const j = await res.json();
+      const bio = j?.results?.bindings?.[0]?.bio?.value;
+      if (bio) content = `<div>${bio.replace(/\n/g,'<br>')}</div>`;
+    }
+  } catch(err){
+    // ignore SPARQL error, we may have local label only
+  }
+  // Add generation info if available
+  if (meta?.generation) content += `<div style="margin-top:8px;font-weight:600">Đời: ${meta.generation}</div>`;
+  document.getElementById('popup-content').innerHTML = content;
+  document.getElementById('popup').style.display = 'block';
+}
+
+/* ========= BOOTSTRAP / EVENTS ========= */
+function showLoading(txt){ const el = document.getElementById('loading-message'); el.innerText = txt; el.style.display='block'; }
+function hideLoading(){ document.getElementById('loading-message').style.display='none'; }
+
+document.addEventListener('DOMContentLoaded', async ()=>{
+  try {
+    // init vis network (will be configured in initNetwork)
+    initNetwork();
+    // load data
+    await loadAllData();
+    // initial rendering: show main tree (founders)
+    drawHomeView();
+    // UI bindings
+    setupLineageSelector();
+    setupSearchUI();
+    document.getElementById('reset-button').addEventListener('click', ()=>{
+      document.getElementById('lineage-select').value = '';
+      drawHomeView();
+      resetHighlights();
+    });
+    // show nicer default zoom/font (ensure labels readable)
+    setTimeout(()=> {
+      try { network.moveTo({ position:{x:0,y:0}, scale:1 }); } catch(e){}
+    }, 200);
+  } catch(err) {
+    console.error('Init error', err);
+    document.getElementById('loading-message').innerText = 'Lỗi nạp dữ liệu: ' + (err.message || err);
+    document.getElementById('loading-message').style.display = 'block';
+  }
+});
+
+/* Setup lineage selector change */
+function setupLineageSelector(){
+  const sel = document.getElementById('lineage-select');
+  sel.addEventListener('change', (ev)=>{
+    const v = ev.target.value;
+    resetHighlights();
+    if (!v) drawHomeView();
+    else drawLineageView(v);
+  });
+}
+
+/* ========= Helpers to convert fullGraph.nodes map values -> arr (not used directly) ========= */
+/* (end of script) */
+</script>
+</body>
+</html>

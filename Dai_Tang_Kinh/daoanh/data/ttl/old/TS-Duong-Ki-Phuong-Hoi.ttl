@@ -1,0 +1,89 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<ex:monk/duong_ki_phuong_hoi> a bkg:Monk ;
+    rdfs:label "Dương Kì Phương Hội"@vi ;
+    crm:P1_is_identified_by [ a crm:E41_Appellation ;
+            rdfs:label "Thiền sư"@vi ;
+            bkg:hasAppellationType "bkg:DharmaTitle" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "楊岐方會"@zh ;
+            bkg:hasAppellationType "bkg:DharmaName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Yōgi Hōe"@ja ;
+            bkg:hasAppellationType "bkg:DharmaName" ] ;
+    bkg:associatedPlaces <ex:place/cuu_phong>,
+        <ex:place/dam_chau>,
+        <ex:place/dao_ngu_son>,
+        <ex:place/duong_ky_son_pho_thong_thien_vien>,
+        <ex:place/hung_hoa_tu>,
+        <ex:place/nam_nguyen_son>,
+        <ex:place/nghi_xuan_district>,
+        <ex:place/thach_suong_son>,
+        <ex:place/van_cai_shan_hai_hoi_tu>,
+        <ex:place/vien_chau> ;
+    bkg:authoredWorks <ex:work/vien_chau_duong_ki_hoi_hoa_thuong_ngu_luc> ;
+    bkg:biographicalNote "Dương Kì Phương Hội (楊岐方會, Yōgi Hōe, 992-1049), vị tổ của Phái Dương Kì thuộc Tông Lâm Tế, người Huyện Nghi Xuân (宜春縣, thuộc Tỉnh Giang Tây ngày nay), họ là Lãnh (冷). Hồi còn nhỏ, ông đi chơi ở Cửu Phong (九峰) về mà lòng quyến luyến khôn nguôi, nên cuối cùng thì xuống tóc xuất gia. Sau ông đi khắp các nơi tham học các bậc thiện tri thức, kế đến tham yết Thạch Sương Sở Viên (石霜楚圓) ở Nam Nguyên Sơn (南源山), rồi theo hầu thầy đến các vùng Đạo Ngô Sơn (道吾山), Thạch Sương Sơn (石霜山). Chính tại Thạch Sương Sơn, ông được đại ngộ và kế thừa dòng pháp của Sở Viên. Khi Sở Viên chuyển đến Hưng Hóa Tự (興化寺) ở Đàm Châu (潭州, thuộc Tỉnh Hồ Nam ngày nay), ông từ chối không theo thầy mà quay trở về Cửu Phong. Về sau, thể theo lời thỉnh cầu của chúng đạo tục, ông đến an trụ ở Dương Kỳ Sơn Phổ Thông Thiền Viện (楊岐山普通禪院) vùng Viên Châu (袁州), rồi đến năm thứ 6 (1046) niên hiệu Khánh Lịch (慶曆), ông lại chuyển về Vân Cái Sơn Hải Hội Tự (雲蓋山海會寺). Ông thị tịch vào năm đầu (1049) niên hiệu Hoàng Hưu (皇祐), hưởng thọ 58 tuổi. Dòng pháp tư của ông có Bạch Vân Thủ Đoan (白雲守端), Tỷ Bộ Tôn Cư sĩ (比部孫居士), Thach Sương Thủ Tôn (石霜守孫), Bảo Ninh Nhân Dũng (保寧仁勇), v.v... Đệ tử của ông là Nhân Dũng và Thủ Đoan đã biên tập bộ Viên Châu Dương Kì Hội Hòa Thượng Ngữ Lục (袁州楊岐會和尚語錄)."@vi ;
+    bkg:birthEvent <ex:monk/duong_ki_phuong_hoi_birth_event> ;
+    bkg:deathEvent <ex:monk/duong_ki_phuong_hoi_death_event> ;
+    bkg:dharmaLineageName "Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc" ;
+    bkg:gender "bkg:Male" ;
+    bkg:hasContribution <ex:contribution/duong_ki_phuong_hoi_contrib_phat_phai_duong_ky> ;
+    bkg:hasDisciple <ex:monk/bach_van_thu_doan>,
+        <ex:monk/bao_ninh_nhan_dung> ;
+    bkg:hasKeyLifeEvent <ex:event/duong_ki_phuong_hoi_event_an_tru_duong_ky>,
+        <ex:event/duong_ki_phuong_hoi_event_chuyen_ve_van_cai>,
+        <ex:event/duong_ki_phuong_hoi_event_dai_ngo> ;
+    bkg:hasRelatedFigure <ex:person/thach_suong_thu_ton>,
+        <ex:person/ty_bo_son_cu_si> ;
+    bkg:hasTeacher <ex:monk/thach_suong_so_vien> .
+
+<ex:contribution/duong_ki_phuong_hoi_contrib_phat_phai_duong_ky> rdfs:label "Sáng lập và phát triển Phái Dương Kỳ"@vi .
+
+<ex:event/duong_ki_phuong_hoi_event_an_tru_duong_ky> rdfs:label "An trụ tại Dương Kỳ Sơn Phổ Thông Thiền Viện"@vi .
+
+<ex:event/duong_ki_phuong_hoi_event_chuyen_ve_van_cai> rdfs:label "Chuyển về Vân Cái Sơn Hải Hội Tự"@vi ;
+    crm:P4_has_time-span "1046"^^<xsd:gYear> .
+
+<ex:event/duong_ki_phuong_hoi_event_dai_ngo> rdfs:label "Đại ngộ tại Thạch Sương Sơn"@vi ;
+    crm:P4_has_time-span "1049"^^<xsd:gYear> .
+ 
+
+<ex:monk/duong_ki_phuong_hoi_birth_event> a crm:E67_Birth ;
+    crm:P4_has_time-span "992"^^<xsd:gYear> .
+
+<ex:monk/duong_ki_phuong_hoi_death_event> a crm:E69_Death ;
+    crm:P4_has_time-span "1049"^^<xsd:gYear> .
+
+<ex:monk/thach_suong_so_vien> rdfs:label "Thạch Sương Sở Viên"@vi .
+
+<ex:person/thach_suong_thu_ton> rdfs:label "Thach Sương Thủ Tôn"@vi .
+
+<ex:person/ty_bo_son_cu_si> rdfs:label "Tỷ Bộ Tôn Cư sĩ"@vi .
+
+<ex:place/cuu_phong> rdfs:label "Cửu Phong"@vi .
+
+<ex:place/dam_chau> rdfs:label "Đàm Châu"@vi .
+
+<ex:place/dao_ngu_son> rdfs:label "Đạo Ngô Sơn"@vi .
+
+<ex:place/duong_ky_son_pho_thong_thien_vien> rdfs:label "Dương Kỳ Sơn Phổ Thông Thiền Viện"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/hung_hoa_tu> rdfs:label "Hưng Hóa Tự"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/nam_nguyen_son> rdfs:label "Nam Nguyên Sơn"@vi .
+
+<ex:place/nghi_xuan_district> rdfs:label "Huyện Nghi Xuân"@vi .
+
+<ex:place/thach_suong_son> rdfs:label "Thạch Sương Sơn"@vi .
+
+<ex:place/van_cai_shan_hai_hoi_tu> rdfs:label "Vân Cái Sơn Hải Hội Tự"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/vien_chau> rdfs:label "Viên Châu"@vi .
+
+<ex:work/vien_chau_duong_ki_hoi_hoa_thuong_ngu_luc> rdfs:label "Viên Châu Dương Kì Hội Hòa Thượng Ngữ Lục"@vi .
+

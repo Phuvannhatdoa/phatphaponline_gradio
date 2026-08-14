@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Ảnh - Statistics Dashboard v4.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&display=swap');
+
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-page: #020617;
+            --bg-sidebar: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --info: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-page); 
+            color: var(--text-main); 
+            margin: 0; 
+            height: 100vh;
+            display: flex;
+        }
+
+        .layout-main { display: flex; height: 100vh; width: 100%; }
+
+        /* Sidebar */
+        .sidebar { 
+            width: 280px; 
+            background: var(--bg-sidebar); 
+            border-right: 1px solid #1e293b; 
+            display: flex; 
+            flex-direction: column; 
+            flex-shrink: 0;
+        }
+
+        .sidebar-header { 
+            padding: 20px; 
+            background: #020617; 
+            border-bottom: 1px solid #1e293b; 
+        }
+
+        .sidebar-title-row { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            margin-bottom: 16px; 
+        }
+
+        .logo-icon { 
+            width: 36px; 
+            height: 36px; 
+            background: var(--primary); 
+            color: black; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 18px;
+        }
+
+        .logo-text h1 { font-size: 11px; font-weight: 900; text-transform: uppercase; color: white; }
+        .logo-text p { font-size: 8px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
+
+        .nav-section { padding: 16px; border-bottom: 1px solid #1e293b; }
+        .nav-label { font-size: 7px; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+
+        .nav-btn { 
+            width: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 10px 12px; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            margin-bottom: 6px; 
+            transition: 0.2s; 
+            cursor: pointer;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .nav-btn:hover { border-color: var(--primary); background: rgba(217, 119, 6, 0.1); }
+        .nav-btn i { font-size: 12px; color: var(--text-muted); }
+        .nav-btn span { font-size: 10px; font-weight: 600; }
+        .nav-btn.active { border-color: var(--primary); background: rgba(217, 119, 6, 0.15); }
+        .nav-btn.active i { color: var(--primary); }
+
+        /* Main Content */
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+        }
+
+        .header-bar { 
+            height: 50px; 
+            background: linear-gradient(90deg, #020617 0%, #0f172a 50%, #020617 100%);
+            display: flex; 
+            align-items: center; 
+            padding: 0 24px; 
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .header-title { font-size: 14px; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+        .header-subtitle { font-size: 10px; color: var(--text-muted); margin-left: 12px; }
+
+        /* Dashboard Grid */
+        .dashboard-content { 
+            flex: 1; 
+            padding: 24px; 
+            overflow-y: auto; 
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .stat-card.dila::before { background: var(--info); }
+        .stat-card.marcus::before { background: var(--success); }
+        .stat-card.ttl::before { background: var(--warning); }
+        .stat-card.namevi::before { background: #8b5cf6; }
+        .stat-card.placevn::before { background: #f43f5e; }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card.dila .stat-icon { background: rgba(59, 130, 246, 0.2); color: var(--info); }
+        .stat-card.marcus .stat-icon { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .stat-card.ttl .stat-icon { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .stat-card.namevi .stat-icon { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+        .stat-card.placevn .stat-icon { background: rgba(244, 63, 94, 0.2); color: #f43f5e; }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-change {
+            font-size: 9px;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .stat-change.positive { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .stat-change.neutral { background: rgba(100, 116, 139, 0.2); color: var(--text-muted); }
+
+        /* Coverage Section */
+        .coverage-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .coverage-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .coverage-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .coverage-title i { color: var(--primary); }
+
+        .progress-bar {
+            height: 24px;
+            background: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            color: black;
+        }
+
+        .progress-fill.dila { background: linear-gradient(90deg, var(--info), #60a5fa); }
+        .progress-fill.marcus { background: linear-gradient(90deg, var(--success), #34d399); }
+        .progress-fill.namevi { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .chart-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+
+        /* Quick Stats Table */
+        .quick-table {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .table-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .table-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .table-row:last-child { border-bottom: none; }
+        .table-key { font-size: 11px; color: var(--text-muted); }
+        .table-value { font-size: 11px; font-weight: 700; color: white; }
+
+        /* Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .coverage-section { grid-template-columns: 1fr; }
+            .charts-section { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar { width: 60px; }
+            .sidebar-header, .nav-section { padding: 10px; }
+            .logo-text, .nav-btn span { display: none; }
+            .nav-btn { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title-row">
+                <div class="logo-icon"><i class="fa-solid fa-dharmachakra"></i></div>
+                <div class="logo-text">
+                    <h1>ĐẠO ẢNH</h1>
+                    <p>v4.0 Dashboard</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <p class="nav-label">Điều hướng</p>
+            <a href="#" class="nav-btn active">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Thống kê</span>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+            </a>
+            <a href="panorama.html" class="nav-btn">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <i class="fa-solid fa-panorama"></i>
+                    <span>Panorama</span>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+            </a>
+            <a href="../" class="nav-btn">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Webview</span>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <p class="nav-label">Hệ thống</p>
+            <div class="nav-btn" onclick="refreshStats()">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <i class="fa-solid fa-rotate" style="color:var(--success)"></i>
+                    <span>Làm mới</span>
+                </div>
+                <i class="fa-solid fa-circle" id="status-dot" style="font-size:6px;color:var(--success)"></i>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <p class="nav-label">Place VN</p>
+            <a href="placevn.html" class="nav-btn">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>+ Thêm Place VN</span>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+            </a>
+            <a href="place_update.html" class="nav-btn">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Update Place Info</span>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+            </a>
+            <a href="keyword_import.html" class="nav-btn">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Chú Thích Phật Học</span>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <p class="nav-label">Cài đặt</p>
+            <a href="../emails.html" class="nav-btn">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <span>Thêm Email Quản trị</span>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+            </a>
+        </div>
+
+        <div style="flex:1"></div>
+        <div style="padding:16px;border-top:1px solid #1e293b">
+            <p style="font-size:8px;color:#64748b;text-align:center">Updated: <span id="last-update">--:--:--</span></p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header-bar">
+            <div class="header-title">
+                <i class="fa-solid fa-chart-line" style="margin-right:8px"></i>
+                Statistics Dashboard
+            </div>
+            <div class="header-subtitle">Hệ thống tra cứu Đại Tạng Kinh Việt Nam</div>
+        </div>
+
+        <div class="dashboard-content custom-scrollbar">
+            <!-- Top Stats Cards -->
+            <div class="dashboard-grid">
+                <div class="stat-card dila">
+                    <div class="stat-icon"><i class="fa-solid fa-database"></i></div>
+                    <div class="stat-value" id="stat-dila">48,673</div>
+                    <div class="stat-label">DILA Authority</div>
+                    <div class="stat-change neutral">Nguồn chuẩn</div>
+                </div>
+
+                <div class="stat-card marcus">
+                    <div class="stat-icon"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="stat-value" id="stat-marcus">11,300</div>
+                    <div class="stat-label">Marcus SNA</div>
+                    <div class="stat-change positive" id="stat-marcus-coverage">23.2% coverage</div>
+                </div>
+
+                <div class="stat-card ttl">
+                    <div class="stat-icon"><i class="fa-solid fa-file-code"></i></div>
+                    <div class="stat-value" id="stat-ttl">7</div>
+                    <div class="stat-label">TTL Queue (old)</div>
+                    <div class="stat-change neutral">Chờ xử lý</div>
+                </div>
+
+                <div class="stat-card namevi" onclick="window.location.href='namevimap.html'" style="cursor:pointer">
+                    <div class="stat-icon"><i class="fa-solid fa-language"></i></div>
+                    <div class="stat-value" id="stat-namevi">5,199</div>
+                    <div class="stat-label">Name Vi Map</div>
+                    <div class="stat-change positive" id="stat-namevi-match">+332 DILA matches</div>
+                </div>
+
+                <div class="stat-card placevn">
+                    <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div class="stat-value" id="stat-namevi-places-total" style="font-size:20px;line-height:1.2">0 reviewed / 0 auto / Tổng 0</div>
+                    <div class="stat-label">ĐỊA DANH VN</div>
+                    <div class="stat-change neutral" id="stat-namevi-coverage">Tiến độ phiên âm & duyệt địa danh</div>
+                </div>
+            </div>
+
+            <!-- Coverage Section -->
+            <div class="coverage-section">
+                <div class="coverage-card">
+                    <div class="coverage-title">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        Coverage Rate: Marcus / DILA
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill marcus" id="coverage-bar" style="width: 0%">23.2%</div>
+                    </div>
+                    <div class="progress-label">
+                        <span>0%</span>
+                        <span id="coverage-text">11,297 / 48,673 monks có dữ liệu lineage</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+
+                <div class="coverage-card">
+                    <div class="coverage-title">
+                        <i class="fa-solid fa-language"></i>
+                        Name Vi Map Coverage
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill namevi" id="namevi-bar" style="width: 0%">10.7%</div>
+                    </div>
+                    <div class="progress-label">
+                        <span>0%</span>
+                        <span id="namevi-text">5,199 / 48,673 monks có tên tiếng Việt</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <div class="chart-title">
+                        <i class="fa-solid fa-layer-group" style="margin-right:8px"></i>
+                        Data Sources Distribution
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="quick-table">
+                    <div class="table-title">
+                        <i class="fa-solid fa-list" style="margin-right:8px"></i>
+                        Quick Stats
+                    </div>
+                    <div class="table-row">
+                        <span class="table-key">Tổng thiền sư (DILA)</span>
+                        <span class="table-value" id="qs-dila">48,673</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="table-key">Marcus Relationships</span>
+                        <span class="table-value" id="qs-marcus-edges">11,169</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="table-key">Marcus Unique Monks</span>
+                        <span class="table-value" id="qs-marcus-monks">11,300</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="table-key">Marcus in DILA</span>
+                        <span class="table-value" id="qs-marcus-in-dila">11,297</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="table-key">TTL Queue</span>
+                        <span class="table-value" id="qs-ttl">7 files</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="table-key">TTL Master</span>
+                        <span class="table-value" id="qs-ttl-master">0 files</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="table-key">Name Vi Map</span>
+                        <span class="table-value" id="qs-namevi">5,199 entries</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+const API_BASE = '/daoanh';
+
+async function fetchDashboardStats() {
+    try {
+        const res = await fetch(`${API_BASE}/api/dashboard/stats`);
+        if (!res.ok) throw new Error('API error');
+        return await res.json();
+    } catch (e) {
+        console.error('Failed to fetch dashboard stats:', e);
+        return null;
+    }
+}
+
+function animateValue(element, target, duration = 1000) {
+    if (!element) {
+        console.error('animateValue: element is null!');
+        return;
+    }
+    const start = parseInt(element.textContent.replace(/,/g, '')) || 0;
+    const end = target;
+    const startTimestamp = performance.now();
+    
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        element.textContent = Math.floor(start + (end - start) * eased).toLocaleString();
+        if (progress < 1) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
+}
+
+function updateProgressBar(id, percentage, label) {
+    const bar = document.getElementById(id);
+    bar.style.width = '0%';
+    setTimeout(() => {
+        bar.style.width = `${percentage}%`;
+        bar.textContent = `${percentage.toFixed(1)}%`;
+    }, 100);
+    document.getElementById(id.replace('-bar', '-text')).textContent = label;
+}
+
+function initCharts(stats) {
+            const ctx = document.getElementById('distributionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['DILA Only', 'Marcus + DILA', 'Name Vi + DILA', 'All Three'],
+                    datasets: [{
+                        data: [
+                            stats.dila_total - stats.marcus_in_dila - stats.namevi_with_dila + (stats.namevi_with_dila + stats.marcus_in_dila > stats.dila_total ? (stats.namevi_with_dila + stats.marcus_in_dila - stats.dila_total) : 0),
+                            stats.marcus_in_dila,
+                            stats.namevi_with_dila,
+                            stats.namevi_with_marcus
+                        ],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(217, 119, 6, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 10 },
+                                padding: 12
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Place VN Functions - GLOBAL
+        function showPlacesDemo() {
+            document.querySelector('.dashboard-content').innerHTML = '<div style="padding:20px"><h2 style="color:var(--primary)">DILA Place Demo</h2><p>Form mẫu Place VN</p></div>';
+        }
+
+        function showSearchForm() {
+            document.querySelector('.dashboard-content').innerHTML = '<div style="padding:20px"><h2 style="color:var(--primary)">Thêm Place VN</h2><p>Form thêm Place mới</p></div>';
+        }
+
+        function showPlaceVN1() {
+            document.querySelector('.dashboard-content').innerHTML = '<div style="padding:20px"><h2 style="color:var(--primary)">Place VN 1</h2><p>Menu mới hoạt động!</p></div>';
+        }
+
+        function refreshStats() {
+            document.getElementById('status-dot').style.color = 'var(--warning)';
+            loadDashboard();
+            setTimeout(() => {
+                document.getElementById('status-dot').style.color = 'var(--success)';
+            }, 1000);
+        }
+
+        // ── loadDashboard: fetch stats and update all cards ──────────────
+        async function loadDashboard() {
+            const data = await fetchDashboardStats();
+            if (!data) return;
+            animateValue('stat-dila', data.dila_total);
+            animateValue('stat-marcus', data.marcus_monks);
+            animateValue('stat-ttl', data.ttl_queue);
+            animateValue('stat-namevi', data.namevi_total);
+            // Coverage bars
+            updateProgressBar('coverage-bar', data.marcus_coverage,
+                `${data.marcus_in_dila.toLocaleString()} / ${data.dila_total.toLocaleString()} monks có dữ liệu lineage`);
+            updateProgressBar('namevi-bar', data.namevi_coverage,
+                `${data.namevi_total.toLocaleString()} / ${data.dila_total.toLocaleString()} monks có tên tiếng Việt`);
+            // Quick stats table
+            const qs = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+            qs('qs-dila', data.dila_total.toLocaleString());
+            qs('qs-marcus-edges', data.marcus_edges.toLocaleString());
+            qs('qs-marcus-monks', data.marcus_monks.toLocaleString());
+            qs('qs-marcus-in-dila', data.marcus_in_dila.toLocaleString());
+            qs('qs-ttl', data.ttl_queue + ' files');
+            qs('qs-ttl-master', data.ttl_master + ' files');
+            qs('qs-namevi', data.namevi_total.toLocaleString() + ' entries');
+            // Name Vi Map match text
+            const matchEl = document.getElementById('stat-namevi-match');
+            if (matchEl) matchEl.textContent = `+${data.namevi_with_dila} DILA matches`;
+            // ── ĐỊA DANH VN card ──
+            const placesEl = document.getElementById('stat-namevi-places-total');
+            if (placesEl) {
+                const reviewed = data.namevi_reviewed || 0;
+                const auto = data.namevi_auto || 0;
+                const total = data.namevi_places_total || 0;
+                placesEl.textContent = `${reviewed.toLocaleString()} reviewed / ${auto.toLocaleString()} auto / Tổng ${total.toLocaleString()}`;
+            }
+            const covEl = document.getElementById('stat-namevi-coverage');
+            if (covEl) {
+                const pct = data.namevi_places_total > 0
+                    ? ((data.namevi_reviewed / data.namevi_places_total) * 100).toFixed(1)
+                    : '0.0';
+                covEl.textContent = `${pct}% review coverage`;
+            }
+            // Re-init the distribution chart
+            initCharts(data);
+        }
+
+        // ── DOMContentLoaded: initial load ───────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboard();
+        });
+
+function showPlacesDemo() {
+    const demoHtml = `
+                <div style="padding:20px">
+                    <h2 style="color:var(--primary);margin-bottom:16px">
+                        <i class="fa-solid fa-place-marker" style="margin-right:8px"></i>
+                        DILA Place Fields Demo
+                    </h2>
+                        <div id="form-add-container" style="background:#0f172a;border-radius:8px;padding:20px">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+                                <div>
+                                    <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tên chùa (VI):</label>
+                                    <input type="text" id="p-name_vi" placeholder="Ví dụ: Chùa Thiên Mục"
+                                        style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                </div>
+                                <div>
+                                    <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tên Hán:</label>
+                                    <input type="text" id="p-name_zh" placeholder="天目寺"
+                                        style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                </div>
+                                <div>
+                                    <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Loại:</label>
+                                    <select id="p-place_type" style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                        <option value="Tổ đình">Tổ đình</option>
+                                        <option value="Chùa">Chùa</option>
+                                        <option value="Di tích Quốc gia">Di tích Quốc gia</option>
+                                        <option value="Thắng cảnh">Thắng cảnh</option>
+                                        <option value="Khác">Khác</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tỉnh/TP:</label>
+                                    <input type="text" id="p-province" placeholder="Hà Nội, TP.HCM, Đà Nẵng..."
+                                        style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                </div>
+                                <div>
+                                    <button type="button" onclick="webtracePlaceVN()" style="background:#059669;color:white;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600">
+                                        🔍 Webtrace
+                                    </button>
+                                    <button type="button" onclick="showMapsVN()" style="background:#3b82f6;color:white;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;margin-left:8px">
+                                        🗺 Maps
+                                    </button>
+                                </div>
+                                <div>
+                                    <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Vĩ độ (GPS lat):</label>
+                                    <input type="number" step="0.0001" id="p-gps_lat" placeholder="21.0285"
+                                        style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                </div>
+                                <div>
+                                    <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Kinh độ (GPS long):</label>
+                                    <input type="number" step="0.0001" id="p-gps_long" placeholder="105.8542"
+                                        style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                </div>
+                                <div style="grid-column:1/-1">
+                                    <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Địa chỉ:</label>
+                                    <input type="text" id="p-address" placeholder="P. Quốc Tai, Q. Hoàn Kiếm, Hà Nội"
+                                        style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                </div>
+                                <div style="grid-column:1/-1">
+                                    <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Location (Quốc gia-Tỉnh-TP-Quận-Huyện):</label>
+                                    <input type="text" id="p-location" placeholder="Việt Nam-Hà Nội-Hoàn Kiếm-Hàng Trống"
+                                        style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:12px">
+                                <button onclick="savePlaceVN()" style="background:var(--primary);color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-weight:600">
+                                    <i class="fa-solid fa-save" style="margin-right:8px"></i>
+                                    Lưu Place VN
+                                </button>
+                                <button onclick="listPlaceVN()" style="background:#334155;color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-weight:600">
+                                    <i class="fa-solid fa-list" style="margin-right:8px"></i>
+                                Danh sách VPS
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    <div id="place-result" style="margin-top:16px;font-size:11px;color:#94a3b8"></div>
+                </div>
+            `;
+            document.querySelector('.dashboard-content').innerHTML = formHtml;
+        }
+
+        async function webtracePlaceVN() {
+            const name = document.getElementById('p-name_vi').value;
+            const province = document.getElementById('p-province').value;
+            if (!name) {
+                alert('Vui lòng nhập tên chùa!');
+                return;
+            }
+            document.getElementById('place-result').innerHTML = '<span style="color:#fbbf24">🔍 Đang tìm GPS từ OpenStreetMap...</span>';
+            try {
+                const query = encodeURIComponent(name + ' ' + (province || '') + ' Vietnam');
+                const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + query, {
+                    headers: {'User-Agent': 'PhatPhapOnline/1.0'}
+                });
+                const data = await res.json();
+                if (data && data.length > 0) {
+                    const r = data[0];
+                    document.getElementById('p-gps_lat').value = r.lat;
+                    document.getElementById('p-gps_long').value = r.lon;
+                    document.getElementById('p-address').value = r.display_name;
+                    document.getElementById('place-result').innerHTML = '<span style="color:#10b981">✅ Tìm thấy! Lat: ' + r.lat + ', Lon: ' + r.lon + '</span>';
+                } else {
+                    document.getElementById('place-result').innerHTML = '<span style="color:#ef4444">❌ Không tìm thấy!</span>';
+                }
+            } catch (err) {
+                document.getElementById('place-result').innerHTML = '<span style="color:#ef4444">Lỗi: ' + err.message + '</span>';
+            }
+        }
+
+        function showMapsVN() {
+            const lat = document.getElementById('p-gps_lat').value;
+            const lon = document.getElementById('p-gps_long').value;
+            if (lat && lon) {
+                window.open('https://www.google.com/maps?q=' + lat + ',' + lon, '_blank');
+            } else {
+                alert('Vui lòng nhập GPS trước!');
+            }
+        }
+
+        function importPlaceForm() {
+            const formHtml = `
+                <div style="padding:20px">
+                    <h2 style="color:var(--primary);margin-bottom:16px">
+                        <i class="fa-solid fa-plus" style="margin-right:8px"></i>
+                        Quản lý Place VN
+                    </h2>
+                    <div style="display:flex;gap:8px;margin-bottom:16px">
+                        <button onclick="importPlaceForm()" id="tab-add" style="background:var(--primary);color:white;padding:10px 16px;border:none;border-radius:4px;cursor:pointer;font-weight:600">+ Thêm mới</button>
+                        <button onclick="showSearchForm()" id="tab-search" style="background:#334155;color:white;padding:10px 16px;border:none;border-radius:4px;cursor:pointer;font-weight:600">🔍 Search DILA</button>
+                    </div>
+                    <div id="form-add-container" style="background:#0f172a;border-radius:8px;padding:20px">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tên chùa (VI):</label>
+                                <input type="text" id="p-name_vi" placeholder="Ví dụ: Chùa Thiên Mục"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tên Hán:</label>
+                                <input type="text" id="p-name_zh" placeholder="天目寺"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Loại:</label>
+                                <select id="p-place_type" style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                    <option value="Tổ đình">Tổ đình</option>
+                                    <option value="Chùa">Chùa</option>
+                                    <option value="Di tích Quốc gia">Di tích Quốc gia</option>
+                                    <option value="Thắng cảnh">Thắng cảnh</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tỉnh/TP:</label>
+                                <input type="text" id="p-province" placeholder="Hà Nội, TP.HCM, Đà Nẵng..."
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <button type="button" onclick="webtracePlaceVN()" style="background:#059669;color:white;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600">
+                                    🔍 Webtrace
+                                </button>
+                                <button type="button" onclick="showMapsVN()" style="background:#3b82f6;color:white;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;margin-left:8px">
+                                    🗺 Maps
+                                </button>
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Vĩ độ (GPS lat):</label>
+                                <input type="number" step="0.0001" id="p-gps_lat" placeholder="21.0285"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Kinh độ (GPS long):</label>
+                                <input type="number" step="0.0001" id="p-gps_long" placeholder="105.8542"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Địa chỉ:</label>
+<input type="text" id="p-address" placeholder="P. Quốc Tai, Q. Hoàn Kiếm, Hà Nội"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Location (Quốc gia-Tỉnh-TP-Quận-Huyện):</label>
+                                <input type="text" id="p-location" placeholder="Việt Nam-Hà Nội-Hoàn Kiếm-Hàng Trống"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:12px">
+                            <button onclick="savePlaceVN()" style="background:var(--primary);color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-weight:600">
+                                <i class="fa-solid fa-save" style="margin-right:8px"></i>
+                                Lưu Place VN
+                            </button>
+                            <button onclick="listPlaceVN()" style="background:#334155;color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-weight:600">
+                                <i class="fa-solid fa-list" style="margin-right:8px"></i>
+                                Danh sách VPS
+                            </button>
+                        </div>
+                    </div>
+                    <div id="place-result" style="margin-top:16px;font-size:11px;color:#94a3b8"></div>
+                </div>
+`;
+    document.querySelector('.dashboard-content').innerHTML = formHtml;
+}
+
+async function savePlaceVN() {
+            const data = {
+                name_vi: document.getElementById('p-name_vi').value,
+                name_zh: document.getElementById('p-name_zh').value,
+                place_type: document.getElementById('p-place_type').value,
+                province: document.getElementById('p-province').value,
+                gps_lat: parseFloat(document.getElementById('p-gps_lat').value) || null,
+                gps_long: parseFloat(document.getElementById('p-gps_long').value) || null,
+                address: document.getElementById('p-address').value,
+                location: document.getElementById('p-location').value,
+                country: 'Vietnam'
+            };
+            if (!data.name_vi) {
+                alert('Vui lòng nhập tên chùa!');
+                return;
+            }
+            
+            const editingId = window.editingPlaceId;
+            try {
+                let res;
+                if (editingId) {
+                    res = await fetch('/daoanh/api/admin/places_vps/' + editingId, {
+                            method: 'PUT',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(data)
+                        });
+                    const result = await res.json();
+                    if (result.success) {
+                        document.getElementById('place-result').innerHTML = '<span style="color:#10b981">✓ Đã cập nhật: ' + editingId + '</span>';
+                        window.editingPlaceId = null;
+                    } else {
+                        document.getElementById('place-result').innerHTML = '<span style="color:#ef4444">Lỗi: ' + result.error + '</span>';
+                    }
+                } else {
+                    res = await fetch('/daoanh/api/admin/places_vps/add', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(data)
+                        });
+                    const result = await res.json();
+                    if (result.success) {
+                        document.getElementById('place-result').innerHTML = '<span style="color:#10b981">✓ Đã lưu: ' + result.place_id + '</span>';
+                    } else {
+                        document.getElementById('place-result').innerHTML = '<span style="color:#ef4444">Lỗi: ' + result.error + '</span>';
+                    }
+                }
+            } catch (err) {
+                document.getElementById('place-result').innerHTML = '<span style="color:#ef4444">Lỗi: ' + err.message + '</span>';
+            }
+        }
+
+        async function listPlaceVN() {
+            try {
+                const res = await fetch('/daoanh/api/admin/places_vps?per_page=20');
+                const data = await res.json();
+                let html = '<div style="margin-top:16px"><h3 style="color:var(--primary)">Danh sách Place VN (' + data.total + ')</h3>';
+                html += '<table style="width:100%;font-size:11px;color:#e2e8f0;border-collapse:collapse">';
+                html += '<tr style="background:#1e293b"><th style="padding:8px;border:1px solid #334155">ID</th><th style="padding:8px;border:1px solid #334155">Tên VI</th><th style="padding:8px;border:1px solid #334155">Tên Hán</th><th style="padding:8px;border:1px solid #334155">Loại</th><th style="padding:8px;border:1px solid #334155">Tỉnh</th><th style="padding:8px;border:1px solid #334155">Thao tác</th></tr>';
+                data.places.forEach(p => {
+                    html += '<tr>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + p.id + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.name_vi || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.name_zh || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.place_type || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.province || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">';
+                    html += '<button onclick="editPlaceVN(\'' + p.id + '\')" style="background:#3b82f6;color:white;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:10px;margin-right:4px">Sửa</button>';
+                    html += '<button onclick="deletePlaceVN(\'' + p.id + '\')" style="background:#ef4444;color:white;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:10px">Xóa</button>';
+                    html += '</td></tr>';
+                });
+                html += '</table></div>';
+                document.getElementById('place-result').innerHTML = html;
+            } catch (err) {
+                document.getElementById('place-result').innerHTML = '<span style="color:#ef4444">Lỗi: ' + err.message + '</span>';
+            }
+        }
+
+        async function editPlaceVN(id) {
+            try {
+                const res = await fetch('/daoanh/api/admin/places_vps?per_page=100');
+                const data = await res.json();
+                const p = data.places.find(x => x.id === id);
+                if (!p) {
+                    alert('Không tìm thấy: ' + id);
+                    return;
+                }
+                
+                document.getElementById('p-name_vi').value = p.name_vi || '';
+                document.getElementById('p-name_zh').value = p.name_zh || '';
+                document.getElementById('p-place_type').value = p.place_type || 'Chùa';
+                document.getElementById('p-province').value = p.province || '';
+                document.getElementById('p-gps_lat').value = p.gps_lat || '';
+                document.getElementById('p-gps_long').value = p.gps_long || '';
+                document.getElementById('p-address').value = p.address || '';
+                document.getElementById('p-location').value = p.location || '';
+                
+                document.getElementById('place-result').innerHTML = '<span style="color:#fbbf24">⚠️ Đang sửa: ' + id + ' - Nhấn "Lưu Place VN" để cập nhật</span>';
+                window.editingPlaceId = id;
+            } catch (err) {
+                alert('Lỗi: ' + err.message);
+            }
+        }
+
+        async function deletePlaceVN(id) {
+            if (!confirm('Xóa place ' + id + '?')) return;
+            try {
+                const res = await fetch('/daoanh/api/admin/places_vps/' + id, {method: 'DELETE'});
+                const result = await res.json();
+                if (result.success) {
+                    alert('Đã xóa: ' + id);
+                    listPlaceVN();
+                } else {
+                    alert('Lỗi: ' + result.error);
+                }
+            } catch (err) {
+                alert('Lỗi: ' + err.message);
+            }
+        }
+
+        function showPlaceVN1() {
+            const html = `
+                <div style="padding:20px">
+                    <h2 style="color:var(--primary);margin-bottom:16px">
+                        <i class="fa-solid fa-map-location-dot" style="margin-right:8px"></i>
+                        Place VN 1 - Quản lý Place với Webtrace
+                    </h2>
+                    
+                    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+                        <button onclick="showPlaceVN1()" id="tab-add-v1" style="background:var(--primary);color:white;padding:10px 16px;border:none;border-radius:4px;cursor:pointer;font-weight:600">+ Thêm mới</button>
+                        <button onclick="listPlaceVN1()" id="tab-list-v1" style="background:#334155;color:white;padding:10px 16px;border:none;border-radius:4px;cursor:pointer;font-weight:600">📋 Danh sách VPS</button>
+                    </div>
+                    
+                    <div id="form-place-v1" style="background:#0f172a;border-radius:8px;padding:20px">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tên chùa (VI) *:</label>
+                                <input type="text" id="p1-name_vi" placeholder="Ví dụ: Chùa Thiên Mục"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tên Hán:</label>
+                                <input type="text" id="p1-name_zh" placeholder="天目寺"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Loại:</label>
+                                <select id="p1-place_type" style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                    <option value="Tổ đình">Tổ đình</option>
+                                    <option value="Chùa">Chùa</option>
+                                    <option value="Di tích Quốc gia">Di tích Quốc gia</option>
+                                    <option value="Thắng cảnh">Thắng cảnh</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tỉnh/TP:</label>
+                                <input type="text" id="p1-province" placeholder="Hà Nội, TP.HCM, Đà Nẵng..."
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div style="display:flex;gap:8px;align-items:flex-end">
+                                <button type="button" onclick="webtracePlaceVN1()" style="background:#059669;color:white;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600">
+                                    🔍 Webtrace (OSM)
+                                </button>
+                                <button type="button" onclick="showMapsVN1()" style="background:#3b82f6;color:white;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600">
+                                    🗺 Maps
+                                </button>
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Vĩ độ (GPS lat):</label>
+                                <input type="number" step="0.0001" id="p1-gps_lat" placeholder="21.0285"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Kinh độ (GPS long):</label>
+                                <input type="number" step="0.0001" id="p1-gps_long" placeholder="105.8542"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Địa chỉ:</label>
+                                <input type="text" id="p1-address" placeholder="P. Quốc Tai, Q. Hoàn Kiếm, Hà Nội"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Location (Quốc gia-Tỉnh-TP-Quận-Huyện):</label>
+                                <input type="text" id="p1-location" placeholder="Việt Nam-Hà Nội-Hoàn Kiếm-Hàng Trống"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:12px">
+                            <button onclick="savePlaceVN1()" style="background:var(--primary);color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-weight:600">
+                                <i class="fa-solid fa-save" style="margin-right:8px"></i>
+                                Lưu Place VN 1
+                            </button>
+                            <button onclick="showPlaceVN1()" style="background:#334155;color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-weight:600">
+                                Clear Form
+                            </button>
+                        </div>
+                    </div>
+                    <div id="place-result-v1" style="margin-top:16px;font-size:11px;color:#94a3b8"></div>
+                </div>
+            `;
+            document.querySelector('.dashboard-content').innerHTML = html;
+        }
+
+        async function webtracePlaceVN1() {
+            const name = document.getElementById('p1-name_vi').value;
+            const province = document.getElementById('p1-province').value;
+            if (!name) {
+                alert('Vui lòng nhập tên chùa!');
+                return;
+            }
+            document.getElementById('place-result-v1').innerHTML = '<span style="color:#fbbf24">🔍 Đang tìm GPS từ OpenStreetMap...</span>';
+            fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(name + ' ' + (province || '') + ' Vietnam'), {
+                headers: {'User-Agent': 'PhatPhapOnline/1.0'}
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    const r = data[0];
+                    document.getElementById('p1-gps_lat').value = r.lat;
+                    document.getElementById('p1-gps_long').value = r.lon;
+                    document.getElementById('p1-address').value = r.display_name;
+                    document.getElementById('place-result-v1').innerHTML = '<span style="color:#10b981">✅ Tìm thấy! Lat: ' + r.lat + ', Lon: ' + r.lon + '</span>';
+                } else {
+                    document.getElementById('place-result-v1').innerHTML = '<span style="color:#ef4444">❌ Không tìm thấy!</span>';
+                }
+            })
+            .catch(err => {
+                document.getElementById('place-result-v1').innerHTML = '<span style="color:#ef4444">Lỗi: ' + err.message + '</span>';
+            });
+        }
+
+        function showMapsVN1() {
+            const lat = document.getElementById('p1-gps_lat').value;
+            const lon = document.getElementById('p1-gps_long').value;
+            if (lat && lon) {
+                window.open('https://www.google.com/maps?q=' + lat + ',' + lon, '_blank');
+            } else {
+                alert('Vui lòng nhập GPS trước hoặc click Webtrace!');
+            }
+        }
+
+        async function savePlaceVN1() {
+            const data = {
+                name_vi: document.getElementById('p1-name_vi').value,
+                name_zh: document.getElementById('p1-name_zh').value,
+                place_type: document.getElementById('p1-place_type').value,
+                province: document.getElementById('p1-province').value,
+                gps_lat: parseFloat(document.getElementById('p1-gps_lat').value) || null,
+                gps_long: parseFloat(document.getElementById('p1-gps_long').value) || null,
+                address: document.getElementById('p1-address').value,
+                location: document.getElementById('p1-location').value,
+                country: 'Vietnam'
+            };
+            if (!data.name_vi) {
+                alert('Vui lòng nhập tên chùa!');
+                return;
+            }
+            fetch('/daoanh/api/admin/places_vps/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    document.getElementById('place-result-v1').innerHTML = '<span style="color:#10b981">✓ Đã lưu: ' + result.place_id + '</span>';
+                } else {
+                    document.getElementById('place-result-v1').innerHTML = '<span style="color:#ef4444">Lỗi: ' + result.error + '</span>';
+                }
+            })
+            .catch(err => {
+                document.getElementById('place-result-v1').innerHTML = '<span style="color:#ef4444">Lỗi: ' + err.message + '</span>';
+            });
+        }
+
+        function listPlaceVN1() {
+            fetch('/daoanh/api/admin/places_vps?per_page=20')
+            .then(res => res.json())
+            .then(data => {
+                let html = '<div style="margin-top:16px"><h3 style="color:var(--primary)">Danh sách Place VN (' + data.total + ')</h3>';
+                html += '<table style="width:100%;font-size:11px;color:#e2e8f0;border-collapse:collapse">';
+                html += '<tr style="background:#1e293b"><th style="padding:8px;border:1px solid #334155">ID</th><th style="padding:8px;border:1px solid #334155">Tên VI</th><th style="padding:8px;border:1px solid #334155">Tên Hán</th><th style="padding:8px;border:1px solid #334155">Loại</th><th style="padding:8px;border:1px solid #334155">Tỉnh</th><th style="padding:8px;border:1px solid #334155">Thao tác</th></tr>';
+                data.places.forEach(p => {
+                    html += '<tr>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.id || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.name_vi || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.name_zh || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.place_type || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">' + (p.province || '') + '</td>';
+                    html += '<td style="padding:6px;border:1px solid #334155">';
+                    html += '<button onclick="deletePlaceVN(\'' + p.id + '\')" style="background:#ef4444;color:white;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:10px">Xóa</button>';
+                    html += '</td></tr>';
+                });
+                html += '</table></div>';
+                document.getElementById('place-result-v1').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('place-result-v1').innerHTML = '<span style="color:#ef4444">Lỗi: ' + err.message + '</span>';
+            });
+        }
+
+        function showPlacesDemo() {
+            const demoHtml = `
+                <div style="padding:20px">
+                    <h2 style="color:var(--primary);margin-bottom:16px">
+                        <i class="fa-solid fa-place-marker" style="margin-right:8px"></i>
+                        DILA Place Fields Demo
+                    </h2>
+                    <div style="background:#0f172a;border-radius:8px;padding:20px">
+                        <p style="color:#94a3b8;font-size:11px">Đây là form mẫu các trường Place VN:</p>
+                        <ul style="color:#94a3b8;font-size:11px;margin-top:8px">
+                            <li>name_vi - Tên tiếng Việt</li>
+                            <li>name_zh - Tên Hán</li>
+                            <li>place_type - Loại (Tổ đình/Chùa/Di tích)</li>
+                            <li>province - Tỉnh/TP</li>
+                            <li>gps_lat, gps_long - Tọa độ</li>
+                            <li>address - Địa chỉ</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.dashboard-content').innerHTML = demoHtml;
+        }
+
+        function showSearchForm() {
+            const formHtml = `
+                <div style="padding:20px">
+                    <h2 style="color:var(--primary);margin-bottom:16px">
+                        <i class="fa-solid fa-plus" style="margin-right:8px"></i>
+                        Quản lý Place VN
+                    </h2>
+                    
+                    <div style="display:flex;gap:8px;margin-bottom:16px">
+                        <button onclick="showSearchForm()" id="tab-add" style="background:var(--primary);color:white;padding:10px 16px;border:none;border-radius:4px;cursor:pointer;font-weight:600">+ Thêm mới</button>
+                    </div>
+                    
+                    <div id="form-add-container" style="background:#0f172a;border-radius:8px;padding:20px">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tên chùa (VI):</label>
+                                <input type="text" id="p-name_vi" placeholder="Ví dụ: Chùa Thiên Mục"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tên Hán:</label>
+                                <input type="text" id="p-name_zh" placeholder="天目寺"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Loại:</label>
+                                <select id="p-place_type" style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                                    <option value="Tổ đình">Tổ đình</option>
+                                    <option value="Chùa">Chùa</option>
+                                    <option value="Di tích Quốc gia">Di tích Quốc gia</option>
+                                    <option value="Thắng cảnh">Thắng cảnh</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Tỉnh/TP:</label>
+                                <input type="text" id="p-province" placeholder="Hà Nội, TP.HCM, Đà Nẵng..."
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <button type="button" onclick="webtracePlaceVN()" style="background:#059669;color:white;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600">🔍 Webtrace</button>
+                                <button type="button" onclick="showMapsVN()" style="background:#3b82f6;color:white;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;margin-left:8px">🗺 Maps</button>
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Vĩ độ (GPS lat):</label>
+                                <input type="number" step="0.0001" id="p-gps_lat" placeholder="21.0285"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Kinh độ (GPS long):</label>
+                                <input type="number" step="0.0001" id="p-gps_long" placeholder="105.8542"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Địa chỉ:</label>
+                                <input type="text" id="p-address" placeholder="P. Quốc Tai, Q. Hoàn Kiếm, Hà Nội"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                            <div style="grid-column:1/-1">
+                                <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px">Location:</label>
+                                <input type="text" id="p-location" placeholder="Việt Nam-Hà Nội-Hoàn Kiếm-Hàng Trống"
+                                    style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:4px;color:#e2e8f0">
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:12px">
+                            <button onclick="savePlaceVN()" style="background:var(--primary);color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-weight:600">Lưu Place VN</button>
+                            <button onclick="listPlaceVN()" style="background:#334155;color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-weight:600">Danh sách VPS</button>
+                        </div>
+                    </div>
+                    <div id="place-result" style="margin-top:16px;font-size:11px;color:#94a3b8"></div>
+                </div>
+            `;
+            document.querySelector('.dashboard-content').innerHTML = formHtml;
+        }
+
+        async function webtracePlaceVN() {
+            const name = document.getElementById('p-name_vi').value;
+            const province = document.getElementById('p-province').value;
+            if (!name) {
+                alert('Vui lòng nhập tên chùa!');
+                return;
+            }
+            document.getElementById('place-result').innerHTML = '<span style="color:#fbbf24">🔍 Đang tìm GPS từ OpenStreetMap...</span>';
+            fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(name + ' ' + (province || '') + ' Vietnam'), {
+                headers: {'User-Agent': 'PhatPhapOnline/1.0'}
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    const r = data[0];
+                    document.getElementById('p-gps_lat').value = r.lat;
+                    document.getElementById('p-gps_long').value = r.lon;
+                    document.getElementById('p-address').value = r.display_name;
+                    document.getElementById('place-result').innerHTML = '<span style="color:#10b981">✅ Tìm thấy! Lat: ' + r.lat + ', Lon: ' + r.lon + '</span>';
+                } else {
+                    document.getElementById('place-result').innerHTML = '<span style="color:#ef4444">❌ Không tìm thấy!</span>';
+                }
+            })
+            .catch(err => {
+                document.getElementById('place-result').innerHTML = '<span style="color:#ef4444">Lỗi: ' + err.message + '</span>';
+            });
+        }
+
+        function showMapsVN() {
+            const lat = document.getElementById('p-gps_lat').value;
+            const lon = document.getElementById('p-gps_long').value;
+            if (lat && lon) {
+                window.open('https://www.google.com/maps?q=' + lat + ',' + lon, '_blank');
+            } else {
+                alert('Vui lòng nhập GPS trước hoặc click Webtrace!');
+            }
+        }
+
+        // Event Listeners for Sidebar Buttons (with null guard)
+        const btn1 = document.getElementById('btn-showPlacesDemo');
+        if (btn1) btn1.addEventListener('click', () => showPlacesDemo());
+        const btn2 = document.getElementById('btn-showSearchForm');
+        if (btn2) btn2.addEventListener('click', () => showSearchForm());
+        const btn3 = document.getElementById('btn-showPlaceVN1');
+        if (btn3) btn3.addEventListener('click', () => showPlaceVN1());
+
+        // No onload - dashboard loads automatically from HTML
+    </script>
+</body>
+</html>

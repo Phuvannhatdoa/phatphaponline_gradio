@@ -1,0 +1,40 @@
+# Vietnam Buddhist Places - Multi-Source Import Template
+# Format: UTF-8, Pipe (|) delimiter
+# Generated: 2026-04-10
+#
+# This template supports multi-language names and owl:sameAs linking
+# to enable integration with DILA, StarDict, Wiki, and Phả Hệ sources
+#
+# id|nameVietnamese|nameJapanese|nameChinese|nameSanskrit|namePali|nameEnglish|lat|lon|country|province|placeType|dila_id|stardict_id|wikidata_id|bkg_id|description|lineage|source_note
+# ---|------------|------------|-----------|-----------|--------|----------|---|----|---------|---------|----------|--------|------------|------------|------------|------|-------------|--------|-------------
+
+VN_TEMP_0001|Chùa Thiên Mụ||Thiên Mụ慈眉寺|||Thiên Mụ Pagoda|16.4428|107.5610|VN|Thừa Thiên Huế|Temple|||Q864745||Tiến phong đầu tiên của triều Nguyễn||Temple from 1840s
+VN_TEMP_0002|Chùa Pháp Vân||Pháp Vân法雲寺|||Phap Van Temple|21.0285|105.8342|VN|Hà Nội|Temple|||Q1072115||Chùa nổi tiếng nhất thủ đô||Ancient temple
+VN_TEMP_0003|Chùa Một Cột|一柱寺|一柱寺|Ikat Column|One Column Temple|21.0285|105.8533|VN|Hà Nội|Temple|||Q857953||Kiến trúc độc đáo bằng gỗ lim||Wooden architecture
+
+# --- Sample with Japanese Temple (multi-language) ---
+# VN_JPK_0001|Kim Các Tự 金閣寺|金閣寺|金阁寺|Suvarṇadvaja|Suvaṇṇadvaja|Kinkaku-ji / Golden Pavilion|35.0394|135.7292|JP|Kyoto|Temple|Kinkaku_JP|Kinkaku_ji|Q864745||Kinkaku-ji branch of Rinzai Zen|Rinzai Zen|Founded 1397
+
+# --- Format Explanation ---
+# id           : Unique ID (VN_ prefix for Vietnam)
+# nameVietnamese: Vietnamese name (display)
+# nameJapanese : Japanese name (@ja)
+# nameChinese   : Chinese name (@zh)
+# nameSanskrit  : Sanskrit name (@sa)
+# namePali     : Pali name (@pi)  
+# nameEnglish  : English name (@en)
+# lat,lon     : GPS coordinates
+# country     : ISO country code (VN, JP, CN, etc.)
+# province    : Province/state
+# placeType   : Temple, Monastery, Stupa, Cave, Shrine
+# dila_id      : DILA authority ID (if linked)
+# stardict_id : StarDict ID (if linked)
+# wikidata_id : Wikidata ID (if linked)
+# bkg_id      : Buddhist KG ID from Phả Hệ (if linked)
+# description : Description text
+# lineage     : Dharma lineage (Lâm Tế, Tào Động, etc.)
+# source_note : Source notes
+
+# --- Multi-Source Integration ---
+# All names above point to ONE entity via owl:sameAs
+# When DILA updates → Check dila_id → Auto-link via owl:sameAs

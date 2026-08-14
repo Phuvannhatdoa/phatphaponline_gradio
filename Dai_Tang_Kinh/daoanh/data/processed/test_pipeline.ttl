@@ -1,0 +1,101 @@
+# RDF Turtle - Auto-generated
+# Generated: 2026-04-10T08:58:54.375258
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dila: <http://dila.edu.tw/ontology#>
+PREFIX pth: <http://phatphaponline.org/ontology#>
+
+<http://phatphaponline.org/entity/PL000000000001> a :Place .
+<http://phatphaponline.org/entity/PL000000000001> rdfs:label """闊悉多國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000001> rdfs:label """Khost""@eng-Latn .
+<http://phatphaponline.org/entity/PL000000000001> rdfs:label """カスタ""@jpn .
+<http://phatphaponline.org/entity/PL000000000001> :gps "67.868089,36.555275" .
+
+<http://phatphaponline.org/entity/PL000000000002> a :Place .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """興都庫什山""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """Hindu Kush""@eng-Latn .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """ヒンドゥークシュ山脈""@jpn .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """Siyah Kōh""@peo-Latn .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """大雪山""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """黑嶺""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """黑山""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """錫雅柯山""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """Paropamisoa""@eng-Latn .
+<http://phatphaponline.org/entity/PL000000000002> rdfs:label """Paropamisus""@eng-Latn .
+<http://phatphaponline.org/entity/PL000000000002> :gps "71.84389,36.24583" .
+
+<http://phatphaponline.org/entity/PL000000000003> a :Place .
+<http://phatphaponline.org/entity/PL000000000003> rdfs:label """勝境關""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000003> rdfs:label """界關""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000003> :gps "104.313295,25.64813" .
+
+<http://phatphaponline.org/entity/PL000000000005> a :Place .
+<http://phatphaponline.org/entity/PL000000000005> rdfs:label """葉護南牙""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000005> :gps "66.9,36.75" .
+
+<http://phatphaponline.org/entity/PL000000000006> a :Place .
+<http://phatphaponline.org/entity/PL000000000006> rdfs:label """厭怛國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000006> rdfs:label """厭達國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000006> rdfs:label """嚈噠國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000006> rdfs:label """挹怛國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000006> :gps "66.901385,36.766775" .
+
+<http://phatphaponline.org/entity/PL000000000008> a :Place .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Bāxtriš""@peo-Latn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Alexandria""@ell-Latn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Baktra (Bactria之對音)""@und-Zyyy .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Bactra (Bactria之對音)""@san-Latn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Ελληνικό βασίλειο της Βακτριανής""@ell-Grek .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """バルフ""@jpn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Greco-Bactrian Kingdom""@eng-Latn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """縛喝國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """大汗都督府""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """縛渴羅""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Balχ (Вαχδiš之轉化)""@und-Zyyy .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Bahl (Вαχδiš之轉化)""@und-Zyyy .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Bāχ1 (Вαχδiš之轉化)""@und-Zyyy .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Вαχδiš (瑣羅亞斯德教古經Avesta提及此城之稱)""@und-Zyyy .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Вαχδί (瑣羅亞斯德教古經Avesta提及此城之稱)""@und-Zyyy .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """希臘-巴克特里亞王國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Bactriana""@ell-Latn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """西夏""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """活路城""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Balkh""@eng-Latn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Bactria""@ell-Latn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """Zariaspa""@ell-Latn .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """縛叱城""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """薄提城""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """小王舍城""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """薄佉羅國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """大夏""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> rdfs:label """藍氏""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000008> :gps "66.901385,36.766775" .
+
+<http://phatphaponline.org/entity/PL000000000009> a :Place .
+<http://phatphaponline.org/entity/PL000000000009> rdfs:label """藍氏城""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000009> :gps "67.0556,36.8752" .
+
+<http://phatphaponline.org/entity/PL000000000010> a :Place .
+<http://phatphaponline.org/entity/PL000000000010> rdfs:label """波利城""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000010> rdfs:label """Bhallika""@san-Latn .
+<http://phatphaponline.org/entity/PL000000000010> rdfs:label """Bhalluka""@pli-Latn .
+<http://phatphaponline.org/entity/PL000000000010> :gps "66.814548,36.98825" .
+
+<http://phatphaponline.org/entity/PL000000000011> a :Place .
+<http://phatphaponline.org/entity/PL000000000011> rdfs:label """縛伽浪國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000011> rdfs:label """Baghlan""@eng-Latn .
+<http://phatphaponline.org/entity/PL000000000011> rdfs:label """バーグラーン""@jpn .
+<http://phatphaponline.org/entity/PL000000000011> :gps "68.688956,36.128116" .
+
+<http://phatphaponline.org/entity/PL000000000012> a :Place .
+<http://phatphaponline.org/entity/PL000000000012> rdfs:label """忽懍國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000012> rdfs:label """クルム""@jpn .
+<http://phatphaponline.org/entity/PL000000000012> rdfs:label """怱懍國""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000012> rdfs:label """拂㨆""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000012> rdfs:label """忽懍""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000012> rdfs:label """拂林""@zho-Hant .
+<http://phatphaponline.org/entity/PL000000000012> :gps "67.686746,36.69163" .
+

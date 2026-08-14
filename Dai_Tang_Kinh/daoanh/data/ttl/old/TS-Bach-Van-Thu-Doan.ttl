@@ -1,0 +1,78 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<ex:monk/bach_van_thu_doan> a bkg:Monk ;
+    rdfs:label "Bạch Vân Thủ Đoan"@vi ;
+    crm:P1_is_identified_by [ a crm:E41_Appellation ;
+            rdfs:label "白雲守端"@zh ;
+            bkg:hasAppellationType "bkg:ChineseName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Hakuun Shutan"@ja ;
+            bkg:hasAppellationType "bkg:JapaneseName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Thiền sư"@vi ;
+            bkg:hasAppellationType "bkg:DharmaTitle" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Bạch Vân Thủ Đoan"@vi ;
+            bkg:hasAppellationType "bkg:DharmaName" ] ;
+    bkg:associatedPlaces <ex:place/bach_van_son_hai_hoi_thien_vien>,
+        <ex:place/giang_chau_giang_tay>,
+        <ex:place/hung_hoa_thien_vien>,
+        <ex:place/long_mon_son_can_minh_thien_vien>,
+        <ex:place/phap_hoa_son_chung_dao_thien_vien>,
+        <ex:place/thu_chau_an_huy>,
+        <ex:place/thua_thien_thien_vien>,
+        <ex:place/vien_thong_sung_thang_thien_vien> ;
+    bkg:authoredWorks <ex:work/bach_van_doan_hoa_thuong_ngu_yeu>,
+        <ex:work/bach_van_doan_hoa_thuong_quang_luc>,
+        <ex:work/bach_van_thu_doan_thien_su_ngu_luc> ;
+    bkg:biographicalNote "Bạch Vân Thủ Đoan (白雲守端, Hakuun Shutan, 1025-1072): vị tăng của Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc, xuất thân Hành Dương (衡陽, Tỉnh Hồ Nam), họ Châu (周). Ông theo xuất gia thọ giới với Trà Lăng Nhân Úc (茶陵仁郁), sau đó đi tham học khắp các nơi, kế đến tham yết Dương Kì Phương Hội (楊岐方會) và cuối cùng kế thừa dòng pháp của vị nầy. Từ đó, ông bắt đầu khai đường thuyết pháp tại các nơi như Thừa Thiên Thiền Viện (承天禪院), Viên Thông Sùng Thắng Thiền Viện (圓通崇勝禪院) ở Giang Châu (江州, Tỉnh Giang Tây), Pháp Hoa Sơn Chứng Đạo Thiền Viện (法華山証道禪院), Long Môn Sơn Càn Minh Thiền Viện (龍門山乾明), Hưng Hóa Thiền Viện (興化禪院), Bạch Vân Sơn Hải Hội Thiền Viện (白雲山海會禪院) ở Thư Châu (舒州, Tỉnh An Huy). Đến năm thứ 5 (1072) niên hiệu Hy Ninh (熙寧), ông thị tịch, hưởng thọ 48 tuổi. Nhóm Ngũ Tổ Pháp Diễn (五祖法演) môn nhân của ông biên tập bộ Bạch Vân Thủ Đoan Thiền Sư Ngữ Lục (白雲守端禪師語錄) 2 quyển, Bạch Vân Đoan Hòa Thượng Quảng Lục (白雲端和尚廣錄) 4 quyển; ngoài ra còn có tác phẩm Bạch Vân Đoan Hòa Thượng Ngữ Yếu (白雲端和尚語要)."@vi ;
+    bkg:birthEvent <ex:monk/bach_van_thu_doan_birth_event> ;
+    bkg:deathEvent <ex:monk/bach_van_thu_doan_death_event> ;
+    bkg:dharmaLineageName "Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc" ;
+    bkg:gender "bkg:Male" ;
+    bkg:hasRelatedFigure <ex:person/ngu_to_phap_dien> ;
+    bkg:hasTeacher <ex:monk/duong_ki_phuong_hoi>,
+        <ex:monk/tra_lang_nhan_uc> .
+
+<ex:monk/bach_van_thu_doan_birth_event> a crm:E67_Birth ;
+    crm:P4_has_time-span "1025"^^<xsd:gYear> .
+
+<ex:monk/bach_van_thu_doan_death_event> a crm:E69_Death ;
+    crm:P4_has_time-span "1072"^^<xsd:gYear> .
+
+<ex:monk/duong_ki_phuong_hoi> rdfs:label "Dương Kì Phương Hội"@vi .
+
+<ex:monk/tra_lang_nhan_uc> rdfs:label "Trà Lăng Nhân Úc"@vi .
+
+<ex:person/ngu_to_phap_dien> rdfs:label "Ngũ Tổ Pháp Diễn"@vi .
+
+<ex:place/bach_van_son_hai_hoi_thien_vien> rdfs:label "Bạch Vân Sơn Hải Hội Thiền Viện"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/giang_chau_giang_tay> rdfs:label "Giang Châu, Tỉnh Giang Tây"@vi .
+
+<ex:place/hung_hoa_thien_vien> rdfs:label "Hưng Hóa Thiền Viện"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/long_mon_son_can_minh_thien_vien> rdfs:label "Long Môn Sơn Càn Minh Thiền Viện"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/phap_hoa_son_chung_dao_thien_vien> rdfs:label "Pháp Hoa Sơn Chứng Đạo Thiền Viện"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/thu_chau_an_huy> rdfs:label "Thư Châu, Tỉnh An Huy"@vi .
+
+<ex:place/thua_thien_thien_vien> rdfs:label "Thừa Thiên Thiền Viện"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/vien_thong_sung_thang_thien_vien> rdfs:label "Viên Thông Sùng Thắng Thiền Viện"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:work/bach_van_doan_hoa_thuong_ngu_yeu> rdfs:label "Bạch Vân Đoan Hòa Thượng Ngữ Yếu"@vi .
+
+<ex:work/bach_van_doan_hoa_thuong_quang_luc> rdfs:label "Bạch Vân Đoan Hòa Thượng Quảng Lục"@vi .
+
+<ex:work/bach_van_thu_doan_thien_su_ngu_luc> rdfs:label "Bạch Vân Thủ Đoan Thiền Sư Ngữ Lục"@vi .
+

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search All — Đạo Ảnh DILA</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg-dark: #0a0c10; --card-dark: #11151c; --accent: #f59e0b; --text-main: #e2e8f0; }
+  body { margin:0; padding:0; background: var(--bg-dark); color: var(--text-main); font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .inter { font-family: 'Inter', sans-serif; }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  ::selection { background: #f59e0b30; color: var(--accent); }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+  input:focus { outline: none; box-shadow: 0 0 0 2px rgba(245,158,11,0.3); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+(function() {
+  var session = localStorage.getItem('admin_session');
+  if (!session) { window.location.href = '/daoanh/login.html'; return; }
+  fetch('/daoanh/api/login/check', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({session_token: session})
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    if (!data.valid) { localStorage.removeItem('admin_session'); window.location.href = '/daoanh/login.html'; }
+  }).catch(function() {});
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+function badgeColor(cate) {
+  if (!cate || cate === 'admin_place') return 'bg-blue-500/20 text-blue-400';
+  if (cate === 'temple_site') return 'bg-emerald-500/20 text-emerald-400';
+  if (cate === 'dynasty_region') return 'bg-purple-500/20 text-purple-400';
+  if (cate === 'mountain') return 'bg-cyan-500/20 text-cyan-400';
+  if (cate === 'river_lake') return 'bg-sky-500/20 text-sky-400';
+  if (cate === 'other') return 'bg-slate-600/30 text-slate-400';
+  // fallback: check raw note_category
+  if (cate.includes('寺廟') || cate.includes('佛塔') || cate.includes('佛教文化')) return 'bg-emerald-500/20 text-emerald-400';
+  if (cate.includes('廣大之陸上人文地理區域')) return 'bg-purple-500/20 text-purple-400';
+  if (cate.includes('山峰') || cate.includes('山脈')) return 'bg-cyan-500/20 text-cyan-400';
+  if (cate.includes('河流') || cate.includes('湖泊')) return 'bg-sky-500/20 text-sky-400';
+  return 'bg-slate-600/30 text-slate-400';
+}
+
+function cateLabel(cate) {
+  const map = { admin_place: '🏛️ Địa danh hành chính', temple_site: '⛩️ Đạo tràng / Chùa', dynasty_region: '🏯 Triều đại / Vùng rộng', mountain: '⛰️ Núi / Sơn', river_lake: '🌊 Sông / Thủy vực', other: '🏝️ Đảo / Biển / Khác' };
+  return map[cate] || cate || '—';
+}
+
+function App() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (!query.trim()) { setResults([]); return; }
+    setLoading(true);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(async () => {
+      try {
+        const res = await fetch('/daoanh/api/admin/search_all?q=' + encodeURIComponent(query.trim()));
+        const data = await res.json();
+        setResults(data.places || []);
+      } catch (e) { setResults([]); }
+      setLoading(false);
+    }, 300);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [query]);
+
+  return (
+    <div className="min-h-screen bg-[#0a0c10] p-6 md:p-10" style={{fontFamily:"'Inter',sans-serif"}}>
+      <div className="max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-2xl font-black tracking-tight text-white mono">
+              <span className="text-amber-500">🔍</span> Search All
+            </h1>
+            <p className="text-xs text-slate-500 mt-1 mono">Toàn bộ DILA — không filter category</p>
+          </div>
+          <a href="/daoanh/admin/" className="text-xs text-slate-500 hover:text-amber-500 transition-colors mono underline underline-offset-4">
+            placevn →
+          </a>
+        </div>
+
+        {/* Search input */}
+        <div className="relative mb-6">
+          <input
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Nhập ID hoặc tên (zh/vi)…"
+            className="w-full bg-[#11151c] border border-slate-800 rounded-2xl px-5 py-4 pl-12 text-sm text-white placeholder-slate-600 mono transition-all"
+          />
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 text-lg">🔍</span>
+          {query && (
+            <button
+              onClick={() => setQuery('')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-white text-lg transition-colors"
+            >✕</button>
+          )}
+        </div>
+
+        {/* Status */}
+        {loading && <p className="text-xs text-slate-600 mono mb-4 animate-pulse">đang tìm…</p>}
+        {!loading && query.trim() && (
+          <p className="text-xs text-slate-600 mono mb-4">{results.length} kết quả</p>
+        )}
+
+        {/* Results */}
+        <div className="space-y-3">
+          {results.map((p, i) => (
+            <div key={p.id + '-' + i} className="bg-[#11151c]/80 border border-slate-800/50 rounded-2xl p-5 fade-in hover:border-slate-700/50 transition-all" style={{animationDelay: (i * 30) + 'ms'}}>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  {/* ID */}
+                  <div className="text-[10px] text-amber-500/60 mono font-bold mb-1 tracking-wider">{p.id}</div>
+                  {/* Names */}
+                  <div className="flex items-baseline gap-3 flex-wrap">
+                    <span className="text-lg font-bold text-white">{p.name_vi || '—'}</span>
+                    {p.name_zh && <span className="text-sm text-slate-400">{p.name_zh}</span>}
+                  </div>
+                  {/* District */}
+                  {p.district && (
+                    <div className="text-[11px] text-slate-600 mono mt-1 truncate">{p.district}</div>
+                  )}
+                </div>
+                <div className="flex flex-col items-end gap-2 shrink-0">
+                  {/* cate_internal badge */}
+                  <span className={'text-[10px] font-bold px-2.5 py-1 rounded-full mono ' + badgeColor(p.cate_internal || p.note_category)}>
+                    {cateLabel(p.cate_internal)}
+                  </span>
+                  {/* Action button */}
+                  <a
+                    href={'/daoanh/admin/?id=' + p.id}
+                    className="text-[10px] font-black uppercase tracking-wider text-amber-500/70 hover:text-amber-500 transition-colors mono"
+                  >
+                    Mở trong placevn →
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Empty state */}
+        {!loading && query.trim() && results.length === 0 && (
+          <div className="text-center py-16">
+            <div className="text-4xl mb-4 opacity-20">🔍</div>
+            <p className="text-slate-600 text-sm mono">Không tìm thấy kết quả</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

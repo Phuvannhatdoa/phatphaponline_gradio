@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Ảnh - Dashboard Process Tracker (docs ↔ code)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&display=swap');
+
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-page: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --info: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .title-row { display: flex; align-items: center; gap: 12px; }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--primary); color: black;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .title-text h1 { font-size: 16px; font-weight: 900; }
+        .title-text p { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; }
+
+        .header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .timestamp { font-size: 12px; color: var(--text-muted); }
+        .btn {
+            background: var(--primary); color: #020617;
+            border: none; border-radius: 8px;
+            padding: 10px 18px; font-weight: 700; font-size: 13px;
+            cursor: pointer; font-family: inherit;
+        }
+        .btn:hover { background: var(--primary-hover); }
+        .btn:disabled { opacity: 0.5; cursor: wait; }
+        .btn-secondary {
+            background: transparent; color: var(--text-muted);
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: 9px 16px; font-weight: 600; font-size: 12px;
+            cursor: pointer; font-family: inherit;
+        }
+        .btn-secondary:hover { color: var(--text-main); border-color: var(--text-muted); }
+
+        .summary-bar {
+            display: flex; gap: 16px; flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .summary-card {
+            background: var(--bg-card); border: 1px solid #1e293b;
+            border-radius: 12px; padding: 16px 20px; flex: 1; min-width: 160px;
+        }
+        .summary-card .value { font-size: 26px; font-weight: 900; }
+        .summary-card .label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        .section-title {
+            font-size: 13px; font-weight: 900; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1.5px;
+            margin: 24px 0 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
+        }
+        .card {
+            background: var(--bg-card); border: 1px solid #1e293b;
+            border-radius: 12px; padding: 16px;
+        }
+        .card-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+        .card-header h3 { font-size: 14px; font-weight: 700; font-family: 'Noto Serif TC', serif; }
+        .badge { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge.done { background: rgba(16,185,129,0.15); color: #34d399; }
+        .badge.in_progress { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        .badge.pending { background: rgba(148,163,184,0.15); color: #94a3b8; }
+
+        .progress-track { background: #1e293b; border-radius: 8px; height: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 8px; transition: width 0.4s ease; }
+        .progress-fill.done { background: var(--success); }
+        .progress-fill.in_progress { background: var(--primary); }
+        .progress-fill.pending { background: #475569; }
+
+        .card-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+        .card-meta .pct { font-size: 18px; font-weight: 900; }
+        .card-meta .detail { font-size: 11px; color: var(--text-muted); }
+
+        .warnings { margin-top: 10px; }
+        .warning {
+            font-size: 11px; color: #fca5a5;
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 6px; padding: 6px 8px; margin-top: 6px;
+        }
+        .route-chips { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px; }
+        .chip {
+            font-size: 10px; font-family: monospace;
+            background: #1e293b; border: 1px solid var(--border);
+            border-radius: 4px; padding: 2px 6px; color: #cbd5e1;
+        }
+
+        .table-wrap { overflow-x: auto; border: 1px solid #1e293b; border-radius: 12px; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid #1e293b; }
+        th { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); background: var(--bg-card); }
+        td.mono { font-family: monospace; font-size: 11px; }
+        .ok { color: #34d399; font-weight: 800; }
+        .no { color: #f87171; font-weight: 800; }
+
+        .footer { margin-top: 24px; font-size: 11px; color: var(--text-muted); text-align: center; }
+
+        .spinner { display: none; color: var(--primary); font-size: 14px; }
+        .loading .spinner { display: inline-block; }
+        #errorBox {
+            display: none;
+            background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4);
+            color: #fca5a5; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px;
+        }
+
+        /* ---- Task Board (chuẩn Claude Code: tasks/T*.md) ---- */
+        .task-kpi { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+        .task-kpi .kpi {
+            flex: 1 1 130px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px;
+        }
+        .task-kpi .kpi .v { font-size: 24px; font-weight: 700; }
+        .task-kpi .kpi .l { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+        .task-kpi .kpi.done .v { color: #22c55e; }
+        .task-kpi .kpi.blocked .v { color: #ef4444; }
+        .task-kpi .kpi.progress .v { color: var(--primary); }
+        .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .board-col {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px; min-height: 120px;
+        }
+        .board-col h4 {
+            margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .board-col h4 .cnt {
+            background: rgba(255,255,255,0.08); border-radius: 999px; padding: 2px 8px; font-size: 11px;
+        }
+        .board-col.blocked { border-color: rgba(239,68,68,0.5); }
+        .board-col.done h4 .cnt { color: #22c55e; }
+        .task-card {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px 12px; margin-bottom: 10px; font-size: 12px;
+        }
+        .task-card .t-title { font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 8px; }
+        .task-card .t-id { font-family: var(--mono); font-size: 10px; color: var(--primary); white-space: nowrap; }
+        .task-card .t-meta { color: var(--text-muted); font-size: 11px; line-height: 1.6; }
+        .task-card .t-meta b { color: var(--text); font-weight: 600; }
+        .task-card.blocked { border-color: rgba(239,68,68,0.6); }
+        .prio { font-size: 10px; border-radius: 999px; padding: 1px 7px; white-space: nowrap; }
+        .prio.high { background: rgba(239,68,68,0.15); color: #fca5a5; }
+        .prio.medium { background: rgba(217,119,6,0.15); color: #fcd34d; }
+        .prio.low { background: rgba(100,116,139,0.2); color: #94a3b8; }
+        .criteria-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 99px; margin-top: 8px; overflow: hidden; }
+        .criteria-bar .fill { height: 100%; background: #22c55e; }
+        .empty-col { color: var(--text-muted); font-size: 11px; text-align: center; padding: 16px 0; }
+        @media (max-width: 1100px) { .board { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 620px) { .board { grid-template-columns: 1fr; } }
+
+        /* ---- Tasks trong module card ---- */
+        .mod-tasks { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+        .mod-tasks .mod-tasks-title { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 6px; }
+        .mod-task {
+            border: 1px solid var(--border); border-radius: 8px; padding: 7px 9px; margin-bottom: 6px;
+            background: rgba(255,255,255,0.02); font-size: 11px;
+        }
+        .mod-task.blocked { border-color: rgba(239,68,68,0.5); background: rgba(239,68,68,0.06); }
+        .mod-task .mt-id { font-family: var(--mono); color: var(--primary); font-size: 10px; margin-right: 6px; }
+        .mod-task .mt-title { font-weight: 600; }
+        .mod-task .mt-desc { color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+        .mod-task .mt-prio { font-size: 9px; border-radius: 999px; padding: 0 6px; margin-left: 6px; }
+        .mt-prio.high { background: rgba(239,68,68,0.15); color: #fca5a5; }
+        .mt-prio.medium { background: rgba(217,119,6,0.15); color: #fcd34d; }
+        .mt-prio.low { background: rgba(100,116,139,0.2); color: #94a3b8; }
+        .mod-task .mt-none { color: var(--text-muted); font-size: 11px; font-style: italic; }
+
+        /* ---- Git Timeline ---- */
+        .tl-wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+        @media (max-width: 900px) { .tl-wrap { grid-template-columns: 1fr; } }
+        .tl-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+        .tl-card h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 12px; }
+        .tl-bars { display: flex; align-items: flex-end; gap: 6px; height: 110px; padding: 0 2px; }
+        .tl-bar { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; min-width: 0; }
+        .tl-bar .col { width: 100%; background: var(--primary); border-radius: 4px 4px 0 0; min-height: 2px; opacity: .9; }
+        .tl-bar .col:hover { opacity: 1; }
+        .tl-bar .lbl { font-size: 9px; color: var(--text-muted); margin-top: 4px; white-space: nowrap; transform: rotate(-40deg); transform-origin: top left; }
+        .tl-bar .cnt { font-size: 10px; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
+        .tl-mod { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; font-size: 11px; }
+        .tl-mod .mname { width: 150px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tl-mod .mbar { flex: 1; background: rgba(255,255,255,0.06); border-radius: 99px; height: 8px; overflow: hidden; }
+        .tl-mod .mbar .fill { height: 100%; background: linear-gradient(90deg, var(--primary), #f59e0b); border-radius: 99px; }
+        .tl-mod .mcnt { width: 34px; text-align: right; color: var(--text-muted); font-size: 10px; }
+        .tl-stats { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+        .tl-stat { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 11px; }
+        .tl-stat b { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div id="errorBox"></div>
+
+<div class="header">
+    <div class="title-row">
+        <div class="logo-icon"><i class="fas fa-dharmachakra"></i></div>
+        <div class="title-text">
+            <h1>Dashboard Process Tracker</h1>
+            <p>Đối chiếu docs ↔ code · tính % theo code</p>
+        </div>
+    </div>
+    <div class="header-actions">
+        <span class="timestamp" id="timestamp">—</span>
+        <button class="btn" id="refreshBtn" onclick="refreshData(true)"><i class="fas fa-sync-alt"></i> Refresh</button>
+    </div>
+</div>
+
+<div class="summary-bar">
+    <div class="summary-card">
+        <div class="value" id="totalProgress">—%</div>
+        <div class="label">Tổng tiến độ trung bình</div>
+    </div>
+    <div class="summary-card">
+        <div class="value" id="modCount">—</div>
+        <div class="label">Module đối chiếu</div>
+    </div>
+    <div class="summary-card">
+        <div class="value" id="routeTotal">—</div>
+        <div class="label">Route thật trong code</div>
+    </div>
+    <div class="summary-card">
+        <div class="value" id="scriptTotal">—</div>
+        <div class="label">Script Python thật</div>
+    </div>
+    <div class="summary-card">
+        <div class="value" id="endpointCount">—</div>
+        <div class="label">Endpoint đối chiếu</div>
+    </div>
+</div>
+
+<div class="section-title">Tiến độ theo module</div>
+<div class="grid" id="moduleGrid">
+    <div style="color: var(--text-muted); font-size: 13px;">Đang tải dữ liệu…</div>
+</div>
+
+<div class="section-title">Task Board — chức năng cần dev</div>
+<div class="task-kpi">
+    <div class="kpi progress"><div class="v" id="taskDonePct">—%</div><div class="l">Task hoàn thành</div></div>
+    <div class="kpi"><div class="v" id="taskTotal">—</div><div class="l">Tổng task</div></div>
+    <div class="kpi progress"><div class="v" id="taskInProgress">—</div><div class="l">Đang làm</div></div>
+    <div class="kpi blocked"><div class="v" id="taskBlocked">—</div><div class="l">Blocked (cần xử lý)</div></div>
+</div>
+<div class="board" id="taskBoard">
+    <div style="color: var(--text-muted); font-size: 13px;">Đang tải dữ liệu…</div>
+</div>
+
+<div class="section-title">Git Timeline — hoạt động dev theo thời gian (từ git log)</div>
+<div class="tl-wrap" id="gitTimeline">
+    <div style="color: var(--text-muted); font-size: 13px;">Đang tải dữ liệu…</div>
+</div>
+
+<div class="section-title">Đối chiếu endpoints (docs claim vs code thật)</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Endpoint</th>
+                <th>Docs claim</th>
+                <th>Code thật</th>
+                <th>Kết quả</th>
+            </tr>
+        </thead>
+        <tbody id="endpointTable">
+            <tr><td colspan="4" style="color: var(--text-muted);">Đang tải…</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="footer">
+    Xem plan: <code>dashboard/plan.md</code> · tasks: <code>dashboard/tasks.md</code> · handoff: <code>dashboard/handoff.md</code>
+    <br>Task Board đọc từ <code>tasks/T*.md</code> (chuẩn Claude Code) · Dữ liệu sinh tự động bởi <code>scripts/build_progress_data.py</code> (không hardcode).
+</div>
+
+<script>
+    const API_URL = '/daoanh/api/progress/dashboard';
+
+    async function fetchData(regenerate) {
+        showLoading(true);
+        const url = regenerate ? API_URL + '?regenerate=1' : API_URL;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 60000);
+        try {
+            const res = await fetch(url, { signal: controller.signal });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            if (data.success === false) throw new Error(data.error || 'Lỗi API');
+            render(data);
+            hideError();
+        } catch (err) {
+            showError('Không tải được dữ liệu: ' + err.message + (err.name === 'AbortError' ? ' (timeout 60s)' : ''));
+        } finally {
+            clearTimeout(timer);
+            showLoading(false);
+        }
+    }
+
+    function render(data) {
+        document.getElementById('totalProgress').textContent = (data.total_progress ?? 0) + '%';
+        document.getElementById('modCount').textContent = (data.modules || []).length;
+        document.getElementById('routeTotal').textContent = data.meta?.route_total ?? '—';
+        document.getElementById('scriptTotal').textContent = data.meta?.script_total ?? '—';
+        document.getElementById('endpointCount').textContent = (data.endpoints_compare || []).length;
+        document.getElementById('timestamp').textContent = 'Cập nhật: ' + (data.generated_at || '—').replace('T', ' ');
+
+        renderTaskBoard(data);
+        renderGitTimeline(data);
+
+        // Module cards
+        const grid = document.getElementById('moduleGrid');
+        grid.innerHTML = '';
+        (data.modules || []).forEach(m => {
+            const statusClass = m.doc_status || 'pending';
+            const fillClass = m.progress >= 100 ? 'done' : (m.progress > 0 ? 'in_progress' : 'pending');
+            const statusLabel = statusClass === 'done' ? 'Hoàn thành' : (statusClass === 'in_progress' ? 'Đang triển khai' : 'Chưa bắt đầu');
+
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const warnings = (m.warnings || []).map(w =>
+                '<div class="warning">⚠ ' + w.replace(/</g, '&lt;') + '</div>'
+            ).join('');
+
+            const chips = (m.routes || []).slice(0, 12).map(r =>
+                '<span class="chip">' + r.replace(/</g, '&lt;') + '</span>'
+            ).join('');
+
+            // Task chưa done thuộc module này (chuẩn tasks/T*.md)
+            const modTasks = (data.tasks || []).filter(t => t.module === m.name && t.status !== 'done');
+            let modTasksHtml = '<div class="mod-tasks"><div class="mod-tasks-title">Tasks chưa Done · ' + modTasks.length + '</div>';
+            if (!modTasks.length) {
+                modTasksHtml += '<div class="mod-task"><span class="mt-none">Không có task đang mở cho module này.</span></div>';
+            } else {
+                modTasks.forEach(t => {
+                    const prioCls = t.priority === 'high' ? 'high' : (t.priority === 'medium' ? 'medium' : 'low');
+                    const prioLabel = t.priority === 'high' ? 'ưu tiên cao' : (t.priority === 'medium' ? 'trung bình' : 'thấp');
+                    const stLabel = t.status === 'blocked' ? ' (blocked!)' : (t.status === 'in_progress' ? ' (đang làm)' : '');
+                    modTasksHtml +=
+                        '<div class="mod-task' + (t.status === 'blocked' ? ' blocked' : '') + '">' +
+                            '<span class="mt-id">' + t.id + '</span>' +
+                            '<span class="mt-title">' + t.title.replace(/</g, '&lt;') + '</span>' +
+                            '<span class="mt-prio ' + prioCls + '">' + prioLabel + '</span>' +
+                            '<span style="font-size:10px;color:var(--text-muted);margin-left:6px;">' + stLabel + '</span>' +
+                            (t.desc ? '<div class="mt-desc">' + t.desc.replace(/</g, '&lt;') + '</div>' : '') +
+                        '</div>';
+                });
+            }
+            modTasksHtml += '</div>';
+
+            card.innerHTML =
+                '<div class="card-header">' +
+                    '<h3>' + m.name + '</h3>' +
+                    '<span class="badge ' + statusClass + '">' + statusLabel + '</span>' +
+                '</div>' +
+                '<div class="progress-track"><div class="progress-fill ' + fillClass + '" style="width:' + m.progress + '%"></div></div>' +
+                '<div class="card-meta">' +
+                    '<span class="pct">' + m.progress + '%</span>' +
+                    '<span class="detail">' + m.code_found + '/' + m.code_claimed + ' claim tìm thấy trong code</span>' +
+                '</div>' +
+                (warnings ? '<div class="warnings">' + warnings + '</div>' : '') +
+                modTasksHtml +
+                (chips ? '<div class="route-chips">' + chips + '</div>' : '');
+            grid.appendChild(card);
+        });
+        if (!(data.modules || []).length) {
+            grid.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">Không có dữ liệu module.</div>';
+        }
+
+        // Endpoint table
+        const tbody = document.getElementById('endpointTable');
+        tbody.innerHTML = '';
+        const eps = data.endpoints_compare || [];
+        if (!eps.length) {
+            tbody.innerHTML = '<tr><td colspan="4" style="color: var(--text-muted);">Không có claim nào.</td></tr>';
+        }
+        eps.forEach(e => {
+            const ok = !!e.code_found;
+            const tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td class="mono">' + e.path.replace(/</g, '&lt;') + '</td>' +
+                '<td>' + (e.docs_claim ? '<span class="ok">có</span>' : '<span class="no">không</span>') + '</td>' +
+                '<td>' + (ok ? '<span class="ok">có</span>' : '<span class="no">không</span>') + '</td>' +
+                '<td>' + (ok ? '<span class="ok">✓ khớp</span>' : '<span class="no">✗ thiếu (docs claim nhưng chưa có code)</span>') + '</td>';
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderGitTimeline(data) {
+        const wrap = document.getElementById('gitTimeline');
+        const g = data.git_history;
+        if (!g || !g.total) {
+            wrap.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">Không có git history (không phải git repo?).</div>';
+            return;
+        }
+        wrap.innerHTML = '';
+
+        // Bar chart theo tháng
+        const months = g.by_month || [];
+        const maxCommits = Math.max(1, ...months.map(m => m.commits));
+        const bars = months.map(m =>
+            '<div class="tl-bar" title="' + m.month + ': ' + m.commits + ' commits">' +
+                '<span class="cnt">' + m.commits + '</span>' +
+                '<div class="col" style="height:' + (Math.max(4, Math.round(m.commits / maxCommits * 100))) + '%"></div>' +
+                '<span class="lbl">' + m.month.replace('2026-', '').replace('2025-', '') + '</span>' +
+            '</div>'
+        ).join('');
+
+        // Commits theo module
+        const byMod = g.by_module || {};
+        const modEntries = Object.entries(byMod).sort((a, b) => b[1] - a[1]);
+        const maxMod = Math.max(1, ...modEntries.map(e => e[1]));
+        const modRows = modEntries.map(([name, count]) =>
+            '<div class="tl-mod">' +
+                '<span class="mname" title="' + name.replace(/</g, '&lt;') + '">' + name.replace(/</g, '&lt;') + '</span>' +
+                '<div class="mbar"><div class="fill" style="width:' + Math.round(count / maxMod * 100) + '%"></div></div>' +
+                '<span class="mcnt">' + count + '</span>' +
+            '</div>'
+        ).join('');
+
+        wrap.innerHTML =
+            '<div class="tl-card">' +
+                '<h4>Commits theo tháng</h4>' +
+                '<div class="tl-bars">' + bars + '</div>' +
+            '</div>' +
+            '<div class="tl-card">' +
+                '<h4>Commits theo module</h4>' +
+                modRows +
+                '<div class="tl-stats">' +
+                    '<span class="tl-stat"><b>' + g.total + '</b> commits</span>' +
+                    '<span class="tl-stat">Từ <b>' + (g.first_date || '—') + '</b></span>' +
+                    '<span class="tl-stat">Đến <b>' + (g.last_date || '—') + '</b></span>' +
+                    (g.unmatched ? '<span class="tl-stat">Không phân loại: <b>' + g.unmatched + '</b></span>' : '') +
+                '</div>' +
+            '</div>';
+    }
+
+    function renderTaskBoard(data) {
+        const tm = data.task_meta || {};
+        document.getElementById('taskDonePct').textContent = (tm.done_percent ?? 0) + '%';
+        document.getElementById('taskTotal').textContent = tm.total ?? 0;
+        document.getElementById('taskInProgress').textContent = tm.in_progress ?? 0;
+        document.getElementById('taskBlocked').textContent = tm.blocked ?? 0;
+
+        const board = document.getElementById('taskBoard');
+        board.innerHTML = '';
+        const tasks = data.tasks || [];
+        if (!tasks.length) {
+            board.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">Chưa có task nào. Tạo file trong <code>tasks/T&lt;id&gt;-&lt;tên&gt;.md</code> (xem <code>tasks/README.md</code>).</div>';
+            return;
+        }
+
+        const cols = [
+            { key: 'pending', label: 'Pending', cls: '' },
+            { key: 'in_progress', label: 'In-progress', cls: '' },
+            { key: 'blocked', label: 'Blocked', cls: 'blocked' },
+            { key: 'done', label: 'Done', cls: 'done' }
+        ];
+        cols.forEach(col => {
+            const list = tasks.filter(t => t.status === col.key);
+            const colEl = document.createElement('div');
+            colEl.className = 'board-col ' + col.cls;
+            colEl.innerHTML = '<h4>' + col.label + '<span class="cnt">' + list.length + '</span></h4>';
+            if (!list.length) {
+                colEl.innerHTML += '<div class="empty-col">—</div>';
+            }
+            list.forEach(t => {
+                const prioCls = t.priority === 'high' ? 'high' : (t.priority === 'medium' ? 'medium' : 'low');
+                const criteria = t.criteria_total ? (t.criteria_done / t.criteria_total * 100) : 0;
+                const depends = (t.depends_on || '[]').replace(/[[\]"' ]/g, '');
+                let card = document.createElement('div');
+                card.className = 'task-card' + (t.status === 'blocked' ? ' blocked' : '');
+                card.innerHTML =
+                    '<div class="t-title"><span>' + t.title.replace(/</g, '&lt;') + '</span><span class="t-id">' + t.id + '</span></div>' +
+                    '<div class="t-meta">' +
+                        '<b>' + t.module.replace(/</g, '&lt;') + '</b> · ' + t.created +
+                        (depends ? '<br>Phụ thuộc: <b>' + depends + '</b>' : '') +
+                        (t.done_when ? '<br>Done khi: <span title="' + t.done_when.replace(/</g, '&lt;') + '">' + t.done_when.replace(/</g, '&lt;') + '</span>' : '') +
+                        (t.blockers ? '<br><span style="color:#fca5a5;">⚠ Có blocker</span>' : '') +
+                    '</div>' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">' +
+                        '<span class="prio ' + prioCls + '">' + t.priority + '</span>' +
+                        (t.criteria_total ? '<span style="font-size:10px;color:var(--text-muted);">' + t.criteria_done + '/' + t.criteria_total + ' tiêu chí</span>' : '') +
+                    '</div>' +
+                    (t.criteria_total ? '<div class="criteria-bar"><div class="fill" style="width:' + criteria + '%"></div></div>' : '');
+                colEl.appendChild(card);
+            });
+            board.appendChild(colEl);
+        });
+    }
+
+    function refreshData(regenerate) {
+        fetchData(regenerate);
+    }
+
+    function showLoading(on) {
+        const btn = document.getElementById('refreshBtn');
+        btn.disabled = on;
+        btn.innerHTML = on ? '<span class="spinner"><i class="fas fa-spinner fa-spin"></i></span> Đang refresh…' : '<i class="fas fa-sync-alt"></i> Refresh';
+    }
+
+    function showError(msg) {
+        const box = document.getElementById('errorBox');
+        box.textContent = msg;
+        box.style.display = 'block';
+    }
+
+    function hideError() {
+        document.getElementById('errorBox').style.display = 'none';
+    }
+
+    // Tải lần đầu
+    fetchData(false);
+
+    // Auto-refresh mỗi 60 phút
+    setInterval(() => fetchData(false), 60 * 60 * 1000);
+</script>
+</body>
+</html>

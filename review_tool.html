@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công cụ Review TTL và Văn bản gốc</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .column h2 {
+            margin-top: 0;
+            color: #555;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 600px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        #output-text {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            height: 600px;
+            overflow-y: auto;
+            background-color: #fff;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        /* Color highlighting classes */
+        .highlight-label { background-color: #add8e6; /* Light Blue */ }
+        .highlight-note { background-color: #90ee90; /* Light Green */ }
+        .highlight-year { background-color: #ffb6c1; /* Light Pink */ }
+        .highlight-person { background-color: #ff9933; /* Orange */ }
+        .highlight-default { background-color: #ffeb3b; /* Yellow */ }
+    </style>
+</head>
+<body>
+
+    <h1>Công cụ Review Dữ liệu TTL</h1>
+    
+    <div class="controls">
+        <button onclick="highlightText()">Tô sáng đối chiếu</button>
+    </div>
+
+    <div class="container">
+        <div class="column">
+            <h2>Dữ liệu TTL</h2>
+            <textarea id="ttl-input" placeholder="Dán nội dung file TTL vào đây..."></textarea>
+        </div>
+        <div class="column">
+            <h2>Văn bản gốc</h2>
+            <div id="output-text" contenteditable="true" placeholder="Dán văn bản gốc vào đây..."></div>
+        </div>
+    </div>
+
+    <script>
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        }
+
+        function highlightText() {
+            const ttlInput = document.getElementById('ttl-input').value;
+            const outputText = document.getElementById('output-text');
+            const originalText = outputText.textContent;
+            
+            // Xóa tất cả highlight cũ
+            outputText.innerHTML = originalText;
+
+            const colorMap = {
+                "rdfs:label": "highlight-label",
+                "bkg:biographicalNote": "highlight-note",
+                "bkg:publicationYear": "highlight-year",
+                "bkg:hasTeacher": "highlight-person",
+                "bkg:hasDisciple": "highlight-person",
+                "bkg:hasAuthor": "highlight-person",
+                "default": "highlight-default"
+            };
+
+            const extractedValues = [];
+
+            // Regex để tìm các triple có Literal (chuỗi, số)
+            const literalRegex = /(\s+)?(bkg:[\w-]+|rdfs:[\w-]+)\s+("(.+?)"|'(.+?)'|`(.+?)`|\d{4}\^)/g;
+            let match;
+            while ((match = literalRegex.exec(ttlInput)) !== null) {
+                const predicate = match[2];
+                let value = "";
+                if (match[4]) { // Double quotes
+                    value = match[4];
+                } else if (match[5]) { // Single quotes
+                    value = match[5];
+                } else if (match[6]) { // Backticks
+                    value = match[6];
+                } else if (match[7]) { // Number with datatype
+                    value = match[7].split('^')[0].trim();
+                }
+                if (value) {
+                    extractedValues.push({ predicate: predicate, value: value });
+                }
+            }
+
+            // Regex để tìm các triple có URIRef (tên thiền sư, tác phẩm...)
+            const uriRegex = /(\s+)?(bkg:has(Teacher|Disciple|Author))\s+(<[^>]+>|ex:[\w-]+)\s*(\.|;)/g;
+            while ((match = uriRegex.exec(ttlInput)) !== null) {
+                const predicate = match[2];
+                let uri = match[4];
+                if (uri.startsWith("<")) {
+                    uri = uri.substring(1, uri.length - 1); // Remove <>
+                }
+                const labelMatch = new RegExp(`rdfs:label\\s+"(.+?)"`, 'g').exec(ttlInput);
+                const label = labelMatch ? labelMatch[1] : null;
+                
+                if (label) {
+                     extractedValues.push({ predicate: predicate, value: label });
+                } else {
+                     // Fallback to extract local name from URI
+                    const uriParts = uri.split('/');
+                    const localName = uriParts[uriParts.length - 1].replace(/_/g, ' ');
+                    extractedValues.push({ predicate: predicate, value: localName });
+                }
+            }
+            
+            // Hàm thay thế văn bản bằng thẻ <span> có class tương ứng
+            let highlightedText = originalText;
+            extractedValues.forEach(item => {
+                const predicateClass = colorMap[item.predicate] || colorMap.default;
+                const valueToHighlight = item.value;
+                const escapedValue = escapeRegExp(valueToHighlight);
+                
+                // Tránh trường hợp highlight trùng lặp đã được bọc trong <span>
+                const regex = new RegExp(`(?![^<]*>)${escapedValue}`, 'g');
+                
+                if (regex.test(highlightedText)) {
+                    highlightedText = highlightedText.replace(regex, `<span class="${predicateClass}">${valueToHighlight}</span>`);
+                }
+            });
+            
+            // Tô sáng trong TTL input (chỉ hiển thị)
+            const ttlWithHighlight = ttlInput.replace(literalRegex, (match, p1, p2, p3, p4, p5, p6, p7) => {
+                const predicate = p2;
+                const predicateClass = colorMap[predicate] || colorMap.default;
+                return `${p1}<span class="${predicateClass}">${match.trim()}</span>`;
+            }).replace(uriRegex, (match, p1, p2) => {
+                const predicateClass = colorMap[p2] || colorMap.default;
+                return `${p1}<span class="${predicateClass}">${match.trim()}</span>`;
+            });
+            
+            document.getElementById('ttl-input').value = ttlWithHighlight;
+            outputText.innerHTML = highlightedText;
+        }
+
+        // Chức năng reset đơn giản
+        document.getElementById('ttl-input').addEventListener('input', () => {
+            document.getElementById('ttl-input').value = document.getElementById('ttl-input').value.replace(/<[^>]*>/g, "");
+        });
+        document.getElementById('output-text').addEventListener('input', () => {
+            const originalText = document.getElementById('output-text').textContent;
+            document.getElementById('output-text').innerHTML = originalText;
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,980 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(01) Âm thanh và hình bóng. Như trong bài thơ Thù Tùng Đệ Huệ Vận (酬從弟惠連) của Tạ Linh Vận (謝靈運, 385-433) nhà Tống có câu: “Nham hác ngụ nhĩ mục, hoan ái cách âm dung (巖壑寓耳目、歡愛隔音容, hõm núi gởi tai mắt, yêu thương cách bóng hình).” Hay trong bài Trường Hận Ca (長恨歌) của Bạch Cư Dị (白居易, 772-846) nhà Đường cũng có câu: “Hàm tình ngưng đệ tạ quân vương, nhất biệt âm dung lưỡng diểu mang (含情凝睇謝君王、一別音容兩渺茫, ngậm tình liếc trộm tạ quân vương, cách biệt bóng hình muôn dặm trường).” (02) Trong thư tín, từ này được dùng để thay thế cho đối phương. Như trong tập 3 của tác phẩm Tây Sương Ký (西廂記) do Vương Thật Phủ (王實甫, 1260-1336) nhà Nguyên sáng tác, có đoạn: “Tự âm dung khứ hậu, bất giác hứa thời, ngưỡng kính chi tâm, vị thường thiểu đãi (自音容去後、不覺許時、仰敬之心、未嘗少怠, từ khi người ra đi về sau, chẳng biết lúc nào, tâm thường kính ngưỡng, chưa từng chút chểnh mảng).” Trong bài thỉnh cúng linh cũng có đoạn: “Kim ô tợ tiễn, ngọc thố như thoan, tưởng cốt nhục dĩ phân ly, đỗ âm dung nhi hà tại (金烏似箭、玉兔如梭、想骨肉已分離、睹音容而何在, quạ vàng [mặt trời] tên bắn, thỏ ngọc [mặt trăng] thoi đưa, nhớ cốt nhục đã chia ly, tìm bóng hình đâu còn nữa).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.6468,
+          35.0787
+        ]
+      },
+      "properties": {
+        "name": "(05) Tự Nhiên Vô Ngại Giải Thoát Đạo (自然無礙解脫道): tức nương vào giáo nghĩa của Hoa Nghiêm Kinh (s: Buddhāvataṃsaka-nāma-mahāvaipulya-sūtra, 華嚴經) để chứng đắc giải thoát tự nhiên vô ngại. Như vậy, Ngũ Phương Tiện Môn của Bắc Tông Thiền vốn lập cuớc trên 5 bộ kinh luận chính là Đại Thừa Khởi Tín Luận, Pháp Hoa Kinh, Duy Ma Kinh, Tư Ích Phạm Thiên Sở Vấn Kinh và Hoa Nghiêm Kinh; lấy giáo thuyết của các kinh luận này để làm phương tiện chứng đắc giải thoát; nên có tên gọi là Ngũ Phương Tiện Môn, tức 5 cánh cửa phương tiện. Đây là đặc sắc nổi bật của Bắc Tông Thiền.",
+        "province": "中國-山西省-運城市-臨猗縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(01) Chỉ cho dấu ấn của vua Nghiêu tương truyền do chim phụng hoàng trao; vì văn khắc trên con dấu như chữ Triện, nên có tên gọi như vậy. Về sau, từ này được dùng tượng trưng cho sách đồ lục (圖籙), tức sách mệnh của thiên thần ban cho. Như trong bài tựa của Càn Nguyên Điện Tụng (乾元殿頌) do Vương Bột (王勃, 649-675) nhà Đường sáng tác có đoạn: “Linh hào mật phát, bát phương chiêu Đại Hữu chi hòa; bảo triện tiềm khai, Lục Hợp khải Đồng Nhân chi hội (靈爻密發、八方昭大有之和、寶篆潛開、六合啟同人之會, quẻ Hào mật phát, tám phương bày Đại Hữu hài hòa; ấn bàu thầm khai, Lục Hợp mở Đồng Nhân tụ hội).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(03) Chỉ hình tướng của chư Phật trang nghiêm, tôn quý như của báu. Như trong bài Đầu Đà Tự Bi Văn (頭陀寺碑文) của Vương Triệt (王屮, ?-?) nhà Lương thời Nam Triều có câu: “Kim tư bảo tướng, vĩnh tạ nhàn an (金資寶相、永藉閑安, dáng vàng tướng báu, mãi hiện an nhàn).” Trong Cao Phong Long Tuyền Viện Nhân Sư Tập Hiền Ngữ Lục (高峰龍泉院因師集賢語錄, 卍 Tục Tạng Kinh Vol. 65, No. 1277) quyển 5, phần Chư Ban Kệ Tán Môn (諸般偈讚門), có câu: “Vạn thánh khuynh tâm chiêm bảo tướng, cửu long phún thủy dục kim thân (萬聖傾心瞻寶相、九龍吐水浴金身, muôn thánh dốc lòng xem tướng báu, chín rồng phun nước tắm thân vàng).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.1814,
+          41.5731
+        ]
+      },
+      "properties": {
+        "name": "Tại Trung Quốc, đồ hình Bát Quái thường được treo trước cửa nhà để trấn trừ tà ma, quỷ mị, bên trong có cái kính, gọi là “Chiếu Yêu Kính (照妖鏡).” Nó có ảnh hưởng đến các phương diện bói toán, phong thủy, y học, võ thuật, âm nhạc, v.v. Tại Việt Nam, tư tưởng Bát Quái cũng có ảnh hưởng và phổ cập trong dân gian. Trong tác phẩm Chu Dịch Dịch Chú (周易譯注) của Chu Chấn Phủ (周振甫) nhận định rằng Bát Quái có mối quan hệ giống như 4 nguyên tố hình thành vạn vật của Ấn Độ cũng như Hy Lạp cổ đại là đất, nước, gió và lửa. Ông cho rằng Bát Quái có thể phân thành 4 loại: đất hòa với núi tương thông, nước hòa với sông hồ tương thông, gió hòa với trời tương thông, lửa hòa với sấm sét tương thông. Hơn nữa, Bát Quái cũng có mối quan hệ rất mật thiết với Ngũ Hành (五行) của truyền thống Trung Quốc: Càn là trời, thuộc về Kim; Đoài là sông hồ, thuộc về Kim; Ly là lửa, thuộc về Hỏa; Chấn là sấm sét, thuộc về Mộc; Tốn là gió, thuộc về Mộc; Khảm là nước, thuộc về Thủy; Cấn là núi, thuộc về Thổ; Khôn là đất, thuộc về Thổ. Về mối quan hệ với Cửu Cung (九宮), Cửu Cung là 9 phương vị được quy định trong Lạc Thư (洛書). Nhìn chung, người ta thường lấy hậu thiên bát quái đặt vào phương vị trong Lạc Thư, hình thành nên cái gọi là Cửu Cung Bát Quái (九宮八卦). Tại Đài Loan rất thịnh hành thuyết Bái Quái này, như dưới thời nhà Thanh có xuất hiện Bát Quái Hội (八卦會), lãnh đạo nông dân khởi nghĩa và hiện tại vẫn còn địa danh Bát Quái Sơn (八卦山). Trong dân gian Việt Nam cũng rất thịnh hành một loại Bát Quái Đồ gọi là Bát Quái Đồ Trừ Tà, hay thường gọi là Bùa Bát Quái, người Tàu vẽ sẵn, bán ở các tiệm kiếng. Loại Bát Quái Đồ Trừ Tà này gồm các quẻ giống hệt Bát Quái Tiên Thiên, nhưng sắp thứ tự các quẻ theo chiều quay ngược lại. Trong Thủy Hử Truyện (水滸傳), hồi thứ 87 có đoạn liên quan đến Cửu Cung Bát Quái: “Tống Giang tùy tức điều khiển quân mã xuất thành, ly thành thập lí, địa danh Phương Sơn, địa thế bình thản, kháo sơn bàng thủy, bài hạ Cửu Cung Bái Quái trận thế, đẳng hầu gian, chỉ kiến Liêu binh phân cố tam đội nhi lai (宋江隨卽調遣軍馬出城、離城十裏、地名方山、地勢平坦、靠山傍水、排下九宮八卦陣勢、等候間、只見遼兵分做三隊而來, Tống Giang vâng lời liền điều khiển quân mã ra khỏi thành, rời thành được mười dặm, có vùng đất tên Phương Sơn, địa thế bằng phẳng, nương núi tựa sông, bèn bày trận thế Cửu Cung Bái Quái; chờ đợi một lúc, chỉ thấy quân Liêu chia thành ba đội tiến đến).”",
+        "province": "中國-黑龍江省;中國-遼寧省;中國-吉林省;中國-內蒙古自治區;中國-北京市;中國-河北省;俄羅斯-遠東聯邦管區：Дальневосточныйфедеральныйокруг(FarEasternFederalDistrict)",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.2336,
+          34.5822
+        ]
+      },
+      "properties": {
+        "name": "(01) Chỉ Bồng Lai Sơn (蓬萊山), tên ngọn núi thần trong truyền thuyết cổ đại, cũng thường chỉ chung cho cảnh tiên. Như trong Sử Ký (史記), thiên Phong Thiền Thư (封禪書), có ghi lại rằng: “Tự Uy, Tuyên, Yến Chiêu sử nhân nhập hải cầu Bồng Lai, Phương Trượng, Doanh Châu, thử tam thần sơn giả, kỳ phó tại Bột Hải trung (自威、宣、燕昭使人入海求蓬萊、方丈、瀛洲、此三神山者、其傅在勃海中, từ thời vua Uy [Tề Uy Vương, 378-320 ttl.], Tuyên [Tề Tuyên Vương, 350-301 ttl.], Yến Chiêu [tức Tương Vương, ?-279] đã cho người vào biển tìm Bồng Lai, Phương Trượng, Doanh Châu; ba ngọn núi thần này, gắn liền nhau ở trong Bột Hải).” Hay trong tác phẩm Vô Xuân Ký (春蕪記), phần Thuyết Kiếm (說劍), của Vương Lăng (王錂, ?-?) nhà Minh có câu: “Tha bổn Bồng Lai tiên chủng, ngẫu nhiên ký tích nhân gian (他本蓬萊仙種、偶然寄跡人間, người ấy vốn hạt giống tiên ở chốn Bồng Lai, ngẫu nhiên lưu dấu chốn nhân gian).” Trong Hoa Nghiêm Kinh Sớ Chú (華嚴經疏注, 卍 Tục Tạng Kinh Vol. 7, No. 234) cũng khẳng định rằng: “Tiên nhân sơn giả, tương truyền thị Đông Hải Bồng Lai Sơn (仙人山者、相傳是東海蓬萊山, núi tiên nhân tương truyền là Bồng Lai Sơn ở biển Đông).”",
+        "province": "中國-江蘇省-連雲港市-新浦區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(03) Chỉ cho đế vương. Như trong Tấn Thư (晉書), phần Hiếu Võ Định Hoàng Hậu (孝武定皇后) của Hậu Kỷ Truyện Hạ (后妃傳下) có câu: “Đức phối Càn Nguyên, cung thừa tông miếu, huy âm lục cung, mẫu nghi thiên hạ (德配乾元、恭承宗廟、徽音六宮、母儀天下, đức hợp đế vương, nối dõi tông miếu, tiếng tốt sáu cung, mẫu nghi thiên hạ).” Hay trong bài thơ Môn Nhân Trần Thiên Thu Đẳng Sơ Lai Thảo Đường Vấn Học Thị Chư Tử (門人陳千秋等初來草堂問學示諸子) của Khang Hữu Vi (康有爲, 1858-1927) cũng có câu: “Quần long vô thủ thùy tri cát, tự hữu càn nguyên đại thống trường (群龍無首誰知吉、自有乾元大統長, nhóm rồng đầu chẳng ai biết tốt, tự có đế vương thống lãnh lâu).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.280866,
+          33.939892
+        ]
+      },
+      "properties": {
+        "name": "(s: bhūta-tathatā, tathatā, 眞如): chơn nghĩa là chơn thật, không hư vọng; như là như thường, bất biến. Chơn như là bản thể chân thật trùm khắp vũ trụ vạn vật, là chân lý vĩnh cửu bất biến, căn nguyên của hết thảy vạn hữu. Từ này còn được gọi là Như Như (如如), Như Thật (如實), Pháp Giới (法界), Pháp Tánh (法性), Thật Tế (實際), Thật Tướng (實相), Như Lai Tạng (如來藏), Pháp Thân (法身), Phật Tánh (佛性), Tự Tánh Thanh Tịnh Thân (自性清淨身), Nhất Tâm (一心), Bất Tư Nghì Giới (不思議界). Trong các Phật điển Hán dịch thời kỳ đầu, Chơn Như được dịch là Bản Vô (本無). Nếu nghiên cứu kỹ, các tông phái dùng từ này với nghĩa khác nhau. Theo A Hàm Kinh (阿含經), lý pháp của Duyên Khởi là chân lý vĩnh viễn bất biến, nên gọi đó là Chơn Như. Lại nữa, căn cứ vào thuyết Cửu Vô Vi (九無爲, 9 loại Vô Vi) do Hóa Địa Bộ (s: Mahīśāsaka, 化地部) trong Dị Bộ Tông Luân Luận (異部宗輪論), có Thiện Pháp Chơn Như (善法眞如), Bất Thiện Pháp Chơn Như (不善法眞如), Vô Ký Pháp Chơn Như (無記法眞如), Đạo Chi Chơn Như (道支眞如), Duyên Khởi Chơn Như (緣起眞如), v.v. Theo chủ trương của Phật Giáo Đại Thừa, bản tánh của tất cả tồn tại như người và pháp đều vô ngã, vượt qua các tướng sai biệt vốn có; nên gọi là Chơn Như. Tỷ dụ sự tự tại của Pháp Thân Như Lai là Chơn Như. Theo Phật Địa Kinh Luận (佛地經論) quyển 7, Chơn Như là thật tánh của tất cả vạn tượng; tướng của nó tuy có nhiều loại khác nhau, nhưng thể của nó cùng một vị, cùng với các pháp không một cũng không khác, vượt ra ngoài những phạm trù của ngôn ngữ, tư duy. Từ quan điểm xa lìa những sai khác, hư ngụy, Chơn Như, nó được gọi là Giả Danh Chơn Như (假名眞如). Hay nếu là nơi nương tựa của tất cả các điều thiện, nó có tên là Pháp Giới. Nếu là chỗ sở ngộ của trí vô phân biệt, nó có tên là Thắng Nghĩa (勝義). Về các tên gọi khác nhau của Chơn Như, Đại Bát Niết Bàn Kinh (大般涅槃經) quyển 360, có nêu 12 từ như Chơn Như, Pháp Tánh, Bất Hư Vọng Tánh (不虛妄性), Bình Đẳng Tánh (平等性), Ly Sanh Tánh (離生性), Pháp Định (法定), Pháp Trú (法住), Thật Tế, Hư Không Giới (虛空界) và Bất Tư Nghì Giới. Đại Thừa A Tỳ Đạt Ma Tạp Tập Luận (阿毘達磨雜集論) quyển 2 có liệt ra 6 từ như Chơn Như, Không Tánh (空性), Vô Tướng (無相), Thật Tế, Thắng Nghĩa, Pháp Giới. Pháp Hoa Huyền Nghĩa (法華玄義) quyển 8 cũng nêu lên 14 từ khác nhau như Thật Tướng, Diệu Hữu (妙有), Chơn Thiện Diệu Sắc (眞善妙色), Thật Tế, Tất Cánh Không (畢竟空), Như Như, Niết Bàn (涅槃), Hư Không (虛空), Phật Tánh, Như Lai Tạng (如來藏), Trung Thật Lý Tâm (中實理心), Phi Hữu Phi Vô Trung Đạo (非有非無中道), Đệ Nhất Nghĩa Đế (第一義諦), Vi Diệu Tịch Diệt (微妙寂滅). Theo Thành Duy Thức Luận (成唯識論) quyển 10, Pháp Tướng Tông lập ra 10 loại Chơn Như khác nhau, tùy theo cấp độ giác ngộ sâu cạn của vị Bồ Tát, gồm: Biến Hành Chơn Như (變行眞如), Tối Thắng Chơn Như (最勝眞如), Thắng Lưu Chơn Như (勝流眞如), Vô Nhiếp Thọ Chơn Như (無攝受眞如), Loại Vô Biệt Chơn Như (類無別眞如), Vô Nhiễm Tịnh Chơn Như (無染淨眞如), Pháp Vô Biệt Chơn Như (法無別眞如), Bất Tăng Giảm Chơn Như (不增減眞如), Trí Tự Tại Sở Y Chơn Như (智自在所依眞如) và Nghiệp Tự Tại Đẳng Sở Y Chơn Như (業自在等所依眞如). Còn Địa Luân Tông thì chủ trương tự thể của A Lại Da Thức (s: ālaya-vijñāna, 阿賴耶識) thứ 8 là Tự Tánh Thanh Tịnh Tâm (自性清淨心) và đó là Chơn Như. Thức này do bị Vô Minh huân tập, nên xuất hiện các hiện tượng ô nhiễm, thanh tịnh, v.v. Hoa Nghiêm Tông lại chủ trương “bản thể là hiện tượng”, có nghĩa rằng Chơn Như vốn là vạn pháp và vạn pháp cũng là Chơn Như. Cho nên, tông này nêu ra 2 loại Chơn Như: Nhất Thừa Chơn Như (一乘眞如, gồm Biệt Giáo Chơn Như [別敎眞如] và Đồng Giáo Chơn Như [同敎眞如]) và Tam Thừa Chơn Như (三乘眞如, gồm Đốn Giáo Chơn Như [頓敎眞如] và Tiệm Giáo Chơn Như [漸敎眞如]). Trong khi đó, Thiên Thai Tông thì dựa trên thuyết Tánh Cụ (性具, tánh có đầy đủ các pháp) mà cho rằng bản thân Chơn Như xưa nay vốn đầy đủ các pháp ô nhiễm, thanh tịnh, thiện ác, v.v. Từ đó, tự tánh thanh tịnh của chư Phật được gọi là Vô Cấu Chơn Như (無垢眞如), hay Xuất Triền Chơn Như (出纒眞如); còn thể tánh của chúng sanh bị phiền não làm cho cấu nhiễm, nên gọi là Hữu Cấu Chơn Như (有垢眞如), hoặc Tại Triền Chơn Như (在纒眞如); cả có tên là Lưỡng Cấu Chơn Như (兩垢眞如). Tổ Giác Tiên (覺先, 1880-1936), người khai sáng An Nam Phật Học Hội (安南佛學會) ở miền Trung và cũng là vị tổ khai sơn Chùa Trúc Lâm tại Huế, có làm bài thơ rằng: “Phù sanh ký thác chơn như mộng, đáo xứ năng an tiện thị gia (浮生寄托眞如夢、到處能安便是家, phù sanh tạm gởi chơn như mộng, đến chốn khéo an ấy là nhà).”",
+        "province": "中國-江蘇省-宿遷市-宿城區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.144041,
+          30.246734
+        ]
+      },
+      "properties": {
+        "name": "(03) Trà Cổ (茶鼓), loại trống được thiết trí ở phía Tây Bắc Pháp Đường của các Thiền viện, được dùng để tập trung tăng chúng dùng trà nóng. Như trong bài thơ Tây Hồ Xuân Nhật (西湖春日) của Lâm Bô (林逋, 967-1028) nhà Tống có câu: “Xuân yên tự viện cảo Trà Cổ, tịch chiếu lâu đài trác tửu kỳ (春煙寺院敲茶皷、夕照樓台卓酒旗, khói xuân tự viện gióng Trà Cổ, đêm chiếu lâu đài nhắp rượu say).”",
+        "province": "中國-浙江省-杭州市-西湖區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.121083,
+          30.859733
+        ]
+      },
+      "properties": {
+        "name": "Từ cuối thời nhà Đường trở đi, tín ngưỡng Thập Điện Diêm Vương trở nên thịnh hành. Thông thường, trong Miếu Thành Hoàng ở các địa phương có thiết lập Diêm Vương Điện (閻王殿) để thờ Thập Điện Diêm Vương. Tại các tự viện Phật Giáo, hai bên phải trái của bàn thờ Địa Tạng Bồ Tát cũng có thờ Thập Điện Diêm Vương. Tín ngưỡng Thập Điện Diêm Vương cũng được du nhập vào Việt Nam và vẫn còn lưu hành cho đến ngày hôm nay. Như trong các lòng văn sớ dâng cúng cầu siêu, thường có đề cập đến Minh Vương (冥王, tức Diêm Vương), Diêm Ma Thập Điện như: “Tư lâm Đại Tường chi trai tuần, chánh trị khôn phủ đệ thập điện, Chuyển Luân Minh Vương án tiền trình quá (茲臨大祥之齋旬、正値坤府第十殿、轉輪冥王案前呈過, Nay gặp lúc tuần chay dịp Đại Tường, đúng vào điện thứ mười, xin trình trước án Chuyển Luân Minh Vương)”, hay “Cung phụng: Diện Nhiên Đại Sĩ, uy quang khắc đáo ư kim tiêu; Địa Tạng từ tôn, thần lực đại chương ư thử dạ; Diêm Ma Thập Điện, chiếu khai Thập Bát Địa Ngục chi môn; Tả Hữu Phán Quan, thiêu tận ức kiếp luân hồi chi tịch; tỷ Lục Đạo Tứ Sanh chi vi mạng, khô mộc phùng xuân; sử cửu huyền thất tổ chi sảng linh, đồng đăng giác ngạn (恭奉、面燃大士、威光刻到於今霄。地藏慈尊、神力大彰於此夜。閻魔十殿、照開十八地獄之門。左右判官、燒盡億刼輪廻之籍。俾六道四生之微命、枯木逢春。使九玄七祖之爽靈、同登覺岸, Cúi xin: Diện Nhiên Đại Sĩ, ánh sáng oai lực đến đêm nay; Địa Tạng từ bi, thần lực hiển bày vào tối này. Diêm Ma Mười Điện, mở Mười Tám địa ngục cửa tung; Phán Quan phải trái, đốt sạch hồ sơ luân hồi muôn kiếp; cho mạng nhỏ của Bốn Loài Sáu Đường, cây khô gặp xuân; khiến hương linh của cửu huyền thất tổ, cùng lên bờ giác)”, v.v.",
+        "province": "中國-浙江省-湖州市-吳興區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.4118,
+          40.043
+        ]
+      },
+      "properties": {
+        "name": "(03) Lý huyền diệu. Như trong bài thơ Mai Nhật Tầm Thôi Tập Lý Phong (晦日尋崔戢李封) của Đỗ Phủ (杜甫, 712-770) nhà Đường có câu: “Trọc dao hữu diệu lý, thứ dụng úy trầm phù (濁醪有妙理、庶用慰沉浮, rượu đục có đạo lý, dùng nhiều sợ chẳng hay).” Hay trong bài Ấp Thúy Hiên Phú (揖翠軒賦) của Vương Nhược Hư (王若虛, 1174-1243) nhà Kim có câu: “Vật chi tại thiên hạ, giai diệu lý chi sở ngụ dã (物之在天下、皆妙理之所寓也, muôn vật trong thiên hạ, đều bao hàm đạo lý siêu tuyệt).” Hay trong Đại Thừa Nhập Lăng Già Kinh (大乘入楞伽經, Taishō Vol. 16, No. 672) lại có đoạn rằng: “Hiểu danh tướng chi tinh giả, khư vọng tưởng chi mê câm, y chánh trí dĩ hội chân như, ngộ Duyên Khởi nhi quy diệu lý, cảnh phong ký tức, thức lãng phương trừng, tam Tự Tánh giai không, nhị Vô Ngã câu mẫn, nhập Như Lai chi tạng, du giải thoát chi môn (曉名相之幷假、祛妄想之迷衿、依正智以會眞如、悟緣起而歸妙理、境風旣息、識浪方澄、三自性皆空、二無我俱泯、入如來之藏、遊解脫之門, rõ danh tướng đều giả tạm, bỏ vọng tưởng ấy áo mê, nương chánh trí để tỏ chân như, ngộ duyên khởi mà về diệu lý, gió cảnh đã dứt, sóng biết lắng trong, ba Tự Tánh đều không, hai Vô Ngã thảy hết, vào Như Lai kho tạng, chơi giải thoát cửa Thiền).” Trong Đại Bát Niết Bàn Kinh Huyền Nghĩa (大般涅槃經玄義, Taishō Vol. 38, No. 1765) quyển Thượng có giải thích rằng: “Phù chánh đạo u tịch vô thỉ vô chung, diệu lý hư huyền phi tân phi cố (夫正道幽寂無始無終、妙理虛玄非新非故, phàm chánh đạo vắng lặng không đầu không cuối, lý mầu huyền nhiệm chẳng mới chẳng cũ).”",
+        "province": "中國-天津市-縣-薊縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(03) Thể hiện cho tướng hảo của Bồ Tát Quán Tự Tại (觀自在). Như trong Du Già Tập Yếu Diệm Khẩu Thí Thực Nghi (瑜伽集要焰口施食儀, Taishō Vol. 21, No. 1320) giải thích rõ rằng: “Thứ nhập Quan Âm định, tức nhập Quán Tự Tại Bồ Tát Tam Ma Địa, bế mục trừng tâm quán tưởng tự thân, viên mãn khiết bạch do như tịnh nguyệt, tại tâm tịnh nguyệt thượng tưởng hrīḥ tự phóng đại quang minh; kỳ tự biến thành bát diệp Liên Hoa, ư hoa đài thượng hữu Quán Tự Tại Bồ Tát, tướng hảo phân minh; tả thủ trì Liên Hoa, hữu thủ tác khai phu diệp thế. Thị Bồ Tát tác thị tư duy: 'Nhất thiết hữu tình thân trung, các cụ hữu thử giác ngộ chi hoa, thanh tịnh pháp giới bất nhiễm phiền não.' Ư Liên Hoa bát diệp thượng, các hữu Như Lai nhập định già phu nhi tọa, diện hướng Quán Tự Tại Bồ Tát, hạng bội viên quang thân như kim sắc quang minh hoảng diệu. Tưởng thử bát diệp Liên Hoa, tiệm thư tiệm đại lượng đẳng hư không, tức tác như thị tư duy, dĩ thử giác hoa chiếu xúc Như Lai hải hội, nguyện thành quảng đại cúng dường. Nhược tâm bất di thử định, tắc ư vô biên hữu tình thâm khởi bi mẫn. Dĩ thử giác hoa mông chiếu xúc giả, ư chư khổ não tất đắc giải thoát đẳng đồng Quán Tự Tại Bồ Tát tướng hảo, tức tưởng Liên Hoa tiệm tiệm thu liễm lượng đẳng kỷ thân, tắc kết Quán Tự Tại Bồ Tát ấn gia trì tứ xứ (次入觀音定、卽入觀自在菩薩三摩地、閉目澄心觀想自身、圓滿潔白猶如淨月、在心淨月上想hrīḥ字放大光明、其字變成八葉蓮華、於華臺上有觀自在菩薩、相好分明、左手持蓮華、右手作開敷葉勢、是菩薩作是思惟、一切有情身中、各具有此覺悟之華、清淨法界不染煩惱、於蓮華八葉上、各有如來入定跏趺而坐、面向觀自在菩薩、項佩圓光身如金色光明晃耀、想此八葉蓮華、漸舒漸大量等虛空、卽作如是思惟、以此覺華照觸如來海會、願成廣大供養、若心不移此定、則於無邊有情深起悲愍、以此覺華蒙照觸者、於諸苦惱悉得解脫、等同觀自在菩薩相好、卽想蓮華漸漸收斂量等己身、則結觀自在菩薩印加持四處, kế đến nhập vào định Quan Âm, tức nhập vào định của Bồ Tát Quán Tự Tại, nhắm mắt lắng tâm quán tưởng tự thân, tròn đầy trong trắng giống như trăng thanh, ngay tại trung tâm phía trên mặt trăng thanh ấy quán tưởng chữ hrīḥ phóng ra ánh sáng lớn, chữ ấy biến thành hoa sen tám cánh; trên đài hoa ấy có Bồ Tát Quán Tự Tại, tướng tốt rõ ràng, tay trái cầm hoa sen, tay phải làm theo tư thế cánh hoa nở ra. Vị Bồ Tát ấy suy nghĩ như vậy: 'Trong thân của hết thảy chúng hữu tình, đều có đủ hoa giác ngộ này, trong sạch pháp giới, không nhiễm phiền não.' Trên hoa sen có tám cánh ấy, mỗi cánh có một đức Như Lai ngồi xếp bằng nhập định, mặt hướng về Bồ Tát Quán Tự Tại, nơi cổ trang sức tỏa sáng, thân như sắc vàng sáng tỏa chói lọi, quán tưởng hoa sen tám cánh này, dần dần mở ra, dần dần to lớn như hư không; rồi lại suy nghĩ rằng, lấy hoa giác ngộ này chiếu rọi chạm đến hải hội của chư Như Lai, nguyện hoa sen thành to lớn để cúng dường. Nếu như tâm không dời khỏi định này, thì sẽ khởi lòng thương xót đối với vô biên chúng hữu tình. Nhờ lấy hoa giác ngộ này chiếu chạm đến, các khổ não đều được giải thoát, ngang đồng với tướng tốt của Bồ Tát Quán Tự Tại. Rồi lại quán tưởng hoa sen dần dần thâu nhỏ lại bằng với thân mình, liền bắt ấn Bồ Tát Quán Tự Tại để gia trì bốn nơi).” Như vậy, bàn thờ Giác Hoa, còn gọi là Giác Ba, thường được thiết bày trong đàn tràng Chẩn Tế, có thể là bàn thờ đức Bồ Tát Quan Thế Âm (hay Quán Tự Tại).",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(化道): giáo hóa đạo, hoằng truyền đạo pháp. Như trong Quốc Thanh Bách Lục (國清百錄, Taishō Vol. 46, No. 1934) quyển 2, phần Sa Chủ Hoàng Thái Tử Thỉnh Giới Sớ (少主皇太子請戒疏) thứ 14, có đoạn: “Ngưỡng duy hóa đạo vô phương, tùy cơ tế vật, vệ hộ quốc độ, cấp dẫn thiên nhân (仰惟化道無方、隨機濟物、衛護國土、汲引天人, ngưỡng mong hóa đạo khắp nơi, tùy cơ duyên độ vật, bảo vệ quốc gia, dẫn dắt trời người).” Hay trong Quảng Hoằng Minh Tập (廣弘明集, Taishō Vol. 52, No. 2103) quyển 19, phần Ngự Giảng Kim Tự Ma Ha Bát Nhã Ba La Mật Kinh Tự (御講金字摩訶般若波羅蜜經序), lại có đoạn: “Tích Như Lai hóa đạo hoạch ngộ bất đồng, cố Pháp Nhãn vô sanh, căn tánh phi nhất (昔如來化道獲悟不同、故法眼無生、根性非一, xưa kia đức Như Lai hóa đạo, giác ngộ không giống nhau; cho nên con mắt pháp không sanh, căn tánh chẳng phải một).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(01) Dân gian thường gọi là Hỏa Thần Da (火神爺, Ông Thần Lửa), hay Hỏa Thiên Kim Cang (火天金剛), Xích Đế (赤帝), là con của vị trưởng bộ tộc thời cổ đại xa xưa. Ông là người phát hiện ra phương pháp khẻ đá châm lửa. Hoàng Đế (黃帝) biết được bèn phong cho ông làm quan chưởng quản về lửa, cũng ban cho tên là Chúc Dung (祝融). Dưới thời đại của Hoàng Đế, ở phương nam có một thị tộc tên Xí Vưu (蚩尤), thường vào gây rối ở Trung Nguyên; nhân đó, Hoàng Đế hạ lệnh cho Chúc Dung đem binh mã thảo phạt. Tuy nhiên Xí Vưu người nhiều thế mạnh, anh em lại rất đông, mỗi người đều mang áo da thú, đầu đội sừng trâu, trông rất hùng mạnh và ghê tợn. Chúc Dung chỉ biết dùng lửa làm vũ khí, đốt cháy quân đội của Xí Vưu. Địch quân tháo chạy, Chúc Dung đuổi đến tận Hoàng Hà (黃河), Trường Giang (長江) và cuối cùng đánh bại Xí Vưu. Sau khi trở về triều, Chúc Dung được Hoàng Đế ban cho chưởng quan phương Nam, cho nên tại đây ông đã giáo hóa dân chúng biết cách dùng lửa trong sinh hoạt hằng ngày, như dùng lửa để xua đuổi dã thú, muỗi, để chế tạo các đồ dùng kim thuộc; nhờ vậy cuộc sống của người dân được cải thiện hơn nhiều. Cảm kích trước ân đức đó, người dân tôn xưng ông là Xích Thần (赤帝, xích là màu đỏ, cũng có ý là lửa). Ông sống được hơn trăm tuổi, và sau khi qua đời, bá tánh lập Xích Đế Điện để tôn thờ và tưởng nhớ đến ân đức cao dày của ông. Lịch đại chư vị đế vương đều phong hiệu cho ông như Hỏa Thần (火神), Hỏa Đức Tinh Quân (火德星君). Như trong Thần Đản Phổ (神誕譜) có giải thích rằng: “Hỏa Đức Tinh Quân, vi Viêm Đế Thần Nông thị chi linh, tự chi vi Hỏa Thần, dĩ nhương hỏa tai (火德星君、爲炎帝神農氏之靈、祀之爲火神、以禳火災, Hỏa Đức Tinh Quân là linh của Viêm Đế Thần Nông, thờ làm Hỏa Thần để giải trừ hỏa tai).” Sử Ký (史記) ghi rõ rằng: “Hỏa Thần vi Chúc Dung, Chuyên Húc chi tử, danh Lê (火神爲祝融、顓頊之子、名黎, Thần Lửa là Chúc Dung, con của Chuyên Húc, tên là Lê).” Trong khi đó, Quốc Ngữ (國語) lại cho hay một thông tin thú vị khác: “Hỏa Thần vi Hồi Lộc (火神爲回祿, Thần Lửa là Hồi Lộc).” Hồi Lộc hay Hồi Lục (回陸), do vì xưa kia tại nước Sở có một người tên Ngô Hồi (吳回), làm quan trông coi về lửa, nên có thuyết cho rằng ông là Hồi Lộc. Vì vậy trong Tả Truyện (左傳) có đoạn rằng: “Trịnh nhương hỏa vu Hồi Lộc (鄭禳火于回祿, Trịnh cầu nguyện lửa nơi Hồi Lộc).” Và người thời nay gọi hỏa hoạn là “Hồi Lộc chi tai (回祿之災, tai họa Hồi Lộc).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.8484,
+          35.5037
+        ]
+      },
+      "properties": {
+        "name": "(慧遠, Eon, 523-592): vị tăng sống dưới thời nhà Tùy, xuất thân Đôn Hoàng (敦 煌, thuộc Cam Túc [甘肅]), họ Lý (李). Năm 13 tuổi, ông theo Sa Môn Tăng Tư (僧 思) xuất gia, đến năm 16 tuổi theo Luật Sư Trạm đến kinh đô Nghiệp (thuộc Lâm Chương [ 臨 漳 ], Hà Bắc [ 河 北 ]), học thông các kinh điển của Tiểu Thừa và Đại Thừa, rồi đến năm 20 tuổi thọ giới cụ túc với Pháp Thượng (法上). Sau đó, ông theo học Tứ Phần Luật (四 分 律) với Đại Ẩn (大 隱). Không bao lâu sau, ông cùng với chúng học tăng dời về Thanh Hóa Tự (清化寺) vùng Cao Đô (高都, thuộc Tấn Thành [晉城], Sơn Tây [山西]), và mọi người cùng hợp sức nhau kiến thiết Giảng Đường. Về sau, gặp phải nạn phế kinh hủy tượng, diệt Phật, bắt buộc Sa Môn hoàn tục dưới thời vua Võ Đế của Bắc Chu, chẳng ai dám khuyên can gì cả, chỉ mình ông đến yết kiến nhà vua biện bác, thưa rằng: “Nay Bệ Hạ ỷ thế lực nhà vua, phá diệt Tam Bảo, đó là người tà kiến. A Tỳ Địa Ngục kia chẳng kể giàu nghèo, Bệ Hạ há chẳng sợ sao ?” Nhà vua nổi giận bảo: “Nếu làm cho bá tánh được vui, trẫm cũng chẳng ngại gì nỗi khổ chốn Địa Ngục”. Biết vậy, ông tránh vào trong núi, chuyên tâm tụng các kinh Pháp Hoa, Duy Ma, v.v. Đến khi nhà Tùy hưng thạnh, ông bắt đầu xuất hiện, khai triển pháp môn ở Lạc Ấp (洛邑), xa gần nghe tiếng ông đều quy tụ về rất đông. Ngoài ra, ông đã từng thuyết giảng các địa phương khác, rồi bao lần vâng chiếu lên Tây Kinh giảng kinh khiến cho nhà vua vui lòng, bèn sắc phong cho ông trú trì Hưng Thiện Tự (興善寺). Sau đó, ông kiến lập Tịnh Ảnh Tự (淨影寺), chuyên tâm giảng thuyết. Vì ông làm trú trì chùa nầy nên được gọi là Tịnh Ảnh Tự Huệ Viễn, khác với Huệ Viễn trên Lô Sơn (廬山). Vào năm thứ 12 (592) niên hiệu Khai Hoàng (開皇), ông thị tịch, hưởng thọ 70 tuổi. Ông là vị tăng của Nam Đạo Phái thuộc Địa Luận Tông, trước tác để lại có khoảng 24 bộ và hơn 100 quyển như Đại Thừa Nghĩa Chương (大乘義章) 26 quyển, Thập Địa Kinh Luận Nghĩa Ký (十地經論義記) 14 quyển, Hoa Nghiêm Kinh Sớ (華嚴經疏) 7 quyển, Đại Bát Niết Bàn Kinh Nghĩa Ký (大般涅槃經義記) 20 quyển, Pháp Hoa Kinh Sớ (法華經疏) 7 quyển, Duy Ma Kinh Nghĩa Ký (維 摩 經 義 記) 4 quyển, Thắng Man Kinh Nghĩa Ký (勝 鬘 經 義 記) 3 quyển, Vô Lượng Thọ Kinh Nghĩa Sớ (無 量 壽 經 義 疏) 1 quyển, v.v. Trong số đó, Đại Thừa Nghĩa Chương được xem như là bộ bách khoa toàn thư của Phật Giáo, có ảnh hưởng vô cùng to lớn đối với việc nghiên cứu Phật Giáo dưới thời nhà Tùy và Đường.",
+        "province": "中國-山西省-晉城市-城區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(03) Chỉ cho văn từ thâm áo. Như trong bài Vị Long Tuyền Tự Mộ Tạo Tàng Kinh Lâu Khải (爲龍泉寺募造藏經樓啟) của Củng Tự Trân (龔自珍, 1792-1841) nhà Thanh có đoạn rằng: “Minh chi sĩ đại phu, tịch thừa bình chi thanh hà, vãng vãng thám bí điển, vấn huyền văn, Chi Na thạnh hữu thuật tác (明之士大夫、席承平之清暇、往往探祕典、問玄文、支那盛有述作, các nhà sĩ đại phu nhà Minh, nhân những lúc nhàn rỗi thời thái bình, học hỏi văn từ thâm áo, nên Trung Hoa có rất nhiều trước tác).” Trong Tu Hoa Nghiêm Áo Chỉ Vọng Tận Hoàn Nguyên Quán (修華嚴奧旨妄盡還源觀, Taishō Vol. 45, No. 1876) có đoạn: “Bị Tam Tạng chi huyền văn, bằng Ngũ Thừa chi diệu chỉ, phồn từ tất tước, khuyết nghĩa phục toàn (備三藏之玄文、憑五乘之妙旨、繁辭必削、缺義復全, đủ Ba Tạng ấy huyền văn, nương Năm Thừa ý diệu, từ nhiều bỏ bớt, nghĩa thiếu lại tròn).” Hay trong Cao Phong Long Tuyền Viện Nhân Sư Tập Hiền Ngữ Lục (高峰龍泉院因師集賢語錄, 卍 Tục Tạng Kinh Vol. 65, No. 1277) quyển 2 cũng có đoạn rằng: “Đại Giác di ngôn, quần sanh pháp lạc, thậm thâm áo nghĩa, bí mật huyền văn, Long Vương kính nhi hải tạng thu, Đế Thích khâm nhi thiên thần phủng (大覺遺言、群生法樂、甚深奧義、秘密玄文、龍王敬而海藏收、帝釋欽而天神捧, đấng Đại Giác dặn dò, chúng sanh hưởng pháp lạc, thâm sâu áo nghĩa, bí mật huyền văn, Long Vương kính trọng mà biển cả thu giữ, Đế Thích khâm phục mà thiên thần trân trọng).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.280629,
+          31.922557
+        ]
+      },
+      "properties": {
+        "name": "(香積): có mấy nghĩa khác nhau. (01) Tên gọi của vị Phật ở thế giới của các loại hương thơm. Như trong Duy Ma Cật Sở Thuyết Kinh (維摩詰所說經, Taishō Vol. 14, No. 475) quyển Hạ, Phẩm Hương Tích Phật (香積佛品) thứ 10, có đoạn: “Thượng phương giới phân quá tứ thập nhị Hằng hà sa Phật độ, hữu quốc danh Chúng Hương, Phật hiệu Hương Tích, kim hiện tại kỳ quốc hương khí, tỷ ư thập phương chư Phật thế giới nhân thiên chi hương, tối vi đệ nhất; bỉ độ vô hữu Thanh Văn, Bích Chi Phật danh, duy hữu thanh tịnh đại Bồ Tát chúng, Phật vi thuyết pháp; kỳ giới nhất thiết giai dĩ hương tác lâu các, kinh hành hương địa, uyển viên giai hương, kỳ thực hương khí, châu lưu thập phương vô lượng thế giới (上方界分過四十二恆河沙佛土、有國名眾香、佛號香積、今現在其國香氣、比於十方諸佛世界人天之香、最爲第一、彼土無有聲聞、辟支佛名、唯有清淨大菩薩眾、佛爲說法、其界一切皆以香作樓閣、經行香地、苑園皆香、其食香氣、周流十方無量世界, thế giới phương trên phân quá bốn mươi hai Hằng hà sa cõi Phật, có nước tên là Chúng Hương [các loại hương], đức Phật hiệu là Hương Tích, nay hiện tại hương khí của nước ấy, so sánh với hương của trời người trong thế giới của mười phương các đức Phật, tột cùng số một; quốc độ kia không có tên Thanh Văn, Bích Chi Phật, chỉ có chúng đại Bồ Tát thanh tịnh, Phật vì họ thuyết pháp; thế giới ấy tất cả đều lấy hương làm thành lầu gác, kinh hành nơi đất hương, vườn nhà đều ngát hương, họ ăn hương khí, cùng khắp mười phương vô lượng thế giới).” (02) Chỉ cõi nước Phật, tự viện Phật Giáo. Như trong bài thơ Thu Dạ Túc Công Phòng Hỷ Phổ Môn Thượng Nhân Tư Dương Tiện Sơn Chí (秋夜肅公房喜普門上人自陽羡山至) của Lưu Trường Khanh (劉長卿, 709-780) nhà Đường có câu: “Tảo vãng lai Hương Tích, hà nhân trú Ốc Châu (早晚來香積、何人住沃洲, sớm chiều đến Hương Tích, người nào sống Ốc Châu).” Hay trong bài thơ Quá Trung Phong Lễ Thương Công Tháp (過中峰禮蒼公塔) của Ngô Vĩ Nghiệp (吳偉業, 1609-1671) nhà Thanh cũng có câu: “Điểu đề hương tích tán, hoa lạc ảnh đường cô (鳥啼香積散、花落影堂孤, chim kêu chùa tan tác, hoa rụng bóng nhà đơn).” (03) Chỉ thức ăn của chúng tăng hay Đạo sĩ. Như trong bài thơ Lão Trần Đạo Nhân Tự Vân Mộng Bị Chiêu Tác Địa Thượng Chủ Giả Hựu Thường Thọ Nhất Quý Gia Cúng Chúc Chi Viết Tha Nhật Tất Lai Ngô Gia Tác Nhi Hí Tặng Tiểu Tụng (老陳道人自雲夢被召作地上主者又常受一貴家供祝之曰他日必來吾家作兒戲贈小頌) của Phạm Thành Đại (范成大, 1126-1193) nhà Tống có câu: “Hạnh hữu thiên môn hương tích cúng, bất như tùy hỷ khử la trai (幸有千門香積供、不如隨喜去羅齋, may có ngàn nhà dâng cơm cúng, không bằng tùy hỷ bỏ mời ăn).” (04) Từ gọi tắt của Hương Tích Trù (香積廚, Bếp Hương Tích). Trong Cao Phong Long Tuyền Viện Nhân Sư Tập Hiền Ngữ Lục (高峰龍泉院因師集賢語錄, 卍Tục Tạng Kinh Vol. 65, No. 1277) quyển 3, phần Thỉnh Phật Văn (請佛文), có đoạn: “Sái phi phi chi pháp vũ, phiến táp táp chi từ phong, quảng khai Hương Tích chi trù, phổ hiến Tô Đà chi soạn (洒霏霏之法雨、扇颯颯之慈風、廣開香積之廚、普獻酥酡之饌, rưới lả tả ấy mưa pháp, quạt vù vù ấy gió từ, rộng mở Hương Tích bếp trời, cúng khắp Tô Đà cỗ lạt).” Hay trong Hoa Nghiêm Kinh Chú Sớ (華嚴經疏注, 卍Tục Tạng Kinh Vol. 7, No. 234) quyển 4 lại có câu: “Hương Tích thế giới, xan hương phạn, nhi Tam Muội hiển; Cực Lạc Phật quốc, thính phong kha, nhi chánh niệm thành (香積世界、餐香飯、而三昧顯、極樂佛國、聽風柯、而正念成, Hương Tích thế giới, ăn cơm hương, mà Tam Muội tỏ; Cực Lạc Phật quốc, nghe gió lay, mà chánh niệm thành).”",
+        "province": "中國-江蘇省-無錫市-江陰市",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.173921,
+          31.729242
+        ]
+      },
+      "properties": {
+        "name": "(b) Lan Nhã Giới (蘭若界). Nếu không có người mắng pháp phản đối, thì đây là giới vức của nơi nhàn tĩnh, yên lắng; cách cự ly với tụ lạc là một Câu Lô Xá (s: krośa, p: kosa, 拘盧舍, có thuyết cho là tương đương với 600 bộ; Tạp Bảo Tạng Kinh [雜寶藏經] cho là 5 dặm). Trường hợp nếu có người mắng pháp phản đối, thì giới hạn trong vòng 58 bộ (Thiện Kiến Luật Tỳ Bà Sa [善見律毘婆沙] cho là tương đương với 7 Bàn Đà [槃陀, đơn vị đo lường của Ấn Độ, một Bàn Đà tương đương 28 khuỷu tay]). Những người phản đối thì tự tác pháp Yết Ma ngoài phạm vi này.",
+        "province": "中國-江蘇省-鎮江市-句容市",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.6468,
+          35.0787
+        ]
+      },
+      "properties": {
+        "name": "(02) Nhiếp Y Giới, còn gọi là Bất Thất Y Giới (不失衣界), Bất Ly Y Túc Giới (不離衣宿界); tức là hoạch định một phạm vi nào đó để tránh cho các Tỳ Kheo vi phạm sai lầm về việc ly túc (離宿). Ly túc ở đây có nghĩa là chỉ việc Tỳ Kheo xa lìa 3 y của mình mà trú qua đêm ở nơi khác. Nếu đã hoạch định một phạm vi nào đó, trong phạm vi ấy vị Tỳ Kheo có thể khôn cần phải mang theo 3 y thường xuyên. Điều thứ 2 trong 30 pháp Xả Đọa (s: naiḥsargika-prāyaścittika，p: nissaggiya pācittiya, 捨墮, âm dịch là Ni Tát Kì Ba Dạ Đề [尼薩耆波夜提]) của Ba La Đề Mộc Xoa (s: prātimokṣa, pratimokṣa，p: pātimokkha, pāṭimokkha, 波羅提木叉, ý dịch là Tùy Thuận Giải Thoát [隨順解脫], Xứ Xứ Giải Thoát [處處解脫], v.v.) có quy định về việc ly túc này. Loại Nhiếp Y Giới này cũng được phần thành 2 loại là Tự Nhiên Giới và Tác Pháp Giới. (03) Nhiếp Thực Giới, tức quy định kết giới nơi cất chứa thức ăn, là giới vức có thể nấu nướng thức ăn, giúp cho vị Tỳ Kheo không phạm phải lỗi gọi là túc chử. Vùng đất được quy định được gọi là tịnh địa (淨地), hay tịnh trù (淨廚). Nếu trong phạm vi này mà nấu nướng thì không phạm tội này. Thực tế tác pháp của Nhiếp Thực Giới được chia thành hai loại là Thông Kết (通結, kết giới chung) và Biệt Kết (別結, kết giới riêng). Như muốn giải trừ kết giới nói trên, thì khi kết giới, cũng phải nên trãi qua tác pháp gọi là Bạch Nhị Yết Ma (s: jñaptidvitiyā-karmavacanā, 白二羯磨, tức một lần thưa bạch và một lần Yết Ma) rồi mới có thể giải trừ. Tứ Phần Luật Hành Sự Sao Tư Trì Ký (四分律行事鈔資持記, Taishō Vol. 40, No. 1805) quyển Thượng giải thích rằng: “Y Giới giả, nhiếp y dĩ thuộc nhân, linh vô ly túc tội; Thực Giới giả, nhiếp thực dĩ chướng tăng, linh vô túc chử tội; Tăng Giới giả, nhiếp nhân dĩ đồng xứ, linh vô biệt chúng tội (衣界者、攝衣以屬人、令無離宿罪、食界者、攝食以障僧、令無宿煮罪、僧界者、攝人以同處、令無別眾罪, Nhiếp Y Giới là giữ gìn y luôn đi theo bên người, khiến cho không phạm tội ly túc; Nhiếp Thực Giới là giữ gìn thức ăn để ngăn chận chư tăng [khỏi sai phạm], khiến cho không phạm tội túc chử; Nhiếp Tăng Giới là giữ gìn mọi người cùng một trú xứ, khiến cho không phạm tội biệt chúng).” Trong Luật Học Phát Nhận (律學發軔, 卍Tục Tạng Kinh Vol. 60, No. 1125) quyển Trung, phần Kết Giới (結界), có đoạn: “Tỳ Kheo trú xứ, tiên đương kết giới, cái Yết Ma, thuyết giới, thọ giới, trị tội đẳng sự, tất y giới lập; nhược vô giới, tắc chư pháp giai bất năng thành tựu dã (比丘住處、先當結界、蓋羯磨、說戒、授戒、治罪等事、悉依界立、若無界、則諸法皆不能成就也, trú xứ của Tỳ Kheo, trước phải kết giới, phàm các việc như Yết Ma, thuyết giới, truyền trao giới, trị tội, v.v., đều nương vào giới vức mà lập; nếu không giới vức, thì các pháp đều không thể thành tựu vậy).” Bên cạnh đó, kết giới còn có nghĩa là nữ nhân kết giới (女人結界), tức cấm chỉ người nữ ra vào khu vực quy định. Kết giới cũng chỉ cho phạm vi nội trận (內陣, bộ phận chính giữa an trí tượng Phật) và ngoại trận (外陣, chỉ chu vi của nội trận, hay phần bên ngoài khu vực tham bái) trong Chánh Điện thờ Phật. Ngoài ra, đây cũng chỉ cho pháp kết giới của Mật Giáo. Đối với Mật Giáo, khi tu pháp, để phòng ngừa ma chướng xâm nhập, một địa khu được hoạch định để bảo vệ cho đạo tràng và hành giả; đó gọi là kết giới hay kết hộ (結護, ý là kết giới hộ thân). Pháp kết giới của Mật Giáo có nhiều loại khác nhau. Theo Bất Không Quyên Sách Thần Biến Chơn Ngôn Kinh (不空罥索神變眞言經, Taishō Vol. 20, No. 1092) quyển 2, Đà La Ni Tập Kinh (陀羅尼集經, Taishō Vol. 18, No. 901) quyển 1, v.v., có thể lấy hạt cải trắng, rãi bốn phương trên dưới để kết giới. Tô Tất Địa Yết La Kinh (蘇悉地羯羅經, Taishō Vol. 18, No. 893b) quyển Hạ, Phẩm Cúng Dường (供養品), thì lấy giới vức địa phương, hư không, tường Kim Cang, thành Kim Cang, v.v., mà kết giới chơn ngôn. Thông thường, kết giới thường dùng của pháp tu Mật Giáo phần lớn y cứ chuẩn vào thuyết của Đà La Ni Tập Kinh (陀羅尼集經, Taishō Vol. 18, No. 901) quyển 3, Cam Lộ Quân Trà Lợi Bồ Tát Cúng Dường Niệm Tụng Thành Tựu Nghi Quỹ (甘露軍荼利菩薩供養念誦成就儀軌, Taishō Vol. 21, No. 1211), v.v., được phân thành 5 loại như sau:",
+        "province": "中國-山西省-運城市-臨猗縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(04) Hỏa Viện (火院), còn gọi là Kim Cang Viêm (金剛炎), lấy lửa cháy rực xoay nhiễu quanh bốn góc hư không, có thể giúp đuổi lui chướng nạn của ma Ba Tuần (s: Māra-pāpman, 波旬), là pháp thứ 15 trong 18 đạo Khế Ấn.",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.1985,
+          30.3174
+        ]
+      },
+      "properties": {
+        "name": "(01) Chỉ sự khai thỉ của vũ trụ. Thần thoại cổ đại cho rằng Bàn Cổ (盤古) là người khai thiên lập địa. Thái Bình Ngự Lãm (太平御覽) quyển 1 dẫn về Thượng Thư Trung Hầu (尚書中候), có câu: “Thiên địa khai tịch (天地開闢, trời đất khai mở).” Hay trong bài thơ Trung Đường Mai Lâm Thiên Hạ Chi Thạnh Dã Liêu Thân Bỉ Thuật Khải Hảo Du Giả (中塘梅林天下之盛也聊伸鄙述啟好遊者) của Diệp Thích (葉適, 1150-1223) nhà Nam Tống có câu: “Vấn thùy thỉ chủng thử, khởi tự khai tịch sơ (問誰始種此、豈自開闢初, hỏi ai trồng loại này, ngay từ buổi ban sơ).”",
+        "province": "中國-安徽省-黃山市-黃山區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.6082,
+          40.15
+        ]
+      },
+      "properties": {
+        "name": "Cũng có truyền thuyết theo thứ tự Địa Ngục, Súc Sanh, Ngạ Quỷ và quan điểm gộp chung Tu La vào Địa Ngục để trở thành Ngũ Đạo (五道). Gati vốn phát xuất từ động từ √gam, nguyên ý là “sự đi, con đường”, được dịch là “đạo (道)” hay “thú (趣)”; tuy nhiên, trường hợp Lục Đạo thì có nghĩa là “cảnh giới, trạng thái sinh tồn”. Kết hợp với Tứ Sanh (四生), có dụng ngữ Lục Đạo Tứ Sanh (六道四生). Lục Đạo là tông thể phân loại về 4 hình thức sanh ra gồm thai sanh, thai sanh, thấp sanh và hóa sanh, từ đó nó bao quát hết toàn bộ tồn tại luân hồi. Luân hồi trong Lục Đạo được gọi là Lục Đạo Luân Hồi (六道輪廻). Từ khi Phật Giáo được truyền vào Trung Quốc dưới thời Hậu Hán, quan niệm về Luân Hồi và Lục Đạo được tuyên truyền rộng rãi trong xã hội nước này và trở thành tác động to lớn đối với người dân Trung Quốc vốn mang chủ nghĩa hiện thế trung tâm. Đặc biệt, sức mạnh báo động có hình ảnh Địa Ngục đã sản sinh ra những đồ hình biến tướng của Địa Ngục vốn miêu tả thảm cảnh ở cõi này, các Minh Báo Ký (冥報記) lưu truyền những câu chuyện bị đọa xuống Địa Ngục, hay văn học truyền khẩu, v.v; và tạo ảnh hưởng rộng rãi cho mỹ thuật cũng như văn học. Chính Đạo Giáo cũng lấy tư tưởng Lục Đạo của Phật Giáo để hình thành nên quan niệm Lục Đạo tương tợ như vậy. Hơn nữa, quan niệm cho rằng phạm tội ở đời này sẽ bị luân hồi trong Lục Đạo đã trở thành cơ duyên làm cho mọi người thức tỉnh về tội nghiệp của tự thân; cho nên, dưới thời đại Nam Bắc Triều, rất nhiều bản văn sám hối cầu nguyện cho tội lỗi tiêu trừ đã được sáng tác ra. Khi tư tưởng mạt pháp từ cuối thời Nam Bắc Triều cho đến thời Tùy Đường được quảng bá, niềm tin về đức A Di Đà Phật (阿彌陀佛), Địa Tạng (地藏), Quan Âm (觀音) cứu độ chúng sanh thoát khỏi cảnh khổ bị luân hồi trong Lục Đạo trở nên rất thịnh hành. Từ thời Ngũ Đại cho đến nhà Tống, trên các bức bích họa ở động Đôn Hoàng (敦煌) thỉnh thoảng xuất hiện hình Lục Đạo. Trong Thiên Thai Tông, tín ngưỡng về Lục Quan Âm (六觀音) được phối trí theo từng cảnh giới của Lục Đạo cũng khá phổ biến. Tại Nhật Bản, từ Lục Đạo, Địa Ngục, v.v., xuất hiện đầu tiên trong Nhật Bản Linh Dị Ký (日本靈異記, Nihonryōiki), nếu so sánh thì quan niệm về Lục Đạo rất lạc quan. Tuy nhiên, đến thế kỷ thứ 10, theo đà băng hoại của Chế Độ Luật Lịnh, trong những biến động và chiến loạn của xã hội, tư tưởng mạt pháp và quán sát vô thường càng mạnh hơn thêm; từ đó, quan niệm về Lục Đạo trở nên nghiêm trọng hơn. Đặc biệt, trong phần Lục Đạo Giảng Thức (六道講式徃生) của bộ Vãng Sanh Yếu Tập (徃生要集, Ōjōyōshū) cũng như Nhị Thập Ngũ Tam Muội Thức (二十五三昧式), Nguyên Tín (源信, Genshin) có miêu tả về sự khủng khiếp của Lục Đạo và đã tạo ảnh hưởng khá lớn cho văn học cũng như mỹ thuật. Do đó, Bảo Vật Tập (寳物集, Hōbutsushū) nói về nỗi khổ của Lục Đạo và khai thị 12 cửa vãng sanh, Bình Gia Vật Ngữ (平家物語, Heikemonogatari) lấy sự sa thải của Lục Đạo trong Quán Đảnh Quyển (灌頂巻) để làm nội dung cho toàn quyển, hay Phương Trượng Ký (方丈記, Hōjōki) làm cho liên tưởng đến những nghiệp khổ trong ác đạo thông qua các thiên tai như hỏa tai, gió lớn, nghèo đói, động đất, v.v., đều là những tác phẩm có ảnh hưởng sâu đến tư tưởng Lục Đạo. Mặt khác, từ giữa và cuối thời Bình An trở đi, các bức tranh bình phong cũng như tranh vẽ về Lục Đạo được phổ biến rộng rãi. Hiện còn lại một số tác phẩm tiêu biểu như Địa Ngục Thảo Chỉ (地獄草紙, Jigokusōshi), Ngạ Quỷ Thảo Chỉ (餓鬼草紙, Gakisōshi), Bệnh Thảo Chỉ (病草紙, Yamaisōshi), v.v., thuộc hậu bán thế kỷ 12. Hơn nữa, vào thời kỳ biến động và chiến loạn, tín ngưỡng về Lục Quan Âm cũng như Địa Tạng phát triển rộng khắp. Đặc biệt, Địa Tạng được gọi là “bậc có thể hóa độ chốn Lục Đạo”, đến thế kỷ thứ 11 thì tín ngưỡng Lục Địa Tạng cho rằng ngài có mặt khắp các cõi để cứu độ hết thảy chúng sanh, được hình thành. Đến cuối thời Liêm Thương trở đi, kết hợp với Thần Tạ Ơn, Thần Tổ Đạo, tại các ngã tư đường cũng như cửa vào mộ địa, người ta có đặt 6 bức tượng Địa Tạng. Những ngã tư như vậy được xem như là nơi người chết phân chia theo sáu đường, cho nên có tên gọi là “Ngã Tư Lục Đạo”. Như trong Phật Thuyết Dự Tu Thập Vương Sanh Thất Kinh (佛說預修十王生七經, CBETA No. 21) có câu: “Bi tăng phổ hóa thị uy linh, Lục Đạo luân hồi bất tạm đình, giáo hóa yếm khổ tư an lạc, cố hiện Diêm La Thiên Tử hình (悲增普化示威靈、六道輪迴不暫停、敎化厭苦思安樂、故現閻羅天子形, buồn thêm hóa độ hiện oai linh, sáu nẻo luân hồi chẳng tạm dừng, giáo hóa bỏ khổ vui an lạc, nên hiện Diêm La Thiên Tử hình).”",
+        "province": "中國-北京市-市轄區-順義區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.4351,
+          34.7591
+        ]
+      },
+      "properties": {
+        "name": "Tuy nhiên, trong Thiền Uyển Thanh Quy (禪苑清規) dưới thời Bắc Tống (北宋, 960-1127), chỉ có 4 vị Tri Sự là Giám Viện, Duy Na, Điển Tòa và Trực Tuế mà thôi. Trong Vĩnh Bình Điển Tòa Giáo Huấn (永平典座敎訓) có đề cập đến Lục Tri Sự này như: “Phật Giáo tùng bổn hữu Lục Tri Sự (佛敎從本有六知事, Phật Giáo từ xưa đã có Sáu Tri Sự).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.282043,
+          22.849602
+        ]
+      },
+      "properties": {
+        "name": "Qua đó, ta thấy rằng 10 cung này tương đương với 10 điện và tên gọi của các vị chủ quản các cung cũng gần tương tự với 10 vị Minh Vương (xin xem thêm chi tiết ở phần Minh Vương và Diêm Ma Thập Điện). Trong Hiện Quả Tùy Lục (現果隨錄) quyển 2 có câu: “Ngô tinh phi tà, tiền tại Minh Phủ kiến nhất kỳ sự, cấp dục vãng bỉ khám nghiệm nhĩ (吾並非邪、前在冥府見一奇事、急欲徃彼一勘驗耳, tôi chẳng nói bậy đâu, trước kia ở dưới Minh Phủ có thấy một việc kỳ lạ, muốn mau đến ông ấy khám nghiệm thử đúng không).” Hay Trong Thiền Lâm Tăng Bảo Truyện (禪林僧寶傳) quyển 8, truyện Nam An Nham Nghiêm Tôn Giả (南安巖嚴尊者) lại có đoạn: “Hữu tăng tự Huệ Châu lai, viết: 'Hà Nguyên hữu cự chu trước sa, vạn ngưu hoán bất khả động, nguyện đắc dĩ tải chuyên, kiến tháp vu nam hải, vi chúng sanh phước điền.' Công viết: 'Thử Âm Phủ chi vật' (有僧自惠州來、曰河源有巨舟著沙、萬牛挽不可動、願得以載磚、建塔于南海、爲眾生福田、公曰此陰府之物, có vị tăng từ Huệ Châu đến bảo rằng: 'Tại Hà Nguyên có một chiếc thuyền lớn bị mắc cát, vạn con trâu kéo cũng không nhúc nhích, xin ngài đến chở ngói gạch, xây tháp nơi Nam Hải để làm ruộng phước cho chúng sanh.' Ông [Nham Nghiêm Tôn Giả] nói rằng: 'Đó là đồ của Âm Phủ').”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(01) Từ mỹ xưng của lối chữ Triện; phần lớn chỉ cho những văn tự trong các điển tịch, văn cáo, sách phù lục, v.v. Như trong bức Lập Thông Đạo Quán Chiếu (立通道觀詔) của Vương Bao (王褒, ?-?) nhà Hán có đoạn: “Thánh triết vi ngôn, tiên hiền điển huấn, kim khoa ngọc triện, bí tích di thư, tinh nghi hoằng xiển, nhất dĩ quán chi (聖哲微言、先賢典訓、金科玉篆、秘蹟遺書、幷宜弘闡、一以貫之, Thánh triết lời hay, tiên hiền giáo huấn, khoa vàng Triện ngọc, dấu tích di thư, đều nên mở rộng, xuyên suốt như một).” Hay trong bài thơ Hòa Tả Vệ Võ Thương Tào Tặng Hữu Vệ Lý Kỵ Tào (和左衛武倉曹贈右衛李騎曹) của Tôn Địch (孫逖, 696-761) nhà Đường có câu: “Văn trường san ngọc triện, võ sự chưởng kim nao (文塲刊玉篆、武事掌金鐃, văn chương in Triện ngọc, chuyện võ nao bạt cầm).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.278745,
+          31.859537
+        ]
+      },
+      "properties": {
+        "name": "(01) Kính Sơn Hưng Thánh Vạn Thọ Tự (徑山興聖萬壽寺, thuộc Phủ Lâm An, Hàng Châu, Tỉnh Triết Giang),",
+        "province": "中國-安徽省-合肥市-廬陽區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.765829,
+          30.758326
+        ]
+      },
+      "properties": {
+        "name": "(03) Nam Sơn Tịnh Từ Báo Ân Quang Hiếu Tự (南山淨慈報恩光孝寺, như trên),",
+        "province": "中國-浙江省-嘉興市-南湖區(**)",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.263759,
+          37.691366
+        ]
+      },
+      "properties": {
+        "name": "(01) Trung Sơn Thiên Ninh Vạn Thọ Vĩnh Tộ Tự (中山天寧萬壽永祚寺, thuộc Phủ Lâm An, Hàng Châu),",
+        "province": "中國-河北省-衡水市-景縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.430341,
+          29.860851
+        ]
+      },
+      "properties": {
+        "name": "(03) Tương Sơn Thái Bình Hưng Quốc Tự (蔣山太平興國寺, thuộc Phủ Thượng Nguyên, Kiến Khang, Tỉnh Giang Tô),",
+        "province": "中國-安徽省-黃山市-歙縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.562114,
+          31.842928
+        ]
+      },
+      "properties": {
+        "name": "(05) Tuyết Đậu Sơn Tư Thánh Tự (雪竇山資聖寺, thuộc Phủ Khánh Nguyên, Minh Châu),",
+        "province": "中國-江蘇省-南京市-江寧區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.285795,
+          33.944068
+        ]
+      },
+      "properties": {
+        "name": "(07) Tuyết Phong Sơn Sùng Thánh Tự (雪峰山崇聖寺, thuộc Huyện Hầu Quan, Phúc Châu, Tỉnh Phúc Kiến),",
+        "province": "中國-江蘇省-宿遷市-宿城區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.576334,
+          31.33776
+        ]
+      },
+      "properties": {
+        "name": "(09) Hổ Kheo Sơn Vân Nham Tự (虎丘山雲巖寺, thuộc Phủ Bình Giang, Tô Châu), và",
+        "province": "中國-江蘇省-蘇州市-金閶區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "Chế độ này cũng được kế thừa cho đến thời nhà Nguyên, nhưng vào năm 1330 vua Tok Temru (tức Văn Tông, tại vị 1329-1332) đã bỏ ly cung của mình ở ngoại ô Kim Lăng (金陵) mà biến nơi đây thành Đại Long Tường Tập Khánh Tự (大龍翔集慶寺), thỉnh Tiếu Ẩn Đại Hân (笑隱大訢) đến làm tổ khai sơn chùa này và xếp nó lên trên cả Ngũ Sơn. Đến thời nhà Minh, chỉ có ngôi chùa này được đổi tên thành Thiên Giới Thiện Thế Thiền Tự (天界善世禪寺), và thể chế này vẫn được tiếp tục duy trì. Dưới chế độ Ngũ Sơn Thập Sát này còn có các ngôi chùa gọi là Giáp Sát (甲刹, tương đương với những ngôi chùa tổ trung tâm ở Nhật). Sau này ở Nhật người ta cũng mô phỏng theo hình thức này và Ngũ Sơn ở hai vùng kinh đô Kyoto cũng như Liêm Thương đã được liệt vào. Cùng với sự chỉnh bị về chế độ các ngôi chùa quan, nghi thức Bỉnh Phất (秉拂) để trắc nghiệm tư cách trở thành trú trì cũng được quy định rõ rệt, và việc tiến cử trú trì cũng theo thứ tự từ các ngôi chùa Giáp Sát cho đến Thập Sát và Ngũ Sơn.",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          108.9532,
+          34.2662
+        ]
+      },
+      "properties": {
+        "name": "(凝然, Gyōnen, 1240-1321): vị học Tăng của Hoa Nghiêm Tông sống vào khoảng giữa thời Liêm Thương, húy là Ngưng Nhiên (凝然), hiệu Thị Quán Phòng (示觀房), thụy hiệu là Thị Quán Quốc Sư (示觀國師), xuất thân vùng Cao Kiều (高橋, Takahashi), Y Do (伊予, Iyo, thuộc Ehime-ken [愛媛縣]), họ Đằng Nguyên (藤原, Fujiwara). Năm 1225, ông thọ giới ở Giới Đàn Viện tại Diện Lịch Tự (延曆寺, Enryaku-ji), rồi đến năm 1257 thì thọ Cụ Túc Giới ở Giới Đàn Viện của Đông Đại Tự (東大寺, Tōdai-ji). Năm 1259, ông theo hầu Viên Chiếu (圓照), từ đó về sau thì ông theo học giáo lý của cả tám Tông phái với Thánh Thủ (聖守), Tông Tánh (宗性), Trường Tây (長西), v.v. Năm 1277, ông kế thừa Viên Chiếu làm Viện Chủ của Giới Đàn Viện. Năm 1307, ông trao truyền Bồ Tát giới cho Hậu Vũ Đa Thượng Hoàng (後宇多上皇), sau đó còn thuyết giảng Hoa Nghiêm Ngũ Giáo Chương (華嚴五敎章) trong cung nội nữa. Đến năm 1316, ông chuyển đến ở tại Đường Chiêu Đề Tự (唐招提寺, Tōshōdai-ji). Ông rất tinh thông về giáo lý của các Tông phái Phật Giáo cũng như Nho Giáo, và trước tác của ông lên đến 126 bộ, 1204 quyển. Hơn nữa, ông còn viết về Phật Giáo Sử như bộ Tam Quốc Phật Pháp Truyền Thông Duyên Khởi (三國佛法傳通緣起), v.v. Ông đã dưỡng thành một số đệ tử nổi tiếng như Thiền Nhĩ (禪爾), Thiền Minh (禪明), v.v. Trước tác của ông để lại có rất nhiều như Bát Tông Cương Yếu (八宗綱要) 1 quyển, Tam Quốc Phật Pháp Truyền Thông Duyên Khởi (三國佛法傳通緣起) 3 quyển, Hoa Nghiêm Ngũ Giáo Chương Thông Lộ Ký (華嚴五敎章通路記) 52 quyển, Đồng Chiếu Thượng Nhân Hành Trạng Ký (同照上人行狀記) 3 quyển, v.v",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.759589,
+          32.033295
+        ]
+      },
+      "properties": {
+        "name": "(梵音): còn gọi là phạm thanh (s: brahma-svara, 梵聲), một trong 32 tướng tốt của đức Phật, là âm thanh vi diệu, thanh tịnh của chư Phật, Bồ Tát, tiếng nói tròn đầy như tiếng vang của trống trời, cũng giống như tiếng chim Ca Lăng Tần Già (s:渠 karaviṅka; p: karavīka, 迦陵頻伽). Nhờ nói lời chân thật, lời nói hay, chế ngự hết thảy những lời nói xấu ác mà có được tướng tốt như vậy. Người nghe được tiếng nói như vậy, tùy theo căn cơ của mình mà có được lợi ích, sanh khởi điều tốt, cảm nhận và đoạn trừ được quyền thật lớn nhỏ, tiêu trừ mọi nghi ngờ. Tại Viên Thông Điện (圓通殿) của Giang Tâm Tự (江心寺), Ôn Châu (溫州), Tỉnh Triết Giang (浙江省) có câu đối: “Quán hạnh viên thông từ quán bi quán thanh tịnh quán, âm văn tự tại diệu âm phạm âm hải triều âm (觀行圓通慈觀悲觀清淨觀、音聞自在妙音梵音海潮音, hạnh quán tròn đầy từ quán bi quán thanh tịnh quán, tiếng nghe tự tại tiếng mầu tiếng phạm tiếng hải triều).” Hay như trong Quán Thế Âm Bồ Tát Phổ Môn Phẩm (觀世音菩薩普門品) thứ 25 của Kinh Pháp Hoa có đoạn: “Diệu âm quán thế âm, phạm âm hải triều âm, thắng bỉ thế gian âm, thị cố tu thường niệm (妙音觀世音、梵音海潮音、勝彼世間音、是故須常念, diệu âm, quán thế âm, phạm âm, hải triều âm, hơn cả âm thế gian kia, cho nên phải thường nhớ đến).”",
+        "province": "中國-江蘇省-南京市-建鄴區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          108.9532,
+          34.2662
+        ]
+      },
+      "properties": {
+        "name": "(01) Chỉ cho tướng trang nghiêm, thanh tịnh của chư Phật, Bồ Tát, v.v. Như trong Toàn Đường Thi (全唐詩) quyển 85 có thâu lục bài thơ Võ Túc Vương Hữu Chỉ Thạch Kiều Thiết Trai Hội Tấn Nhất Thi (武肅王有旨石橋設齋會進一詩) của một vị tăng ở Ngô Việt, có câu: “La Hán phàn chi trình Phạm tướng, nham tăng ỷ thọ hiện chơn hình (羅漢攀枝呈梵相、巖僧倚樹現眞形, La Hán vin cành bày tướng hảo, tựa cây tăng núi hiện chơn hình).” Hay trong Năng Cải Trai Mạn Lục (能改齋漫錄), chương Sự Thỉ (事始) 2 của Ngô Tằng (吳曾, khoảng thế kỷ 12) nhà Tống có đoạn: “Thiên hạ tự lập Quan Âm tượng, cái bổn ư Đường Văn Tông hảo thị cáp lị; nhất nhật, ngự soạn trung hữu phách bất khai giả, đế dĩ vi dị, nhân phần hương chúc chi, nãi khai, tức kiến Bồ Tát hình, Phạm tướng cụ túc (天下寺立觀音像、蓋本於唐文宗好嗜蛤蜊、一日、禦饌中有擘不開者、帝以爲異、因焚香祝之、乃開、卽見菩薩形、梵相具足, các chùa trong thiên hạ đều dựng tượng Quan Âm, vốn xuất phát từ việc vua Văn Tông [tại vị 826-840] nhà Đường thích ăn con sò; một hôm nọ, trong cỗ ăn của nhà vua có con sò bị nạy mà vẫn không mở ra; nhà vua lấy làm lạ, nhân đó thắp hương cầu khấn, con sò liền mở miệng ra, tức thấy hình Bồ Tát, tướng hảo đầy đủ).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(法顯, Hokken, 577-653): vị tăng sống dưới thời nhà Đường, người vùng Giang Lăng (江陵, Hồ Bắc), họ Đinh (丁). Năm 12 tuổi, ông xuất gia, theo Bảo Minh (寳冥) ở Tứ Tằng Tự (四層寺) học kinh luận, rồi tham học với Thiên Thai Trí Khải (智顗), Minh Trí (明智), Thành Ngạn (成彥), Tập Hạo (習皓), v.v. Về sau ông lui ẩn cư mãi cho đến năm cuối niên hiệu Trinh Quán (貞觀, 627-649) mới xuất hiện lại. Đến năm thứ 4 niên hiệu Vĩnh Huy (永徽), ông thị tịch, hưởng thọ 77 tuổi",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.280866,
+          33.939892
+        ]
+      },
+      "properties": {
+        "name": "(06) Môn Lưu Trung Sơn (中山門流), Bổn Diệu Pháp Hoa Kinh Tự (本妙法華經寺, Honmyōhokkekyō-ji, Shimofusa);",
+        "province": "中國-江蘇省-宿遷市-宿城區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(01) Chỉ cho quái vật có đủ uy lực khủng khiếp, có thể biến hóa tự tại; được chia thành hai loại thiện và ác. Trường hợp bảo vệ thế gian hoặc hộ trì Phật pháp như Đại Phạm Thiên Vương (大梵天王), Tam Thập Tam Thiên Vương (三十三天王), Tứ Thiên Vương (四天王), Viêm Ma Vương (炎魔王), Nan Đà Long Vương (難陀龍王), Bạt Nan Đà Long Vương (跋難陀龍王), v.v., đều là quỷ thần thiện. Trường hợp như La Sát (s: rākṣasa, 羅剎), v.v., thuộc về quỷ thần ác. Còn Dạ Xoa (s: yakṣa，p: yakkha, 夜叉) thì thuộc về cả hai thiện và ác. Tuy nhiên, quỷ thần được đề cập trong Phật Giáo là chỉ cho 6 bộ quỷ thần, gồm Càn Thác Bà (s: gandharva, p: gandhabba, 乾闥婆), Dạ Xoa, A Tu La (s, p: asura, 阿修羅), Ca Lâu La (s: garuḍa, 迦樓羅), Khẩn Na La (s: kiṃnara, p: kinnara, 緊那羅), Ma Hầu La Già (s: mahoraga, 摩睺羅伽). Vào thời cổ đại Ấn Độ, từ thời đại Veda trở về sau, trong dân gian rất thịnh hành tín ngưỡng quỷ thần; về sau một bộ phận tín ngưỡng này thâm nhập vào Phật Giáo, nổi bậc nhất là Mật Giáo; tỷ dụ như các Minh Vương có hình giận dữ vốn hiển hiện pháp thân của Phật Tỳ Lô Giá Na, cũng thuộc loại quỷ thần. Ngoài ra, trong Kim Quang Minh Kinh (金光明經, Taishō Vol. 16, No. 663) thuật lại rất rõ chư thiên quỷ thần, và quý vị này được Thiên Thai Tông tôn sùng cao độ. Trong bộ Trùng Biên Chư Thiên Truyện (重編諸天傳, 卍 Tục Tạng Kinh Vol. 88, No. 1658), 2 quyển, do Thích Hành Đình (釋行霆) ở Ô Thú (烏戍) nhà Tống biên soạn, thâu lục đầy đủ các quỷ thần được đề cập trong kinh điển. Trong bài Nguyên Quỷ (原鬼) của Hàn Dũ (韓愈, 768-824) có giải thích rằng: “Vô thanh dữ hình giả, quỷ thần thị dã (無聲與形者、鬼神是也, cái không có tiếng và hình chính là quỷ thần vậy).” Trong Đoạn Trường Tân Thanh có câu rằng: “Mai sau dầu đến thế nào, kìa gương nhật nguyệt nọ dao quỷ thần.”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.6468,
+          35.0787
+        ]
+      },
+      "properties": {
+        "name": "(11) Lấy oai lực thần thông, thị hiện đường ác, khiến cho chúng sanh kia sợ hãi, xa lìa điều ác, vâng tu theo Phật pháp, hoan hỷ tin mừng, sanh tâm hy hữu. Ba Tu Tịnh Giới này là giới thông cả tăng lẫn tục của Đại Thừa. Tăng sĩ Đại Thừa ban đầu thọ Nhiếp Luật Nghi Giới, tức thọ 250 giới, đây gọi là biệt thọ (別受); sau lại thọ chung Ba Tu Tịnh Giới này, gọi là thông thọ (通受). Như trong Đạt Ma Đại Sư Phá Tướng Luận (達磨大師破相論, 卍 Tục Tạng Kinh Vol. 63, No. 1220) có đoạn: “Cầu giải thoát giả, năng chuyển Tam Độc, vi Tam Tụ Tịnh Giới, chuyển Lục Tặc vi Lục Ba La Mật, tự nhiên vĩnh ly nhất thiết chư khổ (求解脫者、能轉三毒、爲三聚淨戒、轉六賊為六波羅蜜、自然永離一切諸苦, người cầu giải thoát, có thể chuyển Ba Độc thành Ba Tụ Tịnh Giới, chuyển Sáu Tặc thành Sáu Ba La Mật, tự nhiên mãi lìa hết thảy các khổ).”",
+        "province": "中國-山西省-運城市-臨猗縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(性信, Shōshin, 1005-1085): vị tăng của Chơn Ngôn Tông Nhật Bản, sống vào cuối thời Bình An, vị Tổ thứ 2 của Nhân Hòa Tự (仁和寺, Ninna-ji), húy là Tánh Tín (性信), tục danh là Sư Minh (師明), thông xưng là Đại Ngự Thất (大御室), thụy hiệu Quang Minh Thọ Viện (光明壽院), Hoàng Tử thứ 4 của Tam Điều Thiên Hoàng (三條天皇, Sanjō Tennō, tại vị 1011-1016). Năm 1011, ông nhậm chức Thân Vương, đến năm 1018 thì xuất gia với Tế Tín (濟信) ở Nhân Hòa Tự; sau đó ông thọ giới ở Đông Đại Tự (東大寺, Tōdai-ji) và năm sau thì thọ lễ Quán Đảnh tại Quan Âm Viện của chùa này. Vào năm 1059, ông lên tham bái Cao Dã Sơn, đến năm 1068 thì làm lễ cầu nguyện cho Hậu Lãnh Tuyền Thiên Hoàng (後冷泉天皇, Goreizei Tennō, tại vị 1045-1068) tật bệnh tiêu trừ, và tương truyền khi ông hành trì Khổng Tước Kinh Pháp (孔雀經法) trong cung nội thì có hiệu nghiệm. Năm 1077, ông làm Kiểm Hiệu cho Pháp Thắng Tự (法勝寺). Thỉnh thoảng ông có làm những điều linh nghiệm, nên được gọi là Không Hải tái thế. Trước tác của ông có Hộ Ma Tư Ký (護摩私記) 1 quyển, Quán Đảnh Sở Dụng Mục Lục (灌頂所用目錄) 1 quyển.",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.559078,
+          29.865391
+        ]
+      },
+      "properties": {
+        "name": "(01) Phái Oánh Sơn (瑩山派, Keizan-ha), Tổng Trì Tự (總持寺, Sōji-ji) và Vĩnh Quang Tự (永光寺, Yōkō-ji);",
+        "province": "中國-浙江省-寧波市-江東區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.559078,
+          29.865391
+        ]
+      },
+      "properties": {
+        "name": "(03) Phái Nga Sơn (峨山派, Gasan-ha), Tổng Trì Tự (總持寺, Sōji-ji);",
+        "province": "中國-浙江省-寧波市-江東區",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.405073,
+          29.625917
+        ]
+      },
+      "properties": {
+        "name": "(07) Phái Tâm Việt (心越派, Shinetsu-ha), Kỳ Viên Tự (祇園寺, Gion-ji). Ngoài Vĩnh Bình Tự và Tổng Trì Tự là hai ngôi chùa bản sơn trung tâm của tông phái cũng như các ngôi chùa đã nêu trên, còn có nhiều ngôi tự viện nổi tiếng khác được xem như Chuyên Môn Tăng Đường như: Chánh Pháp Tự (正法寺, Shōhō-ji, Iwate-ken [岩手縣]); Trường Cốc Tự (長谷寺, Chōkoku-ji, Tōkyō-to [東京都]); Tối Thừa Tự (最乘寺, Saijō-ji, Kanagawa-ken [神奈川縣]), Trường Quốc Tự (長國寺, Chōkoku-ji, Nagano-ken [長野縣]), Diệu Nham Tự (妙巖寺, Myōgon-ji, Aichi-ken [愛知縣]), Đại Thừa Tự (大乘寺, Daijō-ji, Ishikawa-ken [石川縣]), Ngự Đản Sanh Tự (御誕生寺, Gotanjō-ji, Fukui-ken [福井縣]), Hưng Thánh Tự (興聖寺, Kōshō-ji, Kyōto-fu [京都府]), Động Tùng Tự (洞松寺, Tōshō-ji, Okayama-ken [岡山縣]), Tuyền Nhạc Tự (泉岳寺, Sengaku-ji, Tōkyō-to), Cao Nham Tự (高岩寺, Kōgan-ji, Tōkyō-to), Thanh Tùng Tự (青松寺, Seishō-ji, Tōkyō-to), Tu Thiền Tự (修禪寺, Shuzen-ji, [靜岡縣]), Đại Thuyền Quán Âm Tự (大船觀音寺, Ōfunakannon-ji, Kanagawa-ken), v.v.",
+        "province": "中國-浙江省-寧波市-奉化市",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(01) Tức Tây Vương Mẫu (西王母), tục xưng là Vương Mẫu Nương Nương (王母娘娘), Tây Mụ (西姥), Vương Mẫu (王母), Kim Mẫu (金母), Kim Mẫu Nguyên Quân (金母元君), Diêu Trì Kim Mẫu (瑤池金母); gọi đủ là Bạch Ngọc Quy Đài Cửu Linh Thái Chơn Kim Mẫu Nguyên Quân (白玉龜台九靈太眞金母元君), Bạch Ngọc Quy Đài Cửu Phụng Thái Chơn Tây Vương Mẫu (白玉龜台九鳳太真西王母), Thái Linh Cửu Quang Quy Đài Kim Mẫu Nguyên Quân (太靈九光龜台金母元君). Tục tánh của Tây Vương Mẫu là Hầu (侯), hay Dương (楊); tên Hồi (回), tự là Uyển Linh (婉姈), hay Thái Hư (太虛); là vị nữ thần, tiên nữ trong truyền thuyết thần thoại Trung Quốc, xưa kia dùng làm tượng trưng cho trường sanh bất lão. Tên gọi Tây Vương Mẫu lần đầu tiên xuất hiện trong Sơn Hải Kinh (山海經), phần Tây Thứ Tam Kinh (西次三經): “Tây Vương Mẫu cư trú tại Ngọc Sơn chi sơn, kỳ trạng như nhân, báo vĩ hổ xỉ nhi thiện khiếu, bồng phát đái thắng (西王母居住在玉山之山、其狀如人、豹尾虎齒而善嘯、蓬髮戴勝, Tây Vương Mẫu cư trú tại núi Ngọc Sơn, hình trạng như người, đuôi báo, răng cọp mà khéo gầm thét, tóc bềnh bồng có cài hoa).” Chữ “Tây (西)” chỉ cho phương hướng, “Vương Mẫu (王母)” là thần danh. Tây Vương Mẫu được kết thành từ khí Tây Hoa Chí Diệu (西華至妙) trong nguyên khí hỗn độn của đất trời tự nhiên. Trong Hán Võ Đế Nội Truyện (漢武帝內傳) có diễn tả khi Tây Vương Mẫu đăng điện như sau: “Trước hoàng kim đáp thuộc, văn thái tiên minh, quang nghi thục mục, đái Linh Phi đại thụ, yêu bội Phân Cảnh chi kiếm, đầu thượng Thái Hoa kế, đái Thái Chơn Thần Anh chi quan, lý Huyền Quyết Phụng Văn chi tích; thị chi kahr niên tam thập hứa, tu đoản đắc trung, thiên tư yểm ái, dung nhan tuyệt thế (著黃金褡孎、文采鮮明、光儀淑穆、帶靈飛大綬、腰佩分景之劍、頭上太華髻、戴太眞晨嬰之冠、履玄鐍鳳文之舄、視之可年三十許、修短得中、天姿掩藹、容顏絕世, Bà mặc áo bào vàng ròng, văn hoa sáng ngời, dáng nghi hiền thục, mang dây đai lớn Linh Phi, lưng đeo cây kiếm Phân Cảnh, trên đầu búi tóc Thái Hoa, đầu đội mão Thái Chơn Thần Anh, chân mang hài Huyền Quyết Phụng Văn, mới nhìn khoảng chừng ba mươi tuổi, song có thể trẻ hơn, dáng trời thư thái, dung nhan tuyệt thế).” Hán Võ Đế (漢武帝, tại vị 141-87 ttl.) lạy nhận mệnh của Tây Vương Mẫu. Bà là tông tổ của các tiên nữ, cư trú tại núi Côn Lôn (崑崙), có thành quách cả vạn dặm, lầu ngọc 12 ngôi, cửa khuyết Quỳnh Hoa (瓊華), nhà bằng ngọc Quang Bích (光碧), phòng bằng hạt Tử Thúy (紫翠); bên trái giáp giới với Diêu Trì (瑤池), bên phải bao vòng cả Thúy Sơn (翠山). Trong Bác Vật Chí (博物志) cho rằng nơi Diêu Trì ấy có cây đào tên Bàn Đào (蟠桃), ba ngàn năm mới sanh trái một lần. Từ đó, Tây Vương Mẫu còn có tên gọi là Diêu Trì Kim Mẫu, Diêu Trì Thánh Mẫu, chủ nhân của Hội Bàn Đào. Trên trời dưới đất, Ba Cõi Mười Phương, bất cứ người nữ nào đắc đạo thành tiên, đều phải lệ thuộc vào sự quản lý của Tây Vương Mẫu. Nguyên Thỉ Thiên Tôn (元始天尊) ban cho Tây Vương Mẫu hồ sơ Phương Thiên Nguyên Thống Quy Sơn Cửu Quang (方天元統龜山九光) để tổng quản vạn linh, chư thánh hiền. Tương truyền Chu Mục Vương (周穆王) đã từng xa giá đến vùng Tây Bào (西跑), cách kinh đô mấy vạn dặm, gặp Tây Vương Mẫu bên hồ Diêu Trì, cùng nhau uống rượu thù tạc, thậm chí quên đường về. Như trong Mục Thiên Tử Truyện (穆天子傳) quyển 3 có đoạn rằng: “Thiên tử thương Tây Vương Mẫu vu Diêu Trì chi thượng, Tây Vương Mẫu vi Thiên tử dao (天子觴西王母于瑤池之上，西王母爲天子謠, Thiên tử uống rượu với Tây Vương Mẫu trên hồ Diêu Trì, Tây Vương Mẫu ca hát cho Thiên tử nghe).” Sau này Hán Võ Đế đi tìm thuốc trường sanh bất tử, được Tây Vương Mẫu từ trên trời giáng xuống và ban cho bảy hạt Đào Tiên. Đến thời nhà Hán, hình tượng của Vương Mẫu được tiên nhân hóa, như trong Hoài Nam Tử Lãm Minh Huấn (淮南子覽冥訓) có đoạn: “Nghệ thỉnh bất tử chi dược ư Tây Vương Mẫu, Hằng Nga thiết dĩ bôn nguyệt (羿請不死之藥於西王母、姮娥竊以奔月, Hậu Nghệ xin thuốc bất tử nơi Tây Vương Mẫu, Hằng Nga trộm lấy thuốc ấy đùa với trăng).” Cho nên, Tây Vương Mẫu được xem như là kho báu bí mật của thuốc trường sanh bất tử, là người đào tạo ra các tiên nhân. Đạo Giáo và dân gian đều kính ngưỡng Vương Mẫu như là tượng trưng cho sự trường thọ, xem Bà như là vị chủ thần của Kim Lục Diên Thọ Đạo Tràng (籙延壽道塲), ban bố sự sống lâu. Về ngày đản sanh của Vương Mẫu, có thuyết cho là mồng 3 tháng 3, và có thuyết cho là 18 tháng 7. Vào ngày này, tín đồ Đạo Giáo, đặc biệt là người nữ, thường tập trung tại các Đạo Quán, để dâng hương, chúc mừng Thánh đản và cầu nguyện sức khỏe, sống lâu.",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(01) Các triết học gia cổ đại gọi Thái Cực là khí hỗn độn lúc ban đầu. Khi Thái Cực vận động thì phân hóa thành âm dương; từ âm dương mà sinh ra 4 thời biến hóa (Xuân, Hạ, Thu, Đông), từ đó xuất hiện các loại hiện tượng tự nhiên, và đó là nguồn gốc của vạn vật vũ trụ. Như trong Dịch Kinh (易經), Hệ Từ Thượng (繫辭上), giải thích rằng: “Dịch hữu Thái Cực, thị sanh Lưỡng Nghi, Lưỡng Nghi sanh Tứ Tượng, Tứ Tượng sanh Bát Quái (易有太極、是生兩儀、兩儀生四象、四象生八卦, Dịch có Thái Cực, sanh ra Lưỡng Nghi [âm dương], Lưỡng Nghi sanh ra Tứ Tượng [Xuân, Hạ, Thu, Đông], Tứ Tượng sanh ra Bát Quái [Càn, Khảm, Cấn, Chấn, Tốn, Li, Khôn, Đoài]).” Khổng Dĩnh Đạt (孔穎達, 574-648) nhà Đường giải thích rằng: “Thái Cực vị thiên địa vị phân chi tiền, nguyên khí hỗn nhi vi nhất, tức thị Thái Sơ, Thái Nhất dã (太極謂天地未分之前、元氣混而爲一、卽是太初、太一也, Thái Cực nghĩa là trời đất trước khi chưa phân chia, nguyên khí hỗn tạp mà thành một, tức là Thái Sơ, Thái Nhất vậy).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.6468,
+          35.0787
+        ]
+      },
+      "properties": {
+        "name": "(01) Đường hào bảo vệ chung quanh thành quách. Từ Thành Hoàng được tìm thấy đầu tiên trong thư tịch Dịch Kinh (易經), phần Thái Quái (泰卦): “Thành phục ư hoàng (城復於隍, thành lại ở trong hào).” Thuyết Văn Giải Tự (說文解字) giải thích rằng: “Thành, dĩ thạnh dân chi (城、以盛民也, thành trì để bảo vệ dân)” và “Hoàng, thành trì dã (隍、城池也, hoàng là cái hào bảo vệ thành)”, hay “vô thủy viết hoàng (無水曰隍, nơi không có nước gọi là hoàng).” Như vậy, theo nghĩa xa xưa, từ thành hoàng là con sông, cái hào bảo vệ thành quách. Nhân đó, Ban Cố có đoạn văn rằng: “Tu cung thất, tuấn thành hoàng (修宮室、浚城隍, sửa cung thất, đào hào thành).”",
+        "province": "中國-山西省-運城市-臨猗縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(青蓮): hoa sen xanh, từ ý dịch của Ưu Bát La (s: utpala, p: uppala, 優鉢羅), hay Ô Bát La (烏鉢羅), Âu Bát La (漚鉢羅), Ưu Bát Lạt (優鉢剌), Ôn Bát La (殟鉢羅); tên khoa học là Nymphaca tetragona. Bên cạnh đó, nếu thêm tính từ nīla vào, ta có loại hoa sen xanh khác tên nīlotpala (Nê Lô Bát La [泥廬鉢羅], loại hoa của Bồ Tát Văn Thù [s: Mañjuśrī, 文殊) hay cầm). Pháp Hoa Huyền Tán (法華玄贊) quyển 1 ghi rằng: “Ôn Bát La hoa vi thanh liên hoa (殟鉢羅華爲青蓮華, Ôn Bát La hoa là hoa sen xanh)”. Huyền Ứng Âm Nghĩa (玄應音義) quyển 3 gọi loại hoa này là Đại Hoa (黛花, hoa xanh đậm). Đại Nhật Kinh Sớ (大日經疏) quyển 15 cho biết loài hoa này có hai màu: đỏ và trắng; bên cạnh đó còn có loại không đỏ không trắng, hình như hoa Nê Lô Bát La. Do đó, phần lớn hoa Ưu Bát La được xem là có màu xanh, hơn nữa màu này rất nổi bật và khác lạ. Lý Bạch (李白, 701-762), đại thi hào theo chủ nghĩa lãng mạn, sống dưới thời nhà Đường, cũng có hiệu là Thanh Liên Cư Sĩ (青蓮居士). Trong bài Túc Long Hưng Tự (宿龍興寺) của Kì Vô Tiềm (綦毋潛, 691-756) nhà Đường có câu: “Hương sát dạ vong quy, tùng thanh cổ điện bài, đăng minh Phương Trượng thất, châu hệ Tỳ Kheo y, bạch nhật truyền tâm tĩnh, thanh liên dụ pháp vi, thiên hoa lạc bất tận, xứ cứ điểu hàm phi (香剎夜忘歸、松青古殿扉、燈明方丈室、珠繫比丘衣、白日傳心靜、青蓮喻法微、天花落不盡、處處鳥銜飛, hương ngát đêm quên về, tùng xanh cửa điện xưa, đèn sáng Phương Trượng thất, châu buộc Tỳ Kheo y, ban ngày truyền tâm lắng, sen xanh dụ pháp quy, hoa trời rơi bất tận, chốn chốn chim tha đi).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.6468,
+          35.0787
+        ]
+      },
+      "properties": {
+        "name": "(03) Nhân sự lợi lạc hóa độ tha nhân mà giải thích, như trong Phẩm Tín Giải của Kinh Pháp Hoa dạy rằng nhờ Phật đạo nghe mà khiến cho tất cả được nghe, nên gọi là Thanh Văn. Trong 3 giải thích trên, hai giải thích đầu là thanh văn của Phật Giáo Nguyên Thủy; loại thứ ba là Bồ Tát, tùy nghi mà gọi là Thanh Văn. Nguyên lai, Thanh Văn chỉ cho các đệ tử của đức Phật khi còn tại thế, về sau đối với Duyên Giác, Bồ Tát mà thành ra Nhị Thừa, Tam Thừa. Thanh Văn là vị quán lý Tứ Đế, tu 37 phẩm trợ đạo, đoạn hai hoặc kiến và tu, rồi dần dần chứng được 4 quả Sa Môn, và nhập vào Vô Dư Niết Bàn (無餘涅槃). Thanh Văn Thừa (聲聞乘) là giáo pháp chuyên thuyết về Thanh Văn. Thanh Văn Tạng (聲聞藏) là kinh điển xiển dương giáo thuyết của Thanh Văn. Trong các kinh luận, Thanh Văn có hai loại, 3 loại, 4 loại, 5 loại. Theo Phẩm Vô Tự Tánh Tướng (無自性相品) của Giải Thâm Mật Kinh (解深密經, Taishō Vol. 16, No. 676) quyển 2, có 2 loại Thanh Văn là Nhất Hướng Thú Tịch Thanh Văn (一向趣寂聲聞) và Hồi Hướng Bồ Đề Thanh Văn (迴向菩提聲聞). Nhập Lăng Già Kinh (入楞伽經, Taishō Vol. 16, No. 671) quyển 4 lại nêu ra 3 loại Thanh Văn khác là Quyết Định Tịch Diệt Thanh Văn (決定寂滅聲聞), Phát Bồ Đề Nguyện Thiện Căn Danh Thiện Căn Thanh Văn (發菩提願善根名善根聲聞), Hóa Ứng Hóa Thanh Văn (化應化聲聞). Du Già Sư Địa Luận (Taishō Vol. 30, No. 1579 瑜伽師地論) quyển 73 lại nêu ra 3 loại khác: Biến Hóa Thanh Văn (變化聲聞), Thệ Nguyện Thanh Văn (誓願聲聞), Pháp Tánh Thanh Văn (法性聲聞). Trong Diệu Pháp Liên Hoa Kinh Ưu Ba Đề Xá (妙法蓮華經憂波提舍, Taishō Vol. 26, No. 1519) quyển Hạ, Thế Thân (s: Vasubandhu, 世親) chia Thanh Văn làm 4 loại là Quyết Định Thanh Văn (決定聲聞), Tăng Thượng Mạn Thanh Văn (增上慢聲聞), Thối Bồ Đề Tâm Thanh Văn (退菩提心聲聞), Ứng Hóa Thanh Văn (應化聲聞). Bên cạnh đó, Diệu Pháp Liên Hoa Kinh Văn Cú (妙法蓮華經文句, Taishō Vol. 34, No. 1718) quyển 4 chia Thanh Văn thành 5 loại, gồm:",
+        "province": "中國-山西省-運城市-臨猗縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.506292,
+          37.286609
+        ]
+      },
+      "properties": {
+        "name": "Tại các già lam, tự viện có an trí 16 tôn tượng La Hán này, 18 La Hán hay 500 La Hán. Như vậy 18 La Hán cũng phát xuất từ 16 La Hán nêu trên, sau này dân gian Trung Quốc thêm vào 2 vị nữa, thành ra con số 18. Thuyết Thập Bát La Hán rất thịnh hành tại Trung Quốc cũng như Nhật Bản, Triều Tiên, Đài Loan, Việt Nam, v.v. Có nhiều nguyên nhân giải thích việc biến thành Thập Bát La Hán, trong đó có thuyết giải thích người dân cổ đại Trung Quốc cho rằng con số 9 là số cát tường, tốt đẹp; vì vậy từ cuối thời nhà Đường người ta thêm 2 vị vào trong Thập Lục La Hán. Đến sau thời nhà Tống, Nguyên, thuyết về Thập Bát La Hán trở thành rất phổ cập trong dân gian cũng như văn học Trung Quốc; như trong tác phẩm Tây Du Ký (西遊記) có câu chuyện 18 vị La Hán đấu với Ngộ Không. Theo Bí Điện Châu Lâm Tục Biên (秘殿珠林續編) được hình thành dưới thời nhà Thanh, vua Càn Long (乾隆) có bài đề tụng 2 vị tôn giả cuối cùng trong 18 vị này là Hàng Long La Hán (降龍羅漢) tức Ca Diếp Tôn Giả (迦葉尊者), Phục Ma La Hán (伏虎羅漢) tức Di Lặc Tôn Giả (彌勒尊者). Ngoài ra, còn có thuyết khác về Thập Bát La Hán như:",
+        "province": "中國-河北省-邢臺市-內丘縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(02) Tài Bạch Cung (財帛宮, Cung Tài Của) hay Kim Ngưu Tọa (金牛座), chủ yếu về vận tài sản, tiền bạc; gồm toàn thể chóp mũi, tức đầu mũi, Tướng Số gọi là bộ phận Chuẩn Đầu (準頭). Do vì lỗ mũi thuộc Thổ, mà Thổ thì có thể sinh Kim, nên có câu: “Hữu Thổ tư hữu tài (有土斯有財, có đất là có tài).” Vì vậy Cung Tài Của thuộc vào lỗ mũi. Người nào có bộ phận lỗ mũi hoàn mỹ, được gọi là có tài khí, áo quần, thức ăn, nơi ở đều sung túc; chẳng cầu giàu sang mà giàu sang tự có. Từ đó có thuyết cho rằng lỗ mũi thuộc về Sao Tài, khí sắc cần sáng sủa, có thịt nhô lên; lỗ mũi không quá lộ, quá hở, tất đó là nhà phú quý. Nếu như hở lộ quá, tức là nhà bần tiện, nghèo túng. Nếu Cung Tài Của khí sắc sáng sủa, thể hiện tài lợi thuận điều. Nếu như khí sắc tối tăm, u ám, là điềm báo cho biết hao tài hay vận trì trệ.",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          69.9395,
+          34.1761
+        ]
+      },
+      "properties": {
+        "name": "(02) Đại Bát Niết Bàn Kinh (大般涅槃經, Taishō Vol. 12, No. 374) quyển 1, Thiện Kiến Luật Tỳ Bà Sa quyển 1, v.v., cho là ngày 15 tháng 2. (03) Bài tựa của Nhất Thiết Thiện Kiến Luật (p: Samantapāsādikā, 一切善見律) bản tiếng Pāli, Luật Tạng (p: Vinaya-piṭaka, 律藏) tiếng Pāli, chương thứ 3 của Đại Sử, Điều Câu Thi Na Yết La Quốc (拘尸那揭羅國條) của Đại Đường Tây Vức Ký quyển 6, v.v., cho là ngày 15 hậu bán tháng Vesākhā.",
+        "province": "阿富汗-楠格哈爾省(Nangarhar)-Hisarak",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.046288,
+          43.612694
+        ]
+      },
+      "properties": {
+        "name": "(09) Thánh Quan Âm Tông (聖觀音宗, 26 ngôi chùa). Một số ngôi chùa trung tâm nổi tiếng của tông này là Diên Lịch Tự (延曆寺, Enryaku-ji, Shiga-ken), Trung Tôn Tự (中尊寺, Chūson-ji, Iwate-ken), Luân Vương Tự (輪王寺, Rinnō-ji, Tōchigi-ken), Khoan Vĩnh Tự (寛永寺, Kanei-ji, Tōkyō-to), Thiện Quang Tự (善光寺, Zenkō-ji, Nagano-ken), Tư Hạ Viện (滋賀院, Shiga-in), Diệu Pháp Viện (妙法院, Myōhō-in, Kyōto-shi), Tam Thiên Viện (三千院, Sanzen-in, Kyōto-shi), Thanh Liên Viện (青蓮院, Shōren-in, Kyōto-shi), Mạn Thù Viện (曼殊院, Manshu-in, Kyōto-shi), Tỳ Sa Môn Đường (毘沙門堂, Bishamon-dō, ), Mao Việt Tự (毛越寺, Mōtsū-ji, Iwate-ken), Thâm Đại Tự (深大寺, Jindai-ji, Tōkyō-to), Quang Tiền Tự (光前寺, Kōzen-ji, Nagano-ken), Thủy Gian Tự (水間寺, Mizuma-dera, Ōsaka-fu), (圓敎寺, Engyō-ji, Hyōgo-ken), v.v.",
+        "province": "中國-內蒙古自治區-赤峰市-林西縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          108.9532,
+          34.2662
+        ]
+      },
+      "properties": {
+        "name": "(03) Trong Truyện Vương Bột (王勃傳) của Cựu Đường Thư (舊唐書) có ghi rằng bài Tựa Đằng Vương Các (滕王閣序) của Vương Bột (王勃, 649-675) nhà Đường được viết nhân Tiết Trùng Dương này. Đương thời phụ thân Vương Bột làm quan ở Giao Chỉ (交趾), ông lê đường đến thăm cha; vào ngày mồng 9 tháng 9 chỉ mới đi qua Nam Xương (南昌). Lúc bấy giờ, vị quan Châu Mục của Hồng Châu (洪州) là Diêm Bá Tự (閻伯嶼) đang mời quan khách, thuộc hạ của ông đến dự yến tiệc trùng tu Đằng Vương Các (滕王閣); nhân đó khoe khoang với mọi người về tài trí của người con rễ Ngô Tử Chương (吳子章), rồi mời quan khách viết bài tựa cho Đằng Vương Các. Ai cũng biết dụng ý của ông, nên chẳng người nào dám viết cả. Chỉ có mình Vương Bột không biết, bèn tự nhiên tiếp bút viết liền. Quan Châu Mục thấy trong lòng sảng khoái, lập tức sai người đứng hai bên xem Vương Bột viết. Không ngờ Vương Bột tài khí phi phàm, văn chương lưu loát, bất ngờ đến câu: “Lạc hà dữ cô vụ tề phi, thu thủy cọng trường thiên nhất sắc (落霞與孤鶩齊飛、秋水共長天一色, ráng chiều cùng vịt trời đều bay, nước thu với trời xanh một sắc)”, quan Châu Mục không chịu được nữa bèn thốt lên rằng: “Tuyệt hảo !” Và từ đó, Vương Bột nổi danh trong thi đàn.",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.666926,
+          37.070964
+        ]
+      },
+      "properties": {
+        "name": "(淨土): xứ sở thanh tịnh tu thành bồ đề, tức chỉ nơi chư Phật thường cư trú, gọi chung là Thanh Tịnh Độ (清淨土), Thanh Tịnh Quốc Độ (清淨國土), Thanh Tịnh Phật Sát (清淨佛刹), hay gọi tắt là Tịnh Sát (淨刹), Tịnh Giới (淨界), Tịnh Quốc (淨國), Tịnh Vức (淨域), Tịnh Thế Giới (淨世界), Tịnh Diệu Độ (淨妙土), Phật Sát (佛刹), Phật Quốc (佛國), v.v. Chư Phật đã chứng quả Niết Bàn thường ở cõi Tịnh Độ này giáo hóa chúng sanh, cho nên nơi nào chư Phật trú xứ thì nơi đó được gọi là Tịnh Độ. Vô Lượng Thọ Kinh (無量壽經) quyển thượng, A Súc Phật Quốc Kinh (阿閦佛國經) quyển thượng, Phóng Quang Bát Nhã Kinh (放光般若經) quyển 19, v.v., đều cho rằng Tịnh Độ là thế giới trang nghiêm thanh tịnh mà chư Phật đã từng hành Bồ Tát đạo, thành tựu thệ nguyện của chúng sanh và tích lũy công đức trong vô lượng kiếp mà kiến lập nên. Phẩm Phật Quốc của Duy Ma Kinh (維摩經) quyển thượng cho rằng tâm thanh tịnh thì quốc độ thanh tịnh, cõi Ta Bà này là Thường Tịch Quang Tịnh Độ (淨寂光淨土); cho nên nếu tâm chúng sanh không trong sạch thì cõi này trở thành cõi nhơ nhớp. Cõi Linh Sơn Tịnh Độ (靈山淨土) của Pháp Hoa Kinh (s: Saddharma-puṇḍarīka-sūtra, 法華經), Liên Hoa Tạng Thế Giới (蓮華藏世界) của Hoa Nghiêm Kinh (華嚴經), Mật Nghiêm Tịnh Độ (密嚴淨土) của Đại Thừa Mật Nghiêm Kinh (大乘密嚴經), v.v., đều lấy tư tưởng tâm tịnh thế giới tịnh làm căn bản. Hơn nữa, trong Vô Lượng Thọ Kinh (無量壽經) có dạy rằng ngoài cõi Ta Bà này còn có Tịnh Độ, và có cõi Tịnh Độ thành tựu trong tương lai khi sẽ thành Phật. Như vậy cả hai cõi này là quốc độ được hoàn thành nương theo bản nguyện của chư vị Bồ Tát và trải qua tu hành để thành Phật, và cũng là nơi mà chúng sanh nguyện sanh về. Cõi Tịnh Độ ở phương khác có Cực Lạc Thế Giới ở phương Tây của A Di Đà Phật, Diệu Hỷ Thế Giới ở phương Đông của A Súc Phật (阿閦佛), Tịnh Lưu Ly Thế Giới ở phương Đông của Dược Sư Phật, v.v. Trên thế giới Ta Bà này có các cõi Tịnh Độ của chư Phật ở những vị trí nhất định của nó, cho nên gọi là Mười Phương Tịnh Độ. Bên cạnh đó, Cực Lạc Thế Giới (s: Sukhāvatī, 極樂世界) còn là cõi Tịnh Độ ở phương Tây mà Tịnh Độ Tông rất xem trọng. Trong bài Văn Tế Thập Loại Chúng Sanh của thi hào Nguyễn Du (阮攸, 1765-1820) có câu rằng: “Nhờ phép Phật siêu sinh Tịnh Độ, phóng hào quang cứu khổ độ u, khắp trong tứ hải quần chu, não phiền trút sạch oán thù rửa trong.” Như trong Khuyến Tu Tịnh Độ Thi (勸修淨土詩) của Đại Sư Thật Hiền Tỉnh Am (實賢省庵, 1686-1734) nhà Thanh có câu: “Túc hạ thời thời du Tịnh Độ, tâm đầu niệm niệm tuyệt Ta Bà (足下時時遊淨土、心頭念念絕娑婆, dưới chân luôn luôn chơi Tịnh Độ, trong tâm mỗi niệm dứt Ta Bà).”",
+        "province": "中國-河北省-邢臺市-清河縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          108.9532,
+          34.2662
+        ]
+      },
+      "properties": {
+        "name": "(淨域): tên gọi khác của Tịnh Độ (淨土), là quốc độ thanh tịnh mà chư Phật cũng như Bồ Tát thường cư trú. Như trong bài Du Tung Sơn Thiếu Lâm Tự (游嵩山少林寺) của Đường Thuận Chi (唐順之, 1507-1560) nhà Minh có câu: “Tịnh Vức long nham thượng, hương đài Thứu Lãnh biên (淨域龍岩上、香臺鷲嶺邊, Tịnh Vức trên đỉnh núi, đài hương Non Thứu bên).” Hay trong Truyện Ẩn Dật (隱逸傳) quyển hạ, phần Dữu Sân (庾詵), của Nam Sử (南史) có câu: “Thượng Hạnh Tiên Sanh dĩ sanh Di Đà Tịnh Vức hỉ (上行先生已生彌陀淨域矣, Tiên Sanh Thượng Hạnh đã vãng sanh về cõi Tịnh Độ của Phật Di Đà rồi).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3543,
+          39.8736
+        ]
+      },
+      "properties": {
+        "name": "(塵勞): tên gọi khác của phiền não, tức phiền não của Ngũ Dục (五欲, gồm sắc dục, thanh dục, hương dục, vị dục và xúc dục) và Lục Trần (六塵, gồm sắc, thanh, hương, vị, xúc và pháp). Như trong Ảnh Hưởng Tập (影響集, CBETA No. 1209) có đoạn: “Nhất cú Di Đà tuệ nguyệt lâm, Như Lai hộ niệm thiện căn thâm, kính đăng bất thối xu An Dưỡng, cấu tập trần lao tổng bất xâm, nhất cú Di Đà tín khả trân, kim dung Phật ảnh hiện ngô tâm, thử sanh mỗi yếm Ta Bà khổ, diêu tưởng hoa trì bảo thọ lâm (一句彌陀慧月臨、如來護念善根深、徑登不退趨安養、垢習塵勞總不侵、一句彌陀信可珍、金容佛影現吾心、此生每厭娑婆苦、遙想花池寶樹林, một câu Di Đà trời tuệ quang, Như Lai hộ niệm căn lành sâu, đường đi chẳng thối về An Dưỡng, dơ bẩn bụi trần thảy không xâm, một câu Di Đà tin tận cùng, thân vàng bóng Phật hiện trong tâm, đời này thường chán Ta Bà khổ, xa nhớ hồ sen cây báu rừng).” Hay như trong bài Thỉnh Phật Văn (請佛文) của Cao Phong Long Tuyền Viện Nhân Sư Tập Hiền Ngữ Lục (高峰龍泉院因師集賢語錄, CBETA No. 1277) quyển 3 cũng có câu: “Bát vạn trần lao câu nhất tảo, bách thiên công đức hiện Tam Thừa, như Cam Lồ nhi ốc tâm, tợ Đề Hồ nhi quán đảnh (八萬塵勞俱一掃、百千功德現三乘、如甘露而沃心、似醍醐而灌頂, tám vạn trần lao đều quét sạch, trăm ngàn công đức hiện Ba Thừa, như Cam Lồ rót vào tâm, tợ Đề Hồ rưới đỉnh đầu).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.8005,
+          29.7171
+        ]
+      },
+      "properties": {
+        "name": "(竺法蘭, Jikuhōran, ?-?): vị tăng xuất thân miền trung Ấn Độ, tên tiếng Phạn là Dharmaratna (?), từng đọc tụng kinh luận cả vạn chương và nổi tiếng là học giả Thiên Trúc (天竺). Theo Lương Cao Tăng Truyện (梁高僧傳) quyển 1, dưới thời vua Minh Đế nhà Hậu Hán, khi nhóm Thái Âm (蔡愔) được phái sang Tây Vức (西域) thỉnh kinh Phật, ông cùng với vị tăng người Đại Nguyệt Thị (大月氏) là Ca Diếp Ma Đằng (s: Kāśyapamātaṅga, 迦葉摩騰) kết bạn và hứa hẹn với nhau sang Trung Quốc. Họ tháp tùng theo Thái Âm định xuất phát lên đường, nhưng không đi được vì bị chúng đệ tử ngăn cản. Cuối cùng vào năm thứ 2 niên hiệu Vĩnh Bình (永平), ông cũng đến Lạc Dương (洛陽), trú tại Bạch Mã Tự (白馬寺), cùng với Ca Diếp Ma Đằng dịch Tứ Thập Nhị Chương Kinh (四十二經). Các kinh điển ông dịch có Thập Địa Đoạn Kết Kinh (十地斷結經), Phật Bản Sanh Kinh (佛本生經), Phật Bản Hạnh Kinh (佛本行經), Pháp Hải Tạng Kinh (法海藏經), v.v. Sau ông qua đời tại Lạc Dương, hưởng thọ 60 tuổi. Tuy nhiên, trong Xuất Tam Tạng Ký Tập (出三藏記集) có độ tin cậy cao nhất về việc dịch kinh xưa lại không có ký lục về Trúc Pháp Lan; vì vậy cần phải xét lại về sự thật lịch sử. Có thể đây là nhân vật truyền thuyết.",
+        "province": "中國-浙江省-杭州市-淳安縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.7422,
+          28.8508
+        ]
+      },
+      "properties": {
+        "name": "(01) Loại cỗ xe của tiên nhân trong truyền thuyết. Như trong bài Hoa Dương Tiên Sinh Đăng Lâu Bất Phục Hạ Tặng Trình (華陽先生登樓不復下贈呈) của Thẩm Ước (沉約, 441-513) của nhà Lương thời Nam Triều có câu: “Vân biền bất triển địa, tiên cư đa lệ tiều (雲騈不展地、仙居多麗譙, xe mây chẳng chấm đất, cõi tiên nhiều lầu xinh).” Hay như trong bài tựa Dong Thành Tập Tiên Lục (墉城集仙錄) của Đỗ Quang Đình (杜光庭, 850-933) nhà Tiền Thục có đoạn: “Hoặc vi chân nhân chi hữu, hoặc vi Thiên Đế chi tân, thúc hốt nhi long giá lai nghênh, tham sai nhi vân biền hà mại (或爲眞人之友、或爲天帝之賓、倏忽而龍駕來迎、參差而雲騈遐邁, hoặc là bạn của chân nhân, hoặc là khách của Thiên Đế, bỗng chốc mà xe rồng đến đón, dần dần mà xe tiên xa tít).”",
+        "province": "中國-浙江省-台州市-仙居縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(03) Thật Báo Vô Chướng Ngại Độ, còn gọi là Thật Báo Độ (實報土), Quả Báo Độ (果報土), là quốc độ của chư vị Bồ Tát (s: bodhisattva, p: bodhisatta, 菩薩) đã đoạn trừ một phần của Vô Minh (s: avidyā, p: avijjā, 無明), không có hàng phàm phu của Hai Thừa. Đây là quốc độ tự tại vô ngại của đạo chân thật, nên có tên gọi như vậy.",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.046288,
+          43.612694
+        ]
+      },
+      "properties": {
+        "name": "Trong Liên Tu Khởi Tín Lục (蓮修起信錄, 卍 Tục Tạng Kinh Vol. 62, No. 1204) quyển 3 có đoạn: “Tứ Độ Liên Hoa Tứ Độ hương, độ trung các các kiến Từ Vương, Quan Âm thường hoán si nhân tỉnh, Đại Thế tần thôi liên ngạc phương, tự tại nhàn vân Tam Muội đắc, thanh u Cam Lộ nhất tâm lương (四土蓮花四土香、土中各各見慈王、觀音常喚癡人醒、大勢頻催蓮萼芳、自在閒雲三昧得、清幽甘露一心涼, Bốn Cõi Hoa Sen Bốn Cõi thơm, cõi ấy mỗi mỗi thấy Từ Vương, Quan Âm thường gọi người mê tỉnh, Thế Chí luôn bày sen ngát hương, tự tại mây nhàn Tam Muội chứng, an lành Cam Lộ tâm mát trong).” Hay trong Linh Phong Ngẫu Ích Đại Sư Tuyển Định Tịnh Độ Thập Yếu (靈峰蕅益大師選定淨土十要, 卍 Tục Tạng Kinh Vol. 61, No. 1164) quyển 9 có câu: “Nhất chân pháp giới tánh, bất biến năng tùy duyên, Tam Thân cập Tứ Độ, tất do tâm biến khởi (一眞法界性、不變能隨緣、三身及四土、悉由心變起, tánh pháp giới nhất chân, chẳng biến thường tùy duyên, Ba Thân và Bốn Cõi, tất do tâm biến hóa).”",
+        "province": "中國-內蒙古自治區-赤峰市-林西縣",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(01) Các vị thần. Trong phần Phong Thiền Thư (封禪書) của bộ Sử Ký (史記) có đoạn rằng: “Hoàng Đế tiếp vạn linh Minh Đình (皇帝接萬靈明廷, Hoàng Đế tiếp các vị thần ở Minh Đình).” Trong bài Thứ Vận Trương Xương Ngôn Hỷ Vũ (次韻張昌言喜雨) của thi hào Tô Thức (蘇軾, 1037-1101) nhà Tống, có câu: “Tinh quán thiên nhân nhất ngôn túc, vân hưng nhạc độc vạn linh xu (精貫天人一言足、雲興岳瀆萬靈趨, thông rõ trời người một lời đủ, mây lên đỉnh núi khiến thần đi)”. Tự Điển Tạp Nghị (祀典雜儀) 4 của Củng Tự Trân (龔自珍, 1792-1841) nhà Thanh cũng có đoạn rằng: “Chiêu vạn linh chi hữu, tích cửu lưu chi phước (召萬靈之佑、錫九流之福, Mời các vị thần giúp đỡ, ban phước cho chín loài).”",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(s: Mañjuśrī, 文殊師利): hay Man Thù Thất Lợi (曼殊室利), Tàu dịch là Diệu Đức (妙德) hoặc Diệu Cát Tường (妙吉祥). Ngài sanh ra từ vai phải của mẹ, trong một gia đình Bà La Môn ở tụ lạc Đa La (多羅) tại Xá Vệ Quốc (s: Śrāvastī, p: Sāvatthī, 舍衛國). Thân thể Ngài có màu vàng tía, về sau Ngài xuất gia với đức Phật. Trong Đạo Giáo, Ngài được gọi là Văn Thù Quảng Đại Thiên Tôn (文殊廣法天尊). Văn Thù và Phổ Hiền là hai vị Bồ Tát thường theo hầu bên đức Phật Thích Ca, được gọi là Thích Ca Tam Tôn (釋迦三尊), khác với Di Đà Tam Tôn, hay Tây Phương Tam Thánh. Thủ Lăng Nghiêm Tam Muội Kinh (首楞嚴三昧經) cho biết rằng: “Vào thời quá khứ vô lượng A Tăng Kỳ Kiếp, có thế giới ở phương Nam tên Bình Đẳng (平等), đức Phật của thế giới ấy tên là Long Chủng Thượng Như Lai (龍種上如來), tức là đức Văn Thù Bồ Tát hiện tại.” Hay như Ương Quật Ma La Kinh (央掘魔羅經) có giải thích về xuất xứ của Ngài rằng: “Đức Hoan Hỷ Tạng Ma Bảo Tích Phật (歡喜藏摩尼寶積佛) ở thế giới Thường Hỷ (常喜) ở phương Bắc hiện tại chính là đức Văn Thù Sư Lợi Bồ Tát.” Tuy nhiên, trong Bi Hoa Kinh (悲華經) lại cho rằng: “Khi đức Phật A Di Đà đang còn làm Chuyển Luân Thánh Vương, có vị Vương Tử thứ ba tên Vương Chúng (王眾), đã phát tâm Bồ Đề, nguyện trong đời tương lai, đời đời kiếp kiếp, thực hành đạo Bồ Tát, không có dừng nghỉ, không giới hạn nơi chỗ, để trang nghiêm thanh tịnh quốc độ Phật; khiến cho tam thiên đại thiên thế giới, hằng hà sa số mười phương quốc độ rộng lớn, hợp lại thành một thế giới của vị này giáo hóa. Trong thế giới ấy có vô lượng đầy đủ các của báu, không có xúc chạm những điều nhơ nhớp, đau khổ, không có người nữ, thậm chí không có danh từ người nữ; lại không có chúng sanh chưa phát tâm Bồ Đề. Vị Vương Tử thứ ba phát nguyện xong, Bảo Tạng Phật bèn đặt cho Vương Tử tên là Văn Thù Sư Lợi, thọ ký vào thời mạt pháp tương lai sẽ thành tựu viên mãn vô thượng chánh đẳng chánh giác tại quốc độ tên Thanh Tịnh Vô Cấu Bảo Chấn (清淨無垢寶窴) với danh hiệu là Phổ Hiện Như Lai (普現如來).” Trong Quán Phật Tam Muội Hải Kinh (觀佛三昧海經) lại cho biết thêm rằng đương thời khi đức Thế Tôn sau khi vì đại chúng thuyết Quán Phật Tam Muội Hải Kinh xong, Văn Thù Bồ Tát thưa với đại chúng rằng: “Vào thời quá khứ đức Bảo Uy Đức Như Lai (寶威德如來), có một người con của Trưởng Giả kia tên Giới Hộ (戒護), khi đang con trong bào thai mẹ đã thọ Tam Quy Y. Năm lên 8 tuổi, song thân cậu bé cung thỉnh đức Thế Tôn đến tư gia thiết lễ cúng dường. Khi cậu bé diện kiến đức Phật, uy nghi an tường, từng bước đi bình ổn, khoan thai, nơi từng bước chân của Ngài đều nở ra một đóa sen, và thân tướng Ngài phóng ra ánh sáng rực rỡ. Thấy vậy cậu bé vô cùng hoan hỷ, hướng Phật cung kính lễ bái, xong từ từ nhìn chăm chăm đức Thế Tôn mà không hề chớp mắt. Chỉ một lần thấy được Phật, tức trừ đi được trăm vạn ức kiếp các tội nặng sanh tử. Đồng tử này do nhờ duyên đã thọ Tam Quy và lễ bái đức Phật, rồi quán sát tướng hảo của đức Như Lai rất kỹ lưỡng, tâm không mệt mỏi, lười biếng, nhờ vậy mà có thể gặp được vô số các đức Phật. Đồng tử lúc bầy giờ chính là Văn Thù Sư Lợi tôi đây.” Sau khi Văn Thù Sư Lợi Bồ Tát nói xong, đức Phật bảo A Nan rằng: “Con hãy nên ghi nhận, nhớ kỹ câu chuyện của Văn Thù Sư Lợi, đem phổ biến đến khắp các chúng sanh, chúng sanh trong đời tương lai, nếu như có người có thể nhất tâm lễ bái, có thể tâm thành niệm Phật, có thể tâm thành quán Phật, nên biết rằng người ấy có công đức ngang bằng với Văn Thù Sư Lợi Bồ Tát.” Lại trong Văn Thù Phát Nguyện Kinh (文殊發願經) có nêu lên bài kệ phát nguyện phần lớn giống với bài kệ của Phổ Hiền Bồ Tát (普賢菩薩): “Nguyện con lúc mạng chung, diệt trừ các chướng ngại, mắt thấy A Di Đà, vãng sanh An Lạc Sát, sanh nơi nước Phật kia, trọn thành các nguyện lớn, A Di Đà Như Lai, trước mắt thọ ký con, trang nghiêm Phổ Hiền hạnh, đầy đủ Văn Thù nguyện, tận cùng kiếp tương lai, cứu cánh Bồ Tát hạnh.” Văn Thù, Phổ Hiền là hai vị Đại Thánh bổ tá cho đức Phật Tỳ Lô Giá Na (毘盧遮那) trên hội Hoa Nghiêm (華嚴). Hạnh nguyện độ sanh của hai vị Bồ Tát này đều lấy cơ sở của pháp môn Niệm Phật, lấy Tịnh Độ là nơi quy hướng cuối cùng. Đặc biệt trong Phóng Bát Kinh (放缽經), đức Phật có đề cao vai trò của Văn Thù Sư Lợi rằng: “Nay ta thành Phật, có ba mươi hai tướng tốt, tám mươi vẻ đẹp, oai thần tôn quý, độ thoát mười phương hết thảy chúng sanh, thảy đều nhờ ơn của Văn Thù Sư Lợi; Văn Thù Sư Lợi chính là thầy của ta. Vô lượng vô số chư Phật trong quá khứ đều là đệ tử của Văn Thù Sư Lợi, tương lai thành Phật cũng nhờ oai thần thế lực của vị ấy; ví như trên đời con nhỏ có cha mẹ, Văn Thù là cha mẹ trong Phật đạo.” Văn Thù Sư Lợi là hóa thân của trí tuệ, nên thường được gọi là Đại Trí Văn Thù Sư Lợi Bồ Tát (大智文殊師利菩薩). Bồ Tát Văn Thù thường được gọi là Tam Thế Giác Mẫu (三世覺母, mẹ giác ngộ của ba đời). Danh hiệu Long Chủng Thượng Tôn Vương Như Lai (龍種上尊王如來), hay Long Chủng Thượng Tôn Vương Phật trong Thủ Lăng Nghiêm Tam Muội Kinh (首楞嚴三昧經) là Bồ Tát Văn Thù. Hay như danh hiệu Phổ Minh Phật (普明佛) trong Bát Thập Bát Phật Hồng Danh Bảo Sám cũng là Bồ Tát Văn Thù. Trong các kinh điển thường gọi Bồ Tát Văn Thù là Văn Thù Sư Lợi Pháp Vương Tử (s: Mañjuśriyā Kumārabhūtena, 文殊師利法王子), có nghĩa rằng tất cả Bồ Tát đều gọi là con của đức Như Lai Pháp Vương. Kinh điển thường nêu Bồ Tát Văn Thù là Pháp Vương Tử là vì ngài là vị đệ tử thượng thủ trong hàng Bồ Tát, được xem như cánh tay phải bên cạnh Đức Phật. Trưởng Lão Xá Lợi Phất là Trí Tuệ Đệ Nhất trong hàng đệ tử Thanh Văn, còn Văn Thù Sư Lợi là Trí Tuệ Đệ Nhất trong hàng Bồ Tát Đại Thừa. Nhân trong quyển 80 của Hoa Nghiêm Kinh có câu: “Tại phương Đông Bắc có ngọn núi tên Thanh Lương Sơn (清涼山); từ xưa đến nay, các chúng Bồ Tát đều dừng chân trú tại núi đó, hiện có Bồ Tát tên Văn Thù Sư Lợi, cùng với quyến thuộc, các vị Bồ Tát một vạn người, thường trong núi ấy, tuyên diễn thuyết pháp.” Cho nên, Ngũ Đài Sơn (五台山, còn gọi là Thanh Lương Sơn) ở Tỉnh Sơn Tây, Trung Quốc được công nhận là đạo tràng của Văn Thù Bồ Tát, trở thành một trong 4 ngọn núi danh tiếng. Nga Mi Sơn (峨嵋山) là thánh địa của Phổ Hiền Bồ Tát (普賢菩薩). Phổ Đà Sơn (普陀山) là thánh địa của Quan Thế Âm Bồ Tát. Cửu Hoa Sơn (九華山) là thánh địa của Địa Tạng Vương Bồ Tát (地藏王菩薩).",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.3779,
+          39.9306
+        ]
+      },
+      "properties": {
+        "name": "(03) Là xưng hiệu của Nữ Viện. Trường hợp này được khởi đầu từ thân mẫu của Nhất Điều Thiên Hoàng (一條天皇, Ichijō Tennō, tại vị 986-1011) là Hoàng Thái Hậu Đằng Nguyên Thuyên Tử (藤原詮子, Fujiwara-no-Senshi), được ban cho Viện Hiệu là Đông Tam Điều Viện (東三條院) vào năm 991 (Chánh Lịch [正曆] 2). Tiếp theo, sau thời Thượng Đông Môn Viện (上東門院, tức bà Đằng Nguyên ảnh Tử [藤原彰子, Fujiwara-no-Shōshi]), thường phần nhiều lấy mệnh danh theo môn hiệu Cung Thành (宮城, Miyagi) mà thôi. Còn ở Tiền Đông Cung (前東宮) thì chỉ có một trường hợp duy nhất được ban cho Viện Hiệu là Tiểu Nhất Điều Viện (小一條院), tức Đông Cung Hoàng Tử Đôn Minh Thân Vương (敦明親王, Atsuakira Shinnō), con của Hậu Nhất Điều Thiên Hoàng.",
+        "province": "",
+        "place_key": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.405073,
+          29.625917
+        ]
+      },
+      "properties": {
+        "name": "(圓通): biến mãn cùng khắp tất cả, dung thông vô ngại; tức chỉ cho lý của thật tướng chứng được nhờ trí tuệ vi diệu của bậc thánh. Do nhờ trí tuệ ngộ được chơn như, bản chất tồn tại của vị ấy tròn đầy cùng khắp, tác dụng tự tại; đó gọi là viên thông. Hơn nữa, lấy trí tuệ để thông đạt đạo lý hay thực tiễn của chơn như, cũng có thể gọi là viên thông. Đại Phật Đảnh Thủ Lăng Nghiêm Kinh (大佛頂首楞嚴經) quyển 5 cho rằng 25 vị Bồ Tát đều có đủ viên thông; có 25 loại viên thông như Sáu Trần, Sáu Căn, Sáu Thức, Bảy Đại, v.v. Ngoài ra, trong số 25 vị thánh của Hội Lăng Nghiêm, Quan Thế Âm được xem như là vị Bồ Tát có Nhĩ Căn Viên Thông bậc nhất; nên được gọi là Viên Thông Tôn (圓通尊), Viên Thông Đại Sĩ (圓通大士). Trong bài kệ xưng tán Bồ Tát Quan Thế Âm có câu: “Quan Âm Đại Sĩ, tất hiệu Viên Thông, Thập Nhị Đại Nguyện thệ hoằng thâm, khổ hải độ mê tân, cứu khổ tầm thanh, vô sát bất hiện thân (觀音大士、悉號圓通、十二大願誓弘深、苦海度迷津、救苦尋聲、無剎不現 身, Quan Âm Đại Sĩ, ấy hiện Viên Thông, Mười Hai Nguyện Lớn thệ rộng sâu, biển khổ độ quần mê, cứu khổ tìm thanh, không đâu chẳng hiện thân).” Hay như tại Viên Thông Điện (圓通殿) của Giang Tâm Tự (江心寺) ở Ôn Châu (溫州), Tỉnh Triết Giang (浙江省) có câu đối rằng: “Quán hạnh viên thông từ quán bi quán thanh tịnh quán, âm văn tự tại diệu âm Phạm âm hải triều âm (觀行圓通慈觀悲觀清淨觀、音聞自在妙音梵音海潮音, quán hạnh tròn suốt quán từ quán bi quán thanh tịnh, tiếng nghe tự tại tiếng mầu tiếng Phạm tiếng tự tại).” Hoặc như tại Quan Âm Tự (觀音寺), vùng Tân Đô (新都), Tỉnh Tứ Xuyên (四川省) cũng có câu đối tương tợ như vậy: “Quán ngã quán nhân quán tự tại, (觀我觀人觀自在、大悲大願大圓通, quán ta quán người quán tự tại, đại bi đại nguyện đại viên thông).” Câu “nhân nhân ngộ Tự Tại chi âm, các cá nhập Viên Thông chi cảnh (人人悟自在之音、个个入圓通之境)” ở trên có nghĩa là mỗi người đều ngộ được âm thanh một cách tự tại vô ngại, và ai ai cũng được thể nhập vào cảnh giới tròn đầy thông suốt của chơn như.",
+        "province": "中國-浙江省-寧波市-奉化市",
+        "place_key": ""
+      }
+    }
+  ]
+}

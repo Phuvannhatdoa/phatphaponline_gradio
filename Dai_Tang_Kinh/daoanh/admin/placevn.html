@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đạo Ảnh - Hệ thống Mapping Địa danh Phật giáo</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;600;800&family=Noto+Serif+Vietnamese:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+L.Icon.Default.mergeOptions({iconUrl:'/daoanh/static/leaflet/images/marker-icon.png',iconRetinaUrl:'/daoanh/static/leaflet/images/marker-icon-2x.png',shadowUrl:'/daoanh/static/leaflet/images/marker-shadow.png'});
+</script>
+<style>
+  :root {
+    --bg-dark: #0a0c10;
+    --card-dark: #11151c;
+    --accent: #f59e0b;
+    --text-main: #e2e8f0;
+  }
+  body {
+    margin:0; padding:0; background: var(--bg-dark); color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .serif { font-family: 'Noto Serif Vietnamese', serif; }
+  .inter { font-family: 'Inter', sans-serif; }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  ::selection { background: #f59e0b30; color: var(--accent); }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+  .leaflet-container { background: #0a0c10 !important; border-radius: 1.5rem; }
+  .leaflet-tile-pane { filter: contrast(110%) brightness(95%); }
+  @keyframes pulse-red { 0% { opacity:1; } 50% { opacity:0.5; } 100% { opacity:1; } }
+  .animate-pulse-red { animation: pulse-red 2s infinite; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+// Session check: redirect to login if not authenticated
+(function() {
+  var session = localStorage.getItem('admin_session');
+  if (!session) {
+    window.location.href = '/daoanh/login.html';
+    return;
+  }
+  fetch('/daoanh/api/login/check', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({session_token: session})
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    if (!data.valid) {
+      localStorage.removeItem('admin_session');
+      window.location.href = '/daoanh/login.html';
+    }
+  }).catch(function() {});
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo, useRef } = React;
+
+const ICON_SVGS = {
+  'database': [24,24,['<ellipse cx="12" cy="5" rx="9" ry="3"/>','<path d="M3 5V19a9 3 0 0 0 18 0V5"/>','<path d="M3 12a9 3 0 0 0 18 0"/>']],
+  'search': [24,24,['<circle cx="11" cy="11" r="8"/>','<path d="m21 21-4.35-4.35"/>']],
+  'map-pin': [24,24,['<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>','<circle cx="12" cy="10" r="3"/>']],
+  'loader-2': [24,24,['<path d="M21 12a9 9 0 1 1-6.219-8.56"/>']],
+  'zap': [24,24,['<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>']],
+  'save': [24,24,['<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>','<polyline points="17 21 17 13 7 13 7 21"/>','<polyline points="7 3 7 8 15 8"/>']],
+  'languages': [24,24,['<path d="m5 8 6 6"/>','<path d="m4 14 6-6 2-3"/>','<path d="M2 5h12"/>','<path d="M7 2h1"/>','<path d="m22 22-5-10-5 10"/>','<path d="M14 18h6"/>']],
+  'graduation-cap': [24,24,['<path d="M22 10v6M2 10l10-5 10 5-10 5z"/>','<path d="M6 12v5c3 3 9 3 12 0v-5"/>']],
+  'milestone': [24,24,['<path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6Z"/>','<path d="M12 13v8"/>','<path d="M12 3v3"/>']],
+  'sparkles': [24,24,['<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>','<path d="M5 3v4"/>','<path d="M19 17v4"/>','<path d="M3 5h4"/>','<path d="M17 19h4"/>']],
+  'globe': [24,24,['<circle cx="12" cy="12" r="10"/>','<path d="M2 12h20"/>','<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>']],
+  'file-text': [24,24,['<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>','<path d="M14 2v4a2 2 0 0 0 2 2h4"/>','<path d="M10 9H8"/>','<path d="M16 13H8"/>','<path d="M16 17H8"/>']],
+  'alert-circle': [24,24,['<circle cx="12" cy="12" r="10"/>','<line x1="12" y1="8" x2="12" y2="12"/>','<line x1="12" y1="16" x2="12.01" y2="16"/>']],
+  'check-circle-2': [24,24,['<circle cx="12" cy="12" r="10"/>','<path d="m9 12 2 2 4-4"/>']],
+  'quote': [24,24,['<path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>','<path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>']],
+  'info': [24,24,['<circle cx="12" cy="12" r="10"/>','<path d="M12 16v-4"/>','<path d="M12 8h.01"/>']],
+};
+
+const LucideIcon = ({ name, className, ...props }) => {
+  const icon = ICON_SVGS[name];
+  if (icon) {
+    const [w, h, pathsArr] = icon;
+    const paths = Array.isArray(pathsArr) ? pathsArr.join('') : (pathsArr || '');
+    return <span dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${className || ''}">${paths}</svg>` }} />;
+  }
+  return <i className={className} {...props}></i>;
+};
+
+const highlightKeyword = (text, keyword) => {
+  if (!text || !keyword) return text;
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`(${escaped})`, 'gi');
+  return text.replace(re, '<mark class="bg-yellow-500/30 text-yellow-200 px-0.5 rounded">$1</mark>');
+};
+
+const App = () => {
+  const [baseUrl, setBaseUrl] = useState('https://phatphaponline.org');
+  const fetchCounter = useRef(0);
+  let isMapReady = false;
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
+
+  const [queue, setQueue] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentOffset, setCurrentOffset] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [sidebarTab, setSidebarTab] = useState('all');
+  const [sidebarFilter, setSidebarFilter] = useState('');
+  const [cateFilter, setCateFilter] = useState('admin_place');
+  const [selectedId, setSelectedId] = useState(null);
+  const [details, setDetails] = useState(null);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [itemLoading, setItemLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [translating, setTranslating] = useState(false);
+  const [message, setMessage] = useState(null);
+  const initialLoadDone = useRef(false);
+  const [showRawTei, setShowRawTei] = useState(false);
+  const [hanContextVi, setHanContextVi] = useState({ loading: false, text: null, error: null });
+  const [showRawTranslation, setShowRawTranslation] = useState(false);
+
+  const parseTranslationParts = (text) => {
+    if (!text) return { description: '', cbetaCitations: [], modernRefs: [] };
+    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+    const cbetaCitations = [];
+    const modernRefs = [];
+    const description = [];
+    let mode = 'desc';
+    for (const line of lines) {
+      // Skip empty lines after trim
+      if (!line) continue;
+      
+      // Check if this line starts a CBETA citation (after removing bullet chars)
+      const cleaned = line.replace(/^[•\-–\s]+/, '');
+      if (/^\(CBETA\s/.test(cleaned)) {
+        // Validate that it looks like a proper CBETA reference: contains _p followed by at least one digit
+        if (/_p\d+/.test(cleaned)) {
+          mode = 'cbeta';
+          cbetaCitations.push(line); // keep original line with bullet for display
+        }
+        // else: skip malformed "(CBETA" without proper reference
+      } else if (/^(https?:\/\/|baike|CHGIS|Tang\s|Minh\s)/i.test(line) || /(sách|website|nguồn|tài liệu|tham khảo)/i.test(line)) {
+        mode = 'modern';
+        modernRefs.push(line);
+      } else if (mode === 'cbeta') {
+        // Only continue in cbeta mode if this line looks like a CBETA citation
+        const cleaned = line.replace(/^[•\-–\s]+/, '');
+        if (/^\(CBETA\s/.test(cleaned) && /_p\d+/.test(cleaned)) {
+          cbetaCitations.push(line);
+        } else {
+          // Reset to description mode for non-CBETA lines
+          mode = 'desc';
+          description.push(line);
+        }
+      } else if (mode === 'modern') {
+        modernRefs.push(line);
+      } else {
+        description.push(line);
+      }
+    }
+    return { description: description.join('\n'), cbetaCitations, modernRefs };
+  };
+  const [cbdbData, setCbdbData] = useState(null);
+  const [cbdbViDraft, setCbdbViDraft] = useState('');
+  const [wikiData, setWikiData] = useState(null);
+  const [wikiLoading, setWikiLoading] = useState(false);
+  const [showFullWiki, setShowFullWiki] = useState(false);
+  const [allPlaces, setAllPlaces] = useState([]);
+  const [allPlacesLoading, setAllPlacesLoading] = useState(false);
+  const [allPlacesTotal, setAllPlacesTotal] = useState(0);
+  const [allPlacesOffset, setAllPlacesOffset] = useState(0);
+  const [allPlacesLoadingMore, setAllPlacesLoadingMore] = useState(false);
+  const [cbetaUnits, setCbetaUnits] = useState({});
+  const [cbetaUnitExpanded, setCbetaUnitExpanded] = useState({});
+  const [cbetaTranslation, setCbetaTranslation] = useState({});  // { [citationId]: { loading, clean, raw, showRaw, error, polished, uncertainMappings } }
+  const [cbetaTermChoices, setCbetaTermChoices] = useState({});   // { [citationId]: { [termOriginal]: 'accepted'|'rejected'|null } }
+  const [cbetaShowRaw, setCbetaShowRaw] = useState({});
+  const [cbetaHanInline, setCbetaHanInline] = useState({});       // {[id]: {loading, han_text, error, visible}}
+  const [cbetaExplanation, setCbetaExplanation] = useState({});  // {[id]: {loading, expl, error}}  // { [citationId]: boolean }
+  const [cbetaSegmentTranslations, setCbetaSegmentTranslations] = useState({});  // { [segmentId]: { loading, units: [{han, vi}], error } }
+  const [summaryEdits, setSummaryEdits] = useState({});  // { [citationId]: string } — local edit buffer
+  const [savingSummary, setSavingSummary] = useState({}); // { [citationId]: boolean }
+  const [entityPassages, setEntityPassages] = useState(null);
+  const [entityPassagesLoading, setEntityPassagesLoading] = useState(false);
+  const [cbetaCatalogData, setCbetaCatalogData] = useState(null);
+  const [cbetaCatalogLoading, setCbetaCatalogLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name_vi: '', gps_lat: '', gps_long: '', note_vi: '',
+    district_vi: '', country_vi: '', source: 'admin', needs_review: 0
+  });
+
+  const adminMapping = {
+    '中國': 'Trung Quốc', '中国': 'Trung Quốc', '阿富汗': 'Afghanistan',
+    '省': 'Tỉnh ', '市': 'Thành phố ', '縣': 'Huyện ', '区': 'Quận ', '區': 'Quận ',
+    '镇': 'Trấn ', '鎮': 'Trấn ', '村': 'Thôn ', '乡': 'Xã ', '鄉': 'Xã '
+  };
+
+  const hasChineseChars = (str) => /[\u4e00-\u9fa5]/.test(str || "");
+
+  const ensureLongId = (id) => {
+    if (!id) return '';
+    if (id.startsWith('PL')) return id;
+    const digits = String(id).replace(/[^0-9]/g, '');
+    return digits ? 'PL' + digits.padStart(12, '0') : id;
+  };
+
+  // ─── ReviewView Component ──────────────────────────────────────────────
+  const ReviewView = ({ baseUrl, safeFetch, ensureLongId, handleSelectPlace, selectedId, setMessage }) => {
+    const [items, setItems] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+    const [offset, setOffset] = React.useState(0);
+    const [total, setTotal] = React.useState(0);
+    const LIMIT = 100;
+
+    const loadReview = React.useCallback(async (append = false) => {
+      setLoading(true);
+      const data = await safeFetch(`${baseUrl}/daoanh/api/admin/places_auto_names?limit=${LIMIT}&offset=${append ? offset : 0}`);
+      if (data?.success) {
+        setItems(prev => append ? [...prev, ...data.places] : data.places);
+        setTotal(data.total);
+        if (!append) setOffset(data.places.length);
+        else setOffset(prev => prev + data.places.length);
+      }
+      setLoading(false);
+    }, [baseUrl, safeFetch, offset]);
+
+    React.useEffect(() => { loadReview(false); }, []);
+
+    const handleConfirm = async (id) => {
+      const item = items.find(i => ensureLongId(i.id) === ensureLongId(id));
+      if (!item) return;
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/namevi-map-places/save`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          dila_id: id,
+          name_vi: item.name_vi,
+          name_zh: item.name_zh,
+          vn_name_status: 'reviewed'
+        })
+      });
+      if (res?.success) {
+        setItems(prev => prev.filter(i => ensureLongId(i.id) !== ensureLongId(id)));
+        setTotal(prev => prev - 1);
+        setMessage({ type: 'success', text: `Đã xác nhận tên cho ${id}` });
+      }
+    };
+
+    if (loading && items.length === 0) return <div className="p-10 text-center text-[10px] text-slate-600 italic font-bold">Đang tải...</div>;
+
+    return (
+      <div>
+        <div className="p-3 border-b border-slate-800/30">
+          <div className="text-[9px] text-slate-500 font-bold">TỰ ĐỘNG / CHỜ DUYỆT</div>
+          <div className="text-xl font-black text-white">{total}</div>
+        </div>
+        {items.length === 0 ? (
+          <div className="p-10 text-center text-[10px] text-slate-600 italic font-bold">Không có tên nào chờ duyệt.</div>
+        ) : (
+          <>
+            {items.map(item => (
+              <div key={ensureLongId(item.id)} className={'flex items-start gap-2 p-4 border-b border-slate-800/30 transition-all ' + (selectedId === ensureLongId(item.id) ? 'bg-blue-500/5 border-l-4 border-l-blue-500' : 'hover:bg-slate-800/30')}>
+                <div className="flex-1 min-w-0 cursor-pointer" onClick={() => handleSelectPlace(item.id)}>
+                  <div className="text-[9px] mono text-slate-600 mb-0.5 tracking-widest">{ensureLongId(item.id)}</div>
+                  <div className="font-bold text-sm text-slate-200 truncate">{item.name_vi}</div>
+                  <div className="text-slate-500 text-xs serif">{item.name_zh}</div>
+                </div>
+                <button onClick={() => handleConfirm(ensureLongId(item.id))}
+                  className="shrink-0 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-[9px] font-black uppercase text-white transition-all mt-1">
+                  Duyệt
+                </button>
+              </div>
+            ))}
+            {items.length < total && (
+              <div className="p-4 text-center">
+                <button onClick={() => loadReview(true)} disabled={loading}
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 rounded-xl text-[10px] font-black uppercase tracking-widest text-white transition-all">
+                  {loading ? 'Đang tải...' : `Tải thêm (${items.length}/${total})`}
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+  };
+
+  const safeFetch = async (url, options = {}) => {
+    const { timeout = 20000, ...fetchOptions } = options;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    try {
+      const response = await fetch(url, { ...fetchOptions, signal: controller.signal });
+      if (!response.ok) throw new Error('HTTP Error: ' + response.status);
+      return await response.json();
+    } catch (err) {
+      if (err.name === 'AbortError') {
+        setMessage({ type: 'error', text: 'Máy chủ phản hồi chậm (Timeout)!' });
+      } else if (err instanceof TypeError) {
+        setMessage({ type: 'error', text: 'Lỗi CORS hoặc VPS bị chặn!' });
+      } else {
+        setMessage({ type: 'error', text: err.message });
+      }
+      return null;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  };
+
+  const titleCaseVi = (str) => {
+    if (!str) return '';
+    return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  };
+
+  function stripRefTags(s) {
+    return s.replace(/<ns0:ref[^>]*>([^<]*)<\/ns0:ref>/g, '$1').replace(/<[^>]+>/g, '');
+  }
+
+  function extractHanContextFromTei(rawTei) {
+    if (!rawTei) return null;
+    const noteMatch = rawTei.match(/<ns0:note[^>]*>([\s\S]*?)<\/ns0:note>/);
+    const biblMatches = [...rawTei.matchAll(/<ns0:bibl>([\s\S]*?)<\/ns0:bibl>/g)];
+    const parts = [];
+    if (noteMatch) parts.push(stripRefTags(noteMatch[1].trim()));
+    if (biblMatches.length) parts.push(biblMatches.map(m => stripRefTags(m[1].trim())).join('\n'));
+    return parts.join('\n\n') || null;
+  }
+
+  function parseTeiFields(rawTei, details) {
+    if (!rawTei) return [];
+    const fields = [];
+    const locMatch = rawTei.match(/<ns0:location>([\s\S]*?)<\/ns0:location>/);
+    // 1. Tên Hán chính
+    const mainRe = /<ns0:placeName\s+xml:lang="zho-Hant"\s*>([^<]+)<\/ns0:placeName>/;
+    const mainMatch = rawTei.match(mainRe);
+    if (mainMatch) fields.push({ label: 'Tên Hán chính', value: mainMatch[1].trim() });
+    else if (details?.name_zh) fields.push({ label: 'Tên Hán chính', value: details.name_zh });
+    // 2. Tên Hán khác / Biến thể Hán
+    const altRe = /<ns0:placeName[^>]*type="alternative"[^>]*xml:lang="zho-Hant"[^>]*>([^<]+)<\/ns0:placeName>/g;
+    const altMatches = [...rawTei.matchAll(altRe)];
+    if (altMatches.length) fields.push({ label: 'Tên Hán khác / Biến thể Hán', value: altMatches.map(m => m[1].trim()).join(', ') });
+    // 3. Đơn vị hành chính (huyện)
+    if (locMatch) {
+      const countyRe = /<ns0:place[^>]*>([^<]+)<\/ns0:place>/;
+      const countyMatch = locMatch[1].match(countyRe);
+      if (countyMatch) fields.push({ label: 'Đơn vị hành chính (huyện)', value: countyMatch[1].trim() });
+    }
+    // 4. Tọa độ (lat, long)
+    if (locMatch) {
+      const geoRe = /<ns0:geo[^>]*>([^<]+)<\/ns0:geo>/;
+      const geoMatch = locMatch[1].match(geoRe);
+      if (geoMatch) {
+        const coords = geoMatch[1].trim().split(/\s+/);
+        fields.push({ label: 'Tọa độ (lat, long)', value: coords.length >= 2 ? coords[1] + ', ' + coords[0] : geoMatch[1].trim() });
+      } else if (details?.gps_lat && details?.gps_long) {
+        fields.push({ label: 'Tọa độ (lat, long)', value: details.gps_lat + ', ' + details.gps_long });
+      }
+    }
+    // 5. Địa chỉ hành chính (TQ)
+    const distRe = /<ns0:district>([^<]+)<\/ns0:district>/;
+    const distMatch = rawTei.match(distRe);
+    if (distMatch) fields.push({ label: 'Địa chỉ hành chính (TQ)', value: distMatch[1].trim() });
+    else if (details?.district) fields.push({ label: 'Địa chỉ hành chính (TQ)', value: details.district });
+    // 6. Ghi chú gốc (Hán) + 7. Phân loại DILA
+    const notes = [...rawTei.matchAll(/<ns0:note[^>]*>([\s\S]*?)<\/ns0:note>/g)];
+    for (const m of notes) {
+      const isCat = m[0].includes('type="category"');
+      const text = stripRefTags(m[1].trim());
+      if (text) {
+        if (isCat) fields.push({ label: 'Phân loại DILA', value: text });
+        else fields.push({ label: 'Ghi chú gốc (Hán)', value: text });
+      }
+    }
+    return fields;
+  }
+
+  const getTransliteration = async (text) => {
+    if (!text) return '';
+    const data = await safeFetch(baseUrl + '/daoanh/api/public/transliterate?text=' + encodeURIComponent(text));
+    if (data?.success) return data.result;
+    let result = text;
+    Object.keys(adminMapping).forEach(key => { result = result.split(key).join(adminMapping[key]); });
+    return result;
+  };
+
+  const initData = async () => {
+    const data = await safeFetch(baseUrl + '/daoanh/api/admin/places_pending?limit=100&offset=0&cate=' + encodeURIComponent(cateFilter));
+    if (data?.success) {
+      setQueue(data.places || []);
+      setTotalCount(data.total || 0);
+      setCurrentOffset(data.places?.length || 0);
+    }
+    setInitialLoading(false);
+    // Check for ?id= query param to auto-load a specific place
+    const params = new URLSearchParams(window.location.search);
+    const idParam = params.get('id');
+    if (idParam && data?.places?.length > 0) {
+      handleSelectPlace(ensureLongId(idParam), true);
+    } else if (data?.places?.length > 0) {
+      handleSelectPlace(data.places[0].id, true);
+    }
+  };
+
+  const handleLoadMore = async () => {
+    setLoadingMore(true);
+    const data = await safeFetch(baseUrl + '/daoanh/api/admin/places_pending?limit=100&offset=' + currentOffset + '&cate=' + encodeURIComponent(cateFilter));
+    if (data?.success && data.places) {
+      setQueue(prev => [...prev, ...data.places]);
+      setCurrentOffset(prev => prev + data.places.length);
+    }
+    setLoadingMore(false);
+  };
+
+  // Init map — chỉ 1 lần, KHÔNG recreate
+  useEffect(() => {
+    if (!window.L) return;
+    if (mapRef.current) return;
+    mapRef.current = window.L.map('map', {
+      center: [21.0285, 105.8542], zoom: 5, zoomControl: false
+    });
+    window.L.tileLayer('https://mt1.google.com/vt/lyrs=m&hl=vi&x={x}&y={y}&z={z}', {
+      attribution: '\u00a9 Google Maps'
+    }).addTo(mapRef.current);
+    window.L.control.zoom({ position: 'bottomright' }).addTo(mapRef.current);
+    isMapReady = true;
+    initData();
+  }, []);
+
+  // Reload queue when cateFilter changes
+  useEffect(() => {
+    if (!initialLoadDone.current) return;
+    const reload = async () => {
+      setQueue([]);
+      setTotalCount(0);
+      setCurrentOffset(0);
+      setSelectedId(null);
+      setDetails(null);
+      setFormData({ name_vi: '', gps_lat: '', gps_long: '', note_vi: '', district_vi: '', country_vi: '', source: 'admin', needs_review: 0 });
+      const data = await safeFetch(baseUrl + '/daoanh/api/admin/places_pending?limit=100&offset=0&cate=' + encodeURIComponent(cateFilter));
+      if (data?.success) {
+        setQueue(data.places || []);
+        setTotalCount(data.total || 0);
+        setCurrentOffset(data.places?.length || 0);
+        if (data.places?.length > 0) {
+          handleSelectPlace(data.places[0].id, true);
+        }
+      }
+    };
+    reload();
+  }, [cateFilter]);
+
+  // Cleanup map khi component unmount
+  useEffect(() => {
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+        isMapReady = false;
+      }
+    };
+  }, []);
+
+  // Map update effect — setView + marker khi GPS thay đổi, delay để React render xong
+  const gpsLat = parseFloat(formData.gps_lat);
+  const gpsLon = parseFloat(formData.gps_long);
+  const hasValidGps = !isNaN(gpsLat) && !isNaN(gpsLon) && gpsLat !== 0 && gpsLon !== 0;
+
+        useEffect(() => {
+          if (!mapRef.current || !hasValidGps) return;
+          setTimeout(() => {
+            if (!mapRef.current) return;
+            mapRef.current.setView([gpsLat, gpsLon], 5);
+            // Remove previous marker if exists
+            if (markerRef.current) {
+              markerRef.current.remove();
+            }
+            // Add new marker
+            markerRef.current = window.L.marker([gpsLat, gpsLon]).addTo(mapRef.current);
+          }, 0);
+        }, [gpsLat, gpsLon, hasValidGps]);
+
+  // Server-side search: debounce 300ms, dùng endpoint chuyên dụng (theo cate)
+  useEffect(() => {
+    if (!initialLoadDone.current) {
+      initialLoadDone.current = true;
+      return;
+    }
+    if (sidebarFilter.length < 2 && sidebarFilter.length > 0) return;
+    const timer = setTimeout(async () => {
+      if (sidebarFilter.length >= 2) {
+        const data = await safeFetch(baseUrl + '/daoanh/api/admin/places_search?q=' + encodeURIComponent(sidebarFilter) + '&cate=' + encodeURIComponent(cateFilter));
+        if (data?.success) {
+          setQueue(data.places || []);
+          setTotalCount(data.places?.length || 0);
+          setCurrentOffset(0);
+          // Nếu tìm kiếm theo ID và có kết quả, auto-load place đầu tiên
+          if (sidebarFilter.match(/^PL\d{12}$/i) && data.places?.length > 0) {
+            handleSelectPlace(data.places[0].id, true);
+          }
+        }
+      } else if (sidebarFilter === '') {
+        const data = await safeFetch(baseUrl + '/daoanh/api/admin/places_pending?limit=100&offset=0&cate=' + encodeURIComponent(cateFilter));
+        if (data?.success) {
+          setQueue(data.places || []);
+          setTotalCount(data.total || 0);
+          setCurrentOffset(data.places?.length || 0);
+        }
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [sidebarFilter, cateFilter]);
+
+  // Fetch CBDB data when place changes
+  useEffect(() => {
+    if (!selectedId) { setCbdbData(null); setCbdbViDraft(''); return; }
+    setCbdbData(null);
+    setCbdbViDraft('');
+    safeFetch(baseUrl + '/daoanh/api/admin/places/' + selectedId + '/cbdb')
+      .then(data => setCbdbData(data || { has_cbdb: false }));
+  }, [selectedId]);
+
+  // Fetch entity passages when place changes
+  useEffect(() => {
+    if (!selectedId) { setEntityPassages(null); return; }
+    setEntityPassages(null);
+    setEntityPassagesLoading(true);
+    safeFetch(baseUrl + '/daoanh/api/entity/' + selectedId + '/passages?limit=5')
+      .then(data => { setEntityPassages(data || { has_data: false, passages: [] }); setEntityPassagesLoading(false); });
+  }, [selectedId]);
+
+  // Reset CBETA units + wiki + passages on place change
+  useEffect(() => {
+    setCbetaUnits({});
+    setCbetaUnitExpanded({});
+    setWikiData(null);
+    setWikiLoading(false);
+    setEntityPassages(null);
+    setCbetaCatalogData(null);
+    setCbetaCatalogLoading(false);
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    setCbetaCatalogLoading(true);
+    safeFetch(baseUrl + '/daoanh/api/admin/place/' + encodeURIComponent(selectedId) + '/cbeta')
+      .then(res => {
+        if (res?.ok) {
+          setCbetaCatalogData(res.cbeta_entries || []);
+        } else {
+          setCbetaCatalogData([]);
+        }
+      })
+      .catch(() => setCbetaCatalogData([]))
+      .finally(() => setCbetaCatalogLoading(false));
+  }, [selectedId]);
+
+  const handleSelectPlace = async (id, isFirst = false) => {
+    const currentCounter = ++fetchCounter.current;
+    const fullId = ensureLongId(id);
+    setSelectedId(fullId);
+    setDetails(null);
+
+    const queueItem = queue.find(q => ensureLongId(q.id) === fullId);
+    setFormData({ name_vi: queueItem?.name_vi || '', district_vi: '', country_vi: '', gps_lat: '', gps_long: '', note_vi: '', source: 'admin', needs_review: 0 });
+
+    if (!isFirst) setItemLoading(true);
+
+    const data = await safeFetch(baseUrl + '/daoanh/api/admin/ai_judge/' + fullId);
+
+    if (currentCounter !== fetchCounter.current) return;
+
+    if (data?.success) {
+      setDetails(data);
+
+      let finalNameVi = data.lexicon_suggestions?.default_suggestion || data.name_vi_display || data.saved_name || queueItem?.name_vi || data.auto_name || '';
+      if (!finalNameVi && data.name_zh) {
+        finalNameVi = titleCaseVi(await getTransliteration(data.name_zh));
+      }
+      if (finalNameVi) finalNameVi = titleCaseVi(finalNameVi);
+
+      // Han variants → extra transliteration suggestions
+      if (data.han_variants?.length) {
+        const extra = [];
+        for (const v of data.han_variants) {
+          if (v.type === 'alternative' && v.text) {
+            const vi = titleCaseVi(await getTransliteration(v.text));
+            if (vi) extra.push({ source: 'han_variant', han: v.text, text: vi });
+          }
+        }
+        if (extra.length) {
+          data.lexicon_suggestions = data.lexicon_suggestions || { default_suggestion: '', candidates: [] };
+          data.lexicon_suggestions.candidates = [...data.lexicon_suggestions.candidates, ...extra];
+          setDetails({ ...data });
+        }
+      }
+
+      // Name variants → enrich with Vietnamese transliteration
+      if (data.name_variants?.length) {
+        let changed = false;
+        for (const v of data.name_variants) {
+          if (v.lang === 'zho-Hant' && v.name && !v.vi) {
+            v.vi = titleCaseVi(await getTransliteration(v.name));
+            if (v.vi) changed = true;
+          }
+        }
+        if (changed) setDetails({ ...data });
+      }
+
+      // Extract + translate historical context
+      const hanSrc = extractHanContextFromTei(data.raw_tei);
+      if (hanSrc) {
+        setHanContextVi({ loading: true, text: null });
+        safeFetch(baseUrl + '/daoanh/api/admin/translate_context', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ source_lang: 'zho-Hant', target_lang: 'vi', style: 'formal', text: hanSrc })
+        }).then(res => {
+          if (!res) { setHanContextVi({ loading: false, text: null, error: 'http_error' }); return; }
+          if (res?.success && res.text_vi) {
+            setHanContextVi({ loading: false, text: res.text_vi, error: null });
+          } else {
+            setHanContextVi({ loading: false, text: null, error: res?.error || 'translate_failed' });
+          }
+        });
+      }
+
+      // District/country: always from DILA RAW, ignore saved namevi_map_places
+      let districtVi = '';
+      let countryVi = '';
+      const rawLoc = data.raw_district || data.district || data.address || '';
+      const rawCountry = data.raw_country || data.country || '';
+      if (rawLoc || rawCountry) {
+        const parsed = await processTransResult(rawLoc, rawCountry);
+        districtVi = parsed.districtVi || '';
+        countryVi = parsed.countryVi || '';
+      }
+      // Combine for Ô 2 display, keep country separate for Ô 3
+      const combinedAddr = districtVi && countryVi ? districtVi + ', ' + countryVi : (districtVi || countryVi || '');
+
+      if (currentCounter !== fetchCounter.current) return;
+        setFormData({
+          name_vi: finalNameVi,
+          gps_lat: data.gps_lat || data.geo_lat || '',
+          gps_long: data.gps_long || data.geo_long || '',
+          note_vi: data.note_vi || data.saved_note || '',
+          district_vi: titleCaseVi(combinedAddr),
+          country_vi: titleCaseVi(countryVi),
+          source: data.source || 'admin',
+          needs_review: data.needs_review || 0
+        });
+    }
+    setItemLoading(false);
+  };
+
+  const processTransResult = async (rawText, countryHint = '') => {
+    // No HVDic for district/country: use backend rule-based parse or adminMapping directly
+    if (!rawText && !countryHint) return { countryVi: '', districtVi: '', formatted: '' };
+    let countryVi = '';
+    let districtVi = '';
+    // Try backend /parse_district (rule-based, no HVDic)
+    if (rawText) {
+      const data = await safeFetch(baseUrl + '/daoanh/api/admin/parse_district', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({district: rawText, country: countryHint})
+      });
+      if (data?.success) {
+        countryVi = data.country_vi || '';
+        districtVi = data.district_vi || '';
+      }
+    }
+    // Fallback: adminMapping dict directly (no HVDic)
+    if (!countryVi && !districtVi) {
+      let clean = rawText || countryHint || '';
+      Object.keys(adminMapping).forEach(k => { if (clean.includes(k)) clean = clean.replace(k, adminMapping[k]); });
+      if (clean.includes('-')) {
+        const parts = clean.split('-').map(p => p.trim());
+        countryVi = parts[0] || '';
+        if (countryVi === '阿富汗') countryVi = 'Afghanistan';
+        if (countryVi === '中國' || countryVi === '中国') countryVi = 'Trung Quốc';
+        if (countryVi === '印度') countryVi = 'Ấn Độ';
+        districtVi = parts.slice(1).reverse().join(' - ');
+      } else {
+        districtVi = clean;
+        countryVi = countryHint || '';
+        if (countryVi === '阿富汗' || countryVi === 'افغانستان') countryVi = 'Afghanistan';
+        if (countryVi === '中國' || countryVi === '中国') countryVi = 'Trung Quốc';
+        if (countryVi === '印度') countryVi = 'Ấn Độ';
+      }
+    }
+    const formatted = districtVi && countryVi ? districtVi + ', ' + countryVi : (districtVi || countryVi || '');
+    return { countryVi, districtVi, formatted };
+  };
+
+  const handleQuickTransliterate = async () => {
+    if (!details) return;
+    const currentCounter = ++fetchCounter.current;
+    setTranslating(true);
+    const nameVi = await getTransliteration(details.name_zh);
+    if (currentCounter !== fetchCounter.current) { setTranslating(false); return; }
+    const rawLoc = details.raw_district || details.district || details.address || '';
+    const { countryVi, districtVi, formatted } = await processTransResult(rawLoc);
+    if (currentCounter !== fetchCounter.current) { setTranslating(false); return; }
+    setFormData(prev => ({ ...prev, name_vi: nameVi, country_vi: countryVi, district_vi: formatted || districtVi }));
+    // Auto-save generated name so it becomes searchable immediately
+    safeFetch(baseUrl + '/daoanh/api/admin/auto_save_name', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({dila_id: selectedId, name_vi: nameVi, name_zh: details.name_zh})
+    });
+    setTranslating(false);
+    setMessage({ type: 'success', text: 'Kiện toàn địa giới từ SQLite!' });
+    setTimeout(() => setMessage(null), 3000);
+  };
+
+  const handleAutoTranslate = async () => {
+    if (!details) return;
+    const currentCounter = ++fetchCounter.current;
+    setTranslating(true);
+    const data = await safeFetch(baseUrl + '/daoanh/api/admin/translate_location', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: selectedId, district: details.raw_district || details.district || details.address, country: details.raw_country || details.country })
+    });
+    if (currentCounter !== fetchCounter.current) { setTranslating(false); return; }
+    if (data?.success) {
+      const combined = data.formatted || (data.translated_district && data.translated_country ? data.translated_district + ', ' + data.translated_country : (data.translated_district || data.translated_country || ''));
+      setFormData(prev => ({ ...prev, district_vi: combined, country_vi: data.translated_country || '' }));
+      setMessage({ type: 'success', text: 'AI Gemini đã kiện toàn Chánh ngữ!' });
+    }
+    setTranslating(false);
+    setTimeout(() => setMessage(null), 3000);
+  };
+
+  const handleSave = async () => {
+    if (!details) return;
+    const currentCounter = ++fetchCounter.current;
+    setSaving(true);
+    // Split Ô 2 (combined address) back into district_vi + country_vi for DB
+    let saveDistrict = formData.district_vi || '';
+    let saveCountry = formData.country_vi || '';
+    if (!saveCountry && saveDistrict) {
+      const lastComma = saveDistrict.lastIndexOf(', ');
+      if (lastComma >= 0) {
+        saveCountry = saveDistrict.substring(lastComma + 2).trim();
+        saveDistrict = saveDistrict.substring(0, lastComma).trim();
+      }
+    }
+    const saveBody = {
+      ...formData,
+      district_vi: saveDistrict,
+      country_vi: saveCountry,
+      dila_id: selectedId,
+      name_zh: details?.name_zh
+    };
+    const data = await safeFetch(baseUrl + '/daoanh/api/admin/namevi-map-places/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(saveBody)
+    });
+    if (currentCounter !== fetchCounter.current) { setSaving(false); return; }
+    if (data?.success) {
+      setMessage({ type: 'success', text: 'Đã lưu Mapping thành công!' });
+      setQueue(prev => prev.filter(q => ensureLongId(q.id) !== selectedId));
+      const currentIdx = filteredQueue.findIndex(q => ensureLongId(q.id) === selectedId);
+      if (currentIdx >= 0 && currentIdx < filteredQueue.length - 1) {
+        setTimeout(() => handleSelectPlace(filteredQueue[currentIdx + 1].id), 500);
+      } else {
+        setDetails(null);
+        setSelectedId(null);
+        setFormData({ name_vi: '', gps_lat: '', gps_long: '', note_vi: '', district_vi: '', country_vi: '', source: 'admin', needs_review: 0 });
+      }
+    } else {
+      setMessage({ type: 'error', text: data?.error || 'Lưu thất bại!' });
+    }
+    setSaving(false);
+    setTimeout(() => setMessage(null), 3000);
+  };
+
+  const normalizeText = (s) => {
+    if (!s) return '';
+    return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'd').toLowerCase().trim();
+  };
+
+  const filteredQueue = useMemo(() => {
+    const q = (sidebarFilter || '').trim();
+    if (!q && sidebarTab !== 'untranslated') return queue;
+    let result = queue;
+    if (q) {
+      const qNorm = normalizeText(q);
+      result = result.filter(item => {
+        const fid = ensureLongId(item.id);
+        const viNorm = normalizeText(item.name_vi);
+        return fid.toLowerCase().includes(q.toLowerCase()) ||
+               item.name_zh.includes(q) ||
+               (item.name_vi && item.name_vi.toLowerCase().includes(q.toLowerCase())) ||
+               (viNorm && qNorm && viNorm.includes(qNorm));
+      });
+    }
+    if (sidebarTab === 'untranslated') {
+      result = result.filter(item => !item.name_vi || hasChineseChars(item.name_vi));
+    }
+    console.log('[DEBUG filteredQueue] q=%s len=%d queue=%d', q, result.length, queue.length);
+    return result;
+  }, [queue, sidebarTab, sidebarFilter]);
+
+  const sqliteInfo = useMemo(() => {
+    if (!details) return { rawD: '...', pendA: '...', country: '...', isHall: false, rawCountry: '...', geo: '...' };
+    const rawD = details.raw_district || details.district || '';
+    const rawCountry = details.raw_country || details.country || '';
+    const pendA = details.pending_address || details.address || '';
+    let country = rawCountry;
+    if (country.includes('中國') || country.includes('中国')) country = 'Trung Quốc';
+    if (!country && rawD.includes('-')) country = rawD.split('-')[0].trim();
+    if (country.includes('中國') || country.includes('中国')) country = 'Trung Quốc';
+    const isHall = (country === 'Vietnam' || pendA.includes('Vietnam')) && rawD !== '' && !rawD.includes('越南') && !rawD.includes('Vietnam');
+    const geo = [details.gps_lat, details.gps_long].filter(Boolean).join(' ') || '';
+    return { rawD, rawCountry, pendA, country, isHall, geo };
+  }, [details]);
+
+  const knowledgeData = useMemo(() => {
+    if (!details) return { bibls: [], variants: [], xmlNote: "", cbetaIds: [] };
+
+    let bibls = details.bibls || [];
+    if (typeof details.listbibl === 'string' && details.listbibl) {
+      bibls = details.listbibl.split(/[;\n]/).map(s => s.trim()).filter(Boolean);
+    } else if (Array.isArray(details.listbibl)) {
+      bibls = details.listbibl;
+    }
+
+    let variants = details.variants || [];
+    variants = variants.map(v => {
+      if (typeof v === 'string' && v.includes(':')) {
+        const [lang, ...nameParts] = v.split(':');
+        return { lang, name: nameParts.join(':') };
+      }
+      return { lang: 'unknown', name: String(v) };
+    });
+    if (Array.isArray(details.name_variants)) {
+      details.name_variants.forEach(v => variants.push({ lang: v.lang, name: v.name, type: v.type || 'main', vi: v.vi }));
+    }
+    const seen = new Map();
+    variants.forEach(v => { const k = `${v.lang}:${v.name}`; if (!seen.has(k) && v.name !== details.name_zh) seen.set(k, v); });
+    variants = Array.from(seen.values());
+
+    const xmlNote = details.xml_note || details.note || details.location_xml || details.note_vi_original || "";
+
+    const cbetaIds = [];
+    const cbetaRe = /CBETA\s+([A-Z]\d+n\d+_\w+)/g;
+    for (const b of bibls) {
+      const m = cbetaRe.exec(b);
+      if (m) cbetaIds.push({ id: m[1], raw: b });
+    }
+    return { bibls, variants, xmlNote, cbetaIds };
+  }, [details]);
+
+  // Handle loading a CBETA unit on demand
+  const handleLoadCbetaUnit = async (id, placeName) => {
+    if (cbetaUnits[id]?.unit) return; // already loaded
+    setCbetaUnits(prev => ({...prev, [id]: { loading: true, unit: null, summary: null, error: null }}));
+    const unitData = await safeFetch(baseUrl + '/daoanh/api/admin/cbeta/unit?id=' + encodeURIComponent(id));
+    if (!unitData || unitData.has_local === false) {
+      setCbetaUnits(prev => ({...prev, [id]: { loading: false, unit: null, summary: null, error: unitData?.message || 'no_local' }}));
+      return;
+    }
+    setCbetaUnits(prev => ({...prev, [id]: { loading: false, unit: unitData, summary: null, error: null }}));
+    // Auto-fetch LLM summary after unit loaded
+    const sumData = await safeFetch(baseUrl + '/daoanh/api/admin/llm/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ han_text: unitData.han_text, place_name: placeName }),
+      timeout: 60000
+    });
+    setCbetaUnits(prev => ({...prev, [id]: {
+      ...prev[id],
+      unit: unitData,
+      summary: sumData || { summary_vi: '', provider: 'none' }
+    }}));
+  };
+
+  const handleWikiFetch = async () => {
+    if (!selectedId || !details) { setMessage({ type: 'error', text: 'Chưa chọn địa danh' }); return; }
+    setWikiLoading(true);
+    const res = await safeFetch(baseUrl + '/daoanh/api/admin/wiki/fetch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ place_id: selectedId, name_vi: details.name_vi, name_zh: details.name_zh }),
+      timeout: 30000
+    });
+    if (res) {
+      setWikiData({ ...res, cached_at: res.cached_at || new Date().toISOString() });
+    } else {
+      setWikiData({ error: 'fetch_failed', has_wiki: false });
+    }
+    setWikiLoading(false);
+  };
+
+  const toggleCbetaHan = async (id, query) => {
+    const cur = cbetaHanInline[id];
+    if (cur?.han_text || cur?.context_results) { setCbetaHanInline(prev => ({...prev, [id]: {...prev[id], visible: !prev[id]?.visible}})); return; }
+    if (cur?.loading) return;
+    const work = id.replace(/_.*$/, '');
+    if (query) {
+      setCbetaHanInline(prev => ({...prev, [id]: {loading: true, han_text: null, context_results: null, error: null, visible: true}}));
+      const res = await safeFetch(baseUrl + '/daoanh/api/admin/cbeta/context?work=' + encodeURIComponent(work) + '&query=' + encodeURIComponent(query));
+      if (res?.results) {
+        setCbetaHanInline(prev => ({...prev, [id]: {loading: false, context_results: res.results, matches_found: res.matches_found, work: res.sigla, query: res.query, error: null, visible: true}}));
+      } else {
+        setCbetaHanInline(prev => ({...prev, [id]: {loading: false, han_text: null, context_results: null, error: res?.error || 'no_text', visible: true}}));
+      }
+    } else {
+      setCbetaHanInline(prev => ({...prev, [id]: {loading: true, han_text: null, context_results: null, error: null, visible: true}}));
+      const res = await safeFetch(baseUrl + '/daoanh/api/admin/cbeta/resolve?ref=' + encodeURIComponent(id));
+      if (res?.han_text) {
+        setCbetaHanInline(prev => ({...prev, [id]: {loading: false, han_text: res.han_text, error: null, visible: true}}));
+      } else {
+        setCbetaHanInline(prev => ({...prev, [id]: {loading: false, han_text: null, error: res?.message || 'no_text', visible: true}}));
+      }
+    }
+  };
+
+  const translateSegment = async (segmentId, hanText) => {
+    if (cbetaSegmentTranslations[segmentId]?.units) return;
+    setCbetaSegmentTranslations(prev => ({...prev, [segmentId]: { loading: true, units: null, error: null }}));
+    const res = await safeFetch(baseUrl + '/daoanh/api/admin/cbeta/translate_segment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ han_text: hanText, segment_id: segmentId })
+    });
+    if (res?.units) {
+      setCbetaSegmentTranslations(prev => ({...prev, [segmentId]: { loading: false, units: res.units, error: null }}));
+    } else {
+      setCbetaSegmentTranslations(prev => ({...prev, [segmentId]: { loading: false, units: null, error: res?.error || 'translate_failed' }}));
+    }
+  };
+
+  const handleTranslateRef = async (id, placeName) => {
+    if (cbetaUnits[id]?.summary?.summary_vi) return;
+    setCbetaUnits(prev => ({...prev, [id]: { ...prev[id], summary: null }}));
+    let unitData = cbetaUnits[id]?.unit;
+    if (!unitData) {
+      setCbetaUnits(prev => ({...prev, [id]: { loading: false, unit: null, summary: null, error: null }}));
+      const res = await safeFetch(baseUrl + '/daoanh/api/admin/cbeta/unit?id=' + encodeURIComponent(id));
+      if (!res || res.has_local === false) {
+        setCbetaUnits(prev => ({...prev, [id]: { ...prev[id], summary: { summary_vi: '', provider: 'none' }, error: 'no_local' }}));
+        return;
+      }
+      unitData = res;
+    }
+    const sumData = await safeFetch(baseUrl + '/daoanh/api/admin/llm/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ han_text: unitData.han_text, place_name: placeName })
+    });
+    setCbetaUnits(prev => ({...prev, [id]: {
+      ...prev[id],
+      unit: unitData,
+      summary: sumData || { summary_vi: '', provider: 'none' }
+    }}));
+  };
+
+  // Shared Gemini translate (reused from BỐI CẢNH block)
+  const translateWithGemini = async (citationId, rawBibl) => {
+    if (!citationId) return;
+    setCbetaTranslation(prev => ({...prev, [citationId]: { loading: true, clean: null, raw: null, error: null }}));
+    const body = { ref: citationId };
+    // Pass raw bibl as context if available
+    if (rawBibl) body.raw = rawBibl;
+    const res = await safeFetch(baseUrl + '/daoanh/api/admin/translate_gemini_cbeta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      timeout: 60000
+    });
+    if (res?.ok || res?.success) {
+      const clean = res.vi_summary_clean || '';
+      const raw = res.vi_summary_raw || '';
+      const polished = res.polished?.polishedText || null;
+      const uncertainMappings = res.polished?.uncertainMappings || [];
+      if (clean || raw) {
+        setCbetaTranslation(prev => ({...prev, [citationId]: { loading: false, clean, raw, showRaw: false, error: null, polished, uncertainMappings }}));
+        return;
+      }
+    }
+    setCbetaTranslation(prev => ({...prev, [citationId]: { loading: false, clean: null, raw: null, error: res?.error || res?.message || 'translate_failed' }}));
+  };
+
+  const handleSaveSummary = async (citationId) => {
+    const text = summaryEdits[citationId];
+    if (!text) return;
+    setSavingSummary(prev => ({...prev, [citationId]: true}));
+    const res = await safeFetch(baseUrl + '/daoanh/api/admin/cbeta/update_summary', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ref: citationId, vi_summary_clean: text })
+    });
+    if (res?.ok || res?.success) {
+      // Update translation cache so UI refreshes
+      setCbetaTranslation(prev => ({
+        ...prev,
+        [citationId]: {...prev[citationId], clean: text, polished: null}
+      }));
+      setSummaryEdits(prev => ({...prev, [citationId]: undefined}));
+    }
+    setSavingSummary(prev => ({...prev, [citationId]: false}));
+  };
+
+  const toggleCbetaRaw = (citationId) => {
+    setCbetaShowRaw(prev => ({...prev, [citationId]: !prev[citationId]}));
+  };
+
+  const explainPlace = async (citationId, rawBibl) => {
+    if (!citationId) return;
+    const extCtx = rawBibl?.match(/\{([^}]+)\}/);
+    const placeHan = extCtx ? extCtx[1] : null;
+    if (!placeHan) return;
+    setCbetaExplanation(prev => ({...prev, [citationId]: {loading: true, expl: null, error: null}}));
+    const res = await safeFetch(baseUrl + '/daoanh/api/admin/cbeta/explain', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ref: citationId, place_han: placeHan}),
+      timeout: 60000
+    });
+    if (res?.ok && res?.explanation_vi) {
+      setCbetaExplanation(prev => ({...prev, [citationId]: {loading: false, expl: res.explanation_vi, han: res.han_sentence || '', error: null}}));
+    } else {
+      setCbetaExplanation(prev => ({...prev, [citationId]: {loading: false, expl: null, han: null, error: res?.error || 'explain_failed'}}));
+    }
+  };
+
+  return (
+    <div className="flex h-screen bg-[#0a0c10] text-slate-200 overflow-hidden font-sans">
+
+      {/* SIDEBAR */}
+      <aside className="w-80 border-r border-slate-800/50 flex flex-col bg-[#11151c] z-20">
+        <div className="p-6 space-y-5 border-b border-slate-800/50 bg-[#0a0c10]/40">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center">
+              <LucideIcon name="database" className="w-5 h-5 text-black" />
+            </div>
+            <h1 className="font-black tracking-tighter text-xl uppercase italic">Đạo Ảnh</h1>
+          </div>
+            <div className="flex bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+             <button onClick={() => setSidebarTab('all')} className={'flex-1 py-2 text-[10px] font-black uppercase rounded-lg transition-all ' + (sidebarTab === 'all' ? 'bg-slate-700 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300')}>Hàng đợi</button>
+             <button onClick={() => setSidebarTab('untranslated')} className={'flex-1 py-2 text-[10px] font-black uppercase rounded-lg transition-all ' + (sidebarTab === 'untranslated' ? 'bg-amber-600 text-white' : 'text-slate-500 hover:text-slate-300')}>Chưa dịch</button>
+             <button onClick={() => setSidebarTab('review')} className={'flex-1 py-2 text-[10px] font-black uppercase rounded-lg transition-all ' + (sidebarTab === 'review' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-300')}>Duyệt tên</button>
+             <button onClick={() => setSidebarTab('places')} className={'flex-1 py-2 text-[10px] font-black uppercase rounded-lg transition-all ' + (sidebarTab === 'places' ? 'bg-emerald-600 text-white' : 'text-slate-500 hover:text-slate-300')}>Tất cả địa danh</button>
+           </div>
+          {/* Cate submenu */}
+          <div className="grid grid-cols-2 gap-1.5">
+            {[['🏛️','Địa danh hành chính','admin_place'],['⛩️','Đạo tràng / Chùa','temple_site'],['🏯','Triều đại / Vùng rộng','dynasty_region'],['⛰️','Núi / Sơn','mountain'],['🌊','Sông / Thủy vực','river_lake'],['🏝️','Đảo / Biển / Khác','other']].map(([icon, label, slug]) => (
+              <button key={slug} onClick={() => { setCateFilter(slug); setQueue([]); setCurrentOffset(0); }} className={'py-1.5 px-2 text-[9px] font-bold rounded-lg transition-all flex items-center gap-1 ' + (cateFilter === slug ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : 'bg-slate-900/50 text-slate-500 hover:text-slate-300 border border-transparent')}>
+                <span className="text-[11px]">{icon}</span>{label}
+              </button>
+            ))}
+          </div>
+          <div className="relative group">
+            <LucideIcon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-amber-500 transition-colors" />
+            <input type="text" placeholder="Tìm ID hoặc tên..." value={sidebarFilter} onChange={e => setSidebarFilter(e.target.value)} className="w-full bg-[#0a0c10] border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs focus:outline-none focus:border-amber-500/50 transition-all font-medium" />
+          </div>
+        </div>
+        <div className="flex-1 overflow-y-auto custom-scrollbar">
+          {sidebarTab === 'review' ? (
+            <ReviewView
+              baseUrl={baseUrl}
+              safeFetch={safeFetch}
+              ensureLongId={ensureLongId}
+              handleSelectPlace={handleSelectPlace}
+              selectedId={selectedId}
+              setMessage={setMessage}
+            />
+          ) : filteredQueue.length === 0 ? (
+            <div className="p-10 text-center text-[10px] text-slate-600 italic font-bold">Không tìm thấy địa danh nào.</div>
+          ) : (
+            <>
+              {filteredQueue.map(item => (
+                <button key={ensureLongId(item.id)} onClick={() => handleSelectPlace(item.id)} className={'w-full p-5 text-left border-b border-slate-800/30 transition-all relative group ' + (selectedId === ensureLongId(item.id) ? 'bg-amber-500/5 border-l-4 border-l-amber-500' : 'hover:bg-slate-800/30')}>
+                  <div className="text-[9px] mono text-slate-600 mb-1 tracking-widest">{ensureLongId(item.id)}</div>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className={'font-bold text-sm truncate ' + (item.name_vi && !hasChineseChars(item.name_vi) ? 'text-slate-200' : 'text-amber-500 italic')}>{item.name_vi || 'Chưa định danh'}</span>
+                    <span className="text-slate-500 text-lg serif opacity-60 shrink-0">{item.name_zh}</span>
+                  </div>
+                </button>
+              ))}
+              {queue.length < totalCount && (
+                <div className="p-4 text-center">
+                  <button onClick={handleLoadMore} disabled={loadingMore}
+                    className="px-6 py-3 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 rounded-xl text-[10px] font-black uppercase tracking-widest text-black transition-all flex items-center gap-2 mx-auto">
+                    {loadingMore ? <span className="animate-pulse">Đang nạp...</span> : `Tải thêm (${queue.length}/${totalCount})`}
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </aside>
+
+      {/* WORKSPACE */}
+      <main className="flex-1 flex flex-col relative bg-[#0a0c10]">
+        <header className="h-20 border-b border-slate-800/50 bg-[#11151c]/80 backdrop-blur-md flex items-center justify-between px-10 shrink-0 z-10">
+          <div className="flex items-center gap-6">
+            <div className="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20 shadow-inner"><LucideIcon name="map-pin" className="text-amber-500 w-6 h-6" /></div>
+            <div>
+              <div className="text-[10px] mono font-black text-slate-600 uppercase tracking-[0.2em]">{selectedId}</div>
+              <div className="text-3xl font-black text-white font-serif tracking-tight flex items-center gap-3">{details?.name_zh || '...'}{itemLoading && <LucideIcon name="loader-2" className="w-5 h-5 animate-spin text-amber-500" />}</div>
+              {details?.name_en && <div className="text-xs text-slate-500 mt-0.5 font-mono">{details.name_en}</div>}
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <button onClick={handleQuickTransliterate} disabled={translating} className="p-3 bg-blue-500/10 hover:bg-blue-500 rounded-xl transition-all border border-blue-500/20" title="Bóc tách địa giới"><LucideIcon name="zap" className={'w-5 h-5 ' + (translating ? 'animate-pulse' : 'text-blue-500 hover:text-black')} /></button>
+            <button onClick={handleSave} disabled={saving || !details} className="px-8 py-3 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-xs font-black flex items-center gap-2.5 transition-all shadow-xl shadow-amber-900/20 uppercase tracking-widest text-black">
+              {saving ? <LucideIcon name="loader-2" className="w-4 h-4 animate-spin" /> : <LucideIcon name="save" className="w-4 h-4" />} Lưu Mapping
+            </button>
+          </div>
+        </header>
+
+        <div className={'flex-1 overflow-y-auto custom-scrollbar p-10 transition-opacity duration-300 ' + (itemLoading ? 'opacity-30' : 'opacity-100')}>
+          <div className="max-w-7xl mx-auto grid grid-cols-12 gap-10">
+            {/* LEFT COL - 5/12 */}
+            <div className="col-span-12 lg:col-span-5 space-y-10 fade-in">
+              <section className="bg-[#181d26] p-8 rounded-[2.5rem] border border-slate-800 shadow-2xl space-y-6">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <label className="text-[10px] font-black text-amber-500 uppercase tracking-widest flex items-center gap-2"><LucideIcon name="languages" className="w-4 h-4" /> Định danh Việt ngữ</label>
+                    <div className="flex items-center gap-2">
+                      {details?.vn_name_status === 'auto' && <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-[8px] font-black rounded border border-blue-500/30 uppercase">Tự động</span>}
+                      {details?.vn_name_status === 'reviewed' && <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[8px] font-black rounded border border-emerald-500/30 uppercase">Đã duyệt</span>}
+                      {hasChineseChars(formData.name_vi) && <span className="px-2 py-0.5 bg-red-500/20 text-red-500 text-[8px] font-black rounded border border-red-500/30 uppercase animate-pulse-red">Còn Hán Tự</span>}
+                    </div>
+                  </div>
+                <input type="text" value={formData.name_vi} onChange={e => setFormData({ ...formData, name_vi: e.target.value })} className="w-full bg-[#0a0c10] border-2 border-slate-800 rounded-2xl px-6 py-5 text-3xl font-black text-white focus:outline-none focus:border-amber-500 transition-all shadow-inner" />
+                <div className="p-4 bg-amber-500/5 rounded-2xl border border-amber-500/10 flex items-start gap-3">
+                  <LucideIcon name="graduation-cap" className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <div className="text-[11px] text-slate-400 leading-relaxed font-medium"><span className="text-amber-500/80 font-bold uppercase block mb-1">Gợi ý từ Lexicon (VPS):</span>{details?.lexicon_suggestions?.candidates?.length > 0 ? <div className="flex flex-wrap gap-2 mt-2">{details.lexicon_suggestions.candidates.map((c, i) => <button key={i} onClick={() => setFormData(prev => ({...prev, name_vi: c.text}))} className={'px-3 py-1.5 rounded-lg text-[10px] font-bold border transition-all ' + (c.source === 'lexicon' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20' : c.source === 'lexicon_han' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30 hover:bg-blue-500/20' : c.source === 'han_variant' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30 hover:bg-purple-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20')}><span className="text-[7px] uppercase opacity-60 mr-1">[{c.source === 'lexicon' ? 'Lexicon' : c.source === 'lexicon_han' ? 'Hán' : c.source === 'han_variant' ? 'Biến thể Hán' : 'API'}]</span>{c.text}</button>)}</div> : <span className="text-slate-600 italic">Đang trống.</span>}</div>
+                </div>
+              </section>
+
+              <section className="bg-[#181d26] p-8 rounded-[2.5rem] border border-slate-800 shadow-2xl space-y-8">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2"><LucideIcon name="milestone" className="w-4 h-4" /> Vị trí (3 Lớp RAG)</span>
+                  <button onClick={handleAutoTranslate} disabled={translating} className="px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-500 hover:text-black rounded-xl text-[10px] font-black uppercase transition-all flex items-center gap-2 border border-emerald-500/20 shadow-lg">
+                    {translating ? <LucideIcon name="loader-2" className="w-3.5 h-3.5 animate-spin" /> : <LucideIcon name="sparkles" className="w-3.5 h-3.5" />} AI Gemini
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  <div className="p-4 bg-slate-900/50 rounded-2xl border border-slate-800/50">
+                    <span className="text-[8px] font-black text-slate-600 block mb-1 uppercase tracking-tighter">DILA RAW (SQLITE):</span>
+                    <div className="text-xs text-slate-400 leading-relaxed space-y-1 font-mono mt-1">
+                      <div><span className="text-slate-600">country:</span> <span className="text-amber-500 font-bold">{sqliteInfo.rawCountry || '...'}</span></div>
+                      <div><span className="text-slate-600">district:</span> <span className="text-amber-500 font-bold">{sqliteInfo.rawD || '...'}</span></div>
+                      <div><span className="text-slate-600">geo:</span> <span className="text-amber-500 font-bold">{sqliteInfo.geo || '...'}</span></div>
+                    </div>
+                  </div>
+                  <div className={'p-5 rounded-2xl border transition-all ' + (formData.district_vi ? 'bg-emerald-500/5 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.1)]' : 'bg-slate-900/20 border-slate-800 border-dashed')}>
+                    <span className="text-[8px] font-black text-emerald-500 block mb-1 uppercase tracking-tighter">ĐỊA CHỈ (huyện, tỉnh, quốc gia):</span>
+                    <input type="text" value={formData.district_vi} readOnly className="w-full bg-transparent text-sm font-bold text-white focus:outline-none" placeholder="tự động từ DILA" />
+                  </div>
+                </div>
+                <div className={'p-5 rounded-2xl border ' + (sqliteInfo.isHall ? 'border-red-500 shadow-[inset_0_0_15px_rgba(239,68,68,0.2)]' : 'bg-slate-900/50 border-slate-800')}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[8px] font-black text-slate-500 block uppercase tracking-widest">QUỐC GIA:</span>
+                    <LucideIcon name="globe" className="w-5 h-5 text-slate-700" />
+                  </div>
+                   <input type="text" value={formData.country_vi} readOnly className={'w-full bg-transparent text-base font-black focus:outline-none ' + (sqliteInfo.isHall ? 'text-red-500 animate-pulse' : 'text-white')} placeholder="tự động từ DILA" />
+                  {sqliteInfo.isHall && <p className="text-[8px] text-red-500 mt-2 animate-pulse">Cảnh báo: Dữ liệu SQLite có thể bị phía</p>}
+                </div>
+              </section>
+
+              <section className="bg-[#181d26] p-8 rounded-[2.5rem] border border-slate-800 shadow-2xl space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest flex items-center gap-2"><LucideIcon name="globe" className="w-4 h-4" /> Bản đồ xác thực GIS (hl=vi)</span>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 bg-[#0a0c10] border border-slate-800 rounded-xl text-center shadow-inner">
+                    <span className="text-[8px] font-bold text-slate-600 uppercase block mb-1">Lat</span>
+                    <p className="text-lg font-black text-blue-400">{details?.gps_lat || '0.0'}</p>
+                  </div>
+                  <div className="p-4 bg-[#0a0c10] border border-slate-800 rounded-xl text-center shadow-inner">
+                    <span className="text-[8px] font-bold text-slate-600 uppercase block mb-1">Long</span>
+                    <p className="text-lg font-black text-blue-400">{details?.gps_long || '0.0'}</p>
+                  </div>
+                </div>
+                <div className="relative w-full h-80">
+                  <div id="map" data-fixed="true" className="absolute inset-0 bg-slate-900 rounded-[2rem] border border-slate-800 overflow-hidden z-0" />
+                  {!details && <div className="absolute inset-0 flex items-center justify-center text-xs text-slate-700 italic font-bold z-10 pointer-events-none">Nạp bản đồ...</div>}
+                </div>
+              </section>
+            </div>
+
+            {/* RIGHT COL - 7/12 */}
+            <div className="col-span-12 lg:col-span-7 space-y-10 fade-in" style={{animationDelay: '0.1s'}}>
+              <section className="bg-[#181d26] rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
+                <div className="px-8 py-5 border-b border-slate-800 bg-slate-800/30 flex items-center gap-3">
+                  <LucideIcon name="languages" className="w-4 h-4 text-indigo-400" /><span className="text-[10px] font-black uppercase tracking-[0.2em]">Biến thể danh xưng đa ngữ (SQLite)</span>
+                </div>
+                <div className="p-8">
+                  <div className="space-y-2">
+                    {knowledgeData.variants.length > 0 ? knowledgeData.variants.map((v, i) => (
+                      <div key={i} className="flex items-baseline gap-3 px-4 py-2.5 bg-slate-900/80 border border-slate-800/60 rounded-xl">
+                        <span className={"inline-flex items-center px-2 py-0.5 rounded font-mono text-[10px] font-bold " + (v.type === 'alternative' ? 'bg-purple-600/40 text-purple-100' : 'bg-sky-600/40 text-sky-100')}>
+                          {v.lang}{v.type === 'alternative' ? '/alt' : ''}
+                        </span>
+                        <span className="text-sm text-slate-100 font-serif">{v.name}</span>
+                        {v.vi && <span className="text-xs text-emerald-400 ml-auto">→ {v.vi}</span>}
+                      </div>
+                    )) : <p className="text-slate-600 italic text-sm">Không tìm thấy biến thể trong SQLite.</p>}
+                  </div>
+                </div>
+              </section>
+
+              {/* BỐI CẢNH LỊCH SỬ & KHẢO CỔ (lên trên) */}
+              <section className="bg-[#181d26] rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
+                <div className="px-8 py-5 border-b border-slate-800 bg-slate-800/30 flex items-center gap-3">
+                  <LucideIcon name="file-text" className="w-4 h-4 text-amber-500" /><span className="text-[10px] font-black uppercase tracking-[0.2em]">Bối cảnh lịch sử & Khảo cổ</span>
+                </div>
+                <div className="p-8 space-y-6">
+                  {hanContextVi.loading && (
+                    <div className="p-4 bg-blue-500/5 rounded-2xl border border-blue-500/20 flex items-center gap-3">
+                      <LucideIcon name="loader-2" className="w-4 h-4 text-blue-400 animate-spin" />
+                      <span className="text-[11px] text-blue-400 italic">Đang tải bản dịch Việt (LLM free)...</span>
+                    </div>
+                  )}
+                  {!hanContextVi.loading && hanContextVi.text && (() => {
+                    const parts = parseTranslationParts(hanContextVi.text);
+                    return (
+                      <div className="space-y-4">
+                        <div className="p-5 bg-emerald-500/5 rounded-2xl border border-emerald-500/20">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-[8px] font-black text-emerald-500 uppercase tracking-tighter">DỊCH TỰ ĐỘNG (GEMINI FREE):</span>
+                            <button onClick={() => setShowRawTranslation(!showRawTranslation)} className="text-[9px] text-slate-500 hover:text-slate-300 transition-colors uppercase tracking-wider font-semibold">{showRawTranslation ? 'Ẩn thô' : 'Xem thô'}</button>
+                          </div>
+                          {showRawTranslation ? (
+                            <textarea className="w-full min-h-[120px] p-4 text-[11px] bg-[#0a0c10] border border-slate-800 rounded-xl text-slate-300 font-mono leading-relaxed resize-y whitespace-pre-wrap" defaultValue={hanContextVi.text} />
+                          ) : (
+                            <div className="space-y-3">
+                              {parts.description && (
+                                <p className="text-sm text-slate-200 leading-relaxed whitespace-pre-wrap">{parts.description}</p>
+                              )}
+                              {parts.cbetaCitations.length > 0 && (
+                                <div className="mt-3 pt-3 border-t border-emerald-500/10">
+                                  <p className="text-[9px] text-emerald-400/60 font-semibold uppercase tracking-wider mb-2">Trích dẫn Đại Tạng:</p>
+                                  <ul className="space-y-1">
+                                    {parts.cbetaCitations.map((c, i) => (
+                                      <li key={i} className="text-[11px] text-slate-400 leading-relaxed font-mono">• {c}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                              {parts.modernRefs.length > 0 && (
+                                <div className="mt-3 pt-3 border-t border-blue-500/10">
+                                  <p className="text-[9px] text-blue-400/60 font-semibold uppercase tracking-wider mb-2">Nguồn tham khảo khác:</p>
+                                  <ul className="space-y-1">
+                                    {parts.modernRefs.map((r, i) => (
+                                      <li key={i} className="text-[11px] text-slate-400 leading-relaxed font-mono">• {r}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                  {!hanContextVi.loading && hanContextVi.error && (
+                    <div className="p-4 bg-rose-500/5 rounded-2xl border border-rose-500/20">
+                      <p className="text-[11px] text-rose-400">Không gọi được API dịch ({hanContextVi.error}). Xem TEI gốc ở mục "TRÍ THỨC GỐC (SQLITE VPS)".</p>
+                    </div>
+                  )}
+                  {!hanContextVi.loading && !hanContextVi.text && details && (
+                    <div className="p-4 bg-slate-900/30 rounded-2xl border border-slate-800/50">
+                      <p className="text-[11px] text-slate-500 italic">Chưa có bản dịch Việt. Xem TEI gốc ở mục "TRÍ THỨC GỐC (SQLITE VPS)".</p>
+                    </div>
+                  )}
+                  <textarea value={formData.note_vi} onChange={e => setFormData({ ...formData, note_vi: e.target.value })} className="w-full h-48 bg-[#0a0c10] border border-slate-800 rounded-3xl p-8 text-sm text-slate-300 serif italic shadow-inner custom-scrollbar focus:outline-none focus:border-amber-500/40 transition-all leading-relaxed" placeholder="Ghi chú Việt ngữ (do editor nhập)..." />
+                </div>
+              </section>
+
+              {/* TRÍ THỨC GỐC (SQLITE VPS) - plain text default, XML toggle */}
+              <section className="bg-[#181d26] rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
+                <div className="px-8 py-5 border-b border-slate-800 bg-slate-800/30 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <LucideIcon name="archive" className="w-4 h-4 text-slate-500" /><span className="text-[10px] font-black uppercase tracking-[0.2em]">Trí thức gốc (DILA SQLITE VPS)</span>
+                  </div>
+                  <button onClick={() => setShowRawTei(!showRawTei)} className="px-3 py-1.5 bg-slate-700/40 hover:bg-slate-700/60 text-[9px] font-bold uppercase tracking-wider rounded-lg border border-slate-700 transition-all">
+                    {showRawTei ? 'Ẩn XML' : 'Xem XML'}
+                  </button>
+                </div>
+                <div className="p-6">
+                  {showRawTei ? (
+                    <pre className="bg-[#0a0c10] text-[10px] text-slate-300 p-4 rounded-xl max-h-64 overflow-auto font-mono whitespace-pre-wrap leading-relaxed">
+                      {(details?.raw_tei || '').replace(/<ns0:ref[^>]*>([^<]*)<\/ns0:ref>/g, '$1') || 'Không có TEI/XML.'}
+                    </pre>
+                  ) : (
+                    <div className="space-y-2">
+                      {parseTeiFields(details?.raw_tei, details).map((f, i) => (
+                        <div key={i} className="text-xs">
+                          <span className="text-slate-500 font-semibold tracking-wide mr-2">{f.label}:</span>
+                          <span className="text-slate-200">{f.value}</span>
+                        </div>
+                      ))}
+                      {!details?.raw_tei && <div className="text-xs text-slate-500 italic">Không có dữ liệu.</div>}
+                    </div>
+                  )}
+                </div>
+              </section>
+
+              {/* Nguồn CBDB */}
+              <section className="bg-[#181d26] rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
+                <div className="px-8 py-5 border-b border-slate-800 bg-slate-800/30 flex items-center gap-3">
+                  <LucideIcon name="globe" className="w-4 h-4 text-emerald-400" /><span className="text-[10px] font-black uppercase tracking-[0.2em]">Nguồn CBDB</span>
+                </div>
+                <div className="p-8 space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar">
+                  {cbdbData === null ? (
+                    <p className="text-slate-600 italic text-sm p-4 text-center">Đang tải...</p>
+                  ) : cbdbData?.error ? (
+                    <p className="text-slate-500 text-xs text-center p-4">⚠ Hệ thống gặp lỗi khi truy CBDB.</p>
+                  ) : !cbdbData?.has_cbdb ? (
+                    <p className="text-slate-600 italic text-sm p-4 text-center">Không có dữ liệu CBDB cho địa danh này.</p>
+                  ) : (
+                    <div className="space-y-4">
+                      {(cbdbData.cbdb_places || []).map((p, i) => (
+                        <div key={i} className="p-5 bg-[#0a0c10] border border-slate-800 rounded-3xl space-y-3">
+                          <div className="text-xs text-slate-300"><span className="font-semibold text-slate-400">Tên (CBDB):</span> {p.name_zh || ''}</div>
+                          <div className="text-xs text-slate-300"><span className="font-semibold text-slate-400">Loại hành chính:</span> {p.admin_type || ''}</div>
+                          {p.notes_zh ? <div className="text-xs text-slate-300"><span className="font-semibold text-slate-400">Ghi chú:</span> {p.notes_zh}</div> : null}
+                        </div>
+                      ))}
+                      <button onClick={async () => {
+                        const res = await safeFetch(baseUrl + '/daoanh/api/admin/places/' + selectedId + '/cbdb_translate', { method: 'POST' });
+                        if (res?.success) setCbdbViDraft(res.vi_draft || '');
+                        else if (res?.has_data === false) setMessage({ type: 'error', text: 'Chưa có dữ liệu CBDB để dịch.' });
+                        else setMessage({ type: 'error', text: 'Lỗi hệ thống khi dịch CBDB.' });
+                      }} className="w-full px-4 py-3 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl border border-emerald-500/20 hover:border-emerald-500/40 transition-all flex items-center justify-center gap-2">
+                        <LucideIcon name="languages" className="w-4 h-4" />
+                        Dịch thô (LLM)
+                      </button>
+                      {cbdbViDraft ? (
+                        <textarea className="w-full min-h-[80px] p-4 text-[11px] bg-[#0a0c10] border border-slate-800 rounded-2xl text-slate-300 placeholder-slate-600 font-sans leading-relaxed resize-y" value={cbdbViDraft} onChange={e => setCbdbViDraft(e.target.value)} />
+                      ) : null}
+                    </div>
+                  )}
+                </div>
+              </section>
+
+              {/* Wikipedia (CC BY-SA) */}
+              <section className="bg-[#181d26] rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
+                <div className="px-8 py-5 border-b border-slate-800 bg-slate-800/30 flex items-center gap-3">
+                  <LucideIcon name="book-marked" className="w-4 h-4 text-sky-400" /><span className="text-[10px] font-black uppercase tracking-[0.2em]">Wikipedia (CC BY-SA)</span>
+                </div>
+                <div className="p-8 space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar">
+                  {wikiLoading ? (
+                    <p className="text-slate-600 italic text-sm text-center py-4">Đang tra Wikipedia...</p>
+                  ) : wikiData?.error ? (
+                    <p className="text-slate-500 text-xs text-center p-4">⚠ Hệ thống gặp lỗi khi tra Wikipedia.</p>
+                  ) : wikiData?.has_wiki ? (
+                    <div className="space-y-3">
+                      <a href={wikiData.wiki_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs text-sky-400 hover:text-sky-300 font-semibold transition-colors">
+                        <LucideIcon name="external-link" className="w-3.5 h-3.5" />
+                        {wikiData.wiki_title}
+                      </a>
+                      <div className="max-h-[300px] overflow-y-auto p-3 bg-slate-900/50 rounded-xl border border-slate-800/50 whitespace-pre-wrap">
+                        {wikiData.full_text || wikiData.snippet}
+                      </div>
+                      {wikiData.cached_at && <p className="text-[8px] text-slate-600 italic">Đã lưu cache: {wikiData.cached_at}</p>}
+                      <button onClick={handleWikiFetch} className="text-[9px] text-sky-500/60 hover:text-sky-400 transition-colors font-semibold uppercase tracking-wider">Cập nhật từ Wikipedia</button>
+                      <div className="text-[9px] text-slate-600 leading-relaxed border-t border-slate-800/50 pt-3 mt-3">
+                        * Tham khảo từ Wikipedia (CC BY-SA).<br />
+                        * Text chính thức cho GIS: bản dịch riêng trong DB Đạo Ảnh.
+                      </div>
+                    </div>
+                  ) : wikiData && !wikiData.has_wiki ? (
+                    <div className="space-y-3">
+                      <p className="text-slate-600 italic text-sm text-center py-2">Không tìm thấy bài viết Wikipedia.</p>
+                      <button onClick={handleWikiFetch}
+                        className="w-full px-4 py-3 bg-sky-600/20 hover:bg-sky-600/30 text-sky-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl border border-sky-500/20 hover:border-sky-500/40 transition-all flex items-center justify-center gap-2">
+                        <LucideIcon name="refresh-cw" className="w-4 h-4" />
+                        Thử lại
+                      </button>
+                      <div className="text-[9px] text-slate-600 leading-relaxed border-t border-slate-800/50 pt-3 mt-3">
+                        * Text chính thức cho GIS: bản dịch riêng trong DB Đạo Ảnh.
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <button onClick={handleWikiFetch}
+                        className="w-full px-4 py-3 bg-sky-600/20 hover:bg-sky-600/30 text-sky-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl border border-sky-500/20 hover:border-sky-500/40 transition-all flex items-center justify-center gap-2">
+                        <LucideIcon name="search" className="w-4 h-4" />
+                        Tra Wikipedia
+                      </button>
+                      <div className="text-[9px] text-slate-600 leading-relaxed border-t border-slate-800/50 pt-3 mt-3">
+                        * Tham khảo từ Wikipedia (CC BY-SA).<br />
+                        * Text chính thức cho GIS: bản dịch riêng trong DB Đạo Ảnh.
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </section>
+
+              {/* TRONG ĐẠI TẠNG KINH (CBETA VN) */}
+              <section className="bg-[#181d26] rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
+                <div className="px-8 py-5 border-b border-slate-800 bg-slate-800/30 flex items-center gap-3">
+                  <LucideIcon name="book" className="w-4 h-4 text-emerald-400" /><span className="text-[10px] font-black uppercase tracking-[0.2em]">TRONG ĐẠI TẠNG KINH (CBETA VN)</span>
+                </div>
+                <div className="p-8 space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar">
+                  {cbetaCatalogLoading ? (
+                    <p className="text-slate-600 italic text-sm text-center py-4"><LucideIcon name="loader-2" className="w-3 h-3 animate-spin inline-block mr-2" />Đang tải...</p>
+                  ) : cbetaCatalogData && cbetaCatalogData.length > 0 ? (
+                    cbetaCatalogData.map((entry, i) => (
+                      <div key={entry.id || i} className="p-4 bg-[#0a0c10] border border-slate-800 rounded-2xl space-y-2 hover:border-emerald-500/20 transition-all">
+                        <div className="flex items-start gap-3">
+                          <div className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.3)]" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-slate-200 font-mono font-semibold">{entry.code || entry.catalog_id}</p>
+                            <p className="text-[11px] text-emerald-300 font-medium mt-0.5">{entry.title_vi || 'Chưa có tên Việt'}</p>
+                            {entry.title_zh && <p className="text-[10px] text-slate-500 mt-0.5">{entry.title_zh}</p>}
+                            <div className="flex flex-wrap gap-2 mt-2">
+                              {entry.dynasty_vi && <span className="text-[8px] text-slate-500 bg-slate-800/50 px-2 py-0.5 rounded-full">{entry.dynasty_vi}</span>}
+                              {entry.translator_vi && <span className="text-[8px] text-slate-500 bg-slate-800/50 px-2 py-0.5 rounded-full">{entry.translator_vi}</span>}
+                              {entry.q_number && entry.sh_number && (
+                                <span className="text-[8px] text-slate-500 bg-slate-800/50 px-2 py-0.5 rounded-full">
+                                  Q.{entry.q_number}, Tr.{entry.page}, Sh.{entry.sh_number}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-slate-600 italic text-sm text-center py-4">Chưa có liên kết CBETA VN cho địa danh này.</p>
+                  )}
+                </div>
+              </section>
+
+              {/* NGUỒN DẪN ĐẠI TẠNG KINH — merged block */}
+              <section className="bg-[#181d26] rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
+                <div className="px-8 py-5 border-b border-slate-800 bg-slate-800/30 flex items-center gap-3">
+                  <LucideIcon name="book-open" className="w-4 h-4 text-amber-400" /><span className="text-[10px] font-black uppercase tracking-[0.2em]">NGUỒN DẪN ĐẠI TẠNG KINH</span>
+                </div>
+                <div className="p-8 space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar">
+                  {(!knowledgeData.cbetaIds || knowledgeData.cbetaIds.length === 0) && (
+                    <p className="text-slate-600 italic text-sm text-center py-4">Không tìm thấy trích dẫn.</p>
+                  )}
+                  {knowledgeData.cbetaIds?.length > 0 && knowledgeData.cbetaIds.map(({ id, raw }) => {
+                    const extCtx = raw.match(/\{([^}]+)\}/);
+                    const contextHint = extCtx ? extCtx[1] : null;
+                    const u = cbetaUnits[id];
+                    const tr = cbetaTranslation[id];
+                    return (
+                      <div key={id} className="p-5 bg-[#0a0c10] border border-slate-800 rounded-3xl space-y-3 hover:border-amber-500/20 transition-all">
+                        <div className="flex items-start gap-4">
+                          <div className="w-2 h-2 rounded-full bg-amber-500 mt-2 shrink-0 shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="min-w-0">
+                                <p className="text-xs text-slate-200 font-mono font-semibold">{id}</p>
+                                {contextHint && <p className="text-[10px] text-slate-500 mt-0.5">⤷ <span className="text-slate-400">{contextHint}</span></p>}
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <button onClick={() => toggleCbetaHan(id, contextHint)}
+                                  className="px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 rounded-xl border border-amber-500/20 transition-all inline-flex items-center gap-1">
+                                  {(() => { const hi = cbetaHanInline[id]; if (hi?.loading) return <><LucideIcon name="loader-2" className="w-3 h-3 animate-spin" /> Đang tải</>; if ((hi?.han_text || hi?.context_results) && hi?.visible) return <>Ẩn Hán</>; return <>CBETA</>; })()}
+                                </button>
+                                <button onClick={() => translateWithGemini(id, raw)}
+                                  className="px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-xl border border-emerald-500/20 transition-all inline-flex items-center gap-1">
+                                  {tr?.loading ? <><LucideIcon name="loader-2" className="w-3 h-3 animate-spin" /> Đang dịch</> : <>CBETA DỊCH VIỆT</>}
+                                </button>
+                                {(() => {
+                                  const ec = raw.match(/\{([^}]+)\}/);
+                                  const hasPlace = ec && ec[1];
+                                  const ex = cbetaExplanation[id];
+                                  if (!hasPlace) return null;
+                                  return (
+                                    <button onClick={() => explainPlace(id, raw)}
+                                      className="px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-sky-400 bg-sky-500/10 hover:bg-sky-500/20 rounded-xl border border-sky-500/20 transition-all inline-flex items-center gap-1">
+                                      {ex?.loading ? <><LucideIcon name="loader-2" className="w-3 h-3 animate-spin" /> Đang tra</> : <>Giải thích</>}
+                                    </button>
+                                  );
+                                })()}
+                              </div>
+                            </div>
+                            {(() => {
+                              const hi = cbetaHanInline[id];
+                              if (hi?.context_results && hi?.visible) return (
+                                <div className="mt-3 pt-3 border-t border-slate-800 space-y-3">
+                                  {hi.context_results.map((r, ri) => {
+                                    const segKey = id + '_seg' + ri;
+                                    const st = cbetaSegmentTranslations[segKey];
+                                    const fullHan = [...(r.context_before || []), r.match, ...(r.context_after || [])].join(' ');
+                                    return (
+                                      <div key={ri} className="bg-amber-500/5 border border-amber-500/10 rounded-xl p-3 space-y-2">
+                                        <p className="text-[11px] leading-relaxed text-slate-400">
+                                          {r.context_before.map((s, si) => <span key={si} className="text-slate-500">{s} </span>)}
+                                          <span className="text-amber-400 font-bold">{r.match}</span>
+                                          {r.context_after.map((s, si) => <span key={si} className="text-slate-500"> {s}</span>)}
+                                        </p>
+                                        <div className="flex items-center gap-2">
+                                          {!st?.units ? (
+                                            <button onClick={() => translateSegment(segKey, fullHan)}
+                                              className="px-2.5 py-1 text-[8px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-lg border border-emerald-500/20 transition-all inline-flex items-center gap-1">
+                                              {st?.loading ? <><LucideIcon name="loader-2" className="w-2.5 h-2.5 animate-spin" /> Đang dịch</> : <>Dịch đoạn</>}
+                                            </button>
+                                          ) : null}
+                                          {st?.error && <span className="text-[8px] text-rose-400/60">Lỗi: {st.error}</span>}
+                                        </div>
+                                        {st?.units && (
+                                          <div className="space-y-1 border-t border-amber-500/10 pt-2">
+                                            {st.units.map((u, ui) => (
+                                              <div key={ui} className="grid grid-cols-2 gap-3 text-[10px]">
+                                                <div className="text-slate-400 font-mono leading-relaxed">{u.han}</div>
+                                                <div className="text-slate-200 leading-relaxed">{u.vi}</div>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                  <p className="text-[9px] text-slate-600">Tìm thấy {hi.matches_found} kết quả cho '{hi.query}' trong {hi.work}</p>
+                                </div>
+                              );
+                              if (hi?.han_text && hi?.visible) return (
+                                <div className="mt-3 pt-3 border-t border-slate-800">
+                                  <div className="bg-amber-500/5 border border-amber-500/10 rounded-xl p-3">
+                                    <p className="text-[11px] leading-relaxed text-slate-400 whitespace-pre-wrap"><span className="text-amber-400/80 font-semibold">HÁN:</span> {hi.han_text}</p>
+                                  </div>
+                                </div>
+                              );
+                              if (hi?.error && hi?.visible) return (
+                                <div className="mt-3 pt-3 border-t border-slate-800">
+                                  <p className="text-[9px] text-rose-400/60">CBETA: {hi.error === 'no_text' ? 'Chưa có văn bản CBETA trong DB' : hi.error}</p>
+                                </div>
+                              );
+                              return null;
+                            })()}
+                            {(() => {
+                              const ex = cbetaExplanation[id];
+                              if (!ex) return null;
+                              if (ex.loading) return (
+                                <div className="mt-3 pt-3 border-t border-slate-800">
+                                  <p className="text-[10px] text-sky-400/60"><LucideIcon name="loader-2" className="w-3 h-3 animate-spin inline-block mr-1" />Đang tra cứu...</p>
+                                </div>
+                              );
+                              if (ex.error) return (
+                                <div className="mt-3 pt-3 border-t border-slate-800">
+                                  <p className="text-[9px] text-rose-400/60">Giải thích: không có phản hồi ({ex.error})</p>
+                                </div>
+                              );
+                              if (ex.expl) return (
+                                <div className="mt-3 pt-3 border-t border-slate-800 space-y-1">
+                                  <p className="text-[9px] text-sky-400/60 font-semibold uppercase tracking-wider flex items-center gap-1">
+                                    <LucideIcon name="info" className="w-3 h-3" /> GIẢI THÍCH
+                                  </p>
+                                  <div className="bg-sky-500/5 border border-sky-500/10 rounded-xl p-3 space-y-1.5">
+                                    {ex.han && <p className="text-[11px] leading-relaxed text-slate-400"><span className="text-sky-400/80 font-semibold">HÁN:</span> {ex.han}</p>}
+                                    <p className="text-[12px] leading-relaxed text-slate-200"><span className="text-sky-400/80 font-semibold">VI:</span> {ex.expl}</p>
+                                  </div>
+                                </div>
+                              );
+                              return null;
+                            })()}
+                            {tr?.clean && (
+                              <div className="mt-3 pt-3 border-t border-slate-800 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-[9px] text-amber-400/60 font-semibold uppercase tracking-wider">
+                                    {summaryEdits[id] != null ? 'ĐANG SOẠN TÓM LƯỢC VIỆT (GIS):' : (tr.polished ? 'TÓM LƯỢC VIỆT (GIS) — ĐÃ BIÊN TẬP' : 'TÓM LƯỢC VIỆT (GIS):')}
+                                  </p>
+                                  <button
+                                    onClick={() => {
+                                      if (summaryEdits[id] != null) {
+                                        setSummaryEdits(prev => ({...prev, [id]: undefined}));
+                                      } else {
+                                        setSummaryEdits(prev => ({...prev, [id]: tr.polished ? tr.polished.replace(/<[^>]+>/g,'') : tr.clean}));
+                                      }
+                                    }}
+                                    className="text-[8px] font-bold uppercase tracking-wider text-slate-500 hover:text-amber-400 transition-colors"
+                                  >
+                                    {summaryEdits[id] != null ? 'Huỷ' : '✎ Sửa'}
+                                  </button>
+                                </div>
+
+                                {/* Editable textarea */}
+                                {summaryEdits[id] != null ? (
+                                  <div className="space-y-2">
+                                    <textarea
+                                      value={summaryEdits[id]}
+                                      onChange={e => setSummaryEdits(prev => ({...prev, [id]: e.target.value}))}
+                                      className="w-full bg-[#0a0c10] border border-slate-700 rounded-xl p-3 text-[12px] leading-relaxed text-slate-300 focus:outline-none focus:border-amber-500/50 resize-y min-h-[80px] font-sans"
+                                      rows={4}
+                                    />
+                                    <div className="flex items-center gap-2">
+                                      <button
+                                        onClick={() => handleSaveSummary(id)}
+                                        disabled={savingSummary[id]}
+                                        className="px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-xl border border-emerald-500/20 transition-all inline-flex items-center gap-1 disabled:opacity-50"
+                                      >
+                                        {savingSummary[id] ? <><LucideIcon name="loader-2" className="w-3 h-3 animate-spin" /> Đang lưu</> : <><LucideIcon name="save" className="w-3 h-3" /> Lưu</>}
+                                      </button>
+                                      <span className="text-[8px] text-slate-600">Sẽ ghi đè vào DB, không cần dịch lại.</span>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <>
+                                    {/* Polished text (HTML with <mark> tags) */}
+                                    {tr.polished ? (
+                                      <div className="text-[12px] leading-relaxed text-slate-300"
+                                        dangerouslySetInnerHTML={{__html: tr.polished}} />
+                                    ) : (
+                                      <div className="text-[12px] leading-relaxed text-slate-300">{tr.clean}</div>
+                                    )}
+                                  </>
+                                )}
+
+                                {/* Uncertain terms suggestions panel */}
+                                {tr.uncertainMappings?.length > 0 && (
+                                  <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3 mt-1">
+                                    <p className="text-[8px] text-amber-400/60 font-semibold uppercase tracking-wider mb-2">
+                                      Các thuật ngữ chưa chắc chắn:
+                                    </p>
+                                    <div className="space-y-1">
+                                      {tr.uncertainMappings.map((m, mi) => (
+                                        <div key={mi} className="flex items-center gap-2 text-[11px]">
+                                          <span className="text-slate-500 line-through">{m.original}</span>
+                                          <LucideIcon name="arrow-right" className="w-3 h-3 text-amber-500/60" />
+                                          <span className="text-slate-200">{m.normalized}</span>
+                                          {m.han && m.han !== '???' && (
+                                            <span className="text-[9px] text-slate-500">({m.han})</span>
+                                          )}
+                                          <span className={'text-[8px] px-1.5 py-0.5 rounded ' + (
+                                            m.confidence >= 0.7 ? 'bg-amber-500/10 text-amber-400' : 'bg-rose-500/10 text-rose-400'
+                                          )}>
+                                            {Math.round(m.confidence * 100)}%
+                                          </span>
+                                          <button onClick={() => {
+                                            const key = id + ':' + m.original;
+                                            const isAccepted = cbetaTermChoices[key] === 'accepted';
+                                            setCbetaTermChoices(prev => ({...prev, [key]: isAccepted ? 'rejected' : 'accepted'}));
+                                          }} className={'ml-auto text-[9px] px-2 py-0.5 rounded font-semibold ' + (
+                                            cbetaTermChoices[id + ':' + m.original] === 'accepted'
+                                              ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                              : 'bg-slate-800 text-slate-500 hover:text-slate-300 border border-slate-700'
+                                          )}>
+                                            {cbetaTermChoices[id + ':' + m.original] === 'accepted' ? '✓ Chấp nhận' : 'Chấp nhận'}
+                                          </button>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Lưu vào Ghi chú Việt ngữ button */}
+                                {tr.polished && (
+                                  <button onClick={() => {
+                                    const cleaned = tr.polished
+                                      .replace(/<mark[^>]*>([^<]+)<\/mark>/g, '$1')
+                                      .replace(/<span[^>]*>([^<]+)<\/span>/g, '$1')
+                                      .replace(/<[^>]+>/g, '')
+                                      .replace(/\s+/g, ' ')
+                                      .trim();
+                                    setFormData(prev => ({...prev, note_vi: prev.note_vi
+                                      ? prev.note_vi + '\n\n--- CBETA DỊCH VIỆT ---\n' + cleaned
+                                      : cleaned}));
+                                  }} className="mt-2 text-[9px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-xl border border-amber-500/20 transition-all inline-flex items-center gap-1">
+                                    <LucideIcon name="save" className="w-3 h-3" />
+                                    Lưu vào Ghi chú Việt ngữ
+                                  </button>
+                                )}
+
+                                <button onClick={() => toggleCbetaRaw(id)}
+                                  className="text-[8px] text-slate-600 hover:text-slate-400 transition-colors font-semibold uppercase tracking-wider inline-flex items-center gap-1">
+                                  <LucideIcon name={cbetaShowRaw[id] ? 'chevron-up' : 'chevron-down'} className="w-3 h-3" />
+                                  {cbetaShowRaw[id] ? 'Ẩn bản dịch thô (LLM)' : 'Xem bản dịch thô (LLM)'}
+                                </button>
+                                {cbetaShowRaw[id] && tr?.raw && (
+                                  <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl p-3 mt-1">
+                                    <p className="text-[8px] text-emerald-400/40 font-semibold uppercase tracking-wider mb-1">DỊCH TỰ ĐỘNG (GEMINI FREE) — tham khảo:</p>
+                                    <pre className="text-[11px] leading-relaxed text-slate-400 whitespace-pre-wrap font-sans">{tr.raw}</pre>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            {tr?.error && (
+                              <div className="mt-3 pt-3 border-t border-slate-800">
+                                <p className="text-[9px] text-rose-400/60">{tr.error === 'no_text' ? 'Chưa có văn bản CBETA để dịch. Cần sync cbeta_ref_passages từ cbeta.db.' : `Không gọi được API dịch (${tr.error}).`}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {knowledgeData.cbetaIds?.length > 0 && (
+                    <div className="text-[9px] text-slate-600 leading-relaxed pt-3 border-t border-slate-800/30 mt-3">
+                      Trích Dẫn Đại Tạng: bản dịch/tóm tắt tiếng Việt do LLM hỗ trợ, chỉ dùng tham khảo. Text chính thức cho GIS vẫn là bản dịch do editor nhập vào DB.
+                    </div>
+                  )}
+                </div>
+              </section>
+              {/* End NGUỒN DẪN ĐẠI TẠNG KINH */}
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* TOAST */}
+      {message && (<div className={'fixed bottom-12 right-12 p-6 rounded-3xl flex items-center gap-4 animate-in fade-in slide-in-from-right-12 z-[200] border backdrop-blur-xl ' + (message.type === 'success' ? 'bg-emerald-950/90 text-emerald-400 border-emerald-500/30 shadow-2xl' : 'bg-red-950/90 text-red-400 border-red-500/30 shadow-2xl') + ' font-sans font-bold shadow-2xl'}><LucideIcon name={message.type === 'error' ? 'alert-circle' : 'check-circle-2'} className="w-6 h-6" /><span className="font-black text-sm uppercase tracking-tight">{message.text}</span></div>)}
+
+      {/* LOADING */}
+      {initialLoading && (<div className="absolute inset-0 bg-[#0a0c10] backdrop-blur-3xl z-[300] flex items-center justify-center flex-col gap-10 font-sans font-bold text-center"><LucideIcon name="loader-2" className="w-20 h-20 text-amber-500 animate-spin opacity-40" /><div className="space-y-3"><div className="text-slate-100 font-black text-2xl tracking-[0.3em] uppercase italic">Kiện toàn Huệ Nhãn 13/05</div><div className="text-amber-500/50 text-[10px] font-black uppercase tracking-[0.2em] animate-pulse">Deepsearch SQLite VPS</div></div></div>)}
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

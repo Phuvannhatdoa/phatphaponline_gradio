@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Vi Map - Quản lý tên tiếng Việt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-page: #020617;
+            --bg-sidebar: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-page); color: var(--text-main); padding: 20px; }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: var(--text-muted); }
+        h1 { color: var(--primary); margin-bottom: 20px; }
+        
+        .stats-bar { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+        .stat-box { background: var(--bg-sidebar); padding: 15px 20px; border-radius: 8px; border: 1px solid var(--border); }
+        .stat-box .value { font-size: 24px; font-weight: bold; color: var(--primary); }
+        .stat-box .label { color: var(--text-muted); font-size: 12px; }
+        .stat-box.highlight { border-color: var(--primary); }
+        
+        .search-bar { margin-bottom: 20px; }
+        .search-bar input { 
+            background: var(--bg-sidebar); border: 1px solid var(--border); 
+            color: var(--text-main); padding: 10px 15px; border-radius: 6px; width: 100%; max-width: 400px;
+        }
+        
+        .queue-section { margin-bottom: 30px; }
+        .queue-section h2 { color: var(--primary); margin-bottom: 10px; font-size: 18px; }
+        .queue-info { color: var(--text-muted); margin-bottom: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-sidebar); color: var(--text-muted); font-weight: 600; }
+        tr:hover { background: rgba(217, 119, 6, 0.1); }
+        
+        .btn { 
+            background: var(--primary); color: white; border: none; 
+            padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px;
+        }
+        .btn:hover { background: var(--primary-hover); }
+        .btn-sm { padding: 4px 10px; font-size: 12px; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); }
+        
+        .modal { 
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.show { display: flex; }
+.modal-content { 
+    background: var(--bg-sidebar); padding: 30px; border-radius: 16px; 
+    width: 98vw; max-width: 98vw; border: 1px solid var(--border);
+    max-height: 90vh; overflow-y: auto;
+}
+        .modal h3 { color: var(--primary); margin-bottom: 20px; font-size: 24px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; color: var(--text-muted); margin-bottom: 8px; font-size: 15px; font-weight: 600; }
+        .form-group input, .form-group textarea { 
+            width: 100%; background: var(--bg-page); border: 1px solid var(--border); 
+            color: var(--text-main); padding: 12px; border-radius: 8px; font-size: 15px;
+        }
+        .form-group textarea { min-height: 100px; resize: vertical; font-family: monospace; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        
+        .empty { text-align: center; padding: 40px; color: var(--text-muted); }
+        .success-message { 
+            background: var(--success); color: white; padding: 10px 15px; 
+            border-radius: 6px; margin-bottom: 15px; display: none;
+        }
+        .pagination { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .已有 { background: var(--success); }
+        .pending { background: var(--danger); }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Quay lại Dashboard</a>
+    
+    <h1>📖 Name Vi Map - Quản lý tên tiếng Việt</h1>
+    
+    <div class="stats-bar">
+        <div class="stat-box highlight">
+            <div class="value" id="total-mapped">5,199</div>
+            <div class="label">Đã có tên tiếng Việt</div>
+        </div>
+        <div class="stat-box">
+            <div class="value" id="pending-count">-</div>
+            <div class="label">Chờ mapping (DILA)</div>
+        </div>
+        <div class="stat-box">
+            <div class="value" id="dila-match">332</div>
+            <div class="label">DILA matches</div>
+        </div>
+    </div>
+    
+    <div class="success-message" id="success-msg"></div>
+    
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="🔍 Tìm kiếm theo tên Hán, tên Việt, hoặc DILA ID..." onkeyup="handleSearch(event)">
+    </div>
+    
+    <div class="queue-section">
+        <h2>📋 Danh sách chờ mapping</h2>
+        <div class="queue-info">Click "Edit" để thêm tên tiếng Việt → Cập nhật vào name_vi_map</div>
+        
+        <table id="queue-table">
+            <thead>
+                <tr>
+                    <th>DILA ID</th>
+                    <th>Tên Hán</th>
+                    <th>Tên tiếng Việt</th>
+                    <th>Năm sinh</th>
+                    <th>Năm mất</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="queue-tbody">
+                <tr><td colspan="6" class="empty">Đang tải...</td></tr>
+            </tbody>
+        </table>
+        
+        <div class="pagination">
+            <button class="btn btn-outline" onclick="loadQueue(page - 1)" id="prev-btn">← Trước</button>
+            <span style="padding: 8px 15px;">Trang <span id="page-num">1</span></span>
+            <button class="btn btn-outline" onclick="loadQueue(page + 1)" id="next-btn">Sau →</button>
+        </div>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <h3>✏️ Cập nhật tên tiếng Việt</h3>
+            <div class="form-group">
+                <label>DILA ID:</label>
+                <input type="text" id="edit-dila-id" readonly style="opacity: 0.7;">
+            </div>
+            <div class="form-group">
+                <label>Tên Hán:</label>
+                <input type="text" id="edit-name-zh" readonly style="opacity: 0.7;">
+            </div>
+            <div class="form-group">
+                <label>Tên tiếng Việt *:</label>
+                <input type="text" id="edit-name-vi" placeholder="Nhập tên tiếng Việt">
+            </div>
+            <div class="form-group">
+                <label>Năm sinh:</label>
+                <input type="number" id="edit-birth" placeholder="Ví dụ: 1900">
+            </div>
+            <div class="form-group">
+                <label>Năm mất:</label>
+                <input type="number" id="edit-death" placeholder="Ví dụ: 1985">
+            </div>
+            
+            <!-- Translation Section -->
+            <div class="form-group" style="background:#0f172a;padding:15px;border-radius:8px;margin:10px 0;">
+                <label style="color:#fbbf24;font-size:12px;margin-bottom:10px;display:block;">🌐 DỊCH HÁN-VIỆT</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+                    <div style="background:#1e293b;padding:10px;border-radius:6px;">
+                        <div style="color:#22c55e;font-size:11px;margin-bottom:5px;">🇻🇳 HVDic</div>
+                        <div id="trans-hvdic" style="color:#fff;font-size:13px;min-height:24px;">⏳ đang tải...</div>
+                        <button class="btn btn-sm" style="margin-top:5px;padding:3px 8px;font-size:11px;" onclick="selectTrans('hvdic')">📋 Chọn</button>
+                    </div>
+                    <div style="background:#1e293b;padding:10px;border-radius:6px;">
+                        <div style="color:#3b82f6;font-size:11px;margin-bottom:5px;">🇻🇳 MyMemory</div>
+                        <div id="trans-google" style="color:#fff;font-size:13px;min-height:24px;">⏳ đang tải...</div>
+                        <button class="btn btn-sm" style="margin-top:5px;padding:3px 8px;font-size:11px;" onclick="selectTrans('google')">📋 Chọn</button>
+                    </div>
+                </div>
+                <div style="margin-top:10px;">
+                    <label style="color:#fbbf24;font-size:11px;">✏️ Final (copy/sửa rồi lưu):</label>
+                    <input type="text" id="edit-name-vi" placeholder="Nhập tên tiếng Việt" style="background:#fff;color:#000;font-size:14px;padding:10px;">
+                </div>
+            </div>
+            
+            <div class="form-group" style="max-height:200px;overflow-y:auto;background:#0f172a;padding:10px;border-radius:6px;">
+                <label style="color:#fbbf24;font-size:11px;">📋 THÔNG TIN TỪ DILA XML:</label>
+                <div id="edit-full-info" style="font-size:11px;line-height:1.6;color:#94a3b8;"></div>
+            </div>
+            <div class="form-group">
+                <label>Bio snippet (tiểu sử):</label>
+                <textarea id="edit-bio" placeholder="Tiểu sử ngắn..." style="min-height:60px;"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn" onclick="saveMapping()">💾 Lưu + Remove</button>
+                <button class="btn btn-outline" onclick="closeModal()">Hủy</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API = '';
+        let page = 1;
+        let perPage = 30;
+        let currentEditId = null;
+        
+        async function init() {
+            await loadStats();
+            await loadQueue(1);
+        }
+        
+        async function loadStats() {
+            try {
+                const res = await fetch('/daoanh/api/dashboard/stats');
+                const stats = await res.json();
+                document.getElementById('total-mapped').textContent = stats.namevi_total.toLocaleString();
+                document.getElementById('pending-count').textContent = (stats.dila_total - stats.namevi_total).toLocaleString();
+                document.getElementById('dila-match').textContent = stats.namevi_with_dila;
+            } catch(e) {
+                console.error('Load stats error:', e);
+            }
+        }
+        
+        async function loadQueue(pageNum) {
+            page = pageNum;
+            try {
+                const res = await fetch('/daoanh/api/admin/namevi-queue?page=' + pageNum + '&per_page=' + perPage);
+                const data = await res.json();
+                
+                const tbody = document.getElementById('queue-tbody');
+                if (data.names && data.names.length > 0) {
+                    tbody.innerHTML = data.names.map(n => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = '<td style="font-family:monospace;">' + n.dila_id + '</td>' +
+                            '<td style="color:#fbbf24;">' + (n.name_zh || '-') + '</td>' +
+                            '<td>' + (n.name_vi || '<span style="color:#ef4444;">(chưa có)</span>') + '</td>' +
+                            '<td>' + (n.birth_year || '-') + '</td>' +
+                            '<td>' + (n.death_year || '-') + '</td>' +
+                            '<td><button class="btn btn-sm" onclick="editName(\'' + n.dila_id + '\')">✏️ Edit</button> <button onclick="deleteEntry(\'' + n.dila_id + '\')" style="background:#ef4444;color:white;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:10px">Xóa</button></td>';
+                        return row;
+                    }).map(r => r.outerHTML).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6" class="empty">Không có dữ liệu</td></tr>';
+                }
+                
+                document.getElementById('page-num').textContent = page;
+                document.getElementById('prev-btn').disabled = page <= 1;
+                document.getElementById('next-btn').disabled = data.names && data.names.length < perPage;
+            } catch(e) {
+                console.error('Load queue error:', e);
+                document.getElementById('queue-tbody').innerHTML = '<tr><td colspan="6" class="empty">Lỗi: ' + e.message + '</td></tr>';
+            }
+        }
+        
+        async function editName(dilaId) {
+            currentEditId = dilaId;
+            try {
+                const res = await fetch('/daoanh/api/admin/namevi-queue/' + dilaId);
+                const data = await res.json();
+                
+                document.getElementById('edit-dila-id').value = data.dila_id || '';
+                document.getElementById('edit-name-zh').value = data.name_zh || '';
+                document.getElementById('edit-name-vi').value = data.name_vi || '';
+                document.getElementById('edit-birth').value = data.birth_year || '';
+                document.getElementById('edit-death').value = data.death_year || '';
+                document.getElementById('edit-bio').value = data.bio_snippet || '';
+                
+                // Build full info display
+                let fullInfo = '';
+                fullInfo += '<div><span style="color:#fbbf24;">Tên chính:</span> ' + (data.name_zh || '-') + '</div>';
+                if (data.alternative_names) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Tên khác:</span> ' + data.alternative_names + '</div>';
+                }
+                if (data.dynasty) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Triều đại:</span> ' + data.dynasty + '</div>';
+                }
+                if (data.birth_year || data.death_year) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Năm sinh-mất:</span> ' + (data.birth_year || '?') + ' - ' + (data.death_year || '?') + '</div>';
+                }
+                if (data.is_monk) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Tăng:</span> ' + data.is_monk + '</div>';
+                }
+                if (data.teacher) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Thầy:</span> ' + data.teacher + '</div>';
+                }
+                if (data.students) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Trò:</span> ' + data.students + '</div>';
+                }
+                if (data.bio_snippet) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Tiểu sử:</span> ' + data.bio_snippet + '</div>';
+                }
+                if (data.extensive_bio) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Bio đầy đủ:</span> ' + data.extensive_bio + '</div>';
+                }
+                if (data.works) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Tác phẩm:</span> ' + data.works + '</div>';
+                }
+                if (data.bibl) {
+                    fullInfo += '<div><span style="color:#fbbf24;">Tham khảo:</span> ' + data.bibl + '</div>';
+                }
+                
+                document.getElementById('edit-full-info').innerHTML = fullInfo || '<div style="color:#ef4444;">Chưa có dữ liệu XML</div>';
+                
+                // Call translation APIs
+                const searchName = encodeURIComponent(data.alternative_names || data.name_zh || '');
+                document.getElementById('trans-hvdic').textContent = '⏳ đang tải...';
+                document.getElementById('trans-google').textContent = '⏳ đang tải...';
+                
+                try {
+                    const transRes = await fetch('/daoanh/api/translate/all?text=' + searchName);
+                    const trans = await transRes.json();
+                    document.getElementById('trans-hvdic').textContent = trans.hvdic || '-';
+                    document.getElementById('trans-google').textContent = trans.google || '-';
+                    document.getElementById('edit-name-vi').value = trans.final || data.name_vi || '';
+                } catch(e) {
+                    document.getElementById('trans-hvdic').textContent = 'Lỗi';
+                    document.getElementById('trans-google').textContent = 'Lỗi';
+                }
+                
+                document.getElementById('edit-modal').classList.add('show');
+                document.getElementById('edit-name-vi').focus();
+            } catch(e) {
+                alert('Lỗi: ' + e.message);
+            }
+        }
+        
+        function selectTrans(type) {
+            const text = type === 'hvdic' ? 
+                document.getElementById('trans-hvdic').textContent : 
+                document.getElementById('trans-google').textContent;
+            if (text && text !== '⏳ đang tải...' && text !== '-' && text !== 'Lỗi') {
+                document.getElementById('edit-name-vi').value = text;
+            }
+        }
+        
+        async function deleteEntry(dila_id) {
+            if (!confirm('Bạn có chắc muốn xóa entry này?')) return;
+            try {
+                const res = await fetch('/daoanh/api/admin/namevi-map/delete', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({dila_id})
+                });
+                const result = await res.json();
+                if (result.success) {
+                    showSuccess('✅ Đã xóa: ' + dila_id);
+                    loadStats();
+                    loadQueue(page);
+                } else {
+                    alert('Lỗi: ' + result.error);
+                }
+            } catch(e) {
+                alert('Lỗi: ' + e.message);
+            }
+        }
+        
+        async function saveMapping() {
+            const name_vi = document.getElementById('edit-name-vi').value.trim();
+            if (!name_vi) {
+                alert('Vui lòng nhập tên tiếng Việt!');
+                return;
+            }
+            
+            try {
+                const res = await fetch('/daoanh/api/admin/namevi-map/update', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        dila_id: currentEditId,
+                        name_vi: name_vi,
+                        name_zh: document.getElementById('edit-name-zh').value,
+                        birth_year: document.getElementById('edit-birth').value || null,
+                        death_year: document.getElementById('edit-death').value || null,
+                        bio_snippet: document.getElementById('edit-bio').value
+                    })
+                });
+                const result = await res.json();
+                
+                if (result.success) {
+                    showSuccess('✅ Đã lưu! Đã xóa khỏi hàng đợi: ' + currentEditId);
+                    closeModal();
+                    loadStats();
+                    loadQueue(page);
+                } else {
+                    alert('Lỗi: ' + result.error);
+                }
+            } catch(e) {
+                alert('Lỗi: ' + e.message);
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('edit-modal').classList.remove('show');
+            currentEditId = null;
+        }
+        
+        function showSuccess(msg) {
+            const el = document.getElementById('success-msg');
+            el.textContent = msg;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 3000);
+        }
+        
+        let searchTimeout = null;
+        function handleSearch(e) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const q = e.target.value.trim();
+                if (q) {
+                    searchNames(q);
+                } else {
+                    loadQueue(1);
+                }
+            }, 500);
+        }
+        
+        async function searchNames(q) {
+            try {
+                const res = await fetch('/daoanh/api/name_vi/search?q=' + encodeURIComponent(q));
+                const data = await res.json();
+                
+                const tbody = document.getElementById('queue-tbody');
+                if (data.results && data.results.length > 0) {
+                     tbody.innerHTML = data.results.map(n => {
+                         const row = document.createElement('tr');
+                         row.innerHTML = '<td style="font-family:monospace;">' + (n.dila_id || '-') + '</td>' +
+                             '<td style="color:#fbbf24;">' + (n.name_zh || '-') + '</td>' +
+                             '<td>' + n.name_vi + '</td>' +
+                             '<td>' + (n.birth_year || '-') + '</td>' +
+                             '<td>' + (n.death_year || '-') + '</td>' +
+                             '<td><button class="btn btn-sm" onclick="editName(\'' + n.dila_id + '\')">✏️ Edit</button> <button onclick="deleteEntry(\'' + n.dila_id + '\')" style="background:#ef4444;color:white;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:10px">Xóa</button></td>';
+                         return row;
+                     }).map(r => r.outerHTML).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6" class="empty">Không tìm thấy</td></tr>';
+                }
+            } catch(e) {
+                console.error('Search error:', e);
+            }
+        }
+        
+        init();
+    </script>
+</body>
+</html>

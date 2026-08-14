@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phật Tổ Đạo Ảnh - GIS Places</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --pp-gold: #f39c12; 
+            --pp-brown: #78350f;
+            --pp-dark-bg: #0a0c10;
+            --pp-card-bg: rgba(22, 28, 38, 0.8);
+            --pp-text: #e2e8f0;
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--pp-dark-bg);
+            color: var(--pp-text);
+        }
+        
+        .serif { font-family: 'Noto Serif', serif; }
+        
+        #map { 
+            height: calc(100vh - 70px); 
+            z-index: 1; 
+            background: #000;
+        }
+        
+        .custom-div-icon { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .halo-active {
+            box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.2), 0 0 35px 20px rgba(243, 156, 18, 0.3);
+            background-color: var(--pp-gold) !important;
+            transform: scale(2.2);
+            z-index: 1000 !important;
+            border: 2px solid white !important;
+        }
+
+        .pp-sidebar {
+            background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .pp-card {
+            background: var(--pp-card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+        .pp-card:hover { 
+            border-color: rgba(243, 156, 18, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+        .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        
+        .timeline-container {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(243, 156, 18, 0.2);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .dynasty-btn {
+            flex-shrink: 0;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            color: #94a3b8;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .dynasty-btn:hover { background: rgba(251,191,36,0.1); color: #fbbf24; }
+        .dynasty-btn.active { background: rgba(251,191,36,0.2); color: #fbbf24; border-color: rgba(251,191,36,0.4); }
+        .dynasty-btn .count { font-weight: 400; opacity: 0.5; margin-left: 2px; }
+        #dynastyBar::-webkit-scrollbar { display: none; }
+        #dynastyBar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .place-label {
+            background: rgba(0, 0, 0, 0.82);
+            color: #fbbf24;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 5px;
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            white-space: nowrap;
+            pointer-events: none;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            letter-spacing: 0.03em;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            transition: opacity 0.2s;
+        }
+        .place-label-major {
+            font-size: 13px;
+            font-weight: 700;
+            background: rgba(10, 10, 10, 0.9);
+            border: 2px solid rgba(251, 191, 36, 0.55);
+            padding: 5px 11px;
+            box-shadow: 0 3px 10px rgba(251, 191, 36, 0.2);
+        }
+        @media (max-width: 768px) {
+            .place-label { font-size: 10px; padding: 2px 6px; }
+            .place-label-major { font-size: 12px; padding: 4px 9px; }
+        }
+
+        /* Google Maps tile layer — language set to vi */
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <nav class="h-[70px] bg-[#020617] border-b border-white/5 flex items-center justify-between px-8 z-[1001] relative">
+        <div class="flex items-center gap-4">
+            <div class="w-11 h-11 bg-gradient-to-tr from-amber-600 to-amber-400 rounded-xl flex items-center justify-center text-white shadow-lg shadow-amber-900/20">
+                <span class="text-2xl font-bold">卍</span>
+            </div>
+            <div>
+                <h1 class="text-lg font-black text-white tracking-tight uppercase">
+                    MỌI MẢNH GHÉP <span class="text-amber-500">TRỞ VỀ MỘT NGUỒN</span>
+                </h1>
+                <p class="text-[8px] font-bold text-slate-500 uppercase tracking-[0.4em]">GIS Đạo Ảnh • Phatphaponline.org</p>
+            </div>
+        </div>
+
+        <div class="flex-1 max-w-xl mx-12 relative group">
+            <input type="text" id="searchInput" placeholder="Tìm địa danh..." 
+                class="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-full focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition-all text-sm outline-none text-white">
+            <div class="absolute left-4 top-3.5 text-slate-400">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <div class="hidden xl:flex flex-col items-end border-r pr-6 border-white/5">
+                <span class="text-[9px] font-black text-slate-500 uppercase">SERVER STATUS</span>
+                <span class="text-xs font-bold text-amber-500 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(243,156,18,1)]"></span> VPS ACTIVE
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex">
+        <aside class="w-[420px] pp-sidebar h-[calc(100vh-70px)] overflow-y-auto z-20 flex flex-col p-6 space-y-6 sidebar-scroll">
+
+            <div id="infoPane" class="flex-1">
+                <div id="emptyState" class="text-center py-20 px-10">
+                    <div class="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                        <span class="text-5xl opacity-50">🕉️</span>
+                    </div>
+                    <h3 class="text-xs font-bold text-amber-500 mb-2 uppercase tracking-[0.3em]">KHỞI TẠO TRUY VẤN</h3>
+                    <p class="text-[11px] text-slate-500 leading-relaxed serif italic">"Khớp nối tri thức - Truyền tải tâm linh."<br>Tìm kiếm địa danh hoặc chọn một nút trên bản đồ.</p>
+                </div>
+
+                <div id="detailContent" class="hidden space-y-6">
+                    <div class="pp-card p-6 bg-white/[0.02]">
+                        <div class="flex items-center gap-3 mb-1">
+                            <span id="itemId" class="text-[9px] font-mono font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20"></span>
+                            <span id="sourceOrigin" class="text-[9px] font-black text-slate-600 uppercase tracking-widest"></span>
+                        </div>
+                        <h2 id="itemNameVi" class="text-2xl font-bold text-white leading-tight mb-1"></h2>
+                        <p id="itemNameHan" class="text-lg serif text-slate-400 italic"></p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="pp-card p-4 border-white/5">
+                            <p class="text-[9px] font-bold text-slate-500 uppercase mb-1">Độ tin cậy</p>
+                            <p id="confValue" class="text-lg font-black text-white tracking-widest">—</p>
+                        </div>
+                        <div class="pp-card p-4 border-white/5">
+                            <p class="text-[9px] font-bold text-slate-500 uppercase mb-1">Tỉnh / Quốc gia</p>
+                            <p id="provinceValue" class="text-xs font-bold text-white leading-tight">—</p>
+                        </div>
+                    </div>
+
+                    <div class="pp-card p-6 bg-white/[0.02]">
+                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span class="w-5 h-[1px] bg-amber-500"></span> GHI CHÚ VIỆT NGỮ
+                        </h4>
+                        <p id="itemBio" class="text-[13px] leading-relaxed text-slate-400 serif italic"></p>
+                    </div>
+
+                    <div class="pp-card p-6 bg-white/[0.02]">
+                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span class="w-5 h-[1px] bg-amber-500"></span> LIÊN QUAN NIÊN ĐẠI
+                        </h4>
+                        <div id="chronoList" class="space-y-2">
+                            <p class="text-[11px] text-slate-500 italic">Đang tải...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-white/5 text-center">
+                <p class="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Vận hành bởi Pháp Thí Hội (Ver Demo)</p>
+            </div>
+        </aside>
+
+        <main class="flex-1 relative">
+            <div id="map"></div>
+
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 w-full max-w-4xl px-6 z-[1000]">
+                <div class="timeline-container p-3 rounded-[1.5rem]">
+                    <div class="flex items-center gap-2 mb-2 overflow-x-auto scrollbar-none" id="dynastyBar">
+                        <button class="dynasty-btn active" data-dynasty="">Tất cả</button>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span id="nodeCount" class="text-[10px] font-mono text-white/30">0 điểm</span>
+                            <span id="timelineCount" class="text-[10px] font-mono text-cyan-400/50">0 sự kiện</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[9px] text-slate-500 font-bold uppercase">TK</span>
+                                <input type="range" id="centurySlider" min="0" max="20" value="0"
+                                    class="w-20 h-1 appearance-none bg-white/10 rounded-full cursor-pointer accent-amber-500">
+                                <span id="centuryLabel" class="text-[10px] font-mono text-amber-400 w-8 text-center">Tất</span>
+                            </div>
+                            <button id="toggleLabelsBtn" class="px-2 py-1 text-[9px] font-bold uppercase tracking-wider rounded-full border transition-all"
+                                style="background:rgba(251,191,36,0.15);color:#fbbf24;border-color:rgba(251,191,36,0.3);">
+                                🏷️
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const map = L.map('map', { zoomControl: false }).setView([16.0, 107.5], 5);
+
+        L.tileLayer('https://mt1.google.com/vt/lyrs=m&hl=vi&x={x}&y={y}&z={z}', {
+            attribution: '\u00a9 Google Maps',
+            maxZoom: 19
+        }).addTo(map);
+
+        const markers = {};
+        let dynamicResults = [];
+        const labelLayer = L.layerGroup().addTo(map);
+
+        // ─── FRONTEND HÁN-VIỆT FALLBACK ────────────────────────
+        const HV_FALLBACK = {
+            '虞': 'Ngu', '霞': 'Hà', '罕': 'Hãn', '汾': 'Phần',
+            '復': 'Phục', '鳴': 'Minh', '鷲': 'Tựu', '宏': 'Hoành',
+            '窩': 'Oa', '穆': 'Mục', '茂': 'Mậu', '父': 'Phụ',
+            '蒼': 'Thương', '齋': 'Trai', '蘄': 'Kỳ', '邛': 'Cung',
+            '渾': 'Hồn', '岔': 'Xoa', '直': 'Trực', '卡': 'Sả',
+            '藏': 'Tạng', '陀': 'Đà', '隸': 'Lệ', '邸': 'Để',
+            '磧': 'Tích', '鮑': 'Bào', '恆': 'Hằng', '滹': 'Hô',
+            '泃': 'Câu', '祐': 'Hựu', '歲': 'Tuế', '謂': 'Vị',
+            '臂': 'Tỵ', '泯': 'Mẫn', '秣': 'Mạt', '姞': 'Cát',
+            '剎': 'Sát',
+        };
+
+        function cleanViText(text) {
+            if (!text) return text;
+            let result = '';
+            for (const c of text) {
+                if (c >= '\u4e00' && c <= '\u9fff') {
+                    result += HV_FALLBACK[c] || c;
+                } else {
+                    result += c;
+                }
+            }
+            return result;
+        }
+
+        function escapeDotId(id) {
+            return id.replace(/[^a-zA-Z0-9]/g, '_');
+        }
+
+        function addMarker(id, lat, lng) {
+            if (markers[id]) return markers[id];
+            const safeId = escapeDotId(id);
+            const marker = L.marker([lat, lng], {
+                icon: L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div id="dot-${safeId}" class="w-4 h-4 rounded-full border-2 border-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" style="background:var(--pp-gold)"></div>`,
+                    iconSize: [16, 16], iconAnchor: [8, 8]
+                })
+            }).addTo(map);
+            marker.on('click', () => selectItem(id, lat, lng));
+            markers[id] = marker;
+            return marker;
+        }
+
+        function highlightMarker(activeId) {
+            Object.keys(markers).forEach(id => {
+                const safeId = escapeDotId(id);
+                const dot = document.getElementById(`dot-${safeId}`);
+                if (dot) id === activeId ? dot.classList.add('halo-active') : dot.classList.remove('halo-active');
+            });
+        }
+
+        async function selectItem(id, lat, lng) {
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('detailContent').classList.remove('hidden');
+
+            document.getElementById('itemId').innerText = id;
+            document.getElementById('sourceOrigin').innerText = '/ SOURCE: API';
+            document.getElementById('itemNameVi').innerText = 'Đang tải...';
+            document.getElementById('itemNameHan').innerText = '';
+            document.getElementById('confValue').innerText = '—';
+            document.getElementById('provinceValue').innerText = '—';
+            document.getElementById('itemBio').innerText = 'Đang tải dữ liệu...';
+
+            if (lat && lng) {
+                map.flyTo([lat, lng], 10, { duration: 1.2 });
+                highlightMarker(id);
+            }
+
+            try {
+                const res = await fetch(`/daoanh/api/places/${encodeURIComponent(id)}`);
+                const json = await res.json();
+                if (!json.ok || !json.data) return;
+                const d = json.data;
+
+                document.getElementById('itemNameVi').innerText = cleanViText(d.name_vi || d.name_zh || id);
+                document.getElementById('itemNameHan').innerText = d.name_zh || '';
+                document.getElementById('sourceOrigin').innerText = `/ SOURCE: ${d.source_origin || d.source || 'DILA'}`;
+
+                const conf = d.confidence;
+                document.getElementById('confValue').innerText = conf != null ? `${(conf * 100).toFixed(0)}%` : '—';
+
+                const parts = [];
+                if (d.province && d.province !== d.country) parts.push(d.province.replace(/-/g, ', '));
+                if (d.country) parts.push(d.country);
+                document.getElementById('provinceValue').innerText = parts.join(' • ') || '—';
+
+                document.getElementById('itemBio').innerText = d.note_vi || 'Chưa có ghi chú Việt ngữ cho địa danh này.';
+
+                if (d.gps_lat && d.gps_long) {
+                    map.flyTo([d.gps_lat, d.gps_long], 10, { duration: 1.2 });
+                }
+            } catch (e) {
+                document.getElementById('itemBio').innerText = 'Lỗi tải dữ liệu từ server.';
+            }
+        }
+
+        function clearDynamicMarkers() {
+            dynamicResults.forEach(r => {
+                if (markers[r.id]) {
+                    map.removeLayer(markers[r.id]);
+                    delete markers[r.id];
+                }
+            });
+            dynamicResults = [];
+        }
+
+        function addMarkerFromResult(r) {
+            if (!r.lat || !r.lng) return;
+            if (markers[r.id]) return;
+            const marker = addMarker(r.id, r.lat, r.lng);
+            dynamicResults.push(r);
+        }
+
+        async function loadInitialPlaces() {
+            window.allPlaces = [];
+            await loadUnifiedPlaces();
+        }
+
+        async function doSearch(q) {
+            clearDynamicMarkers();
+            if (!q || q.length < 2) {
+                loadInitialPlaces();
+                return;
+            }
+            document.getElementById('emptyState').classList.remove('hidden');
+            document.getElementById('detailContent').classList.add('hidden');
+            try {
+                const res = await fetch('/daoanh/api/places/search?q=' + encodeURIComponent(q) + '&limit=20');
+                const data = await res.json();
+                if (data.ok && data.results && data.results.length > 0) {
+                    data.results.forEach(r => addMarkerFromResult(r));
+                    const first = data.results[0];
+                    if (first.lat && first.lng) {
+                        map.flyTo([first.lat, first.lng], 8, { duration: 1.5 });
+                        selectItem(first.id, first.lat, first.lng);
+                    }
+                }
+                addVietnameseLabels();
+            } catch (err) {
+                console.error('SEARCH ERROR:', err);
+            }
+        }
+
+        // ─── VIETNAMESE LABELS ─────────────────────────────────────
+        window.allPlaces = [];
+        let vnLabelsVisible = true;
+        let vnLastZoom = map.getZoom();
+
+        function isMajorPlace(name_vi) {
+            const majors = ['thành', 'kinh', 'chùa', 'tổ đình', 'quốc', 'cố đô', 'vương quốc', 'thủ đô', 'trấn'];
+            if (!name_vi) return false;
+            const lower = name_vi.toLowerCase();
+            return majors.some(m => lower.includes(m)) || lower.length <= 8;
+        }
+
+        function renderVietnameseLabels(places) {
+            labelLayer.clearLayers();
+            if (!vnLabelsVisible) return;
+
+            const zoom = map.getZoom();
+
+            // Filter by zoom level
+            let filtered;
+            if (zoom < 5) filtered = [];
+            else if (zoom < 6) filtered = places.filter(p => p.confidence >= 0.95).slice(0, 10);
+            else if (zoom < 8) filtered = places.filter(p => p.confidence >= 0.8 || isMajorPlace(p.name_vi)).slice(0, 50);
+            else if (zoom < 10) filtered = places.slice(0, 150);
+            else filtered = places;
+
+            // Sort by confidence descending (major labels render first → on top)
+            filtered = [...filtered].sort((a, b) => (b.confidence || 0) - (a.confidence || 0));
+
+            // Collision detection: track screen-space positions
+            const placed = [];
+
+            filtered.forEach(p => {
+                if (!p.lat || !p.lng || !p.name_vi) return;
+
+                const pt = map.latLngToContainerPoint([p.lat, p.lng]);
+                const COLLISION_PX = 50;
+                const collides = placed.some(pos => {
+                    const dx = pos.x - pt.x;
+                    const dy = pos.y - pt.y;
+                    return Math.sqrt(dx * dx + dy * dy) < COLLISION_PX;
+                });
+                if (collides) return;
+                placed.push({ x: pt.x, y: pt.y });
+
+                const major = isMajorPlace(p.name_vi) || (p.confidence || 0) >= 0.9;
+                const el = document.createElement('div');
+                el.className = `place-label ${major ? 'place-label-major' : ''}`;
+                el.textContent = cleanViText(p.name_vi);
+
+                const icon = L.divIcon({
+                    className: '',
+                    html: el.outerHTML,
+                    iconSize: [0, 0],
+                    iconAnchor: [0, 0]
+                });
+
+                L.marker([p.lat, p.lng], {
+                    icon,
+                    interactive: false,
+                    zIndexOffset: major ? 2000 : 1000
+                }).addTo(labelLayer);
+            });
+        }
+
+        async function addVietnameseLabels() {
+            if (window.allPlaces.length > 0) {
+                renderVietnameseLabels(window.allPlaces);
+                return;
+            }
+            try {
+                const res = await fetch('/daoanh/api/places/unified?limit=50');
+                const data = await res.json();
+                if (data.ok && data.results) {
+                    window.allPlaces = data.results.map(r => ({
+                        name_vi: r.name_vi,
+                        name_zh: r.name_zh,
+                        lat: r.lat,
+                        lng: r.lng,
+                        confidence: r.confidence
+                    }));
+                }
+            } catch (e) { /* silent */ }
+            renderVietnameseLabels(window.allPlaces);
+        }
+
+        map.on('zoomend', () => {
+            const newZoom = map.getZoom();
+            if (Math.abs(newZoom - vnLastZoom) >= 1) {
+                vnLastZoom = newZoom;
+                renderVietnameseLabels(window.allPlaces);
+            }
+        });
+
+        // Dim labels during drag
+        let dragTimer;
+        map.on('dragstart', () => {
+            labelLayer.eachLayer(l => {
+                const e = l.getElement();
+                if (e) e.style.opacity = '0.3';
+            });
+        });
+        map.on('dragend', () => {
+            clearTimeout(dragTimer);
+            dragTimer = setTimeout(() => {
+                labelLayer.eachLayer(l => {
+                    const e = l.getElement();
+                    if (e) e.style.opacity = '1';
+                });
+            }, 150);
+        });
+
+        // Toggle button
+        document.getElementById('toggleLabelsBtn').addEventListener('click', () => {
+            vnLabelsVisible = !vnLabelsVisible;
+            const btn = document.getElementById('toggleLabelsBtn');
+            if (vnLabelsVisible) {
+                btn.style.background = 'rgba(251,191,36,0.15)';
+                btn.style.color = '#fbbf24';
+                btn.style.borderColor = 'rgba(251,191,36,0.3)';
+                renderVietnameseLabels(window.allPlaces);
+            } else {
+                labelLayer.clearLayers();
+                btn.style.background = 'rgba(255,255,255,0.05)';
+                btn.style.color = '#64748b';
+                btn.style.borderColor = 'rgba(255,255,255,0.1)';
+            }
+        });
+
+        // ─── DYNASTY FILTER + UNIFIED MARKERS ──────────────────
+        let activeDynasty = '';
+
+        async function loadDynasties() {
+            try {
+                const res = await fetch('/daoanh/api/chronology/dynasties');
+                const json = await res.json();
+                if (!json.ok || !json.dynasties) return;
+                const bar = document.getElementById('dynastyBar');
+                const top = json.dynasties.filter(d => d.count >= 100).slice(0, 15);
+                top.forEach(d => {
+                    const btn = document.createElement('button');
+                    btn.className = 'dynasty-btn';
+                    btn.dataset.dynasty = d.dynasty;
+                    btn.innerHTML = `${d.dynasty} <span class="count">${d.count}</span>`;
+                    btn.addEventListener('click', () => filterByDynasty(d.dynasty));
+                    bar.appendChild(btn);
+                });
+            } catch (e) { /* silent */ }
+        }
+
+        function getUnifiedIcon(hasChrono) {
+            if (!hasChrono) {
+                return L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div class="w-4 h-4 rounded-full border-2 border-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" style="background:var(--pp-gold)"></div>`,
+                    iconSize: [16, 16], iconAnchor: [8, 8]
+                });
+            }
+            // has chronology data: gold dot + cyan ring
+            return L.divIcon({
+                className: 'custom-div-icon',
+                html: `<div class="w-4 h-4 rounded-full border-2 border-white shadow-[0_0_0_4px_rgba(6,182,212,0.35),0_0_10px_rgba(255,255,255,0.5)]" style="background:var(--pp-gold)"></div>`,
+                iconSize: [16, 16], iconAnchor: [8, 8]
+            });
+        }
+
+        async function loadUnifiedPlaces() {
+            clearDynamicMarkers();
+            labelLayer.clearLayers();
+
+            const century = parseInt(document.getElementById('centurySlider').value);
+            let url = '/daoanh/api/places/unified?limit=300';
+            if (activeDynasty) url += `&dynasty=${encodeURIComponent(activeDynasty)}`;
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                if (!data.ok || !data.results) return;
+
+                const withGps = data.results.filter(r => r.lat && r.lng);
+                let placeCount = 0, chronoCount = 0;
+                withGps.filter(r => {
+        // Temple filter – keep only places whose Chinese name indicates a temple/monastery
+        if (r.name_zh) {
+          const isTemple =
+            r.name_zh.includes('寺') ||
+            r.name_zh.includes('寺院') ||
+            r.name_zh.includes('庵') ||
+            r.name_zh.includes('院') ||
+            r.name_zh.includes('禪林') ||
+            r.name_zh.includes('精舍') ||
+            r.name_zh.includes('塔') ||
+            r.name_zh.includes('石窟') ||
+            r.name_zh.includes('伽藍');
+          if (!isTemple) return false; // exclude non‑temple places
+        }
+        return true;
+      }).forEach(r => {
+                    if (markers[r.id]) return;
+                    const marker = L.marker([r.lat, r.lng], {
+                        icon: getUnifiedIcon(r.has_chronology)
+                    }).addTo(map);
+                    marker.on('click', () => {
+                        selectItem(r.id, r.lat, r.lng);
+                        if (r.source === 'chronology') {
+                            document.getElementById('sourceOrigin').innerText = '/ SOURCE: CHRONOLOGY';
+                        }
+                    });
+                    markers[r.id] = marker;
+                    if (r.has_chronology) chronoCount++;
+                    else placeCount++;
+                });
+
+                document.getElementById('nodeCount').innerText = withGps.length + ' điểm';
+                document.getElementById('timelineCount').innerText = chronoCount + ' niên đại';
+
+                // Seed labels
+                if (window.allPlaces.length === 0) {
+                    window.allPlaces = withGps.map(r => ({
+                        name_vi: r.name_vi,
+                        name_zh: r.name_zh,
+                        lat: r.lat,
+                        lng: r.lng,
+                        confidence: r.confidence
+                    }));
+                }
+                renderVietnameseLabels(window.allPlaces);
+            } catch (e) { /* silent */ }
+        }
+
+        async function filterByDynasty(dynasty) {
+            document.querySelectorAll('.dynasty-btn').forEach(b => b.classList.remove('active'));
+            if (dynasty) {
+                const btn = document.querySelector(`.dynasty-btn[data-dynasty="${dynasty}"]`);
+                if (btn) btn.classList.add('active');
+            } else {
+                const btn = document.querySelector('.dynasty-btn[data-dynasty=""]');
+                if (btn) btn.classList.add('active');
+            }
+            activeDynasty = dynasty;
+            await loadUnifiedPlaces();
+            addVietnameseLabels();
+        }
+
+        document.querySelector('.dynasty-btn[data-dynasty=""]')?.addEventListener('click', () => filterByDynasty(''));
+
+        // ─── CENTURY SLIDER ──────────────────────────────────────
+        document.getElementById('centurySlider').addEventListener('input', function() {
+            const v = parseInt(this.value);
+            const label = document.getElementById('centuryLabel');
+            label.innerText = v === 0 ? 'Tất' : `TK${v}`;
+        });
+        document.getElementById('centurySlider').addEventListener('change', function() {
+            filterByDynasty(activeDynasty);
+        });
+
+        // ─── CHRONOLOGY CROSS-LINKS ─────────────────────────────
+        async function loadRelatedChronology(placeId) {
+            const container = document.getElementById('chronoList');
+            container.innerHTML = '<p class="text-[11px] text-slate-500 italic">Đang tải...</p>';
+            try {
+                const res = await fetch(`/daoanh/api/places/${encodeURIComponent(placeId)}/chronology`);
+                const json = await res.json();
+                if (!json.ok || !json.results || json.results.length === 0) {
+                    container.innerHTML = '<p class="text-[11px] text-slate-500 italic">Không có dữ liệu niên đại liên quan.</p>';
+                    return;
+                }
+                container.innerHTML = '';
+                json.results.slice(0, 10).forEach(r => {
+                    const label = r.category === 'person' ? '👤' : '📖';
+                    const century = r.century_start ? `TK ${r.century_start}` : '—';
+                    const name = cleanViText(r.title || r.title_zh || r.id);
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center gap-2 py-1.5 border-b border-white/5 last:border-0';
+                    div.innerHTML = `
+                        <span class="text-[11px]">${label}</span>
+                        <span class="flex-1 text-[12px] font-medium text-white">${name}</span>
+                        <span class="text-[9px] font-mono text-amber-500/60">${century}</span>
+                        <span class="text-[8px] text-slate-600 uppercase">${r.dynasty || ''}</span>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (e) {
+                container.innerHTML = '<p class="text-[11px] text-slate-500 italic">Lỗi tải dữ liệu niên đại.</p>';
+            }
+        }
+
+        const _origSelectItem = selectItem;
+        selectItem = function(id, lat, lng) {
+            _origSelectItem(id, lat, lng);
+            if (id) loadRelatedChronology(id);
+        };
+
+        // ─── PAGE LOAD ──────────────────────────────────────────
+        window.onload = function() {
+            loadInitialPlaces();
+            loadDynasties();
+        };
+
+        // ─── SEARCH ──────────────────────────────────────────────
+        const searchInput = document.getElementById('searchInput');
+        let searchTimeout = null;
+
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const q = e.target.value.trim();
+            searchTimeout = setTimeout(() => doSearch(q), 400);
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                doSearch(e.target.value.trim());
+            }
+        });
+
+        window.onload = function() {
+            loadInitialPlaces();
+            loadDynasties();
+        };
+    </script>
+</body>
+</html>

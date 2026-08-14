@@ -1,0 +1,25 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix da: <http://daoanh.vn/ontology/> .
+
+<ex:monk/dai-hue-tong-cao> a bkg:Monk ;
+    rdfs:label "Đại Huệ Tông Cảo"@vi ;
+    rdfs:label "大慧宗杲"@zh ;
+    bkg:dharmaLineageName "Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc"@vi ;
+    bkg:dynasty ""@vi ;
+    bkg:biographicalNote """Đại Huệ Tông Cảo (大慧宗杲, Daie Sōkō, 1089-1163): vị tăng của Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc, tư là Đàm Hối (曇晦), hiệu Diệu Hỷ (妙喜), Vân Môn (雲門), xuất thân vùng Ninh Quốc (寧國), Tuyên Châu (宣州, thuộc Tỉnh An Huy ngày nay), họ là Hề (奚). Năm lên 13 tuổi, ông theo trương làng học Nho Giáo, đến năm 16 tuổi thì xuất gia với Huệ Tề (慧齊) ở Đông Sơn Huệ Vân Tự (東山慧雲寺).  Năm sau ông thọ cụ túc giới, và một mình chuyên tham cứu Thiền. Vào mùa thu năm đầu (1107) niên hiệu Đại Quán (大觀), ông lên L"""@vi .
+
+# === Timeline ===
+
+<ex:monk/dai-hue-tong-cao/birth> a crm:E67_Birth ;
+    crm:P4_has_time-span "1089"^^xsd:gYear .
+
+<ex:monk/dai-hue-tong-cao/death> a crm:E69_Death ;
+    crm:P4_has_time-span "1163"^^xsd:gYear .
+
+# === Source: DILA Authority ===
+# ID: Dai-Hue-Tong-Cao
+# VPS TTL: TS-Dai-Hue-Tong-Cao.ttl

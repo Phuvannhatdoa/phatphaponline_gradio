@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyword Import - Đạo Ảnh</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg-dark: #0a0c10; --card-dark: #11151c; --accent: #f59e0b; }
+  body { margin:0; padding:0; background:var(--bg-dark); color:#e2e8f0; font-family:'JetBrains Mono',monospace; }
+  .custom-scrollbar::-webkit-scrollbar { width:4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background:transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background:#1e293b; border-radius:10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background:var(--accent); }
+  ::selection { background:#f59e0b30; color:var(--accent); }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  .fade-in { animation:fadeIn 0.4s ease-out forwards; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+(function() {
+  var session = localStorage.getItem('admin_session');
+  if (!session) { window.location.href = '/daoanh/login.html'; return; }
+  fetch('/daoanh/api/login/check', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({session_token: session})
+  }).then(function(r){return r.json()}).then(function(data){
+    if (!data.valid) { localStorage.removeItem('admin_session'); window.location.href = '/daoanh/login.html'; }
+  }).catch(function(){});
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useRef } = React;
+
+const ICON_SVGS = {
+  'file-text': [24,24,['<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>','<path d="M14 2v4a2 2 0 0 0 2 2h4"/>','<path d="M10 9H8"/>','<path d="M16 13H8"/>','<path d="M16 17H8"/>']],
+  'loader-2': [24,24,['<path d="M21 12a9 9 0 1 1-6.219-8.56"/>']],
+  'search': [24,24,['<circle cx="11" cy="11" r="8"/>','<path d="m21 21-4.35-4.35"/>']],
+  'save': [24,24,['<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>','<polyline points="17 21 17 13 7 13 7 21"/>','<polyline points="7 3 7 8 15 8"/>']],
+  'check-circle-2': [24,24,['<circle cx="12" cy="12" r="10"/>','<path d="m9 12 2 2 4-4"/>']],
+  'alert-circle': [24,24,['<circle cx="12" cy="12" r="10"/>','<line x1="12" y1="8" x2="12" y2="12"/>','<line x1="12" y1="16" x2="12.01" y2="16"/>']],
+  'alert-triangle': [24,24,['<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>','<line x1="12" y1="9" x2="12" y2="13"/>','<line x1="12" y1="17" x2="12.01" y2="17"/>']],
+  'trash-2': [24,24,['<polyline points="3 6 5 6 21 6"/>','<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>','<line x1="10" y1="11" x2="10" y2="17"/>','<line x1="14" y1="11" x2="14" y2="17"/>']],
+  'download': [24,24,['<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>','<polyline points="7 10 12 15 17 10"/>','<line x1="12" y1="15" x2="12" y2="3"/>']],
+};
+
+const LucideIcon = ({ name, className }) => {
+  const icon = ICON_SVGS[name];
+  if (icon) {
+    const [w, h, pathsArr] = icon;
+    const paths = Array.isArray(pathsArr) ? pathsArr.join('') : (pathsArr || '');
+    return <span dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${className || ''}">${paths}</svg>` }} />;
+  }
+  return <i className={className}></i>;
+};
+
+const safeFetch = async (url, opts = {}) => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20000);
+  try {
+    const r = await fetch(url, { ...opts, signal: controller.signal });
+    clearTimeout(timer);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return await r.json();
+  } catch (e) {
+    clearTimeout(timer);
+    if (e.name === 'AbortError') throw new Error('Timeout');
+    throw e;
+  }
+};
+
+const App = () => {
+  const [raw, setRaw] = useState('');
+  const [items, setItems] = useState([]);
+  const [warnings, setWarnings] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [parsed, setParsed] = useState(false);
+  const [searchQ, setSearchQ] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searching, setSearching] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [editKeyword, setEditKeyword] = useState('');
+  const [editValue, setEditValue] = useState('');
+  const [duplicatesData, setDuplicatesData] = useState(null);
+  const searchTimer = useRef(null);
+
+  const baseUrl = 'https://phatphaponline.org';
+
+  const handleParse = async () => {
+    if (!raw.trim()) return;
+    setLoading(true);
+    setMessage(null);
+    setWarnings([]);
+    setParsed(false);
+    try {
+      const data = await safeFetch(`${baseUrl}/daoanh/api/admin/keywords/parse_txt`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({raw: raw})
+      });
+      if (!data.success) {
+        setMessage({type: 'error', text: data.error || 'Lỗi xử lý'});
+        return;
+      }
+      setItems(data.items || []);
+      setWarnings(data.warnings || []);
+      setParsed(true);
+    } catch (e) {
+      setMessage({type: 'error', text: 'Lỗi kết nối server: ' + e.message});
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImport = async () => {
+    if (items.length === 0) return;
+    setImporting(true);
+    setMessage(null);
+    try {
+      const data = await safeFetch(`${baseUrl}/daoanh/api/admin/keywords/bulk_import`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({items, category: 'import_ui'})
+      });
+      if (!data.success) {
+        setMessage({type: 'error', text: data.error || 'Lỗi import'});
+        return;
+      }
+      setMessage({type: 'success', text: `Đã import ${data.imported} bản ghi vào keyword_map`});
+      setItems([]);
+      setRaw('');
+      setParsed(false);
+    } catch (e) {
+      setMessage({type: 'error', text: 'Lỗi kết nối server: ' + e.message});
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  const handleExport = () => {
+    window.location.href = `${baseUrl}/daoanh/api/admin/keywords/export_stardict`;
+  };
+
+  const handleSearchInput = (e) => {
+    const val = e.target.value;
+    setSearchQ(val);
+    setDuplicatesData(null);
+    clearTimeout(searchTimer.current);
+    if (!val.trim()) { setSearchResults([]); return; }
+    searchTimer.current = setTimeout(async () => {
+      setSearching(true);
+      try {
+        const data = await safeFetch(`${baseUrl}/daoanh/api/admin/keywords/search?q=${encodeURIComponent(val)}&limit=20`);
+        setSearchResults(Array.isArray(data) ? data : []);
+      } catch { setSearchResults([]); }
+      finally { setSearching(false); }
+    }, 250);
+  };
+
+  const handleCheckDuplicates = async () => {
+    setSearchQ('');
+    setDuplicatesData(null);
+    try {
+      const data = await safeFetch(`${baseUrl}/daoanh/api/admin/keywords/duplicates`);
+      setDuplicatesData(Array.isArray(data) ? data : []);
+    } catch {
+      setMessage({type: 'error', text: 'Lỗi khi check trùng'});
+    }
+  };
+
+  const handleEdit = (r) => {
+    setEditingId(r.id);
+    setEditKeyword(r.keyword);
+    setEditValue(r.value);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditKeyword('');
+    setEditValue('');
+  };
+
+  const handleSaveEdit = async (id) => {
+    try {
+      const data = await safeFetch(`${baseUrl}/daoanh/api/admin/keywords/${id}/update`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({keyword: editKeyword, value: editValue})
+      });
+      if (!data.ok) { setMessage({type: 'error', text: 'Lỗi lưu keyword'}); return; }
+      setMessage({type: 'success', text: 'Đã cập nhật keyword'});
+      handleCancelEdit();
+      setDuplicatesData(null);
+      const val = searchQ;
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/keywords/search?q=${encodeURIComponent(val)}&limit=20`);
+      setSearchResults(Array.isArray(res) ? res : []);
+    } catch (e) {
+      setMessage({type: 'error', text: 'Lỗi: ' + e.message});
+    }
+  };
+
+  const handleDelete = async (r) => {
+    if (!confirm(`Xóa keyword: "${r.keyword}"?`)) return;
+    try {
+      const data = await safeFetch(`${baseUrl}/daoanh/api/admin/keywords/${r.id}/delete`, {
+        method: 'POST'
+      });
+      if (!data.ok) { setMessage({type: 'error', text: 'Lỗi xóa keyword'}); return; }
+      setMessage({type: 'success', text: `Đã xóa "${r.keyword}"`});
+      setSearchResults(prev => prev.filter(x => x.id !== r.id));
+      setDuplicatesData(prev => {
+        if (!prev) return prev;
+        const next = [];
+        for (const g of prev) {
+          const items = g.items.filter(x => x.id !== r.id);
+          if (items.length > 1) next.push({...g, count: items.length, items});
+        }
+        return next.length ? next : null;
+      });
+    } catch (e) {
+      setMessage({type: 'error', text: 'Lỗi: ' + e.message});
+    }
+  };
+
+  const updateItem = (idx, field, val) => {
+    setItems(prev => prev.map((item, i) => i === idx ? {...item, [field]: val} : item));
+  };
+
+  const removeItem = (idx) => {
+    setItems(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0c10] p-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-black text-amber-500 tracking-tight">Keyword Import</h1>
+          <div className="flex items-center gap-3">
+            <button onClick={handleExport}
+              className="text-[11px] text-slate-500 hover:text-emerald-400 font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5">
+              <LucideIcon name="download" className="w-3.5 h-3.5" />
+              EXPORT StarDict TXT
+            </button>
+            <button onClick={handleCheckDuplicates}
+              className="text-[11px] text-amber-500 hover:text-amber-400 font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5">
+              Check trùng
+            </button>
+            <span className="text-[9px] text-slate-700">(file: Chu Thich Phat Hoc - VPS.txt)</span>
+            <a href="/daoanh/admin/"
+               className="text-[11px] text-slate-500 hover:text-amber-400 font-bold uppercase tracking-wider transition-colors">
+              &larr; Về Dashboard
+            </a>
+          </div>
+        </div>
+
+        {/* Textarea + Parse button */}
+        <div className="space-y-3 fade-in">
+          <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            Dán txt chú thích từ Word vào đây
+          </label>
+          <textarea
+            value={raw}
+            onChange={e => setRaw(e.target.value)}
+            placeholder={"Huyền Trang\n602-664 (đời Đường, Tam Tạng Pháp Sư)\n\nMã Tổ Đạo Nhất\n709-788 (thiền sư đời Đường, pháp tự Bách Trượng)\n\nLục Tổ Huệ Năng\n638-713 (Lục Tổ Thiền Tông)"}
+            className="w-full h-48 bg-[#11151c] border border-slate-800 rounded-xl p-5 text-[13px] text-slate-300 placeholder-slate-700 outline-none focus:border-amber-500/40 transition-colors resize-y custom-scrollbar"
+          />
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleParse}
+              disabled={loading || !raw.trim()}
+              className={'px-6 py-3 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all inline-flex items-center gap-2 ' +
+                (loading || !raw.trim()
+                  ? 'bg-slate-800 text-slate-600 cursor-not-allowed'
+                  : 'bg-amber-600/20 text-amber-400 hover:bg-amber-600/30 border border-amber-500/30')}
+            >
+              {loading ? <><LucideIcon name="loader-2" className="w-4 h-4 animate-spin" /> Đang xử lý...</>
+                : <><LucideIcon name="search" className="w-4 h-4" /> Xử lý bằng Python &amp; Xem trước</>}
+            </button>
+            <span className="text-[10px] text-slate-600">Định dạng: keyword + dòng value, cách nhau 1 dòng trống</span>
+          </div>
+        </div>
+
+        {/* Tìm từ đã có trong từ điển */}
+        <div className="space-y-3 fade-in">
+          <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            Tìm từ đã có trong từ điển
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQ}
+              onChange={handleSearchInput}
+              placeholder="Gõ từ cần kiểm tra (vd. Huyền Trang, Aryan)"
+              className="w-full bg-[#11151c] border border-slate-800 rounded-xl px-5 py-3 text-[13px] text-slate-300 placeholder-slate-700 outline-none focus:border-amber-500/40 transition-colors"
+            />
+            {searching && (
+              <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                <LucideIcon name="loader-2" className="w-4 h-4 animate-spin text-slate-500" />
+              </div>
+            )}
+          </div>
+          {duplicatesData && duplicatesData.length > 0 && (
+            <div className="space-y-4">
+              <p className="text-[10px] text-amber-400/70 font-bold uppercase tracking-wider">
+                {duplicatesData.reduce((s, g) => s + g.count, 0)} bản ghi trùng, {duplicatesData.length} nhóm
+              </p>
+              {duplicatesData.map((group, gi) => (
+                <div key={gi} className="bg-[#11151c] border border-red-900/30 rounded-xl overflow-hidden">
+                  <div className="px-4 py-3 bg-red-950/20 border-b border-red-900/20">
+                    <p className="text-[12px] font-bold text-red-400/90">{group.keyword} <span className="text-[9px] text-red-400/50 font-normal">(trùng {group.count} bản ghi)</span></p>
+                  </div>
+                  <div className="divide-y divide-slate-800/30">
+                    {group.items.map(r => (
+                      <div key={r.id} className="p-4">
+                        {editingId === r.id ? (
+                          <div className="space-y-3">
+                            <input value={editKeyword} onChange={e => setEditKeyword(e.target.value)}
+                              className="w-full bg-slate-900/60 border border-slate-700/50 rounded-lg px-3 py-2 text-[12px] text-slate-300 outline-none focus:border-amber-500/40" />
+                            <textarea value={editValue} onChange={e => setEditValue(e.target.value)} rows={3}
+                              className="w-full bg-slate-900/60 border border-slate-700/50 rounded-lg px-3 py-2 text-[12px] text-slate-300 outline-none focus:border-amber-500/40 resize-y custom-scrollbar" />
+                            <div className="flex gap-2">
+                              <button onClick={() => handleSaveEdit(r.id)}
+                                className="text-[10px] px-3 py-1.5 rounded-lg font-bold bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 border border-emerald-500/30 transition-all">Lưu</button>
+                              <button onClick={handleCancelEdit}
+                                className="text-[10px] px-3 py-1.5 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-slate-300 border border-slate-700/50 transition-all">Hủy</button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0 flex-1">
+                              <p className="text-[10px] text-slate-600 font-semibold">ID #{r.id}</p>
+                              <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">{r.value}</p>
+                            </div>
+                            <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
+                              <button onClick={() => handleEdit(r)}
+                                className="text-[9px] px-2 py-1 rounded font-bold bg-slate-800 text-slate-500 hover:text-amber-400 border border-slate-700/50 transition-all">Edit</button>
+                              <button onClick={() => handleDelete(r)}
+                                className="text-[9px] px-2 py-1 rounded font-bold bg-slate-800 text-slate-500 hover:text-red-400 border border-slate-700/50 transition-all">Delete</button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {!duplicatesData && searchResults.length > 0 && (
+            <div className="bg-[#11151c] border border-slate-800/50 rounded-xl overflow-hidden divide-y divide-slate-800/30">
+              {searchResults.map(r => (
+                <div key={r.id} className="p-4">
+                  {editingId === r.id ? (
+                    <div className="space-y-3">
+                      <input value={editKeyword} onChange={e => setEditKeyword(e.target.value)}
+                        className="w-full bg-slate-900/60 border border-slate-700/50 rounded-lg px-3 py-2 text-[12px] text-slate-300 outline-none focus:border-amber-500/40" />
+                      <textarea value={editValue} onChange={e => setEditValue(e.target.value)} rows={3}
+                        className="w-full bg-slate-900/60 border border-slate-700/50 rounded-lg px-3 py-2 text-[12px] text-slate-300 outline-none focus:border-amber-500/40 resize-y custom-scrollbar" />
+                      <div className="flex gap-2">
+                        <button onClick={() => handleSaveEdit(r.id)}
+                          className="text-[10px] px-3 py-1.5 rounded-lg font-bold bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 border border-emerald-500/30 transition-all">Lưu</button>
+                        <button onClick={handleCancelEdit}
+                          className="text-[10px] px-3 py-1.5 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-slate-300 border border-slate-700/50 transition-all">Hủy</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[12px] font-bold text-amber-400/90 truncate">{r.keyword}</p>
+                        <p className="text-[11px] text-slate-400 mt-1 leading-relaxed line-clamp-2">{r.value}</p>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
+                        <button onClick={() => handleEdit(r)}
+                          className="text-[9px] px-2 py-1 rounded font-bold bg-slate-800 text-slate-500 hover:text-amber-400 border border-slate-700/50 transition-all">Edit</button>
+                        <button onClick={() => handleDelete(r)}
+                          className="text-[9px] px-2 py-1 rounded font-bold bg-slate-800 text-slate-500 hover:text-red-400 border border-slate-700/50 transition-all">Delete</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+          {!duplicatesData && searchQ.trim() && !searching && searchResults.length === 0 && (
+            <p className="text-[11px] text-slate-600 italic">Chưa có keyword nào khớp.</p>
+          )}
+          {duplicatesData && duplicatesData.length === 0 && (
+            <p className="text-[11px] text-emerald-500/60 italic">Không có keyword trùng.</p>
+          )}
+        </div>
+
+        {/* Warnings */}
+        {warnings.length > 0 && (
+          <div className="bg-yellow-950/30 border border-yellow-500/20 rounded-xl p-4 space-y-1 fade-in">
+            <div className="flex items-center gap-2 text-yellow-400/70 text-[10px] font-bold uppercase tracking-wider">
+              <LucideIcon name="alert-triangle" className="w-3.5 h-3.5" /> Cảnh báo
+            </div>
+            {warnings.map((w, i) => (
+              <p key={i} className="text-[11px] text-yellow-400/60">⚠ {w}</p>
+            ))}
+          </div>
+        )}
+
+        {/* Preview table */}
+        {items.length > 0 && (
+          <div className="space-y-3 fade-in">
+            <div className="flex items-center justify-between">
+              <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                Xem trước ({items.length} bản ghi)
+              </h2>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setItems([])}
+                  className="text-[10px] text-slate-600 hover:text-red-400 font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1"
+                >
+                  <LucideIcon name="trash-2" className="w-3 h-3" /> Xoá
+                </button>
+              </div>
+            </div>
+            <div className="bg-[#11151c] border border-slate-800/50 rounded-xl overflow-hidden">
+              <div className="overflow-x-auto custom-scrollbar">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="border-b border-slate-800/50">
+                      <th className="px-4 py-3 text-[9px] font-bold text-slate-600 uppercase tracking-wider w-12">STT</th>
+                      <th className="px-4 py-3 text-[9px] font-bold text-slate-600 uppercase tracking-wider">Từ khoá</th>
+                      <th className="px-4 py-3 text-[9px] font-bold text-slate-600 uppercase tracking-wider">Giá trị / Chú thích</th>
+                      <th className="px-4 py-3 text-[9px] font-bold text-slate-600 uppercase tracking-wider w-12"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((item, i) => (
+                      <tr key={i} className="border-b border-slate-800/30 hover:bg-slate-900/30 transition-colors">
+                        <td className="px-4 py-2 text-[10px] text-slate-600">{i + 1}</td>
+                        <td className="px-4 py-2">
+                          <input
+                            value={item.keyword}
+                            onChange={e => updateItem(i, 'keyword', e.target.value)}
+                            className="w-full bg-slate-900/60 border border-slate-700/50 rounded-lg px-3 py-2 text-[12px] text-slate-300 outline-none focus:border-amber-500/40 transition-colors"
+                          />
+                        </td>
+                        <td className="px-4 py-2">
+                          <input
+                            value={item.value}
+                            onChange={e => updateItem(i, 'value', e.target.value)}
+                            className="w-full bg-slate-900/60 border border-slate-700/50 rounded-lg px-3 py-2 text-[12px] text-slate-300 outline-none focus:border-amber-500/40 transition-colors"
+                          />
+                        </td>
+                        <td className="px-4 py-2">
+                          <button onClick={() => removeItem(i)}
+                            className="text-slate-600 hover:text-red-400 transition-colors p-1">
+                            <LucideIcon name="trash-2" className="w-3.5 h-3.5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <button
+              onClick={handleImport}
+              disabled={importing || items.length === 0}
+              className={'px-8 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all inline-flex items-center gap-2 ' +
+                (importing || items.length === 0
+                  ? 'bg-slate-800 text-slate-600 cursor-not-allowed'
+                  : 'bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 border border-emerald-500/30')}
+            >
+              {importing ? <><LucideIcon name="loader-2" className="w-4 h-4 animate-spin" /> Đang import...</>
+                : <><LucideIcon name="save" className="w-4 h-4" /> Import vào keyword_map</>}
+            </button>
+          </div>
+        )}
+
+        {/* Message toast */}
+        {message && (
+          <div className={'fixed bottom-12 right-12 p-6 rounded-3xl flex items-center gap-4 animate-in fade-in z-[200] border backdrop-blur-xl ' +
+            (message.type === 'success'
+              ? 'bg-emerald-950/90 text-emerald-400 border-emerald-500/30 shadow-2xl'
+              : 'bg-red-950/90 text-red-400 border-red-500/30 shadow-2xl')
+          }>
+            <LucideIcon name={message.type === 'error' ? 'alert-circle' : 'check-circle-2'} className="w-6 h-6" />
+            <span className="font-black text-sm uppercase tracking-tight">{message.text}</span>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

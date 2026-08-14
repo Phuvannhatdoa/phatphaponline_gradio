@@ -1,0 +1,61 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.phatphaponline.org/ex/> .
+
+<ex:monk/phap_kiem_minh_giac> a bkg:Monk ;
+    rdfs:label "Pháp Kiêm Minh Giác"@vi ;
+    crm:P1_is_identified_by <ex:monk/phap_kiem_minh_giac> ;
+    bkg:biographicalNote """
+Thiền Sư Pháp Kiêm - Luật Oai - Minh Giác
+法 兼 律 威 明 覺  (1747 - 1830): Chùa Phước Lâm
+Hòa thượng tánh Võ Ðức Nghiêm, sinh giờ Tuất ngày 15 tháng 1 năm Ðinh Mão (1747) tại thôn Ngọc Trì, huyện Tư Nghĩa, tỉnh Quảng Ngãi (nay thuộc huyện Trà Bồng, Quảng Ngãi). Năm Kỷ Mão (1759), khi vừa tròn 12 tuổi, Ngài đến xuất gia với Tổ Thiệt Dinh–Ân Triêm tại chùa Phước Lâm, được Tổ ban pháp danh Pháp Kiêm, tự Luật Oai, nối pháp đời 36 dòng Lâm Tế, thế hệ thứ 3 pháp phái Chúc Thánh.
+Năm Canh Dần (1770), Ngài về làng thăm viếng song thân, lúc bấy giờ giặc mọi Ðá Vách lại tập trung đồ đảng quấy nhiễu cướp phá khắp tỉnh Quảng Ngãi, Ngài tòng quân dẹp giặc, lập nhiều công lao được phong chức Chỉ huy. Sau đó, Ngài từ quan về phát nguyện quét chợ Hội An trong suốt 20 năm.
+Năm Mậu Ngọ (1798), sau khi công hạnh đã viên mãn, Ngài được Chư sơn cũng như tín đồ thỉnh về trú trì chùa Chiên Ðàn, tôn hiệu là Minh Giác Hòa thượng. Trong tờ biểu tôn xưng có ghi: “Phật là giác giả,  Hòa thượng có tính thông tuệ, tự cho con đường tình duyên danh lợi đã 20 năm nay như đem dao cắt đứt hẳn, coi giống cát sông bọt nổi. Lại đem mình ở nơi thị tỉnh chịu đựng bụi trần nhọc lòng khổ chí để giữ vững tâm niệm nhập đạo mà thành tựu tấm thân chứng đạo. Ðã hay tự mình khai giác hết thảy những người có tình như chiêm bao thức giấc vậy. Trong điển Phật có nói: Tự mình biết, bảo cho người khác biết, đó là có ý nghĩa đầy đủ tiếng khen về biết rõ cả” .
+
+Sau đó, Ngài về lại Phước Lâm cùng với Hòa thượng Pháp Ấn–Quảng Ðộ vận động tùng tu chùa bị điêu tàn trong cuộc chiến Tây Sơn. Từ đó, Ngài kế nghiệp trú trì, khai đàn thuyết pháp, tiếp độ chúng tăng khiến cho Phước Lâm trở thành một tòng lâm hưng thịnh.
+Ngày 27 tháng 5 năm Tân Tỵ (1821), Minh Mạng năm thứ 2, Ngài được triều đình mời ra tham dự Ðại trai đàn tổ chức tại chùa Thiên Mụ, Huế.
+Các năm Mậu Dần (1818), Nhâm Ngọ (1822) và Canh Dần (1830), Ngài đứng ra quyên mộ và chứng minh đúc ba quả Ðại hồng chung tôn trí tại các chùa Vạn Ðức, Phước Lâm và chùa Hải Tạng. Hòa thượng là người tính tình chất trực, điều này được thể hiện qua bản phú chúc cho đệ tử là Toàn Ðịnh–Bảo Tạng như sau: “…Lời ta thẳng như thước dây, nặng như vàng đá, nếu có kẻ ương ngạnh vi phạm, hoặc trong chúng có kẻ bất tuân, cứ theo pháp mà trừng trị để về sau đại chúng được an hòa…” .
+Mùa Ðông năm Canh Dần, Ngài biết thời tiết nhân duyên đã đến nên ấn chứng cho đệ tử Toàn Nhâm–Quán Thông kế thừa y bát trú trì chùa Phước Lâm và an nhiên thị tịch vào giờ Tý ngày mồng 10 tháng 11 năm Canh Dần (1830) hưởng thọ 84 tuổi, nhục thân Ngài nhập bảo tháp trong khuôn viên chùa Phước Lâm.
+Một Hòa thượng tại Huế đã xưng tán, tóm lược cả cuộc đời hành đạo và công đức của Ngài qua hai câu đối thờ như sau:
+– Bình Man, tảo thị, lưỡng độ gian lao, xuất gia kỳ, phát nguyện vưu kỳ, bát dật sanh thiên thành chánh giác.
+– Tạo tự, chú chung, nhị thung công đức, cách cựu hảo, đảnh tân cố hảo, thiên thu giác thế vĩnh truyền đăng.
+Tạm dịch:
+– Dẹp giặc, quét chợ, mấy độ gian lao, xuất gia lạ, phát nguyện càng thêm lạ, tám mươi vãng sanh thành chánh giác.
+– Làm chùa, đúc chuông, biết bao công đức, sửa cũ đẹp, làm mới lại càng đẹp, ngàn năm sáng mãi ngọn đèn thiền.
+(Thượng tọa Thích Hạnh Niệm dịch)
+Nhìn lại cuộc đời của Ngài, sinh ra trong giai đoạn đất nước nhiễu nhương, lòng dân ly tán nhưng Ngài vẫn luôn giữ vững tâm đạo của mình. Hạnh nguyện của Ngài quả thật là vô tiền khoáng hậu trong dòng sử Phật Việt. Ngày nay người dân phố Hội vẫn còn nhắc đến Ngài với cái tên rất dung dị: tổ Bình Man Tảo Thị.
+"""@vi ;
+    bkg:birthEvent <ex:monk/phap_kiem_minh_giac_birthEvent> ;
+    bkg:deathEvent <ex:monk/phap_kiem_minh_giac_deathEvent> ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Chúc Thánh Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 73 ;
+    bkg:hasTeacher <ex:monk/thiet_dinh_an_triem> ;
+    bkg:hasDisciple <ex:monk/toan_nham_quan_thong> ,
+        <ex:monk/toan_dinh_bao_tang> ,
+        <ex:monk/toan_chieu_bao_an> ,
+        <ex:monk/toan_y_pho_hue> ,
+        <ex:monk/toan_tin_uc_thanh> ,
+		<ex:monk/toan_vo_vien_quang> ,
+        <ex:monk/toan_duc_hoang_tong> ;
+    bkg:isLineageFounder "false"^^xsd:boolean .
+
+<ex:monk/phap_kiem_minh_giac_birthEvent> a bkg:BirthEvent ;
+    bkg:year "1747"^^xsd:gYear .
+
+<ex:monk/phap_kiem_minh_giac_deathEvent> a bkg:DeathEvent ;
+    bkg:year "1830"^^xsd:gYear .
+
+<ex:monk/thiet_dinh_an_triem> rdfs:label "Thiệt Dinh Ân Triêm"@vi .
+<ex:monk/toan_nham_quan_thong> rdfs:label "Toàn Nhâm Quán Thông"@vi .
+<ex:monk/toan_inh_bao_tang> rdfs:label "Toàn Ðịnh Bảo Tạng"@vi .
+<ex:monk/toan_chieu_bao_an> rdfs:label "Toàn Chiếu Bảo Ấn"@vi .
+<ex:monk/toan_y_pho_hue> rdfs:label "Toàn Ý Phổ Huệ"@vi .
+<ex:monk/toan_tin_uc_thanh> rdfs:label "Toàn Tín Ðức Thành"@vi .
+<ex:monk/toan_duc_hoang_tong> rdfs:label "Toàn Đức Hoằng Tông"@vi .
+<ex:monk/phap_an_quang_do> rdfs:label "Pháp Ấn Quảng Độ"@vi .
+<ex:monk/phap_chuyen_dieu_nghiem> rdfs:label "Pháp Chuyên Diệu Nghiêm"@vi .
+<ex:monk/phap_tinh_vien_quang> rdfs:label "Pháp Tịnh Viên Quang"@vi .
+<ex:monk/toan_vo_vien_quang> rdfs:label "Toàn Võ Viên Quang"@vi .

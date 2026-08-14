@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cây Phả Hệ - Cytoscape.js</title>
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #cy {
+            width: 100%;
+            height: 800px; /* Điều chỉnh chiều cao theo ý muốn */
+            display: block;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cây Phả Hệ Gia Đình</h1>
+    <div id="cy"></div>
+
+<script>
+/* ============================
+   Cấu hình & trạng thái (Giữ nguyên)
+   ============================ */
+// Các tệp dữ liệu tĩnh phải nằm cùng thư mục với test.html
+const GENEALOGY_JSON_URL = "./genealogy_data.json"; 
+const LINEAGE_JSONLD_URL = "./lineage_graph.jsonld"; 
+
+// Định nghĩa màu sắc
+const MASTER_FOUNDER_COLOR_BG = '#D81B60'; 
+const LINEAGE_FOUNDER_COLOR_BG = '#8E24AA'; 
+const NORMAL_NODE_COLOR_BG = '#1a73e8';    
+
+const DEFAULT_EDGE_COLOR = '#263238'; 
+const HIGHLIGHT_NODE_COLOR_BG = '#FFC107'; 
+
+// Tạo đối tượng màu sắc hoàn chỉnh
+const NORMAL_NODE_COLOR = { background: '#f0f4ff', border: NORMAL_NODE_COLOR_BG, highlight: { background: HIGHLIGHT_NODE_COLOR_BG, border: HIGHLIGHT_NODE_COLOR_BG } };
+const FOUNDER_NODE_COLOR = { background: LINEAGE_FOUNDER_COLOR_BG, border: LINEAGE_FOUNDER_COLOR_BG, highlight: { background: HIGHLIGHT_NODE_COLOR_BG, border: HIGHLIGHT_NODE_COLOR_BG } };
+const MASTER_NODE_COLOR = { background: MASTER_FOUNDER_COLOR_BG, border: MASTER_FOUNDER_COLOR_BG, highlight: { background: HIGHLIGHT_NODE_COLOR_BG, border: HIGHLIGHT_NODE_COLOR_BG } };
+const COLLAPSED_NODE_COLOR = { background: '#f0f0f0', border: '#9aa0a6' }; 
+
+let loading = false;
+let network;
+let nodes = new vis.DataSet();
+let edges = new vis.DataSet();
+
+let allLineages = {};         
+let masterFounders = new Set(); 
+let lineageFounders = new Set(); 
+let allNodesMap = new Map(); 
+let childMap = {};           
+let allGraphData = { nodes: [], edges: [] }; 
+let mainTreeFounderIds = []; 
+
+/* ============================
+   VIS options (Giữ nguyên)
+   ============================ */
+const visOptions = {
+    nodes: {
+        shape: 'box',
+        margin: 15, 
+        font: { size: 18, color: '#222' }, 
+        borderWidth: 3, 
+        widthConstraint: { minimum: 150, maximum: 280 }, 
+        color: NORMAL_NODE_COLOR
+    },
+    edges: {
+        width: 1.5,
+        smooth: { enabled: true, type: 'continuous', roundness: 0.5 },
+        color: { color: DEFAULT_EDGE_COLOR, highlight: DEFAULT_EDGE_COLOR, hover: DEFAULT_EDGE_COLOR, inherit: 'from' },
+        arrows: { to: { enabled: true, scaleFactor: 0.8, type: 'arrow' } }
+    },
+    interaction: {
+        hover: true,
+        tooltipDelay: 160,
+        hoverConnectedEdges: true,
+        navigationButtons: true,
+        keyboard: true
+    },
+    layout: {
+        hierarchical: false 
+    },
+    physics: { 
+        enabled: true, 
+        solver: 'forceAtlas2Based',
+        forceAtlas2Based: {
+            gravitationalConstant: -200, 
+            centralGravity: 0.01,
+            springLength: 150, 
+            springConstant: 0.05,
+            damping: 0.9,
+            avoidOverlap: 0.1
+        },
+        minVelocity: 0.75, 
+        maxVelocity: 50
+    }
+};
+
+/* ============================
+   Helpers
+   ============================ */
+function showLoading(text) {
+    loading = true;
+    const el = document.getElementById('loading-message');
+    el.innerHTML = text || 'Đang tải dữ liệu, vui lòng đợi...';
+    el.style.display = 'block';
+    document.getElementById('network').style.display = 'none';
+}
+
+function hideLoading() {
+    loading = false;
+    document.getElementById('loading-message').style.display = 'none';
+    document.getElementById('network').style.display = 'block';
+}
+
+// HÀM: Ưu tiên lấy label tiếng Việt (dùng cho JSON-LD của Tông Phái)
+function pickLabel(v) {
+    if (!v) return undefined;
+    const items = toArray(v);
+    
+    // 1. Tìm kiếm ưu tiên: giá trị có @language="vi"
+    const viLabel = items.find(item => item['@language'] === 'vi' && typeof item['@value'] === 'string');
+    if (viLabel) return viLabel['@value'];
+
+    // 2. Tìm kiếm giá trị có @value, value, hoặc label (mặc định)
+    const otherLabel = items.find(item => 
+        typeof item['@value'] === 'string' || 
+        typeof item['value'] === 'string' ||
+        typeof item['label'] === 'string'
+    );
+    if (otherLabel) {
+        return otherLabel['@value'] || otherLabel['value'] || otherLabel['label'];
+    }
+
+    // 3. Nếu là string đơn thuần
+    if (typeof v === 'string') return v;
+    
+    return undefined;
+}
+function toArray(x) { if (!x) return []; return Array.isArray(x) ? x : [x]; }
+
+// HELPER: Format ID thành tên Thiền sư (Viết hoa chữ cái đầu, KHÔNG DẤU, để làm fallback cuối cùng)
+function formatNameFallback(id) {
+    if (!id) return '';
+    const namePart = id.split('/').pop();
+    const spacedName = namePart.replace(/_/g, ' ');
+    return spacedName.split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
+
+
+/* ============================
+   Init network & handlers (Giữ nguyên)
+   ============================ */
+function initNetwork() {
+    const container = document.getElementById('network');
+    network = new vis.Network(container, { nodes, edges }, visOptions);
+
+    network.on('click', params => {
+        if (params.nodes && params.nodes.length) {
+            const id = params.nodes[0];
+            const meta = allNodesMap.get(id) || { label: id };
+            getBioAndLineage(id, meta.label); 
+        }
+    });
+}
+
+
+/* ============================
+   Load lineage JSON-LD (Giữ nguyên)
+   ============================ */
+async function loadLineageGraph() {
+    try {
+        const res = await fetch(LINEAGE_JSONLD_URL);
+        
+        if (!res.ok) {
+             throw new Error(`Lỗi khi đọc "${LINEAGE_JSONLD_URL}" (status ${res.status}).`);
+        }
+        
+        const data = await res.json();
+        const graph = data['@graph'] || []; 
+        
+        allLineages = {};
+        masterFounders = new Set();
+        lineageFounders = new Set(); 
+        
+        graph.forEach(item => {
+            const types = toArray(item['@type'] || []);
+            
+            if (types.some(t => String(t).includes('DharmaLineage') || String(t).includes('bkg:DharmaLineage'))) {
+                const id = item['@id'];
+                const name = pickLabel(item['rdfs:label']) || id; 
+                const founderId = item['bkg:hasFounder'] && item['bkg:hasFounder']['@id'] ? item['bkg:hasFounder']['@id'] : null;
+                
+                allLineages[id] = { standardName: name, founder: founderId, description: pickLabel(item['bkg:description']) };
+                
+                if (founderId) {
+                    masterFounders.add(founderId); 
+                    lineageFounders.add(founderId); 
+                }
+            }
+        });
+        
+        console.log(`[Lineage Load] Đã tải thành công ${Object.keys(allLineages).length} Tông phái.`);
+        return true;
+        
+    } catch (err) {
+        console.error('LỖI CẤP THIẾT KHI NẠP DỮ LIỆU TÔNG PHÁI:', err);
+        document.getElementById('loading-message').innerHTML = `
+            <b>LỖI CẤP THIẾT: Không thể tải Tông phái.</b><br/>
+            Vui lòng kiểm tra file **${LINEAGE_JSONLD_URL}** có nằm cùng thư mục và cấu trúc JSON có hợp lệ không.<br/>
+            Chi tiết lỗi: ${err.message}`;
+        return false;
+    }
+}
+
+/* ============================
+   Load static data from genealogy_data.json (ĐÃ ĐƠN GIẢN HÓA LOGIC LABEL)
+   ============================ */
+async function loadStaticData() {
+    try {
+        const res = await fetch(GENEALOGY_JSON_URL); 
+        if (!res.ok) throw new Error(`Lỗi khi đọc "${GENEALOGY_JSON_URL}" (status ${res.status}).`);
+        
+        allGraphData = await res.json();
+        
+        allNodesMap.clear();
+        childMap = {};
+        mainTreeFounderIds = []; 
+        
+        // 1. Populate allNodesMap (Lưu trữ metadata)
+        allGraphData.nodes.forEach(n => {
+            n.isLineageFounder = lineageFounders.has(n.id); 
+            n.isMasterFounder = masterFounders.has(n.id); 
+            
+            // =========================================================================
+            // ĐÃ ĐƠN GIẢN HÓA LOGIC TÌM LABEL CÓ DẤU CHO THIỀN SƯ
+            // Chấp nhận trường "label" (nếu có) hoặc "vietnameseLabel" (nếu có)
+            // Nếu không có, dùng formatNameFallback (chỉ có viết hoa, không dấu)
+            
+            let finalLabel = n.label || n.vietnameseLabel;
+            
+            // Nếu vẫn trống, dùng fallback từ ID
+            if (!finalLabel) {
+                 // **PHƯƠNG ÁN MỚI**: Nếu có rdfs:label, ta dùng pickLabel để tìm kiếm sâu
+                 const rdfsLabel = n['rdfs:label'] ? pickLabel(n['rdfs:label']) : null;
+                 finalLabel = rdfsLabel || formatNameFallback(n.id);
+            }
+            
+            n.label = finalLabel;
+            // =========================================================================
+            
+            allNodesMap.set(n.id, n);
+            
+            if (n.isMasterFounder) {
+                mainTreeFounderIds.push(n.id); 
+            }
+        });
+        
+        // 2. Build childMap và cập nhật master (Giữ nguyên)
+        allGraphData.edges.forEach(e => {
+            if (e.from && e.to) {
+                const childNode = allNodesMap.get(e.to);
+                if (childNode) childNode.master = e.from;
+
+                if (!childMap[e.from]) childMap[e.from] = [];
+                if (!childMap[e.from].includes(e.to)) {
+                    childMap[e.from].push(e.to);
+                }
+            }
+        });
+
+        if (allNodesMap.size === 0) {
+            document.getElementById('loading-message').innerText = `LỖI: Không tìm thấy dữ liệu Thiền sư trong ${GENEALOGY_JSON_URL}.`;
+            return false;
+        }
+
+        return true;
+    } catch (err) {
+        console.error('LỖI KHI NẠP DỮ LIỆU TĨNH:', err);
+        document.getElementById('loading-message').innerHTML = `LỖỖI: Không thể tải dữ liệu **${GENEALOGY_JSON_URL}**. <br/>Chi tiết: ${err.message}`;
+        return false;
+    }
+}
+
+
+/* ============================
+   Hàm phụ: Phân loại Nodes và áp dụng màu sắc (Giữ nguyên)
+   ============================ */
+function formatNode(n) {
+    let colorObj;
+    let fontColor;
+    let titleText = `<b>${n.label}</b>`;
+
+    if (n.isMasterFounder) {
+        colorObj = MASTER_NODE_COLOR;
+        fontColor = '#FFFFFF';
+        titleText += '<br/>(Tổ Sư Dòng Chính Mạch)';
+    } else if (n.isLineageFounder) {
+        colorObj = FOUNDER_NODE_COLOR;
+        fontColor = '#FFFFFF';
+        titleText += '<br/>(Vị Khai Tổ Tông Phái)';
+    } else {
+        colorObj = NORMAL_NODE_COLOR;
+        fontColor = '#222';
+    }
+    
+    if (n.bio) {
+        titleText += `<hr style="margin: 4px 0; border-top: 1px solid #ccc;"/>${n.bio.substring(0, 500)}...`;
+    }
+    if (n.generationOrder !== undefined) {
+        titleText += `<br/>Đời: ${n.generationOrder}`;
+    }
+
+    return {
+        id: n.id,
+        label: n.label,
+        title: titleText,
+        color: {
+            background: colorObj.background,
+            border: colorObj.border,
+            highlight: colorObj.highlight
+        },
+        font: { color: fontColor, size: 18, multi: 'html' }, 
+        ...n 
+    };
+}
+
+
+/* ============================
+   Draw initial view / subtree rendering (Giữ nguyên)
+   ============================ */
+function populateLineageSelectUI() {
+    const sel = document.getElementById('lineage-select');
+    sel.innerHTML = '<option value="">-- Dòng Chính (Chỉ Khai Tổ) --</option>'; 
+    
+    const sortedEntries = Object.entries(allLineages).sort(([, a], [, b]) => a.standardName.localeCompare(b.standardName, 'vi'));
+
+    sortedEntries.forEach(([id, obj]) => {
+        if (obj.founder) { 
+            const opt = document.createElement('option');
+            opt.value = id;
+            opt.textContent = obj.standardName || id;
+            sel.appendChild(opt);
+        }
+    });
+}
+
+function getRelevantNodes(founderId, fullTree = false) {
+    const relevantNodesIds = new Set();
+    
+    if (allNodesMap.has(founderId)) relevantNodesIds.add(founderId);
+
+    let currentAncestor = allNodesMap.get(founderId)?.master; 
+    
+    if(currentAncestor && allNodesMap.has(currentAncestor)) {
+        relevantNodesIds.add(currentAncestor);
+        
+        if(fullTree) {
+            let nextAncestor = allNodesMap.get(currentAncestor)?.master;
+            while(nextAncestor && allNodesMap.has(nextAncestor)) {
+                relevantNodesIds.add(nextAncestor);
+                nextAncestor = allNodesMap.get(nextAncestor)?.master;
+            }
+        }
+    }
+    
+    if (fullTree) {
+        const queue = Array.from(relevantNodesIds);
+        let head = 0;
+        while (head < queue.length) {
+            const parentId = queue[head++];
+            const children = childMap[parentId] || [];
+            children.forEach(childId => {
+                if (!relevantNodesIds.has(childId) && allNodesMap.has(childId)) {
+                    relevantNodesIds.add(childId);
+                    queue.push(childId);
+                }
+            });
+        }
+    }
+    
+    return relevantNodesIds;
+}
+
+
+async function drawInitial(lineageId = null) {
+    nodes.clear();
+    edges.clear();
+    showLoading('Đang vẽ biểu đồ cây truyền thừa...');
+
+    let nodesToDraw = allGraphData.nodes;
+    let edgesToDraw = allGraphData.edges;
+    let focusNodeId = null;
+    let relevantNodesIds = new Set();
+    let isMainTree = lineageId === null;
+
+    if (isMainTree) {
+        showLoading('Đang vẽ Dòng Truyền Thừa Chính...');
+        
+        mainTreeFounderIds.forEach(id => relevantNodesIds.add(id));
+        
+        mainTreeFounderIds.forEach(id => {
+            let current = allNodesMap.get(id)?.master;
+            while (current && allNodesMap.has(current)) {
+                relevantNodesIds.add(current);
+                current = allNodesMap.get(current)?.master;
+            }
+        });
+        
+        nodesToDraw = allGraphData.nodes.filter(n => relevantNodesIds.has(n.id));
+        edgesToDraw = allGraphData.edges.filter(e => relevantNodesIds.has(e.from) && relevantNodesIds.has(e.to));
+
+        focusNodeId = nodesToDraw.length > 0 ? nodesToDraw[nodesToDraw.length - 1].id : null; 
+
+    } else {
+        const lineage = allLineages[lineageId];
+        const founderId = lineage?.founder;
+        
+        if (founderId && allNodesMap.has(founderId)) {
+            relevantNodesIds = getRelevantNodes(founderId, false); 
+            focusNodeId = founderId;
+
+            nodesToDraw = allGraphData.nodes.filter(n => relevantNodesIds.has(n.id));
+            edgesToDraw = allGraphData.edges.filter(e => relevantNodesIds.has(e.from) && relevantNodesIds.has(e.to));
+            showLoading(`Đang vẽ dòng phái: ${lineage.standardName} (Khai tổ và Thầy)...`);
+
+        } else {
+            showLoading('Không tìm thấy Khai tổ cho dòng phái này.');
+            return;
+        }
+    }
+    
+    network.setOptions({
+        layout: { hierarchical: { 
+            enabled: true, 
+            direction: "DU", 
+            sortMethod: "directed", 
+            levelSeparation: 150, 
+            nodeSpacing: 220, 
+        } }, 
+        physics: false 
+    });
+    
+    const formattedNodes = nodesToDraw.map(n => {
+        return formatNode(n);
+    });
+    
+    nodes.add(formattedNodes);
+    edges.add(edgesToDraw);
+    network.setData({ nodes, edges });
+    
+    network.fit({ 
+        animation: { duration: 1000, easingFunction: 'easeInOutQuad' } 
+    });
+
+    if (focusNodeId && nodes.get(focusNodeId)) {
+        nodes.update({ id: focusNodeId, size: 22 }); 
+        setTimeout(() => nodes.update({ id: focusNodeId, size: 18 }), 1200); 
+    }
+    
+    hideLoading();
+}
+
+/* ============================
+   Popup & bio display (Giữ nguyên)
+   ============================ */
+function getBioAndLineage(uri, labelFallback) {
+    const meta = allNodesMap.get(uri) || { label: labelFallback || uri, bio: "Không có tiểu sử." };
+    const label = meta.label || labelFallback || uri;
+    
+    let bio = meta.bio || "Không có tiểu sử.";
+    let lineageText = "";
+    
+    const lineageEntry = Object.entries(allLineages).find(([, obj]) => obj.founder === uri);
+
+    if (lineageEntry) {
+        lineageText = `Vị Khai tổ của Tông phái: <b>${lineageEntry[1].standardName}</b>`;
+    } 
+    else if (meta.lineage && allLineages[meta.lineage]) {
+        lineageText = `Thuộc dòng thiền: <b>${allLineages[meta.lineage].standardName}</b>`;
+    }
+    else if (meta.master && allNodesMap.has(meta.master)) {
+        const masterLabel = allNodesMap.get(meta.master).label || formatNameFallback(meta.master);
+        lineageText = `Thầy truyền pháp: <b>${masterLabel}</b>`;
+    }
+    else {
+        lineageText = `Thông tin dòng phái: <b>Không xác định</b>`;
+    }
+    
+    if (meta && meta.generationOrder !== undefined) {
+        lineageText += `<br/>Thứ tự truyền thừa: <b>Đời ${meta.generationOrder}</b>`;
+    }
+
+    showPopup(label, bio, lineageText);
+}
+
+function showPopup(title, content, lineageText) {
+    document.getElementById('popup-title').innerText = title;
+    document.getElementById('popup-lineage').innerHTML = lineageText || '';
+    document.getElementById('popup-content').innerHTML = 
+    String(content || '').replace(/\n/g, '<br>');
+
+    document.getElementById('popup').style.display = 'block';
+}
+
+/* ============================
+   Search & UI interactions (Giữ nguyên)
+   ============================ */
+function searchAndHighlight(term) {
+    const q = String(term || '').trim().toLowerCase();
+    if (!q) return;
+    
+    const matches = Array.from(allNodesMap.values()).filter(n => {
+        const label = n.label || '';
+        const idFallback = formatNameFallback(n.id);
+        return label.toLowerCase().includes(q) || idFallback.toLowerCase().includes(q);
+    });
+    
+    if (!matches.length) {
+        alert('Không tìm thấy Thiền sư có tên "' + term + '".');
+        return;
+    }
+    
+    const node = matches[0];
+    
+    if (!nodes.get(node.id)) {
+        const lineageId = node.lineage || null;
+        if (lineageId && allLineages[lineageId]) {
+             alert(`Thiền sư được tìm thấy trong dòng phái "${allLineages[lineageId].standardName}". Tự động chuyển qua dòng phái này.`);
+             document.getElementById('lineage-select').value = lineageId;
+             drawInitial(lineageId).then(() => {
+                 setTimeout(() => { 
+                     if (nodes.get(node.id)) { 
+                         network.focus(node.id, { scale: 1.6, animation: { duration: 800 } });
+                         highlightNode(node.id);
+                     } 
+                 }, 800); 
+             });
+        } else {
+             alert('Thiền sư được tìm thấy nhưng hiện không nằm trong biểu đồ đang hiển thị. Tự động chuyển về Dòng Chính.');
+             document.getElementById('lineage-select').value = '';
+             drawInitial(null).then(() => {
+                 setTimeout(() => { 
+                     if (nodes.get(node.id)) { 
+                         network.focus(node.id, { scale: 1.6, animation: { duration: 800 } });
+                         highlightNode(node.id);
+                     } 
+                 }, 800); 
+             });
+        }
+        return;
+    }
+    
+    try {
+        network.focus(node.id, { scale: 1.6, animation: { duration: 800 } });
+        highlightNode(node.id);
+    } catch (err) { console.warn(err); }
+}
+
+function highlightNode(nodeId) {
+     const highlightColor = { background: HIGHLIGHT_NODE_COLOR_BG, border: HIGHLIGHT_NODE_COLOR_BG };
+     nodes.update({ id: nodeId, color: highlightColor, size: 22 });
+     setTimeout(() => {
+         const meta = allNodesMap.get(nodeId);
+         if (meta) {
+             const color = formatNode(meta).color;
+             nodes.update({ id: nodeId, color, size: 18 });
+         }
+     }, 1200);
+}
+
+
+/* ============================
+   Orchestration: loadEverything (Giữ nguyên)
+   ============================ */
+async function loadEverything() {
+    showLoading('Khởi tạo dữ liệu...');
+    
+    const lineageLoaded = await loadLineageGraph();
+    const staticLoaded = await loadStaticData();
+    
+    if (lineageLoaded && staticLoaded) {
+        populateLineageSelectUI(); 
+        await drawInitial(null); 
+    } else {
+         document.getElementById('loading-message').style.display = 'block';
+         document.getElementById('network').style.display = 'none';
+    }
+
+    if (lineageLoaded && staticLoaded) {
+        hideLoading(); 
+    }
+}
+
+/* ============================
+   DOM ready & events (Giữ nguyên)
+   ============================ */
+document.addEventListener('DOMContentLoaded', () => {
+    initNetwork();
+    loadEverything();
+
+    document.getElementById('lineage-select').addEventListener('change', async (ev) => {
+        const val = ev.target.value || null;
+        if (loading) return; 
+        resetHighlights();
+        await drawInitial(val);
+    });
+
+    const searchInput = document.getElementById('search-input');
+    const suggestions = document.getElementById('search-suggestions');
+
+    // Logic Suggestion
+    searchInput.addEventListener('input', (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        suggestions.innerHTML = '';
+        if (q.length > 1) {
+            const matches = Array.from(allNodesMap.values())
+                .filter(n => {
+                    const label = n.label || '';
+                    const idFallback = formatNameFallback(n.id);
+                    return label.toLowerCase().includes(q) || idFallback.toLowerCase().includes(q);
+                })
+                .slice(0, 10);
+            matches.forEach(m => {
+                const li = document.createElement('li');
+                li.textContent = m.label || formatNameFallback(m.id);
+                li.addEventListener('click', () => {
+                    searchInput.value = li.textContent;
+                    suggestions.innerHTML = '';
+                    searchAndHighlight(li.textContent);
+                });
+                suggestions.appendChild(li);
+            });
+        }
+    });
+
+    document.getElementById('search-button').addEventListener('click', () => {
+        const q = searchInput.value.trim();
+        document.getElementById('search-suggestions').innerHTML = '';
+        searchAndHighlight(q);
+    });
+
+    searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('search-button').click(); });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) suggestions.innerHTML = '';
+    });
+
+    document.getElementById('reset-button').addEventListener('click', () => {
+        document.getElementById('lineage-select').value = '';
+        document.getElementById('search-input').value = '';
+        resetHighlights();
+        drawInitial(null); 
+    });
+    
+    document.getElementById('popup').querySelector('.close-btn').addEventListener('click', () => {
+        document.getElementById('popup').style.display='none';
+    });
+});
+
+/* ============================
+   Reset highlight util (Giữ nguyên)
+   ============================ */
+function resetHighlights() {
+    nodes.get().forEach(n => {
+        const meta = allNodesMap.get(n.id);
+        if (meta) {
+            const color = formatNode(meta).color;
+            nodes.update({ id: n.id, color, size: 18 }); 
+        } else {
+            nodes.update({ id: n.id, color: NORMAL_NODE_COLOR, size: 18 });
+        }
+    });
+    edges.get().forEach(e => {
+        edges.update({ id: e.id, color: { color: DEFAULT_EDGE_COLOR, opacity: 0.85 }, width: 1.5 });
+    });
+}
+</script>
+</body>
+</html>

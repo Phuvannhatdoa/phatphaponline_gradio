@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Ảnh - TTL Rebuild Master v4.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&family=JetBrains+Mono:wght@700&display=swap');
+
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-page: #020617;
+            --bg-sidebar: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --info: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-page); 
+            color: var(--text-main); 
+            margin: 0; 
+            overflow: hidden; 
+            height: 100vh;
+            display: flex;
+        }
+
+        .layout-main { display: flex; height: 100vh; width: 100%; }
+
+        /* Sidebar */
+        .sidebar { 
+            width: 280px; 
+            background: #0f172a; 
+            border-right: 1px solid #1e293b; 
+            display: flex; 
+            flex-direction: column; 
+            flex-shrink: 0;
+            z-index: 50;
+        }
+
+        .sidebar-header { 
+            padding: 16px; 
+            background: #020617; 
+            border-bottom: 1px solid #1e293b; 
+        }
+
+        .logo-text h1 { 
+            font-size: 11px; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            color: white; 
+            line-height: 1.2; 
+        }
+
+        .logo-text p { 
+            font-size: 8px; 
+            font-weight: 700; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+        }
+
+        /* Search Box */
+        .search-container { padding: 12px; border-bottom: 1px solid var(--border); background: var(--bg-sidebar); }
+        .search-input { 
+            width: 100%; 
+            background: rgba(0,0,0,0.3); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 8px 12px; 
+            color: white; 
+            font-size: 11px; 
+            outline: none; 
+        }
+        .search-input:focus { border-color: var(--primary); }
+
+        /* Queue List */
+        .queue-list { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 12px; 
+            background: rgba(15, 23, 42, 0.5); 
+        }
+        
+        .queue-item { 
+            padding: 10px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            margin-bottom: 6px; 
+            background: rgba(255,255,255,0.02);
+        }
+        .queue-item:hover { background: #1e293b; }
+        .queue-item.active { 
+            background: rgba(217, 119, 6, 0.15); 
+            border-left: 3px solid var(--primary); 
+        }
+
+        .queue-title { font-size: 11px; font-weight: 700; color: white; }
+        .queue-path { font-size: 9px; color: #64748b; font-family: monospace; }
+
+        /* Main Content - 3 Columns */
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+        }
+
+        .status-bar { 
+            height: 36px; 
+            background: black; 
+            display: flex; 
+            align-items: center; 
+            padding: 0 16px; 
+            border-bottom: 1px solid #1e293b; 
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        /* 3 Column Layout */
+        .merger-grid { 
+            flex: 1; 
+            display: grid; 
+            grid-template-columns: 25% 40% 35%; 
+            gap: 1px; 
+            background: var(--border); 
+        }
+
+        .column-section { 
+            background: var(--bg-page); 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+        }
+
+        .column-header { 
+            padding: 12px; 
+            border-bottom: 1px solid #1e293b; 
+            background: rgba(0,0,0,0.2); 
+            font-size: 9px; 
+            font-weight: 900; 
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .col-1 .column-header { color: var(--info); border-left: 3px solid var(--info); }
+        .col-2 .column-header { color: var(--warning); border-left: 3px solid var(--warning); }
+        .col-3 .column-header { color: var(--primary); border-left: 3px solid var(--primary); }
+
+        .column-content { 
+            padding: 12px; 
+            overflow-y: auto; 
+            flex: 1; 
+            background: rgba(15, 23, 42, 0.3); 
+        }
+
+        .col-3 .column-content { 
+            background: #0f172a; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        /* Column 2: 4 Sub-sections */
+        .col-2-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 1px;
+            background: var(--border);
+        }
+
+        .sub-section {
+            background: var(--bg-page);
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            min-height: 0;
+        }
+
+        .sub-section-header {
+            font-size: 8px;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sub-a .sub-section-header { background: rgba(59, 130, 246, 0.2); color: var(--info); }
+        .sub-b .sub-section-header { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .sub-c .sub-section-header { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+        .sub-d .sub-section-header { background: rgba(249, 115, 22, 0.2); color: var(--warning); }
+
+        /* Cards */
+        .source-card { 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 10px; 
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.02); 
+        }
+
+        .dossier-field { 
+            display: flex; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            padding: 3px 0; 
+            font-size: 9px; 
+        }
+        .dossier-label { width: 70px; color: var(--text-muted); font-weight: 700; }
+        .dossier-value { flex: 1; color: var(--text-main); }
+
+        /* TTL Editor */
+        .ttl-editor-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .ttl-code-box {
+            background-color: #000; 
+            color: #94a3b8; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 9px; 
+            line-height: 1.3; 
+            border: 1px solid var(--border); 
+            flex: 1;
+            resize: none; 
+            min-height: 150px;
+        }
+
+        .preview-section {
+            flex: 1;
+            background: #f8fafc; 
+            color: #0f172a; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-size: 11px;
+            overflow-y: auto;
+            margin-top: 8px;
+        }
+
+        /* Buttons */
+        .btn-save { 
+            background: var(--primary); 
+            color: white; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            font-weight: 900; 
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            margin-top: 8px;
+            width: 100%;
+        }
+        .btn-save:hover { background: var(--primary-hover); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-text">
+                <h1>TTL REBUILD v4.0</h1>
+                <p>Admin Editor</p>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" 
+                   placeholder="Tìm tên / ID..." onkeyup="filterQueue()">
+        </div>
+
+        <!-- Queue List -->
+        <div class="queue-list" id="queue-list"></div>
+    </aside>
+
+    <!-- Main Content: 3 Columns -->
+    <main class="main-content">
+        <div class="status-bar">
+            <span>TRẠNG THÁI: </span>
+            <span id="status-text" style="margin-left: 8px; color: var(--text-muted);">Sẵn sàng</span>
+        </div>
+
+        <div class="merger-grid">
+            <!-- COLUMN 1: DILA Authority -->
+            <section class="column-section col-1">
+                <div class="column-header">
+                    <span>1. DILA Authority</span>
+                    <i class="fas fa-address-book"></i>
+                </div>
+                <div class="column-content" id="col-1-content">
+                    <p style="color: #64748b; font-size: 10px;">Chọn monk để load...</p>
+                </div>
+            </section>
+
+            <!-- COLUMN 2: 4 Sub-sections (Marcus, VPS TTL, Startdict, Truoc Tac) -->
+            <section class="column-section col-2">
+                <div class="column-header">
+                    <span>2. Data Sources (4 khu)</span>
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="col-2-content">
+                    <!-- Khu A: Marcus SNA -->
+                    <div class="sub-section sub-a">
+                        <div class="sub-section-header">
+                            <span>A. Marcus SNA</span>
+                            <span style="font-size: 7px;">Network</span>
+                        </div>
+                        <div id="sub-marcus"></div>
+                    </div>
+                    <!-- Khu B: VPS TTL -->
+                    <div class="sub-section sub-b">
+                        <div class="sub-section-header">
+                            <span>B. VPS TTL (Old Bio)</span>
+                            <span style="font-size: 7px;">/ttl/old/</span>
+                        </div>
+                        <div id="sub-vps"></div>
+                    </div>
+                    <!-- Khu C: Startdict -->
+                    <div class="sub-section sub-c">
+                        <div class="sub-section-header">
+                            <span>C. Startdict (Lexicon)</span>
+                            <span style="font-size: 7px;">Dictionary</span>
+                        </div>
+                        <div id="sub-lexicon"></div>
+                    </div>
+                    <!-- Khu D: Truoc Tac -->
+                    <div class="sub-section sub-d">
+                        <div class="sub-section-header">
+                            <span>D. Trước Tác</span>
+                            <span style="font-size: 7px;">Works</span>
+                        </div>
+                        <div id="sub-truoctac"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COLUMN 3: Master TTL Editor + Preview -->
+            <section class="column-section col-3">
+                <div class="column-header">
+                    <span>3. Master Builder</span>
+                    <span id="current-id" style="font-size: 7px; color: var(--text-muted);"></span>
+                </div>
+                <div class="column-content">
+                    <!-- TTL Editor -->
+                    <div class="ttl-editor-section">
+                        <div style="font-size: 8px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">
+                            <i class="fas fa-code"></i> TTL Editor
+                        </div>
+                        <textarea id="ttl-editor" class="ttl-code-box" 
+                                  spellcheck="false" 
+                                  placeholder="TTL content will be generated from template..."
+                                  oninput="markAsDirty()"></textarea>
+                        <button onclick="saveTTL()" class="btn-save">
+                            <i class="fas fa-save"></i> LƯU TTL MỚI
+                        </button>
+                    </div>
+                    <!-- Preview -->
+                    <div style="font-size: 8px; font-weight: 700; text-transform: uppercase; margin-top: 10px; margin-bottom: 6px;">
+                        <i class="fas fa-eye"></i> Preview
+                    </div>
+                    <div id="web-preview" class="preview-section"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = '/daoanh';
+        let queueData = [];
+        let currentItem = null;
+        let isDirty = false;
+
+        // Safe fetch
+        async function safeFetch(url, options = {}) {
+            const fullUrl = window.location.origin + API_BASE + url;
+            try {
+                const res = await fetch(fullUrl, {
+                    ...options,
+                    headers: { 'Content-Type': 'application/json', ...options.headers }
+                });
+                const contentType = res.headers.get('content-type') || '';
+                if (!contentType.includes('application/json')) {
+                    console.error('Non-JSON response:', await res.text());
+                    throw new Error(`Server error: ${res.status}`);
+                }
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return await res.json();
+            } catch (e) {
+                console.error('Fetch error:', e);
+                throw e;
+            }
+        }
+
+        // Load queue
+        async function loadQueue() {
+            try {
+                const data = await safeFetch('/api/queue');
+                queueData = data.queue || [];
+                renderQueue();
+                if (queueData.length > 0) loadItem(0);
+            } catch (e) {
+                document.getElementById('status-text').innerText = 'LỖI: ' + e.message;
+            }
+        }
+
+        // Render queue list
+        function renderQueue() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const list = document.getElementById('queue-list');
+            list.innerHTML = "";
+            
+            const filtered = queueData.filter(item => 
+                (item.name_vi && item.name_vi.toLowerCase().includes(query)) || 
+                (item.id && item.id.toLowerCase().includes(query))
+            );
+
+            filtered.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = `queue-item ${idx === 0 ? 'active' : ''}`;
+                div.onclick = () => loadItem(idx);
+                div.innerHTML = `
+                    <div class="queue-title">${item.name_vi || item.id}</div>
+                    <div class="queue-path">${item.id}</div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function filterQueue() {
+            renderQueue();
+        }
+
+        // Load item - Load all 5 sources
+        async function loadItem(idx) {
+            if (queueData.length === 0) return;
+            
+            currentItem = queueData[idx];
+            isDirty = false;
+            document.getElementById('current-id').innerText = currentItem.id;
+            document.getElementById('status-text').innerText = 'ĐANG TẢI: ' + currentItem.id;
+
+            const dilaId = currentItem.id.replace('TS-', '');
+
+            try {
+                // Load Column 1: DILA
+                const dilaData = await safeFetch(`/api/dossier/${dilaId}`);
+                renderCol1(dilaData);
+
+                // Load Column 2.A: Marcus SNA
+                const marcusData = await safeFetch(`/api/monk/${dilaId}/marcus`);
+                renderSubMarcuss(marcusData);
+
+                // Load Column 2.B: VPS TTL
+                try {
+                    const vpsData = await safeFetch(`/api/monk/${dilaId}/vps_ttl`);
+                    renderSubVPS(vpsData);
+                } catch(e) {
+                    document.getElementById('sub-vps').innerHTML = '<p style="color:#64748b;font-size:9px">Không có TTL</p>';
+                }
+
+                // Load Column 2.C: Startdict (Lexicon)
+                const lexData = await safeFetch(`/api/monk/${dilaId}/lexicon`);
+                renderSubLexicon(lexData);
+
+                // Load Column 2.D: Truoc Tac
+                const ttData = await safeFetch(`/api/monk/${dilaId}/truoctac`);
+                renderSubTruocTac(ttData);
+
+                // Generate TTL from template
+                await generateTTL(dilaData, marcusData, ttData);
+
+                document.getElementById('status-text').innerText = 'SẴN SÀNG';
+                
+            } catch(e) {
+                document.getElementById('status-text').innerText = 'LỖI: ' + e.message;
+            }
+        }
+
+        function renderCol1(dila) {
+            const c = dila.dila_data || {};
+            document.getElementById('col-1-content').innerHTML = `
+                <div class="source-card" style="border-color: rgba(59,130,246,0.5)">
+                    <div style="font-size:8px;color:var(--info);text-transform:uppercase;font-weight:700">DILA Authority</div>
+                    <div style="font-family:'Noto Serif TC';font-size:18px;color:white;margin:4px 0">${dila.zh || ''}</div>
+                    <div style="font-size:9px;color:#60a5fa">ID: ${dila.id}</div>
+                </div>
+                <div class="source-card">
+                    <div class="dossier-field"><div class="dossier-label">Sinh/Tịch</div><div class="dossier-value">${c.birth || '?'} - ${c.death || '?'}</div></div>
+                    <div class="dossier-field"><div class="dossier-label">Dòng phái</div><div class="dossier-value" style="color:#60a5fa">${c.lineage || '—'}</div></div>
+                    <div class="dossier-field"><div class="dossier-label">Triều đại</div><div class="dossier-value">${c.dynasty || '—'}</div></div>
+                </div>
+                <div style="font-size:8px;color:#64748b;margin-top:8px">${(c.bio || '').substring(0,200)}...</div>
+            `;
+        }
+
+        function renderSubMarcuss(m) {
+            const html = `
+                <div class="dossier-field"><div class="dossier-label">Thầy</div><div class="dossier-value">${(m.teachers||[]).join(', ')||'—'}</div></div>
+                <div class="dossier-field"><div class="dossier-label">Trò</div><div class="dossier-value">${(m.students||[]).join(', ')||'—'}</div></div>
+                <div class="dossier-field"><div class="dossier-label">Edges</div><div class="dossier-value">${m.edges||0}</div></div>
+                ${m.lineage ? `<div class="dossier-field"><div class="dossier-label">Dòng</div><div class="dossier-value" style="color:var(--success)">${m.lineage}</div></div>` : ''}
+            `;
+            document.getElementById('sub-marcus').innerHTML = html;
+        }
+
+        function renderSubVPS(v) {
+            if (v.error) {
+                document.getElementById('sub-vps').innerHTML = '<p style="color:#64748b;font-size:9px">'+v.error+'</p>';
+                return;
+            }
+            const html = `
+                <div style="font-size:7px;color:#64748b;margin-bottom:4px">File: ${v.ttl_file}</div>
+                ${v.works?.length ? `<div class="dossier-field"><div class="dossier-label">Tác phẩm</div><div class="dossier-value">${v.works.join(', ')}</div></div>` : ''}
+                ${v.lineage ? `<div class="dossier-field"><div class="dossier-label">Dòng</div><div class="dossier-value">${v.lineage}</div></div>` : ''}
+                <div style="margin-top:4px;font-size:8px;color:#64748b">${(v.bio||'').substring(0,150)}...</div>
+            `;
+            document.getElementById('sub-vps').innerHTML = html;
+        }
+
+        function renderSubLexicon(l) {
+            const html = l.entries?.length 
+                ? `<div style="font-size:8px"><b>${l.count}</b> entries found</div>
+                   <div style="font-size:7px;color:#64748b;margin-top:4px;max-height:60px;overflow-y:auto">
+                   ${l.entries.slice(0,3).map(e => `<div>• ${e.term_vi || e.term_zh}</div>`).join('')}
+                   </div>`
+                : '<div style="font-size:8px;color:#64748b">No entries</div>';
+            document.getElementById('sub-lexicon').innerHTML = html;
+        }
+
+        function renderSubTruocTac(t) {
+            const html = t.works?.length
+                ? `<div style="font-size:8px"><b>${t.count}</b> tác phẩm trong Đại Tạng</div>
+                   <div style="font-size:7px;color:#64748b;margin-top:4px;max-height:80px;overflow-y:auto">
+                   ${t.works.map(w => `<div>• ${w.title_vi || w.title_zh}</div>`).join('')}
+                   </div>`
+                : '<div style="font-size:8px;color:#64748b">Không có tác phẩm</div>';
+            document.getElementById('sub-truoctac').innerHTML = html;
+        }
+
+        // Generate TTL from template with data from all sources
+        async function generateTTL(dila, marcus, truoctac) {
+            const name = dila.name_vi || currentItem.name_vi || '';
+            const nameZh = dila.zh || '';
+            const birth = dila.dila_data?.birth || '';
+            const death = dila.dila_data?.death || '';
+            const lineage = dila.dila_data?.lineage || marcus.lineage || '';
+            const bio = dila.dila_data?.bio || '';
+            
+            const works = (truoctac.works || []).map(w => w.title_vi).slice(0,5);
+            const teachers = (marcus.teachers || []).slice(0,3);
+            const students = (marcus.students || []).slice(0,5);
+
+            const ttl = `@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix da: <http://daoanh.vn/ontology/> .
+
+<ex:monk/${currentItem.id.toLowerCase().replace('TS-','')}> a bkg:Monk ;
+    rdfs:label "${name}"@vi ;
+    rdfs:label "${nameZh}"@zh ;
+    da:dilaId "${dila.id}" ;
+    bkg:dharmaLineageName "${lineage}"@vi ;
+    bkg:biographicalNote """${bio.substring(0,500)}"""@vi .
+
+# === Thông tin bổ sung từ các nguồn ===
+# DILA: Sinh ${birth}, Tịch ${death}
+# Trước Tác: ${works.join(', ') || 'Chưa xác định'}
+# Thầy (Marcus): ${teachers.join(', ') || 'Chưa xác định'}
+# Trò (Marcus): ${students.join(', ') || 'Chưa xác định'}
+`;
+            document.getElementById('ttl-editor').value = ttl;
+            refreshPreview();
+        }
+
+        function refreshPreview() {
+            const ttl = document.getElementById('ttl-editor').value;
+            const nameMatch = ttl.match(/rdfs:label\s+"([^"]+)"@vi/);
+            const lineageMatch = ttl.match(/bkg:dharmaLineageName\s+"([^"]+)"@vi/);
+            const bioMatch = ttl.match(/bkg:biographicalNote\s+"""([\s\S]*?)"""/);
+            
+            document.getElementById('web-preview').innerHTML = `
+                <h2 style="font-family:'Noto Serif TC';font-size:16px;color:#d97706;margin-bottom:6px">
+                    ${nameMatch ? nameMatch[1] : 'Chưa đặt tên'}
+                </h2>
+                <div style="font-size:9px;background:#fef3c7;color:#92400e;padding:4px 8px;border-radius:4px;margin-bottom:8px;display:inline-block">
+                    ${lineageMatch ? lineageMatch[1] : 'Chưa xác định dòng phái'}
+                </div>
+                <div style="font-size:10px;line-height:1.5;color:#334155;text-align:justify">
+                    ${(bioMatch ? bioMatch[1] : 'Nội dung trống').substring(0,300)}...
+                </div>
+            `;
+        }
+
+        function markAsDirty() {
+            isDirty = true;
+            document.getElementById('status-text').innerText = 'ĐÃ CHỈNH SỬA (chưa lưu)';
+            refreshPreview();
+        }
+
+        async function saveTTL() {
+            if (!currentItem) return;
+            
+            const ttlContent = document.getElementById('ttl-editor').value;
+            const filename = currentItem.filename || `${currentItem.id}.ttl`;
+            
+            try {
+                const result = await safeFetch('/api/save_ttl_v2', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        id: currentItem.id.replace('TS-',''),
+                        ttl_content: ttlContent,
+                        filename: filename
+                    })
+                });
+                
+                document.getElementById('status-text').innerText = 'ĐÃ LƯU: ' + result.saved_to;
+                isDirty = false;
+                alert('Đã lưu TTL: ' + result.saved_to);
+            } catch(e) {
+                document.getElementById('status-text').innerText = 'LỖI: ' + e.message;
+                alert('Lỗi: ' + e.message);
+            }
+        }
+
+        window.onload = loadQueue;
+    </script>
+</body>
+</html>

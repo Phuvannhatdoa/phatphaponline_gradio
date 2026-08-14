@@ -1,0 +1,193 @@
+# Buddhist Place Ontology Schema
+# Based on DILA (Taiwan) and CBETA standards
+# Version: 1.0 | Date: 2026-03-22
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix schema: <http://schema.org/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix dila: <http://www.dila.edu.tw/rdf/entity/> .
+@prefix cbeta: <http://www.cbeta.org/rdf/entity/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+#################################################################
+# CLASSES
+#################################################################
+
+# BuddhistPlace - Main class for Buddhist sacred sites
+bkg:BuddhistPlace a owl:Class ;
+    rdfs:label "Địa danh Phật giáo"@vi ;
+    rdfs:label "佛教場所"@zh ;
+    rdfs:subClassOf schema:Place ;
+    rdfs:subClassOf geo:SpatialThing ;
+    rdfs:comment "Lớp địa danh thiêng liêng trong Phật giáo: chùa, tu viện, thánh tích"@vi .
+
+# PlaceType - Enumeration for place categories
+bkg:PlaceType a owl:Class ;
+    rdfs:label "Loại địa danh"@vi .
+
+bkg:AncientShrine a bkg:PlaceType ;
+    rdfs:label "Chùa/Tự viện cổ"@vi .
+
+bkg:Monastery a bkg:PlaceType ;
+    rdfs:label "Tinh xá/Tu viện"@vi .
+
+bkg:SacredSite a bkg:PlaceType ;
+    rdfs:label "Thánh tích"@vi .
+
+bkg:CityKingdom a bkg:PlaceType ;
+    rdfs:label "Thành phố/Vương quốc"@vi .
+
+bkg:MountainCave a bkg:PlaceType ;
+    rdfs:label "Núi/Hang động"@vi .
+
+bkg:ForestHermitage a bkg:PlaceType ;
+    rdfs:label "Rừng/Tăng xá"@vi .
+
+# Period - Historical periods
+bkg:Period a owl:Class ;
+    rdfs:label "Thời kỳ lịch sử"@vi .
+
+bkg:AncientIndia a bkg:Period ;
+    rdfs:label "Phật giáo Ấn Độ cổ"@vi .
+
+bkg:China a bkg:Period ;
+    rdfs:label "Phật giáo Trung Hoa"@vi .
+
+bkg:Vietnam a bkg:Period ;
+    rdfs:label "Phật giáo Việt Nam"@vi .
+
+bkg:Japan a bkg:Period ;
+    rdfs:label "Phật giáo Nhật Bản"@vi .
+
+#################################################################
+# PROPERTIES
+#################################################################
+
+# Core Properties
+bkg:placeURI a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "URI định danh"@vi .
+
+bkg:dilaID a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "ID từ DILA"@vi .
+
+bkg:cbetaID a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "ID từ CBETA"@vi .
+
+bkg:wikidataID a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "ID từ Wikidata"@vi .
+
+# Name Properties (Multilingual)
+bkg:nameVietnamese a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "Tên Hán-Việt"@vi .
+
+bkg:nameChinese a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "Tên Hán tự"@zh .
+
+bkg:namePali a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "Tên Pali"@pi .
+
+bkg:nameSanskrit a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "Tên Sanskrit"@sa .
+
+bkg:nameEnglish a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "Tên tiếng Anh"@en .
+
+# Geographic Properties
+geo:lat a owl:DatatypeProperty ;
+    rdfs:label "Vĩ độ"@vi .
+
+geo:long a owl:DatatypeProperty ;
+    rdfs:label "Kinh độ"@vi .
+
+geo:alt a owl:DatatypeProperty ;
+    rdfs:label "Độ cao (m)"@vi .
+
+# Classification Properties
+bkg:placeType a owl:ObjectProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range bkg:PlaceType ;
+    rdfs:label "Loại địa danh"@vi .
+
+bkg:period a owl:ObjectProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range bkg:Period ;
+    rdfs:label "Thời kỳ"@vi .
+
+bkg:dharmaLineage a owl:ObjectProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:label "Dòng thiền liên quan"@vi .
+
+# Description Properties
+schema:description a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "Mô tả tiếng Việt"@vi .
+
+bkg:historicalNote a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:label "Ghi chú lịch sử"@vi .
+
+bkg:relatedSutras a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:label "Kinh văn liên quan"@vi .
+
+# Relationship Properties
+bkg:relatedPerson a owl:ObjectProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:label "Nhân vật liên quan"@vi .
+
+bkg:relatedEvent a owl:ObjectProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:label "Sự kiện liên quan"@vi .
+
+bkg:parentPlace a owl:ObjectProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range bkg:BuddhistPlace ;
+    rdfs:label "Địa danh cha"@vi .
+
+# Temporal Properties
+bkg:foundedYear a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "Năm thành lập"@vi .
+
+bkg:activePeriod a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:label "Thời kỳ hoạt động"@vi .
+
+bkg:status a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:label "Tình trạng (còn/mất)"@vi .
+
+# Source Properties
+bkg:sourceReference a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:label "Nguồn tham khảo"@vi .
+
+bkg:confidence a owl:DatatypeProperty ;
+    rdfs:domain bkg:BuddhistPlace ;
+    rdfs:range xsd:float ;
+    rdfs:label "Độ tin cậy dữ liệu (0-1)"@vi .

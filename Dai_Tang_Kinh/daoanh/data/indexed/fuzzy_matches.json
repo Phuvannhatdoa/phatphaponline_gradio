@@ -1,0 +1,747 @@
+[
+  {
+    "filename": "TS-Dai-Hue-Tong-Cao.ttl",
+    "dila_id": "A000475",
+    "confidence": 100,
+    "method": "exact_zh",
+    "names": {
+      "vi": [
+        "Đại Huệ Tông Cảo",
+        "Vân Môn",
+        "Diệu Hỷ",
+        "Đàm Hối",
+        "Thiền sư",
+        "Vị tổ thời Trung Hưng của Lâm Tế Tông",
+        "Bị lưu đày đến Hoành Châu",
+        "Đại ngộ",
+        "Viết Chánh Pháp Nhãn Tạng",
+        "Trạm Đường Văn Chuẩn",
+        "Viên Ngô Khắc Cần",
+        "Động Sơn Vi",
+        "Giác Phạm Huệ Hồng",
+        "Hiếu Tông Hoàng Đế",
+        "Hoằng Trí Chánh Giác",
+        "Huệ Tề",
+        "Lữ Thuấn Đồ",
+        "Trương Thương Anh",
+        "Bảo Phong",
+        "Đông Sơn Huệ Vân Tự",
+        "Dục Vương",
+        "Dương Tự Am",
+        "Hải Hôn",
+        "Hoành Châu",
+        "Kính Sơn",
+        "Kính Sơn Năng Nhân Thiền Viện",
+        "Lô Sơn",
+        "Ninh Quốc",
+        "Phúc Kiến",
+        "Thiên Đồng Sơn",
+        "Thiên Ninh Tự",
+        "Vân Môn Am",
+        "Tuyên Châu",
+        "Chống Thiền mặc chiếu",
+        "Chánh Pháp Nhãn Tạng",
+        "Đại Huệ Ngữ Lục",
+        "Đại Huệ Võ Khố"
+      ],
+      "zh": [
+        "大慧宗杲"
+      ],
+      "ja": [
+        "Daie Sōkō"
+      ],
+      "en": [],
+      "all": [
+        {
+          "name": "Đại Huệ Tông Cảo",
+          "lang": "vi"
+        },
+        {
+          "name": "Vân Môn",
+          "lang": "vi"
+        },
+        {
+          "name": "Daie Sōkō",
+          "lang": "ja"
+        },
+        {
+          "name": "Diệu Hỷ",
+          "lang": "vi"
+        },
+        {
+          "name": "大慧宗杲",
+          "lang": "zh"
+        },
+        {
+          "name": "Đàm Hối",
+          "lang": "vi"
+        },
+        {
+          "name": "Thiền sư",
+          "lang": "vi"
+        },
+        {
+          "name": "Vị tổ thời Trung Hưng của Lâm Tế Tông",
+          "lang": "vi"
+        },
+        {
+          "name": "Bị lưu đày đến Hoành Châu",
+          "lang": "vi"
+        },
+        {
+          "name": "Đại ngộ",
+          "lang": "vi"
+        },
+        {
+          "name": "Viết Chánh Pháp Nhãn Tạng",
+          "lang": "vi"
+        },
+        {
+          "name": "Trạm Đường Văn Chuẩn",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Ngô Khắc Cần",
+          "lang": "vi"
+        },
+        {
+          "name": "Động Sơn Vi",
+          "lang": "vi"
+        },
+        {
+          "name": "Giác Phạm Huệ Hồng",
+          "lang": "vi"
+        },
+        {
+          "name": "Hiếu Tông Hoàng Đế",
+          "lang": "vi"
+        },
+        {
+          "name": "Hoằng Trí Chánh Giác",
+          "lang": "vi"
+        },
+        {
+          "name": "Huệ Tề",
+          "lang": "vi"
+        },
+        {
+          "name": "Lữ Thuấn Đồ",
+          "lang": "vi"
+        },
+        {
+          "name": "Trương Thương Anh",
+          "lang": "vi"
+        },
+        {
+          "name": "Bảo Phong",
+          "lang": "vi"
+        },
+        {
+          "name": "Đông Sơn Huệ Vân Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Dục Vương",
+          "lang": "vi"
+        },
+        {
+          "name": "Dương Tự Am",
+          "lang": "vi"
+        },
+        {
+          "name": "Hải Hôn",
+          "lang": "vi"
+        },
+        {
+          "name": "Hoành Châu",
+          "lang": "vi"
+        },
+        {
+          "name": "Kính Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Kính Sơn Năng Nhân Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Lô Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Ninh Quốc",
+          "lang": "vi"
+        },
+        {
+          "name": "Phúc Kiến",
+          "lang": "vi"
+        },
+        {
+          "name": "Thiên Đồng Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Thiên Ninh Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Vân Môn Am",
+          "lang": "vi"
+        },
+        {
+          "name": "Tuyên Châu",
+          "lang": "vi"
+        },
+        {
+          "name": "Chống Thiền mặc chiếu",
+          "lang": "vi"
+        },
+        {
+          "name": "Chánh Pháp Nhãn Tạng",
+          "lang": "vi"
+        },
+        {
+          "name": "Đại Huệ Ngữ Lục",
+          "lang": "vi"
+        },
+        {
+          "name": "Đại Huệ Võ Khố",
+          "lang": "vi"
+        }
+      ]
+    },
+    "status": "matched"
+  },
+  {
+    "filename": "TS-Vien-Ngo-Khac-Can.ttl",
+    "dila_id": "A001411",
+    "confidence": 100,
+    "method": "exact_zh",
+    "names": {
+      "vi": [
+        "Viên Ngộ Khắc Cần",
+        "Viên Ngộ Khắc Cần",
+        "Vô Trước",
+        "Lạc",
+        "Thiền sư",
+        "Phật Quả Khắc Cần",
+        "Phát triển Phật giáo Lâm Tế Tông",
+        "Thuyết pháp tại Lục Tổ Tự và Chiêu Giác Tự",
+        "Tuần du phương Nam, gặp Trương Thương Anh",
+        "Đại Huệ Tông Cảo",
+        "Hổ Kheo Thiệu Long",
+        "Ngũ Tổ Pháp Diễn",
+        "Đặng Tử Thường",
+        "Quách Tri Chương",
+        "Trương Thương Anh",
+        "Tử Văn",
+        "Chiêu Giác Tự",
+        "Chơn Như Viện, Vân Cư Sơn",
+        "Đạo Lâm Tự, Đàm Châu",
+        "Kim Sơn Long Du Tự, Nhuận Châu",
+        "Lục Tổ Tự",
+        "Thiên Ninh Tự, Đông Kinh",
+        "Tựơng Sơn Thái Bình Hưng Quốc Tự, Kiến Khang",
+        "Viên Ngộ Phật Quả Thiền Sư Ngữ Lục",
+        "Viên Ngộ Thiền Sư Tâm Yếu"
+      ],
+      "zh": [
+        "圜悟克勤"
+      ],
+      "ja": [],
+      "en": [
+        "Engo Kokugon"
+      ],
+      "all": [
+        {
+          "name": "Viên Ngộ Khắc Cần",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Ngộ Khắc Cần",
+          "lang": "vi"
+        },
+        {
+          "name": "Vô Trước",
+          "lang": "vi"
+        },
+        {
+          "name": "Engo Kokugon",
+          "lang": "en"
+        },
+        {
+          "name": "Lạc",
+          "lang": "vi"
+        },
+        {
+          "name": "Thiền sư",
+          "lang": "vi"
+        },
+        {
+          "name": "圜悟克勤",
+          "lang": "zh"
+        },
+        {
+          "name": "Phật Quả Khắc Cần",
+          "lang": "vi"
+        },
+        {
+          "name": "Phát triển Phật giáo Lâm Tế Tông",
+          "lang": "vi"
+        },
+        {
+          "name": "Thuyết pháp tại Lục Tổ Tự và Chiêu Giác Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Tuần du phương Nam, gặp Trương Thương Anh",
+          "lang": "vi"
+        },
+        {
+          "name": "Đại Huệ Tông Cảo",
+          "lang": "vi"
+        },
+        {
+          "name": "Hổ Kheo Thiệu Long",
+          "lang": "vi"
+        },
+        {
+          "name": "Ngũ Tổ Pháp Diễn",
+          "lang": "vi"
+        },
+        {
+          "name": "Đặng Tử Thường",
+          "lang": "vi"
+        },
+        {
+          "name": "Quách Tri Chương",
+          "lang": "vi"
+        },
+        {
+          "name": "Trương Thương Anh",
+          "lang": "vi"
+        },
+        {
+          "name": "Tử Văn",
+          "lang": "vi"
+        },
+        {
+          "name": "Chiêu Giác Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Chơn Như Viện, Vân Cư Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Đạo Lâm Tự, Đàm Châu",
+          "lang": "vi"
+        },
+        {
+          "name": "Kim Sơn Long Du Tự, Nhuận Châu",
+          "lang": "vi"
+        },
+        {
+          "name": "Lục Tổ Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Thiên Ninh Tự, Đông Kinh",
+          "lang": "vi"
+        },
+        {
+          "name": "Tựơng Sơn Thái Bình Hưng Quốc Tự, Kiến Khang",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Ngộ Phật Quả Thiền Sư Ngữ Lục",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Ngộ Thiền Sư Tâm Yếu",
+          "lang": "vi"
+        }
+      ]
+    },
+    "status": "matched"
+  },
+  {
+    "filename": "TS-Duong-Ki-Phuong-Hoi.ttl",
+    "dila_id": "A004146",
+    "confidence": 100,
+    "method": "exact_zh",
+    "names": {
+      "vi": [
+        "Dương Kì Phương Hội",
+        "Thiền sư",
+        "Sáng lập và phát triển Phái Dương Kỳ",
+        "An trụ tại Dương Kỳ Sơn Phổ Thông Thiền Viện",
+        "Chuyển về Vân Cái Sơn Hải Hội Tự",
+        "Đại ngộ tại Thạch Sương Sơn",
+        "Thạch Sương Sở Viên",
+        "Thach Sương Thủ Tôn",
+        "Tỷ Bộ Tôn Cư sĩ",
+        "Cửu Phong",
+        "Đàm Châu",
+        "Đạo Ngô Sơn",
+        "Dương Kỳ Sơn Phổ Thông Thiền Viện",
+        "Hưng Hóa Tự",
+        "Nam Nguyên Sơn",
+        "Huyện Nghi Xuân",
+        "Thạch Sương Sơn",
+        "Vân Cái Sơn Hải Hội Tự",
+        "Viên Châu",
+        "Viên Châu Dương Kì Hội Hòa Thượng Ngữ Lục"
+      ],
+      "zh": [
+        "楊岐方會"
+      ],
+      "ja": [
+        "Yōgi Hōe"
+      ],
+      "en": [],
+      "all": [
+        {
+          "name": "Dương Kì Phương Hội",
+          "lang": "vi"
+        },
+        {
+          "name": "Thiền sư",
+          "lang": "vi"
+        },
+        {
+          "name": "楊岐方會",
+          "lang": "zh"
+        },
+        {
+          "name": "Yōgi Hōe",
+          "lang": "ja"
+        },
+        {
+          "name": "Sáng lập và phát triển Phái Dương Kỳ",
+          "lang": "vi"
+        },
+        {
+          "name": "An trụ tại Dương Kỳ Sơn Phổ Thông Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Chuyển về Vân Cái Sơn Hải Hội Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Đại ngộ tại Thạch Sương Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Thạch Sương Sở Viên",
+          "lang": "vi"
+        },
+        {
+          "name": "Thach Sương Thủ Tôn",
+          "lang": "vi"
+        },
+        {
+          "name": "Tỷ Bộ Tôn Cư sĩ",
+          "lang": "vi"
+        },
+        {
+          "name": "Cửu Phong",
+          "lang": "vi"
+        },
+        {
+          "name": "Đàm Châu",
+          "lang": "vi"
+        },
+        {
+          "name": "Đạo Ngô Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Dương Kỳ Sơn Phổ Thông Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Hưng Hóa Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Nam Nguyên Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Huyện Nghi Xuân",
+          "lang": "vi"
+        },
+        {
+          "name": "Thạch Sương Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Vân Cái Sơn Hải Hội Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Châu",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Châu Dương Kì Hội Hòa Thượng Ngữ Lục",
+          "lang": "vi"
+        }
+      ]
+    },
+    "status": "matched"
+  },
+  {
+    "filename": "TS-Bach-Van-Thu-Doan.ttl",
+    "dila_id": "A003723",
+    "confidence": 100,
+    "method": "exact_zh",
+    "names": {
+      "vi": [
+        "Bạch Vân Thủ Đoan",
+        "Thiền sư",
+        "Bạch Vân Thủ Đoan",
+        "Dương Kì Phương Hội",
+        "Trà Lăng Nhân Úc",
+        "Ngũ Tổ Pháp Diễn",
+        "Bạch Vân Sơn Hải Hội Thiền Viện",
+        "Giang Châu, Tỉnh Giang Tây",
+        "Hưng Hóa Thiền Viện",
+        "Long Môn Sơn Càn Minh Thiền Viện",
+        "Pháp Hoa Sơn Chứng Đạo Thiền Viện",
+        "Thư Châu, Tỉnh An Huy",
+        "Thừa Thiên Thiền Viện",
+        "Viên Thông Sùng Thắng Thiền Viện",
+        "Bạch Vân Đoan Hòa Thượng Ngữ Yếu",
+        "Bạch Vân Đoan Hòa Thượng Quảng Lục",
+        "Bạch Vân Thủ Đoan Thiền Sư Ngữ Lục"
+      ],
+      "zh": [
+        "白雲守端"
+      ],
+      "ja": [
+        "Hakuun Shutan"
+      ],
+      "en": [],
+      "all": [
+        {
+          "name": "Bạch Vân Thủ Đoan",
+          "lang": "vi"
+        },
+        {
+          "name": "白雲守端",
+          "lang": "zh"
+        },
+        {
+          "name": "Hakuun Shutan",
+          "lang": "ja"
+        },
+        {
+          "name": "Thiền sư",
+          "lang": "vi"
+        },
+        {
+          "name": "Bạch Vân Thủ Đoan",
+          "lang": "vi"
+        },
+        {
+          "name": "Dương Kì Phương Hội",
+          "lang": "vi"
+        },
+        {
+          "name": "Trà Lăng Nhân Úc",
+          "lang": "vi"
+        },
+        {
+          "name": "Ngũ Tổ Pháp Diễn",
+          "lang": "vi"
+        },
+        {
+          "name": "Bạch Vân Sơn Hải Hội Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Giang Châu, Tỉnh Giang Tây",
+          "lang": "vi"
+        },
+        {
+          "name": "Hưng Hóa Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Long Môn Sơn Càn Minh Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Pháp Hoa Sơn Chứng Đạo Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Thư Châu, Tỉnh An Huy",
+          "lang": "vi"
+        },
+        {
+          "name": "Thừa Thiên Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Thông Sùng Thắng Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Bạch Vân Đoan Hòa Thượng Ngữ Yếu",
+          "lang": "vi"
+        },
+        {
+          "name": "Bạch Vân Đoan Hòa Thượng Quảng Lục",
+          "lang": "vi"
+        },
+        {
+          "name": "Bạch Vân Thủ Đoan Thiền Sư Ngữ Lục",
+          "lang": "vi"
+        }
+      ]
+    },
+    "status": "matched"
+  },
+  {
+    "filename": "TS-Ngu-To-Phap-Dien.ttl",
+    "dila_id": "A000733",
+    "confidence": 100,
+    "method": "exact_zh",
+    "names": {
+      "vi": [
+        "Ngũ Tổ Pháp Diễn",
+        "Cử xướng tông phong Phái Dương Kì",
+        "Trú trì tại Bạch Vân Sơn Hải Hội Thiền Viện",
+        "Trú trì tại Thái Bình Tự",
+        "Trú trì tại Tứ Diện Sơn",
+        "Xuất gia",
+        "Đại Tùy Nguyên Tĩnh",
+        "Khai Phước Đạo Ninh",
+        "Thiền sư",
+        "Phật Nhãn Thanh Viễn",
+        "Phu Sơn Pháp Viên",
+        "Thái Bình Huệ Cần",
+        "Viên Chiếu Tông Bôn",
+        "Viên Ngộ Khắc Cần",
+        "Bạch Vân Sơn Hải Hội Thiền Viện",
+        "Thái Bình Tự",
+        "Thành Đô",
+        "Tứ Diện Sơn",
+        "Ngũ Tổ Pháp Diễn Thiền Sư Ngữ lục",
+        "Bạch Vân Thủ Đoan",
+        "Miên Châu",
+        "Ngũ Tổ Sơn"
+      ],
+      "zh": [
+        "法演"
+      ],
+      "ja": [
+        "Hōen"
+      ],
+      "en": [],
+      "all": [
+        {
+          "name": "Ngũ Tổ Pháp Diễn",
+          "lang": "vi"
+        },
+        {
+          "name": "Cử xướng tông phong Phái Dương Kì",
+          "lang": "vi"
+        },
+        {
+          "name": "Trú trì tại Bạch Vân Sơn Hải Hội Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Trú trì tại Thái Bình Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Trú trì tại Tứ Diện Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Xuất gia",
+          "lang": "vi"
+        },
+        {
+          "name": "Đại Tùy Nguyên Tĩnh",
+          "lang": "vi"
+        },
+        {
+          "name": "Khai Phước Đạo Ninh",
+          "lang": "vi"
+        },
+        {
+          "name": "法演",
+          "lang": "zh"
+        },
+        {
+          "name": "Hōen",
+          "lang": "ja"
+        },
+        {
+          "name": "Thiền sư",
+          "lang": "vi"
+        },
+        {
+          "name": "Phật Nhãn Thanh Viễn",
+          "lang": "vi"
+        },
+        {
+          "name": "Phu Sơn Pháp Viên",
+          "lang": "vi"
+        },
+        {
+          "name": "Thái Bình Huệ Cần",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Chiếu Tông Bôn",
+          "lang": "vi"
+        },
+        {
+          "name": "Viên Ngộ Khắc Cần",
+          "lang": "vi"
+        },
+        {
+          "name": "Bạch Vân Sơn Hải Hội Thiền Viện",
+          "lang": "vi"
+        },
+        {
+          "name": "Thái Bình Tự",
+          "lang": "vi"
+        },
+        {
+          "name": "Thành Đô",
+          "lang": "vi"
+        },
+        {
+          "name": "Tứ Diện Sơn",
+          "lang": "vi"
+        },
+        {
+          "name": "Ngũ Tổ Pháp Diễn Thiền Sư Ngữ lục",
+          "lang": "vi"
+        },
+        {
+          "name": "Bạch Vân Thủ Đoan",
+          "lang": "vi"
+        },
+        {
+          "name": "Miên Châu",
+          "lang": "vi"
+        },
+        {
+          "name": "Ngũ Tổ Sơn",
+          "lang": "vi"
+        }
+      ]
+    },
+    "status": "matched"
+  }
+]

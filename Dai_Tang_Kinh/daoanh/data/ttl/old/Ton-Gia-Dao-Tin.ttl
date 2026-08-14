@@ -1,0 +1,67 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<ex:monk/dao_tin> a <bkg:Monk> ;
+    rdfs:label "Tôn Giả Đạo Tín"@vi ;
+    crm:P1_is_identified_by <ex:monk/ton_gia_dao_tin_thien_su>;
+    bkg:biographicalNote """
+Thiền sư Tỳ Ni Đa Lưu Chi
+
+(? - 594)
+
+比 尼 多 留 支 (?-594). Tổ Sư Tỳ Ni Đa Lưu Chi (VINATARUCI) đến chùa Pháp Vân hoằng hóa (580-594) và sáng lập Phái thiền Tỳ Ni Đa Lưu Chi :
+Thiền sư Tỳ Ni Đa Lưu Chi (? - 594) quê ở miền Nam Ấn Độ, thuộc dòng Bà la môn. Lúc còn nhỏ, Ngài đã có ý chí khác thường, đi vân du khắp Ấn Độ để tham học Thiền tông, mong được truyền tâm ấn Phật, nhưng chưa có duyên, Ngài lại qua Trung Hoa.
+Năm Giáp Ngọ (574), niên hiệu Đại Kiến năm thứ sáu, đời vua Trần Tuyên đế, Thiền sư Tỳ Ni Đa Lưu Chi đến kinh đô Trường An của Trung Quốc. Khi vua Chu Võ đế phá diệt Phật giáo, sư đi về đất Nghiệp (tỉnh Hà Nam). Lúc đó Tổ thứ ba của Thiền tông Trung Hoa là Tăng Xán (497 ?-602) đang lánh nạn ẩn tu trên núi Tư Không. Khi gặp Tổ sư Tăng Xán, Tỳ Ni Đa Lưu Chi thấy thái độ và phong cách phi phàm của Tổ sư Tăng Xán nên phát tâm kính mộ, đến trước mặt Tổ vòng tay lễ ba lần, Tổ vẫn ngồi yên nhắm mắt không nói. Tỳ Ni đứng định tâm, bỗng tâm bừng mở như có điều sở đắc, Tỳ Ni liền qùi xuống lạy tạ ba lạy, Tổ cũng chỉ gật đầu ba lần mà thôi. Tỳ Ni đứng lên, lùi lại ba bước rồi thưa:
+- Đệ tử từ trước tới nay chưa gặp cơ duyên, xin Hòa thượng mở lòng từ bi cho đệ tử theo hầu hạ bên cạnh.
+Tổ bảo:
+- Con nên mau mau đi về phương Nam tiếp xúc giáo hóa, không nên ở lại đây lâu.
+Thiền sư Tỳ Ni Đa Lưu Chi từ biệt Tổ, đi xuống miền Nam, ở lại chùa Chế Chỉ trong khoảng sáu năm, dịch xong hai bộ kinh “Tượng đầu tinh xá” và “Báo nghiệp sai biệt” từ chữ Phạn ra chữ Hán.
+Tháng Ba năm Canh Tý, niên hiệu Đại Tường nhà Hậu Chu ( năm 580 ), Thiền sư Tỳ Ni Đa Lưu Chi sang đến Giao Châu, đến trụ tại chùa Pháp Vân. Tại chùa này, sư dịch thêm bộ kinh “ Tổng trì” (hay Đại thừa Phương quảng Tổng trì) .
+Khi Thiền sư Tỳ Ni Đa Lưu Chi đến chùa Pháp Vân thì đã có Thiền sư Quán Duyên đang dạy thiền cho đồ chúng, trong đó có Pháp Hiền.
+Tổ sư Tỳ Ni Đa Lưu Chi gặp Pháp Hiền, Tổ nhìn thẳng vào mặt Pháp Hiền mà hỏi:
+- Người họ gì ? (Nhữ hà “Tánh”?).
+Pháp Hiền không đáp mà hỏi lại là:
+- Hòa thượng họ gì?.
+Tổ lại hỏi:
+- Ngươi không có họ sao?.
+Pháp Hiền đáp:
+- Không phải không có họ, nhưng Hòa thượng làm sao biết được?
+Tổ quát rằng:
+- Biết để làm gì?.
+Pháp Hiền hốt nhiên tỉnh ngộ, liền sụp xuống lạy, nhận được yếu chỉ của Thiền. Từ đó về sau, Pháp Hiền luôn luôn theo hầu hạ Tổ.
+Năm Giáp Dần hiệu Khai Hoàng thứ mười bốn, đời vua Tùy Văn Đế ( năm 594 ) vào thời Hậu Lý Nam Đế ở Vạn Xuân (Việt Nam). Tổ sư Tỳ Ni Đa Lưu Chi gọi Pháp Hiền vào phương trượng và bảo:
+- Tâm ấn của chư Phật không lừa dối, viên mãn tròn đầy như thái hư, không dư không thiếu, không đi không đến, không được không mất, không đồng nhất không sai khác, không thường hằng, không gián đoạn, vốn nó không sinh nên cũng không diệt, không lìa xa cũng chẳng xa lìa. Vì phải đối đãi với các nhân duyên hư vọng mà tạm giả đặt ra các tên như thế mà thôi. Cho nên, chư Phật trong ba đời (quá khứ, hiện tại, vị lai) cũng được tâm ấn như thế, con cũng do như thế mà được, cho đến các loài hữu tình hay vô tình cũng do như thế mà được [Tâm ấn].
+Khi Tổ (Tăng Xán) truyền tâm ấn cho Thầy, bảo Thầy mau về phương Nam giáo hóa, không nên ở đó lâu. Từ đó đến nay đã qua nhiều nơi, nay đến đây gặp được con, quả là phù hợp với lời huyền ký của Tổ. Vậy con hãy khéo mà bảo giữ, giờ đi của Thầy đã đến”.
+Tổ sư Tỳ Ni Đa Lưu Chi chắp tay viên tịch. Thiền sư Pháp Hiền làm lễ hỏa táng, nhận được xá lợi năm màu (ngũ sắc), xây tháp cúng dường.
+Đến đời Lý Thái Tông (1028-1054), vua có làm bài kệ truy tán Tổ sư Tỳ Ni Đa Lưu Chi:
+Sáng tự Nam lai quốc,
+Văn quân cửu tập thiền,
+Ứng khai chư Phật tánh,
+Viễn hợp nhất tâm nguyên,
+Hạo hạo Lăng Già nguyệt
+Phân phân Bát Nhã liên,
+Hà thời hạnh tương kiến,
+Tương dữ thoại trùng huyền.
+Tạm dịch:
+Đến nước Nam mở đạo thiền,
+Nổi danh bậc tôn túc thiền,
+Ứng hợp khai chư tánh Phật,
+Xa hiệp nhất một nguồn Tâm,
+Trăng Lăng Già sáng rỡ rỡ,
+Hoa sen Bát Nhã lan khắp vùng,
+Biết bao giờ hân hạnh gặp,
+Cùng nhau bàn chuyện đạo huyền.
+"""@vi ;
+    bkg:birthEvent <ex:monk/ton_gia_tang_xan_birthEvent> ;
+    bkg:deathEvent <ex:monk/ton_gia_tang_xan_deathEvent> ;
+    bkg:dharmaLineageName "Thiền Tông Trung Hoa"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:hasDisciple <ex:monk/dao_tin> ,
+        <ex:monk/ty-ni-da-luu-chi> ;
+    bkg:hasTeacher <ex:monk/hue_kha> ;
+    bkg:isLineageFounder true .
+
+<ex:monk/dao_tin> rdfs:label "Tôn Giả Đạo Tín"@vi .
+<ex:monk/hue_kha> rdfs:label "Tôn Giả Huệ Khả"@vi .

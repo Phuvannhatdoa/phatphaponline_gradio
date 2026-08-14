@@ -1,0 +1,191 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.phatphaponline.org/ex/> .
+
+<ex:monk/minh_hai_phap_bao> a bkg:Monk ;
+    rdfs:label "Minh Hải Pháp Bảo"@vi ;
+    crm:P1_is_identified_by <ex:monk/minh_hai_phap_bao> ;
+    bkg:biographicalNote """
+TS Minh Hải - Pháp Bảo 
+(1670 - 1746)
+Khai Sơn Chùa Chúc Thánh - Hội An
+Khai Tổ Thiền Phái Lâm Tế Chúc Thánh
+Hòa thượng thế danh Lương Thế Ân, sinh vào giờ Tuất, ngày 28 tháng 6 năm Canh Tuất (1670) nhằm vào năm Khang Hy thứ 8 triều nhà Thanh tại làng Thiệu An, huyện Đồng An, phủ Tuyền Châu, tỉnh Phước Kiến, Trung Quốc. Thân phụ Ngài là cụ ông húy Lương thụy Đôn Hậu, thân mẫu tộc Trần thụy Thục Thận. Ngài là người con thứ 2 trong gia đình có 3 anh em, anh trai là Lương Thế Bảo, em trai là Lương Thế Định.
+Được sinh ra trong một gia đình thuần phong Nho giáo, nên thuở thiếu thời, Ngài tỏ ra thông minh khác người. Năm Mậu Ngọ (1678), Ngài được song thân đưa đến xuất gia tại chùa Báo Tư thuộc tỉnh Phước Kiến, lúc bấy giờ Ngài vừa tròn 9 tuổi. Sau một thời gian dài tu học, khi tuổi vừa tròn 20 thì Ngài được đăng đàn thọ cụ túc giới với pháp danh Minh Hải, tự Đắc Trí, hiệu là Pháp Bảo, nối pháp đời 34 tông Lâm Tế truyền theo bài kệ của tổ Vạn Phong Thời Ủy.
+Tại Việt Nam, vào niên hiệu Cảnh Trị năm thứ 3 đời vua Lê Huyền Tôn, Đinh Tỵ (1677) đời chúa Nguyễn Phúc Tần, Ngài Nguyên Thiều đi theo thuyền buôn sang An Nam, đến trú tại phủ Quy Ninh (Bình Định) lập chùa Thập Tháp - Di Đà. Sau đó, Ngài ra Thuận Hóa lập chùa Hà Trung và chùa Quốc Ân. Thể theo lời thỉnh cầu của chúa Nguyễn Phúc Trăn (1648-1681), ngài Nguyên Thiều trở về Trung Quốc thỉnh chư tăng và các pháp khí sang An Nam lập đàn truyền giới. Mãi cho đến năm Ất Hợi (1695) thì Ngài mới thỉnh được Hòa thượng Thạch Liêm cũng như các ngài Minh Hải-Pháp Bảo, Minh Vật-Nhất Tri, Minh Hoằng-Tử Dung, Minh Lượng-Thành Đẳng v.v… trong hội đồng thập sư sang truyền giới. Phái đoàn xuống thuyền tại bến Hoàng phố và cập bến Hội An vào ngày 28 tháng Giêng năm Ất Hợi (1695).
+Sau đó đoàn ra Thuận Hóa và được chúa Nguyễn Hiển Tông đón tiếp trọng thể và thỉnh về trụ tại chùa Thiền Lâm.
+Ngày mồng 1 tháng 4 năm Ất Hợi (1695), giới đàn được khai mở do Ngài Thạch Liêm làm Đàn đầu Hòa thượng. Giới đàn truyền các giới Sa Di, Tỳ Kheo và Bồ tát với tất cả 1400 giới tử trong đó có cả các vương hầu khanh tướng. Đặc biệt, Quốc chúa Nguyễn Phúc Chu được truyền riêng 1 đàn giới và được Hòa thượng đàn đầu ban cho pháp danh Hưng Long, hiệu là Thiên Túng Đạo Nhơn.
+Sau khi giới đàn thành tựu, ngày 28 tháng 6 năm Ất Hợi (1695), phái đoàn trở vào lại Hội An để chờ thuyền về nước. Tại Hội An, đoàn trú tại chùa Di Đà (sau này đổi tên là Chiên Đàn) và thể theo lời thỉnh cầu của chư Tăng cũng như bổn đạo, Ngài Thạch Liêm lập đàn truyền giới cho 300 giới tử. Ngày 19, đoàn rời Hội An ra Cù Lao Chàm, lên thuyền chờ gió. Ngày 30 thuyền nhổ neo nhưng bị nghịch gió nên phải trở lại Hội An. Ngày 12 tháng 10, chúa Nguyễn mời ngài Thạch Liêm trở lại Phú Xuân lập đàn cúng Phật truyền giới một lần nữa tại chùa Linh Mụ. Sau đó đến ngày 24 tháng 6 năm Bính Tý (1696) ngài Thạch Liêm cùng với phái đoàn trở về Quảng Đông và không qua nữa.
+Sau khi Ngài Thạch Liêm về nước, có một số vị trong phái đoàn ở lại An Nam, trác tích khai sơn hoằng hóa như ngài Minh Hoằng-Tử Dung khai sơn chùa Ấn Tông ở Thuận Hóa, ngài Minh Lượng-Thành Đẳng khai sơn chùa Vạn Đức tại Cẩm Hà, Hội An và ngài Minh Hải-Pháp Bảo khai sơn chùa Chúc Thánh tại Cẩm Phô-Hội An. Lúc bấy giờ Ngài độ khoảng 26 hoặc 27 tuổi.
+Từ những ngày đầu tiên ở nơi mảnh đất đầy cát bụi này, Ngài chỉ lập một thảo am để tịnh tu phạm hạnh. Dần dần hương giới đức của Ngài lan tỏa khắp mọi nơi, ảnh hưởng đạo đức đến người dân phố Hội và các vùng phụ cận nên đồ chúng ngày một quy ngưỡng tham học.
+Thấy cơ duyên hóa độ đã đến, Ngài chính thức khai đường giảng pháp, tiếp tăng độ chúng. Để cho sự truyền thừa có quy cũ dài lâu, Ngài biệt xuất một bài kệ truyền pháp. Bài kệ truyền pháp của Ngài như sau:
+Minh Thiệt Pháp Toàn Chương
+Ấn Chơn Như Thị Đồng
+Chúc Thánh Thọ Thiên Cửu
+Kỳ Quốc Tộ Địa Trường
+Đắc Chánh Luật Vi Tông
+Tổ Đạo Giải Hạnh Thông
+Giác Hoa Bồ Đề Thọ
+Sung Mãn Nhơn Thiên Trung
+Từ đây, trong dòng lịch sử truyền thừa của Phật giáo Việt Nam có một dòng thiền mới xuất hiện mà sử sách gọi là dòng thiền Chúc Thánh, hay còn gọi thiền phái Minh Hải Pháp Bảo.
+Trong bài kệ này, 4 câu đầu dùng để đặt pháp danh và 4 câu sau dùng để cho pháp tự. Hiện nay, dòng thiền Chúc Thánh đã truyền xuống đến các chữ Thánh, Thọ và sự ảnh hưởng của dòng thiền này không những ở các tỉnh miền Trung, miền Nam mà còn lan tận đến các quốc gia ở các châu lục trên thế giới.
+Sau gần 50 năm sang An Nam trác tích hoằng hóa, đến ngày mồng 7 tháng 11 năm Bính Dần (1746), Ngài gọi đồ chúng đến dặn dò và đọc kệ phú chúc:
+Nguyên phù pháp giới không
+Chơn như vô tánh tướng
+Nhược liễu ngộ như thử
+Chúng sanh dữ Phật đồng
+Tạm dịch:
+Pháp giới như mây nổi
+Chân như không tánh tướng
+Nếu hiểu được như vậy
+Chúng sanh với Phật đồng
+Sau khi phú chúc cho hàng môn đệ xong thì Ngài thâu thần thị tịch, trụ thế 77 tuổi. Đồ chúng cung thỉnh nhục thân của Ngài nhập bảo tháp ở phía Tây Nam trong khuôn viên tổ đình Chúc Thánh.
+Đệ tử của ngài gồm có những vị hữu danh như sau:
+Thiệt Dinh Chánh Hiển Ân Triêm: Khai sơn chùa Phước Lâm - Quảng Nam.
+Thiệt Diệu Chánh Hiền: Trụ trì chùa Chúc Thánh - Quảng Nam
+Thiệt Uyên Chánh Thông Chí Bảo: Khai sơn chùa Bảo Lâm - Quảng Ngãi.
+Thiệt Úy Chánh Thành Khánh Vân: Trụ trì chùa Thiên Ấn - Quảng Ngãi.
+Thiệt Thuận Chánh Mạng Huệ Trương: Khai sơn chùa Linh Sơn - Bình Định.
+Thiệt Đăng Chánh Trí Bửu Quang: Khai sơn chùa Sơn Long - Bình Định.
+Thiệt Bảo Cảm Ứng: Khai sơn chùa Tập Phước - Gia Định.
+Hằng năm, vào ngày mồng 7 tháng 11, Tăng Ni Phật tử trong toàn tỉnh Quảng Nam - Đà Nẵng vân tập về Chúc Thánh làm lễ tưởng niệm công đức của Ngài. Đặc biệt, cứ 3 năm một lần, vào các năm Dần, Tỵ, Thân, Hợi, Tăng Ni khắp nơi trong nước thuộc dòng Lâm Tế Chúc Thánh tổ chức về nguồn nhân lễ húy kỵ của tổ khai sơn. Hiện tại dòng Lâm Tế Chúc Thánh phát triển sâu rộng trong và ngoài nước, tất cả cũng đều nhờ vào hồng ân của Tổ.
+Thật là, Một cõi sinh nhiều cành nơi nơi rợp bóng Pháp,
+Bao đời nối dòng kệ chốn chốn kết rừng Thiền
+---o0o---
+Sơ tổ Minh Hải Đắc Trí Pháp Bảo của dòng thiền Lâm Tế Chúc Thánh
+Lê Xuân Thông
+Đến giữa thế kỉ XVIII, ngài Minh Hải Pháp Bảo lại biệt xuất bài kệ truyền phái mới, hình thành nên dòng Lâm Tế Chúc Thánh từng bước không chỉ chiếm lĩnh vị trí quan trọng tại nơi phát tích, mà còn lan rộng vào khu vực Nam Trung bộ và Nam bộ. Có thể khẳng định: Hòa thượng Minh Hải Pháp Bảo là một trong những thiền Tăng có vai trò quan trọng và để lại dấu ấn mạnh mẽ nhất trong lịch sử Phật giáo xứ Quảng.
+Nghiên cứu về ngài Minh Hải Pháp Bảo, chúng tôi chú ý trước hết đến một văn bia chùa Chúc Thánh hiện còn, do Thiền sư Thiện Quả tạo lập năm Ất Mão niên hiệu Duy Tân (1915). Nội dung thực ra không có gì đặc sắc bởi đây là bia công đức ghi lại việc cúng dường Tam bảo của tín hữu thập phương. Song, phần ký mở đầu có đoạn liên quan trực tiếp đến vấn đề đang bàn trước nay, được nhiều người sử dụng làm cứ liệu quan trọng. Theo tư liệu này, Thiền sư Minh Hải sinh quán tại huyện Đồng An, phủ Tuyền Châu, tỉnh Phúc Kiến (Trung Hoa), đến Đại Việt truyền pháp vào đời Minh niên hiệu Cảnh Thái (1450-1457), là Tổ khai sơn chùa Chúc Thánh. Văn bia viết: “Chùa Chúc Thánh được chư Sơn xưng là Tổ đình ở Nam Châu. Nhớ xưa Minh Hải Hòa thượng Tổ sư người huyện Đồng An, Phủ Tuyền Châu, tỉnh Phúc Kiến vào năm Giáp Tý (?) [1] niên hiệu Cảnh Thái triều Minh chấn tích đến phương Nam, dựng nên Ngũ tôn thất phái ở bổn tự, lưu tiếng thơm ngàn năm, trải bao năm tháng tương truyền mà kế thế các đời” [2]. Không có gì nghi ngờ về sinh quán của Thiền sư Minh Hải bởi điều này còn được xác tín ở nhiều tư liệu khác. Nhưng với mốc niên đại Thiền sư đến Đại Việt và lập chùa Chúc Thánh rất đáng ngờ, thậm chí khó chấp nhận. Hẳn đã có sự nhầm lẫn của người phụng soạn văn bản. Quả thật, tiếp cận thêm những tư liệu khác, vấn đề sẽ được sáng tỏ.
+
+Minh Hải Đắc Trí Pháp Bảo (1670 – 1746) là thiền tăng tông Lâm Tế, đời thứ 34, khai dựng chùa Chúc Thánh (Hội An, Quảng Nam) khoảng đầu thế kỉ XVIII.
+Trước hết là văn bia mộ tháp của Thiền sư cũng tại chùa Chúc Thánh. Mộ nằm chếch về phía Tây Nam trước chánh điện. Ở đây có hai văn bia giống nhau về nội dung nhưng một mới, một cũ. Bia mới bằng cẩm thạch, gắn ở hậu đầu (bình phong hậu); bia cũ bằng sa thạch, gắn ở mặt trước thân tháp. Cả hai đều không ghi niên đại. Sở dĩ, có hiện tượng hai văn bia cùng nội dung là do – theo Thượng tọa trụ trì Thích Đồng Mẫn – khi trùng tạo lại mộ tháp năm 1991, nhân tiện khắc thêm bia mới nhưng cũng không thể bỏ đi bia cũ. Nhưng sự quan tâm là ở văn bia cũ. Căn cứ vào hình thức trang trí (đề tài và phong cách), có thể suy đoán bia được lập khoảng từ nửa sau thế kỉ XVIII đến những năm đầu thế kỉ XIX.Nội dung văn bia được dịch nghĩa như sau: Tháp lão Hòa thượng hiệu Pháp Bảo, họ Lương, đời thứ 34 Lâm Tế chính tông, khai sơn bản tự. Sinh giờ Tuất ngày 18 tháng 6 năm Canh Tuất, thọ 77 tuổi. Viên tịch giờ Dậu ngày mồng 7 tháng 11 năm Bính Dần. Thông tin này dĩ nhiên chưa thể mang đến câu trả lời rốt ráo đối với vấn đề đặt ra nhưng là cơ sở quan trọng để từ đây, kết hợp với các mốc niên đại xuất hiện trong các văn bản Kinh sách liên quan đến Thiền sư Minh Hải, sẽ dễ dàng xác định được niên điểm của những năm Canh Tuất và Bính Dần mà văn bia mộ tháp đã nêu. Chẳng hạn, vào tháng 11 năm Nhâm Tý niên hiệu Vĩnh Khánh thứ 4 (1732) [3], bấy giờ Minh Hải trụ trì chùa Chúc Thánh, đã cùng đồ chúng phụng khắc cuốn Sa di luật nghi yếu giải Tăng chú để phục vụ công tác giáo hóa. Vậy không khó để chỉ ra năm Canh Tuất, tức năm sinh của Thiền sư không đâu khác ngoài năm 1670, bởi không thể rơi vào các năm sau mốc 1732. Năm 1730 cũng không thể, vì đến 1732 Thiền sư chỉ mới hai tuổi; còn nếu sớm hơn một vòng hoa giáp nữa – năm 1610, thì Thiền sư đã đủ 77 tuổi mà viên tịch vào năm 1686. Như vậy, năm Bính Dần tức năm mất của Thiền sư sẽ là 1746.
+
+ 
+Tháp mộ lớn nhất tại chùa Chúc Thánh, nơi chứa nhục thể của Tổ sư Minh Hải.
+Tính hợp lý của khung thời gian vừa xác định sẽ còn được kiểm chứng nếu xem xét đến hệ thống truyền thừa với sự liên tục của nó của chi phái thiền Lâm Tế Chúc Thánh, bắt đầu từ vị Sơ tổ Minh Hải Pháp Bảo mà ta đang bàn, đến những thiền Tăng kế thế sau này với sự rõ ràng về cuộc đời và hành trạng, như Thiền sư Thiện Quả, chẳng hạn. Từ vị Sơ tổ Minh Hải Pháp Bảo đến Ngài là đời thứ bảy. Chỉ bảy đời mà đã kéo dài đến hơn 450 năm (từ khoảng 1450 đến khoảng 1915) là điều gần như không thể.
+Rõ ràng, mốc niên đại Minh Hải đến Hội An rồi lập chùa Chúc Thánh thể hiện trong văn bia thời Duy Tân đã bị bác bỏ. Nhưng ta cũng chưa thể đưa ra một mốc thời gian khác tại đây. Đến nay, nhiều nghiên cứu đều thừa nhận trước khi sang Đàng Trong, Hòa thượng Minh Hải đã xuất gia tu hành tại quê nhà nhưng hầu hết không rõ tại chùa nào, thọ giáo với ai. Cũng có ý kiến cho ông xuất gia tại chùa Báo Tư, tỉnh Phúc Kiến [4], nơi Thiền sư Nguyên Thiều tu hành trước lúc sang Đàng Trong truyền pháp.
+Ngài Minh Hải thuộc truyền thừa tông Lâm Tế, đời thứ 34 là điều đã rõ. Vậy câu hỏi đặt ra là Hòa thượng thuộc dòng/chi phái nào trong tông Lâm Tế? Thực ra, từ dữ kiện về pháp danh (Minh Hải) cùng thế thứ của Hòa thượng trong tông Lâm Tế (đời thứ 34), không khó để khẳng định Ngài thuộc dòng Thiên Đồng, theo bài kệ của Thiền sư Tổ Định Tuyết Phong, đời thứ 22 (bài kệ lập phái: Tổ đạo giới định tông/ Phương quảng chứng viên thông/ Hành siêu minh thiệt tế…). Trong bài kệ, chữ “minh” đứng ở vị trí thứ 13. Đối chiếu với thế thứ của ngài Minh Hải thì đúng với đời thứ 34. Những bài kệ còn lại của tông Lâm Tế, tính đến thời Minh Hải Pháp Bảo, dù cũng có chữ “minh”, như dòng Trí Bản Đột Không hoặc dòng Đạo Mân Mộc Trần nhưng đều không phù hợp; tức là tính theo các dòng kệ này, thế thứ của ngài Minh Hải hoặc sẽ sớm hơn hoặc sẽ rất muộn về sau.
+
+Sáng ngày 20/12/2020 (Nhằm ngày 7/11/Canh Tý) tại Tổ đình Hưng Long (Q.10) môn đồ tứ chúng môn hạ thiền phái Lâm Tế Chúc Thánh đã trang nghiêm tổ chức lễ Tưởng niệm Húy kỵ Tổ Sư Minh Hải – Pháp Bảo (Tổ khai sơn dòng Thiền phái Lâm Tế Chúc Thánh).
+Chính từ đây (tức pháp phái, thế thứ kế đăng) và cùng với việc Hòa thượng Minh Hải cũng sang Đàng Trong hoằng dương đạo pháp, đã nảy ra những dự đoán khác nhau về quan hệ sơn môn giữa Ngài với Thiền sư Nguyên Thiều, rằng có thể Minh Hải gọi Nguyên Thiều bằng Sư thúc hoặc Sư bá và rằng đó là quan hệ thầy trò.
+Ngài Nguyên Thiều, tức Nguyên Thiều Siêu Bạch Thọ Tông (1648-1728) người tỉnh Quảng Đông (Trung Quốc), xuất gia tại chùa Báo Tư, kế đăng đời thứ 33 tông Lâm Tế. Hòa thượng Nguyên Thiều đến Đàng Trong năm 1677 [5], lập chùa Thập Tháp Di Đà ở phủ Quy Ninh (Bình Định); sau ra Thuận Hóa dựng chùa Vĩnh Ân (tức Quốc Ân), rồi trụ trì chùa Hà Trung. Nhiều nhà nghiên cứu khẳng định ngài Nguyên Thiều kế truyền phái Lâm Tế theo hai dòng kệ: (1) Dòng Thiên Đồng của Tổ Định Tuyết Phong; và (2) dòng Thiên Khai của Mộc Trần Đạo Mân. Theo dòng Thiên Đồng, Ngài có danh hiệu Siêu Bạch, tức đứng hàng chữ “siêu” – chữ thứ mười hai trong bài kệ; theo dòng Thiên Khai, Ngài có danh hiệu Nguyên Thiều, tức đứng hàng chữ “nguyên” – chữ thứ ba trong bài kệ.
+Như vậy, Hòa thượng Minh Hải cùng pháp phái với Nguyên Thiều xét trong trường hợp Nguyên Thiều tính theo dòng Thiên Đồng và đứng sau Ngài một thế hệ.
+Theo sử nhà Nguyễn, Nguyên Thiều có lần vâng mệnh chúa Nguyễn Phúc Thái (1687-1691) trở về Quảng Đông để đón mời Hòa thượng Thạch Liêm và thỉnh pháp tượng pháp khí. Ngài Thạch Liêm nhận lời cùng Hòa thượng Nguyên Thiều đến Phú Xuân và lưu lại chùa Thiên Mụ [6]. Từ đây, Thượng tọa Mật Thể dựa vào tương truyền cho rằng Minh Hải đã đến Đàng Trong trong phái đoàn của Thiền sư Nguyên Thiều, rồi tham gia tổ chức giới đàn Thiên Mụ với vị trí trong Hội đồng Thập sư [7]. Sau khi giới đàn hoàn mãn, ngài Minh Hải vào Quảng Nam lập chùa Chúc Thánh tu trì [8]. Về sau, “tương truyền” này được nhiều người sử dụng như một sự chấp nhận, như Nguyễn Lang, Nguyễn Hiền Đức [9]… Từ quan điểm xuất phát này, ngài Mật Thể tỏ ra dứt khoát lựa chọn khả năng Hòa thượng Minh Hải thuần túy là thế hệ dưới gọi Nguyên Thiều bằng Sư thúc hay Sư bá chứ không thể là đồ đệ của Hòa thượng Nguyên Thiều. Theo giải thích của ngài Mật Thể, trong phái đoàn có nhiều vị cũng hàng chữ “minh” là đệ tử của Nguyên Thiều rồi, nếu những người còn lại (trong đó có Minh Hải Pháp Bảo) cũng là đệ tử nữa thì chẳng phải ngài Nguyên Thiều coi thường hai chữ “danh Tăng” lắm sao? Hơn thế, không thể xứng đức xứng tầm để ngồi cùng thầy mình trong hội đồng thập sư được [10]. Có lẽ do chưa xác định được năm sinh của Hòa thượng Minh Hải nên ngài Mật Thể mới đi đến dự đoán có tính kết luận về uy tín đạo hạnh của Thiền sư này.
+Khác với ngài Mật Thể, tác giả Thích Như Tịnh từ chỗ xác định được năm sinh của ngài Minh Hải (1670) và thời điểm Tổ sư Nguyên Thiều sang Đàng Trong (1677), tác giả một mặt – cũng như Mật Thể – cho rằng ngài Minh Hải chỉ có thể là người gọi Tổ sư Nguyên Thiều bằng Sư thúc hay Sư bá trong sự truyền thừa của chùa Báo Tư, tức không phải là đệ tử xuất gia, nhưng mặt khác khẳng định ngài Minh Hải là đệ tử đắc pháp với Tổ sư Nguyên Thiều. Đó là thời điểm ngài Minh Hải đã sang Đàng Trong và thọ giáo Hòa thượng Nguyên Thiều tại chùa Quốc Ân (Huế). Cứ liệu đưa ra là bản pháp quyển truyền thừa của dòng Lâm Tế Chúc Thánh, do Hòa thượng Toàn Nhâm Vi Ý Quán Thông cấp cho đệ tử Chương An Tôn Bổn Quảng Khánh ngày 15/4 năm Đinh Mùi (1847). Cụ thể, trong đó tên của Thiền sư Nguyên Thiều Siêu Bạch được ghi gắn với chùa Quốc Ân và đứng liền trước tên của Thiền sư Minh Hải. Dòng chữ về Nguyên Thiều như sau: “Tam thập tam thế Quốc Ân đường thượng húy Siêu Bạch thượng Thọ hạ Tông lão tổ Hòa thượng” [11].
+Chúng tôi cũng không khỏi băn khoăn với quan điểm này. Câu hỏi đặt ra trước hết là tại sao Hải ngoại kỷ sự do chính Thạch Liêm viết không hề nhắc đến những Thiền sư trên, dĩ nhiên kể cả ngài Minh Hải Pháp Bảo, trong chuyến hành trình đến Đàng Trong và tổ chức Giới đàn Thiền Lâm năm 1695 [12]. Nhưng vấn đề còn ở chỗ khác. Một mặt tác giả khẳng định ngài Minh Hải được thỉnh mời để dự giới đàn do Hòa thượng Thạch Liêm làm tôn chủ, một mặt lại cho rằng sau đó ông đến cầu pháp với Nguyên Thiều tại chùa Quốc Ân. Dường như ở đây đã có sự mâu thuẫn, rằng ngài Minh Hải lúc bấy giờ vừa là một danh tăng, đồng thời vừa là một tiểu tăng!? Tuy vậy, cứ liệu mà Hòa thượng Thích Như Tịnh dùng để minh chứng cho quan hệ thầy trò của Tổ sư Nguyên Thiều và Hòa thượng Minh Hải là rất đáng tin cậy, bởi có một nguyên tắc ngầm định trong cách ghi thế thứ của pháp quyển là phải theo hệ thống trực truyền, tức đời sau phải là đệ tử của đời đứng liền trước. Trong bối cảnh nào, ngài Minh Hải trở thành đệ tử của Nguyên Thiều lại là một vấn đề khác, có thể đúng như lý giải của Hòa thượng Thích Như Tịnh.
+Như vậy, có thể khẳng định ngài Minh Hải Pháp Bảo là đệ tử của Tổ Nguyên Thiều, theo hệ phái dòng Thiên Đồng. Còn với việc xác định niên điểm cho sự kiện ngài Minh Hải Pháp Bảo đến Đàng Trong và khai sơn chùa Chúc Thánh vẫn là một thách thức. Chỉ có thể nói, muộn nhất, khoảng những thập niên đầu thế kỉ XVIII, Ngài đã có mặt ở Quảng Nam và chùa Chúc Thánh đã được tạo dựng. Bởi ở những năm 20 sau đó, nhiều người đã đến đây tầm sư học đạo, kế thế chánh pháp do Hòa thượng truyền giảng.
+Cũng xin lưu ý, khi chúng tôi hoài nghi những quan điểm của tác giả Mật Thể và Thích Như Tịnh không có nghĩa bao gồm sự bác bỏ các khung/mốc niên đại được các tác giả nêu ra, mà chỉ không đồng thuận sự lí giải của quý Ngài mà thôi.
+Hòa thượng Minh Hải sau khi khai dựng đạo tràng hoằng dương chánh pháp, đã nhanh chóng gây được ảnh hưởng chốn thiền môn. Minh chứng là đã có nhiều người ở nhiều địa phương tìm đến Ngài bái sư học đạo như Thiệt Diệu Chánh Hiền, Thiệt Thọ Chánh Khỏa/Hóa, Thiệt Mẫn Chánh Dung (chùa Chúc Thánh) và Thiệt Đạo Chánh Thưởng Chân Như, Thiệt Dinh Chánh Hiển Ân Triêm (chùa Phước Lâm). Mở rộng nguồn tư liệu, giúp ta xác nhận một vị đệ tử khác của Hòa thượng Minh Hải là Thiệt Đàm Chánh Luân. Đó là kết quả khai thác từ các tư liệu chúng tôi tiếp cận được. Ngoài ra, qua nghiên cứu của ngài Thích Như Tịnh, có thể bổ sung thêm hai vị nữa, Thiệt Úy Chánh Thành Khánh Vân, hành hóa tại Quảng Ngãi và Thiệt Đăng Chánh Trí Bửu Quang, truyền pháp tại Bình Định [13].
+Tư liệu hiện còn cho biết Minh Hải Pháp Bảo đã chủ trương hoặc trợ lực in khắc một số kinh sách. Đó là cuốn Sa di luật nghi yếu lược tăng chú mà phần trước đã một lần chúng tôi nói đến. Sách này chú thích về 24 thiên “Oai nghi” của một sa di, do luật sư Châu Hoằng (1532-1612) biên soạn và Thiền sư Hoằng Tán (1611-1685) chú giải. Bản để thầy trò ngài Minh Hải dựa vào đó khắc in lại được in tại Trung Hoa năm Đinh Mùi niên hiệu Khang Hy (1667). Ngoài ra, ông trợ lực cho đệ tử Thiệt Đàm Chánh Luân khắc in bộ Kinh Hoa Nghiêm (đầy đủ là Đại phương quảng Phật Hoa Nghiêm kinh), tháng 9 năm Nhâm Tý niên hiệu Vĩnh Khánh 4 (1732) và sư Thiệt Uyên Chí Bảo khắc in cuốn Long thơ Tịnh Độ, tháng 2 năm Bính Dần niên hiệu Cảnh Hưng thứ 7 (1746) [14].
+Tổ sư Minh Hải Pháp Bảo đã biệt xuất bài kệ lập phái như sau:
+Minh Thiệt Pháp Toàn Chương
+Ấn Chân Như Thị Đồng
+Chúc Thánh Thọ Thiên Cửu
+Kỳ Quốc Tộ Địa Trường
+Đắc Chánh Luật Vi Tông
+TuyênTổ Đạo Giải Hành Thông
+Giác Hoa Bồ Đề Thọ
+Sung Mãn Nhân Thiên Trung.
+Trong bài kệ, bốn câu đầu dùng để đặt pháp danh, bốn câu sau dùng để đặt pháp tự. Đây là điều khá đặc biệt của dòng Lâm Tế Chúc Thánh. Các dòng thiền khác thường chỉ dùng kệ để đặt pháp danh, không quy định pháp tự. Nhưng cũng nhờ vậy chúng ta có thêm dấu hiệu khả tín trong việc xác định tông phái của Tăng Ni, rằng họ có thuộc chi phái Chúc Thánh hay không. Bởi trong thực tế, chuyện trùng pháp danh không phải hiếm gặp.
+Là Sơ tổ lập phái, nhưng Hòa thượng Minh Hải Pháp Bảo không cho thấy sự hào hứng trong việc lập thuyết. Bài Kệ truyền thừa như đã biết, hoàn toàn vắng bóng các vấn đề bản thể luận hay nhận thức luận, thậm chí cả vấn đề thiền lý, mà căn bản là “yếu minh học thuật” tức chỉ bày cách tu hành ngộ đạo. Đó là phải nhận thức đúng, đầy đủ mọi sự vật hiện tượng trong thế giới (pháp) thì chân lý tối thượng (chân như) sẽ xuất hiện. Muốn vậy, thực thi giới luật là một yêu cầu tiên quyết (đắc chánh luật vi tông); đồng thời người Phật tử phải vừa tham cứu kinh sách phải vừa thực hành chứng ngộ trong thực tiễn (Tổ đạo giải hành thông).
+Chú thích:
+[1] Ở đây đã có sự nhầm lẫn. Không thể tồn tại năm Giáp Tý trong khung thời gian thuộc niên hiệu Cảnh Thái triều Minh, mà chỉ có thể là Giáp Tuất (1454), Bính Tý (1456).
+[2] Văn bia chùa Chúc Thánh, Năm Ất Dậu niên hiệu Duy Tân, Tân An, Hội An, Quảng Nam. Tư liệu Hán Nôm sử dụng trong bài viết đều do ThS Đinh Thị Toan (Nhà Trưng bày Hoàng Sa – Đà Nẵng) phiên dịch.
+[3] Thực chất, tháng 11 năm Nhâm Tý không còn là niên hiệu Vĩnh Khánh nữa mà đã chuyển sang niên hiệu Long Đức năm thứ nhất. Vĩnh Khánh là niên hiệu của vua Lê Duy Phường. Vua ở ngôi chỉ hơn 3 năm, đến ngày 15/8 năm Nhâm Tý (3-10-1732) bị phế. Hơn mười ngày sau, 14/10/1732, lập Lê Duy Tường lên làm vua, đổi niên hiệu là Long Đức. Đó là vua Lê Thuần Tông (1732-1735).
+[4] Thích Như Tịnh (2009), Lịch sử truyền thừa thiền phái Lâm Tế Chúc Thánh, Nxb Phương Đông, TP Hồ Chí Minh, tr.109.
+[5] Trước đây, nhiều người, chẳng hạn Mật Thể, Nguyễn Lang… dựa vào sử nhà Nguyễn khẳng định ông đến Đàng Trong năm 1665. Kết quả nghiên cứu về Nguyên Thiều đến nay đã cho thấy quan điểm trên là không chính xác.
+[6] Quốc sử quán triều Nguyễn (1993), Đại Nam liệt truyện, Tập 1, Nxb Thuận Hóa, Huế, tr.192 – 193. Thực tế không đúng như ghi chép trong sử nhà Nguyễn. Thạch Liêm đến Đàng Trong nhưng vào một dịp khác, năm 1695. Cuốn Hải ngoại kỷ sự rất có giá trị của ông được chấp bút trong dịp này.
+[7] Hội đồng gồm mười vị thiền Tăng đạo cao đức trọng chủ sự việc truyền giới.
+[8] Mật Thể (2004), Việt Nam Phật giáo sử lược, Nxb Tôn giáo, Hà Nội, tr.200-201.
+[9] Nguyễn Lang (2008), Việt Nam Phật giáo sử luận, Nxb Văn học, Hà Nội, tr.594; Nguyễn Hiền Đức (1993), Lịch sử Phật giáo Đàng Trong, Tập 2, Nxb TP Hồ Chí Minh, tr.5, 8.
+[10] Mật Thể (2004), Việt Nam Phật giáo sử lược, Nxb Tôn giáo, Hà Nội, tr.200-201.
+[11] Tác giả không dịch. Chúng ta có thể hiểu: Trưởng lão chùa Quốc Ân là Hòa thượng Tổ sư húy Siêu Bạch [hiệu] Thọ Tông đời thứ 33 [tông Lâm Tế].
+[12] Thích Đại Sán (1963), Hải ngoại kỷ sự, Ủy ban phiên dịch sử liệu Việt Nam, Viện Đại học Huế.
+[13] Thích Như Tịnh (2009), Lịch sử truyền thừa thiền phái Lâm Tế Chúc Thánh, Nxb Phương Đông, TP Hồ Chí Minh, tr.236, 288.
+[14] Ba văn bản kinh sách Phật giáo vừa dẫn đều do Đại Đức Thích Đồng Dưỡng ở chùa Ba Phong, huyện Duy Xuyên, tỉnh Quảng Nam cung cấp.
+Tài liệu tham khảo:
+
+ Tài liệu tiếng Việt
+ Ban Trị sự Giáo hội Phật giáo Việt Nam tỉnh Quảng Ngãi (2018), Lịch sử Phật giáo và các ngôi chùa Quảng Ngãi, Nxb Đà Nẵng.
+ Nguyễn Hiền Đức (1993), Lịch sử Phật giáo Đàng Trong, (trọn bộ 2 tập), Nxb TP Hồ Chí Minh.
+ Nguyễn Lang (2008), Việt Nam Phật giáo sử luận, Nxb Văn học, Hà Nội.
+ Quốc sử quán triều Nguyễn (1993), Đại Nam liệt truyện, Tập 1, Nxb Thuận Hóa, Huế.
+ Phật quang đại từ điển (2014), Tập 2, Nxb Phương Đông, TP Hồ Chí Minh.
+ Mật Thể (2004), Việt Nam Phật giáo sử lược, Nxb Tôn giáo, Hà Nội.
+ Lê Xuân Thông (2014), “Thiền sư đầu tiên của Phật giáo Quảng Nam – Đà Nẵng được triều Nguyễn sắc chuẩn Tăng cang”, Văn hóa Phật giáo, Số 207, tr.42-43
+ Thích Như Tịnh (2009), Lịch sử truyền thừa thiền phái Lâm Tế Chúc Thánh, Nxb Phương Đông, TP Hồ Chí Minh.
+ Tài liệu chữ Hán Nôm
+
+2.1. Tài liệu thư tịch
+
+ Bản kê khai chùa Chúc Thánh, Bản chép tay, Thích Như Tịnh sưu tầm, Chùa Viên Giác, Hội An, Quảng Nam.
+ Bản kê khai chùa Phước Lâm, Bản chép tay, Chùa Phước Lâm, Hội An, Quảng Nam
+ Sa di luật nghi yếu lược tăng chú, Bản in khắc gỗ, Thích Đồng Dưỡng sưu tầm, Chùa Ba Phong, Duy Xuyên, Quảng Nam.
+
+2.2. Văn bia
+2.2.1. Văn bia chùa
+
+ Văn bia chùa Chúc Thánh, Năm Ất Mão niên hiệu Duy Tân, Chùa Chúc Thánh, Hội An, Quảng Nam.
+ Văn bia chùa Chúc Thánh, Bảo Đại năm thứ 2, Chùa Chúc Thánh, Hội An, Quảng Nam.
+
+2.2.2. Văn bia mộ
+
+ Văn bia mộ tháp Thiền sư Minh Hải Pháp Bảo, Chùa Chúc Thánh, Hội An, Quảng Nam.
+
+2.3. Văn khắc gỗ
+Long vị các Thiền sư tại hai chùa Chúc Thánh, Phước Lâm; hoành phi, liễn đối tại chùa Chúc Thánh.
+(Nguồn https://phatgiao.org.vn/so-to-minh-hai-dac-tri-phap-bao-cua-dong-thien-lam-te-chuc-thanh-d49548.html)
+"""@vi ;
+    bkg:birthEvent <ex:monk/minh_hai_phap_bao_birthEvent> ;
+    bkg:deathEvent <ex:monk/minh_hai_phap_bao_deathEvent> ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Chúc Thánh Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 71 ;
+    bkg:hasTeacher <ex:monk/nguyen_thieu_tho_tong> ;
+    bkg:hasDisciple <ex:monk/thiet_dinh_an_triem> ,
+        <ex:monk/thiet_dieu_chanh_hien> ,
+        <ex:monk/thiet_uy_khanh_van> ,
+        <ex:monk/thiet_uyen_chi_bao> ,
+        <ex:monk/thiet_dang_bao_quang> ,
+        <ex:monk/thiet_bao_cam_ung> ,
+        <ex:monk/thiet_lam_chi_kien> ,
+        <ex:monk/thiet_the_triem_an> ,
+        <ex:monk/thiet_dam_chanh_luan> ,
+		<ex:monk/thiet_luong> ,
+		<ex:monk/thiet_thuan_hue_truong> ,		
+		<ex:monk/thiet_tho_chanh_khoa> ,
+        <ex:monk/thiet_hoi_vien_quang> ;
+    bkg:isLineageFounder "true"^^xsd:boolean .
+
+<ex:monk/minh_hai_phap_bao_birthEvent> a bkg:BirthEvent ;
+    bkg:year "1670"^^xsd:gYear .
+
+<ex:monk/minh_hai_phap_bao_deathEvent> a bkg:DeathEvent ;
+    bkg:year "1746"^^xsd:gYear .
+
+<ex:monk/nguyen_thieu_tho_tong> rdfs:label "Nguyên Thiều Thọ Tông"@vi .
+<ex:monk/thiet_dinh_an_triem> rdfs:label "Thiệt Dinh Ân Triêm"@vi .
+<ex:monk/thiet_dieu_chanh_hien> rdfs:label "Thiệt Diệu Chánh Hiền"@vi .
+<ex:monk/thiet_uy_khanh_van> rdfs:label "Thiệt Úy Khánh Vân"@vi .
+<ex:monk/thiet_uyen_chi_bao> rdfs:label "Thiệt Uyên Chí Bảo"@vi .
+<ex:monk/thiet_dang_bao_quang> rdfs:label "Thiệt Đăng Bảo Quang"@vi .
+<ex:monk/thiet_bao_cam_ung> rdfs:label "Thiệt Bảo Cảm Ứng"@vi .
+<ex:monk/thiet_lam_chi_kien> rdfs:label "Thiệt Lãm Chí Kiên"@vi .
+<ex:monk/thiet_the_triem_an> rdfs:label "Thiệt Thể Triêm Ân"@vi .
+<ex:monk/thiet_dam_chanh_luan> rdfs:label "Thiệt Đàm Chánh Luân"@vi .
+<ex:monk/thiet_hoi_vien_quang> rdfs:label "Thiệt Hội Viên Quang"@vi .
+<ex:monk/thanh_dang_minh_luong> rdfs:label "Thành Đẳng Minh Lượng"@vi .
+<ex:monk/minh_vat_nhut_tri> rdfs:label "Minh Vật Nhứt Tri"@vi .
+<ex:monk/thanh_nhac_an_son> rdfs:label "Thành Nhạc Ẩn Sơn"@vi .
+<ex:monk/thanh_chi_minh_dung> rdfs:label "Thành Chí Minh Dung"@vi .
+<ex:monk/minh_giac_ky_phuong> rdfs:label "Minh Giác Kỳ Phương"@vi .
+<ex:monk/minh_hang_dinh_nhien> rdfs:label "Minh Hằng Định Nhiên"@vi .
+<ex:monk/minh_phung> rdfs:label "Minh Phụng"@vi .
+<ex:monk/thanh_ngo_nghiem_am> rdfs:label "Thành Ngộ Nghiêm Am"@vi .
+<ex:monk/dao_nhan_tich_lac> rdfs:label "Đạo Nhẫn Tịch Lạc"@vi .
+<ex:monk/thiet_thuan_hue_truong> rdfs:label "Thiệt Thuận Huệ Trương"@vi .
+<ex:monk/thiet_luong> rdfs:label "Thiệt Lương"@vi .
+<ex:monk/thiet_tho_chanh_khoa> rdfs:label "Thiệt Thọ Chánh Khóa"@vi .
+

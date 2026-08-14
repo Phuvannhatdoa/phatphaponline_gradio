@@ -1,0 +1,145 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<ex:monk/dai_hue_tong_cao> a bkg:Monk ;
+    rdfs:label "Đại Huệ Tông Cảo"@vi ;
+    crm:P1_is_identified_by [ a crm:E41_Appellation ;
+            rdfs:label "Vân Môn"@vi ;
+            bkg:hasAppellationType "bkg:DharmaName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Daie Sōkō"@ja ;
+            bkg:hasAppellationType "bkg:DharmaName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Diệu Hỷ"@vi ;
+            bkg:hasAppellationType "bkg:DharmaName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "大慧宗杲"@zh ;
+            bkg:hasAppellationType "bkg:DharmaName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Đàm Hối"@vi ;
+            bkg:hasAppellationType "bkg:SecularName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Thiền sư"@vi ;
+            bkg:hasAppellationType "bkg:DharmaTitle" ] ;
+    bkg:associatedPlaces <ex:place/bao_phong>,
+        <ex:place/dong_son_hue_van_tu>,
+        <ex:place/duc_vuong>,
+        <ex:place/duong_tu_am>,
+        <ex:place/hai_hon>,
+        <ex:place/hoanh_chau>,
+        <ex:place/jing_shan>,
+        <ex:place/kinh_son_nang_nhan_thien_vien>,
+        <ex:place/lo_son>,
+        <ex:place/ning_quoc>,
+        <ex:place/phuoc_kien>,
+        <ex:place/thien_dong_son>,
+        <ex:place/thien_ninh_tu>,
+        <ex:place/van_mon_am>,
+        <ex:place/xuan_zhou> ;
+    bkg:authoredWorks <ex:work/chinh_phap_nhan_tang>,
+        <ex:work/dai_hue_ngu_luc>,
+        <ex:work/dai_hue_vo_kho> ;
+    bkg:biographicalNote "Đại Huệ Tông Cảo (大慧宗杲, Daie Sōkō, 1089-1163): vị tăng của Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc, tư là Đàm Hối (曇晦), hiệu Diệu Hỷ (妙喜), Vân Môn (雲門), xuất thân vùng Ninh Quốc (寧國), Tuyên Châu (宣州, thuộc Tỉnh An Huy ngày nay), họ là Hề (奚). Năm lên 13 tuổi, ông theo trương làng học Nho Giáo, đến năm 16 tuổi thì xuất gia với Huệ Tề (慧齊) ở Đông Sơn Huệ Vân Tự (東山慧雲寺).  Năm sau ông thọ cụ túc giới, và một mình chuyên tham cứu Thiền. Vào mùa thu năm đầu (1107) niên hiệu Đại Quán (大觀), ông lên Lô Sơn (廬山), sau đó đến tham yết Động Sơn Vi (洞山微) và học tông chỉ của vị nầy. Kế đến ông theo làm đệ tử của Trạm Đường Văn Chuẩn (湛堂文準) ở Bảo Phong (寶峰).  Vào năm 1115, khi Văn Chuẩn qua đời, có người khuyên ông nên đến tham bái Viên Ngô Khắc Cần (圜悟克勤). Nhưng trước tiên ông lại đến tham vấn Giác Phạm Huệ Hồng (覺範慧洪), và bái yết Trương Thương Anh (張商英) ở nơi đó.  Vào năm 1124, khi Khắc Cần chuyển đến trú tại Thiên Ninh Tự (天寧寺) vùng Đông Kinh (東京), thì ông theo nhập chung tham học với vị nầy. Sau quá trình tu tập khắc khổ, cuối cùng ông được đại ngộ và kế thừa dòng pháp của vị nầy. Thể theo lời tâu xin của vị Thừa Tướng Lữ Thuấn Đồ (呂舜徒), ông được ban hiệu Phật Nhật Đại Sư (佛日大師). Sau khi Viên Ngộ trở về nước Thục, ông chuyển đến Vân Môn Am (雲門庵) ở Hải Hôn (海昏, thuộc Tỉnh Giang Tây ngày nay) để lánh nạn binh đao.  Đến năm 1134, ông lại dời đến Dương Tự Am (洋嶼庵) vùng Phúc Kiến (福建), và chính nơi đây ông đã công kích Thiền mang tính mặc chiếu, mà cử xướng Thiền công án. Ba năm sau, ông được thỉnh đến trú tại Kính Sơn Năng Nhân Thiền Viện (徑山能仁禪院), diễn xướng tông phong một cách rực rỡ và được xem như là vị tổ thời Trung Hưng của Lâm Tế Tông. Sau ông bị lưu đày đến Hoành Châu (衡州) vì bị tình nghi thuộc đang phái phản loạn, lưu lại đó khoảng 10 năm và trong khoảng thời gian nầy ông viết bộ Chánh Pháp Nhãn Tạng (正法眼藏) gồm 6 quyển. Về sau, ông được tha tội, đến trú tại Dục Vương (育王), cùng kết giao với Hoằng Trí Chánh Giác (宏智正覺) ở Thiên Đồng Sơn (天童山). Sau ông trở về lại Kính Sơn, được Hoàng Đế Hiếu Tông (孝宗皇帝) quy y theo, và ban cho hiệu là Đại Huệ Thiền Sư (大慧禪師). Vào năm thứ nhất (1163) niên hiệu Long Hưng (隆興), ông thị tịch, hưởng thọ 75 tuổi đời và 58 hạ lạp. Trước tác của ông có Đại Huệ Ngữ Lục (大慧語錄), Đại Huệ Võ Khố (大慧武庫), v.v…"@vi ;
+    bkg:birthEvent <ex:monk/dai_hue_tong_cao_birth_event> ;
+    bkg:deathEvent <ex:monk/dai_hue_tong_cao_death_event> ;
+    bkg:dharmaLineageName "Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc" ;
+    bkg:gender "bkg:Male" ;
+    bkg:hasContribution <ex:contribution/dai_hue_tong_cao_contrib_trung_hung_lam_te_tong> ;
+    bkg:hasKeyLifeEvent <ex:event/dai_hue_tong_cao_event_luu_day>,
+        <ex:event/dai_hue_tong_cao_event_ngộ_đạo>,
+        <ex:event/dai_hue_tong_cao_event_viet_chinh_phap_nhan_tang> ;
+    bkg:hasPhilosophicalStance <ex:stance/chong_thien_mac_chieu> ;
+    bkg:hasRelatedFigure <ex:person/dong_son_vi>,
+        <ex:person/giac_pham_hue_hong>,
+        <ex:person/hieu_tong_hoang_de>,
+        <ex:person/hong_tri_chinh_giac>,
+        <ex:person/hue_te>,
+        <ex:person/lu_suan_do>,
+        <ex:person/truong_thuong_anh> ;
+    bkg:hasTeacher <ex:monk/tram_duong_van_chuan>,
+        <ex:monk/vien_ngo_khac_can> .
+
+<ex:contribution/dai_hue_tong_cao_contrib_trung_hung_lam_te_tong> rdfs:label "Vị tổ thời Trung Hưng của Lâm Tế Tông"@vi .
+
+<ex:event/dai_hue_tong_cao_event_luu_day> rdfs:label "Bị lưu đày đến Hoành Châu"@vi ;
+    crm:P4_has_time-span "1140"^^<xsd:gYear> .
+
+<ex:event/dai_hue_tong_cao_event_ngộ_đạo> rdfs:label "Đại ngộ"@vi ;
+    crm:P4_has_time-span "1124"^^<xsd:gYear> .
+
+<ex:event/dai_hue_tong_cao_event_viet_chinh_phap_nhan_tang> rdfs:label "Viết Chánh Pháp Nhãn Tạng"@vi ;
+    crm:P4_has_time-span "1140"^^<xsd:gYear> .
+
+<ex:monk/dai_hue_tong_cao_birth_event> a crm:E67_Birth ;
+    crm:P4_has_time-span "1089"^^<xsd:gYear> .
+
+<ex:monk/dai_hue_tong_cao_death_event> a crm:E69_Death ;
+    crm:P4_has_time-span "1163"^^<xsd:gYear> .
+
+<ex:monk/tram_duong_van_chuan> rdfs:label "Trạm Đường Văn Chuẩn"@vi .
+
+<ex:monk/vien_ngo_khac_can> rdfs:label "Viên Ngô Khắc Cần"@vi .
+
+<ex:person/dong_son_vi> rdfs:label "Động Sơn Vi"@vi .
+
+<ex:person/giac_pham_hue_hong> rdfs:label "Giác Phạm Huệ Hồng"@vi .
+
+<ex:person/hieu_tong_hoang_de> rdfs:label "Hiếu Tông Hoàng Đế"@vi .
+
+<ex:person/hong_tri_chinh_giac> rdfs:label "Hoằng Trí Chánh Giác"@vi .
+
+<ex:person/hue_te> rdfs:label "Huệ Tề"@vi .
+
+<ex:person/lu_suan_do> rdfs:label "Lữ Thuấn Đồ"@vi .
+
+<ex:person/truong_thuong_anh> rdfs:label "Trương Thương Anh"@vi .
+
+<ex:place/bao_phong> rdfs:label "Bảo Phong"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/dong_son_hue_van_tu> rdfs:label "Đông Sơn Huệ Vân Tự"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/duc_vuong> rdfs:label "Dục Vương"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/duong_tu_am> rdfs:label "Dương Tự Am"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/hai_hon> rdfs:label "Hải Hôn"@vi .
+
+<ex:place/hoanh_chau> rdfs:label "Hoành Châu"@vi .
+
+<ex:place/jing_shan> rdfs:label "Kính Sơn"@vi .
+
+<ex:place/kinh_son_nang_nhan_thien_vien> rdfs:label "Kính Sơn Năng Nhân Thiền Viện"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/lo_son> rdfs:label "Lô Sơn"@vi ;
+    bkg:placeType "bkg:SacredSite" .
+
+<ex:place/ning_quoc> rdfs:label "Ninh Quốc"@vi .
+
+<ex:place/phuoc_kien> rdfs:label "Phúc Kiến"@vi .
+
+<ex:place/thien_dong_son> rdfs:label "Thiên Đồng Sơn"@vi ;
+    bkg:placeType "bkg:SacredSite" .
+
+<ex:place/thien_ninh_tu> rdfs:label "Thiên Ninh Tự"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/van_mon_am> rdfs:label "Vân Môn Am"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/xuan_zhou> rdfs:label "Tuyên Châu"@vi .
+
+<ex:stance/chong_thien_mac_chieu> a bkg:PhilosophicalStance ;
+    rdfs:label "Chống Thiền mặc chiếu"@vi .
+
+<ex:work/chinh_phap_nhan_tang> rdfs:label "Chánh Pháp Nhãn Tạng"@vi .
+
+<ex:work/dai_hue_ngu_luc> rdfs:label "Đại Huệ Ngữ Lục"@vi .
+
+<ex:work/dai_hue_vo_kho> rdfs:label "Đại Huệ Võ Khố"@vi .
+

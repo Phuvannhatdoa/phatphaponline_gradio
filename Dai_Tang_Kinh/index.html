@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Tra Cứu Dữ Liệu Đại Tạng Kinh - Pháp Thí Hội</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Serif+TC:wght@600&display=swap" rel="stylesheet">
+    
+    <script>
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        amber: { 50: '#fffbeb', 500: '#f59e0b', 600: '#d97706', 700: '#b45309', 900: '#78350f' },
+                        slate: { 50: '#f8fafc', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#0a0f1d' },
+                        gold: { bright: '#fde68a' },
+                        emerald: { 500: '#10b981' },
+                        blue: { 500: '#3b82f6' },
+                        red: { 500: '#ef4444' }
+                    },
+                    borderRadius: { '4xl': '2rem', '5xl': '2.5rem' }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* PUZZLE ECOSYSTEM - DESIGN TOKENS v1.0 */
+        :root {
+            --color-amber-50: #fffbeb;
+            --color-amber-500: #f59e0b;
+            --color-amber-600: #d97706;
+            --color-amber-700: #b45309;
+            --color-amber-900: #78350f;
+            --color-gold-bright: #fde68a;
+            --color-slate-950: #0a0f1d;
+            --color-slate-900: #0f172a;
+            --color-slate-800: #1e293b;
+            --color-slate-700: #334155;
+            --color-text-white: #f8fafc;
+            --color-text-muted: #94a3b8;
+            --color-text-dim: #64748b;
+            --color-emerald-500: #10b981;
+            --color-blue-500: #3b82f6;
+            --color-red-500: #ef4444;
+        }
+
+        /* Signature Effects */
+        .text-gold-gradient {
+            background: linear-gradient(to right, #fde68a, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .amber-glow {
+            filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.4));
+        }
+
+        .modal-blur {
+            background-color: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(15px);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-slate-950); color: var(--color-text-white); }
+        .puzzle-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .puzzle-card:hover { transform: translateY(-10px); border-color: var(--color-amber-600); background: rgba(120, 53, 15, 0.15); box-shadow: 0 20px 40px -15px rgba(120, 53, 15, 0.3); }
+        .amber-gradient { background: linear-gradient(135deg, #78350f 0%, #b45309 100%); }
+        .text-gradient { background: linear-gradient(to right, #fde68a, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .search-glow:focus { box-shadow: 0 0 40px rgba(217, 119, 6, 0.2); }
+        .han-nom { font-family: 'Noto Serif TC', serif; }
+        
+        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .modal-backdrop { background-color: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); }
+
+        /* Dropdown menu */
+        .dropdown-menu { 
+            display: none; 
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+        .group:hover .dropdown-menu { 
+            display: block; 
+        }
+        
+        /* TOC Specific styles - Focus on Clarity */
+        .toc-chapter { 
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .toc-chapter:hover {
+            border-color: rgba(217, 119, 6, 0.3);
+            background: rgba(30, 41, 59, 0.6);
+        }
+        .toc-num { color: #d97706; font-weight: 900; font-size: 0.75rem; display: block; margin-bottom: 0.5rem; opacity: 0.6; }
+        .toc-title { color: #fff; font-weight: 700; font-size: 1rem; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 0.5rem; }
+        .toc-point { color: #94a3b8; font-size: 0.8125rem; line-height: 1.6; margin-bottom: 0.5rem; display: flex; gap: 0.75rem; }
+        .toc-point i { color: #d97706; margin-top: 0.25rem; flex-shrink: 0; font-size: 0.75rem; }
+        .toc-keyword { color: #d97706; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; margin-top: 0.75rem; display: block; background: rgba(217, 119, 6, 0.1); padding: 2px 8px; border-radius: 4px; width: fit-content; }
+        
+        /* TOC Detailed Styling */
+        .toc-section-title { color: #d97706; font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; margin: 2.5rem 0 1rem 0; border-bottom: 1px solid rgba(217, 119, 6, 0.2); padding-bottom: 0.5rem; }
+        
+        .toc-item { 
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 1rem;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .toc-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .toc-header:hover { background: rgba(217, 119, 6, 0.05); }
+        
+        /* Lotus Number Style */
+        .lotus-container {
+            position: relative;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .lotus-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+            transition: all 0.3s ease;
+        }
+        .lotus-svg.completed {
+            opacity: 0.8;
+            filter: drop-shadow(0 0 5px rgba(217, 119, 6, 0.5));
+        }
+        .toc-num { 
+            position: relative;
+            z-index: 10;
+            color: #fff;
+            font-family: monospace;
+            font-weight: 800;
+            font-size: 0.75rem;
+        }
+        .comp
+            color: #fde68a;
+        }
+
+        .toc-title { color: #fff; font-weight: 600; font-size: 0.85rem; display: flex; gap: 0.5rem; align-items: center; }
+        .toc-icon { color: #d97706; transition: transform 0.3s ease; font-size: 0.7rem; }
+        .toc-content { 
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(15, 23, 42, 0.3);
+        }
+        .toc-content.open { max-height: 300px; padding: 1rem 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .toc-desc { color: #94a3b8; font-size: 0.8rem; line-height: 1.6; }
+        .toc-kw { color: #78350f; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; margin-top: 0.5rem; display: block; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-700 selection:text-white overflow-x-hidden">
+
+    <!-- Trang trí nền -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none opacity-20">
+        <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-amber-900 rounded-full blur-[120px]"></div>
+        <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-amber-700 rounded-full blur-[120px]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-50 px-8 py-6 flex items-center justify-between border-b border-white/5 bg-slate-900/50 backdrop-blur-md">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-amber-900 shadow-2xl border border-amber-200">
+                <i class="fa-solid fa-puzzle-piece fa-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-black tracking-tighter text-white uppercase leading-none mb-1">Hệ Thống Tra Cứu Dữ Liệu Đại Tạng Kinh</h1>
+                <p class="text-[9px] font-bold text-amber-500 uppercase tracking-[0.2em]">Tuệ Giác Số - Pháp Thí Hội</p>
+            </div>
+        </div>
+
+        <nav class="hidden lg:flex items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            <!-- Dropdown Về Dự Án -->
+            <div class="relative group py-2">
+                <button class="hover:text-amber-500 transition-colors flex items-center gap-2 uppercase outline-none">
+                    Về Dự án <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                </button>
+                <div class="dropdown-menu absolute top-full left-0 w-64 pt-4">
+                    <div class="bg-slate-800 border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
+                        <button onclick="openModal('intro')" class="w-full text-left px-5 py-4 hover:bg-amber-900/20 hover:text-amber-500 transition-all border-b border-white/5 flex items-center gap-3">
+                            <i class="fa-solid fa-compass text-amber-600"></i> Giới Thiệu Dự Án
+                        </button>
+                        <button onclick="openModal('content')" class="w-full text-left px-5 py-4 hover:bg-amber-900/20 hover:text-amber-500 transition-all border-b border-white/5 flex items-center gap-3">
+                            <i class="fa-solid fa-layer-group text-amber-600"></i> Nội Dung Dự Án
+                        </button>
+                        <button onclick="openModal('sources')" class="w-full text-left px-5 py-4 hover:bg-amber-900/20 hover:text-amber-500 transition-all border-b border-white/5 flex items-center gap-3">
+                            <i class="fa-solid fa-book text-amber-600"></i> Nguồn Dữ Liệu & Giấy Phép
+                        </button>
+                        <button onclick="openModal('terms')" class="w-full text-left px-5 py-4 hover:bg-amber-900/20 hover:text-amber-500 transition-all flex items-center gap-3">
+                            <i class="fa-solid fa-scale-balanced text-amber-600"></i> Điều Khoản Sử Dụng
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="openModal('opendata')" class="hover:text-amber-500 transition-colors uppercase">Dữ liệu mở</button>
+            <a href="#" class="hover:text-amber-500 transition-colors uppercase">Cộng đồng</a>
+            <div class="px-4 py-2 bg-slate-800 rounded-xl border border-slate-700 flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span class="text-white text-[10px]">AI Node Active</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Nội dung chính -->
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12">
+        
+        <!-- Hero Section -->
+        <div class="text-center mb-16 max-w-4xl">
+            <h2 class="text-5xl md:text-7xl font-black mb-8 leading-[1.1] text-white uppercase">
+                Mọi <span class="text-gradient">Mảnh Ghép</span> <br>Trở Về Một Nguồn
+            </h2>
+            <p class="text-slate-400 text-sm md:text-lg font-medium leading-relaxed mb-12 max-w-2xl mx-auto opacity-80 italic">
+                "Khớp nối tri thức - Truyền tải tâm linh."
+            </p>
+
+            <!-- Tìm kiếm toàn cầu -->
+            <div class="relative w-full max-w-2xl mx-auto z-50">
+                <input type="text" id="global-search" 
+                    oninput="handleGlobalSearch(this.value)"
+                    placeholder="Tìm nhân vật, địa danh hoặc giáo lý..." 
+                    class="w-full px-8 py-6 bg-slate-800/60 backdrop-blur-2xl rounded-5xl border-2 border-slate-700 text-white outline-none search-glow transition-all focus:border-amber-600 text-lg shadow-2xl">
+                <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                    <button class="w-12 h-12 amber-gradient rounded-3xl flex items-center justify-center text-white shadow-lg">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
+                <!-- AI Dispatcher Result Card -->
+                <div id="search-preview" class="absolute top-full left-0 right-0 mt-4 hidden fade-in">
+                    <div class="bg-slate-800 border border-amber-600/30 rounded-4xl p-6 shadow-2xl text-left backdrop-blur-3xl">
+                        <div id="classification-result" class="space-y-4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Puzzle Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl">
+            <!-- 1. Phả Hệ Truyền Thừa -->
+            <div class="puzzle-card bg-slate-800/40 p-8 rounded-4xl flex flex-col cursor-not-allowed opacity-75">
+                <div class="w-12 h-12 bg-emerald-900/50 text-emerald-400 rounded-2xl flex items-center justify-center mb-6 border border-emerald-900/30">
+                    <i class="fa-solid fa-sitemap fa-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white uppercase tracking-tight">Phả Hệ Truyền Thừa</h3>
+                <p class="text-xs text-slate-400 leading-relaxed flex-1">
+                    Trực quan hóa mạng lưới quan hệ Thầy - Trò từ 2.000 hồ sơ phả hệ. Mapping ID quốc tế DILA/CBETA.
+                </p>
+                <div class="mt-6 flex items-center justify-between">
+                    <span class="text-[9px] font-bold text-emerald-600 uppercase tracking-widest">Chapter 2 & 22</span>
+                    <span class="text-[9px] bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded font-bold">Soon</span>
+                </div>
+            </div>
+
+            <!-- 2. Phật Tổ Đạo Ảnh -->
+            <a href="/daoanh/" class="puzzle-card bg-slate-800/40 p-8 rounded-4xl flex flex-col border-amber-900/20">
+                <div class="w-12 h-12 bg-amber-900/50 text-amber-500 rounded-2xl flex items-center justify-center mb-6 border border-amber-900/30">
+                    <i class="fa-solid fa-map-location-dot fa-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white uppercase tracking-tight">Phật Tổ Đạo Ảnh</h3>
+                <p class="text-xs text-slate-400 leading-relaxed flex-1">
+                    Hệ tọa độ tri thức GIS. Truy vết hành trạng chư Tổ qua không gian và thời gian. Tích hợp DILA GPS 20x.
+                </p>
+                <div class="mt-6 flex items-center justify-between">
+                    <span class="text-[9px] font-bold text-amber-600 uppercase tracking-widest">Chapter 5 & 13</span>
+                    <i class="fa-solid fa-arrow-right text-amber-600"></i>
+                </div>
+            </a>
+
+            <!-- 3. Deepsearch AI -->
+            <div class="puzzle-card bg-slate-800/40 p-8 rounded-4xl flex flex-col cursor-not-allowed opacity-75">
+                <div class="w-12 h-12 bg-blue-900/50 text-blue-400 rounded-2xl flex items-center justify-center mb-6 border border-blue-900/30">
+                    <i class="fa-solid fa-brain fa-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white uppercase tracking-tight">Deepsearch AI</h3>
+                <p class="text-xs text-slate-400 leading-relaxed flex-1">
+                    Cỗ máy trả lời câu hỏi dựa trên nguyên văn Đại Tạng Kinh. Engine Zero-RAM tối ưu hóa hiệu suất VPS.
+                </p>
+                <div class="mt-6 flex items-center justify-between">
+                    <span class="text-[9px] font-bold text-blue-600 uppercase tracking-widest">Chapter 8 & 23</span>
+                    <span class="text-[9px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded font-bold">Soon</span>
+                </div>
+            </div>
+
+            <!-- 4. Kho Lưu Trữ IIIF -->
+            <div class="puzzle-card bg-slate-800/40 p-8 rounded-4xl flex flex-col cursor-not-allowed opacity-75">
+                <div class="w-12 h-12 bg-purple-900/50 text-purple-400 rounded-2xl flex items-center justify-center mb-6 border border-purple-900/30">
+                    <i class="fa-solid fa-box-archive fa-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white uppercase tracking-tight">Kho Lưu Trữ IIIF</h3>
+                <p class="text-xs text-slate-400 leading-relaxed flex-1">
+                    Bảo tồn ảnh quét kinh điển gốc, tư liệu số hóa độ phân giải cao theo chuẩn lưu trữ quốc tế IIIF.
+                </p>
+                <div class="mt-6 flex items-center justify-between">
+                    <span class="text-[9px] font-bold text-purple-600 uppercase tracking-widest">Chapter 11</span>
+                    <span class="text-[9px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded font-bold">Soon</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-50 border-t border-white/5 px-8 py-10 bg-slate-900/90 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="space-y-4">
+                <h4 class="text-amber-500 font-bold uppercase text-[10px] tracking-[0.3em]">Triết lý Puzzle</h4>
+                <p class="text-[10px] text-slate-500 leading-loose uppercase font-medium">
+                    Không xây dựng phần mềm rời rạc. <br>
+                    Xây dựng các mảnh ghép kết nối. <br>
+                    Dữ liệu là nguồn chân lý duy nhất.
+                </p>
+            </div>
+            <div class="space-y-4 text-center md:text-left">
+                <h4 class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em]">Nguồn dữ liệu trích từ</h4>
+                <div class="flex items-center gap-6 opacity-40 justify-center md:justify-start">
+                    <span class="text-[11px] font-bold text-white border-r border-white/10 pr-6 uppercase">Dila</span>
+                    <span class="text-[11px] font-bold text-white border-r border-white/10 pr-6 uppercase">Cbeta</span>
+                    <span class="text-[11px] font-bold text-white uppercase">Sat DB</span>
+                </div>
+            </div>
+            <div class="text-right">
+                <p class="text-[10px] text-slate-400 font-bold uppercase mb-2">Vận hành bởi Pháp Thí Hội (Ver Demo)</p>
+                <p class="text-[9px] text-slate-600 uppercase tracking-widest font-bold">Bảo mật đa lớp LOCK System Active &copy; 2026 - 2045</p>
+            </div>
+        </div>
+
+        <!-- Visitor Counter -->
+        <div class="border-t border-white/5 mt-6 pt-4 text-center">
+            <p class="text-[9px] text-slate-600 uppercase tracking-widest font-bold">
+                Lượt truy cập: <span id="visitor-counter" class="text-amber-500 font-bold">0</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="modal-container" class="fixed inset-0 z-[100] hidden modal-backdrop flex items-center justify-center p-6">
+        <div class="bg-slate-900 border border-amber-900/30 w-full max-w-5xl max-h-[92vh] rounded-4xl shadow-2xl flex flex-col relative overflow-hidden">
+            <div class="p-10 overflow-y-auto custom-scrollbar flex-1" id="modal-content"></div>
+            <div class="p-6 border-t border-white/5 bg-black/20 text-right">
+                <button onclick="closeModal()" class="px-8 py-3 bg-amber-900 text-white text-[10px] font-bold uppercase rounded-2xl tracking-widest hover:bg-amber-800 transition-all shadow-xl">Đóng cửa sổ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // AI Dispatcher - Load places for entity recognition
+        let allPlaces = [];
+        
+        // Load places from daoanh
+        fetch('/daoanh/data/places.json')
+            .then(res => res.json())
+            .then(data => {
+                allPlaces = data.places || [];
+                console.log(`Loaded ${allPlaces.length} places for AI Dispatcher`);
+            })
+            .catch(err => console.error('Failed to load places:', err));
+
+        // Remove diacritics for fuzzy matching
+        function removeDiacritics(str) {
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        // Find place by name (with fuzzy matching)
+        function findPlace(query) {
+            if (!query || allPlaces.length === 0) return null;
+            
+            const lowerQuery = query.toLowerCase();
+            const normalizedQuery = removeDiacritics(lowerQuery);
+            
+            // Exact match first
+            let match = allPlaces.find(p => {
+                const nameVi = (p.nameVietnamese || '').toLowerCase();
+                const nameZh = (p.nameChinese || '').toLowerCase();
+                const nameEn = (p.nameEnglish || '').toLowerCase();
+                return nameVi === lowerQuery || nameZh === lowerQuery || nameEn === lowerQuery;
+            });
+            
+            if (match) return match;
+            
+            // Partial match (contains)
+            match = allPlaces.find(p => {
+                const nameVi = (p.nameVietnamese || '').toLowerCase();
+                const nameZh = (p.nameChinese || '').toLowerCase();
+                const nameEn = (p.nameEnglish || '').toLowerCase();
+                return nameVi.includes(lowerQuery) || nameZh.includes(lowerQuery) || 
+                       nameEn.includes(lowerQuery) || removeDiacritics(nameVi).includes(normalizedQuery);
+            });
+            
+            return match;
+        }
+
+        function handleGlobalSearch(val) {
+            const preview = document.getElementById('search-preview');
+            const result = document.getElementById('classification-result');
+            
+            if (val.trim().length < 2) {
+                preview.classList.add('hidden');
+                return;
+            }
+
+            preview.classList.remove('hidden');
+            let content = "";
+            
+            // AI Dispatcher - Dynamic matching
+            const place = findPlace(val);
+            
+            if (place) {
+                // Found a place - Show AI Dispatch Panel
+                const lat = place.lat || '';
+                const lon = place.lon || '';
+                const zoom = 15;
+                
+                content = `
+                    <div class="flex items-center justify-between border-b border-slate-700/50 pb-3">
+                        <span class="px-3 py-1 bg-amber-900/40 text-amber-500 border border-amber-900/50 rounded-full text-[9px] font-bold uppercase tracking-widest">
+                            🗺️ DISPATCH: PHẬT TỔ ĐẠO ẢNH (GIS)
+                        </span>
+                        <span class="text-[9px] text-slate-500 font-mono italic">Entity ID: ${place.id}</span>
+                    </div>
+                    <div class="flex gap-6 mt-4">
+                        <div class="w-24 h-24 bg-slate-700 rounded-3xl overflow-hidden flex-shrink-0 border border-white/10">
+                            <img src="https://images.unsplash.com/photo-1599707334091-cd5b4010315a?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover opacity-60" alt="${place.nameVietnamese || place.nameChinese}">
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-2xl font-bold text-white mb-1">
+                                ${place.nameVietnamese || place.nameChinese} 
+                                ${place.nameChinese ? `<span class="text-lg text-slate-400">(${place.nameChinese})</span>` : ''}
+                            </h4>
+                            <p class="text-xs text-slate-400 mb-4 leading-relaxed italic">
+                                ${place.description || 'Địa danh Phật giáo'} 
+                                ${place.province ? `• ${place.province}` : ''}
+                                ${place.country ? `• ${place.country}` : ''}
+                            </p>
+                            <div class="flex gap-2 flex-wrap">
+                                <a href="/daoanh/?lat=${lat}&lon=${lon}&zoom=${zoom}&place=${encodeURIComponent(place.nameVietnamese || place.nameChinese)}" 
+                                   class="px-5 py-2.5 bg-amber-700 hover:bg-amber-600 text-white text-[10px] font-bold rounded-xl transition-all shadow-lg flex items-center gap-2">
+                                    <i class="fa-solid fa-crosshairs"></i> XEM TRÊN BẢN ĐỒ
+                                </a>
+                                ${place.referencedIn && place.referencedIn.length > 0 ? `
+                                <button class="px-5 py-2.5 bg-slate-700 text-slate-300 text-[10px] font-bold rounded-xl flex items-center gap-2">
+                                    <i class="fa-solid fa-scroll"></i> TRUY VẾT KINH VĂN (${place.referencedIn.length})
+                                </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Not found - Fallback message
+                content = `
+                    <div class="text-center py-6">
+                        <i class="fa-solid fa-magnifying-glass-chart fa-2xl mb-4 text-slate-600"></i>
+                        <p class="text-xs font-medium uppercase tracking-widest text-slate-500">
+                            🔍 AI đang tìm kiếm trong Cơ sở Tri thức...
+                        </p>
+                        <p class="text-[10px] text-slate-600 mt-2">
+                            Gõ "Thiếu Lâm Tự", "Kỳ Viên", "Lộc Uyển" để xem demo
+                        </p>
+                    </div>
+                `;
+            }
+            
+            result.innerHTML = content;
+        }
+
+        const modalData = {
+            intro: `
+                <div class="text-center mb-8">
+                    <div class="inline-block p-4 bg-amber-900/20 rounded-3xl mb-4">
+                        <i class="fa-solid fa-compass fa-2xl text-amber-500"></i>
+                    </div>
+                    <h2 class="text-3xl font-black text-gradient uppercase">Giới Thiệu Dự Án</h2>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-6 text-slate-300 leading-relaxed text-sm">
+                    <p class="font-bold text-amber-500 text-lg italic text-center mb-6">🧩 Triết lý "Mảnh Ghép" (The Puzzle Philosophy)</p>
+                    <p>Chào mừng bạn đến với hệ sinh thái <strong>Puzzle Đại Tạng Kinh</strong>. Chúng tôi không xây dựng một phần mềm rời rạc, chúng tôi kiến tạo các <strong>Mảnh Ghép Tri Thức</strong>. Mỗi nhân vật, mỗi địa danh, mỗi dòng kinh văn là một mảnh ghép quan trọng.</p>
+                    <p>Khi được khớp nối lại bằng sức mạnh của trí tuệ nhân tạo (AI) và bản đồ số, chúng tái hiện toàn cảnh bức tranh 2.500 năm lịch sử Phật giáo một cách chân thực nhất. Dự án này là "cây cầu tri thức" hiện đại, giúp xóa nhòa khoảng cách giữa kho tàng kinh điển đồ sộ và người dùng đương đại.</p>
+                    <div class="p-6 bg-slate-800 rounded-4xl border border-amber-900/20 italic text-center">
+                        "Puzzle: Khớp nối tri thức - Truyền tải tâm linh."
+                    </div>
+                    <div class="flex justify-center pt-6">
+                        <div class="p-4 border-l-4 border-amber-700 bg-amber-700/5 text-center px-12">
+                            <p class="text-xs font-bold text-white uppercase tracking-widest mb-1 opacity-60">Sứ mệnh vận hành bởi:</p>
+                            <p class="text-xl font-black text-amber-600 tracking-tighter uppercase">PHÁP THÍ HỘI</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+content: `
+                <div class="text-center mb-10">
+                    <div class="inline-block p-4 bg-emerald-900/20 rounded-3xl mb-4">
+                        <i class="fa-solid fa-layer-group fa-2xl text-emerald-500"></i>
+                    </div>
+                    <h2 class="text-3xl font-black text-gradient uppercase">Lộ Trình Thực Thi Chiến Lược</h2>
+                    <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-[0.3em]">Bản tóm lược 28 chương đề án cho Học Thuật Và Đại Chúng</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto">
+                    
+                    <div class="toc-section-title">Giai đoạn I: Xây dựng Nền tảng (Chương 1 - 7)</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                        
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(1)">
+                                <div class="toc-title">
+                                    <div style="position: relative; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 100%; height: 100%; filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.4));">
+                                            <path d="M50 15C55 30 75 35 85 50C75 65 55 70 50 85C45 70 25 65 15 50C25 35 45 30 50 15Z" stroke="#fde68a" stroke-width="2.5" fill="rgba(217, 119, 6, 0.15)"/>
+                                            <path d="M50 30C53 45 68 48 73 52C68 56 53 59 50 74C47 59 32 56 27 52C32 48 47 45 50 30Z" stroke="#d97706" stroke-width="2" />
+                                            <circle cx="50" cy="52" r="4" fill="#d97706" opacity="0.8"/>
+                                        </svg>
+                                        <span style="position: relative; z-index: 10; color: #fde68a; font-family: monospace; font-weight: 800; font-size: 0.7rem; text-shadow: 0 0 10px rgba(120, 53, 15, 0.8);">✓</span>
+                                    </div>
+                                    Tầm nhìn 2.500 năm
+                                </div>
+                                <div class="toc-icon" id="icon-1"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-1">
+                                <p class="toc-desc">Xác lập sứ mệnh kết nối con người với trí tuệ Phật giáo thông qua công nghệ hiện đại. Xây dựng cây cầu tri thức bền vững cho tương lai.</p>
+                                <span class="toc-kw">Tiêu điểm: Khớp nối & Thực thi</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(2)">
+                                <div class="toc-title">
+                                    <div style="position: relative; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 100%; height: 100%; filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.4));">
+                                            <path d="M50 15C55 30 75 35 85 50C75 65 55 70 50 85C45 70 25 65 15 50C25 35 45 30 50 15Z" stroke="#fde68a" stroke-width="2.5" fill="rgba(217, 119, 6, 0.15)"/>
+                                            <path d="M50 30C53 45 68 48 73 52C68 56 53 59 50 74C47 59 32 56 27 52C32 48 47 45 50 30Z" stroke="#d97706" stroke-width="2" />
+                                            <circle cx="50" cy="52" r="4" fill="#d97706" opacity="0.8"/>
+                                        </svg>
+                                        <span style="position: relative; z-index: 10; color: #fde68a; font-family: monospace; font-weight: 800; font-size: 0.7rem; text-shadow: 0 0 10px rgba(120, 53, 15, 0.8);">✓</span>
+                                    </div>
+                                    Hành trình số hóa văn bản
+                                </div>
+                                <div class="toc-icon" id="icon-2"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-2">
+                                <p class="toc-desc">Biến hơn 2.000 tệp văn bản thô thành dữ liệu thông minh. Tự động nhận diện tên Kinh, người dịch và các chương mục quan trọng.</p>
+                                <span class="toc-kw">Tiêu điểm: ETL & Bóc tách</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(3)">
+                                <div class="toc-title">
+                                    <span class="toc-num">03</span>
+                                    Xây dựng Tủ sách thông minh
+                                </div>
+                                <div class="toc-icon" id="icon-3"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-3">
+                                <p class="toc-desc">Thiết lập hệ thống lưu trữ linh hoạt, cho phép tìm kiếm và truy xuất dữ liệu cực nhanh trên mọi thiết bị.</p>
+                                <span class="toc-kw">Tiêu điểm: NoSQL & Storage</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(4)">
+                                <div class="toc-title">
+                                    <span class="toc-num">04</span>
+                                    Kiến trúc Bộ não AI
+                                </div>
+                                <div class="toc-icon" id="icon-4"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-4">
+                                <p class="toc-desc">Thiết kế cách thức AI tiếp nhận và hiểu được ngôn ngữ Phật học đặc thù, chuẩn bị cho các tính năng hỏi đáp chuyên sâu.</p>
+                                <span class="toc-kw">Tiêu điểm: AI & NLP</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(5)">
+                                <div class="toc-title">
+                                    <div style="position: relative; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 100%; height: 100%; filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.4));">
+                                            <path d="M50 15C55 30 75 35 85 50C75 65 55 70 50 85C45 70 25 65 15 50C25 35 45 30 50 15Z" stroke="#fde68a" stroke-width="2.5" fill="rgba(217, 119, 6, 0.15)"/>
+                                            <path d="M50 30C53 45 68 48 73 52C68 56 53 59 50 74C47 59 32 56 27 52C32 48 47 45 50 30Z" stroke="#d97706" stroke-width="2" />
+                                            <circle cx="50" cy="52" r="4" fill="#d97706" opacity="0.8"/>
+                                        </svg>
+                                        <span style="position: relative; z-index: 10; color: #fde68a; font-family: monospace; font-weight: 800; font-size: 0.7rem; text-shadow: 0 0 10px rgba(120, 53, 15, 0.8);">✓</span>
+                                    </div>
+                                    Bản đồ Đồ thị Tri thức
+                                </div>
+                                <div class="toc-icon" id="icon-5"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-5">
+                                <p class="toc-desc">Kết nối các nhân vật, địa danh và giáo lý thành một mạng lưới. Bạn sẽ thấy rõ mối quan hệ Thầy - Trò xuyên suốt lịch sử.</p>
+                                <span class="toc-kw">Tiêu điểm: Knowledge Graph</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(6)">
+                                <div class="toc-title">
+                                    <div style="position: relative; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 100%; height: 100%; filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.4));">
+                                            <path d="M50 15C55 30 75 35 85 50C75 65 55 70 50 85C45 70 25 65 15 50C25 35 45 30 50 15Z" stroke="#fde68a" stroke-width="2.5" fill="rgba(217, 119, 6, 0.15)"/>
+                                            <path d="M50 30C53 45 68 48 73 52C68 56 53 59 50 74C47 59 32 56 27 52C32 48 47 45 50 30Z" stroke="#d97706" stroke-width="2" />
+                                            <circle cx="50" cy="52" r="4" fill="#d97706" opacity="0.8"/>
+                                        </svg>
+                                        <span style="position: relative; z-index: 10; color: #fde68a; font-family: monospace; font-weight: 800; font-size: 0.7rem; text-shadow: 0 0 10px rgba(120, 53, 15, 0.8);">✓</span>
+                                    </div>
+                                    Hệ thống Hỏi đáp thông minh (RAG)
+                                </div>
+                                <div class="toc-icon" id="icon-6"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-6">
+                                <p class="toc-desc">Phát triển công nghệ giúp AI trả lời câu hỏi của bạn bằng cách trích dẫn chính xác từng dòng kinh văn gốc.</p>
+                                <span class="toc-kw">Tiêu điểm: RAG & Grounding</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(7)">
+                                <div class="toc-title">
+                                    <span class="toc-num">07</span>
+                                    Giao diện và Cổng kết nối
+                                </div>
+                                <div class="toc-icon" id="icon-7"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-7">
+                                <p class="toc-desc">Xây dựng trang web và ứng dụng dễ dùng, đồng thời tạo cổng kết nối để các dự án khác có thể cùng sử dụng dữ liệu.</p>
+                                <span class="toc-kw">Tiêu điểm: UI & API</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="toc-section-title">Giai đoạn II: Trí tuệ & Trải nghiệm (Chương 8 - 14)</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                        
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(8)">
+                                <div class="toc-title">
+                                    <span class="toc-num">08</span>
+                                    Trợ lý Chatbot Phật học
+                                </div>
+                                <div class="toc-icon" id="icon-8"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-8">
+                                <p class="toc-desc">Tạo ra một người bạn đồng hành ảo, có thể giải đáp thắc mắc về giáo lý dựa trên kho tàng Đại Tạng Kinh.</p>
+                                <span class="toc-kw">Tiêu điểm: Chatbot & LLM</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(9)">
+                                <div class="toc-title">
+                                    <span class="toc-num">09</span>
+                                    Công cụ Nghiên cứu Nâng cao
+                                </div>
+                                <div class="toc-icon" id="icon-9"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-9">
+                                <p class="toc-desc">Phát triển các tính năng so sánh văn bản, tìm kiếm theo ý nghĩa thay vì chỉ tìm theo từ khóa đơn thuần.</p>
+                                <span class="toc-kw">Tiêu điểm: Semantic Search</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(10)">
+                                <div class="toc-title">
+                                    <span class="toc-num">10</span>
+                                    Ứng dụng Học tập Tương tác
+                                </div>
+                                <div class="toc-icon" id="icon-10"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-10">
+                                <p class="toc-desc">Biến việc học Phật thành một hành trình thú vị với các trò chơi mảnh ghép (Puzzle) và trực quan hóa sinh động.</p>
+                                <span class="toc-kw">Tiêu điểm: Gamification</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(11)">
+                                <div class="toc-title">
+                                    <span class="toc-num">11</span>
+                                    Mở rộng và Bảo trì
+                                </div>
+                                <div class="toc-icon" id="icon-11"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-11">
+                                <p class="toc-desc">Đảm bảo hệ thống luôn hoạt động ổn định và sẵn sàng đón nhận thêm hàng ngàn tài liệu mới mỗi năm.</p>
+                                <span class="toc-kw">Tiêu điểm: DevOps & Scale</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(12)">
+                                <div class="toc-title">
+                                    <span class="toc-num">12</span>
+                                    Vượt qua rào cản ngôn ngữ
+                                </div>
+                                <div class="toc-icon" id="icon-12"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-12">
+                                <p class="toc-desc">Giải quyết các thách thức về từ ngữ cổ, đa nghĩa, giúp AI hiểu đúng ngữ cảnh văn hóa và lịch sử.</p>
+                                <span class="toc-kw">Tiêu điểm: NLU & Context</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(13)">
+                                <div class="toc-title">
+                                    <span class="toc-num">13</span>
+                                    Cộng đồng và Hợp tác
+                                </div>
+                                <div class="toc-icon" id="icon-13"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-13">
+                                <p class="toc-desc">Mời gọi các nhà nghiên cứu cùng tham gia xây dựng và đóng góp ý kiến để hệ thống ngày càng hoàn thiện.</p>
+                                <span class="toc-kw">Tiêu điểm: Community</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(14)">
+                                <div class="toc-title">
+                                    <span class="toc-num">14</span>
+                                    Ứng dụng Phân tích Hình ảnh
+                                </div>
+                                <div class="toc-icon" id="icon-14"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-14">
+                                <p class="toc-desc">Tích hợp công nghệ nhận diện tượng Phật, phù điêu và các cổ vật liên quan đến nội dung kinh điển.</p>
+                                <span class="toc-kw">Tiêu điểm: Computer Vision</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="toc-section-title">Giai đoạn III: Nhân sự & Tài chính (Chương 15 - 21)</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                        
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(15)">
+                                <div class="toc-title">
+                                    <span class="toc-num">15</span>
+                                    Đội ngũ và Cố vấn
+                                </div>
+                                <div class="toc-icon" id="icon-15"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-15">
+                                <p class="toc-desc">Giới thiệu các bậc tôn túc và học giả hàng đầu trực tiếp thẩm định và cố vấn cho dự án.</p>
+                                <span class="toc-kw">Tiêu điểm: Advisory Board</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(16)">
+                                <div class="toc-title">
+                                    <span class="toc-num">16</span>
+                                    Tài liệu Tham chiếu
+                                </div>
+                                <div class="toc-icon" id="icon-16"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-16">
+                                <p class="toc-desc">Hệ thống hóa các nguồn tài liệu tin cậy mà dự án dựa vào để đảm bảo tính chính pháp tuyệt đối.</p>
+                                <span class="toc-kw">Tiêu điểm: References</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(17)">
+                                <div class="toc-title">
+                                    <span class="toc-num">17</span>
+                                    Bền vững và Tác động xã hội
+                                </div>
+                                <div class="toc-icon" id="icon-17"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-17">
+                                <p class="toc-desc">Cam kết sử dụng tài nguyên hiệu quả và mang tri thức Phật học đến với mọi tầng lớp nhân dân.</p>
+                                <span class="toc-kw">Tiêu điểm: Sustainability</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(18)">
+                                <div class="toc-title">
+                                    <span class="toc-num">18</span>
+                                    Dự toán Kinh phí 20 năm
+                                </div>
+                                <div class="toc-icon" id="icon-18"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-18">
+                                <p class="toc-desc">Kế hoạch tài chính chi tiết từ 2026 đến 2045, đảm bảo dự án không bị gián đoạn vì thiếu hụt nguồn lực.</p>
+                                <span class="toc-kw">Tiêu điểm: Budget Planning</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(19)">
+                                <div class="toc-title">
+                                    <span class="toc-num">19</span>
+                                    Đánh giá Rủi ro
+                                </div>
+                                <div class="toc-icon" id="icon-19"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-19">
+                                <p class="toc-desc">Lường trước các khó khăn về kỹ thuật, tài chính và pháp lý để luôn có phương án ứng phó kịp thời.</p>
+                                <span class="toc-kw">Tiêu điểm: Risk Management</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(20)">
+                                <div class="toc-title">
+                                    <span class="toc-num">20</span>
+                                    Phụ lục Kỹ thuật
+                                </div>
+                                <div class="toc-icon" id="icon-20"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-20">
+                                <p class="toc-desc">Nơi lưu trữ các sơ đồ chi tiết và bảng giải nghĩa thuật ngữ dành cho các chuyên gia quan tâm sâu.</p>
+                                <span class="toc-kw">Tiêu điểm: Technical Appendix</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(21)">
+                                <div class="toc-title">
+                                    <span class="toc-num">21</span>
+                                    Kết luận và Tầm nhìn
+                                </div>
+                                <div class="toc-icon" id="icon-21"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-21">
+                                <p class="toc-desc">Tổng kết các thành tựu và vạch ra hướng đi tiếp theo sau khi đã hoàn thành các mục tiêu cơ bản.</p>
+                                <span class="toc-kw">Tiêu điểm: Conclusion</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="toc-section-title">Giai đoạn IV: Tối ưu & Tương lai (Chương 22 - 28)</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                        
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(22)">
+                                <div class="toc-title">
+                                    <span class="toc-num">22</span>
+                                    Chỉ số Đánh giá Hiệu quả
+                                </div>
+                                <div class="toc-icon" id="icon-22"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-22">
+                                <p class="toc-desc">Thiết lập thước đo cụ thể về độ chính xác của AI và mức độ hài lòng của người dùng.</p>
+                                <span class="toc-kw">Tiêu điểm: KPIs & Metrics</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(23)">
+                                <div class="toc-title">
+                                    <span class="toc-num">23</span>
+                                    Tối ưu hóa chuyên sâu
+                                </div>
+                                <div class="toc-icon" id="icon-23"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-23">
+                                <p class="toc-desc">Làm cho hệ thống chạy cực nhanh trên mọi cấu hình máy tính, giúp tiết kiệm chi phí vận hành tối đa.</p>
+                                <span class="toc-kw">Tiêu điểm: Performance</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(24)">
+                                <div class="toc-title">
+                                    <span class="toc-num">24</span>
+                                    Mô hình AI Phật học đặc thù
+                                </div>
+                                <div class="toc-icon" id="icon-24"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-24">
+                                <p class="toc-desc">Tự huấn luyện các bộ não AI riêng biệt cho từng tông phái hoặc từng ngôn ngữ (Phạn, Pali, Hán).</p>
+                                <span class="toc-kw">Tiêu điểm: Fine-tuning</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(25)">
+                                <div class="toc-title">
+                                    <span class="toc-num">25</span>
+                                    Thiết kế Trải nghiệm Đa năng
+                                </div>
+                                <div class="toc-icon" id="icon-25"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-25">
+                                <p class="toc-desc">Tối ưu giao diện cho người già, người khiếm thị, đảm bảo không ai bị bỏ lại phía sau trên con đường tìm kiếm tri thức.</p>
+                                <span class="toc-kw">Tiêu điểm: Accessibility</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(26)">
+                                <div class="toc-title">
+                                    <span class="toc-num">26</span>
+                                    Hướng dẫn Đóng góp
+                                </div>
+                                <div class="toc-icon" id="icon-26"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-26">
+                                <p class="toc-desc">Bộ quy tắc chi tiết để bất kỳ ai cũng có thể tham gia viết code hoặc hiệu đính dữ liệu cho dự án.</p>
+                                <span class="toc-kw">Tiêu điểm: Contributing Guide</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(27)">
+                                <div class="toc-title">
+                                    <span class="toc-num">27</span>
+                                    Quản lý Cộng đồng lâu dài
+                                </div>
+                                <div class="toc-icon" id="icon-27"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-27">
+                                <p class="toc-desc">Xây dựng môi trường thảo luận học thuật văn minh, bền vững xung quanh kho dữ liệu Đại Tạng Kinh.</p>
+                                <span class="toc-kw">Tiêu điểm: Community Management</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <div class="toc-header" onclick="toggleChapter(28)">
+                                <div class="toc-title">
+                                    <span class="toc-num">28</span>
+                                    Sẵn sàng cho Kỷ nguyên mới
+                                </div>
+                                <div class="toc-icon" id="icon-28"><i class="fa-solid fa-plus"></i></div>
+                            </div>
+                            <div class="toc-content" id="content-28">
+                                <p class="toc-desc">Chuẩn bị dữ liệu thích ứng với máy tính lượng tử và các công nghệ tương lai của năm 2045.</p>
+                                <span class="toc-kw">Tiêu điểm: Future Ready</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            `,
+            opendata: `
+                <div class="text-center mb-10">
+                    <div class="inline-block p-4 bg-blue-900/20 rounded-3xl mb-4">
+                        <i class="fa-solid fa-file-shield fa-2xl text-blue-500"></i>
+                    </div>
+                    <h2 class="text-3xl font-black text-gradient uppercase">Cam Kết Pháp Thí Vĩnh Viễn</h2>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-6 text-slate-300 leading-relaxed">
+                    <p class="font-bold text-blue-500 italic text-center">"Pháp thí thắng mọi thí - Trí tuệ phá vô minh."</p>
+                    <p class="text-sm">Chúng tôi cam kết duy trì mọi tài nguyên tri thức trên hệ thống này hoàn toàn <strong>Miễn Phí Mãi Mãi</strong> cho mọi chúng sinh theo giấy phép quốc tế <strong>CC BY-SA 4.0</strong>.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-800 rounded-3xl border border-white/5">
+                            <h4 class="text-[10px] font-bold text-white uppercase mb-2 tracking-widest">Kho Dữ Liệu Sẵn Có:</h4>
+                            <ul class="text-[11px] space-y-2 list-disc pl-4 opacity-70">
+                                <li>DILA UUID Mapping (CSV)</li>
+                                <li>Lineage Graph Data (.ttl)</li>
+                                <li>GPS Metadata (JSON)</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-slate-800 rounded-3xl border border-white/5">
+                            <h4 class="text-[10px] font-bold text-white uppercase mb-2 tracking-widest">Cổng Kỹ Thuật:</h4>
+                            <ul class="text-[11px] space-y-2 list-disc pl-4 opacity-70">
+                                <li>API Documentation v1</li>
+                                <li>SPARQL Query Engine</li>
+                                <li>IPFS Data Verification</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `,
+sources: `
+                <div class="text-center mb-10">
+                    <div class="inline-block p-4 bg-blue-900/20 rounded-3xl mb-4">
+                        <i class="fa-solid fa-book fa-2xl text-blue-500"></i>
+                    </div>
+                    <h2 class="text-3xl font-black text-gradient uppercase">Nguồn Dữ Liệu & Giấy Phép</h2>
+                    <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-[0.3em]">Website: phatphaponline.org</p>
+                </div>
+                <div class="max-w-4xl mx-auto space-y-6 text-slate-300 leading-relaxed text-sm text-justify">
+                    <p class="text-xs text-slate-400">Trang này trình bày chi tiết các nguồn dữ liệu văn bản, từ điển và metadata được sử dụng trên website, cùng với giấy phép tương ứng và cách chúng tôi tuân thủ.</p>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">1. Glossaries & Từ điển Phật học (Marcus Bingenheimer – CC0)</h3>
+                        <p class="text-xs font-bold text-white">Nguồn chính:</p>
+                        <p>Bộ glossaries \u201Cbuddhist_studies_glossaries\u201D do Marcus Bingenheimer biên soạn và công bố trên GitHub.<br>
+                        <a href="https://github.com/mbingenheimer/buddhist_studies_glossaries" target="_blank" class="text-amber-500 underline">https://github.com/mbingenheimer/buddhist_studies_glossaries</a></p>
+                        <p>Theo README của repository này, các glossary trong phiên bản phát hành tại đây được phân phối dưới giấy phép Creative Commons 0 (CC0 1.0 Universal).<br>
+                        <a href="https://authority.dila.edu.tw/" target="_blank" class="text-amber-500 underline">https://authority.dila.edu.tw/</a></p>
+                        <p class="text-xs font-bold text-white">Nội dung sử dụng:</p>
+                        <p>Các file từ điển/glossary (xdxf, gls, StarDict, v.v.), bao gồm một số ví dụ:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>DILA_persAuthority20XX-XX.dict.xdxf – trích từ DILA Buddhist Person Name Authority.</li>
+                            <li>dppn_suttacentral.xdxf – dựa trên dữ liệu DPPN từ SuttaCentral.</li>
+                        </ul>
+                        <p><a href="https://github.com/mbingenheimer/buddhist_studies_glossaries" target="_blank" class="text-amber-500 underline">https://github.com/mbingenheimer/buddhist_studies_glossaries</a></p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Các glossary thuật ngữ Hán – Tạng – Phạn – Pāli – Nhật, v.v.</li>
+                        </ul>
+                        <p class="text-xs font-bold text-white mt-4">Giấy phép & cách sử dụng:</p>
+                        <p>Giấy phép: CC0 1.0 Universal – cho phép sử dụng, chỉnh sửa và chia sẻ không hạn chế về bản quyền.<br>
+                        <a href="https://authority.dila.edu.tw/" target="_blank" class="text-amber-500 underline">https://authority.dila.edu.tw/</a></p>
+                        <p>Trên phatphaponline.org, chúng tôi:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Sử dụng các glossary này để cung cấp chức năng tra cứu thuật ngữ, gợi ý chú giải, chuẩn hóa tên riêng và hỗ trợ tìm kiếm.</li>
+                            <li>Dù không bắt buộc, chúng tôi tự nguyện ghi nhận và cảm ơn Marcus Bingenheimer ở phần giới thiệu và trang này.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">2. Dữ liệu Authority từ DILA – Person / Place / Time</h3>
+                        <p>Chúng tôi chắc chắn sử dụng ba bộ dữ liệu authority chính thức do Dharma Drum Institute of Liberal Arts (DILA) phát triển và công bố trong dự án Buddhist Studies Authority Databases.</p>
+                        <p><a href="https://authority.dila.edu.tw/docs/open_content/download.php" target="_blank" class="text-amber-500 underline">https://authority.dila.edu.tw/docs/open_content/download.php</a></p>
+
+                        <div class="pl-4 border-l-2 border-blue-500/30 space-y-4 mt-4">
+                            <div>
+                                <h4 class="text-sm font-bold text-white">2.1. Buddhist Person Authority Database</h4>
+                                <p>Tên bộ dữ liệu: Buddhist Person Authority Database.<br>
+                                <a href="https://github.com/DILA-edu/Authority-Databases" target="_blank" class="text-amber-500 underline">https://github.com/DILA-edu/Authority-Databases</a></p>
+                                <p>Nội dung: thông tin về chư Tăng Ni, cư sĩ, nhân vật lịch sử trong Phật giáo (tên chính, biệt danh, tên Hán – Pāli – Phạn, niên đại, liên kết tới nguồn văn bản).</p>
+                                <p>Giấy phép: Creative Commons Attribution-ShareAlike (CC BY-SA) (phiên bản cụ thể tùy theo mô tả của DILA, ví dụ CC BY-SA 3.0).</p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">2.2. Buddhist Place Authority Database</h4>
+                                <p>Tên bộ dữ liệu: Buddhist Place Authority Database.</p>
+                                <p>Nội dung: dữ liệu về địa danh Phật giáo (tự viện, thánh tích, địa điểm lịch sử, phân loại địa lý, dạng tên khác nhau).</p>
+                                <p>Giấy phép: Creative Commons Attribution-ShareAlike (CC BY-SA).<br>
+                                <a href="https://github.com/DILA-edu/Authority-Databases" target="_blank" class="text-amber-500 underline">https://github.com/DILA-edu/Authority-Databases</a></p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">2.3. Buddhist Time Authority Database</h4>
+                                <p>Tên bộ dữ liệu: DDBC Time Authority Database (thuộc DILA Authority Open Content Project).</p>
+                                <p>Nội dung: niên đại, mốc thời gian, triều đại, thời kỳ lịch sử, dạng biểu diễn khác nhau của thời gian.</p>
+                                <p>Giấy phép: Creative Commons Attribution-ShareAlike (CC BY-SA) như công bố trên trang open content/download của DILA.<br>
+                                <a href="https://authority.dila.edu.tw/docs/open_content/download.php" target="_blank" class="text-amber-500 underline">https://authority.dila.edu.tw/docs/open_content/download.php</a></p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs font-bold text-white mt-4">Cách chúng tôi sử dụng 3 bộ Authority này:</p>
+                        <p>Dùng để:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Chuẩn hóa nhân danh, địa danh, niên đại trong cơ sở dữ liệu.</li>
+                            <li>Xây dựng knowledge graph liên kết nhân vật – địa điểm – thời gian – kinh văn.</li>
+                            <li>Hiển thị thông tin tóm tắt (profile) khi người dùng tra cứu.</li>
+                        </ul>
+                        <p class="text-xs font-bold text-white mt-2">Chúng tôi tuân thủ:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Ghi attribution rõ ràng, ví dụ: <em>\u201CDữ liệu nhân danh/địa danh/niên đại được trích từ Buddhist Studies Authority Databases, Dharma Drum Institute of Liberal Arts (DILA), cấp phép dưới CC BY-SA.\u201D</em></li>
+                            <li>Nếu trong tương lai phatphaponline.org cung cấp các dataset phái sinh (đã chỉnh sửa/ghép nối) để tải về, các dataset này sẽ được chia sẻ theo giấy phép tương thích CC BY-SA, đúng tinh thần ShareAlike.</li>
+                        </ul>
+                        <p><a href="https://github.com/DILA-edu/Authority-Databases" target="_blank" class="text-amber-500 underline">https://github.com/DILA-edu/Authority-Databases</a></p>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">3. Ba nguồn kinh sách chính thống: CBETA, SuttaCentral, 84000</h3>
+                        <p>Trên phatphaponline.org, ba nguồn dưới đây được xem là nguồn kinh sách chính thống, làm chuẩn tham chiếu khi trích dẫn kinh văn và đối chiếu văn bản.</p>
+
+                        <div class="pl-4 border-l-2 border-emerald-500/30 space-y-4 mt-4">
+                            <div>
+                                <h4 class="text-sm font-bold text-white">3.1. CBETA – Chinese Buddhist Electronic Text Association</h4>
+                                <p>Mô tả: Dự án phi lợi nhuận số hóa và hiệu đính đại tạng kinh Hán văn (CBETA).</p>
+                                <p class="text-xs font-bold text-white mt-2">Cách sử dụng trên phatphaponline.org:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Dùng văn bản Hán tạng hiện đại từ CBETA làm nguồn chính cho nhiều kinh, luận, luật Hán ngữ.</li>
+                                    <li>Cho phép người dùng đọc, tra cứu online từng bài kinh, đoạn văn, không cung cấp tải bulk toàn bộ corpus.</li>
+                                    <li>Có thể sử dụng các API/công cụ do bên thứ ba (như DILA, FoJin) cung cấp để truy xuất văn bản, nhưng luôn tuân thủ điều khoản bản quyền và sử dụng phi thương mại của CBETA.</li>
+                                </ul>
+                                <p><a href="https://github.com/xr843/fojin" target="_blank" class="text-amber-500 underline">https://github.com/xr843/fojin</a></p>
+                                <p><a href="https://authority.dila.edu.tw/docs/open_content/download.php" target="_blank" class="text-amber-500 underline">https://authority.dila.edu.tw/docs/open_content/download.php</a></p>
+                                <p class="text-xs font-bold text-white mt-2">Tôn trọng bản quyền:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Chúng tôi không bán, không thu phí truy cập các văn bản CBETA.</li>
+                                    <li>Chúng tôi không đóng gói lại toàn bộ CBETA thành dataset để tải trên phatphaponline.org.</li>
+                                    <li>Khi thích hợp, chúng tôi ghi rõ nguồn \u201CCBETA\u201D trong phần trích dẫn hoặc chú thích văn bản.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">3.2. SuttaCentral</h4>
+                                <p>Mô tả: Dự án cung cấp kinh tạng Nikāya và các văn bản liên quan bằng nhiều ngôn ngữ (Pāli, Hán, Anh, v.v.).</p>
+                                <p class="text-xs font-bold text-white mt-2">Cách sử dụng trên phatphaponline.org:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Dùng một phần bản dịch hoặc cấu trúc metadata (ID, số kinh, đối chiếu Pāli–Hán) làm tham chiếu đối chiếu kinh điển.</li>
+                                    <li>Khi trích dẫn hoặc hiển thị các đoạn dịch từ SuttaCentral, chúng tôi tôn trọng giấy phép (thường là giấy phép Creative Commons với điều kiện phi thương mại và attribution).</li>
+                                </ul>
+                                <p class="text-xs font-bold text-white mt-2">Tôn trọng bản quyền:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Không đóng gói lại toàn bộ nội dung SuttaCentral để tải.</li>
+                                    <li>Khi trích dẫn, ghi rõ \u201CNguồn: SuttaCentral\u201D và các thông tin cần thiết theo hướng dẫn của dự án.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">3.3. 84000 – Translating the Words of the Buddha</h4>
+                                <p>Mô tả: Dự án dịch thuật kinh tạng từ tiếng Tạng sang tiếng Anh và các ngôn ngữ khác.</p>
+                                <p class="text-xs font-bold text-white mt-2">Cách sử dụng trên phatphaponline.org:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Dùng các đoạn kinh/đoạn giải thích của 84000 làm tham khảo và đối chiếu trong một số trường hợp.</li>
+                                    <li>Việc sử dụng tuân theo điều khoản của 84000, thường cho phép sử dụng phi thương mại với attribution rõ ràng.</li>
+                                </ul>
+                                <p class="text-xs font-bold text-white mt-2">Tôn trọng bản quyền:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Không sao chép hàng loạt hoặc tái phân phối toàn bộ nội dung của 84000.</li>
+                                    <li>Khi trích dẫn, ghi rõ \u201CNguồn: 84000 – Translating the Words of the Buddha\u201D và liên kết tới trang gốc khi thích hợp.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">4. FoJin & các công cụ trung gian</h3>
+                        <p>FoJin – Buddhist Digital Text Platform</p>
+                        <p>FoJin là nền tảng mã nguồn mở để quản lý, tìm kiếm và truy vấn văn bản Phật giáo.<br>
+                        <a href="https://github.com/xr843/fojin/blob/master/README.md" target="_blank" class="text-amber-500 underline">https://github.com/xr843/fojin/blob/master/README.md</a></p>
+                        <p>Theo README:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Apache License 2.0 chỉ áp dụng cho source code của FoJin.</li>
+                            <li>Dữ liệu từ các nguồn bên ngoài (CBETA, SuttaCentral, 84000, DILA\u2026) giữ nguyên giấy phép gốc: \u201CThird-party data sources retain their own licenses (CC BY-NC-SA, CC0, CC BY-NC-ND, etc.)\u201D.</li>
+                        </ul>
+                        <p class="text-xs font-bold text-white mt-2">Cách phatphaponline.org sử dụng:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Nếu tham khảo cấu trúc/hạ tầng kỹ thuật, chúng tôi tuân thủ Apache-2.0 đối với phần code.</li>
+                            <li>Đối với dữ liệu văn bản, chúng tôi luôn truy xuất và sử dụng theo giấy phép gốc của từng nguồn (CBETA, SuttaCentral, 84000, DILA\u2026), không coi license của FoJin là thay thế cho license của các dự án dữ liệu đó.</li>
+                        </ul>
+                        <p><a href="https://github.com/xr843/fojin" target="_blank" class="text-amber-500 underline">https://github.com/xr843/fojin</a></p>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">5. Nội dung do phatphaponline.org và cộng tác viên biên soạn</h3>
+                        <p>Bao gồm:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Bài viết giới thiệu, tóm tắt, chú giải.</li>
+                            <li>Nội dung biên tập, sắp xếp, phân loại, thuyết minh.</li>
+                        </ul>
+                        <p>Trừ khi được ghi rõ là theo một giấy phép mở cụ thể (ví dụ CC BY-SA hoặc CC BY-NC-SA), mặc định:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Các nội dung này thuộc quyền tác giả/ban biên tập phatphaponline.org.</li>
+                            <li>Người dùng được phép trích dẫn để phục vụ học tập và nghiên cứu, kèm theo attribution rõ ràng.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">6. Tinh thần chia sẻ & tôn trọng bản quyền</h3>
+                        <p>phatphaponline.org hoạt động với tôn chỉ:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs italic">
+                            <li>Hoằng dương Phật pháp,</li>
+                            <li>Chia sẻ tri thức,</li>
+                            <li>Tôn trọng công sức của các cá nhân và tổ chức đã số hóa, hiệu đính và biên soạn dữ liệu Phật học.</li>
+                        </ul>
+                        <p>Do đó:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Không thu phí truy cập nội dung.</li>
+                            <li>Không bán lại dữ liệu văn bản hoặc đóng gói dữ liệu của các dự án khác để thương mại.</li>
+                            <li>Luôn cố gắng ghi rõ nguồn gốc và giấy phép để người dùng hiểu và sử dụng có trách nhiệm.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">7. Liên hệ về dữ liệu & bản quyền</h3>
+                        <p>Nếu bạn là tác giả, dịch giả, dự án hoặc tổ chức có liên quan đến các dữ liệu được sử dụng trên phatphaponline.org và:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Muốn chúng tôi bổ sung/chỉnh sửa attribution,</li>
+                            <li>Muốn giới hạn hoặc mở rộng phạm vi sử dụng,</li>
+                            <li>Hoặc cho rằng có nội dung đang được sử dụng không đúng với giấy phép gốc,</li>
+                        </ul>
+                        <p>xin vui lòng liên hệ:</p>
+                        <p class="text-base font-bold text-amber-500">Website: phatphaponline.org</p>
+                        <p>Chúng tôi sẽ rà soát và điều chỉnh trong tinh thần hợp tác, tôn trọng pháp lý và đúng với tinh thần Phật pháp.</p>
+                    </div>
+                </div>
+            `,
+terms: `
+                <div class="text-center mb-10">
+                    <div class="inline-block p-4 bg-violet-900/20 rounded-3xl mb-4">
+                        <i class="fa-solid fa-scale-balanced fa-2xl text-violet-500"></i>
+                    </div>
+                    <h2 class="text-3xl font-black text-gradient uppercase">Điều Khoản Sử Dụng</h2>
+                    <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-[0.3em]">Website: phatphaponline.org (Version: 1.0)</p>
+                </div>
+                <div class="max-w-4xl mx-auto space-y-6 text-slate-300 leading-relaxed text-sm text-justify">
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">1. Tôn chỉ và mục đích</h3>
+                        <p>Website phatphaponline.org được thành lập với tinh thần Pháp Thí của Phật Giáo Đại Thừa.</p>
+                        <p>Mục đích của Ban Quản Trị khi xây dựng website là để: chia sẻ, hoằng dương Phật Pháp, phục vụ nghiên cứu và học tập, hoàn toàn phi thương mại (không thu phí truy cập nội dung, không bán dữ liệu văn bản).</p>
+                        <p>Tất cả nội dung văn bản, dữ liệu và công cụ trên website chỉ nhằm hỗ trợ người dùng nghiên cứu, tra cứu, học hỏi giáo lý, không nhằm mục đích kinh doanh hay quảng cáo thương mại.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">2. Phạm vi áp dụng</h3>
+                        <p>Điều khoản này áp dụng cho mọi người dùng truy cập và sử dụng website phatphaponline.org.</p>
+                        <p>Khi truy cập hoặc sử dụng website, bạn được xem là đã đọc, hiểu và đồng ý với các điều khoản sử dụng nêu dưới đây.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">3. Nguồn dữ liệu và giấy phép nội dung</h3>
+                        <p>Website có sử dụng, tổng hợp và liên kết tới nhiều nguồn dữ liệu Phật học khác nhau, bao gồm nhưng không giới hạn:</p>
+
+                        <div class="pl-4 border-l-2 border-violet-500/30 space-y-4 mt-4">
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Các từ điển và bảng thuật ngữ (glossaries) phát hành dưới CC0:</h4>
+                                <p>Bộ \u201CBuddhist_studies_glossaries\u201D do Marcus Bingenheimer biên soạn và công bố dưới giấy phép Creative Commons 0 (CC0 1.0 Universal).</p>
+                                <p>Theo giấy phép CC0, các dữ liệu này có thể được sử dụng, sửa đổi và chia sẻ tự do; tuy nhiên, website vẫn trân trọng ghi nhận và cảm ơn tác giả/người biên tập.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Dữ liệu Authority và các tập dữ liệu khác từ Dharma Drum Institute of Liberal Arts (DILA):</h4>
+                                <p>Buddhist Studies Authority Databases, DDBC Time Authority Database và các dữ liệu authority khác, được phát hành dưới giấy phép Creative Commons Attribution-ShareAlike (CC BY-SA) tương ứng (ví dụ: CC BY-SA 2.5 Taiwan, CC BY-SA 3.0).</p>
+                                <p>Khi sử dụng các dữ liệu này, website tuân thủ đầy đủ yêu cầu:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Ghi rõ nguồn: Dharma Drum Buddhist College / Dharma Drum Institute of Liberal Arts, tên bộ dữ liệu và giấy phép CC BY-SA tương ứng.</li>
+                                    <li>Nếu có phần nào được chỉnh sửa/biên tập lại và công bố dưới dạng dữ liệu phái sinh, phần đó cũng sẽ được chia sẻ theo tinh thần ShareAlike phù hợp với quy định của giấy phép gốc.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Các nguồn kinh điển và văn bản Phật giáo khác (như CBETA, SuttaCentral, 84000, v.v.):</h4>
+                                <p>Một số văn bản kinh, luận, chú giải\u2026 được truy xuất hoặc tham chiếu thông qua các dự án, API hoặc kho dữ liệu như CBETA, DILA, FoJin, v.v., vốn đều có điều khoản riêng về bản quyền và phạm vi sử dụng (thường ưu tiên phi thương mại và yêu cầu ghi nguồn rõ ràng).</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs font-bold text-white mt-4">Website phatphaponline.org:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Chỉ sử dụng các dữ liệu này với mục đích phi thương mại, phục vụ nghiên cứu và học tập.</li>
+                            <li>Tôn trọng mọi giới hạn được nêu trong điều khoản sử dụng của từng dự án gốc (ví dụ: không phát hành lại toàn bộ corpus, không sử dụng trái với tinh thần phi thương mại nếu giấy phép chỉ cho phép NonCommercial).</li>
+                        </ul>
+
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Các nội dung do ban biên tập tự biên soạn, dịch thuật và chú giải:</h4>
+                            <p>Một phần nội dung trên website là kết quả biên soạn, dịch thuật, chú giải của ban biên tập phatphaponline.org hoặc cộng tác viên.</p>
+                            <p>Trừ khi được ghi rõ là thuộc một giấy phép mở cụ thể (ví dụ CC BY-SA, CC BY-NC-SA\u2026), mặc định các nội dung này thuộc bản quyền của tác giả/ban biên tập; bạn chỉ nên sử dụng trong phạm vi cá nhân, học tập và trích dẫn có ghi nguồn.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">4. Nguyên tắc sử dụng nội dung</h3>
+                        <div class="pl-4 border-l-2 border-emerald-500/30 space-y-4">
+                            <div>
+                                <p class="text-xs font-bold text-white">Bạn được phép:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Đọc, tra cứu và trích dẫn nội dung phục vụ tu học, nghiên cứu, giảng dạy và sinh hoạt Phật pháp phi thương mại.</li>
+                                    <li>Chia sẻ liên kết (link) đến các trang trên phatphaponline.org.</li>
+                                </ul>
+                                <p class="text-xs font-bold text-white mt-2">Khi trích dẫn hoặc sử dụng lại nội dung từ website, bạn:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Nên ghi rõ: tên website (phatphaponline.org), tên mục hoặc bài viết, và nếu có, ghi thêm tên dịch giả/biên tập viên.</li>
+                                    <li>Đối với phần dữ liệu rõ ràng thuộc nguồn CC BY / CC BY-SA (như DILA Authority Databases), cần ghi thêm thông tin nguồn gốc phù hợp với yêu cầu của giấy phép (ví dụ: tên dataset và giấy phép CC BY-SA).</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-white">Bạn không được:</p>
+                                <ul class="list-disc pl-6 space-y-1 text-xs">
+                                    <li>Sử dụng nội dung từ website cho mục đích thương mại (bán lại, đóng gói thành sản phẩm thu phí, sử dụng trực tiếp trong dịch vụ trả phí\u2026) khi chưa được sự đồng ý bằng văn bản của các bên có quyền liên quan.</li>
+                                    <li>Tự ý tải về và phân phối lại toàn bộ hoặc phần lớn dữ liệu văn bản trong website như một kho dữ liệu độc lập (bulk download/dataset) nếu phần dữ liệu đó bị hạn chế bởi giấy phép của nguồn gốc (ví dụ nhiều corpus kinh văn lớn).</li>
+                                    <li>Sửa đổi, cắt ghép nội dung theo cách dễ gây hiểu lầm về ý nghĩa giáo lý hoặc về nguồn gốc tác giả/bản quyền.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">5. Trách nhiệm về bản quyền và khiếu nại</h3>
+                        <p>Website phatphaponline.org luôn cố gắng:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Chỉ sử dụng dữ liệu từ các nguồn cho phép sử dụng phi thương mại,</li>
+                            <li>Ghi nhận nguồn và giấy phép dữ liệu một cách trung thực, rõ ràng,</li>
+                            <li>Tuân thủ luật bản quyền hiện hành và các giấy phép mở như CC0, CC BY, CC BY-SA.</li>
+                        </ul>
+                        <p>Trong trường hợp một tác giả, dịch giả, tổ chức hoặc dự án cho rằng nội dung trên phatphaponline.org:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Vi phạm bản quyền,</li>
+                            <li>Hoặc sử dụng không đúng với giấy phép gốc</li>
+                        </ul>
+                        <p>Xin vui lòng liên hệ với chúng tôi qua form Liên Hệ để Ban Quản Trị xử lý.</p>
+                        <p>Sau khi nhận được yêu cầu hợp lệ, ban quản trị sẽ rà soát và:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Chỉnh sửa attribution,</li>
+                            <li>Bổ sung thông tin giấy phép, hoặc</li>
+                            <li>Gỡ bỏ nội dung liên quan nếu cần thiết.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">6. Miễn trừ trách nhiệm</h3>
+                        <p>Website cung cấp nội dung \u201Cnhư hiện có\u201D với mục đích phục vụ tu học và tham khảo; chúng tôi không đảm bảo tuyệt đối về độ chính xác tuyệt đối của mọi dữ liệu, nhất là trong trường hợp văn bản cổ, dị bản, lỗi OCR, hoặc sai sót biên tập.</p>
+                        <p>Người dùng tự chịu trách nhiệm khi sử dụng thông tin từ website để áp dụng vào thực hành, nghiên cứu hoặc các hoạt động khác; phatphaponline.org không chịu trách nhiệm trước bất kỳ thiệt hại trực tiếp hoặc gián tiếp nào phát sinh từ việc sử dụng nội dung trên website.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">7. Thay đổi điều khoản sử dụng</h3>
+                        <p>Ban quản trị phatphaponline.org có thể cập nhật, chỉnh sửa Điều khoản sử dụng này khi cần thiết để phù hợp hơn với:</p>
+                        <ul class="list-disc pl-6 space-y-1 text-xs">
+                            <li>Quy định pháp luật,</li>
+                            <li>Yêu cầu từ các dự án/dataset nguồn (DILA, CBETA, v.v.),</li>
+                            <li>Hoặc định hướng phát triển của website.</li>
+                        </ul>
+                        <p>Khi có thay đổi quan trọng, chúng tôi sẽ thông báo trên website; việc bạn tiếp tục sử dụng website sau khi có cập nhật được xem là đồng ý với phiên bản mới của điều khoản.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-800/60 rounded-3xl border border-white/5 space-y-3">
+                        <h3 class="text-base font-black text-amber-500 uppercase tracking-wider">8. Liên hệ</h3>
+                        <p>Mọi thắc mắc về bản quyền, giấy phép dữ liệu, hoặc đề nghị hợp tác xin vui lòng liên hệ:</p>
+                        <p class="text-base font-bold text-amber-500">Website: phatphaponline.org</p>
+                    </div>
+                </div>
+            `
+        };
+
+        window.toggleChapter = function(id) {
+            const el = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            const allContents = document.querySelectorAll('.toc-content');
+            const allIcons = document.querySelectorAll('.toc-icon');
+            
+            allContents.forEach(c => { if(c.id !== `content-${id}`) c.classList.remove('open'); });
+            allIcons.forEach(i => { if(i.id !== `icon-${id}`) i.style.transform = 'rotate(0deg)'; });
+
+            if (el.classList.contains('open')) {
+                el.classList.remove('open');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                el.classList.add('open');
+                icon.style.transform = 'rotate(45deg)';
+            }
+        };
+
+        window.openModal = function(type) {
+            document.getElementById('modal-content').innerHTML = modalData[type];
+            document.getElementById('modal-container').classList.remove('hidden');
+        };
+
+        window.closeModal = function() {
+            document.getElementById('modal-container').classList.add('hidden');
+        };
+
+        window.onkeydown = function(event) {
+            if (event.keyCode === 27) window.closeModal();
+        };
+        // Visitor Counter
+        (function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/daoanh/api/public/counter', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var d = JSON.parse(xhr.responseText);
+                    if (d && d.count !== undefined) {
+                        document.getElementById('visitor-counter').textContent = Number(d.count).toLocaleString();
+                    }
+                }
+            };
+            xhr.onerror = function() {};
+            xhr.send();
+        })();
+    </script>
+</body>
+</html>

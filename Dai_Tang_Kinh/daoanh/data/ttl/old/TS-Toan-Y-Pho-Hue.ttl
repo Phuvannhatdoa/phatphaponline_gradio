@@ -1,0 +1,52 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.phatphaponline.org/ex/> .
+
+<ex:monk/toan_y_pho_hue> a bkg:Monk ;
+    rdfs:label "Toàn Ý Phổ Huệ"@vi ;
+    crm:P1_is_identified_by <ex:monk/toan_y_pho_hue> ;
+    bkg:biographicalNote """
+Thiền Sư Toàn Ý - Vi Tri - Phổ Huệ
+全 意 爲 知 普 慧 (1799 - 1872): Chùa Phổ Bảo
+Hòa thượng thế danh Lê Tấn Viên, pháp danh Toàn Ý, tự Vi Tri, hiệu Phổ Huệ, nối pháp đời 37 tông Lâm Tế, thế hệ thứ 4 pháp phái Chúc Thánh. Ngài sinh năm Kỷ Mùi (1799) tại tỉnh Bình Ðịnh. Thân phụ là cụ ông Lê Tấn Ðạt pháp danh Ngộ Giác và thân mẫu là cụ bà Dương Thị Mãn pháp danh Hải Nguyệt. Ngài xuất gia đắc pháp với tổ Pháp Kiêm–Minh Giác tức là tổ “Bình Man Tảo Thị” tại chùa Phước Lâm, Hội An.
+Năm Bính Thân (1836), Ngài kế thừa thiền sư Ngộ Giác trú trì am Phổ Giác. Từ đó, Ngài thiên di tái thiết thành chùa Phổ Bảo cho đến nay.
+Là một người đạo cao đức trọng, Ngài biến chùa Phổ Bảo thành một trong những trung tâm hoằng pháp của dòng Chúc Thánh tại tỉnh Bình Ðịnh. Với đạo hạnh của mình, Ngài đã đào tạo được nhiều vị đệ tử ưu tú ra khai sơn, trùng kiến nhiều tự viện tại tỉnh Bình Ðịnh.
+Vào năm Tự Ðức nguyên niên, Mậu Thân (1848), Ngài cùng với đệ tử là ngài Chương Trí–Quảng Giác vận động trùng khắc bộ Truy môn cảnh huấn để phổ biến tinh hoa Phật pháp trong chốn thiền lâm thời bấy giờ.
+Hòa thượng viên tịch vào ngày mồng 3 tháng 7 năm Nhâm Thân (1872), hưởng thọ 73 tuổi. Ðồ chúng lập tháp phụng thờ trong khuôn viên Tổ đình Phổ Bảo.
+"""@vi ;
+    bkg:birthEvent <ex:monk/toan_y_pho_hue_birthEvent> ;
+    bkg:deathEvent <ex:monk/toan_y_pho_hue_deathEvent> ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Gia Phổ Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 74 ;
+    bkg:hasTeacher <ex:monk/phap_kiem_minh_giac> ;
+    bkg:hasDisciple <ex:monk/chuong_thien_hoang_ao> ,
+        <ex:monk/chuong_tri_quang_giac> ,
+        <ex:monk/chuong_ly_hoang_hoa> ,
+        <ex:monk/chuong_hiep_chanh_tri> ,
+        <ex:monk/chuong_hai_thanh_nguyen> ,
+        <ex:monk/chuong_nghia_thanh_tuyen> ,
+        <ex:monk/chuong_tuong_vinh_ien> ;
+    bkg:isLineageFounder "false"^^xsd:boolean .
+
+<ex:monk/toan_y_pho_hue_birthEvent> a bkg:BirthEvent ;
+    bkg:year "1799"^^xsd:gYear .
+
+<ex:monk/toan_y_pho_hue_deathEvent> a bkg:DeathEvent ;
+    bkg:year "1872"^^xsd:gYear .
+
+<ex:monk/phap_kiem_minh_giac> rdfs:label "Pháp Kiêm Minh Giác"@vi .
+<ex:monk/chuong_thien_hoang_ao> rdfs:label "Chương Thiện Hoằng Ðạo"@vi .
+<ex:monk/chuong_tri_quang_giac> rdfs:label "Chương Trí Quảng Giác"@vi .
+<ex:monk/chuong_ly_hoang_hoa> rdfs:label "Chương Lý Hoằng Hóa"@vi .
+<ex:monk/chuong_hiep_chanh_tri> rdfs:label "Chương Hiệp Chánh Trì"@vi .
+<ex:monk/chuong_hai_thanh_nguyen> rdfs:label "Chương Hải Thanh Nguyên"@vi .
+<ex:monk/chuong_nghia_thanh_tuyen> rdfs:label "Chương Nghĩa Thanh Tuyền"@vi .
+<ex:monk/chuong_tuong_vinh_ien> rdfs:label "Chương Tường Vĩnh Ðiền"@vi .
+<ex:monk/toan_nham_quan_thong> rdfs:label "Toàn Nhâm Quán Thông"@vi .
+<ex:monk/toan_inh_bao_tang> rdfs:label "Toàn Ðịnh Bảo Tạng"@vi .
+<ex:monk/toan_chieu_bao_an> rdfs:label "Toàn Chiếu Bảo Ấn"@vi .
+<ex:monk/toan_tin_uc_thanh> rdfs:label "Toàn Tín Ðức Thành"@vi .
+<ex:monk/toan_duc_hoang_tong> rdfs:label "Toàn Đức Hoằng Tông"@vi .

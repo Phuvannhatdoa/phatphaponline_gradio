@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+*.log
+node_modules/
+.env
+*.json
+!AGENTS.md
+!data/processed/monk_names.json
+!data/master_db.json
+!data/indexed/master_index.json
+!data/indexed/fuzzy_matches.json
+thientong-V*.py
+ontology/
+
+# Allow specific HTML files
+!admin/ttl_queue.html
+!admin/index.html
+Dai_Tang_Kinh/daoanh/data/lineage.db

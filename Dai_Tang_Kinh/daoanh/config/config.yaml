@@ -1,0 +1,34 @@
+# Phật Tổ Đạo Ảnh - Configuration
+
+## GraphDB
+graphdb_url: "http://localhost:7200"
+graphdb_repo: "buddhist"
+graphdb_user: "admin"
+graphdb_password: "root"
+
+## Flask
+host: "0.0.0.0"
+port: 80
+debug: false
+
+## Data
+data_dir: "./data"
+processed_dir: "./data/processed"
+raw_dir: "./data/raw"
+
+## Map
+default_lat: 21.0
+default_lng: 105.8
+default_zoom: 6
+
+## Geocoding
+nominatim_url: "https://nominatim.openstreetmap.org"
+geocode_delay: 1.1
+
+## API
+api_rate_limit: 100
+cache_ttl: 3600
+
+## DILA
+dila_url: "https://cbdata.dila.edu.tw/place"
+dila_update_quarterly: true

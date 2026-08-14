@@ -1,0 +1,39 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.phatphaponline.org/ex/> .
+
+<ex:monk/thiet_dam_chanh_luan> a bkg:Monk ;
+    rdfs:label "Thiệt Đàm Chánh Luân"@vi ;
+    crm:P1_is_identified_by <ex:monk/thiet_dam_chanh_luan> ;
+    bkg:biographicalNote """
+THIỆT ĐÀM – CHÁNH LUÂN
+(...? -...?)
+Trú trì chùa Long Bàn, Chương Nghĩa, Quảng Ngãi
+(Đệ tử HT. Minh Hải - Đắc Trí - Pháp Bảo)
+Thiền sư pháp danh Thiệt Đàm, tự Chánh Luân, nối pháp đời 35 tông Lâm Tế, thế hệ thứ 2 pháp phái Chúc Thánh.
+Ngài vốn người ở xã Ba La, Quảng Ngãi xuất gia với tổ Minh Hải - Pháp Bảo tại tổ đình Chúc Thánh, Hội An. Sau khi đắc pháp, ngài về hành đạo tại chùa Long Bàn ở xã Ba La, huyện Chương Nghĩa, phủ Tư Ngh ĩa (nay thuộc Quảng Ngãi).
+Năm 1732, ngài phát tâm trùng khắc bộ kinh Hoa nghiêm nên 
+về tổ đình Chúc Thánh thỉnh ý bổn sư và xin được trợ giúp. Hiện tại, bộ kinh Hoa nghiêm bao gồm 16 cuốn được trân tàng tại chùa Tường Vân, Huế và chùa Bảo Sơn, Phú Yên.
+Không rõ năm sinh, năm tịch của ngài.
+
+"""@vi ;
+    bkg:birthEvent <ex:monk/thiet_dam_chanh_luan_birthEvent> ;
+    bkg:deathEvent <ex:monk/thiet_dam_chanh_luan_deathEvent> ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Chúc Thánh Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 72 ;
+    bkg:hasTeacher <ex:monk/minh_hai_phap_bao> ;
+    bkg:isLineageFounder "false"^^xsd:boolean .
+ 
+
+<ex:monk/minh_hai_phap_bao> rdfs:label "Minh Hải Pháp Bảo"@vi .
+<ex:monk/thiet_dinh_an_triem> rdfs:label "Thiệt Dinh Ân Triêm"@vi .
+<ex:monk/thiet_dieu_chanh_hien> rdfs:label "Thiệt Diệu Chánh Hiền"@vi .
+<ex:monk/thiet_uy_khanh_van> rdfs:label "Thiệt Úy Khánh Vân"@vi .
+<ex:monk/thiet_uyen_chi_bao> rdfs:label "Thiệt Uyên Chí Bảo"@vi .
+<ex:monk/thiet_bao_cam_ung> rdfs:label "Thiệt Bảo Cảm Ứng"@vi .
+<ex:monk/thiet_lam_chi_kien> rdfs:label "Thiệt Lãm Chí Kiên"@vi .
+<ex:monk/thiet_the_triem_an> rdfs:label "Thiệt Thể Triêm Ân"@vi .
+<ex:monk/thiet_hoi_vien_quang> rdfs:label "Thiệt Hội Viên Quang"@vi .
