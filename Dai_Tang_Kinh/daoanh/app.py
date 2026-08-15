@@ -19,6 +19,16 @@ if _scripts_dir not in _sys.path:
 from hanviet_normalization import normalize_text as hanviet_normalize, load_glossary as hanviet_load_glossary
 _hanviet_glossary = None
 
+# Console UTF-8 — tránh UnicodeEncodeError cp1252 khi print() tiếng Việt có dấu
+for _stream in ('stdout', 'stderr'):
+    _stream_obj = getattr(_sys, _stream, None)
+    if _stream_obj and hasattr(_stream_obj, 'reconfigure'):
+        try:
+            _stream_obj.reconfigure(encoding='utf-8', errors='replace')
+        except Exception:
+            pass
+del _stream, _stream_obj
+
 ALLOWED_DIRS = [os.path.join(os.path.dirname(os.path.abspath(__file__)), 'admin')]
 
 def verify_session(token):
@@ -6137,7 +6147,8 @@ def api_progress_dashboard():
         try:
             import subprocess
             run = subprocess.run([_sys.executable, script_path], cwd=BASE_DIR,
-                                 capture_output=True, text=True, timeout=60)
+                                 capture_output=True, text=True, encoding='utf-8',
+                                 errors='replace', timeout=60)
             if run.returncode != 0:
                 return jsonify({'success': False, 'error': run.stderr[-500:] or 'Script lỗi'}), 500
         except Exception as e:

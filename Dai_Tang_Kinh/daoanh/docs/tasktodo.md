@@ -1,9 +1,9 @@
 # TASKTODO — Đạo Ảnh Dev Roadmap
 
-**Cập nhật:** 2026-08-14
+**Cập nhật:** 2026-08-15
 **Context:** So sánh GUI thật (phatphaponline.org) vs docs/progress.md
 
-> **Trạng thái tasks:** Task 1 ✅, Task 2 ✅, Task 3 ✅, Task 4 ✅, Task 5 ✅ (2026-07-29), Task 6 ⏭️ tiếp theo, Task 9 ✅ (2026-08-14)
+> **Trạng thái tasks:** Task 1 ✅, Task 2 ✅, Task 3 ✅, Task 4 ✅, Task 5 ✅ (2026-07-29), Task 6 ⏭️ tiếp theo, Task 9 ✅ (2026-08-14), Task 10 ✅ (2026-08-15)
 
 ---
 
@@ -76,6 +76,11 @@
 - **Mô tả:** `/api/admin/dashboard/stats` trả 404.
 - **Trạng thái:** ✅ Đã fix — thêm alias route `/api/admin/dashboard/stats` + `/daoanh/api/admin/dashboard/stats` vào `api_dashboard_stats()` (app.py:6057). Session log: `docs/sessions/2026-08-14_t09_dashboard_stats_api.md`.
 
+### ⚪ Task 10 — Fix lỗi 500 trang Đạo Ảnh (charmap cp1252) ✅ (2026-08-15)
+- **Nguồn:** Hạ tầng / Admin Đạo Ảnh
+- **Mô tả:** `places_search` trả 500 khi tìm địa danh có dấu ("Thiếu Lâm") do `print()` tiếng Việt lỗi encode cp1252.
+- **Trạng thái:** ✅ Đã fix — `sys.stdout/stderr.reconfigure(utf-8)` đầu app.py + `subprocess.run(encoding='utf-8', errors='replace')`. Test: search tiếng Việt 200, regenerate 200, e2e + playwright PASS. Session log: `docs/sessions/2026-08-15_fix_places_search_charmap.md`.
+
 ---
 
 ## GUI Working Pages (confirmed 2026-07-29)
@@ -96,7 +101,7 @@ GET /daoanh/admin/keyword_import.html → 200 Keyword Import
 ```
 200 GET /daoanh/api/entity/PL000000023255  → Thiếu Lâm Tự
 200 GET /daoanh/api/admin/namevi-queue     → 48,412 records
-200 GET /daoanh/api/admin/places_search    → DB-mode OK
+200 GET /daoanh/api/admin/places_search    → ✅ Fixed tiếng Việt có dấu (2026-08-15)
 200 GET /daoanh/api/admin/dashboard/stats  → ✅ Fixed (2026-08-14) alias route
 404 GET /daoanh/api/monk_names              → (thientong.py, not daoanh)
 ```
