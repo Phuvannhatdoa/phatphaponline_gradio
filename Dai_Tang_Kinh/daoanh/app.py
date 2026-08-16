@@ -177,26 +177,60 @@ def _build_cate_ids_map():
     return _CATE_IDS_CACHE
 
 # ==== Cache gợi ý lexicon (definition LIKE) cho ai_judge ====
-# Query `definition LIKE '%han%'` full-scan bảng lexicon (166K dòng) ~1.2s.
+# Query `definition LIKE '%han%'` full-scan bảng lexicon (166K dòng, ~21MB text) không dùng index được.
+# Lần đầu sau restart server: disk cache lạnh → ~77s → vượt safeFetch 20s → placevn.html "Timeout!".
+# Fix: nạp cả bảng (term, definition_lower) vào RAM 1 lần → substring scan ~100-300ms kể cả lạnh.
 # Nhiều địa danh trùng tên Hán (~4.8x) nên cache theo han_name giúp click sau tức thì.
 _lexicon_han_cache = {}
 _LEXICON_HAN_CACHE_MAX = 500
+_LEXICON_MEM = None
+
+def _load_lexicon_mem(conn=None):
+    """Load toàn bộ lexicon (term, definition_lower) vào RAM. RAM ~30-40MB, chấp nhận được."""
+    global _LEXICON_MEM
+    if _LEXICON_MEM is not None:
+        return _LEXICON_MEM
+    own = conn is None
+    if own:
+        conn = get_db_connection()
+    try:
+        rows = conn.execute("SELECT term, definition FROM lexicon").fetchall()
+        _LEXICON_MEM = [(r['term'], (r['definition'] or '').lower()) for r in rows]
+    except Exception:
+        _LEXICON_MEM = []
+    finally:
+        if own:
+            conn.close()
+    return _LEXICON_MEM
 
 def _lexicon_han_lookup(conn, han_name):
-    """Tìm thuật ngữ lexicon có definition chứa han_name, có cache in-memory."""
+    """Tìm thuật ngữ lexicon có definition chứa han_name (substring, LIKE '%han%'), có cache in-memory.
+    Dùng bản RAM nạp 1 lần để tránh full-scan disk ~77s khi cache lạnh."""
     if not han_name:
         return []
     cached = _lexicon_han_cache.get(han_name)
     if cached is not None:
         return cached
-    try:
-        rows = conn.execute(
-            "SELECT DISTINCT term FROM lexicon WHERE definition LIKE ? AND LENGTH(term) < 100 LIMIT 3",
-            ('%' + han_name + '%',)
-        ).fetchall()
-        result = [r['term'] for r in rows]
-    except Exception:
-        result = []
+    han_low = han_name.lower()
+    result = []
+    mem = _load_lexicon_mem(conn)
+    if mem:
+        # SQLite LIKE '%x%' chỉ case-insensitive cho ASCII → so sánh lower() tương đương
+        for term, def_low in mem:
+            if len(term) < 100 and han_low in def_low:
+                result.append(term)
+                if len(result) >= 3:
+                    break
+    else:
+        # RAM không tải được (hiếm) → fallback query LIKE cũ
+        try:
+            rows = conn.execute(
+                "SELECT DISTINCT term FROM lexicon WHERE definition LIKE ? AND LENGTH(term) < 100 LIMIT 3",
+                ('%' + han_name + '%',)
+            ).fetchall()
+            result = [r['term'] for r in rows]
+        except Exception:
+            result = []
     if len(_lexicon_han_cache) >= _LEXICON_HAN_CACHE_MAX:
         oldest = next(iter(_lexicon_han_cache))
         del _lexicon_han_cache[oldest]
@@ -2769,18 +2803,27 @@ def api_places_detail(place_id):
             if row:
                 detail = dict(row)
                 detail['source'] = 'namevi_map'
-                # Supplement GPS from places by matching name_zh
-                if detail.get('name_zh') and (not detail.get('gps_lat') or not detail.get('gps_long')):
+                # Bổ sung GPS/province/country từ places (khớp name_zh) khi THIẾU
+                # — không chỉ khi GPS thiếu: namevi_map có thể có GPS nhưng rỗng
+                # province/country (VD 少林寺 PL000000023255 → province rỗng).
+                if detail.get('name_zh') and (not detail.get('province') or not detail.get('country') or not detail.get('gps_lat')):
                     p = conn.execute("""
                         SELECT gps_lat, gps_long, province, country, source_origin
-                        FROM places WHERE name_zh = ? AND gps_lat IS NOT NULL LIMIT 1
+                        FROM places WHERE name_zh = ?
+                        ORDER BY gps_lat IS NOT NULL DESC, province IS NOT NULL DESC
+                        LIMIT 1
                     """, (detail['name_zh'],)).fetchone()
                     if p:
-                        detail['gps_lat'] = p['gps_lat']
-                        detail['gps_long'] = p['gps_long']
-                        detail['province'] = p['province']
-                        detail['country'] = p['country']
-                        detail['source_origin'] = p['source_origin']
+                        if not detail.get('gps_lat'):
+                            detail['gps_lat'] = p['gps_lat']
+                        if not detail.get('gps_long'):
+                            detail['gps_long'] = p['gps_long']
+                        if not detail.get('province'):
+                            detail['province'] = p['province']
+                        if not detail.get('country'):
+                            detail['country'] = p['country']
+                        if not detail.get('source_origin'):
+                            detail['source_origin'] = p['source_origin']
 
         # Supplement with cbeta_catalog_vn (text_info + license)
         # Uses: (1) exact LIKE, (2) fuzzy match table, (3) VI name search
@@ -2853,6 +2896,44 @@ def api_places_detail(place_id):
                     _lex_conn.close()
         if detail.get('note_vi'):
             detail['note_vi'] = _ensure_vietnamese(detail['note_vi'])
+
+        # Vị trí (3 Lớp RAG): dữ liệu thô + địa chỉ cấu trúc giống placevn.html
+        # district_raw/geo hiển thị nguyên trạng; district_vi/country_vi là bản
+        # đã chuẩn hoá (rule-based parse_dila_district, không tốn AI).
+        raw_district = detail.get('province') or detail.get('district_raw') or detail.get('address') or ''
+        raw_country = detail.get('country') or ''
+        detail['district_raw'] = raw_district
+        parsed = parse_dila_district(raw_district) if raw_district else {}
+        # Ưu tiên địa chỉ rule-based sạch; fallback district_vi/country_vi admin (namevi_map_places)
+        detail['district_vi'] = (parsed.get('district_vi') or parsed.get('formatted') or '') or detail.get('district_vi') or ''
+        country_vi = (parsed.get('country_vi') or '') or detail.get('country_vi') or raw_country or ''
+        if country_vi in ('中國', '中国', 'China'):
+            country_vi = 'Trung Quốc'
+        elif country_vi in ('阿富汗', 'افغانستان'):
+            country_vi = 'Afghanistan'
+        elif country_vi in ('印度', 'भारत'):
+            country_vi = 'Ấn Độ'
+        detail['country_vi'] = country_vi
+
+        # Mô tả DILA (raw): places_dila.note strip XML — hiển thị RIÊNG, không
+        # nhét Hán văn vào note_vi (tránh vi phạm luật "no raw CJK on page").
+        if not (detail.get('note_vi') or '').strip() and detail.get('name_zh'):
+            try:
+                _dconn = get_db_connection()
+                try:
+                    _nr = _dconn.execute(
+                        "SELECT note FROM places_dila WHERE name_zh = ? AND note IS NOT NULL AND note != '' LIMIT 1",
+                        (detail['name_zh'],)
+                    ).fetchone()
+                finally:
+                    _dconn.close()
+                if _nr and _nr['note']:
+                    dila_note = re.sub(r'<[^>]+>', ' ', _nr['note'])
+                    dila_note = re.sub(r'\s+', ' ', dila_note).strip()
+                    detail['dila_note'] = dila_note
+            except Exception:
+                pass
+
         if detail.get('province'):
             detail['province'] = _translate_admin_text(detail['province'])
 
@@ -4488,8 +4569,8 @@ def save_mapping():
         vn_status = data.get('vn_name_status', 'reviewed')
         conn = get_db_connection()
         conn.execute("""
-            INSERT OR REPLACE INTO namevi_map_places (dila_id, name_vi, name_zh, gps_lat, gps_long, note_vi, district_vi, country_vi, source, needs_review, vn_name_status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'manual', 0, ?)
+            INSERT OR REPLACE INTO namevi_map_places (dila_id, name_vi, name_zh, gps_lat, gps_long, note_vi, district_vi, country_vi, source, needs_review, vn_name_status, confidence)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'manual', 0, ?, 1.0)
         """, (str(data['dila_id']), name_vi, data['name_zh'], data.get('gps_lat', ''), data.get('gps_long', ''), data.get('note_vi', ''), data.get('district_vi', ''), data.get('country_vi', ''), vn_status))
         # Also persist into places_pending.name_vi + name_vi_norm so search works
         conn.execute("UPDATE places_pending SET name_vi = ?, name_vi_norm = ? WHERE id = ?", (name_vi, normalize_text(name_vi), str(data['dila_id'])))
@@ -4510,8 +4591,8 @@ def auto_save_name():
             return jsonify({"success": False, "error": "Thiếu dila_id hoặc name_vi"}), 400
         conn = get_db_connection()
         conn.execute("""
-            INSERT OR REPLACE INTO namevi_map_places (dila_id, name_vi, name_zh, source, vn_name_status)
-            VALUES (?, ?, ?, 'auto_generated', 'auto')
+            INSERT OR REPLACE INTO namevi_map_places (dila_id, name_vi, name_zh, source, vn_name_status, confidence)
+            VALUES (?, ?, ?, 'auto_generated', 'auto', 0.5)
         """, (dila_id, name_vi, name_zh))
         # Persist into places_pending.name_vi + name_vi_norm for search
         conn.execute("UPDATE places_pending SET name_vi = ?, name_vi_norm = ? WHERE id = ?", (name_vi, normalize_text(name_vi), dila_id))
@@ -8252,5 +8333,13 @@ if __name__ == '__main__':
         print(f"[cate] Đã build cache cate ids trong {time.time()-t0:.1f}s", flush=True)
     except Exception as e:
         print(f"[cate] Lỗi build cate ids: {e}", flush=True)
+
+    # Warm lexicon vào RAM (1 lần ~1-2s, giúp ai_judge không bị cold 77s → placevn.html timeout)
+    try:
+        t0 = time.time()
+        n = len(_load_lexicon_mem())
+        print(f"[lexicon] Đã nạp {n} dòng lexicon vào RAM trong {time.time()-t0:.1f}s", flush=True)
+    except Exception as e:
+        print(f"[lexicon] Lỗi load lexicon: {e}", flush=True)
 
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)

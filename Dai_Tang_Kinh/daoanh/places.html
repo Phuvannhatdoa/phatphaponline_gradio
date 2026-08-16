@@ -140,20 +140,37 @@
                         <p id="itemNameHan" class="text-lg serif text-slate-400 italic"></p>
                     <div class="grid grid-cols-2 gap-3">
                         <div class="pp-card p-4 border-white/5">
-                            <p class="text-[9px] font-bold text-slate-500 uppercase mb-1">Độ tin cậy</p>
+                            <p class="text-[9px] font-bold text-slate-500 uppercase mb-1">Tình trạng tên Việt</p>
                             <p id="confValue" class="text-lg font-black text-white tracking-widest">—</p>
-                            <p class="text-[9px] font-bold text-slate-500 uppercase mb-1">Tỉnh / Quốc gia</p>
-                            <p id="provinceValue" class="text-xs font-bold text-white leading-tight">—</p>
+                        </div>
+                        <div class="pp-card p-4 border-white/5">
+                            <p class="text-[9px] font-bold text-emerald-400 uppercase mb-1">QUỐC GIA</p>
+                            <p id="countryValue" class="text-xs font-bold text-white leading-tight">—</p>
+                        </div>
+                    </div>
+                    <div class="pp-card p-4 border-white/5">
+                        <p class="text-[9px] font-bold text-emerald-400 uppercase mb-2 flex items-center gap-2"><span class="w-4 h-[1px] bg-emerald-500"></span> VỊ TRÍ (3 LỚP RAG)</p>
+                        <div class="text-[10px] font-mono text-slate-400 leading-relaxed space-y-0.5 mb-3">
+                            <div><span class="text-slate-600">country:</span> <span id="rawCountry" class="text-amber-500 font-bold">—</span></div>
+                            <div><span class="text-slate-600">district:</span> <span id="rawDistrict" class="text-amber-500 font-bold">—</span></div>
+                            <div><span class="text-slate-600">geo:</span> <span id="rawGeo" class="text-amber-500 font-bold">—</span></div>
+                        </div>
+                        <p class="text-[9px] font-bold text-slate-500 uppercase mb-1">ĐỊA CHỈ (huyện, tỉnh, quốc gia)</p>
+                        <p id="addrVi" class="text-xs font-bold text-white leading-tight">—</p>
+                    </div>
+                    <div class="pp-card p-4 border-white/5">
                         <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                             <span class="w-5 h-[1px] bg-amber-500"></span> GHI CHÚ VIỆT NGỮ
                         </h4>
                         <p id="itemBio" class="text-[13px] leading-relaxed text-slate-400 serif italic"></p>
+                        <p id="dilaNote" class="hidden text-[11px] leading-relaxed text-slate-500 font-mono border-t border-white/5 pt-3 mt-3"></p>
                         <div id="licenseBlock" class="hidden pp-card p-3 border-white/5 bg-white/[0.02] space-y-1">
                             <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">NGUON & GIẤY PHÉP</p>
                             <p id="licenseSourceName" class="text-[10px] text-amber-400 font-semibold"></p>
                             <p id="licenseName" class="text-[9px] text-slate-400"></p>
                             <p id="licenseNote" class="text-[8px] text-slate-600 italic"></p>
                         </div>
+                    </div>
             <div class="pt-6 border-t border-white/5 text-center">
                 <p class="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Vận hành bởi Pháp Thí Hội (Ver Demo)</p>
         </aside>
@@ -217,7 +234,12 @@
             document.getElementById('itemNameVi').innerText = 'Đang tải...';
             document.getElementById('itemNameHan').innerText = '';
             document.getElementById('confValue').innerText = '—';
-            document.getElementById('provinceValue').innerText = '—';
+            document.getElementById('countryValue').innerText = '—';
+            document.getElementById('rawCountry').innerText = '—';
+            document.getElementById('rawDistrict').innerText = '—';
+            document.getElementById('rawGeo').innerText = '—';
+            document.getElementById('addrVi').innerText = '—';
+            document.getElementById('dilaNote').classList.add('hidden');
             document.getElementById('itemBio').innerText = 'Đang tải dữ liệu...';
             if (lat && lng) {
                 map.flyTo([lat, lng], 10, { duration: 1.2 });
@@ -231,13 +253,30 @@
                 document.getElementById('itemNameVi').innerText = d.name_vi || d.name_zh || id;
                 document.getElementById('itemNameHan').innerText = d.name_zh || '';
                 document.getElementById('sourceOrigin').innerText = `/ SOURCE: ${d.source_origin || d.source || 'DILA'}`;
-                const conf = d.confidence;
-                document.getElementById('confValue').innerText = conf != null ? `${(conf * 100).toFixed(0)}%` : '—';
-                const parts = [];
-                if (d.province && d.province !== d.country) parts.push(d.province.replace(/-/g, ', '));
-                if (d.country) parts.push(d.country);
-                document.getElementById('provinceValue').innerText = parts.join(' • ') || '—';
+                // Tình trạng tên Việt: admin đã duyệt → "Đã duyệt"; phiên âm/auto → "Tự động"
+                const reviewed = d.vn_name_status === 'reviewed' || d.source === 'manual' || d.source === 'places' || d.source === 'namevi_map';
+                const confEl = document.getElementById('confValue');
+                if (reviewed) {
+                    confEl.innerText = 'Đã duyệt';
+                    confEl.className = 'text-lg font-black text-emerald-400 tracking-widest';
+                } else {
+                    confEl.innerText = 'Tự động';
+                    confEl.className = 'text-lg font-black text-amber-400 tracking-widest';
+                }
+                document.getElementById('countryValue').innerText = d.country_vi || d.country || '—';
+                document.getElementById('rawCountry').innerText = d.country || '—';
+                document.getElementById('rawDistrict').innerText = d.district_raw || d.province || '—';
+                const geoParts = [d.gps_lat, d.gps_long].filter(Boolean);
+                document.getElementById('rawGeo').innerText = geoParts.join(' ') || '—';
+                document.getElementById('addrVi').innerText = d.district_vi || '—';
                 document.getElementById('itemBio').innerText = d.note_vi || 'Chưa có ghi chú Việt ngữ cho địa danh này.';
+                const dilaNoteEl = document.getElementById('dilaNote');
+                if (!(d.note_vi || '').trim() && d.dila_note) {
+                    dilaNoteEl.innerHTML = '<span class="text-[8px] font-black text-amber-500 block mb-1 uppercase tracking-tighter">MÔ TẢ DILA (RAW)</span>' + d.dila_note;
+                    dilaNoteEl.classList.remove('hidden');
+                } else {
+                    dilaNoteEl.classList.add('hidden');
+                }
                 if (d.text_info) {
                     document.getElementById('licenseBlock').classList.remove('hidden');
                     document.getElementById('licenseSourceName').innerText = d.text_info.source_full_title || d.text_info.source_name || '';

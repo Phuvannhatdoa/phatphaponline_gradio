@@ -105,7 +105,7 @@ const highlightKeyword = (text, keyword) => {
 };
 
 const App = () => {
-  const [baseUrl, setBaseUrl] = useState('https://phatphaponline.org');
+  const [baseUrl, setBaseUrl] = useState(window.location.hostname === 'localhost' ? '' : 'https://phatphaponline.org');
   const fetchCounter = useRef(0);
   let isMapReady = false;
   const mapRef = useRef(null);
@@ -577,7 +577,7 @@ const App = () => {
 
     if (!isFirst) setItemLoading(true);
 
-    const data = await safeFetch(baseUrl + '/daoanh/api/admin/ai_judge/' + fullId);
+    const data = await safeFetch(baseUrl + '/daoanh/api/admin/ai_judge/' + fullId, { timeout: 30000 });
 
     if (currentCounter !== fetchCounter.current) return;
 

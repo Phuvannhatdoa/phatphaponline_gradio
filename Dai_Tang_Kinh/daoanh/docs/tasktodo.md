@@ -1,7 +1,7 @@
 # TASKTODO — Đạo Ảnh Dev Roadmap
 
 **Cập nhật:** 2026-08-16
-**Context:** Fix timeout placevn.html (places_search FTS prefix + threaded servers) + autocomplete /daoanh/places
+**Context:** Fix timeout placevn.html (places_search FTS prefix + threaded servers) + autocomplete /daoanh/places + places Vị trí block + confidence semantics (Độ tin cậy: admin-reviewed→1.0, auto→0.5, label "TÌNH TRẠNG TÊN VIỆT": Đã duyệt/Tự động, remove %), session docs 2026-08-16.
 
 > **Trạng thái tasks:** Task 1 ✅, Task 2 ✅, Task 3 ✅, Task 4 ✅, Task 5 ✅ (2026-07-29), Task 6 ⏭️ tiếp theo, Task 9 ✅ (2026-08-14), Task 10 ✅ (2026-08-15), Task 11 ✅ (2026-08-16), Task 12 ✅ (2026-08-16)
 
@@ -86,10 +86,22 @@
 - **Mô tả:** "Máy chủ phản hồi chậm (Timeout)!" tái diễn — gõ dở rơi về LIKE full-scan ~15.8s + 2 server single-threaded chặn lẫn nhau.
 - **Trạng thái:** ✅ Đã fix — `places_search` Phase 0 FTS **prefix** (`"q"` → `q` → `t1* t2* …`, union 2 bảng FTS, miss → `[]` nhanh); `threaded=True` cho app.py + local_gateway.py; `sqlite timeout=10`; rebuild sạch FTS (bảng thường dùng `DELETE FROM`, ngưỡng `_docsize`); thêm `dashboard/restart_servers.ps1`. Session log: `docs/sessions/2026-08-16_fix_places_search_timeout.md`.
 
+### ⚪ Task 11 — Fix Timeout placevn.html (FTS prefix + threaded servers) ✅ (2026-08-16)
+- **Nguồn:** Hạ tầng / Admin Đạo Ảnh
+- **Mô tả:** "Máy chủ phản hồi chậm (Timeout)!" tái diễn — gõ dở rơi về LIKE full-scan ~15.8s + 2 server single-threaded chặn lẫn nhau.
+- **Trạng thái:** ✅ Đã fix — `places_search` Phase 0 FTS **prefix** (`"q"` → `q` → `t1* t2* …`, union 2 bảng FTS, miss → `[]` nhanh); `threaded=True` cho app.py + local_gateway.py; `sqlite timeout=10`; rebuild sạch FTS (bảng thường dùng `DELETE FROM`, ngưỡng `_docsize`); thêm `dashboard/restart_servers.ps1`. Session log: `docs/sessions/2026-08-16_fix_places_search_timeout.md`.
+
 ### ⚪ Task 12 — Autocomplete /daoanh/places (FTS endpoint + dropdown) ✅ (2026-08-16)
 - **Nguồn:** GIS / Khoá 1 (`places.html`)
-- **Mô tả:** Ô search gõ "Thiếu Lâm Tự" autocomplete không chạy; chọn gợi ý xong ô search không hiện tên.
+- **Mô tả:** Ô search gõ "Thiếu Lâm Tự" autocomplete không chạy; chọn gợi ý xong ô search hiện tên.
 - **Trạng thái:** ✅ Đã fix — rewrite `/daoanh/api/places/search` bằng FTS (khớp không dấu/gõ dở/ID/Hán, 0.3-1s thay vì 0 kết quả + LIKE 300-860ms); thêm dropdown gợi ý `ul#autocompleteList`; `selectResult()` set `searchInput.value = name_vi`. Session log: `docs/sessions/2026-08-16_fix_places_autocomplete.md`.
+
+### 🟠 Task 13 — Places Vị trí block + confidence semantics ✅ (2026-08-16)
+- **Nguồn:** GIS / Khoá 1 (`/daoanh/places`, `placevn.html`)
+- **Mô tả:** Cập nhật hiển thị địa chỉ theo dạng "Vị trí (3 Lớp RAG)" giống placevn.html (country/district/geo rule-based, không tốn AI); sửa rỗng Tỉnh/Quốc gia cho Thiếu Lâm Tự bằng bổ sung province/country từ places theo name_zh; làm "Độ tin cậy" có ý nghĩa: admin-reviewed → "Đã duyệt" (xanh), auto/phiên âm → "Tự động" (vang), bỏ % số; thêm block "MÔ TẢ DILA (RAW)" hiển thị places_dila.note strip XML khi note_vi rỗng; thay đổi label "Tình trạng tên Việt": Đã duyệt / Tự động.
+- **Root causes fixed:** (1) Supplement condition namevi_map branch 2 giờ chỉ supplement province/country khi THIẾU (không chỉ GPS thiếu); (2) save_mapping confidence=1.0 khi reviewed, 0.5 khi auto; (3) Frontend label đổi "Đã duyệt"/"Tự động", remove %, thêm dila_note block; (4) placevn.html timeout margin 30s + startup lexicon warm.
+- **Kết quả:** `/daoanh/api/places/PL000000023255` (Thiếu Lâm Tự) giờ trả province/country đã populate, "Đã duyệt" thay vì 50%, Vị trí block hiển thị 3 lớp RAG + DILA raw note. Session log: `docs/sessions/2026-08-16_fix_places_vitri_block.md`.
+- **Trạng thái:** ✅ Build xong, tests Passed (4/4: lint, test, e2e, runtime), chờ commit + snapshot.
 
 ---
 
