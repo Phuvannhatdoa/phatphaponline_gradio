@@ -128,3 +128,215 @@ GET /daoanh/admin/keyword_import.html → 200 Keyword Import
 200 GET /daoanh/api/admin/dashboard/stats  → ✅ Fixed (2026-08-14) alias route
 404 GET /daoanh/api/monk_names              → (thientong.py, not daoanh)
 ```
+
+## Task 14 — DILA Time Authority (time_periods = 0)
+
+**ID:** T14
+**Title:** Import DILA Time Authority (time_periods = 0)
+**Module:** DILA Authority
+**Priority:** high
+**Status:** pending
+**Depends on:** []
+**Created:** 2026-08-13
+**Updated:** 2026-08-16
+**Done when:** time_periods có dữ liệu (lunar_month/era/emperor/dynasty) + API tra cứu niên hiệu
+
+## Mục tiêu
+DEV_HISTORY audit 2026-08-11: \	ime_periods\ = 0 rows. Cần import DILA Time Authority (lunar_month / era / emperor / dynasty) — core missing module, JDN-based (Khoá 2 / DEV_HISTORY).
+
+## Cách tiếp cận
+- Xác định nguồn DILA Time Authority (DILA github Authority-Databases).
+- ETL import vào bảng \	ime_periods\ (JDN-based).
+- API tra cứu niên hiệu / đổi lịch Trung-Hoa-Nhật.
+- Tích hợp vào chronology / timeline nếu có.
+
+## Acceptance criteria (checklist)
+- [ ] ETL import time_periods thành công
+- [ ] Bảng time_periods có rows (era/emperor/dynasty)
+- [ ] API tra cứu niên hiệu hoạt động
+- [ ] Đối chiếu JDN chính xác
+
+---
+
+## Task 15 — Entity Identity Hub (DILA + BDRC + CBETA + MARCUS + ZQLOCAL)
+
+**ID:** T15
+**Title:** Entity Identity Hub (Multi-source Provenance)
+**Module:** Identity Hub
+**Priority:** high
+**Status:** pending
+**Depends on:** [T14]
+**Created:** 2026-08-16
+**Updated:** 2026-08-16
+**Done when:** entity_hub có dữ liệu + entity_source_ids đã mapping + API claims hoạt động
+
+## Mục tiêu
+Xây dựng kiến trúc identity hub chuyên nghiệp:
+- ZQ INTERNAL ENTITY: entity_id INTEGER PK, canonical_label, entity_type
+- SOURCE REGISTRY: data_sources (DILA, BDRC, CBETA, MARCUS, ZQLOCAL)
+- ENTITY SOURCE IDS: entity_source_ids (mapping giữa ZQ internal ID và các source ID)
+- CLAIM / EVIDENCE LAYER: entity_claims (claim_type, authority_role, confidence, verification_status)
+- PROVENANCE: Mỗi thông tin truy ngược về nguồn gốc
+- COMPATIBILITY VIEW: v_entity_places (frontend tiếp tục hoạt động)
+
+## Quy tắc authority
+Không đặt DILA = luôn MAIN, BDRC = luôn MAIN. Authority phụ thuộc claim_type.
+
+## Acceptance criteria (checklist)
+- [ ] Tạo entity_hub với entity_id INTEGER PK
+- [ ] Tạo entity_source_ids với UNIQUE(source, source_entity_id)
+- [ ] Tạo data_sources registry (có BDRC, ZQLOCAL)
+- [ ] Tạo entity_claims với các claim_type
+- [ ] Tạo entity_summary (VIETNAMESE_SUMMARY)
+- [ ] Tạo v_entity_places compatibility view
+- [ ] Test case Thiếu Lâm Tự: DILA + BDRC + ZQLOCAL mapping
+- [ ] API/entity-hub/resolve trả về unified response object
+- [ ] Existing APIs (/daoanh/places/) không break
+
+---
+
+## Task 16 — BDRC Adapter (stub)
+
+**ID:** T16
+**Title:** BDRC Integration Adapter
+**Module:** Adapters
+**Priority:** medium
+**Status:** pending
+**Depends on:** [T15]
+**Created:** 2026-08-16
+**Updated:** 2026-08-16
+**Done when:** adapters/bdrc/ module tạo xong + staging DB sẵn sàng
+
+## Mô-đun bao gồm:
+- dapters/bdrc/discover(): liệt kê entitities BDRC
+- dapters/bdrc.fetch_entity(): fetch entity từ BDRC source
+- dapters/bdrc.normalize(): normalize BDRC data vào ZQ format
+- dapters/bdrc.resolve_identity(): map BDRC entity → ZQ entity_id
+- dapters/bdrc.fetch_evidence(): fetch evidence/changelog từ BDRC
+
+**Lưu ý:** BDRC data không có sẵn trong project. Adapter tạo sẵn staging DB rỗng + schema, chờ dữ liệu nguồn import.
+
+---
+
+## Task 17 — Conflict & Provenance Handling
+
+**ID:** T17
+**Title:** Conflict Detection & Provenance Integrity
+**Module:** Quality Assurance
+**Priority:** medium
+**Status:** pending
+**Depends on:** [T15]
+**Created:** 2026-08-16
+**Updated:** 2026-08-16
+**Done when:**
+- [ ] Xử lý conflict: DILA history ≠ BDRC history → tạo conflict record
+- [ ] Mỗi factual paragraph có source badge
+- [ ] Click source → xem source gốc
+- [ ] UI không tự động overwrite text DILA/BDRC/CBETA
+
+
+## Task 14 — DILA Time Authority (time_periods = 0)
+
+**ID:** T14
+**Title:** Import DILA Time Authority (time_periods = 0)
+**Module:** DILA Authority
+**Priority:** high
+**Status:** pending
+**Depends on:** []
+**Created:** 2026-08-13
+**Updated:** 2026-08-16
+**Done when:** time_periods có dữ liệu (lunar_month/era/emperor/dynasty) + API tra cứu niên hiệu
+
+## Mục tiêu
+DEV_HISTORY audit 2026-08-11: \	ime_periods\ = 0 rows. Cần import DILA Time Authority (lunar_month / era / emperor / dynasty) — core missing module, JDN-based (Khoá 2 / DEV_HISTORY).
+
+## Cách tiếp cận
+- Xác định nguồn DILA Time Authority (DILA github Authority-Databases).
+- ETL import vào bảng \	ime_periods\ (JDN-based).
+- API tra cứu niên hiệu / đổi lịch Trung-Hoa-Nhật.
+- Tích hợp vào chronology / timeline nếu có.
+
+## Acceptance criteria (checklist)
+- [ ] ETL import time_periods thành công
+- [ ] Bảng time_periods có rows (era/emperor/dynasty)
+- [ ] API tra cứu niên hiệu hoạt động
+- [ ] Đối chiếu JDN chính xác
+
+---
+
+## Task 15 — Entity Identity Hub (DILA + BDRC + CBETA + MARCUS + ZQLOCAL)
+
+**ID:** T15
+**Title:** Entity Identity Hub (Multi-source Provenance)
+**Module:** Identity Hub
+**Priority:** high
+**Status:** pending
+**Depends on:** [T14]
+**Created:** 2026-08-16
+**Updated:** 2026-08-16
+**Done when:** entity_hub có dữ liệu + entity_source_ids đã mapping + API claims hoạt động
+
+## Mục tiêu
+Xây dựng kiến trúc identity hub chuyên nghiệp:
+- ZQ INTERNAL ENTITY: entity_id INTEGER PK, canonical_label, entity_type
+- SOURCE REGISTRY: data_sources (DILA, BDRC, CBETA, MARCUS, ZQLOCAL)
+- ENTITY SOURCE IDS: entity_source_ids (mapping giữa ZQ internal ID và các source ID)
+- CLAIM / EVIDENCE LAYER: entity_claims (claim_type, authority_role, confidence, verification_status)
+- PROVENANCE: Mỗi thông tin truy ngược về nguồn gốc
+- COMPATIBILITY VIEW: v_entity_places (frontend tiếp tục hoạt động)
+
+## Quy tắc authority
+Không đặt DILA = luôn MAIN, BDRC = luôn MAIN. Authority phụ thuộc claim_type.
+
+## Acceptance criteria (checklist)
+- [ ] Tạo entity_hub với entity_id INTEGER PK
+- [ ] Tạo entity_source_ids với UNIQUE(source, source_entity_id)
+- [ ] Tạo data_sources registry (có BDRC, ZQLOCAL)
+- [ ] Tạo entity_claims với các claim_type
+- [ ] Tạo entity_summary (VIETNAMESE_SUMMARY)
+- [ ] Tạo v_entity_places compatibility view
+- [ ] Test case Thiếu Lâm Tự: DILA + BDRC + ZQLOCAL mapping
+- [ ] API/entity-hub/resolve trả về unified response object
+- [ ] Existing APIs (/daoanh/places/) không break
+
+---
+
+## Task 16 — BDRC Adapter (stub)
+
+**ID:** T16
+**Title:** BDRC Integration Adapter
+**Module:** Adapters
+**Priority:** medium
+**Status:** pending
+**Depends on:** [T15]
+**Created:** 2026-08-16
+**Updated:** 2026-08-16
+**Done when:** adapters/bdrc/ module tạo xong + staging DB sẵn sàng
+
+## Mô-đun bao gồm:
+- dapters/bdrc/discover(): liệt kê entitities BDRC
+- dapters/bdrc.fetch_entity(): fetch entity từ BDRC source
+- dapters/bdrc.normalize(): normalize BDRC data vào ZQ format
+- dapters/bdrc.resolve_identity(): map BDRC entity → ZQ entity_id
+- dapters/bdrc.fetch_evidence(): fetch evidence/changelog từ BDRC
+
+**Lưu ý:** BDRC data không có sẵn trong project. Adapter tạo sẵn staging DB rỗng + schema, chờ dữ liệu nguồn import.
+
+---
+
+## Task 17 — Conflict & Provenance Handling
+
+**ID:** T17
+**Title:** Conflict Detection & Provenance Integrity
+**Module:** Quality Assurance
+**Priority:** medium
+**Status:** pending
+**Depends on:** [T15]
+**Created:** 2026-08-16
+**Updated:** 2026-08-16
+**Done when:**
+- [ ] Xử lý conflict: DILA history ≠ BDRC history → tạo conflict record
+- [ ] Mỗi factual paragraph có source badge
+- [ ] Click source → xem source gốc
+- [ ] UI không tự động overwrite text DILA/BDRC/CBETA
+
