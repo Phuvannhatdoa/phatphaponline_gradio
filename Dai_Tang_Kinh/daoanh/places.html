@@ -110,6 +110,7 @@
         <div class="flex-1 max-w-xl mx-12 relative group">
             <input type="text" id="searchInput" placeholder="Tìm địa danh..." 
                 class="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-full focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition-all text-sm outline-none text-white">
+            <ul id="autocompleteList" class="hidden absolute top-full left-0 right-0 mt-2 max-h-80 overflow-y-auto bg-slate-900/95 border border-white/10 rounded-2xl shadow-2xl z-[2000] backdrop-blur"></ul>
             <div class="absolute left-4 top-3.5 text-slate-400">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         <div class="flex items-center gap-6">
@@ -446,19 +447,76 @@
                 btn.style.borderColor = 'rgba(255,255,255,0.1)';
             }
         });
+        // ─── AUTOCOMPLETE DROPDOWN ─────────────────────────────────
+        const autocompleteList = document.getElementById('autocompleteList');
+        let acTimeout = null;
+        function escapeHtml(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[c]);
+        }
+        function hideAutocomplete() {
+            autocompleteList.classList.add('hidden');
+            autocompleteList.innerHTML = '';
+        }
+        function selectResult(r) {
+            clearTimeout(searchTimeout);
+            clearTimeout(acTimeout);
+            hideAutocomplete();
+            searchInput.value = r.name_vi || r.name_zh || r.id;
+            if (!r.lat || !r.lng) {
+                if (r.id) selectItem(r.id, r.lat, r.lng);
+                return;
+            }
+            addMarkerFromResult(r);
+            map.flyTo([r.lat, r.lng], 10, { duration: 1.2 });
+            selectItem(r.id, r.lat, r.lng);
+        }
+        async function runAutocomplete(q) {
+            if (!q || q.length < 2) { hideAutocomplete(); return; }
+            try {
+                const res = await fetch('/daoanh/api/places/search?q=' + encodeURIComponent(q) + '&limit=10');
+                const data = await res.json();
+                if (!data.ok || !data.results || data.results.length === 0) { hideAutocomplete(); return; }
+                autocompleteList.innerHTML = '';
+                data.results.forEach(r => {
+                    const li = document.createElement('li');
+                    li.className = 'px-4 py-2.5 cursor-pointer hover:bg-amber-500/10 border-b border-white/5 last:border-0 flex items-center justify-between gap-3';
+                    li.innerHTML =
+                        '<div class="flex flex-col min-w-0">' +
+                        '<span class="text-sm font-semibold text-white truncate">' + escapeHtml(r.name_vi || r.name_zh || r.id) + '</span>' +
+                        '<span class="text-[10px] text-amber-500/70 truncate">' + escapeHtml(r.name_zh || '') + '</span>' +
+                        '</div>' +
+                        '<span class="text-[9px] font-mono text-slate-500 shrink-0">' + escapeHtml(r.id) + '</span>';
+                    li.addEventListener('mousedown', (e) => { e.preventDefault(); selectResult(r); });
+                    autocompleteList.appendChild(li);
+                });
+                autocompleteList.classList.remove('hidden');
+            } catch (e) {
+                hideAutocomplete();
+            }
+        }
+
         const searchInput = document.getElementById('searchInput');
         let searchTimeout = null;
         searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
+            clearTimeout(acTimeout);
             const q = e.target.value.trim();
             searchTimeout = setTimeout(() => doSearch(q), 400);
+            acTimeout = setTimeout(() => runAutocomplete(q), 150);
         });
-        searchInput.addEventListener('keypress', (e) => {
+        searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 clearTimeout(searchTimeout);
+                clearTimeout(acTimeout);
+                hideAutocomplete();
                 doSearch(e.target.value.trim());
+            } else if (e.key === 'Escape') {
+                hideAutocomplete();
             }
         });
+        searchInput.addEventListener('blur', () => setTimeout(hideAutocomplete, 120));
         window.onload = loadInitialPlaces;
     </script>
 </body>

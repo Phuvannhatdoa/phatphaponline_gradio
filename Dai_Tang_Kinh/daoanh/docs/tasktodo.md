@@ -1,9 +1,9 @@
 # TASKTODO — Đạo Ảnh Dev Roadmap
 
-**Cập nhật:** 2026-08-15
-**Context:** So sánh GUI thật (phatphaponline.org) vs docs/progress.md
+**Cập nhật:** 2026-08-16
+**Context:** Fix timeout placevn.html (places_search FTS prefix + threaded servers) + autocomplete /daoanh/places
 
-> **Trạng thái tasks:** Task 1 ✅, Task 2 ✅, Task 3 ✅, Task 4 ✅, Task 5 ✅ (2026-07-29), Task 6 ⏭️ tiếp theo, Task 9 ✅ (2026-08-14), Task 10 ✅ (2026-08-15)
+> **Trạng thái tasks:** Task 1 ✅, Task 2 ✅, Task 3 ✅, Task 4 ✅, Task 5 ✅ (2026-07-29), Task 6 ⏭️ tiếp theo, Task 9 ✅ (2026-08-14), Task 10 ✅ (2026-08-15), Task 11 ✅ (2026-08-16), Task 12 ✅ (2026-08-16)
 
 ---
 
@@ -81,6 +81,16 @@
 - **Mô tả:** `places_search` trả 500 khi tìm địa danh có dấu ("Thiếu Lâm") do `print()` tiếng Việt lỗi encode cp1252.
 - **Trạng thái:** ✅ Đã fix — `sys.stdout/stderr.reconfigure(utf-8)` đầu app.py + `subprocess.run(encoding='utf-8', errors='replace')`. Test: search tiếng Việt 200, regenerate 200, e2e + playwright PASS. Session log: `docs/sessions/2026-08-15_fix_places_search_charmap.md`.
 
+### ⚪ Task 11 — Fix Timeout placevn.html (FTS prefix + threaded servers) ✅ (2026-08-16)
+- **Nguồn:** Hạ tầng / Admin Đạo Ảnh
+- **Mô tả:** "Máy chủ phản hồi chậm (Timeout)!" tái diễn — gõ dở rơi về LIKE full-scan ~15.8s + 2 server single-threaded chặn lẫn nhau.
+- **Trạng thái:** ✅ Đã fix — `places_search` Phase 0 FTS **prefix** (`"q"` → `q` → `t1* t2* …`, union 2 bảng FTS, miss → `[]` nhanh); `threaded=True` cho app.py + local_gateway.py; `sqlite timeout=10`; rebuild sạch FTS (bảng thường dùng `DELETE FROM`, ngưỡng `_docsize`); thêm `dashboard/restart_servers.ps1`. Session log: `docs/sessions/2026-08-16_fix_places_search_timeout.md`.
+
+### ⚪ Task 12 — Autocomplete /daoanh/places (FTS endpoint + dropdown) ✅ (2026-08-16)
+- **Nguồn:** GIS / Khoá 1 (`places.html`)
+- **Mô tả:** Ô search gõ "Thiếu Lâm Tự" autocomplete không chạy; chọn gợi ý xong ô search không hiện tên.
+- **Trạng thái:** ✅ Đã fix — rewrite `/daoanh/api/places/search` bằng FTS (khớp không dấu/gõ dở/ID/Hán, 0.3-1s thay vì 0 kết quả + LIKE 300-860ms); thêm dropdown gợi ý `ul#autocompleteList`; `selectResult()` set `searchInput.value = name_vi`. Session log: `docs/sessions/2026-08-16_fix_places_autocomplete.md`.
+
 ---
 
 ## GUI Working Pages (confirmed 2026-07-29)
@@ -101,7 +111,8 @@ GET /daoanh/admin/keyword_import.html → 200 Keyword Import
 ```
 200 GET /daoanh/api/entity/PL000000023255  → Thiếu Lâm Tự
 200 GET /daoanh/api/admin/namevi-queue     → 48,412 records
-200 GET /daoanh/api/admin/places_search    → ✅ Fixed tiếng Việt có dấu (2026-08-15)
+200 GET /daoanh/api/admin/places_search    → ✅ Fixed tiếng Việt có dấu (2026-08-15) + FTS prefix gõ dở/không dấu (2026-08-16)
+200 GET /daoanh/api/places/search          → ✅ Fixed autocomplete FTS (2026-08-16): không dấu/gõ dở/ID/Hán
 200 GET /daoanh/api/admin/dashboard/stats  → ✅ Fixed (2026-08-14) alias route
 404 GET /daoanh/api/monk_names              → (thientong.py, not daoanh)
 ```

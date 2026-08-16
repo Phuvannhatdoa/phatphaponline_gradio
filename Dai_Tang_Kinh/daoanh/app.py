@@ -109,7 +109,7 @@ def get_cbdb_conn():
     return conn
 
 def get_db_connection():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -125,6 +125,162 @@ def ensure_long_id(id_val):
         num_part = s[2:]
         s = 'PL' + num_part.zfill(12)
     return s
+
+# ==== Cache danh sách id theo cate (cho places_pending) ====
+# Phân loại cate chỉ phụ thuộc places_dila.note_category → tính 1 lần (~100ms cho 59K dòng),
+# rồi query qua index id thay vì full-scan 176K dòng + join tên miền dẫn xuất (~11.7s/request).
+_CATE_IDS_CACHE = None
+
+def _build_cate_ids_map():
+    """Build dict cate → [id thực trong places_pending (cả dạng ngắn + dài)].
+    Phân loại cate theo places_dila.note_category thông qua id dẫn xuất.
+    Gọi 1 lần (~1-2s cho 176K dòng) rồi cache."""
+    global _CATE_IDS_CACHE
+    if _CATE_IDS_CACHE is not None:
+        return _CATE_IDS_CACHE
+    m = {}
+    distinct = {}
+    conn = get_db_connection()
+    try:
+        did_cate = {}
+        for r in conn.execute("SELECT id, note_category FROM places_dila"):
+            nc = (r['note_category'] or '')
+            if '寺廟' in nc or '佛塔' in nc or '佛教文化地點' in nc:
+                cate = 'temple_site'
+            elif '山峰' in nc or '山脈' in nc:
+                cate = 'mountain'
+            elif '河流' in nc or '湖泊' in nc or '水系' in nc:
+                cate = 'river_lake'
+            elif '人文地理區域' in nc:
+                cate = 'dynasty_region'
+            elif '自然地理區域' in nc:
+                cate = 'other'
+            else:
+                cate = 'admin_place'
+            did_cate[str(r['id']).strip()] = cate
+        for (pid, pzh, pnote) in conn.execute(
+            "SELECT id, name_zh, note FROM places_pending"
+        ):
+            if not pid:
+                continue
+            pid = str(pid).strip()
+            if not pid or not pzh or not pnote:
+                continue
+            num = pid[2:] if pid.startswith('PL') else pid
+            cate = did_cate.get('PL' + num.zfill(12))
+            if cate:
+                m.setdefault(cate, []).append(pid)
+                distinct.setdefault(cate, set()).add('PL' + num.zfill(12))
+    finally:
+        conn.close()
+    _CATE_IDS_CACHE = {"ids": m, "distinct": {k: len(v) for k, v in distinct.items()}}
+    return _CATE_IDS_CACHE
+
+# ==== Cache gợi ý lexicon (definition LIKE) cho ai_judge ====
+# Query `definition LIKE '%han%'` full-scan bảng lexicon (166K dòng) ~1.2s.
+# Nhiều địa danh trùng tên Hán (~4.8x) nên cache theo han_name giúp click sau tức thì.
+_lexicon_han_cache = {}
+_LEXICON_HAN_CACHE_MAX = 500
+
+def _lexicon_han_lookup(conn, han_name):
+    """Tìm thuật ngữ lexicon có definition chứa han_name, có cache in-memory."""
+    if not han_name:
+        return []
+    cached = _lexicon_han_cache.get(han_name)
+    if cached is not None:
+        return cached
+    try:
+        rows = conn.execute(
+            "SELECT DISTINCT term FROM lexicon WHERE definition LIKE ? AND LENGTH(term) < 100 LIMIT 3",
+            ('%' + han_name + '%',)
+        ).fetchall()
+        result = [r['term'] for r in rows]
+    except Exception:
+        result = []
+    if len(_lexicon_han_cache) >= _LEXICON_HAN_CACHE_MAX:
+        oldest = next(iter(_lexicon_han_cache))
+        del _lexicon_han_cache[oldest]
+    _lexicon_han_cache[han_name] = result
+    return result
+
+# ==== Đảm bảo bảng FTS5 places_search_fts có dữ liệu ====
+# Cơ chế "gõ mớm" nhanh (FTS5): bảng đã tạo sẵn nhưng index rỗng.
+# Populate 1 lần (~4-5s) khi index chưa có dữ liệu. Idempotent — không chạy lại nếu đã có.
+# Lưu ý: COUNT(*) trên FTS5 rất chậm (~1.5s cho 118K docs) nên chỉ check 1 lần/process.
+_FTS5_READY = {"places_search_fts": False, "places_pending_fts": False}
+
+def ensure_places_search_fts(conn=None, force=False):
+    """Populate places_search_fts từ namevi_map_places nếu index đang rỗng.
+    Trả về True nếu vừa populate, False nếu đã có sẵn hoặc lỗi."""
+    if _FTS5_READY["places_search_fts"] and not force:
+        return False
+    own = conn is None
+    if own:
+        conn = get_db_connection()
+    try:
+        exists = conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='places_search_fts'"
+        ).fetchone()
+        if not exists:
+            return False
+        idx_count = conn.execute("SELECT COUNT(*) FROM places_search_fts_docsize").fetchone()[0]
+        src_count = conn.execute("SELECT COUNT(*) FROM namevi_map_places").fetchone()[0]
+        if force or idx_count < max(1, src_count // 100):
+            conn.execute(
+                "INSERT INTO places_search_fts(places_search_fts, rowid, name_vi, name_zh, dila_id) "
+                "SELECT NULL, id, name_vi, name_zh, dila_id FROM namevi_map_places WHERE name_vi IS NOT NULL"
+            )
+            conn.commit()
+            _FTS5_READY["places_search_fts"] = True
+            return True
+        _FTS5_READY["places_search_fts"] = True
+        return False
+    except Exception as e:
+        return False
+    finally:
+        if own:
+            conn.close()
+
+def ensure_places_pending_fts(conn=None, force=False):
+    """Đảm bảo bảng FTS5 places_pending_fts có dữ liệu.
+    FTS thường (lưu nội dung, không external-content vì places_pending.id không unique).
+    Cover cả địa danh chưa map + name_vi_norm (tìm không dấu). Populate 1 lần ~5-7s."""
+    if _FTS5_READY["places_pending_fts"] and not force:
+        return False
+    own = conn is None
+    if own:
+        conn = get_db_connection()
+    try:
+        exists = conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='places_pending_fts'"
+        ).fetchone()
+        if not exists:
+            conn.execute(
+                "CREATE VIRTUAL TABLE places_pending_fts USING fts5(id, name_vi, name_zh, name_vi_norm)"
+            )
+            conn.commit()
+        doc_count = conn.execute("SELECT COUNT(*) FROM places_pending_fts").fetchone()[0]
+        src_count = conn.execute("SELECT COUNT(*) FROM places_pending WHERE name_vi IS NOT NULL AND name_vi != ''").fetchone()[0]
+        if force or doc_count < max(1, src_count // 100):
+            try:
+                conn.execute("INSERT INTO places_pending_fts(places_pending_fts) VALUES('delete-all')")
+            except Exception:
+                pass
+            conn.execute(
+                "INSERT INTO places_pending_fts(id, name_vi, name_zh, name_vi_norm) "
+                "SELECT id, COALESCE(name_vi, ''), COALESCE(name_zh, ''), COALESCE(name_vi_norm, '') "
+                "FROM places_pending WHERE name_vi IS NOT NULL AND name_vi != ''"
+            )
+            conn.commit()
+            _FTS5_READY["places_pending_fts"] = True
+            return True
+        _FTS5_READY["places_pending_fts"] = True
+        return False
+    except Exception as e:
+        return False
+    finally:
+        if own:
+            conn.close()
 
 
 # ─── HÁN-VIỆT CLEANUP ──────────────────────────────────────
@@ -983,31 +1139,55 @@ def places_pending():
             base_where += " AND (p.id LIKE ? OR p.name_zh LIKE ? OR p.name_vi LIKE ? OR m.name_vi LIKE ?)"
             params = [cate, like, like, like, like]
 
-        total = conn.execute(f"""
-            SELECT COUNT(*) FROM (
-                SELECT p.id, {cate_case} AS cate_internal
+        if not search:
+            # Đường nhanh: id theo cate đã cache → tra bằng index (không quét 176K dòng)
+            cate_map = _build_cate_ids_map()
+            cate_ids = cate_map["ids"].get(cate, [])
+            cate_json = json.dumps(cate_ids)
+            total = cate_map["distinct"].get(cate, 0)
+            places = conn.execute(f"""
+                SELECT p.id, p.name_zh,
+                       COALESCE(m.name_vi, p.name_vi) AS name_vi,
+                       CASE WHEN p.note IS NOT NULL AND p.note != '' THEN 1 ELSE 0 END AS has_note
                 FROM places_pending p
                 LEFT JOIN namevi_map_places m ON m.dila_id = p.id
+                WHERE p.id IN (SELECT value FROM json_each(?))
+                ORDER BY p.id ASC
+                LIMIT ? OFFSET ?
+            """, (cate_json, limit, offset)).fetchall()
+        else:
+            total = conn.execute(f"""
+                SELECT COUNT(*) FROM (
+                    SELECT p.id, {cate_case} AS cate_internal
+                    FROM places_pending p
+                    LEFT JOIN namevi_map_places m ON m.dila_id = p.id
+                    LEFT JOIN places_dila d ON d.id = 'PL' || SUBSTR('000000000000' || REPLACE(p.id, 'PL', ''), -12)
+                    WHERE {base_where}
+                )
+                WHERE cate_internal = ?
+            """, params).fetchone()[0]
+            places = conn.execute(f"""
+                SELECT p.id, p.name_zh,
+                       COALESCE(m.name_vi, p.name_vi) AS name_vi,
+                       CASE WHEN p.note IS NOT NULL AND p.note != '' THEN 1 ELSE 0 END as has_note
+                FROM places_pending p
                 LEFT JOIN places_dila d ON d.id = 'PL' || SUBSTR('000000000000' || REPLACE(p.id, 'PL', ''), -12)
-                WHERE {base_where}
-            )
-            WHERE cate_internal = ?
-        """, params).fetchone()[0]
-        places = conn.execute(f"""
-            SELECT p.id, p.name_zh,
-                   COALESCE(m.name_vi, p.name_vi) AS name_vi,
-                   CASE WHEN p.note IS NOT NULL AND p.note != '' THEN 1 ELSE 0 END as has_note
-            FROM places_pending p
-            LEFT JOIN places_dila d ON d.id = 'PL' || SUBSTR('000000000000' || REPLACE(p.id, 'PL', ''), -12)
-            LEFT JOIN namevi_map_places m ON m.dila_id = p.id
-            WHERE {base_where} AND ({cate_case}) = ?
-            ORDER BY p.id ASC NULLS LAST
-            LIMIT ? OFFSET ?
-        """, [*params, limit, offset]).fetchall()
+                LEFT JOIN namevi_map_places m ON m.dila_id = p.id
+                WHERE {base_where} AND ({cate_case}) = ?
+                ORDER BY p.id ASC NULLS LAST
+                LIMIT ? OFFSET ?
+            """, [*params, limit, offset]).fetchall()
         conn.close()
-        places_list = [dict(p) for p in places]
-        for p in places_list:
-            p['id'] = ensure_long_id(p['id'])
+        places_list = []
+        seen = set()
+        for p in places:
+            row = dict(p)
+            lid = ensure_long_id(row['id'])
+            if lid in seen:
+                continue
+            seen.add(lid)
+            row['id'] = lid
+            places_list.append(row)
         return jsonify({"success": True, "total": total, "limit": limit, "offset": offset, "places": places_list})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
@@ -1107,12 +1287,8 @@ def ai_judge(id):
                 candidates.append({"source": "lexicon", "text": text})
 
         if han_name:
-            h_rows = conn.execute(
-                "SELECT DISTINCT term FROM lexicon WHERE definition LIKE ? AND LENGTH(term) < 100 LIMIT 3",
-                ('%' + han_name + '%',)
-            ).fetchall()
-            for r in h_rows:
-                text = r['term']
+            h_terms = _lexicon_han_lookup(conn, han_name)
+            for text in h_terms:
                 if not any(c['text'] == text for c in candidates):
                     candidates.append({"source": "lexicon_han", "text": text})
 
@@ -2198,59 +2374,139 @@ def api_places_search():
         if len(q) >= 2:
             pattern = f'%{q}%'
 
-            # 1) Search places table (has GPS coordinates)
+            # FTS5 nhanh — khớp có dấu / không dấu / gõ dở / ID / Hán.
+            # MATCH thử lần lượt: phrase → token AND → prefix AND ("thiếu* lâm* tự*").
+            # FTS đã chạy mà không khớp → trả rỗng nhanh (không LIKE full-scan gây "autocomplete ko chạy").
+            fts_raw_ids = None
             try:
-                rows = conn.execute("""
-                    SELECT id, name_zh, name_vi, gps_lat, gps_long,
-                           place_type, confidence
-                    FROM places
-                    WHERE (name_zh LIKE ? OR name_vi LIKE ? OR id LIKE ?)
-                      AND gps_lat IS NOT NULL
-                    ORDER BY confidence DESC
-                    LIMIT ?
-                """, (pattern, pattern, pattern, limit)).fetchall()
-                for r in rows:
-                    rid = r['id']
-                    if rid not in seen:
-                        seen.add(rid)
-                        results.append({
-                            "id": rid, "name_zh": r['name_zh'], "name_vi": r['name_vi'],
-                            "lat": r['gps_lat'], "lng": r['gps_long'],
-                            "type": r['place_type'], "confidence": r['confidence'],
-                            "source": "places"
-                        })
-            except Exception:
-                pass
+                ensure_places_search_fts(conn)
+                ensure_places_pending_fts(conn)
+                fts_candidates = [f'"{q.replace(chr(34), chr(34)+chr(34))}"']
+                if re.fullmatch(r'[\w\s]+', q, re.UNICODE):
+                    fts_candidates.append(q)
+                prefix_terms = []
+                for t in re.split(r'\s+', q.strip())[:6]:
+                    t = re.sub(r'["*():+\-#@~^&]', '', t)
+                    if t:
+                        prefix_terms.append(t + '*')
+                if prefix_terms:
+                    fts_candidates.append(' '.join(prefix_terms))
 
-            # 2) Supplement from namevi_map_places (has full name_vi)
-            remaining = limit - len(results)
-            if remaining > 0:
-                try:
-                    rows = conn.execute("""
-                        SELECT n.dila_id, n.name_zh, n.name_vi,
-                               COALESCE(p.gps_lat, n.gps_lat) as lat,
-                               COALESCE(p.gps_long, n.gps_long) as lng,
-                               p.place_type,
-                               COALESCE(p.confidence, n.confidence) as confidence
-                        FROM namevi_map_places n
-                        LEFT JOIN places p ON p.name_zh = n.name_zh AND p.name_zh != ''
-                        WHERE (n.name_vi LIKE ? OR n.name_zh LIKE ?)
-                        GROUP BY n.dila_id
-                        ORDER BY confidence DESC
-                        LIMIT ?
-                    """, (pattern, pattern, remaining)).fetchall()
+                fts_raw_ids = []
+                for fq in fts_candidates:
+                    ids = []
+                    for table, col in (("places_search_fts", "dila_id"), ("places_pending_fts", "id")):
+                        try:
+                            cand = conn.execute(
+                                f"SELECT {col} AS vid FROM {table} WHERE {table} MATCH ? LIMIT 100",
+                                (fq,)
+                            ).fetchall()
+                            ids.extend(r['vid'] for r in cand if r['vid'])
+                        except Exception:
+                            continue
+                    if ids:
+                        fts_raw_ids = ids
+                        break
+            except Exception:
+                fts_raw_ids = None
+
+            if fts_raw_ids:
+                # Dedupe id (dạng ngắn + dạng đầy đủ) trước khi truy vấn kết quả
+                in_seen = set()
+                in_ids = []
+                for raw in fts_raw_ids:
+                    for form in (str(raw), ensure_long_id(raw)):
+                        if form and form not in in_seen:
+                            in_seen.add(form)
+                            in_ids.append(form)
+                if in_ids:
+                    placeholders = ','.join('?' * len(in_ids))
+                    try:
+                        rows = conn.execute(f"""
+                            SELECT p.id,
+                                   p.name_zh,
+                                   COALESCE(m.name_vi, p.name_vi) AS name_vi,
+                                   COALESCE(g.gps_lat, m.gps_lat) AS lat,
+                                   COALESCE(g.gps_long, m.gps_long) AS lng,
+                                   g.place_type AS type,
+                                   COALESCE(g.confidence, m.confidence, 1.0) AS confidence
+                            FROM places_pending p
+                            LEFT JOIN namevi_map_places m ON m.dila_id = p.id
+                            LEFT JOIN places g ON g.name_zh = p.name_zh AND p.name_zh != ''
+                            WHERE p.id IN ({placeholders})
+                            ORDER BY
+                                CASE WHEN p.id = ? THEN 0 WHEN p.id LIKE ? THEN 1 ELSE 2 END,
+                                p.id ASC
+                            LIMIT ?
+                        """, in_ids + [q, pattern, limit]).fetchall()
+                    except Exception:
+                        rows = []
                     for r in rows:
-                        rid = r['dila_id']
+                        rid = ensure_long_id(r['id'])
                         if rid not in seen:
                             seen.add(rid)
                             results.append({
                                 "id": rid, "name_zh": r['name_zh'], "name_vi": r['name_vi'],
                                 "lat": r['lat'], "lng": r['lng'],
+                                "type": r['type'], "confidence": r['confidence'],
+                                "source": "fts"
+                            })
+            elif fts_raw_ids is None:
+                # FTS chưa sẵn sàng (lỗi tạo index) → fallback LIKE cũ.
+                # 1) Search places table (has GPS coordinates)
+                try:
+                    rows = conn.execute("""
+                        SELECT id, name_zh, name_vi, gps_lat, gps_long,
+                               place_type, confidence
+                        FROM places
+                        WHERE (name_zh LIKE ? OR name_vi LIKE ? OR id LIKE ?)
+                          AND gps_lat IS NOT NULL
+                        ORDER BY confidence DESC
+                        LIMIT ?
+                    """, (pattern, pattern, pattern, limit)).fetchall()
+                    for r in rows:
+                        rid = r['id']
+                        if rid not in seen:
+                            seen.add(rid)
+                            results.append({
+                                "id": rid, "name_zh": r['name_zh'], "name_vi": r['name_vi'],
+                                "lat": r['gps_lat'], "lng": r['gps_long'],
                                 "type": r['place_type'], "confidence": r['confidence'],
-                                "source": "namevi_map"
+                                "source": "places"
                             })
                 except Exception:
                     pass
+
+                # 2) Supplement from namevi_map_places (has full name_vi)
+                remaining = limit - len(results)
+                if remaining > 0:
+                    try:
+                        rows = conn.execute("""
+                            SELECT n.dila_id, n.name_zh, n.name_vi,
+                                   COALESCE(p.gps_lat, n.gps_lat) as lat,
+                                   COALESCE(p.gps_long, n.gps_long) as lng,
+                                   p.place_type,
+                                   COALESCE(p.confidence, n.confidence) as confidence
+                            FROM namevi_map_places n
+                            LEFT JOIN places p ON p.name_zh = n.name_zh AND p.name_zh != ''
+                            WHERE (n.name_vi LIKE ? OR n.name_zh LIKE ?)
+                            GROUP BY n.dila_id
+                            ORDER BY confidence DESC
+                            LIMIT ?
+                        """, (pattern, pattern, remaining)).fetchall()
+                        for r in rows:
+                            rid = r['dila_id']
+                            if rid not in seen:
+                                seen.add(rid)
+                                results.append({
+                                    "id": rid, "name_zh": r['name_zh'], "name_vi": r['name_vi'],
+                                    "lat": r['lat'], "lng": r['lng'],
+                                    "type": r['place_type'], "confidence": r['confidence'],
+                                    "source": "namevi_map"
+                                })
+                    except Exception:
+                        pass
+            # else: FTS đã chạy, không khớp → results rỗng, trả về nhanh.
         else:
             # No query: return top places with GPS + name_vi
             temple_likes = []
@@ -4323,7 +4579,124 @@ def places_search():
         q_norm = normalize_text(q)
         like_norm = f'%{q_norm}%' if q_norm else None
 
+        # Phase 0: FTS5 nhanh (cơ chế "gõ mớm" kiểu StarDict) — populate 1 lần, rồi MATCH tên có dấu / không dấu / ID / gõ dở (prefix)
+        # Nếu FTS đã chạy mà không khớp => trả về rỗng nhanh (tránh chuỗi LIKE full-scan ~15s gây timeout).
+        fts_tried = False
+        try:
+            ensure_places_search_fts(conn)
+            ensure_places_pending_fts(conn)
+            fts_tried = True
+
+            # Dựng chuỗi MATCH từ cụ thể → prefix (bắt gõ dở từng ký tự "thiếu lâm t"):
+            #   '"thiếu lâm tự"' (phrase) → 'thiếu lâm tự' (token AND) → 'thiếu* lâm* tự*' (prefix AND)
+            fts_candidates = [f'"{q.replace(chr(34), chr(34)+chr(34))}"']
+            if re.fullmatch(r'[\w\s]+', q, re.UNICODE):
+                fts_candidates.append(q)
+            prefix_terms = []
+            for t in re.split(r'\s+', q.strip())[:6]:
+                t = re.sub(r'["*():+\-#@~^&]', '', t)
+                if t:
+                    prefix_terms.append(t + '*')
+            if prefix_terms:
+                fts_candidates.append(' '.join(prefix_terms))
+
+            fts_raw_ids = []
+            for fq in fts_candidates:
+                ids = []
+                for table, col in (("places_search_fts", "dila_id"), ("places_pending_fts", "id")):
+                    try:
+                        cand = conn.execute(
+                            f"SELECT {col} AS vid FROM {table} WHERE {table} MATCH ? LIMIT 100",
+                            (fq,)
+                        ).fetchall()
+                        ids.extend(r['vid'] for r in cand if r['vid'])
+                    except Exception:
+                        continue
+                if ids:
+                    fts_raw_ids = ids
+                    break
+            if fts_raw_ids:
+                seen = set()
+                in_ids = []
+                for raw in fts_raw_ids:
+                    for form in (str(raw), ensure_long_id(raw)):
+                        if form and form not in seen:
+                            seen.add(form)
+                            in_ids.append(form)
+                if in_ids:
+                    placeholders = ','.join('?' * len(in_ids))
+                    rows = conn.execute(f"""
+                        SELECT p.id, p.name_zh,
+                               COALESCE(m.name_vi, p.name_vi) AS name_vi,
+                               m.vn_name_status
+                        FROM places_pending p
+                        LEFT JOIN namevi_map_places m ON m.dila_id = p.id
+                        LEFT JOIN places_dila d ON d.id = 'PL' || SUBSTR('000000000000' || REPLACE(p.id, 'PL', ''), -12)
+                        WHERE p.id IN ({placeholders})
+                          AND ({cate_case}) = ?
+                        ORDER BY
+                            CASE WHEN p.id = ? THEN 0 WHEN p.id LIKE ? THEN 1 ELSE 2 END,
+                            p.id ASC
+                        LIMIT 20
+                    """, in_ids + [cate, q, like]).fetchall()
+                    if rows:
+                        conn.close()
+                        places = []
+                        seen = set()
+                        for r in rows:
+                            row = dict(r)
+                            lid = ensure_long_id(row['id'])
+                            if lid in seen:
+                                continue
+                            seen.add(lid)
+                            row['id'] = lid
+                            places.append(row)
+                        return jsonify({"success": True, "places": places, "mode": "fts"})
+        except Exception:
+            pass
+
+        # Phase 0.5: query giống ID (PLxxxxxx hoặc số) → tra theo index id chính xác, không quét LIKE.
+        # Tránh trường hợp tìm ID trong tab "sai" phải chạy full-scan ~4s rồi trả 0 kết quả.
+        q_strip = q.strip()
+        m_id = re.match(r'^(?:PL)?(\d{1,12})$', q_strip, re.IGNORECASE)
+        if m_id:
+            short_id = 'PL' + m_id.group(1)
+            long_id = 'PL' + m_id.group(1).zfill(12)
+            rows = conn.execute(f"""
+                SELECT p.id, p.name_zh,
+                       COALESCE(m.name_vi, p.name_vi) AS name_vi,
+                       m.vn_name_status
+                FROM places_pending p
+                LEFT JOIN namevi_map_places m ON m.dila_id = p.id
+                LEFT JOIN places_dila d ON d.id = 'PL' || SUBSTR('000000000000' || REPLACE(p.id, 'PL', ''), -12)
+                WHERE p.id IN (?, ?)
+                  AND ({cate_case}) = ?
+                ORDER BY p.id ASC
+                LIMIT 20
+            """, (short_id, long_id, cate)).fetchall()
+            if rows:
+                conn.close()
+                places = []
+                seen = set()
+                for r in rows:
+                    row = dict(r)
+                    lid = ensure_long_id(row['id'])
+                    if lid in seen:
+                        continue
+                    seen.add(lid)
+                    row['id'] = lid
+                    places.append(row)
+                return jsonify({"success": True, "places": places, "mode": "id"})
+            conn.close()
+            return jsonify({"success": True, "places": [], "mode": "none"})
+
+        # FTS đã chạy nhưng không khớp → trả rỗng nhanh (tránh LIKE full-scan ~15s gây timeout).
+        if fts_tried:
+            conn.close()
+            return jsonify({"success": True, "places": [], "mode": "fts_none"})
+
         # Phase 1: Direct DB search (with name_vi_norm for diacritics-free)
+        # Chỉ chạy khi FTS chưa sẵn sàng (places_search_fts / places_pending_fts lỗi tạo index).
         where_parts = ["(p.id LIKE ? OR p.name_zh LIKE ? OR COALESCE(m.name_vi, p.name_vi) LIKE ?)"]
         params = [like, like, like]
         if like_norm:
@@ -4351,9 +4724,14 @@ def places_search():
         if rows:
             conn.close()
             places = []
+            seen = set()
             for r in rows:
                 row = dict(r)
-                row['id'] = ensure_long_id(row['id'])
+                lid = ensure_long_id(row['id'])
+                if lid in seen:
+                    continue
+                seen.add(lid)
+                row['id'] = lid
                 places.append(row)
             return jsonify({"success": True, "places": places, "mode": "db"})
 
@@ -4395,9 +4773,14 @@ def places_search():
             if rows:
                 conn.close()
                 places = []
+                seen = set()
                 for r in rows:
                     row = dict(r)
-                    row['id'] = ensure_long_id(row['id'])
+                    lid = ensure_long_id(row['id'])
+                    if lid in seen:
+                        continue
+                    seen.add(lid)
+                    row['id'] = lid
                     places.append(row)
                 return jsonify({"success": True, "places": places, "mode": "word_fallback"})
 
@@ -4439,9 +4822,14 @@ def places_search():
             if rows:
                 conn.close()
                 places = []
+                seen = set()
                 for r in rows:
                     row = dict(r)
-                    row['id'] = ensure_long_id(row['id'])
+                    lid = ensure_long_id(row['id'])
+                    if lid in seen:
+                        continue
+                    seen.add(lid)
+                    row['id'] = lid
                     places.append(row)
                 return jsonify({"success": True, "places": places, "mode": "han_fallback"})
 
@@ -4481,9 +4869,14 @@ def search_all():
         """, (like, like, like, q, like)).fetchall()
         conn.close()
         places = []
+        seen = set()
         for r in rows:
             row = dict(r)
-            row['id'] = ensure_long_id(row['id'])
+            lid = ensure_long_id(row['id'])
+            if lid in seen:
+                continue
+            seen.add(lid)
+            row['id'] = lid
             places.append(row)
         return jsonify({"success": True, "places": places})
     except Exception as e:
@@ -7831,5 +8224,33 @@ if __name__ == '__main__':
         if not os.path.exists(d):
             os.makedirs(d)
             print(f"Created: {d}")
-    
-    app.run(host='0.0.0.0', port=5000, debug=False)
+
+    # Populate FTS5 places_search_fts nếu index rỗng (1 lần ~4-5s, giúp ô tìm kiếm ID nhanh)
+    try:
+        t0 = time.time()
+        populated = ensure_places_search_fts()
+        if populated:
+            print(f"[fts] Đã populate places_search_fts trong {time.time()-t0:.1f}s", flush=True)
+        else:
+            print("[fts] places_search_fts đã sẵn sàng", flush=True)
+    except Exception as e:
+        print(f"[fts] Lỗi ensure_places_search_fts: {e}", flush=True)
+    try:
+        t0 = time.time()
+        populated = ensure_places_pending_fts()
+        if populated:
+            print(f"[fts] Đã populate places_pending_fts trong {time.time()-t0:.1f}s", flush=True)
+        else:
+            print("[fts] places_pending_fts đã sẵn sàng", flush=True)
+    except Exception as e:
+        print(f"[fts] Lỗi ensure_places_pending_fts: {e}", flush=True)
+
+    # Build cache id→cate cho places_pending (1 lần ~5s, giúp trang chính load nhanh thay vì 11.7s)
+    try:
+        t0 = time.time()
+        _build_cate_ids_map()
+        print(f"[cate] Đã build cache cate ids trong {time.time()-t0:.1f}s", flush=True)
+    except Exception as e:
+        print(f"[cate] Lỗi build cate ids: {e}", flush=True)
+
+    app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
