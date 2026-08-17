@@ -1,4 +1,4 @@
-# restart_servers.ps1 — Restart cả 2 server (app.py:5000 + local_gateway.py:8080) với threaded=True
+# restart_servers.ps1 — Restart 3 server (app.py:5000 + server.py:5001 + gateway.py:8080)
 # Dùng để: deploy code mới, xác minh fix timeout, lưu log có timestamp.
 # Cách chạy:  powershell -ExecutionPolicy Bypass -File dashboard\restart_servers.ps1
 $ErrorActionPreference = "Stop"
@@ -14,8 +14,8 @@ function Write-Log($msg) {
     Write-Host $line
 }
 
-# 1. Kill các process đang giữ port
-foreach ($port in 5000, 8080) {
+# 1. Kill các process đang giữ port (5000=app.py, 5001=server.py, 8080=gateway)
+foreach ($port in 5000, 5001, 8080) {
     $conn = Get-NetTCPConnection -State Listen -LocalPort $port -ErrorAction SilentlyContinue
     if ($conn) {
         $pids = $conn.OwningProcess | Sort-Object -Unique
@@ -34,7 +34,14 @@ $appPy  = Join-Path $root "app.py"
 Start-Process -FilePath "python" -ArgumentList @("`"$appPy`"") -WorkingDirectory $root -RedirectStandardOutput $appOut -RedirectStandardError $appErr -WindowStyle Hidden
 Write-Log "Started app.py:5000"
 
-# 3. Start local_gateway.py:8080
+# 3. Start server.py:5001
+$serverOut = Join-Path $dash "server_restart.out.log"
+$serverErr = Join-Path $dash "server_restart.err.log"
+$serverPy  = Join-Path $root "server.py"
+Start-Process -FilePath "python" -ArgumentList @("`"$serverPy`"") -WorkingDirectory $root -RedirectStandardOutput $serverOut -RedirectStandardError $serverErr -WindowStyle Hidden
+Write-Log "Started server.py:5001"
+
+# 4. Start local_gateway.py:8080
 $gwOut = Join-Path $dash "gateway_restart.out.log"
 $gwErr = Join-Path $dash "gateway_restart.err.log"
 $gwPy  = Join-Path $root "local_gateway.py"
@@ -42,7 +49,7 @@ Start-Process -FilePath "python" -ArgumentList @("`"$gwPy`"") -WorkingDirectory 
 Write-Log "Started local_gateway.py:8080"
 
 # 4. Chờ port lắng nghe (tối đa 60s)
-foreach ($port in 5000, 8080) {
+foreach ($port in 5000, 5001, 8080) {
     $ok = $false
     for ($i = 0; $i -lt 30; $i++) {
         Start-Sleep -Milliseconds 2000
