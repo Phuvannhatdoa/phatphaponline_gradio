@@ -96,12 +96,12 @@
 - **Mô tả:** Ô search gõ "Thiếu Lâm Tự" autocomplete không chạy; chọn gợi ý xong ô search hiện tên.
 - **Trạng thái:** ✅ Đã fix — rewrite `/daoanh/api/places/search` bằng FTS (khớp không dấu/gõ dở/ID/Hán, 0.3-1s thay vì 0 kết quả + LIKE 300-860ms); thêm dropdown gợi ý `ul#autocompleteList`; `selectResult()` set `searchInput.value = name_vi`. Session log: `docs/sessions/2026-08-16_fix_places_autocomplete.md`.
 
-### 🟠 Task 13 — Places Vị trí block + confidence semantics ✅ (2026-08-16)
+### 🟠 Task 13 — Places Vị trí block + confidence semantics ✅ (2026-08-17)
 - **Nguồn:** GIS / Khoá 1 (`/daoanh/places`, `placevn.html`)
 - **Mô tả:** Cập nhật hiển thị địa chỉ theo dạng "Vị trí (3 Lớp RAG)" giống placevn.html (country/district/geo rule-based, không tốn AI); sửa rỗng Tỉnh/Quốc gia cho Thiếu Lâm Tự bằng bổ sung province/country từ places theo name_zh; làm "Độ tin cậy" có ý nghĩa: admin-reviewed → "Đã duyệt" (xanh), auto/phiên âm → "Tự động" (vang), bỏ % số; thêm block "MÔ TẢ DILA (RAW)" hiển thị places_dila.note strip XML khi note_vi rỗng; thay đổi label "Tình trạng tên Việt": Đã duyệt / Tự động.
 - **Root causes fixed:** (1) Supplement condition namevi_map branch 2 giờ chỉ supplement province/country khi THIẾU (không chỉ GPS thiếu); (2) save_mapping confidence=1.0 khi reviewed, 0.5 khi auto; (3) Frontend label đổi "Đã duyệt"/"Tự động", remove %, thêm dila_note block; (4) placevn.html timeout margin 30s + startup lexicon warm.
 - **Kết quả:** `/daoanh/api/places/PL000000023255` (Thiếu Lâm Tự) giờ trả province/country đã populate, "Đã duyệt" thay vì 50%, Vị trí block hiển thị 3 lớp RAG + DILA raw note. Session log: `docs/sessions/2026-08-16_fix_places_vitri_block.md`.
-- **Trạng thái:** ✅ Build xong, tests Passed (4/4: lint, test, e2e, runtime), chờ commit + snapshot.
+- **Trạng thái:** ✅ Build xong, tests Passed (4/4: lint, test, e2e, runtime), committed c013bba.
 
 ---
 
@@ -135,7 +135,7 @@ GET /daoanh/admin/keyword_import.html → 200 Keyword Import
 **Title:** Import DILA Time Authority (time_periods = 0)
 **Module:** DILA Authority
 **Priority:** high
-**Status:** pending
+**Status:** in_progress
 **Depends on:** []
 **Created:** 2026-08-13
 **Updated:** 2026-08-16
@@ -164,7 +164,7 @@ DEV_HISTORY audit 2026-08-11: \	ime_periods\ = 0 rows. Cần import DILA Time Au
 **Title:** Entity Identity Hub (Multi-source Provenance)
 **Module:** Identity Hub
 **Priority:** high
-**Status:** pending
+**Status:** in_progress
 **Depends on:** [T14]
 **Created:** 2026-08-16
 **Updated:** 2026-08-16
@@ -201,7 +201,7 @@ Không đặt DILA = luôn MAIN, BDRC = luôn MAIN. Authority phụ thuộc clai
 **Title:** BDRC Integration Adapter
 **Module:** Adapters
 **Priority:** medium
-**Status:** pending
+**Status:** completed
 **Depends on:** [T15]
 **Created:** 2026-08-16
 **Updated:** 2026-08-16
@@ -224,7 +224,7 @@ Không đặt DILA = luôn MAIN, BDRC = luôn MAIN. Authority phụ thuộc clai
 **Title:** Conflict Detection & Provenance Integrity
 **Module:** Quality Assurance
 **Priority:** medium
-**Status:** pending
+**Status:** in_progress
 **Depends on:** [T15]
 **Created:** 2026-08-16
 **Updated:** 2026-08-16
@@ -241,10 +241,10 @@ Không đặt DILA = luôn MAIN, BDRC = luôn MAIN. Authority phụ thuộc clai
 **Title:** Import DILA Time Authority (time_periods = 0)
 **Module:** DILA Authority
 **Priority:** high
-**Status:** pending
+**Status:** in_progress
 **Depends on:** []
 **Created:** 2026-08-13
-**Updated:** 2026-08-16
+**Updated:** 2026-08-17
 **Done when:** time_periods có dữ liệu (lunar_month/era/emperor/dynasty) + API tra cứu niên hiệu
 
 ## Mục tiêu
@@ -270,10 +270,10 @@ DEV_HISTORY audit 2026-08-11: \	ime_periods\ = 0 rows. Cần import DILA Time Au
 **Title:** Entity Identity Hub (Multi-source Provenance)
 **Module:** Identity Hub
 **Priority:** high
-**Status:** pending
+**Status:** in_progress
 **Depends on:** [T14]
 **Created:** 2026-08-16
-**Updated:** 2026-08-16
+**Updated:** 2026-08-17
 **Done when:** entity_hub có dữ liệu + entity_source_ids đã mapping + API claims hoạt động
 
 ## Mục tiêu
@@ -307,10 +307,10 @@ Không đặt DILA = luôn MAIN, BDRC = luôn MAIN. Authority phụ thuộc clai
 **Title:** BDRC Integration Adapter
 **Module:** Adapters
 **Priority:** medium
-**Status:** pending
+**Status:** completed
 **Depends on:** [T15]
 **Created:** 2026-08-16
-**Updated:** 2026-08-16
+**Updated:** 2026-08-17
 **Done when:** adapters/bdrc/ module tạo xong + staging DB sẵn sàng
 
 ## Mô-đun bao gồm:
@@ -330,10 +330,10 @@ Không đặt DILA = luôn MAIN, BDRC = luôn MAIN. Authority phụ thuộc clai
 **Title:** Conflict Detection & Provenance Integrity
 **Module:** Quality Assurance
 **Priority:** medium
-**Status:** pending
+**Status:** completed
 **Depends on:** [T15]
 **Created:** 2026-08-16
-**Updated:** 2026-08-16
+**Updated:** 2026-08-17
 **Done when:**
 - [ ] Xử lý conflict: DILA history ≠ BDRC history → tạo conflict record
 - [ ] Mỗi factual paragraph có source badge
