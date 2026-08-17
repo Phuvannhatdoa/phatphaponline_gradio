@@ -1,0 +1,1092 @@
+{
+  "generated_at": "2026-08-17T23:02:05",
+  "total_progress": 72.8,
+  "modules": [
+    {
+      "name": "DILA Authority",
+      "doc_status": "done",
+      "progress": 100,
+      "code_found": 0,
+      "code_claimed": 0,
+      "routes": [],
+      "warnings": []
+    },
+    {
+      "name": "CBETA",
+      "doc_status": "in_progress",
+      "progress": 59,
+      "code_found": 16,
+      "code_claimed": 27,
+      "routes": [
+        "/api/admin/cbeta/context",
+        "/api/admin/cbeta/explain",
+        "/api/admin/cbeta/fuzzy-match-place",
+        "/api/admin/cbeta/resolve",
+        "/api/admin/cbeta/search-person",
+        "/api/admin/cbeta/search-place",
+        "/api/admin/cbeta/snippet",
+        "/api/admin/cbeta/stats",
+        "/api/admin/cbeta/translate_segment",
+        "/api/admin/cbeta/unit",
+        "/api/admin/translate_gemini_cbeta",
+        "/api/entity/{}",
+        "/api/entity/{}/marcus",
+        "/api/entity/{}/passages",
+        "/api/entity/{}/summary",
+        "fuzzy_match_cbeta_catalog.py"
+      ],
+      "warnings": [
+        "Docs claim 27 nhưng chỉ tìm thấy 16 trong code. Thiếu: /api/cbeta/context, /api/entity/, /api/entity/A000001, /api/entity/A000005/marcus, /api/entity/A023597/passages"
+      ]
+    },
+    {
+      "name": "Marcus SNA",
+      "doc_status": "in_progress",
+      "progress": 50,
+      "code_found": 1,
+      "code_claimed": 2,
+      "routes": [
+        "link_marcus_entities.py"
+      ],
+      "warnings": [
+        "Docs claim 2 nhưng chỉ tìm thấy 1 trong code. Thiếu: /api/place/{}/conflicts"
+      ]
+    },
+    {
+      "name": "TTL Thiền Sư VN",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 1,
+      "code_claimed": 1,
+      "routes": [
+        "etl_ttl_person_authority.py"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "CBDB",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 2,
+      "code_claimed": 2,
+      "routes": [
+        "/api/admin/places/{}/cbdb",
+        "/api/admin/places/{}/cbdb_translate"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "Wikipedia",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 1,
+      "code_claimed": 1,
+      "routes": [
+        "/api/admin/wiki/fetch"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "NameVi Map",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 7,
+      "code_claimed": 7,
+      "routes": [
+        "/api/admin/namevi-map-places/save",
+        "/api/admin/namevi-map/delete",
+        "/api/admin/namevi-map/update",
+        "/api/admin/namevi-queue",
+        "/api/admin/namevi-queue/{}",
+        "/api/name_vi/search",
+        "migrate_name_vi_norm.py"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "Keywords",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 2,
+      "code_claimed": 2,
+      "routes": [
+        "/api/admin/keywords/bulk_import",
+        "/api/admin/keywords/parse_txt"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "GIS / Places",
+      "doc_status": "in_progress",
+      "progress": 43,
+      "code_found": 3,
+      "code_claimed": 7,
+      "routes": [
+        "/api/admin/places_search",
+        "/api/places/search",
+        "/api/places/{}"
+      ],
+      "warnings": [
+        "Docs claim 7 nhưng chỉ tìm thấy 3 trong code. Thiếu: /api/place/{}/languages, /api/places/, /api/places/{}/translations, /api/vn/places"
+      ]
+    },
+    {
+      "name": "DILA Integration Layer",
+      "doc_status": "in_progress",
+      "progress": 0,
+      "code_found": 0,
+      "code_claimed": 2,
+      "routes": [],
+      "warnings": [
+        "Docs claim 2 nhưng chỉ tìm thấy 0 trong code. Thiếu: /api/time/entity/, /api/time/entity/{}"
+      ]
+    },
+    {
+      "name": "Translation Pipeline",
+      "doc_status": "in_progress",
+      "progress": 50,
+      "code_found": 3,
+      "code_claimed": 6,
+      "routes": [
+        "/api/admin/translate_context",
+        "/api/public/transliterate",
+        "/api/translate/all"
+      ],
+      "warnings": [
+        "Docs claim 6 nhưng chỉ tìm thấy 3 trong code. Thiếu: /api/translate, /api/translate-cbeta, /api/translate/cbeta"
+      ]
+    },
+    {
+      "name": "Hạ tầng / Docs",
+      "doc_status": "in_progress",
+      "progress": 71,
+      "code_found": 5,
+      "code_claimed": 7,
+      "routes": [
+        "/api/admin/dashboard/stats",
+        "/api/admin/emails",
+        "/api/dashboard/stats",
+        "/api/login/check",
+        "/api/progress/dashboard"
+      ],
+      "warnings": [
+        "Docs claim 7 nhưng chỉ tìm thấy 5 trong code. Thiếu: /api/login/, local_gateway.py"
+      ]
+    }
+  ],
+  "endpoints_compare": [
+    {
+      "path": "/api/...",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/ai_judge/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/context",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/explain",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/fuzzy-match-place",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/resolve",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/search-person",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/search-place",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/snippet",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/translate_segment",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/unit",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/dashboard/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/emails",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/keywords/bulk_import",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/keywords/parse_txt",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/llm/summarize",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-map-places/save",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-map/delete",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-map/update",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-queue",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-queue/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/parse_district",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/places/{}/cbdb",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/places/{}/cbdb_translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/places_search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/submit-for-review",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/translate_context",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translate_gemini_cbeta",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translations",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/translations/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/wiki/fetch",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/cbeta/context",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/check-license",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/dashboard/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/deepsearch",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/dict/fuzzy",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/dict/merge",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/A000001",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/A000005/marcus",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/A023597/passages",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/FAKE123",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/T51n2076",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/T51n2076/passages",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/link",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/graph",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/{}/marcus",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/passages",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/summary",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/graphdb/sparql",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/lineage/{}/network",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/login/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/login/check",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/A000294",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/A001361",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk_names",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/name_vi/search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/nexus/find",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/place/{}/cbeta_refs",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/place/{}/conflicts",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/place/{}/languages",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/places/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/places/search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/translations",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/progress/dashboard",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/public/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/public/transliterate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/rag/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/rag/health",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/rag/query",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/rag_vi/chat",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/sutra/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/time/entity/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/time/entity/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/time/periods",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/translate-cbeta",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/translate/all",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/translate/cbeta",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/vn/places",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/vn/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Seed monk từ persons.json (48K records)",
+      "file": "T01-seed-monk-persons.md",
+      "module": "DILA Authority",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "created": "2026-07-29",
+      "updated": "2026-08-17",
+      "done_when": "namevi-queue API trả phần lớn records có name_vi (>= 90% / 48.412) ✅ ĐÃ THÍCH HỎA",
+      "desc": "namevi-queue API có 48.412 records nhưng chỉ 335/48.412 có `name_vi`. Cần ETL bulk auto-generate từ persons.json (DILA / Khoá 1) để toàn bộ tên tăng trưởng có phiên âm Hán-Việt.",
+      "criteria_done": 1,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T02",
+      "title": "Passage_VI + entity summary API (LLM)",
+      "file": "T02-passage-vi-entity-summary.md",
+      "module": "CBETA",
+      "priority": "high",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-07-29",
+      "updated": "2026-08-13",
+      "done_when": "GET /daoanh/api/entity/{id}/passages trả count > 0 + endpoint summary trả tóm tắt tiếng Việt",
+      "desc": "`/entity/PL000000023255/passages` trả `count=0`. Cần import thêm CBETA texts, build `PASSAGE_VI` translations, entity summary API via LLM (Khoá 1 + Khoá 5 phase 2+).",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T03",
+      "title": "Fuzzy matching title_zh ↔ place (CBETA Catalog)",
+      "file": "T03-fuzzy-match-cbeta-catalog.md",
+      "module": "CBETA",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-07-29",
+      "updated": "2026-08-13",
+      "done_when": "LIKE matching được thay bằng RapidFuzz; catalog VN khớp đúng title_zh với place",
+      "desc": "CBETA Catalog VN hiện dùng LIKE matching để nối `title_zh` ↔ place `name_zh`. Cần RapidFuzz để match mờ (Khoá 1 / CBETA Catalog).",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T04",
+      "title": "Term glossaries → people/works (Marcus)",
+      "file": "T04-marcus-glossaries-link.md",
+      "module": "Marcus SNA",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-07-29",
+      "updated": "2026-08-13",
+      "done_when": "term_glossaries chuẩn hóa và gắn được với DILA people/works (có số lượng liên kết thống kê được)",
+      "desc": "Marcus dataset (`marcus_reference`, `marcus_networks`) đã import nhưng chưa link với DILA people/works (Khoá 1 / Marcus).",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T05",
+      "title": "TTL mở rộng ETL ~2000 file + dila_id",
+      "file": "T05-ttl-expand-etl.md",
+      "module": "TTL Thiền Sư VN",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[T04]",
+      "created": "2026-07-29",
+      "updated": "2026-08-13",
+      "done_when": "ETL chạy được toàn bộ TTL còn lại (dòng phái), gắn dila_id cho 11 nhân vật chưa verified, tích hợp API/UI",
+      "desc": "Đã xây `vn_person_authority` + 4 bảng phụ trợ từ 16 file TTL (`data/ttl/old/`). Cần ETL cho ~2000 file TTL còn lại (định dạng dòng phái), gắn dila_id cho 11 nhân vật chưa verified, tích hợp API/UI (Kh",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T06",
+      "title": "GIS cluster click handler + tối ưu icon mật độ",
+      "file": "T06-gis-cluster-click.md",
+      "module": "GIS / Places",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-07-29",
+      "updated": "2026-08-13",
+      "done_when": "Click cluster → zoom-to-bounds; icon cluster tối ưu theo mật độ",
+      "desc": "Cluster trên bản đồ Đạo Ảnh chưa zoom-to-bounds khi click (Khoá 1 / GIS). Thêm handler click + tối ưu icon cluster theo mật độ (theo progress GIS 2026-08-13).",
+      "criteria_done": 0,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "T07",
+      "title": "Wikipedia multi-language fallback + cache refresh",
+      "file": "T07-wikipedia-fallback.md",
+      "module": "Wikipedia",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-07-29",
+      "updated": "2026-08-13",
+      "done_when": "Tra Wikipedia fallback qua nhiều ngôn ngữ (vi/zh/en) + cache refresh hoạt động",
+      "desc": "Tính năng Wikipedia CC BY-SA hoạt động (fetch vi/zh, cache DB). Cần cache refresh + multi-language fallback mạnh hơn (Khoá 1 / Wikipedia).",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T08",
+      "title": "Missing hanzi admin view",
+      "file": "T08-missing-hanzi-admin.md",
+      "module": "Translation Pipeline",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-07-29",
+      "updated": "2026-08-13",
+      "done_when": "Admin xem được bảng missing_hanzi + bổ sung CUSTOM_HANVIET từ UI",
+      "desc": "Bảng `missing_hanzi` tự động tạo khi `_ensure_vietnamese()` gặp chữ Hán chưa biết, nhưng chưa có UI admin (Hán-Việt / Khoá 1).",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T09",
+      "title": "Dashboard stats API 404 fix",
+      "file": "T09-dashboard-stats-api.md",
+      "module": "Hạ tầng / Docs",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "created": "2026-07-29",
+      "updated": "2026-08-14",
+      "done_when": "GET /daoanh/api/admin/dashboard/stats trả 200 JSON",
+      "desc": "Trang `/daoanh/admin/` (Dashboard v4.0) gọi `/api/admin/dashboard/stats` đang trả 404. Cần route trả số liệu thật để UI hiển thị.",
+      "criteria_done": 4,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T10",
+      "title": "DILA Place Index + API thống kê/export",
+      "file": "T10-dila-place-index.md",
+      "module": "DILA Authority",
+      "priority": "high",
+      "status": "pending",
+      "depends_on": "[T09]",
+      "created": "2026-08-13",
+      "updated": "2026-08-13",
+      "done_when": "Trang \"DILA Place Index\" (bảng + filter) + API search trực tiếp trên SQLite DILA + export CSV/JSON",
+      "desc": "Khoá 4 — \"kéo hết\" dữ liệu DILA Place lên dashboard: search Place trực tiếp trên DILA SQLite, trang \"DILA Place Index\" (bảng + filter), API thống kê + export CSV/JSON cho nghiên cứu.",
+      "criteria_done": 0,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "T11",
+      "title": "RAG Việt chat (Fojin-style, citations)",
+      "file": "T11-rag-vi-chat.md",
+      "module": "Translation Pipeline",
+      "priority": "high",
+      "status": "pending",
+      "depends_on": "[T02]",
+      "created": "2026-08-13",
+      "updated": "2026-08-13",
+      "done_when": "POST /daoanh/api/rag_vi/chat trả answer_vi + citations (ref/title_zh/excerpt_vi/excerpt_zh)",
+      "desc": "Khoá 6 — Build RAG tiếng Việt chuyên Phật học trên `lineage.db` + `cbeta.db` (không copy Fojin, chỉ học kiến trúc: layer corpus / search / chat / citations). Trả lời tiếng Việt kèm trích dẫn Hán + mã ",
+      "criteria_done": 0,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "T12",
+      "title": "Dịch Mượt & Cache Translation (Khoá 7)",
+      "file": "T12-dich-muot-cache-translation.md",
+      "module": "Translation Pipeline",
+      "priority": "high",
+      "status": "pending",
+      "depends_on": "[T02]",
+      "created": "2026-08-13",
+      "updated": "2026-08-13",
+      "done_when": "POST translate-cbeta trả polished_text (3 bước Dịch Mượt) + cache DB + admin approve/reject + UI panel",
+      "desc": "Khoá 7 — Hệ thống \"Dịch Mượt\" (Translation Polish) chuẩn hóa tự động văn bản CBETA dịch tiếng Việt: cache translation để user load nhanh bản dịch đã duyệt.",
+      "criteria_done": 0,
+      "criteria_total": 6,
+      "blockers": false
+    },
+    {
+      "id": "T13",
+      "title": "CBDB → chatling.AI viết mượt + ghi chú Việt",
+      "file": "T13-cbdb-chatling-ai.md",
+      "module": "CBDB",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-08-13",
+      "updated": "2026-08-13",
+      "done_when": "Nút \"Gửi cho chatling.AI viết mượt\" xuất dữ liệu CBDB + lưu vào ghi chú Việt ngữ",
+      "desc": "Progress CBDB: thêm nút \"Gửi cho chatling.AI viết mượt và lưu vào ghi chú Việt ngữ\" cho kết quả CBDB.",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T14",
+      "title": "Import DILA Time Authority (time_periods = 0)",
+      "file": "T14-time-authority-import.md",
+      "module": "DILA Authority",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "created": "2026-08-13",
+      "updated": "2026-08-17",
+      "done_when": "time_periods có dữ liệu (lunar_month/era/emperor/dynasty) + API tra cứu niên hiệu ✅ ĐÃ THÍCH HỎA",
+      "desc": "DEV_HISTORY audit 2026-08-11: `time_periods` = 0 rows. Cần import DILA Time Authority (lunar_month / era / emperor / dynasty) — core missing module, JDN-based (Khoá 2 / DEV_HISTORY).",
+      "criteria_done": 4,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T15",
+      "title": "Keyword map export/delete + category filter",
+      "file": "T15-keyword-export-delete.md",
+      "module": "Keywords",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-08-13",
+      "updated": "2026-08-13",
+      "done_when": "keyword_import.html có export/delete keyword_map + filter theo category",
+      "desc": "Progress Keyword Import: thêm feature export/delete `keyword_map` và filter theo category cho admin.",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T16",
+      "title": "Nexus Points — entity-linking + nexus extraction",
+      "file": "T16-nexus-points.md",
+      "module": "DILA Integration Layer",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[T02]",
+      "created": "2026-08-13",
+      "updated": "2026-08-13",
+      "done_when": "Route /nexus/find hoạt động, trả Nexus Point (Person+Place+Time gặp nhau) từ CBETA TEI",
+      "desc": "DEV_HISTORY audit 2026-08-11: không có route `/nexus/find` trong code. Xây entity-linking engine + nexus extraction từ CBETA TEI: `Nexus Point = Person + Place + Time gặp nhau trong văn bản`.",
+      "criteria_done": 0,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "T17",
+      "title": "Knowledge Graph Visualization (frontend graph viz)",
+      "file": "T17-knowledge-graph-viz.md",
+      "module": "DILA Integration Layer",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[]",
+      "created": "2026-08-13",
+      "updated": "2026-08-13",
+      "done_when": "Trang hiển thị đồ thị entity (person/place/text + edges) tương tác được",
+      "desc": "DEV_HISTORY audit 2026-08-11: không có frontend graph viz cho entity — P0 trong competitive roadmap. Cần hiển thị đồ thị tri thức entity (tương tự visjs/D3 đã dùng trong thientong).",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    }
+  ],
+  "task_meta": {
+    "done": 3,
+    "pending": 14,
+    "total": 17,
+    "done_percent": 18,
+    "blocked_tasks": []
+  },
+  "git_history": {
+    "total": 10,
+    "first_date": "2026-08-14",
+    "last_date": "2026-08-17",
+    "by_module": {
+      "DILA Authority": 2,
+      "CBETA": 0,
+      "Marcus SNA": 3,
+      "TTL Thiền Sư VN": 0,
+      "CBDB": 0,
+      "Wikipedia": 0,
+      "NameVi Map": 1,
+      "Keywords": 0,
+      "GIS / Places": 1,
+      "DILA Integration Layer": 0,
+      "Translation Pipeline": 0,
+      "Hạ tầng / Docs": 3
+    },
+    "by_month": [
+      {
+        "month": "2026-08",
+        "commits": 10
+      }
+    ],
+    "unmatched": 0
+  },
+  "meta": {
+    "docs_files": [
+      "DEV_HISTORY.md",
+      "README.md",
+      "SUMMARY.md",
+      "bug-reports/BUG-2026-04-17-search-gui-panels.md",
+      "bug-reports/README.md",
+      "bug-reports/perlexdebug.md",
+      "bug-reports/workbench-render-fail-2026-04-17-v2.md",
+      "contract_opencode.md",
+      "contracts/opencode.md",
+      "conventions.md",
+      "db_schema.md",
+      "design-spec.md",
+      "fix-logs/FIX-2026-04-17-search-gui-panels.md",
+      "fix-logs/README.md",
+      "fix-logs/fix-id-mismatch-render-v4-2026-04-17.md",
+      "fix-logs/fix-renderpanel-v3-2026-04-17.md",
+      "opencode-directives.md",
+      "overview.md",
+      "pipelines.md",
+      "progress.md",
+      "roadmap.md",
+      "sessions/2026-05-21_cbdb_place_block.md",
+      "sessions/2026-05-21_cbdb_real_database.md",
+      "sessions/2026-05-21_docs_cleanup_scan.md",
+      "sessions/2026-05-21_legacy_notes_import.md",
+      "sessions/2026-05-22_cbeta_backend_frontend.md",
+      "sessions/2026-05-22_cbeta_unit_summarize.md",
+      "sessions/2026-05-22_fix_cbdb_cbeta_search.md",
+      "sessions/2026-05-22_fix_cbeta_no_match_error_toast.md",
+      "sessions/2026-05-22_fix_cbeta_search_500.md",
+      "sessions/2026-05-22_fix_crash_length_undefined.md",
+      "sessions/2026-05-22_replace_cbeta_search_with_snippet.md",
+      "sessions/2026-05-22_restart_server_fix_404_cbdb.md",
+      "sessions/2026-05-22_wikipedia_block.md",
+      "sessions/2026-05-23_dila_integration_layer.md",
+      "sessions/2026-05-23_dila_integration_layer_phase2.md",
+      "sessions/2026-05-23_search_db_first.md",
+      "sessions/2026-05-24_dila_3block_restructure.md",
+      "sessions/2026-05-24_fix_cbeta_translate_input_and_error.md",
+      "sessions/2026-05-24_keyword_import.md",
+      "sessions/2026-05-24_merge_dila_cbeta_blocks.md",
+      "sessions/2026-05-26_places_search_api.md",
+      "sessions/2026-05-27_cbeta_resolve_pure_han.md",
+      "sessions/2026-05-27_fix_hv_place_names_and_cbeta_translate.md",
+      "sessions/2026-05-28_cbeta_explain_place.md",
+      "sessions/2026-05-28_fix_cbeta_resolve_inline_and_timeout.md",
+      "sessions/2026-05-29_cbeta_catalog_vn_license.md",
+      "sessions/2026-05-29_gis_marker_cluster.md",
+      "sessions/2026-05-30_monk_personography_api.md",
+      "sessions/2026-06-01_fix-namevimap-json-error.md",
+      "sessions/2026-06-01_fix-namevimap-json-routes.md",
+      "sessions/2026-07-29_etl_ttl_person_authority.md",
+      "sessions/2026-07-29_fuzzy_match_cbeta_catalog.md",
+      "sessions/2026-07-29_link_marcus_entities.md",
+      "sessions/2026-07-29_seed_monk_names_integration_fix.md",
+      "sessions/2026-08-13_gitbook_honkit.md",
+      "sessions/2026-08-13_progress_dashboard.md",
+      "sessions/2026-08-13_progressive-places-load.md",
+      "sessions/2026-08-13_seed_tasks_gitbook_docs.md",
+      "sessions/2026-08-14_t09_dashboard_stats_api.md",
+      "sessions/2026-08-15_fix_places_search_charmap.md",
+      "sessions/2026-08-16_dila_time_authority_timeline.md",
+      "sessions/2026-08-16_fix_places_autocomplete.md",
+      "sessions/2026-08-16_fix_places_search_timeout.md",
+      "sessions/2026-08-16_fix_places_vitri_block.md",
+      "sessions/2026-08-17_home_feature_status_dashboard.md",
+      "sessions/README.md",
+      "tasktodo.md",
+      "translation_workflow.md",
+      "update contract_opencode.md",
+      "update_contract_opencode.md"
+    ],
+    "route_total": 135,
+    "script_total": 115,
+    "task_total": 17
+  }
+}
