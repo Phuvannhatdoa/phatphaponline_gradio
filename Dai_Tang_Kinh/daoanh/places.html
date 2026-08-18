@@ -11,6 +11,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/daoanh/styles/daoanh-design.css">
     <style>
         .custom-div-icon { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         :root { 
@@ -122,6 +123,14 @@
     </nav>
     <div class="flex">
         <aside class="w-[420px] pp-sidebar h-[calc(100vh-70px)] overflow-y-auto z-20 flex flex-col p-6 space-y-6 sidebar-scroll">
+          <!-- DA TAB BAR — thêm 2026-08-17 -->
+<div class="da-stabs" id="da-stabs">
+  <button class="da-stab active" data-t="entity">地 Thực Thể</button>
+  <button class="da-stab" data-t="cbeta">📜 Đại Tạng</button>
+  <button class="da-stab" data-t="graph">🕸 Đồ Thị</button>
+  <button class="da-stab" data-t="timeline">⏱ Niên Đại</button>
+</div>
+            <div class="da-tab-panel" id="tp-entity" style="display:block">
             <div id="infoPane" class="flex-1">
                 <div id="emptyState" class="text-center py-20 px-10">
                     <div class="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
@@ -130,49 +139,128 @@
                     <h3 class="text-xs font-bold text-amber-500 mb-2 uppercase tracking-[0.3em]">KHỞI TẠO TRUY VẤN</h3>
                     <p class="text-[11px] text-slate-500 leading-relaxed serif italic">"Khớp nối tri thức - Truyền tải tâm linh."<br>Tìm kiếm địa danh hoặc chọn một nút trên bản đồ.</p>
                 </div>
-                <div id="detailContent" class="hidden space-y-6">
-                    <div class="pp-card p-6 bg-white/[0.02]">
-                        <div class="flex items-center gap-3 mb-1">
-                            <span id="itemId" class="text-[9px] font-mono font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20"></span>
-                            <span id="sourceOrigin" class="text-[9px] font-black text-slate-600 uppercase tracking-widest"></span>
+                <div id="detailContent" class="hidden">
+
+                    <!-- Entity header -->
+                    <div class="da-entity-header">
+                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap">
+                            <span id="itemId" class="da-entity-id"></span>
+                            <span id="sourceOrigin" class="da-entity-type"></span>
                         </div>
-                        <h2 id="itemNameVi" class="text-2xl font-bold text-white leading-tight mb-1"></h2>
-                        <p id="itemNameHan" class="text-lg serif text-slate-400 italic"></p>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="pp-card p-4 border-white/5">
-                            <p class="text-[9px] font-bold text-slate-500 uppercase mb-1">Tình trạng tên Việt</p>
-                            <p id="confValue" class="text-lg font-black text-white tracking-widest">—</p>
+                        <div id="itemNameVi" class="da-entity-vi"></div>
+                        <div id="itemNameHan" class="da-entity-zh"></div>
+                    </div>
+
+                    <!-- Source chips -->
+                    <div class="da-block" style="padding-top:0;margin-top:-4px">
+                        <div class="da-chips">
+                            <span id="chipDila" class="da-chip da-chip-none">○ DILA</span>
+                            <span id="chipCbeta" class="da-chip da-chip-none">○ CBETA</span>
+                            <span id="chipBdrc" class="da-chip da-chip-none">○ BDRC</span>
+                            <span id="dilaCategoryBadge" class="da-chip da-chip-partial hidden"></span>
                         </div>
-                        <div class="pp-card p-4 border-white/5">
-                            <p class="text-[9px] font-bold text-emerald-400 uppercase mb-1">QUỐC GIA</p>
-                            <p id="countryValue" class="text-xs font-bold text-white leading-tight">—</p>
+                        <!-- DILA / BDRC IDs (mono, nhỏ) -->
+                        <div style="margin-top:6px;display:flex;gap:12px;flex-wrap:wrap;font-family:var(--da-font-mono);font-size:10px;color:var(--da-muted)">
+                            <span>DILA: <span id="dilaId" style="color:var(--da-gold)"></span></span>
+                            <span>BDRC: <span id="bdrcId" style="color:var(--da-gold)">—</span></span>
                         </div>
                     </div>
-                    <div class="pp-card p-4 border-white/5">
-                        <p class="text-[9px] font-bold text-emerald-400 uppercase mb-2 flex items-center gap-2"><span class="w-4 h-[1px] bg-emerald-500"></span> VỊ TRÍ (3 LỚP RAG)</p>
-                        <div class="text-[10px] font-mono text-slate-400 leading-relaxed space-y-0.5 mb-3">
-                            <div><span class="text-slate-600">country:</span> <span id="rawCountry" class="text-amber-500 font-bold">—</span></div>
-                            <div><span class="text-slate-600">district:</span> <span id="rawDistrict" class="text-amber-500 font-bold">—</span></div>
-                            <div><span class="text-slate-600">geo:</span> <span id="rawGeo" class="text-amber-500 font-bold">—</span></div>
-                        </div>
-                        <p class="text-[9px] font-bold text-slate-500 uppercase mb-1">ĐỊA CHỈ (huyện, tỉnh, quốc gia)</p>
-                        <p id="addrVi" class="text-xs font-bold text-white leading-tight">—</p>
-                    </div>
-                    <div class="pp-card p-4 border-white/5">
-                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <span class="w-5 h-[1px] bg-amber-500"></span> GHI CHÚ VIỆT NGỮ
-                        </h4>
-                        <p id="itemBio" class="text-[13px] leading-relaxed text-slate-400 serif italic"></p>
-                        <p id="dilaNote" class="hidden text-[11px] leading-relaxed text-slate-500 font-mono border-t border-white/5 pt-3 mt-3"></p>
-                        <div id="licenseBlock" class="hidden pp-card p-3 border-white/5 bg-white/[0.02] space-y-1">
-                            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">NGUON & GIẤY PHÉP</p>
-                            <p id="licenseSourceName" class="text-[10px] text-amber-400 font-semibold"></p>
-                            <p id="licenseName" class="text-[9px] text-slate-400"></p>
-                            <p id="licenseNote" class="text-[8px] text-slate-600 italic"></p>
+
+                    <!-- Tình trạng + Quốc gia -->
+                    <div class="da-block">
+                        <div class="da-block-label">Tình Trạng & Quốc Gia</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                            <div>
+                                <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--da-muted);margin-bottom:3px">Tên Việt</div>
+                                <div id="confValue" style="font-size:15px;font-weight:900;letter-spacing:.05em;color:var(--da-text)">—</div>
+                            </div>
+                            <div>
+                                <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--da-muted);margin-bottom:3px">Quốc Gia</div>
+                                <div id="countryValue" style="font-size:12px;font-weight:700;color:var(--da-text)">—</div>
+                            </div>
                         </div>
                     </div>
-            <div class="pt-6 border-t border-white/5 text-center">
-                <p class="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Vận hành bởi Pháp Thí Hội (Ver Demo)</p>
+
+                    <!-- Vị trí 3 lớp RAG -->
+                    <div class="da-block">
+                        <div class="da-block-label">Vị Trí · 3 Lớp RAG</div>
+                        <div class="da-loc-layers">
+                            <div class="da-loc-row">
+                                <span class="da-loc-badge">COUNTRY</span>
+                                <span id="rawCountry" class="da-loc-value">—</span>
+                            </div>
+                            <div class="da-loc-row">
+                                <span class="da-loc-badge">DISTRICT</span>
+                                <span id="rawDistrict" class="da-loc-value">—</span>
+                            </div>
+                            <div class="da-loc-row">
+                                <span class="da-loc-badge">GEO</span>
+                                <span id="rawGeo" class="da-loc-value da-gps">—</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:8px;font-size:11px;color:var(--da-text)">
+                            <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--da-muted)">Địa chỉ: </span>
+                            <span id="addrVi">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Ghi chú Việt ngữ -->
+                    <div class="da-block">
+                        <div class="da-block-label">Ghi Chú Việt Ngữ</div>
+                        <p id="itemBio" style="font-family:var(--da-font-serif);font-size:13px;line-height:1.7;color:var(--da-muted);font-style:italic"></p>
+
+                        <!-- Mô tả DILA raw (khi chưa có note_vi) -->
+                        <div id="dilaNoteBlock" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--da-border)">
+                            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--da-muted);margin-bottom:6px">Mô Tả DILA</div>
+                            <p id="dilaNote" style="font-size:12px;line-height:1.65;color:var(--da-text);font-family:var(--da-font-serif)"></p>
+                        </div>
+                    </div>
+
+                    <!-- CBETA listbibl block -->
+                    <div id="dilaBiblBlock" class="da-block hidden">
+                        <div class="da-block-label">CBETA · Thư Tịch Đề Cập</div>
+                        <div id="dilaBiblList" style="display:flex;flex-direction:column;gap:5px"></div>
+                    </div>
+
+                    <!-- Entity passages block -->
+                    <div id="entityPassageBlock" class="da-block hidden">
+                        <div class="da-block-label">Đoạn Văn Đề Cập · <span id="entityPassageCount">0</span> đoạn</div>
+                        <div id="entityPassageList" style="display:flex;flex-direction:column;gap:6px"></div>
+                    </div>
+
+                    <!-- License block (text_info từ cbeta_catalog) -->
+                    <div id="licenseBlock" class="da-block hidden">
+                        <div class="da-block-label">Nguồn & Giấy Phép</div>
+                        <p id="licenseSourceName" style="font-size:11px;color:var(--da-gold-b);font-weight:600;margin-bottom:2px"></p>
+                        <p id="licenseName" style="font-size:10px;color:var(--da-muted)"></p>
+                        <p id="licenseNote" style="font-size:9px;color:var(--da-dim);font-style:italic"></p>
+                    </div>
+
+                    <div style="padding:16px 0 8px;border-top:1px solid var(--da-border);text-align:center;margin-top:4px">
+                        <p style="font-size:9px;color:var(--da-dim);font-weight:700;text-transform:uppercase;letter-spacing:.12em">Vận hành bởi Pháp Thí Hội (Ver Demo)</p>
+                    </div>
+                </div>
+            </div><!-- /infoPane -->
+            </div><!-- /tp-entity -->
+
+        <div class="da-tab-panel" id="tp-cbeta" style="display:none">
+          <div id="cbeta-placeholder" style="padding:32px 24px;text-align:center;color:var(--da-muted);font-size:13px">
+            Chọn địa danh để xem kinh văn liên quan.
+          </div>
+          <div id="cbeta-content" style="display:none;padding:0 16px 24px"></div>
+        </div>
+        <div class="da-tab-panel" id="tp-graph" style="display:none">
+          <div id="graph-placeholder" style="padding:32px 24px;text-align:center;color:var(--da-muted);font-size:13px">
+            Chọn địa danh để xem đồ thị tri thức.
+          </div>
+          <div id="graph-content" style="display:none;padding:0 16px 24px"></div>
+        </div>
+        <div class="da-tab-panel" id="tp-timeline" style="display:none">
+          <div id="timeline-placeholder" style="padding:32px 24px;text-align:center;color:var(--da-muted);font-size:13px">
+            Chọn địa danh để xem niên đại lịch sử.
+          </div>
+          <div id="timeline-content" style="display:none;padding:0 16px 24px"></div>
+        </div>
         </aside>
         <main class="flex-1 relative">
             <div id="map"></div>
@@ -195,7 +283,23 @@
             maxZoom: 20,
             
         }).addTo(map);
-        const clusterGroup = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 50 });
+        const clusterGroup = L.markerClusterGroup({
+            chunkedLoading: true,
+            maxClusterRadius: 50,
+            iconCreateFunction: function(cluster) {
+                const n = cluster.getChildCount();
+                const size = n >= 500 ? 44 : n >= 100 ? 36 : n >= 20 ? 30 : 24;
+                const color = n >= 500 ? '#e05c00' : n >= 100 ? '#d4900a' : n >= 20 ? '#3a9e6e' : '#5a8fc2';
+                return L.divIcon({
+                    html: `<div style="width:${size}px;height:${size}px;background:${color};border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:${size < 30 ? 10 : 12}px;font-weight:700;border:2px solid rgba(255,255,255,0.5)">${n}</div>`,
+                    className: '', iconSize: [size, size], iconAnchor: [size/2, size/2]
+                });
+            }
+        });
+        // T06: zoom to bounds on cluster click
+        clusterGroup.on('clusterclick', function(e) {
+            e.layer.zoomToBounds({ padding: [30, 30], maxZoom: 14 });
+        });
         const markerMap = {};
         let dynamicResults = [];
         const labelLayer = L.layerGroup().addTo(map);
@@ -227,10 +331,12 @@
             });
         }
         async function selectItem(id, lat, lng) {
+            _currentPlaceId = id;
+            _tabLoaded = {};  // reset cache when new place selected
             document.getElementById('emptyState').classList.add('hidden');
             document.getElementById('detailContent').classList.remove('hidden');
             document.getElementById('itemId').innerText = id;
-            document.getElementById('sourceOrigin').innerText = '/ SOURCE: API';
+            document.getElementById('sourceOrigin').innerText = '· ĐỊA ĐIỂM · DILA';
             document.getElementById('itemNameVi').innerText = 'Đang tải...';
             document.getElementById('itemNameHan').innerText = '';
             document.getElementById('confValue').innerText = '—';
@@ -239,8 +345,23 @@
             document.getElementById('rawDistrict').innerText = '—';
             document.getElementById('rawGeo').innerText = '—';
             document.getElementById('addrVi').innerText = '—';
-            document.getElementById('dilaNote').classList.add('hidden');
+            document.getElementById('dilaNoteBlock').classList.add('hidden');
+            document.getElementById('dilaCategoryBadge').classList.add('hidden');
+            document.getElementById('dilaBiblBlock').classList.add('hidden');
             document.getElementById('itemBio').innerText = 'Đang tải dữ liệu...';
+            // Reset sub-tab panels
+            ['cbeta','graph','timeline'].forEach(t => {
+                const ph = document.getElementById(t + '-placeholder');
+                const ct = document.getElementById(t + '-content');
+                if (ph) { ph.style.display = ''; ph.textContent = 'Đang tải...'; }
+                if (ct) { ct.style.display = 'none'; ct.innerHTML = ''; }
+            });
+            // Reset source chips
+            ['chipDila','chipCbeta','chipBdrc'].forEach(cid => {
+                const el = document.getElementById(cid);
+                el.className = 'da-chip da-chip-none';
+                el.textContent = '○ ' + cid.replace('chip','');
+            });
             if (lat && lng) {
                 map.flyTo([lat, lng], 10, { duration: 1.2 });
                 highlightMarker(id);
@@ -252,31 +373,96 @@
                 const d = json.data;
                 document.getElementById('itemNameVi').innerText = d.name_vi || d.name_zh || id;
                 document.getElementById('itemNameHan').innerText = d.name_zh || '';
-                document.getElementById('sourceOrigin').innerText = `/ SOURCE: ${d.source_origin || d.source || 'DILA'}`;
-                // Tình trạng tên Việt: admin đã duyệt → "Đã duyệt"; phiên âm/auto → "Tự động"
+                document.getElementById('sourceOrigin').innerText = `· ĐỊA ĐIỂM · ${(d.source_origin || d.source || 'DILA').toUpperCase()}`;
+
+                // Tên Việt status
                 const reviewed = d.vn_name_status === 'reviewed' || d.source === 'manual' || d.source === 'places' || d.source === 'namevi_map';
                 const confEl = document.getElementById('confValue');
-                if (reviewed) {
-                    confEl.innerText = 'Đã duyệt';
-                    confEl.className = 'text-lg font-black text-emerald-400 tracking-widest';
-                } else {
-                    confEl.innerText = 'Tự động';
-                    confEl.className = 'text-lg font-black text-amber-400 tracking-widest';
-                }
+                confEl.innerText = reviewed ? 'Đã duyệt' : 'Tự động';
+                confEl.style.color = reviewed ? 'var(--da-green)' : 'var(--da-amber)';
+
                 document.getElementById('countryValue').innerText = d.country_vi || d.country || '—';
                 document.getElementById('rawCountry').innerText = d.country || '—';
                 document.getElementById('rawDistrict').innerText = d.district_raw || d.province || '—';
                 const geoParts = [d.gps_lat, d.gps_long].filter(Boolean);
                 document.getElementById('rawGeo').innerText = geoParts.join(' ') || '—';
                 document.getElementById('addrVi').innerText = d.district_vi || '—';
+                document.getElementById('dilaId').innerText = d.dila_id || '—';
+                document.getElementById('bdrcId').innerText = d.bdrc_id || '—';
                 document.getElementById('itemBio').innerText = d.note_vi || 'Chưa có ghi chú Việt ngữ cho địa danh này.';
-                const dilaNoteEl = document.getElementById('dilaNote');
-                if (!(d.note_vi || '').trim() && d.dila_note) {
-                    dilaNoteEl.innerHTML = '<span class="text-[8px] font-black text-amber-500 block mb-1 uppercase tracking-tighter">MÔ TẢ DILA (RAW)</span>' + d.dila_note;
-                    dilaNoteEl.classList.remove('hidden');
-                } else {
-                    dilaNoteEl.classList.add('hidden');
+
+                // Source chips
+                if (d.dila_id) {
+                    const c = document.getElementById('chipDila');
+                    c.className = 'da-chip da-chip-ok'; c.textContent = '✓ DILA';
                 }
+                if (d.dila_note || d.dila_listbibl) {
+                    const c = document.getElementById('chipCbeta');
+                    c.className = 'da-chip da-chip-partial'; c.textContent = '~ CBETA';
+                }
+                if (d.bdrc_id) {
+                    const c = document.getElementById('chipBdrc');
+                    c.className = 'da-chip da-chip-ok'; c.textContent = '✓ BDRC';
+                }
+
+                // Category chip
+                const catBadge = document.getElementById('dilaCategoryBadge');
+                if (d.dila_category) {
+                    catBadge.textContent = d.dila_category;
+                    catBadge.classList.remove('hidden');
+                } else {
+                    catBadge.classList.add('hidden');
+                }
+
+                // DILA note (chỉ hiện khi chưa có note_vi)
+                if (!(d.note_vi || '').trim() && d.dila_note) {
+                    document.getElementById('dilaNote').textContent = d.dila_note;
+                    document.getElementById('dilaNoteBlock').classList.remove('hidden');
+                }
+
+                // CBETA listbibl — parse semicolons → individual styled entries
+                const biblBlock = document.getElementById('dilaBiblBlock');
+                const biblList = document.getElementById('dilaBiblList');
+                if (d.dila_listbibl) {
+                    const entries = d.dila_listbibl.split(';').map(s => s.trim()).filter(Boolean);
+                    biblList.innerHTML = entries.map(entry => {
+                        const m = entry.match(/\(\s*(CBETA\s+\S+)\s*\)(.*)/);
+                        const ref = m ? m[1].trim() : '';
+                        const title = m ? m[2].trim() : entry;
+                        return `<div style="padding:6px 8px;background:var(--da-card);border-radius:5px;border:1px solid var(--da-border)">
+                            <span style="font-family:var(--da-font-mono);font-size:9px;color:var(--da-cyan);font-weight:700">${ref}</span>
+                            <span style="display:block;font-size:11px;color:var(--da-text);margin-top:2px">${title}</span>
+                        </div>`;
+                    }).join('');
+                    biblBlock.classList.remove('hidden');
+                } else {
+                    biblBlock.classList.add('hidden');
+                }
+
+                // Entity passages — fetch from API and render
+                const passageBlock = document.getElementById('entityPassageBlock');
+                const passageList = document.getElementById('entityPassageList');
+                const passageCount = document.getElementById('entityPassageCount');
+                try {
+                    const pRes = await fetch(`/daoanh/api/entity/${encodeURIComponent(id)}/passages?limit=10`);
+                    const pData = await pRes.json();
+                    if (pData.count > 0) {
+                        passageCount.textContent = pData.count;
+                        passageList.innerHTML = pData.passages.map(p => {
+                            let html = '<div style="padding:8px 10px;background:var(--da-card);border:1px solid var(--da-border);border-radius:6px">';
+                            html += '<div style="font-family:var(--da-font-mono);font-size:9px;color:var(--da-cyan);font-weight:700;margin-bottom:4px">' + (p.text_id || '') + '</div>';
+                            if (p.raw_text) html += '<div style="font-family:var(--da-font-serif);font-size:11px;color:var(--da-muted);line-height:1.6;padding:4px 6px;background:rgba(0,0,0,0.1);border-radius:4px;border-left:2px solid var(--da-gold);margin-bottom:4px">' + p.raw_text.slice(0, 150).replace(/\n/g, ' ') + '…</div>';
+                            if (p.vi_text) html += '<div style="font-size:11px;color:var(--da-text);font-style:italic">→ ' + p.vi_text + '</div>';
+                            html += '</div>';
+                            return html;
+                        }).join('');
+                        passageBlock.classList.remove('hidden');
+                    } else {
+                        passageBlock.classList.add('hidden');
+                    }
+                } catch (e) { /* silent */ }
+
+                // License / text_info
                 if (d.text_info) {
                     document.getElementById('licenseBlock').classList.remove('hidden');
                     document.getElementById('licenseSourceName').innerText = d.text_info.source_full_title || d.text_info.source_name || '';
@@ -556,7 +742,172 @@
             }
         });
         searchInput.addEventListener('blur', () => setTimeout(hideAutocomplete, 120));
-        window.onload = loadInitialPlaces;
+
+        // ── Tab switching ─────────────────────────────────────────
+        let _currentPlaceId = null;
+        let _tabLoaded = {};
+
+        document.querySelectorAll('#da-stabs .da-stab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#da-stabs .da-stab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const target = btn.dataset.t;
+                document.querySelectorAll('.da-tab-panel').forEach(p => { p.style.display = 'none'; });
+                document.getElementById('tp-' + target).style.display = 'block';
+                if (_currentPlaceId && target !== 'entity') loadTabData(target, _currentPlaceId);
+            });
+        });
+
+        function loadTabData(tab, placeId) {
+            const key = tab + ':' + placeId;
+            if (_tabLoaded[key]) return;
+            _tabLoaded[key] = true;
+            const baseUrl = window.location.origin;
+            if (tab === 'cbeta') {
+                fetch(baseUrl + '/daoanh/api/places/' + placeId + '/cbeta')
+                    .then(r => r.json()).then(renderCbetaTab).catch(() => {});
+            } else if (tab === 'graph') {
+                fetch(baseUrl + '/daoanh/api/places/' + placeId + '/graph')
+                    .then(r => r.json()).then(renderGraphTab).catch(() => {});
+            } else if (tab === 'timeline') {
+                fetch(baseUrl + '/daoanh/api/places/' + placeId + '/timeline')
+                    .then(r => r.json()).then(renderTimelineTab).catch(() => {});
+            }
+        }
+
+        function renderCbetaTab(d) {
+            const ph = document.getElementById('cbeta-placeholder');
+            const ct = document.getElementById('cbeta-content');
+            if (!d.ok) { ph.textContent = '⚠ Lỗi tải dữ liệu.'; return; }
+            ph.style.display = 'none'; ct.style.display = 'block';
+            let html = '';
+            if (d.passages && d.passages.length) {
+                html += '<div class="da-block-label" style="margin-top:16px">Văn Bản Đề Cập · ' + d.passages.length + ' đoạn</div>';
+                d.passages.forEach(p => {
+                    html += '<div style="margin-bottom:10px;padding:10px 12px;background:var(--da-card);border:1px solid var(--da-border);border-radius:8px">';
+                    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">';
+                    html += '<span style="font-family:var(--da-font-mono);font-size:9px;color:var(--da-cyan);font-weight:700">' + p.ref_code + '</span>';
+                    if (p.has_passage) html += '<span style="font-size:9px;background:rgba(34,211,238,0.1);color:var(--da-cyan);border-radius:4px;padding:1px 5px">✓ có nguyên văn</span>';
+                    html += '</div>';
+                    html += '<div style="font-size:11px;color:var(--da-text);margin-bottom:4px">' + p.title_context + '</div>';
+                    if (p.han_text) html += '<div style="font-family:var(--da-font-serif);font-size:11px;color:var(--da-muted);line-height:1.7;margin:6px 0;padding:6px 8px;background:rgba(0,0,0,0.15);border-radius:4px;border-left:2px solid var(--da-gold)">' + p.han_text.slice(0, 200).replace(/\n/g, ' ') + '…</div>';
+                    if (p.vi_summary && p.vi_summary !== 'None') html += '<div style="font-size:11px;color:var(--da-text);font-style:italic">→ ' + p.vi_summary + '</div>';
+                    html += '</div>';
+                });
+            } else {
+                html += '<div class="da-warn">⚠ Chưa có passage data · Task T02</div>';
+            }
+            if (d.catalog_matches && d.catalog_matches.length) {
+                html += '<div class="da-block-label" style="margin-top:16px">Kinh Điển Liên Quan · Fuzzy Match</div>';
+                d.catalog_matches.forEach(c => {
+                    html += '<div style="margin-bottom:6px;padding:8px 10px;background:var(--da-card);border:1px solid var(--da-border);border-radius:7px;font-size:11px">';
+                    html += '<div style="font-weight:700;color:var(--da-text)">' + (c.title_vi || c.title_zh) + '</div>';
+                    html += '<div style="color:var(--da-muted);font-size:10px;margin-top:2px">' + c.title_zh + ' · score ' + Math.round(c.score) + '</div>';
+                    html += '</div>';
+                });
+            }
+            ct.innerHTML = html;
+        }
+
+        function renderGraphTab(d) {
+            const ph = document.getElementById('graph-placeholder');
+            const ct = document.getElementById('graph-content');
+            if (!d.ok) { ph.textContent = '⚠ Lỗi tải dữ liệu.'; return; }
+            ph.style.display = 'none'; ct.style.display = 'block';
+            let html = '';
+            if (d.alt_names && d.alt_names.length) {
+                html += '<div class="da-block-label" style="margin-top:16px">Tên Thay Thế · ' + d.alt_names.length + '</div>';
+                html += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">';
+                d.alt_names.forEach(n => html += '<span style="font-family:var(--da-font-serif);font-size:13px;background:var(--da-card);border:1px solid var(--da-border);border-radius:6px;padding:2px 10px;color:var(--da-text)">' + n + '</span>');
+                html += '</div>';
+            }
+            if (d.persons_mentioned && d.persons_mentioned.length) {
+                html += '<div class="da-block-label" style="margin-top:12px">Nhân Vật Liên Quan</div>';
+                html += '<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px">';
+                d.persons_mentioned.forEach(p => {
+                    html += '<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--da-card);border:1px solid var(--da-border);border-radius:7px">';
+                    html += '<span style="width:28px;height:28px;background:var(--da-gold-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--da-font-serif);font-size:13px;color:var(--da-gold);flex-shrink:0">' + p[0] + '</span>';
+                    html += '<span style="font-family:var(--da-font-serif);font-size:13px;color:var(--da-text)">' + p + '</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+            if (d.text_links && d.text_links.length) {
+                html += '<div class="da-block-label" style="margin-top:12px">Kinh Điển Đề Cập</div>';
+                d.text_links.forEach(t => {
+                    html += '<div style="margin-bottom:5px;padding:7px 10px;background:var(--da-card);border:1px solid var(--da-border);border-radius:7px;font-size:11px">';
+                    html += '<span style="color:var(--da-cyan);font-family:var(--da-font-mono);font-size:9px">📜</span> ';
+                    html += '<span style="color:var(--da-text)">' + (t.title_vi || t.title_zh) + '</span>';
+                    html += '</div>';
+                });
+            }
+            if (d.nearby_places && d.nearby_places.length) {
+                html += '<div class="da-block-label" style="margin-top:12px">Địa Danh Lân Cận</div>';
+                html += '<div style="display:flex;flex-wrap:wrap;gap:6px">';
+                d.nearby_places.forEach(p => {
+                    html += '<span style="font-size:11px;background:var(--da-card);border:1px solid var(--da-border);border-radius:6px;padding:3px 9px;cursor:pointer;color:var(--da-text)" onclick="selectItem(\'' + p.id + '\')">';
+                    html += (p.name_vi || p.name_zh) + '</span>';
+                });
+                html += '</div>';
+            }
+            if (!html) html = '<div class="da-warn">⚠ Chưa đủ dữ liệu để dựng đồ thị · Task T16, T17</div>';
+            ct.innerHTML = html;
+        }
+
+        function renderTimelineTab(d) {
+            const ph = document.getElementById('timeline-placeholder');
+            const ct = document.getElementById('timeline-content');
+            if (!d.ok) { ph.textContent = '⚠ Lỗi tải dữ liệu.'; return; }
+            ph.style.display = 'none'; ct.style.display = 'block';
+            let html = '';
+            if (!d.founding_year) {
+                ct.innerHTML = '<div class="da-warn">⚠ Chưa trích xuất được năm thành lập từ DILA</div>';
+                return;
+            }
+            html += '<div class="da-block-label" style="margin-top:16px">Mốc Lịch Sử</div>';
+            d.events.forEach(ev => {
+                const isFounder = ev.type === 'founding';
+                html += '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">';
+                html += '<div style="display:flex;flex-direction:column;align-items:center;gap:0">';
+                html += '<div style="width:10px;height:10px;border-radius:50%;background:' + (isFounder ? 'var(--da-gold)' : 'var(--da-cyan)') + ';flex-shrink:0;margin-top:3px"></div>';
+                html += '</div>';
+                html += '<div style="flex:1">';
+                html += '<div style="font-family:var(--da-font-mono);font-size:11px;color:' + (isFounder ? 'var(--da-gold)' : 'var(--da-cyan)') + ';font-weight:700">' + ev.year + ' CE</div>';
+                if (ev.era) html += '<div style="font-size:10px;color:var(--da-muted);margin-top:1px">' + ev.era + '</div>';
+                html += '<div style="font-size:12px;color:var(--da-text);margin-top:2px">' + ev.event_vi + '</div>';
+                html += '</div></div>';
+            });
+            html += '<div class="da-block-label" style="margin-top:16px">Bối Cảnh Triều Đại</div>';
+            html += '<div style="position:relative;margin:8px 0 16px">';
+            const fy = d.founding_year;
+            const allStarts = d.context_dynasties.map(x => x.start);
+            const allEnds = d.context_dynasties.map(x => x.end);
+            const minY = Math.min(...allStarts, fy - 50);
+            const maxY = Math.max(...allEnds, fy + 50);
+            const span = maxY - minY || 1;
+            d.context_dynasties.forEach(dy => {
+                const left = Math.round((dy.start - minY) / span * 100);
+                const width = Math.max(Math.round((dy.end - dy.start) / span * 100), 2);
+                const active = dy.is_founding_dynasty;
+                html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">';
+                html += '<div style="font-size:10px;color:var(--da-muted);width:50px;text-align:right;flex-shrink:0">' + dy.start + '</div>';
+                html += '<div style="flex:1;background:rgba(255,255,255,0.05);border-radius:4px;height:18px;position:relative;overflow:hidden">';
+                html += '<div style="position:absolute;left:' + left + '%;width:' + width + '%;height:100%;background:' + (active ? 'var(--da-gold)' : 'rgba(255,255,255,0.15)') + ';border-radius:3px;display:flex;align-items:center;justify-content:center">';
+                html += '<span style="font-size:9px;font-weight:700;color:' + (active ? '#000' : 'var(--da-muted)') + ';white-space:nowrap;overflow:hidden;padding:0 4px">' + dy.name_vi + ' ' + dy.name_zh + '</span>';
+                html += '</div>';
+                if (fy >= dy.start && fy <= dy.end) {
+                    const markerLeft = Math.round((fy - dy.start) / (dy.end - dy.start || 1) * width) + left;
+                    html += '<div style="position:absolute;left:' + markerLeft + '%;top:0;width:2px;height:100%;background:var(--da-gold);opacity:.9"></div>';
+                }
+                html += '</div>';
+                html += '<div style="font-size:10px;color:var(--da-muted);width:50px;flex-shrink:0">' + dy.end + '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+            ct.innerHTML = html;
+        }
+
+window.onload = loadInitialPlaces;
     </script>
 </body>
 </html>
