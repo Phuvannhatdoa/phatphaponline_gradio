@@ -636,17 +636,39 @@ const App = () => {
         });
       }
 
-      // District/country: always from DILA RAW, ignore saved namevi_map_places
+// District/country: priority to saved namevi_map_places translation (Gemini batch);
+      // Fall back to DILA RAW re-translation only if saved value is empty or contains Chinese
       let districtVi = '';
       let countryVi = '';
-      const rawLoc = data.raw_district || data.district || data.address || '';
-      const rawCountry = data.raw_country || data.country || '';
-      if (rawLoc || rawCountry) {
-        const parsed = await processTransResult(rawLoc, rawCountry);
-        districtVi = parsed.districtVi || '';
-        countryVi = parsed.countryVi || '';
+      // --- SAVED translation from namevi_map_places (already Gemini-translated) ---
+      if (data.district_vi && data.district_vi.trim()) {
+        // Check if saved value still contains Chinese chars; if so, re-translate
+        const hasChinese = /[\u4e00-\u9fa5]/.test(data.district_vi);
+        if (!hasChinese) {
+          districtVi = data.district_vi;
+        }
       }
-      // Combine for Ô 2 display, keep country separate for Ô 3
+      if (!districtVi) {
+        // --- FALLBACK: re-translate from DILA RAW using rule-based parser ---
+        const rawLoc = data.raw_district || data.district || data.address || '';
+        const rawCountry = data.raw_country || data.country || '';
+        if (rawLoc || rawCountry) {
+          const parsed = await processTransResult(rawLoc, rawCountry);
+          districtVi = parsed.districtVi || '';
+        }
+      }
+      // --- SECONDARY FALLBACK: if still Chinese chars, call Gemini translate_location API ---
+      if (districtVi && /[\u4e00-\u9fa5]/.test(districtVi)) {
+        const glData = await safeFetch(baseUrl + '/daoanh/api/admin/translate_location', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({text: districtVi, type: 'district'})
+        });
+        if (glData?.success && glData.text_vi) {
+          districtVi = glData.text_vi;
+        }
+      }
+      // Combine for 2-display, keep country separate for 3
       const combinedAddr = districtVi && countryVi ? districtVi + ', ' + countryVi : (districtVi || countryVi || '');
 
       if (currentCounter !== fetchCounter.current) return;
@@ -667,6 +689,18 @@ const App = () => {
   const processTransResult = async (rawText, countryHint = '') => {
     // No HVDic for district/country: use backend rule-based parse or adminMapping directly
     if (!rawText && !countryHint) return { countryVi: '', districtVi: '', formatted: '' };
+    // *** If result still contains Chinese chars, try Gemini translate_location API ***
+    if (districtVi && /[\u4e00-\u9fa5]/.test(districtVi)) {
+      const glData = await safeFetch(baseUrl + '/daoanh/api/admin/translate_location', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({text: districtVi, type: 'district'})
+      });
+      if (glData?.success && glData.text_vi) {
+        districtVi = glData.text_vi;
+      }
+    }
+  };
     let countryVi = '';
     let districtVi = '';
     // Try backend /parse_district (rule-based, no HVDic)
