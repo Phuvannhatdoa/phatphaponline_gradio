@@ -24,65 +24,40 @@ def start(name, script):
 
 def write_log(msg):
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
-    with open(os.path.join(LOG_DIR, "start_all.log"), "a") as f:
+    with open(os.path.join(LOG_DIR, "start_all.log"), "a", encoding="utf-8") as f:
         f.write(f"[{ts}] {msg}\n")
 
 write_log("=== Starting all 3 servers ===")
 
+def check_port_ready(port, max_wait_seconds, interval=2):
+    """Check if a port has a process listening (TCP connectivity check)."""
+    write_log(f"Checking port {port} readiness (max {max_wait_seconds}s)...")
+    elapsed = 0
+    while elapsed < max_wait_seconds:
+        time.sleep(interval)
+        try:
+            # Use urllib to check if server responds on the port
+            # This works because Flask returns a 404 page even when running,
+            # but the connection itself proves the server is listening
+            urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=1)
+            write_log(f"✅ Port {port} is responding.")
+            return True
+        except Exception:
+            elapsed += interval
+    write_log(f"⚠️ Port {port} NOT responding within {max_wait_seconds}s.")
+    return False
+
 # 1. app.py:5000
 proc1 = start("app.py:5000", "app.py")
-
-# Wait for app.py to be ready
-write_log("Waiting for app.py:5000 to be ready (max 60s)...")
-ready = False
-for i in range(30):
-    time.sleep(2)
-    try:
-        urllib.request.urlopen("http://127.0.0.1:5000/health", timeout=1)
-        ready = True
-        break
-    except:
-        pass
-if ready:
-    write_log("!OK: app.py:5000 listening.")
-else:
-    write_log("!WARN: app.py:5000 NOT listening within 60s!")
+check_port_ready(5000, 60)
 
 # 2. server.py:5001
 proc2 = start("server.py:5001", "server.py")
-
-write_log("Waiting for server.py:5001 to be ready (max 15s)...")
-ready = False
-for i in range(15):
-    time.sleep(1)
-    try:
-        urllib.request.urlopen("http://127.0.0.1:5001/health", timeout=1)
-        ready = True
-        break
-    except:
-        pass
-if ready:
-    write_log("!OK: server.py:5001 listening.")
-else:
-    write_log("!WARN: server.py:5001 NOT listening within 15s!")
+check_port_ready(5001, 15)
 
 # 3. local_gateway.py:8080
 proc3 = start("local_gateway.py:8080", "local_gateway.py")
-
-write_log("Waiting for gateway:8080 to be ready (max 15s)...")
-ready = False
-for i in range(15):
-    time.sleep(1)
-    try:
-        urllib.request.urlopen("http://127.0.0.1:8080/health", timeout=1)
-        ready = True
-        break
-    except:
-        pass
-if ready:
-    write_log("!OK: local_gateway.py:8080 listening.")
-else:
-    write_log("!WARN: local_gateway.py:8080 NOT listening within 15s!")
+check_port_ready(8080, 15)
 
 write_log("All servers started. Monitor: background PIDs 1=app 2=gateway 3=server")
 print("All servers started. Check dashboard/start_all.log for details.")

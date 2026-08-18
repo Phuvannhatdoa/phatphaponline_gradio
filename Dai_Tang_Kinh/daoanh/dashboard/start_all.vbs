@@ -12,7 +12,7 @@ Write-Host "Running start_all.ps1 from: " & strScriptDir
 
 ' Chạy PowerShell ẩn, không chờ kết quả (False = nền)
 ' VBS: dòng lệnh phải dùng dấu ngoặc kép kép "" cho ngoặc kép trong lệnh
-cmd = "powershell -ExecutionPolicy Bypass -File " & chr(34) & "dashboard\start_all.ps1" & chr(34)
+cmd = "powershell -ExecutionPolicy Bypass -File " & chr(34) & strScriptDir & "start_all.ps1" & chr(34)
 objShell.Run cmd, 0, False
 
 ' Không có dòng Return ở đây — script VBS kết thúc ngay, PowerShell đang chạy nền

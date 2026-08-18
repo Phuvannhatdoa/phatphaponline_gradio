@@ -5,6 +5,12 @@
 #
 # Hoặc dùng Ctrl+C để dừng script start_all.ps1 đang chạy
 
+function Write-Log {
+    param([string]$Message)
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "[$timestamp] $Message" | Out-File -Append -FilePath "dashboard\start_all.log"
+}
+
 Write-Host "Stopping all ZQ servers..." -ForegroundColor Cyan
 
 $appRoot  = Split-Path -Parent (Split-Path -Parent $PSCommandPath)
