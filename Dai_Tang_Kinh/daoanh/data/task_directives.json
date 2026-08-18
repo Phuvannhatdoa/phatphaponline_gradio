@@ -1,0 +1,502 @@
+{
+  "T01": {
+    "title": "Seed monk persons (48K records)",
+    "module": "DILA Authority",
+    "home_impact": "Sidebar 'Thực Thể' — trường name_vi của persons hiển thị tiếng Việt thay vì rỗng",
+    "task_file": "daoanh/tasks/T01-seed-monk-persons.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra trạng thái hiện tại",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print('persons total:', c.execute('SELECT COUNT(*) FROM persons').fetchone()[0]); print('name_vi filled:', c.execute('SELECT COUNT(*) FROM persons WHERE name_vi IS NOT NULL AND name_vi != \"\"').fetchone()[0])\""
+      },
+      {
+        "t": "shell",
+        "l": "Kiểm tra API namevi-queue",
+        "c": "curl \"http://localhost:5000/daoanh/api/admin/namevi/queue?limit=5\""
+      },
+      {
+        "t": "edit",
+        "l": "Tạo script bulk ETL: daoanh/scripts/seed_persons_namevi.py",
+        "c": "# Script dùng HAN_VIET dict + Gemini để bulk generate name_vi cho persons chưa có\n# Đọc persons WHERE name_vi IS NULL LIMIT 500\n# Với mỗi person: tra HAN_VIET hoặc gọi Gemini\n# UPDATE persons SET name_vi=? WHERE id=?\n# In tiến độ mỗi 100 records\n# QUAN TRỌNG: không expose Gemini key, tái dùng hàm đã có trong app.py"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy ETL (batch nhỏ trước để test)",
+        "c": "python scripts/seed_persons_namevi.py --limit 100"
+      },
+      {
+        "t": "shell",
+        "l": "Verify kết quả",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print('name_vi filled after:', c.execute('SELECT COUNT(*) FROM persons WHERE name_vi IS NOT NULL AND name_vi != \"\"').fetchone()[0])\""
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T01-seed-monk-persons.md\n→ Tick acceptance criteria\n→ status: done (khi >= 90% persons có name_vi)\n→ updated: YYYY-MM-DD\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T01_done.md\n→ Chạy: python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T02": {
+    "title": "CBETA Passages + Entity Summary API",
+    "module": "CBETA",
+    "home_impact": "Tab '📜 Đại Tạng' trong sidebar places/index.html hiển thị đoạn văn Hán + dịch Việt khi click địa điểm",
+    "task_file": "daoanh/tasks/T02-passage-vi-entity-summary.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng passages",
+        "c": "python -c \"\nimport sqlite3\nc = sqlite3.connect('data/lineage.db')\ntables = [t[0] for t in c.execute(\\\"SELECT name FROM sqlite_master WHERE type='table' AND name LIKE '%passage%'\\\").fetchall()]\nprint('Tables:', tables)\nfor t in tables: print(t, c.execute('SELECT COUNT(*) FROM ' + t).fetchone()[0])\n\""
+      },
+      {
+        "t": "shell",
+        "l": "Test API hiện tại",
+        "c": "curl \"http://localhost:5000/daoanh/api/entity/PL000000023255/passages\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm route vào app.py (nếu trả 404)",
+        "c": "@app.route('/daoanh/api/entity/<entity_id>/passages')\ndef api_entity_passages(entity_id):\n    try:\n        conn = get_db()\n        rows = conn.execute(\"\"\"\n            SELECT p.id, p.cbeta_ref, p.text_zh, p.title_zh,\n                   pv.text_vi, pv.status as vi_status\n            FROM passages p\n            LEFT JOIN passage_vi pv ON pv.passage_id = p.id\n            WHERE p.entity_id = ?\n            ORDER BY p.cbeta_ref LIMIT 20\n        \"\"\", [entity_id]).fetchall()\n        return jsonify({'entity_id': entity_id, 'count': len(rows),\n                        'passages': [dict(r) for r in rows]})\n    except Exception as e:\n        return jsonify({'entity_id': entity_id, 'count': 0, 'passages': [], 'error': str(e)})"
+      },
+      {
+        "t": "edit",
+        "l": "Cập nhật tab CBETA trong daoanh/places/index.html",
+        "c": "// Tìm div id='tp-cbeta', thay nội dung:\n<div class='da-block'>\n  <div class='da-block-label'>Đại Tạng Kinh · CBETA Passages</div>\n  <div id='cbeta-loading' style='color:var(--da-dim);font-size:11px'>Đang tải...</div>\n  <div id='cbeta-list'></div>\n  <div id='cbeta-empty' class='da-warn' style='display:none'>⚠ Chưa có đoạn CBETA · T02 pending</div>\n</div>\n\n// Thêm JS: hàm loadCbetaPassages(entityId) fetch API rồi render .da-passage blocks\n// Gọi hàm này khi entity được chọn trên bản đồ"
+      },
+      {
+        "t": "shell",
+        "l": "Test API sau khi thêm route",
+        "c": "curl \"http://localhost:5000/daoanh/api/entity/PL000000023255/passages\""
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T02-passage-vi-entity-summary.md\n→ - [x] Bảng PASSAGE_VI tạo & populate\n→ - [x] passages trả count > 0\n→ - [x] Entity summary endpoint\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T02_done.md\n→ python scripts/build_progress_data.py\n→ Cập nhật data/directives_progress.json: percent_total: 28"
+      }
+    ],
+    "status": "done",
+    "done_when": "GET /daoanh/api/entity/{id}/passages trả count > 0 + endpoint summary trả tóm tắt tiếng Việt"
+  },
+  "T03": {
+    "title": "Fuzzy matching CBETA Catalog",
+    "module": "CBETA",
+    "home_impact": "Kết quả search places chính xác hơn khi title_zh khớp với tên địa điểm",
+    "task_file": "daoanh/tasks/T03-fuzzy-match-cbeta-catalog.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Cài rapidfuzz nếu chưa có",
+        "c": "pip install rapidfuzz"
+      },
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng cbeta catalog",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM cbeta_catalog').fetchone())\""
+      },
+      {
+        "t": "edit",
+        "l": "Thay thế LIKE bằng RapidFuzz trong app.py",
+        "c": "# Tìm trong app.py chỗ dùng LIKE cho cbeta catalog search\n# Thay bằng:\nfrom rapidfuzz import fuzz, process\n# rows = all_catalog_names\n# matches = process.extract(query, rows, scorer=fuzz.WRatio, limit=10, score_cutoff=70)"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T03-fuzzy-match-cbeta-catalog.md\n→ - [x] Fuzzy matching thay thế LIKE\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T03_done.md\n→ python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T04": {
+    "title": "Marcus Glossaries → People/Works linking",
+    "module": "Marcus SNA",
+    "home_impact": "Entity detail sidebar hiển thị liên kết term → person/work từ Marcus SNA glossaries",
+    "task_file": "daoanh/tasks/T04-marcus-glossaries-link.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng term_glossaries",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM term_glossaries').fetchone()); print(c.execute('SELECT * FROM term_glossaries LIMIT 2').fetchall())\""
+      },
+      {
+        "t": "shell",
+        "l": "Kiểm tra các cột liên kết",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print([d[1] for d in c.execute('PRAGMA table_info(term_glossaries)').fetchall()])\""
+      },
+      {
+        "t": "edit",
+        "l": "Tạo script link term → dila_id trong term_glossaries",
+        "c": "# Script: đọc term_glossaries WHERE person_id IS NULL\n# Dùng fuzzy match tên term với persons.name_zh\n# UPDATE term_glossaries SET person_id=? WHERE id=?\n# In thống kê: X/Y terms đã link được"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy script link",
+        "c": "python scripts/link_marcus_glossaries.py"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T04-marcus-glossaries-link.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T05": {
+    "title": "TTL Expand ETL (~2000 file VN monk)",
+    "module": "TTL Thiền Sư VN",
+    "home_impact": "Search persons trả thêm dữ liệu dòng phái Thiền tông VN từ ~2000 file TTL",
+    "task_file": "daoanh/tasks/T05-ttl-expand-etl.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Đếm file TTL hiện có",
+        "c": "Get-ChildItem -Recurse -Filter '*.ttl' | Measure-Object | Select Count"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy ETL hiện có thử",
+        "c": "python scripts/api_ttl_rebuild.py --dry-run 2>&1 | head -30"
+      },
+      {
+        "t": "edit",
+        "l": "Mở rộng ETL để xử lý file còn lại",
+        "c": "# Đọc daoanh/scripts/api_ttl_rebuild.py\n# Xem file nào chưa được xử lý\n# Thêm logic: nếu file TTL chưa có trong DB → parse → insert\n# QUAN TRỌNG: zero-RAM — dùng streaming, không load >1 file vào RAM cùng lúc"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy ETL đầy đủ",
+        "c": "python scripts/api_ttl_rebuild.py"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T05-ttl-expand-etl.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T06": {
+    "title": "GIS Cluster Click + Icon Density",
+    "module": "GIS / Places",
+    "home_impact": "Bản đồ places/index.html: click cluster → zoom vào vùng đó (thay vì không làm gì)",
+    "task_file": "daoanh/tasks/T06-gis-cluster-click.md",
+    "steps": [
+      {
+        "t": "edit",
+        "l": "Tìm markerClusterGroup trong places/index.html",
+        "c": "// Tìm dòng: L.markerClusterGroup() hoặc markerClusterGroup\n// Ghi nhớ tên biến (vd: markers, clusterGroup, cluster...)"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm cluster click handler",
+        "c": "// Sau dòng khởi tạo cluster, thêm:\nclusterGroup.on('clusterclick', function(e) {\n  e.layer.zoomToBounds({ padding: [30, 30] });\n});\n// Thay 'clusterGroup' bằng tên biến thực tế tìm được ở bước trên"
+      },
+      {
+        "t": "shell",
+        "l": "Reload và test",
+        "c": "// Mở http://localhost:8080/daoanh/places\n// Zoom out để thấy clusters\n// Click cluster → bản đồ phải zoom in"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T06-gis-cluster-click.md\n→ - [x] Click cluster → zoom-to-bounds\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T06_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 80"
+      }
+    ]
+  },
+  "T07": {
+    "title": "Wikipedia Multi-language Fallback",
+    "module": "Wikipedia",
+    "home_impact": "Entity detail sidebar hiển thị bio Wikipedia đầy đủ hơn (vi → zh → en fallback)",
+    "task_file": "daoanh/tasks/T07-wikipedia-fallback.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Tìm hàm Wikipedia hiện tại trong app.py",
+        "c": "grep -n 'wikipedia' daoanh/app.py | head -20"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm multi-language fallback",
+        "c": "# Tìm hàm fetch Wikipedia trong app.py\n# Thêm fallback chain: vi → zh → en\ndef fetch_wiki(title):\n    for lang in ['vi', 'zh', 'en']:\n        url = f'https://{lang}.wikipedia.org/api/rest_v1/page/summary/{title}'\n        # fetch với cache → nếu có → return\n        # nếu 404 → thử lang tiếp theo\n    return None"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T07-wikipedia-fallback.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T08": {
+    "title": "Missing Hanzi Admin View",
+    "module": "Translation Pipeline",
+    "home_impact": "Trang admin: admin thấy được bảng missing_hanzi và bổ sung CUSTOM_HANVIET từ UI",
+    "task_file": "daoanh/tasks/T08-missing-hanzi-admin.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng missing_hanzi",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM missing_hanzi').fetchone()); print(c.execute('SELECT * FROM missing_hanzi LIMIT 3').fetchall())\""
+      },
+      {
+        "t": "shell",
+        "l": "Tìm trang admin hiện tại",
+        "c": "ls daoanh/admin/"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm section missing_hanzi vào admin page",
+        "c": "// Trong admin page liên quan (hoặc tạo admin/missing_hanzi.html)\n// Bảng: hanzi | occurrences | custom_vi | actions (thêm custom)\n// POST /daoanh/api/admin/hanzi/custom { hanzi, vi_text }"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API route vào app.py",
+        "c": "@app.route('/daoanh/api/admin/hanzi/missing')\ndef api_hanzi_missing():\n    rows = get_db().execute('SELECT * FROM missing_hanzi ORDER BY count DESC LIMIT 200').fetchall()\n    return jsonify([dict(r) for r in rows])\n\n@app.route('/daoanh/api/admin/hanzi/custom', methods=['POST'])\ndef api_hanzi_custom():\n    data = request.get_json()\n    get_db().execute('INSERT OR REPLACE INTO custom_hanviet(hanzi, vi_text) VALUES(?,?)',\n                     [data['hanzi'], data['vi_text']])\n    return jsonify({'ok': True})"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T08-missing-hanzi-admin.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T10": {
+    "title": "DILA Place Index + API Thống Kê/Export",
+    "module": "DILA Authority",
+    "home_impact": "Trang index mới /daoanh/places/dila-index hoặc tab trong admin: bảng tất cả DILA places, filter + export CSV",
+    "task_file": "daoanh/tasks/T10-dila-place-index.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Đếm places trong DILA",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM places_dila').fetchone())\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API search places_dila",
+        "c": "@app.route('/daoanh/api/dila/places')\ndef api_dila_places():\n    q = request.args.get('q', '')\n    dynasty = request.args.get('dynasty', '')\n    page = int(request.args.get('page', 1))\n    offset = (page-1)*50\n    rows = get_db().execute(\"\"\"\n        SELECT id, name_zh, name_vi, country, province, dynasty\n        FROM places_dila WHERE name_zh LIKE ? AND dynasty LIKE ?\n        LIMIT 50 OFFSET ?\n    \"\"\", [f'%{q}%', f'%{dynasty}%', offset]).fetchall()\n    return jsonify({'rows': [dict(r) for r in rows], 'page': page})"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API export CSV",
+        "c": "@app.route('/daoanh/api/dila/places/export')\ndef api_dila_places_export():\n    import csv, io\n    rows = get_db().execute('SELECT id,name_zh,name_vi,country,province FROM places_dila').fetchall()\n    output = io.StringIO()\n    w = csv.writer(output)\n    w.writerow(['id','name_zh','name_vi','country','province'])\n    w.writerows(rows)\n    return Response(output.getvalue(), mimetype='text/csv',\n                    headers={'Content-Disposition': 'attachment;filename=dila_places.csv'})"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T10-dila-place-index.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T11": {
+    "title": "RAG Việt Chat (citations từ CBETA)",
+    "module": "Translation Pipeline",
+    "home_impact": "Tab '💬 Hỏi Đáp' trong sidebar places/index.html: hỏi câu hỏi về địa điểm → AI trả lời tiếng Việt + trích dẫn CBETA",
+    "task_file": "daoanh/tasks/T11-rag-vi-chat.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra API rag hiện tại",
+        "c": "curl -X POST http://localhost:5000/daoanh/api/rag_vi/chat -H 'Content-Type: application/json' -d '{\"question\":\"test\"}'"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm tab Chat vào sidebar places/index.html",
+        "c": "// Thêm tab thứ 5 vào .da-stabs:\n<button class='da-stab' data-t='chat'>💬 Hỏi Đáp</button>\n\n// Thêm panel:\n<div class='da-tab-panel' id='tp-chat' style='display:none'>\n  <div class='da-block'>\n    <div class='da-block-label'>Hỏi Đáp · RAG Việt</div>\n    <div id='da-chat-log' style='max-height:200px;overflow-y:auto;margin-bottom:8px'></div>\n    <div style='display:flex;gap:6px'>\n      <input id='da-chat-input' style='flex:1;background:var(--da-card);border:1px solid var(--da-border);border-radius:6px;padding:5px 10px;color:var(--da-text)' placeholder='Hỏi về địa điểm này...'>\n      <button class='da-btn da-btn-primary' onclick='sendChat()'>Gửi</button>\n    </div>\n    <div class='da-warn' style='margin-top:6px'>⚠ RAG chưa có vector index · T11</div>\n  </div>\n</div>"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API route RAG vào app.py",
+        "c": "@app.route('/daoanh/api/rag_vi/chat', methods=['POST'])\ndef api_rag_vi_chat():\n    data = request.get_json() or {}\n    question = data.get('question', '')\n    entity_id = data.get('entity_id', '')\n    if not question:\n        return jsonify({'error': 'question required'}), 400\n    # Dùng lại Gemini call gần dòng 1065 trong app.py\n    # Context: passages liên quan đến entity_id\n    # Trả: answer_vi + citations[]\n    return jsonify({\n        'answer_vi': 'Đang xây dựng vector index. Vui lòng quay lại sau.',\n        'citations': [], 'entity_id': entity_id\n    })"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm JS sendChat() vào places/index.html",
+        "c": "function sendChat() {\n  var input = document.getElementById('da-chat-input');\n  var log = document.getElementById('da-chat-log');\n  var q = input.value.trim(); if (!q) return;\n  log.innerHTML += '<div style=\"color:var(--da-gold);font-size:11px\">Bạn: ' + q + '</div>';\n  input.value = '';\n  fetch('/daoanh/api/rag_vi/chat', { method: 'POST',\n    headers: {'Content-Type': 'application/json'},\n    body: JSON.stringify({question: q, entity_id: window._currentEntityId || ''})\n  }).then(r => r.json()).then(d => {\n    log.innerHTML += '<div style=\"font-size:11px;margin-bottom:8px\">' + (d.answer_vi || d.error) + '</div>';\n    log.scrollTop = log.scrollHeight;\n  });\n}"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T11-rag-vi-chat.md\n→ - [x] POST /daoanh/api/rag_vi/chat trả answer_vi\n→ - [x] Chat UI hiển thị trong sidebar\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T11_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 90"
+      }
+    ]
+  },
+  "T12": {
+    "title": "Dịch Mượt & Cache Translation",
+    "module": "Translation Pipeline",
+    "home_impact": "Nút 'Dịch Mượt →' trong tab CBETA của places/index.html: gọi Gemini dịch 3 bước → cache vào DB → admin approve",
+    "task_file": "daoanh/tasks/T12-dich-muot-cache-translation.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra API translate hiện tại",
+        "c": "curl -X POST http://localhost:5000/daoanh/api/translate/cbeta -H 'Content-Type: application/json' -d '{\"passage_id\":\"1\"}'"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API Dịch Mượt 3 bước vào app.py",
+        "c": "@app.route('/daoanh/api/translate/cbeta', methods=['POST'])\ndef api_translate_cbeta():\n    data = request.get_json() or {}\n    passage_id = data.get('passage_id')\n    if not passage_id: return jsonify({'error': 'passage_id required'}), 400\n    conn = get_db()\n    p = conn.execute('SELECT text_zh, cbeta_ref FROM passages WHERE id=?', [passage_id]).fetchone()\n    if not p: return jsonify({'error': 'not found'}), 404\n    # TÁI DÙNG hàm Gemini gần dòng 1065 trong app.py để dịch 3 bước:\n    # Bước 1: dịch thô\n    # Bước 2: chỉnh văn phong (literary)\n    # Bước 3: kiểm tra thuật ngữ Phật học\n    # Cache vào passage_vi (status=draft)\n    conn.execute('INSERT OR REPLACE INTO passage_vi(passage_id, text_vi, status) VALUES(?,?,?)',\n                 [passage_id, '[bản dịch]', 'draft'])\n    return jsonify({'passage_id': passage_id, 'status': 'draft', 'text_vi': '[bản dịch]'})"
+      },
+      {
+        "t": "edit",
+        "l": "Kết nối nút Dịch Mượt → trong places/index.html",
+        "c": "// Tìm hàm translatePassage(passageId) đã tạo ở T02\n// Thay stub alert bằng:\nfunction translatePassage(passageId) {\n  var btn = event.target;\n  btn.disabled = true; btn.textContent = 'Đang dịch...';\n  fetch('/daoanh/api/translate/cbeta', { method: 'POST',\n    headers: {'Content-Type': 'application/json'},\n    body: JSON.stringify({passage_id: passageId})\n  }).then(r => r.json()).then(d => {\n    btn.textContent = 'Đã dịch ✓';\n    if (window._currentEntityId) loadCbetaPassages(window._currentEntityId);\n  }).catch(() => { btn.disabled=false; btn.textContent='Dịch Mượt →'; });\n}"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T12-dich-muot-cache-translation.md\n→ - [x] POST translate-cbeta trả polished_text\n→ - [x] Cache DB\n→ - [x] UI panel nút dịch\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T12_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 38"
+      }
+    ]
+  },
+  "T13": {
+    "title": "CBDB → Chatling.AI Ghi Chú Việt",
+    "module": "CBDB",
+    "home_impact": "Nút 'Gửi Chatling.AI' trong admin person detail: export CBDB data → chatling.AI → lưu ghi chú tiếng Việt",
+    "task_file": "daoanh/tasks/T13-cbdb-chatling-ai.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng CBDB",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM cbdb_persons').fetchone())\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API export CBDB person data",
+        "c": "@app.route('/daoanh/api/cbdb/person/<person_id>/export')\ndef api_cbdb_export(person_id):\n    conn = get_db()\n    data = conn.execute('SELECT * FROM cbdb_persons WHERE id=?', [person_id]).fetchone()\n    if not data: return jsonify({'error': 'not found'}), 404\n    return jsonify({'cbdb_data': dict(data), 'format': 'chatling_ready'})"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T13-cbdb-chatling-ai.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T14": {
+    "title": "Import DILA Time Authority (time_periods = 0)",
+    "module": "DILA Authority",
+    "home_impact": "Tab '⏱ Niên Đại' trong sidebar places/index.html: hiển thị triều đại / niên hiệu / JDN khi click địa điểm",
+    "task_file": "daoanh/tasks/T14-time-authority-import.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra time_periods hiện tại",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print('rows:', c.execute('SELECT COUNT(*) FROM time_periods').fetchone()[0]); print('columns:', [d[1] for d in c.execute('PRAGMA table_info(time_periods)').fetchall()])\""
+      },
+      {
+        "t": "shell",
+        "l": "Tìm file DILA Time trong Authority-Databases",
+        "c": "Get-ChildItem -Recurse 'daoanh\\data\\dila_import\\Authority-Databases' | Where Name -match 'time|period|era|dynasty'"
+      },
+      {
+        "t": "edit",
+        "l": "Tạo ETL script: daoanh/scripts/import_time_periods.py",
+        "c": "import sqlite3, json, os\nDB = 'data/lineage.db'\n# Đọc file DILA Time Authority (tìm được ở bước trên)\n# Parse: dynasty, era_name, emperor, start_year, end_year, jdn_start, jdn_end\n# INSERT OR IGNORE vào time_periods\n# In: 'Imported X rows'"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy ETL",
+        "c": "python scripts/import_time_periods.py"
+      },
+      {
+        "t": "shell",
+        "l": "Thêm API route vào app.py",
+        "c": "# Thêm vào app.py:\n@app.route('/daoanh/api/time/entity/<entity_id>')\ndef api_time_entity(entity_id):\n    try:\n        rows = get_db().execute(\n            'SELECT tp.* FROM time_periods tp '\n            'JOIN entity_chronology ec ON ec.period_id=tp.id '\n            'WHERE ec.entity_id=? LIMIT 10', [entity_id]).fetchall()\n        return jsonify({'count':len(rows),'periods':[dict(r) for r in rows]})\n    except:\n        return jsonify({'count':0,'periods':[]})"
+      },
+      {
+        "t": "edit",
+        "l": "Cập nhật tab Niên Đại trong places/index.html",
+        "c": "// Tìm div id='tp-timeline'. Thay nội dung:\n<div class='da-block'>\n  <div class='da-block-label'>Niên Đại · Time Authority</div>\n  <div class='da-time-grid' id='da-time-grid'>\n    <div class='da-time-cell'><div class='da-time-cell-label'>Triều Đại</div><div class='da-time-cell-value serif' id='tc-dynasty'>—</div></div>\n    <div class='da-time-cell'><div class='da-time-cell-label'>Kiến Lập</div><div class='da-time-cell-value' id='tc-year'>—</div></div>\n    <div class='da-time-cell'><div class='da-time-cell-label'>Niên Hiệu</div><div class='da-time-cell-value serif' id='tc-era'>—</div></div>\n    <div class='da-time-cell'><div class='da-time-cell-label'>JDN</div><div class='da-time-cell-value mono' id='tc-jdn'>—</div></div>\n  </div>\n  <div class='da-warn' id='da-time-warn' style='display:none'>⚠ Không có dữ liệu niên đại</div>\n</div>\n// Thêm JS: hàm populateTimePanel(entityId) fetch /api/time/entity/{id} rồi fill tc-dynasty, tc-year, tc-era, tc-jdn\n// Gọi khi entity được chọn"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T14-time-authority-import.md\n→ - [x] ETL import time_periods thành công\n→ - [x] Bảng time_periods có rows\n→ - [x] API tra cứu niên hiệu\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T14_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 15"
+      }
+    ]
+  },
+  "T15": {
+    "title": "Keyword Map Export/Delete + Category Filter",
+    "module": "Keywords",
+    "home_impact": "Trang admin keyword_import.html: nút export CSV + nút delete + filter theo category",
+    "task_file": "daoanh/tasks/T15-keyword-export-delete.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Tìm trang admin keywords",
+        "c": "ls daoanh/admin/ | grep keyword"
+      },
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng keyword_map",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM keyword_map').fetchone()); print([d[1] for d in c.execute('PRAGMA table_info(keyword_map)').fetchall()])\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API export và delete vào app.py",
+        "c": "@app.route('/daoanh/api/admin/keywords/export')\ndef api_keywords_export():\n    import csv, io\n    rows = get_db().execute('SELECT * FROM keyword_map').fetchall()\n    output = io.StringIO()\n    csv.writer(output).writerows(rows)\n    return Response(output.getvalue(), mimetype='text/csv',\n        headers={'Content-Disposition':'attachment;filename=keywords.csv'})\n\n@app.route('/daoanh/api/admin/keywords/<int:kid>', methods=['DELETE'])\ndef api_keyword_delete(kid):\n    get_db().execute('DELETE FROM keyword_map WHERE id=?', [kid])\n    return jsonify({'ok': True})"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T15-keyword-export-delete.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T16": {
+    "title": "Nexus Points — Entity Linking",
+    "module": "DILA Integration Layer",
+    "home_impact": "Tab '地 Thực Thể' trong sidebar places/index.html: block 'Nhân Vật Liên Quan' hiện danh sách person rows với NEXUS badge",
+    "task_file": "daoanh/tasks/T16-nexus-points.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng nexus và persons",
+        "c": "python -c \"\nimport sqlite3; c=sqlite3.connect('data/lineage.db')\nfor t in ['nexus','entity_persons','place_persons']:\n    try: print(t, c.execute('SELECT COUNT(*) FROM '+t).fetchone()[0])\n    except: print(t, 'not found')\n\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API nexus/find vào app.py",
+        "c": "@app.route('/daoanh/api/nexus/find')\ndef api_nexus_find():\n    place_id = request.args.get('place', '')\n    try:\n        conn = get_db()\n        rows = conn.execute(\"\"\"\n            SELECT p.id, p.name_vi, p.name_zh, 1 as is_nexus\n            FROM persons p\n            JOIN entity_persons ep ON ep.person_id = p.id\n            WHERE ep.entity_id = ? LIMIT 15\n        \"\"\", [place_id]).fetchall()\n        return jsonify({'count': len(rows), 'nexus': [dict(r) for r in rows]})\n    except Exception as e:\n        return jsonify({'count':0,'nexus':[],'note':str(e)})"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm Nexus block vào tab Thực Thể trong places/index.html",
+        "c": "// Tìm panel id='tp-entity'. Sau nội dung hiện tại, thêm:\n<div class='da-block' id='da-nexus-block'>\n  <div class='da-block-label'>Nhân Vật Liên Quan · Nexus</div>\n  <div id='da-nexus-list'></div>\n  <div id='da-nexus-empty' class='da-warn' style='display:none'>⚠ Chưa có nexus · T16</div>\n</div>\n\n// Thêm JS:\nfunction loadNexusPersons(entityId) {\n  fetch('/daoanh/api/nexus/find?place='+entityId)\n  .then(r=>r.json()).then(data=>{\n    var list = document.getElementById('da-nexus-list');\n    if (data.nexus && data.nexus.length) {\n      list.innerHTML = data.nexus.map(n => {\n        var av = n.name_zh ? n.name_zh[0] : '人';\n        return '<div class=\"da-person-row\">'+\n          '<div class=\"da-person-avatar\">'+av+'</div>'+\n          '<div style=\"flex:1\"><div class=\"da-person-name-vi\">'+(n.name_vi||n.name_zh)+'</div>'+\n          '<div class=\"da-person-name-zh\">'+(n.name_zh||'')+'</div></div>'+\n          (n.is_nexus?'<span class=\"da-nexus-badge\">NEXUS</span>':'')+\n        '</div>';\n      }).join('');\n      document.getElementById('da-nexus-empty').style.display='none';\n    } else document.getElementById('da-nexus-empty').style.display='flex';\n  });\n}\n// Gọi loadNexusPersons(entityId) khi entity được chọn"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T16-nexus-points.md\n→ - [x] Route /nexus/find hoạt động\n→ - [x] UI hiển thị nexus trong sidebar\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T16_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 55"
+      }
+    ]
+  },
+  "T17": {
+    "title": "Knowledge Graph Visualization",
+    "module": "DILA Integration Layer",
+    "home_impact": "Tab '🕸 Đồ Thị' trong sidebar places/index.html: canvas force-directed graph entity/person/text tương tác được",
+    "task_file": "daoanh/tasks/T17-knowledge-graph-viz.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra API graph hiện tại",
+        "c": "curl \"http://localhost:5000/daoanh/api/entity/PL000000023255/graph\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API entity graph vào app.py",
+        "c": "@app.route('/daoanh/api/entity/<entity_id>/graph')\ndef api_entity_graph(entity_id):\n    conn = get_db()\n    nodes = [{'id': entity_id, 'label': entity_id, 'type': 'place'}]\n    edges = []\n    try:\n        persons = conn.execute(\n            'SELECT p.id,p.name_vi,p.name_zh FROM persons p '\n            'JOIN entity_persons ep ON ep.person_id=p.id '\n            'WHERE ep.entity_id=? LIMIT 8', [entity_id]).fetchall()\n        for p in persons:\n            nodes.append({'id':p['id'],'label':p['name_vi'] or p['name_zh'],'type':'person'})\n            edges.append({'from':entity_id,'to':p['id'],'label':'liên quan'})\n    except: pass\n    return jsonify({'nodes': nodes, 'edges': edges})"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm Graph canvas vào tab Đồ Thị trong places/index.html",
+        "c": "// Tìm panel id='tp-graph'. Thay nội dung:\n<div class='da-block'>\n  <div class='da-block-label'>Đồ Thị Tri Thức</div>\n  <canvas id='da-graph-canvas' width='350' height='280'\n    style='width:100%;border:1px solid var(--da-border);border-radius:8px;background:var(--da-card)'></canvas>\n  <div id='da-graph-empty' class='da-warn' style='display:none'>⚠ Không có dữ liệu graph</div>\n</div>\n\n// Thêm JS force-directed (không cần CDN — tự vẽ canvas):\n// Xem code đầy đủ trong daoanh/docs/opencode-directives.md Bước 503"
+      },
+      {
+        "t": "shell",
+        "l": "Test graph UI",
+        "c": "// Mở http://localhost:8080/daoanh/places\n// Click địa điểm → click tab '🕸 Đồ Thị'\n// Canvas phải hiển thị nodes chuyển động"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T17-knowledge-graph-viz.md\n→ - [x] API trả graph entity (nodes + edges)\n→ - [x] Frontend render đồ thị\n→ - [x] Click node → navigate\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T17_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 70"
+      }
+    ]
+  }
+}
