@@ -1,0 +1,244 @@
+import os
+import requests
+import json
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# ========================================================
+# 1. CẤU HÌNH (ĐÚNG NIÊM ẤN)
+# ========================================================
+GRAPHDB_URL = "http://localhost:7200/repositories/buddhist"
+JSONLD_PATH = "/opt/phatphaponline_gradio/truyenthua/visjs-app/lineage_graph.jsonld"
+
+# BẢNG MỐC ĐỜI (OFFSETS) - NIÊM ẤN CỦA CÁC TÔNG PHÁI TRUNG HOA
+OFFSETS = {
+    "Lâm Tế": 38,
+    "Tào Động": 38,
+    "Vân Môn": 39,
+    "Quy Ngưỡng": 37,
+    "Pháp Nhãn": 40,
+    "Dương Kỳ": 45,
+    "Hoàng Long": 45,
+    "Trúc Lâm": 51,
+    "Tì Ni": 31,
+    "Vô Ngôn": 38,
+    "Thảo Đường": 48
+}
+
+LINEAGE_DATA = [
+    { "id": "AnDo", "label": "Thiền Tông Ấn Độ", "parent": "", "founderName": "Ma Ha Ca Diếp" },
+    { "id": "TrungHoa", "label": "Thiền Tông Trung Hoa", "parent": "AnDo", "founderName": "Bồ Đề Đạt Ma" },
+    { "id": "BacTong", "label": "Bắc Tông", "parent": "TrungHoa", "founderName": "Thần Tú" },
+    { "id": "NguuDau", "label": "Tông Ngưu Đầu", "parent": "TrungHoa", "founderName": "Pháp Dung" },
+    { "id": "NamTong", "label": "Nam Tông (Huệ Năng)", "parent": "TrungHoa", "founderName": "Lục Tổ Huệ Năng" },
+    { "id": "TyNi", "label": "Tỳ Ni Đa Lưu Chi (VN)", "parent": "TrungHoa", "founderName": "Tỳ Ni Đa Lưu Chi" },
+    { "id": "HongChau", "label": "Tông Hồng Châu", "parent": "NamTong", "founderName": "Mã Tổ Đạo Nhất" },
+    { "id": "ThachDau", "label": "Tông Thạch Đầu", "parent": "NamTong", "founderName": "Thạch Đầu Hy Thiên" },
+    { "id": "VoNgon", "label": "Vô Ngôn Thông (VN)", "parent": "NamTong", "founderName": "Vô Ngôn Thông" },
+    { "id": "QuyNguong", "label": "Tông Quy Ngưỡng", "parent": "HongChau", "founderName": "Quy Sơn Linh Hựu" },
+    { "id": "LamTe", "label": "Tông Lâm Tế", "parent": "HongChau", "founderName": "Lâm Tế Nghĩa Huyền" },
+    { "id": "TaoDong", "label": "Tông Tào Động", "parent": "ThachDau", "founderName": "Động Sơn Lương Giới" },
+    { "id": "VanMon", "label": "Tông Vân Môn", "parent": "ThachDau", "founderName": "Vân Môn Văn Yển" },
+    { "id": "PhapNhan", "label": "Tông Pháp Nhãn", "parent": "ThachDau", "founderName": "Pháp Nhãn Văn Ích" },
+    { "id": "ThaoDuong", "label": "Tông Thảo Đường (VN)", "parent": "VanMon", "founderName": "Thảo Đường" },
+    { "id": "HoangLong", "label": "Dòng Hoàng Long", "parent": "LamTe", "founderName": "Hoàng Long Huệ Nam" },
+    { "id": "DuongKy", "label": "Dòng Dương Kỳ", "parent": "LamTe", "founderName": "Dương Kỳ Phương Hội" },
+    { "id": "TrucLam", "label": "Trúc Lâm Yên Tử (VN)", "parent": "VoNgon", "founderName": "Trần Nhân Tông" },
+    { "id": "NguyenThieu", "label": "Lâm Tế Nguyên Thiều", "parent": "DuongKy", "founderName": "Nguyên Thiều" },
+    { "id": "LieuQuan", "label": "Lâm Tế Liễu Quán", "parent": "DuongKy", "founderName": "Thiệt Diệu Liễu Quán" },
+    { "id": "ChucThanh", "label": "Lâm Tế Chúc Thánh", "parent": "DuongKy", "founderName": "Minh Hải Pháp Bảo" },
+    { "id": "GiaPho", "label": "Lâm Tế Gia Phổ", "parent": "DuongKy", "founderName": "Phật Ý Linh Nhạc" }
+]
+
+@app.route('/api/search')
+def search():
+    q = request.args.get('q', '')
+    sparql = f"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?l WHERE {{ ?s rdfs:label ?l . FILTER(regex(str(?l), '{q}', 'i')) }} LIMIT 10"
+    try:
+        r = requests.get(GRAPHDB_URL, params={'query': sparql}, headers={'Accept': 'application/sparql-results+json'}, timeout=5)
+        return jsonify([{"l": i['l']['value']} for i in r.json()['results']['bindings']])
+    except: return jsonify([])
+
+
+@app.route('/api/get_by_label')
+def get_by_label():
+    name = request.args.get('name', '').strip()
+    PREFIXES = """
+    PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX ex: <http://www.phatphaponline.org/ex/>
+    """
+    
+    query_monk = f'{PREFIXES} SELECT ?note ?g ?ln WHERE {{ ?s rdfs:label "{name}"@vi . OPTIONAL {{ ?s bkg:biographicalNote ?note }} OPTIONAL {{ ?s bkg:generationOrder ?g }} OPTIONAL {{ ?s bkg:dharmaLineageName ?ln }} }} LIMIT 1'
+    
+    try:
+        r = requests.get(GRAPHDB_URL, params={'query': query_monk}, headers={'Accept': 'application/sparql-results+json'})
+        data = r.json()['results']['bindings']
+        
+        if not data: 
+            return jsonify({"error": "notfound"})
+
+        f = data[0]
+        # Lấy giá trị đời tổng (ví dụ 71 hoặc 72)
+        g_current = int(f['g']['value']) if 'g' in f else None
+        
+        if g_current is None:
+            return jsonify({"error": "Dữ liệu đời (generationOrder) chưa có trong DB"})
+
+        lineage_name = f['ln']['value'].replace('\\', '').strip() if 'ln' in f else ""
+        
+        # 1. TÍNH TẦNG TRUNG HOA (OFFSETS)
+        found_key = "Lâm Tế"
+        current_offset = 38
+        for k, v in OFFSETS.items():
+            if k in lineage_name:
+                found_key = k
+                current_offset = v
+                break
+        
+        # 2. XỬ LÝ NHÁNH VIỆT NAM (Lấy G_founder từ JSONLD)
+        g_founder = None
+        with open(JSONLD_PATH, 'r', encoding='utf-8') as f_json:
+            json_data = json.load(f_json)
+            graph = json_data.get('@graph', [])
+            lineage_node = next((item for item in graph if item.get('rdfs:label', {}).get('value') == lineage_name), None)
+            
+            if lineage_node and 'bkg:hasFounder' in lineage_node:
+                f_id = lineage_node['bkg:hasFounder']['@id']
+                # Chuyển đổi ex:monk/minh_hai_phap_bao -> URI chuẩn để query ngược lại GraphDB
+                f_uri = f_id.replace("ex:", "http://www.phatphaponline.org/ex/")
+                
+                q_f = f"{PREFIXES} SELECT ?g WHERE {{ <{f_uri}> bkg:generationOrder ?g }} LIMIT 1"
+                rf = requests.get(GRAPHDB_URL, params={'query': q_f}, headers={'Accept': 'application/sparql-results+json'})
+                res_f = rf.json()['results']['bindings']
+                if res_f:
+                    g_founder = int(res_f[0]['g']['value'])
+
+        # 3. ĐÓNG GÓI KẾT QUẢ - ĐÂY LÀ PHẦN QUAN TRỌNG NHẤT
+        nhanh_display = ""
+        if g_founder is not None:
+            generation_number = (g_current - g_founder) + 1
+            if generation_number == 1:
+                nhanh_display = f"Khai Tổ {lineage_name}: Đời thứ 1"
+            else:
+                nhanh_display = f"{lineage_name}: Đời thứ {generation_number}"
+        else:
+            # Nếu không tìm thấy Founder trong JSON, mặc định coi như chưa tính được đời nhánh
+            nhanh_display = f"Chưa xác định đời nhánh {lineage_name}"
+
+        res_gens = {
+            "tong": f"Thiền Tông Thế Giới: Đời thứ {g_current}",
+            "trung_hoa": f"Tông {found_key} Trung Hoa: Đời thứ {(g_current - current_offset) + 1}",
+            "nhanh": nhanh_display
+        }
+
+        # TRẢ VỀ JSON (Đảm bảo các key này tồn tại để Javascript hiển thị)
+        return jsonify({
+            "name": name,
+            "note": f['note']['value'].replace('\\', '') if 'note' in f else "Chưa có tiểu sử.",
+            "gens": res_gens
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+@app.route('/')
+def index():
+    html = r'''
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"><title>Truyền Thừa Thiền Tông</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root { --p: #4e342e; --a: #bf360c; --bg: #fdf5e6; }
+        body { margin: 0; display: flex; font-family: 'Segoe UI', sans-serif; background: var(--bg); height: 100vh; overflow: hidden; }
+        #sidebar { width: 320px; background: white; padding: 20px; border-right: 3px solid var(--p); z-index: 10; }
+        .search-box { position: relative; margin-top: 15px; }
+        #search-input { width: 100%; padding: 12px; border: 2px solid #bc9b82; border-radius: 4px; box-sizing: border-box; }
+        #suggestions { position: absolute; width: 100%; background: white; border: 1px solid #ddd; display: none; z-index: 20; max-height: 300px; overflow-y: auto; }
+        .s-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; }
+        .s-item:hover { background: #fff3e0; color: var(--a); font-weight: bold; }
+        #tree-area { flex-grow: 1; position: relative; }
+        .node rect { fill: white; stroke: var(--p); stroke-width: 2px; rx: 10; cursor: pointer; }
+        .node text { font-size: 13px; font-weight: bold; text-anchor: middle; pointer-events: none; }
+        .link { fill: none; stroke: #bc9b82; stroke-width: 2px; opacity: 0.6; }
+        #bio-panel { position: fixed; top: 0; right: -450px; width: 420px; height: 100vh; background: white; border-left: 6px solid var(--p); transition: 0.4s; z-index: 100; padding: 25px; box-sizing: border-box; overflow-y: auto; }
+        #bio-panel.open { right: 0; }
+        .badge { background: #fbe9e7; padding: 12px; border-radius: 4px; border-left: 5px solid var(--a); margin-bottom:15px; font-size: 14px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+<div id="sidebar">
+    <h2 style="color:var(--p); margin:0;">THIỀN TÔNG</h2>
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Tìm tên Tổ sư..." autocomplete="off">
+        <div id="suggestions"></div>
+    </div>
+</div>
+<div id="tree-area"><svg id="canvas" style="width:100%; height:100%;"><g id="viewport"></g></svg></div>
+<div id="bio-panel">
+    <span style="float:right; cursor:pointer; font-size:30px;" onclick="document.getElementById('bio-panel').classList.remove('open')">&times;</span>
+    <h2 id="bio-title" style="color:var(--p)"></h2>
+    <div id="bio-content"></div>
+</div>
+<script>
+    const lineageData = JSON_DATA;
+    const svg = d3.select("#canvas"), container = d3.select("#viewport");
+    const zoom = d3.zoom().on("zoom", (e) => container.attr("transform", e.transform));
+    svg.call(zoom);
+
+    function drawMainTree(dataArray) {
+        container.selectAll("*").remove();
+        const root = d3.stratify().id(d => d.id).parentId(d => d.parent)(dataArray);
+        d3.tree().nodeSize([220, 160])(root);
+        container.selectAll(".link").data(root.links()).enter().append("path").attr("class", "link")
+                 .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
+        const node = container.selectAll(".node").data(root.descendants()).enter().append("g")
+                 .attr("class", "node").attr("transform", d => `translate(${d.x},${d.y})`)
+                 .on("click", (e, d) => loadBioByName(d.data.founderName));
+        node.append("rect").attr("width", 180).attr("height", 50).attr("x", -90).attr("y", -25);
+        node.append("text").attr("dy", -5).text(d => d.data.label);
+        node.append("text").attr("dy", 15).style("font-weight","normal").text(d => d.data.founderName);
+        svg.call(zoom.transform, d3.zoomIdentity.translate(window.innerWidth/2 - 160, 100).scale(0.6));
+    }
+
+    async function loadBioByName(name) {
+        const panel = document.getElementById('bio-panel'), content = document.getElementById('bio-content');
+        document.getElementById('bio-title').innerText = name;
+        panel.classList.add('open');
+        content.innerHTML = "Đang truy vấn...";
+        const res = await fetch(`/api/get_by_label?name=${encodeURIComponent(name)}`).then(r => r.json());
+        if(res.error) {
+            content.innerHTML = `<div class="badge" style="color:red">Dữ liệu chưa cập nhật đủ.</div>`;
+        } else {
+            let info = `<div><b>${res.gens.tong}</b></div>`;
+            info += `<div>${res.gens.trung_hoa}</div>`;
+            if(res.gens.nhanh) {
+                const isFounder = res.gens.nhanh.includes("Khai Tổ");
+                info += `<div style="color:var(--a); margin-top:5px; border-top:1px dashed #bc9b82; padding-top:5px">` + 
+                        `<b>${isFounder ? '☸ ' : ''}${res.gens.nhanh}</b></div>`;
+            }
+            content.innerHTML = `<div class="badge">${info}</div><div style="line-height:1.7; text-align:justify; white-space:pre-wrap;">${res.note}</div>`;
+        }
+    }
+
+    const inp = document.getElementById('search-input'), sug = document.getElementById('suggestions');
+    inp.addEventListener('input', async () => {
+        if(inp.value.length < 2) { sug.style.display='none'; return; }
+        const list = await fetch(`/api/search?q=${encodeURIComponent(inp.value)}`).then(r => r.json());
+        if(list.length > 0) {
+            sug.innerHTML = list.map(i => `<div class="s-item" onclick="loadBioByName('${i.l}')">${i.l}</div>`).join('');
+            sug.style.display = 'block';
+        } else sug.style.display = 'none';
+    });
+    window.onload = () => drawMainTree(lineageData);
+</script>
+</body>
+</html>
+    '''
+    return html.replace('JSON_DATA', json.dumps(LINEAGE_DATA))
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80, debug=False)

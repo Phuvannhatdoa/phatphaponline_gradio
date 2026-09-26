@@ -1,0 +1,83 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<ex:monk/thien_tue_bao_chuong> a <bkg:Monk> ;
+    rdfs:label "Thiên Tuế Bảo Chưởng"@vi ;
+    crm:P1_is_identified_by <ex:monk/thien_tue_bao_chuong>;
+    bkg:biographicalNote """
+Bảo Chưởng (? - 657). Bảo Chưởng hòa thượng sinh ra tại Ấn Độ vào giờ Ngọ ngày 7/7/năm Đinh Mão 512, tức năm 414 TCN, cuối thời Xuân Thu đầu thời Chiến Quốc. Bảo Chưởng hòa thượng là con cái dòng dõi Bà La Môn giáo danh giá tại trung Ấn. Đời gọi là Bảo Chưởng Thiên Tuế Hòa Thượng, Thiên Tuế Bảo Chưởng. Vì khi sinh ra, bàn tay trái nắm lại, đến bảy tuổi xuất gia mới mở nắm tay ra, vì thế lấy tên là Bảo Chưởng (bàn tay báu).
+Cứ theo truyền thuyết thì sư đông du đến Trung Quốc khoảng thời Ngụy Tấn (Cuối thời Đông Hán, đầu thời Hán Hoàn Đế, trong khoảng thời gian từ năm Kiến Hòa tới năm Vĩnh Hưng (CN 147-153), khoảng đầu thời Tam Quốc, khi Tào Tháo còn chưa phế vua Hán), vào đất Thục tham bái Bồ Tát Phổ Hiền (Tứ Xuyên). Sư từ vùng đất Nepal tiến nhập vào Tứ Xuyên, Vân Nam, Trung Quốc. Điểm dừng chân đầu tiên của sư chính là núi Nga Mi, hướng lễ Bồ Tát Phổ Hiền rồi ở lại Đại Bi Tự tròn 10 năm.
+Sư có lòng Đại Từ, thường không ăn, ngày tụng Kinh Bát Nhã đến hơn nghìn quyển.
+Có bài vịnh rằng:
+Lao lao ngọc xỉ hàn
+Tợ bính nham thủy cấp
+Hữu thời trung dạ tọa
+Giai tiền thần quỷ khấp.
+
+Dịch:
+
+Nhọc lo răng trắng lạnh
+Như suối nước chảy nhanh
+Có lúc ngồi giữa đêm
+Quỷ thần khóc trước thềm.
+Một hôm, sư nói với Đại Chúng (Vạn Tục 138, 41 thượng): “Ta nguyện trụ thế một ngàn năm, nay đã sáu trăm hai mươi sáu năm rồi!”, vì thế nên lấy chữ “Thiên tuế” (ngàn năm) để gọi Sư) vì thế có tên là Thiên Tuế.
+Về sau, sư đi tham lễ các nơi, đến Ngũ Đài, dời đến Hoa Nghiêm ở ngọn Chúc Dung, Song Phong nơi Hoàng Mai, Đông Lâm ở Lô Sơn. Rồi tìm đến Kiến Nghiệp, gặp đúng lúc tổ Bồ Đề Đạt Ma đến Trung Quốc, nghe Đạt-ma từ Lãnh Nam đến Kiến Nghiệp, bèn đến Bạch Hạ1gặp để hỏi đạo.
+Tổ Đạt-ma liền gọi: - Lão xà-lê!
+Bảo Chưởng đáp: - Dạ!
+Tổ Đạt-ma cười to.
+Bảo Chưởng ngay đây đại ngộ. Những gì trong bảy trăm năm qua phút chốc tan chảy.
+Trở về thuật kệ:
+Lương thành ngộ tôn sư
+Tham thiền liễu tâm địa
+Phiêu nhiên nhị triết du
+Cánh tận giai sơn thủy.
+Dịch:
+Thành Lương gặp tôn sư
+Tham thiền rõ tâm địa
+Thong dong dạo lưỡng triết2
+
+Khắp sơn cùng thủy tận.
+Lương Võ Đế kính trọng Sư đạo lạp cao, thỉnh vào cung đình, chưa bao lâu đi đến Ngô.
+Thuận dòng xuống Giang Đông, qua ngàn khoảnh đến Thiên Trúc, lên Mao Phong3, lên Thái Bạch, qua Nhạn Đãng, Bàn Diêu ở Thúy Phong bảy mươi hai am tranh, rồi trở về Xích thành, dừng nghỉ ở những nơi như: Vân Môn Pháp Hoa, Chư Kị, Ngư Phố, Xích Phù, Đại Nham… Rồi trở về ngọn Phi Lai4, dừng ở Thạch Đậu (hang đá).
+Có câu: “Đi qua hết nước tứ bách châu Chi Na. Những nơi này rất thích hợp với những đạo nhân du phương”.
+Sau năm Trinh Quán 15 (641), Sư về ở chùa Bảo Nghiêm thuộc Phố Giang5, cùng Bảo Chí với Thiền Sư Lãng giao du rất thân mật; mỗi lần sư sai con chó trắng đem thư đến hỏi; thì Thiền Sư Lãng lại sai Vượn Xanh làm thị giả, nên ghi trên vách tường của Lãng rằng:
+Chó trắng ngậm thư đến
+Vượn xanh rửa bát về.
+Những nơi nào Sư đến, sau này đều thành chùa viện.
+Niên hiệu Hiển Khánh năm thứ hai ngày mùng một tết, Sư tự tay đắp một pho tượng, đến mùng chín là xong, Sư hỏi đệ tử Tuệ Vân rằng:
+- Tượng này giống gì?
+Tuệ Vân thưa:
+- Cùng Hòa thượng không khác.
+Sư liền tắm rửa thay áo trải tòa ngồi kiết già bảo Tuệ Vân rằng:
+- Ta ở đời đã một ngàn bảy trăm mười hai năm, nay sắp tạ thế. Nghe ta nói kệ:
+Bổn lai vô sanh tử
+Kim diệc thị sanh tử
+Ngã đắc khứ trụ tâm
+Tha sanh phục lai thử.
+Dịch:
+Xưa vốn không sanh tử
+Nay thị hiện sanh tử
+Tâm ta rời chốn cũ
+Đời khác lại đến đây.
+Một lát Sư phó chúc rằng:
+- Sau khi ta diệt độ sáu mươi năm, có vị tăng đến lấy cốt ta, chớ chống cự, Sư nói xong thị tịch.
+
+*
+
+Sư nhập diệt năm mươi bốn năm, có trưởng lão Lạt Phù đến chỗ tháp, lễ bái thưa rằng: “Mong cửa tháp mở”, chẳng bao lâu cửa tháp mở, cốt của Sư kết lại như vàng ròng.
+Lạt Phù đem đến núi Tần, vọng lập tháp để phụng thờ.
+Thời Chu Uy Liệt năm Đinh mão, đến Đường Cao Tông niên hiệu Hiển Khánh năm Đinh tị mở tháp ra, quả thật một ngàn bảy trăm mười hai năm. Để nơi này trải qua hơn bốn trăm năm, lịch sử tăng chúng đều bị mất.
+Niên hiệu Khai Nguyên, Trung Huệ – một người của tông Vân Môn, từng khắc bia trên đá để biết đó. Ngoài ra, cũng có thuyết nói sư đến Trung Quốc vào năm Khai Hoàng 17 (597) đời Tùy và sáng lập chùa Thiên Minh Vĩnh Tộ; cũng có thuyết bảo sư sáng lập chùa Vĩnh Tộ vào năm Trinh Quán 15. [X. Ngũ Đăng Hội Nguyên Q.2; Gia Thái Phổ Đăng Lục Q.24; Phật Tổ Thống Kỉ Q.40; Đại Minh Nhất Thống Chí Q.38].
+"""@vi ;
+    bkg:birthEvent <ex:monk/thien_tue_bao_chuong_birthEvent> ;
+    bkg:deathEvent <ex:monk/thien_tue_bao_chuong_deathEvent> ;
+    bkg:dharmaLineageName "Thiền Tông Trung Hoa"@vi ;
+    bkg:gender <bkg:Male> ; 
+    bkg:generationOrder 29 ;	
+    bkg:hasTeacher <ex:monk/bo_de_dat_ma> ;
+    bkg:isLineageFounder false .
+
+<ex:monk/bo_de_dat_ma> rdfs:label "Tôn Giả Bồ Đề Đạt Ma"@vi .
+<ex:monk/hue_kha> rdfs:label "Tôn Giả Huệ Khả"@vi .

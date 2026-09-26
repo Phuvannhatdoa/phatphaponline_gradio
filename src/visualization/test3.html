@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ Thống Truyền Thừa - Deep Mapping Fix</title>
+    <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #fdf6e3; margin: 0; }
+        #header-panel {
+            position: fixed; top: 15px; left: 15px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #d4a373; width: 320px;
+        }
+        #cy { width: 100vw; height: 100vh; display: block; background: #fdf6e3; }
+        .btn-home { width: 100%; padding: 12px; background: #8b5e3c; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        #status { margin-top: 10px; font-size: 13px; font-weight: bold; color: #2d6a4f; }
+    </style>
+</head>
+<body>
+
+<div id="header-panel">
+    <div style="color: #8b5e3c; font-weight: bold; font-size: 16px;">HỆ THỐNG TRUYỀN THỪA</div>
+    <button class="btn-home" onclick="drawFullHome()">HIỂN THỊ TOÀN BỘ (RESET HOME)</button>
+    <div id="status">Đang đồng bộ hóa dữ liệu...</div>
+</div>
+
+<div id="cy"></div>
+
+<script>
+    cytoscape.use(cytoscapeDagre);
+    let cy, lineageMap = {}, parentToChildren = {}, monkMap = {}, rawData = [];
+
+    // CHUẨN HÓA ID CỰC ĐOAN (Xóa mọi tiền tố bất kể định dạng)
+    function normalize(id) {
+        if (!id) return "";
+        let s = (typeof id === 'object') ? (id["@id"] || id["id"] || "") : id.toString();
+        // Lấy phần tử cuối sau các ký tự phân tách phổ biến
+        return s.split('/').pop().split(':').pop().toLowerCase().trim();
+    }
+
+    function getFounderName(monkId) {
+        const key = normalize(monkId);
+        // Ưu tiên tuyệt đối dữ liệu từ monk_list.json
+        if (monkMap[key]) return monkMap[key];
+        
+        // Nếu không thấy, tự tạo từ ID (ví dụ: van_mon_van_yen -> Van Mon Van Yen)
+        return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    function getDisplayName(item) {
+        let title = item["rdfs:label"]?.value || item.label || item["@id"] || "Không rõ tên";
+        let founderPart = "";
+
+        // Kiểm tra mọi thuộc tính có khả năng chứa Khai Tổ
+        const possibleFounderFields = ["bkg:hasFounder", "hasFounder", "founder"];
+        for (let field of possibleFounderFields) {
+            if (item[field]) {
+                const fName = getFounderName(item[field]);
+                founderPart = `\n(Khai Tổ: ${fName})`;
+                break;
+            }
+        }
+        return title + founderPart;
+    }
+
+    async function bootstrap() {
+        const status = document.getElementById('status');
+        try {
+            // Bước 1: Load Monk List trước
+            const monkRes = await fetch('./data/monk_list.json');
+            const monkData = await monkRes.json();
+            
+            // Xử lý nạp MonkMap (đối chiếu cả key thô và key đã chuẩn hóa)
+            if (Array.isArray(monkData)) {
+                monkData.forEach(m => {
+                    const nid = normalize(m.id);
+                    monkMap[nid] = m.label;
+                });
+            } else {
+                // Nếu monk_list là dạng Object { "id": "label" }
+                for (let k in monkData) {
+                    monkMap[normalize(k)] = monkData[k];
+                }
+            }
+
+            // Bước 2: Load Lineage Graph
+            const lineageRes = await fetch('./data/lineage_graph.jsonld');
+            const lineageData = await lineageRes.json();
+
+            // Cơ chế Deep Search: Quét mọi cấp độ để tìm các Tông phái
+            function findNodes(obj) {
+                if (!obj) return;
+                if (Array.isArray(obj)) {
+                    obj.forEach(findNodes);
+                } else if (typeof obj === 'object') {
+                    // Nếu Object có @id và trông giống 1 lineage node
+                    if (obj["@id"] && (obj["bkg:isSubLineageOf"] || obj["bkg:hasSubLineage"] || obj["rdfs:label"])) {
+                        rawData.push(obj);
+                        lineageMap[obj["@id"]] = obj;
+                    }
+                    // Quét tiếp vào các thuộc tính con
+                    for (let key in obj) {
+                        if (typeof obj[key] === 'object') findNodes(obj[key]);
+                    }
+                }
+            }
+            
+            const graphRoot = lineageData["@graph"] || lineageData;
+            findNodes(graphRoot);
+
+            // Xây dựng quan hệ cha con
+            rawData.forEach(item => {
+                const parent = item["bkg:isSubLineageOf"]?.["@id"];
+                if (parent) {
+                    if (!parentToChildren[parent]) parentToChildren[parent] = [];
+                    if (!parentToChildren[parent].includes(item["@id"])) {
+                        parentToChildren[parent].push(item["@id"]);
+                    }
+                }
+            });
+
+            status.innerHTML = `✅ Đã load ${rawData.length} Tông phái & ${Object.keys(monkMap).length} Tổ sư`;
+            drawFullHome();
+
+        } catch (e) {
+            status.innerHTML = "❌ Lỗi: " + e.message;
+            console.error("LỖI BOOTSTRAP:", e);
+        }
+    }
+
+    function initCy() {
+        if (cy) cy.destroy();
+        cy = cytoscape({
+            container: document.getElementById('cy'),
+            style: [
+                { selector: 'node', style: {
+                    'label': 'data(label)',
+                    'text-wrap': 'wrap',
+                    'text-max-width': '220px',
+                    'background-color': '#8b5e3c',
+                    'color': '#fff',
+                    'font-size': '14px',
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                    'shape': 'round-rectangle',
+                    'padding': '22px',
+                    'width': 'label',
+                    'height': 'label',
+                    'border-width': 2,
+                    'border-color': '#d4a373',
+                    'line-height': 1.5
+                }},
+                { selector: 'edge', style: {
+                    'width': 2, 'line-color': '#d4a373', 'target-arrow-shape': 'triangle',
+                    'target-arrow-color': '#d4a373', 'curve-style': 'taxi', 'taxi-direction': 'vertical'
+                }}
+            ]
+        });
+    }
+
+    function drawFullHome() {
+        initCy();
+        // Lọc bỏ các node trùng lặp
+        const addedNodes = new Set();
+        rawData.forEach(item => {
+            if (!addedNodes.has(item["@id"])) {
+                cy.add({ data: { id: item["@id"], label: getDisplayName(item) } });
+                addedNodes.add(item["@id"]);
+            }
+        });
+
+        rawData.forEach(item => {
+            const parent = item["bkg:isSubLineageOf"]?.["@id"];
+            if (parent && cy.getElementById(parent).length && cy.getElementById(item["@id"]).length) {
+                cy.add({ data: { source: parent, target: item["@id"] } });
+            }
+        });
+
+        cy.layout({ name: 'dagre', rankDir: 'TB', nodeSep: 80, rankSep: 100 }).run();
+        cy.fit(50);
+    }
+
+    bootstrap();
+</script>
+</body>
+</html>

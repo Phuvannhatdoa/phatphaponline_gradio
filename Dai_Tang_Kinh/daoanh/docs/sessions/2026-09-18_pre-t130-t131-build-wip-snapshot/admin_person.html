@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Person — Đạo Ảnh Admin</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  /* Tailwind CDN utility layer (flex/block/grid…) has HIGHER cascade priority
+     than its own base-layer `[hidden]{display:none}` rule, so any element
+     that combines the native `hidden` attribute with a display utility class
+     (e.g. `hidden class="flex ..."`) stays visibly rendered even while
+     `hidden` is set/toggled via JS — bug found on #bio-vi-edit-actions and
+     #report-bar (Lưu/Hủy + báo lỗi luôn hiện dù chưa bấm Sửa). Force native
+     hidden semantics to win regardless of utility classes. */
+  [hidden] { display:none !important; }
+  body { margin:0; background:#0a0c10; color:#e2e8f0; font-family:'Inter',sans-serif; }
+  .mono { font-family:'JetBrains Mono',monospace; }
+  .fl { font-size:10px; font-weight:700; letter-spacing:.1em; color:#475569; text-transform:uppercase; margin-bottom:4px; font-family:'JetBrains Mono',monospace; }
+  .fv { font-size:14px; color:#e2e8f0; line-height:1.7; }
+  .fv.zh { font-family:serif; font-size:15px; color:#cbd5e1; }
+  .fv.empty { color:#334155; font-style:italic; }
+  pre { white-space:pre-wrap; word-break:break-word; margin:0; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .spinner { width:14px; height:14px; border:2px solid #f59e0b30; border-top-color:#f59e0b; border-radius:50%; animation:spin .7s linear infinite; display:inline-block; }
+  .badge-auto { background:#78350f22; color:#fbbf24; border:1px solid #78350f55; }
+  .badge-outdated { background:#7f1d1d22; color:#f87171; border:1px solid #7f1d1d55; }
+  .badge-reported { background:#1e1b4b22; color:#a78bfa; border:1px solid #1e1b4b55; }
+</style>
+</head>
+<body>
+<div class="min-h-screen p-6 md:p-10 max-w-3xl mx-auto">
+
+  <div id="loading" class="text-slate-600 mono text-sm mt-20 text-center animate-pulse">Đang tải…</div>
+  <div id="errbox" hidden class="text-red-500/70 mono text-sm mt-20 text-center"></div>
+
+  <!-- HEADER -->
+  <div id="hdr" hidden class="mb-8">
+    <div class="flex items-start justify-between gap-4 flex-wrap">
+      <div>
+        <div id="hdr-id" class="text-[10px] text-amber-500/60 mono font-bold tracking-widest mb-1"></div>
+        <div class="flex items-center gap-2">
+          <h1 id="hdr-name" class="text-2xl font-black text-white"></h1>
+          <button id="btn-name-edit" onclick="startNameEdit()" title="Sửa tên tiếng Việt"
+            class="text-[10px] mono text-slate-500 hover:text-amber-400 border border-slate-700/50 hover:border-amber-500/40
+                   bg-transparent hover:bg-amber-500/10 transition-all rounded-lg px-1.5 py-0.5 shrink-0">✎</button>
+        </div>
+        <div id="hdr-name-edit" hidden class="flex items-center gap-2 mt-1 flex-wrap">
+          <input id="hdr-name-input" type="text"
+            class="text-xl font-black text-white bg-[#0a0c10] border border-amber-500/40 rounded-xl px-3 py-1
+                   focus:outline-none focus:border-amber-500/70 min-w-0 w-72">
+          <button onclick="saveNameEdit()"
+            class="text-[11px] mono font-bold text-emerald-400 border border-emerald-500/30 bg-emerald-500/10
+                   hover:bg-emerald-500/20 transition-all rounded-lg px-3 py-1.5 shrink-0">💾 Lưu</button>
+          <button onclick="cancelNameEdit()"
+            class="text-[11px] mono text-slate-500 hover:text-slate-300 border border-slate-800/60
+                   hover:border-slate-600 transition-all rounded-lg px-3 py-1.5 shrink-0">Hủy</button>
+          <span id="hdr-name-msg" hidden class="text-[10px] mono"></span>
+        </div>
+        <div id="hdr-zh" class="text-slate-400 text-lg mt-1" style="font-family:serif" hidden></div>
+      </div>
+      <div class="flex gap-3 items-center shrink-0 mt-1">
+        <button id="btn-edit-person" onclick="togglePersonEdit()"
+          class="flex items-center gap-1.5 text-[11px] mono font-bold text-amber-400 hover:text-amber-300
+                 border border-amber-500/30 hover:border-amber-500/60 bg-amber-500/10 hover:bg-amber-500/20
+                 transition-all rounded-lg px-3 py-1.5">
+          <span>✏</span><span>Sửa</span>
+        </button>
+        <a href="javascript:history.back()" class="text-[11px] mono text-slate-500 hover:text-amber-500 transition-colors underline underline-offset-2">← Quay lại</a>
+        <a href="/daoanh/admin/search_all.html" class="text-[11px] mono text-slate-500 hover:text-amber-500 transition-colors underline underline-offset-2">Search</a>
+      </div>
+    </div>
+    <!-- meta badges -->
+    <div id="meta" class="flex flex-wrap gap-2 mt-4"></div>
+  </div>
+
+  <!-- DILA AUTHORITY DATA — primary XML view, shown first -->
+  <div id="card-dila-extra" hidden class="bg-[#11151c] border border-amber-900/20 rounded-2xl p-6 mb-5">
+    <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
+      <div class="fl mb-0">DỮ LIỆU DILA AUTHORITY (XML)</div>
+      <div class="flex items-center gap-2">
+        <button id="btn-dila-translate"
+          class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-500/10 border border-amber-500/30
+                 text-[10px] font-bold text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/60
+                 transition-all mono disabled:opacity-40 disabled:cursor-not-allowed"
+          onclick="doDilaTranslate()">
+          <span id="btn-dila-icon">✨</span>
+          <span id="btn-dila-label">AI Dịch DILA</span>
+        </button>
+        <span class="text-[9px] mono text-amber-500/50 font-bold tracking-widest">NGUỒN GỐC</span>
+      </div>
+    </div>
+    <div id="dila-extra-body"></div>
+    <div id="dila-vi-body" hidden></div>
+    <div id="dila-suggested-rules" hidden></div>
+  </div>
+
+  <!-- DIVIDER: admin section below -->
+  <div class="flex items-center gap-3 mb-5 mt-2">
+    <div class="flex-1 border-t border-slate-800/40"></div>
+    <span class="text-[9px] mono text-slate-600 font-bold tracking-widest">QUẢN LÝ ADMIN</span>
+    <div class="flex-1 border-t border-slate-800/40"></div>
+  </div>
+
+  <!-- BASIC INFO -->
+  <div id="card-basic" hidden class="bg-[#11151c] border border-slate-800/50 rounded-2xl p-6 mb-5">
+    <div class="flex items-center justify-between mb-4">
+      <div class="fl mb-0">THÔNG TIN CƠ BẢN</div>
+      <span class="text-[9px] mono text-slate-600">từ DB · không phải XML DILA</span>
+    </div>
+    <div id="basic-fields"></div>
+  </div>
+
+  <!-- BIO HÁN VĂN + NÚT DỊCH -->
+  <div id="card-bio-zh" hidden class="bg-[#11151c] border border-slate-800/50 rounded-2xl p-6 mb-5">
+    <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
+      <div class="fl mb-0">TIỂU SỬ HÁN VĂN (DILA)</div>
+      <button id="btn-translate"
+        class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30
+               text-[11px] font-bold text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/60
+               transition-all mono disabled:opacity-40 disabled:cursor-not-allowed"
+        onclick="doTranslate()">
+        <span id="btn-icon">✨</span>
+        <span id="btn-label">Dịch AI → Tiếng Việt</span>
+      </button>
+    </div>
+    <div id="bio-zh-text" class="fv zh text-sm" style="white-space:pre-wrap;word-break:break-word"></div>
+  </div>
+
+  <!-- BIO TIẾNG VIỆT -->
+  <div id="card-bio-vi" hidden class="bg-[#11151c] border border-slate-800/50 rounded-2xl p-6 mb-5">
+    <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
+      <div id="card-bio-vi-heading" class="fl mb-0">TIỂU SỬ TIẾNG VIỆT</div>
+      <div id="vi-badges" class="flex gap-2 items-center"></div>
+    </div>
+    <pre id="bio-vi-text" class="fv text-sm text-slate-200 leading-relaxed"></pre>
+    <textarea id="bio-vi-textarea" hidden rows="8"
+      class="fv text-sm text-slate-200 leading-relaxed w-full bg-[#0a0c10] border border-amber-500/30
+             rounded-xl p-3 focus:outline-none focus:border-amber-500/60"></textarea>
+    <div id="bio-vi-edit-actions" hidden class="mt-3 flex items-center gap-2 flex-wrap">
+      <button onclick="savePersonEdit()"
+        class="text-[11px] mono font-bold text-emerald-400 border border-emerald-500/30 hover:border-emerald-500/60
+               bg-emerald-500/10 hover:bg-emerald-500/20 transition-all rounded-lg px-3 py-1.5">💾 Lưu</button>
+      <button onclick="cancelPersonEdit()"
+        class="text-[11px] mono text-slate-500 hover:text-slate-300 border border-slate-800/60 hover:border-slate-600
+               transition-all rounded-lg px-3 py-1.5">Hủy</button>
+      <span id="edit-save-msg" class="text-[10px] mono hidden"></span>
+    </div>
+    <!-- report bar -->
+    <div id="report-bar" hidden class="mt-5 pt-4 border-t border-slate-800/40 flex items-center gap-3 flex-wrap">
+      <span class="text-[11px] text-slate-600 mono">Bản dịch có sai sót?</span>
+      <button onclick="reportTranslation('style')"
+        class="text-[10px] mono text-slate-500 hover:text-rose-400 transition-colors border border-slate-800/60 hover:border-rose-500/40 px-2.5 py-1 rounded-lg">
+        🚩 Báo lỗi văn phong
+      </button>
+      <button onclick="reportTranslation('content')"
+        class="text-[10px] mono text-slate-500 hover:text-rose-400 transition-colors border border-slate-800/60 hover:border-rose-500/40 px-2.5 py-1 rounded-lg">
+        🚩 Báo lỗi nội dung
+      </button>
+      <span id="report-msg" class="text-[10px] mono text-emerald-500 hidden"></span>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div id="card-timeline" hidden class="bg-[#11151c] border border-slate-800/50 rounded-2xl p-6 mb-5">
+    <div class="fl mb-4">TIMELINE</div>
+    <div id="timeline-body"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Auth ──
+(function() {
+  var s = localStorage.getItem('admin_session');
+  if (!s) { location.href = '/daoanh/login.html'; return; }
+  fetch('/daoanh/api/login/check', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_token:s})})
+    .then(r=>r.json()).then(d=>{ if(!d.valid){localStorage.removeItem('admin_session');location.href='/daoanh/login.html';} })
+    .catch(()=>{});
+})();
+
+var personId = new URLSearchParams(location.search).get('id') || '';
+var translationId = null;
+var _personBioZh = '';   // raw Hán bio — dùng để biết có gì để sửa không
+var _editMode = false;
+var _dilaViData = null;        // vi dict từ DILA card translation
+var _dilaTranslationId = null; // id trong translation_cache (dila_card)
+
+function esc(s){ return s==null?'':(s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function normMultiline(s){ return s ? s.split('\n').map(function(l){return l.trim();}).filter(function(l){return l.length>0;}).join('\n') : ''; }
+
+function field(label, val){
+  var empty = val==null||val==='';
+  return '<div class="mb-4"><div class="fl">' + esc(label) + '</div>'
+    + '<div class="fv' + (empty?' empty':'') + '">' + (empty?'(chưa có)':esc(val)) + '</div></div>';
+}
+
+function showViBadges(status, rulesOutdated, modelId) {
+  var html = '';
+  if (status === 'auto') html += '<span class="badge-auto text-[9px] font-bold mono px-2 py-0.5 rounded-full">AI TỰ ĐỘNG</span>';
+  if (status === 'reported') html += '<span class="badge-reported text-[9px] font-bold mono px-2 py-0.5 rounded-full">CÓ BÁO LỖI</span>';
+  if (rulesOutdated) html += '<span class="badge-outdated text-[9px] font-bold mono px-2 py-0.5 rounded-full">RULES CŨ</span>';
+  if (modelId) html += '<span class="text-[9px] mono text-slate-600">' + esc(modelId.replace(/^models\//,'')) + '</span>';
+  document.getElementById('vi-badges').innerHTML = html;
+}
+
+function renderBioVi(bioVi, status, rulesOutdated, modelId, tId) {
+  translationId = tId;
+  document.getElementById('bio-vi-text').textContent = bioVi;
+  document.getElementById('bio-vi-text').hidden = false;
+  showViBadges(status, rulesOutdated, modelId);
+  document.getElementById('card-bio-vi').hidden = false;
+  document.getElementById('report-bar').hidden = false;
+
+  // Đổi nút sang "Dịch lại"
+  document.getElementById('btn-icon').textContent = '🔄';
+  document.getElementById('btn-label').textContent = rulesOutdated ? 'Dịch lại (rules mới)' : 'Dịch lại';
+}
+
+// ── Nút Sửa header → kích hoạt inline edit trong DILA card ──
+function togglePersonEdit() {
+  var dilaBody = document.getElementById('dila-vi-body');
+  if (!dilaBody || dilaBody.hidden) {
+    alert('Chưa có bản dịch DILA — hãy bấm "AI Dịch DILA" trước.');
+    return;
+  }
+  startDilaEdit();
+  dilaBody.scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+function startPersonEdit() {
+  _editMode = true;
+  document.getElementById('card-bio-vi-heading').textContent = 'TIỂU SỬ VẮN TẮT · DILA (Đang chỉnh sửa)';
+  document.getElementById('card-bio-vi').hidden = false;
+  document.getElementById('report-bar').hidden = true;
+  document.getElementById('bio-vi-text').hidden = true;
+  var ta = document.getElementById('bio-vi-textarea');
+  ta.value = (_dilaViData && _dilaViData.bio_concise_vi) ? _dilaViData.bio_concise_vi : '';
+  ta.hidden = false;
+  document.getElementById('bio-vi-edit-actions').hidden = false;
+  ta.focus();
+}
+
+function cancelPersonEdit() {
+  _editMode = false;
+  document.getElementById('card-bio-vi-heading').textContent = 'TIỂU SỬ TIẾNG VIỆT';
+  document.getElementById('bio-vi-textarea').hidden = true;
+  document.getElementById('bio-vi-edit-actions').hidden = true;
+  document.getElementById('edit-save-msg').classList.add('hidden');
+  var hasText = !!(document.getElementById('bio-vi-text').textContent || '').trim();
+  document.getElementById('bio-vi-text').hidden = false;
+  if (hasText) {
+    document.getElementById('report-bar').hidden = false;
+  } else {
+    document.getElementById('card-bio-vi').hidden = true;
+  }
+}
+
+function savePersonEdit() {
+  var token = localStorage.getItem('admin_session') || '';
+  var newText = document.getElementById('bio-vi-textarea').value.trim();
+  var msg = document.getElementById('edit-save-msg');
+
+  function flash(text, ok) {
+    msg.textContent = text;
+    msg.className = 'text-[10px] mono ' + (ok ? 'text-emerald-400' : 'text-rose-400');
+    msg.classList.remove('hidden');
+  }
+
+  if (!newText) { flash('Nội dung không được để trống', false); return; }
+
+  fetch('/daoanh/api/admin/person/' + encodeURIComponent(personId) + '/dila_vi', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json', 'X-Session-Token': token},
+    body: JSON.stringify({bio_concise_vi: newText, translation_id: _dilaTranslationId})
+  })
+    .then(r=>r.json())
+    .then(d=>{
+      if (!d.ok) { flash('Lỗi: ' + (d.error || 'không lưu được'), false); return; }
+      _editMode = false;
+      // Cập nhật local data + re-render DILA card
+      if (_dilaViData) _dilaViData.bio_concise_vi = newText;
+      document.getElementById('bio-vi-textarea').hidden = true;
+      document.getElementById('bio-vi-edit-actions').hidden = true;
+      document.getElementById('card-bio-vi-heading').textContent = 'TIỂU SỬ TIẾNG VIỆT';
+      // Cập nhật bio-vi-text để cancel sau này vẫn đúng
+      document.getElementById('bio-vi-text').textContent = newText;
+      document.getElementById('bio-vi-text').hidden = false;
+      document.getElementById('report-bar').hidden = false;
+      // Re-render DILA card với bio_concise_vi mới
+      renderDilaVi(_dilaViData, null, _dilaTranslationId);
+      flash('✓ Đã lưu (DILA · Tiểu sử vắn tắt)', true);
+      setTimeout(function(){ msg.classList.add('hidden'); }, 2500);
+    })
+    .catch(function(){ flash('Lỗi kết nối', false); });
+}
+
+function doTranslate() {
+  var btn = document.getElementById('btn-translate');
+  btn.disabled = true;
+  document.getElementById('btn-icon').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('btn-label').textContent = 'Đang dịch…';
+
+  fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/translate', {method:'POST'})
+    .then(r=>r.json())
+    .then(d=>{
+      btn.disabled = false;
+      if (!d.ok) {
+        document.getElementById('btn-icon').textContent = '⚠️';
+        document.getElementById('btn-label').textContent = d.error || 'Lỗi — thử lại';
+        return;
+      }
+      document.getElementById('btn-icon').textContent = '✅';
+      document.getElementById('btn-label').textContent = 'Đã dịch';
+      renderBioVi(d.bio_vi, d.status, d.rules_outdated, d.model_id, d.translation_id);
+    })
+    .catch(()=>{
+      btn.disabled = false;
+      document.getElementById('btn-icon').textContent = '⚠️';
+      document.getElementById('btn-label').textContent = 'Lỗi kết nối';
+    });
+}
+
+function reportTranslation(errType) {
+  if (!translationId) return;
+  fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/translate/report', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({translation_id: translationId, error_type: errType, page_url: location.href})
+  }).then(r=>r.json()).then(d=>{
+    var msg = document.getElementById('report-msg');
+    msg.textContent = d.ok ? '✓ Đã ghi nhận báo lỗi' : ('Lỗi: ' + (d.error||''));
+    msg.classList.remove('hidden');
+    setTimeout(()=>msg.classList.add('hidden'), 3000);
+  }).catch(()=>{});
+}
+
+// ── DILA Card AI Translate ──
+function doDilaTranslate() {
+  var btn = document.getElementById('btn-dila-translate');
+  btn.disabled = true;
+  document.getElementById('btn-dila-icon').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('btn-dila-label').textContent = 'Đang dịch…';
+
+  fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_translate', {method:'POST'})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      btn.disabled = false;
+      if (!d.ok) {
+        document.getElementById('btn-dila-icon').textContent = '⚠️';
+        document.getElementById('btn-dila-label').textContent = d.error || 'Lỗi — thử lại';
+        return;
+      }
+      document.getElementById('btn-dila-icon').textContent = '✅';
+      document.getElementById('btn-dila-label').textContent = d.from_cache ? 'Đã dịch (cache)' : 'Đã dịch';
+      renderDilaVi(d.vi, d.model_id, d.translation_id);
+      if (d.suggested_rules && d.suggested_rules.length) {
+        renderSuggestedRules(d.suggested_rules);
+      }
+    })
+    .catch(function(){
+      btn.disabled = false;
+      document.getElementById('btn-dila-icon').textContent = '⚠️';
+      document.getElementById('btn-dila-label').textContent = 'Lỗi kết nối';
+    });
+}
+
+function renderSuggestedRules(rules) {
+  var el = document.getElementById('dila-suggested-rules');
+  if (!el || !rules || !rules.length) return;
+  var html = '<div class="mt-4 p-3 rounded-xl border border-yellow-600/40 bg-yellow-900/10">';
+  html += '<div class="text-[9px] mono font-bold tracking-widest text-yellow-400/80 mb-2">⚠ PHÁT HIỆN GAP — ĐỀ XUẤT BỔ SUNG RULES (' + rules.length + ')</div>';
+  html += '<div class="text-[10px] text-yellow-300/60 mb-3">AI phát hiện các thuật ngữ/tên gọi chưa có rules. '
+       +  'Vào <a href="/daoanh/admin/translation_rules.html" class="text-yellow-400 underline" target="_blank">Quy Tắc Dịch AI</a> để phê chuẩn.</div>';
+  rules.forEach(function(r) {
+    html += '<div class="mb-2 p-2 rounded-lg bg-yellow-900/20 border border-yellow-700/30">';
+    html += '<div class="text-[9px] mono text-yellow-500/70 font-bold">[' + esc(r.rule_type || 'terminology').toUpperCase() + '] ' + esc(r.rule_code) + '</div>';
+    html += '<div class="text-[11px] text-yellow-200/80 mt-0.5">' + esc(r.description) + '</div>';
+    html += '<div class="text-[10px] text-slate-400 mt-0.5 font-mono">' + esc(r.rule_text) + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+  el.hidden = false;
+}
+
+function renderDilaVi(vi, modelId, tId) {
+  if (!vi) return;
+  _dilaViData = vi;
+  if (tId !== undefined) _dilaTranslationId = tId || null;
+
+  var DILA_TEXT_FIELDS = [
+    {key: 'dynasty_vi',        label: 'Triều đại',                   type: 'input'},
+    {key: 'occupation_vi',     label: 'Nghề nghiệp',                  type: 'input'},
+    {key: 'place_of_origin_vi',label: 'Nơi xuất xứ',                 type: 'input'},
+    {key: 'bio_concise_vi',    label: 'Tiểu sử vắn tắt',             type: 'textarea', rows: 6},
+    {key: 'bio_extensive_vi',  label: 'Tiểu sử chi tiết',            type: 'textarea', rows: 8},
+    {key: 'works_tripitaka_vi',label: 'Kinh điển trong Đại Tạng',    type: 'textarea', rows: 5},
+    {key: 'works_by_vi',       label: 'Tác phẩm',                    type: 'textarea', rows: 5},
+    {key: 'mentioned_in_vi',   label: 'Được đề cập trong',           type: 'textarea', rows: 4},
+    {key: 'active_at_vi',      label: 'Nơi hoạt động',               type: 'input'},
+  ];
+  var MULTILINE_KEYS = {works_tripitaka_vi:1, works_by_vi:1, mentioned_in_vi:1};
+
+  var inputCls = 'fv text-sm text-slate-200 w-full bg-[#0a0c10] border border-amber-500/30 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500/60';
+  var taCls    = 'fv text-sm text-slate-200 leading-relaxed w-full bg-[#0a0c10] border border-amber-500/30 rounded-xl p-3 focus:outline-none focus:border-amber-500/60';
+
+  var html = '<div class="mt-5 pt-4 border-t border-amber-800/30">';
+  // Header
+  html += '<div class="flex items-center justify-between mb-3">';
+  html += '<div class="text-[9px] mono text-amber-400/60 font-bold tracking-widest">BẢN DỊCH TIẾNG VIỆT (AI · Phật học hàn lâm)';
+  if (modelId) html += ' · <span class="text-slate-500 normal-case">' + esc(modelId) + '</span>';
+  html += '</div>';
+  html += '<button id="btn-dila-edit" onclick="startDilaEdit()" '
+    + 'class="text-[9px] mono text-amber-400 hover:text-amber-300 border border-amber-500/30 hover:border-amber-500/60 '
+    + 'bg-amber-500/10 hover:bg-amber-500/20 transition-all rounded-lg px-2 py-0.5">✎ Sửa</button>';
+  html += '</div>';
+
+  // alt_names_vi (array — đặc biệt)
+  if (vi.alt_names_vi && vi.alt_names_vi.length) {
+    html += '<div class="mb-3">';
+    html += '<div class="fl">Tên khác (Việt)</div>';
+    html += '<div id="dila-v-alt_names_vi" class="flex flex-wrap gap-1.5 mt-1">'
+      + vi.alt_names_vi.map(function(n){ return '<span class="inline-block px-2.5 py-0.5 bg-amber-900/20 border border-amber-700/30 rounded-lg text-sm text-amber-300">' + esc(n) + '</span>'; }).join('')
+      + '</div>';
+    html += '<div id="dila-e-alt_names_vi" hidden class="mt-2">'
+      + '<textarea id="dila-ta-alt_names_vi" rows="3" placeholder="Mỗi tên một dòng" class="' + taCls + '">'
+      + esc(vi.alt_names_vi.join('\n')) + '</textarea></div>';
+    html += '</div>';
+  }
+
+  // Các field text/textarea
+  DILA_TEXT_FIELDS.forEach(function(f) {
+    var val = vi[f.key] || '';
+    if (!val) return;
+    var display = MULTILINE_KEYS[f.key] ? normMultiline(val) : val;
+    html += '<div class="mb-3">';
+    html += '<div class="fl">' + f.label + '</div>';
+    if (f.type === 'input') {
+      html += '<div id="dila-v-' + f.key + '" class="fv text-sm">' + esc(display) + '</div>';
+      html += '<div id="dila-e-' + f.key + '" hidden class="mt-1">'
+        + '<input id="dila-ta-' + f.key + '" type="text" value="' + esc(val) + '" class="' + inputCls + '"></div>';
+    } else {
+      html += '<div id="dila-v-' + f.key + '" class="fv text-sm" style="white-space:pre-wrap;word-break:break-word">' + esc(display) + '</div>';
+      html += '<div id="dila-e-' + f.key + '" hidden class="mt-2">'
+        + '<textarea id="dila-ta-' + f.key + '" rows="' + f.rows + '" class="' + taCls + '">' + esc(display) + '</textarea></div>';
+    }
+    html += '</div>';
+  });
+
+  // relations_vi (chỉ đọc)
+  if (vi.relations_vi && vi.relations_vi.length) {
+    html += '<div class="mb-3"><div class="fl">Thầy / Học trò</div><div class="space-y-1">';
+    vi.relations_vi.forEach(function(r){
+      html += '<div class="text-sm"><a href="/daoanh/admin/person.html?id=' + esc(r.person_id) + '" class="text-amber-400 hover:underline">'
+        + esc(r.name_vi || r.person_id) + '</a>'
+        + ' <span class="text-slate-500 mono text-xs">(' + esc(r.person_id) + ')</span></div>';
+    });
+    html += '</div></div>';
+  }
+
+  // listbibl_vi (chỉ đọc)
+  if (vi.listbibl_vi && vi.listbibl_vi.length) {
+    html += '<div class="mb-3"><div class="fl">Trích dẫn CBETA (' + vi.listbibl_vi.length + ')</div><div class="space-y-0.5">'
+      + vi.listbibl_vi.map(function(b){ return '<div class="text-sm text-slate-400 leading-relaxed">' + esc(b) + '</div>'; }).join('')
+      + '</div></div>';
+  }
+
+  // Nút Lưu/Hủy (ẩn, chỉ hiện khi đang edit)
+  html += '<div id="dila-edit-actions" hidden class="flex gap-2 mt-4 items-center border-t border-amber-800/20 pt-4">';
+  html += '<button onclick="saveDilaEdit()" class="text-[11px] mono font-bold text-emerald-400 border border-emerald-500/30 '
+    + 'bg-emerald-500/10 hover:bg-emerald-500/20 transition-all rounded-lg px-3 py-1.5">💾 Lưu tất cả</button>';
+  html += '<button onclick="cancelDilaEdit()" class="text-[11px] mono text-slate-500 hover:text-slate-300 '
+    + 'border border-slate-800/60 hover:border-slate-600 transition-all rounded-lg px-3 py-1.5">Hủy</button>';
+  html += '<span id="dila-edit-msg" hidden class="text-[10px] mono"></span>';
+  html += '</div>';
+
+  html += '</div>';
+  var body = document.getElementById('dila-vi-body');
+  body.innerHTML = html;
+  body.hidden = false;
+}
+
+// ── Inline edit toàn bộ BẢN DỊCH TIẾNG VIỆT (DILA) ──
+function startDilaEdit() {
+  var body = document.getElementById('dila-vi-body');
+  if (!body || body.hidden) { alert('Chưa có bản dịch DILA — hãy bấm "AI Dịch DILA" trước.'); return; }
+  body.querySelectorAll('[id^="dila-v-"]').forEach(function(el){ el.hidden = true; });
+  body.querySelectorAll('[id^="dila-e-"]').forEach(function(el){ el.hidden = false; });
+  var btn = document.getElementById('btn-dila-edit');
+  if (btn) btn.hidden = true;
+  var actions = document.getElementById('dila-edit-actions');
+  if (actions) actions.hidden = false;
+  var first = body.querySelector('[id^="dila-ta-"]');
+  if (first) first.focus();
+}
+
+function cancelDilaEdit() {
+  var body = document.getElementById('dila-vi-body');
+  if (!body) return;
+  body.querySelectorAll('[id^="dila-v-"]').forEach(function(el){ el.hidden = false; });
+  body.querySelectorAll('[id^="dila-e-"]').forEach(function(el){ el.hidden = true; });
+  var btn = document.getElementById('btn-dila-edit');
+  if (btn) btn.hidden = false;
+  var actions = document.getElementById('dila-edit-actions');
+  if (actions) actions.hidden = true;
+  var msg = document.getElementById('dila-edit-msg');
+  if (msg) msg.hidden = true;
+}
+
+function saveDilaEdit() {
+  var token = localStorage.getItem('admin_session') || '';
+  var msg = document.getElementById('dila-edit-msg');
+  function flash(text, ok) {
+    if (!msg) return;
+    msg.textContent = text;
+    msg.className = 'text-[10px] mono ' + (ok ? 'text-emerald-400' : 'text-rose-400');
+    msg.hidden = false;
+  }
+  function getVal(key) {
+    var el = document.getElementById('dila-ta-' + key);
+    return el ? el.value.trim() : null;
+  }
+  var payload = {translation_id: _dilaTranslationId};
+  ['dynasty_vi','occupation_vi','place_of_origin_vi','bio_concise_vi','bio_extensive_vi',
+   'works_tripitaka_vi','works_by_vi','mentioned_in_vi','active_at_vi'].forEach(function(k){
+    var v = getVal(k);
+    if (v !== null) payload[k] = v;
+  });
+  var altEl = document.getElementById('dila-ta-alt_names_vi');
+  if (altEl) {
+    payload.alt_names_vi = altEl.value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s.length>0;});
+  }
+  fetch('/daoanh/api/admin/person/' + encodeURIComponent(personId) + '/dila_vi', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-Session-Token': token},
+    body: JSON.stringify(payload)
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (!d.ok) { flash('Lỗi: ' + (d.error || 'không lưu được'), false); return; }
+      if (_dilaViData) {
+        Object.keys(payload).forEach(function(k){ if (k !== 'translation_id') _dilaViData[k] = payload[k]; });
+      }
+      renderDilaVi(_dilaViData, null, _dilaTranslationId);
+      // Hiện flash sau khi re-render
+      var msg2 = document.getElementById('dila-edit-msg');
+      if (msg2) { msg2.textContent = '✓ Đã lưu'; msg2.className = 'text-[10px] mono text-emerald-400'; msg2.hidden = false; setTimeout(function(){ msg2.hidden = true; }, 2500); }
+    })
+    .catch(function(){ flash('Lỗi kết nối', false); });
+}
+
+// ── DILA Extra ──
+function loadDilaExtra() {
+  fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_full')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (d.ok && d.has_extra) {
+        renderDilaExtra(d);
+        // Check for cached DILA translation
+        fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_translate')
+          .then(function(r){ return r.json(); })
+          .then(function(tv){
+            if (tv.ok && tv.from_cache && tv.vi) {
+              renderDilaVi(tv.vi, null, tv.translation_id);
+              document.getElementById('btn-dila-icon').textContent = '✅';
+              document.getElementById('btn-dila-label').textContent = 'Đã dịch (cache)';
+            }
+          })
+          .catch(function(){});
+      }
+    })
+    .catch(function(){});
+}
+
+function renderDilaExtra(d) {
+  var html = '';
+
+  // Thứ tự theo XML: persName alt → sex → floruit/dates → occupation → place_of_origin
+  // → birth_death_quote → name_latin → bio_extensive → listRelation → listBibl
+  // → worksInTripitaka → worksBy → mentionedIn → activeAt → wikidata
+
+  // Tên khác (persName type="alternative")
+  if (d.alt_names && d.alt_names.length) {
+    html += '<div class="mb-4"><div class="fl">Tên khác (DILA)</div><div class="flex flex-wrap gap-1.5 mt-1">'
+      + d.alt_names.map(function(n){ return '<span class="inline-block px-2.5 py-0.5 bg-slate-700/40 border border-slate-600/50 rounded-lg text-sm text-slate-300 mono">' + esc(n) + '</span>'; }).join('')
+      + '</div></div>';
+  }
+
+  // Tên Latin/Sanskrit (san-Latn, pli-Latn, eng, jpn…)
+  if (d.name_latin) {
+    html += '<div class="mb-4"><div class="fl">Tên Latin / Sanskrit</div>'
+      + '<div class="fv text-sm italic text-amber-300/80">' + esc(d.name_latin) + '</div></div>';
+  }
+
+  // Giới tính (sex value="1"=Nam, "2"=Nữ)
+  if (d.sex) {
+    html += '<div class="mb-4"><div class="fl">Giới tính (DILA)</div>'
+      + '<div class="fv text-sm">' + esc(d.sex) + '</div></div>';
+  }
+
+  // Triều đại (note type="dynasty")
+  if (d.dynasty_xml) {
+    html += '<div class="mb-4"><div class="fl">Triều đại (DILA)</div>'
+      + '<div class="fv text-sm">' + esc(d.dynasty_xml) + '</div></div>';
+  }
+
+  // Tăng / Tục (note type="monk": 是=tăng, 否=tục gia)
+  if (d.is_monk) {
+    var monkLabel = d.is_monk === '是' ? 'Tăng (是)' : d.is_monk === '否' ? 'Tục gia (否)' : esc(d.is_monk);
+    var monkCls = d.is_monk === '是'
+      ? 'bg-amber-900/20 border-amber-700/30 text-amber-300'
+      : 'bg-slate-700/30 border-slate-600/40 text-slate-400';
+    html += '<div class="mb-4"><div class="fl">Tăng / Tục (DILA)</div>'
+      + '<span class="inline-block px-2.5 py-0.5 border rounded-lg text-sm ' + monkCls + '">' + monkLabel + '</span></div>';
+  }
+
+  // Nghề nghiệp
+  if (d.occupation) {
+    html += '<div class="mb-4"><div class="fl">Nghề nghiệp / Vai trò</div>'
+      + '<div class="fv text-sm">' + esc(d.occupation) + '</div></div>';
+  }
+
+  // Nơi xuất xứ
+  if (d.place_of_origin) {
+    html += '<div class="mb-4"><div class="fl">Nơi xuất xứ</div>'
+      + '<div class="fv text-sm">' + esc(d.place_of_origin) + '</div></div>';
+  }
+
+  // Năm sinh / mất (DILA date range)
+  if (d.birth_date || d.death_date) {
+    var dates = [];
+    if (d.birth_date) dates.push('Sinh: ' + d.birth_date);
+    if (d.death_date) dates.push('Mất: ' + d.death_date);
+    html += '<div class="mb-4"><div class="fl">Ngày sinh / mất (DILA)</div>'
+      + '<div class="fv text-sm text-slate-400 mono">' + dates.map(esc).join(' &nbsp;|&nbsp; ') + '</div>';
+    if (d.death_note) {
+      html += '<div class="text-sm text-slate-500 mt-1 leading-relaxed">' + esc(d.death_note) + '</div>';
+    }
+    html += '</div>';
+  }
+
+  // Ghi chú ngày sinh/mất
+  if (d.birth_death_quote) {
+    html += '<div class="mb-4"><div class="fl">Ghi chú năm tháng</div>'
+      + '<div class="fv text-sm text-slate-400">' + esc(d.birth_death_quote) + '</div></div>';
+  }
+
+  // Tiểu sử vắn tắt (note type="concise") — bio_zh từ DB
+  if (_personBioZh) {
+    html += '<div class="mb-4"><div class="fl">Tiểu sử vắn tắt (concise)</div>'
+      + '<div class="fv zh text-sm" style="white-space:pre-wrap;word-break:break-word">' + esc(_personBioZh) + '</div></div>';
+  }
+
+  // Tiểu sử chi tiết (note type="extensive")
+  if (d.bio_extensive) {
+    html += '<div class="mb-4"><div class="fl">Tiểu sử chi tiết (extensive)</div>'
+      + '<div class="fv text-sm" style="white-space:pre-wrap">' + esc(d.bio_extensive) + '</div></div>';
+  }
+
+  // Quan hệ Thầy / Trò (listRelation) — theo XML nằm sau extensive, trước listBibl
+  if (d.relations && d.relations.length) {
+    var teachers = d.relations.filter(function(r){ return r.type === 'teacher'; });
+    var students = d.relations.filter(function(r){ return r.type === 'student'; });
+    function renderRelGroup(label, items) {
+      if (!items.length) return '';
+      var out = '<div class="mb-3"><div class="fl">' + label + '</div><div class="space-y-2">';
+      items.forEach(function(r) {
+        out += '<div class="text-sm border border-slate-700/50 rounded-lg p-2 bg-slate-800/40">';
+        out += '<div class="flex items-center gap-2 mb-1">';
+        out += '<a href="/daoanh/admin/person.html?id=' + esc(r.person_id) + '" class="font-medium text-amber-400 hover:underline">' + esc(r.name || r.person_id) + '</a>';
+        out += '<span class="text-xs text-slate-500 mono">' + esc(r.person_id) + '</span>';
+        out += '</div>';
+        if (r.bibl) {
+          out += '<div class="text-xs text-slate-400 leading-relaxed">' + esc(r.bibl) + '</div>';
+        }
+        if (r.ref_url) {
+          out += '<a href="' + esc(r.ref_url) + '" target="_blank" rel="noopener" class="text-xs text-sky-500 hover:text-sky-300">CBETA ↗</a>';
+        }
+        out += '</div>';
+      });
+      out += '</div></div>';
+      return out;
+    }
+    html += renderRelGroup('Thầy', teachers);
+    html += renderRelGroup('Học trò', students);
+  }
+
+  // Trích dẫn CBETA (listBibl)
+  if (d.listbibl && d.listbibl.length) {
+    html += '<div class="mb-4"><div class="fl">Trích dẫn CBETA (' + d.listbibl.length + ')</div>'
+      + d.listbibl.map(function(b){ return '<div class="text-sm text-slate-400 leading-relaxed mb-1">' + esc(b) + '</div>'; }).join('')
+      + '</div>';
+  }
+
+  // Kinh điển trong Đại Tạng (note type="worksInTripitaka")
+  if (d.works_tripitaka) {
+    html += '<div class="mb-4"><div class="fl">Kinh điển trong Đại Tạng</div>'
+      + '<div class="fv text-sm" style="white-space:pre-wrap">' + esc(normMultiline(d.works_tripitaka)) + '</div></div>';
+  }
+
+  // Tác phẩm (note type="worksBy")
+  if (d.works_by) {
+    html += '<div class="mb-4"><div class="fl">Tác phẩm</div>'
+      + '<div class="fv text-sm" style="white-space:pre-wrap">' + esc(normMultiline(d.works_by)) + '</div></div>';
+  }
+
+  // Được đề cập trong (note type="mentionedIn")
+  if (d.mentioned_in) {
+    html += '<div class="mb-4"><div class="fl">Được đề cập trong</div>'
+      + '<div class="fv text-sm" style="white-space:pre-wrap">' + esc(normMultiline(d.mentioned_in)) + '</div></div>';
+  }
+
+  // Nơi hoạt động (note type="activeAt")
+  if (d.active_at) {
+    var places = d.active_at.split('；').map(function(p){ return p.trim(); }).filter(Boolean);
+    if (places.length <= 1) places = d.active_at.split(';').map(function(p){ return p.trim(); }).filter(Boolean);
+    html += '<div class="mb-4"><div class="fl">Nơi hoạt động</div><div class="flex flex-wrap gap-1.5 mt-1">'
+      + places.map(function(p){ return '<span class="inline-block px-2.5 py-0.5 bg-blue-900/30 border border-blue-700/30 rounded-lg text-sm text-blue-300">' + esc(p) + '</span>'; }).join('')
+      + '</div></div>';
+  }
+
+  // Wikidata
+  if (d.wikidata_id) {
+    html += '<div class="mb-2"><div class="fl">Wikidata</div>'
+      + '<a href="https://www.wikidata.org/wiki/' + esc(d.wikidata_id) + '" target="_blank" rel="noopener"'
+      + ' class="text-sm text-sky-500 hover:text-sky-300 transition-colors mono">'
+      + esc(d.wikidata_id) + ' ↗</a></div>';
+  }
+
+  if (html) {
+    document.getElementById('dila-extra-body').innerHTML = html;
+    document.getElementById('card-dila-extra').hidden = false;
+  }
+}
+
+// ── Inline edit tên tiếng Việt ──
+function startNameEdit() {
+  var h1 = document.getElementById('hdr-name');
+  var inp = document.getElementById('hdr-name-input');
+  var editDiv = document.getElementById('hdr-name-edit');
+  var btn = document.getElementById('btn-name-edit');
+  inp.value = h1.textContent;
+  h1.hidden = true;
+  if (btn) btn.hidden = true;
+  editDiv.hidden = false;
+  inp.focus();
+  inp.select();
+}
+
+function cancelNameEdit() {
+  document.getElementById('hdr-name').hidden = false;
+  document.getElementById('btn-name-edit').hidden = false;
+  document.getElementById('hdr-name-edit').hidden = true;
+  document.getElementById('hdr-name-msg').hidden = true;
+}
+
+function saveNameEdit() {
+  var token = localStorage.getItem('admin_session') || '';
+  var inp = document.getElementById('hdr-name-input');
+  var msg = document.getElementById('hdr-name-msg');
+  var newName = inp.value.trim();
+  function flash(text, ok) {
+    msg.textContent = text;
+    msg.className = 'text-[10px] mono ' + (ok ? 'text-emerald-400' : 'text-rose-400');
+    msg.hidden = false;
+  }
+  if (!newName) { flash('Không được để trống', false); return; }
+  fetch('/daoanh/api/admin/person/' + encodeURIComponent(personId) + '/name_vi', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-Session-Token': token},
+    body: JSON.stringify({name_vi: newName})
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (!d.ok) { flash('Lỗi: ' + (d.error || 'không lưu được'), false); return; }
+      document.getElementById('hdr-name').textContent = newName;
+      cancelNameEdit();
+    })
+    .catch(function(){ flash('Lỗi kết nối', false); });
+}
+
+// ── Load person ──
+function load() {
+  if (!personId) {
+    document.getElementById('loading').hidden = true;
+    var e = document.getElementById('errbox');
+    e.textContent = 'Thiếu ?id= trong URL'; e.hidden = false;
+    return;
+  }
+
+  fetch('/daoanh/api/persons/' + encodeURIComponent(personId))
+    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(d=>{
+      document.getElementById('loading').hidden = true;
+
+      // Header
+      document.getElementById('hdr-id').textContent = d.id;
+      document.getElementById('hdr-name').textContent = d.name_vi || d.name_zh || d.id;
+      if (d.name_zh && d.name_zh !== d.name_vi) {
+        var zhEl = document.getElementById('hdr-zh');
+        zhEl.textContent = d.name_zh; zhEl.hidden = false;
+      }
+
+      // Meta badges
+      var metaHtml = '';
+      if (d.dynasty) metaHtml += '<span class="bg-purple-500/10 text-purple-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc(d.dynasty) + '</span>';
+      if (d.sect) metaHtml += '<span class="bg-emerald-500/10 text-emerald-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc(d.sect) + '</span>';
+      if (d.birth_year || d.death_year) metaHtml += '<span class="bg-slate-700/30 text-slate-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc((d.birth_year||'?')+' – '+(d.death_year||'?')) + '</span>';
+      document.getElementById('meta').innerHTML = metaHtml;
+      document.getElementById('hdr').hidden = false;
+
+      // Basic fields
+      var bf = field('Tên tiếng Việt', d.name_vi) + field('Tên Hán', d.name_zh) + field('Tên tiếng Anh', d.name_en)
+             + field('Triều đại', d.dynasty) + field('Tông phái', d.sect)
+             + (d.birth_year ? field('Năm sinh / mất', (d.birth_year||'?')+' – '+(d.death_year||'?')) : '');
+      document.getElementById('basic-fields').innerHTML = bf;
+      document.getElementById('card-basic').hidden = false;
+
+      // Bio Hán văn
+      var bioZh = d.bio_zh || d.biography || '';
+      _personBioZh = bioZh;
+      if (bioZh) {
+        document.getElementById('bio-zh-text').textContent = bioZh;
+        document.getElementById('card-bio-zh').hidden = false;
+      } else {
+        document.getElementById('card-bio-zh').hidden = true;
+      }
+
+      // DILA extra data (alt names, CBETA, works, mentioned, active_at)
+      loadDilaExtra();
+
+      // Bio tiếng Việt từ cache (nếu đã dịch trước)
+      if (d.bio_vi) {
+        renderBioVi(d.bio_vi, d.bio_vi_status, d.rules_outdated, d.model_id, d.translation_id);
+      }
+
+      // Timeline
+      if (d.timeline && d.timeline.length > 0) {
+        var tlHtml = '';
+        d.timeline.forEach(function(t) {
+          tlHtml += '<div class="flex gap-4 mb-2">'
+            + '<span class="text-amber-500/50 mono text-[11px] shrink-0 mt-0.5 w-14 text-right">' + esc(t.event_year||'?') + '</span>'
+            + '<div><span class="text-[10px] mono text-slate-600 mr-2">' + esc(t.event_type||'') + '</span>'
+            + '<span class="text-sm text-slate-300">' + esc(t.label_vi||'') + '</span></div>'
+            + '</div>';
+        });
+        document.getElementById('timeline-body').innerHTML = tlHtml;
+        document.getElementById('card-timeline').hidden = false;
+      }
+    })
+    .catch(function(e){
+      document.getElementById('loading').hidden = true;
+      var el = document.getElementById('errbox');
+      el.textContent = 'Không tìm thấy: ' + personId + ' (' + e.message + ')';
+      el.hidden = false;
+    });
+}
+
+load();
+</script>
+</body>
+</html>

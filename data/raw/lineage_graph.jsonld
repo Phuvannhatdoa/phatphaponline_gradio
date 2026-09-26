@@ -1,0 +1,242 @@
+{
+  "@context": {
+    "ex": "http://data.phatphaponline.org/lineage/",
+    "bkg": "http://buddhist-kg.org/ontology/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "ex:Thien_Tong_An_Do",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Ấn Độ", "lang": "vi" },
+      "bkg:description": { "value": "Dòng Thiền Tông Ấn Độ từ Thủy Tổ Thích Ca Mâu Ni Phật truyền tới tổ Bồ Đề Đạt Ma", "lang": "vi" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/ma_ha_ca_diep"
+      },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Thien_Tong_Trung_Hoa" },
+        { "@id": "ex:Thien_Tong_Tay_Tang" }
+      ]
+    },
+    {
+      "@id": "ex:Thien_Tong_Trung_Hoa",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Thiền Tông Trung Hoa, truyền từ Tổ sư Bồ Đề Đạt Ma", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_An_Do" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/bo_de_dat_ma"
+      },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Thien_Tong_Bac_Tong" },
+        { "@id": "ex:Thien_Tong_Nam_Tong" },
+        { "@id": "ex:Tong_Nguu_Dau" },
+        { "@id": "ex:Ty_Ni_Da_Luu_Chi_Tong" }
+      ]
+    },
+    {
+      "@id": "ex:Thien_Tong_Bac_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Trung Hoa - Bắc Tông", "lang": "vi" },
+      "bkg:description": { "value": "Thiền Tông Trung Hoa - Bắc Tông, truyền từ Ngọc Tuyền Thần Tú", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Trung_Hoa" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/ngoc_tuyen_than_tu"
+      }
+    },
+    {
+      "@id": "ex:Tong_Nguu_Dau",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Ngưu Đầu Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Tông Ngưu Đầu, truyền từ Ngưu Đầu Pháp Dung", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Trung_Hoa" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/nguu_dau_phap_dung"
+      }
+    },
+    {
+      "@id": "ex:Ty_Ni_Da_Luu_Chi_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tỳ Ni Đa Lưu Chi Tông Việt Nam", "lang": "vi" },
+      "bkg:description": { "value": "Tông Tỳ Ni Đa Lưu Chi, truyền từ Tỳ Ni Đa Lưu Chi", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Trung_Hoa" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/ty_ni_da_luu_chi"
+      }
+    },
+    {
+      "@id": "ex:Vo_Ngon_Thong_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Vô Ngôn Thông Tông Việt Nam", "lang": "vi" },
+      "bkg:description": { "value": "Tông Vô Ngôn Thông, truyền từ Vô Ngôn Thông", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/vo_ngon_thong"
+      }
+    },
+    {
+      "@id": "ex:Thien_Tong_Nam_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Trung Hoa - Nam Tông", "lang": "vi" },
+      "bkg:description": { "value": "Thiền Tông Trung Hoa - Nam Tông, truyền từ Lục Tổ Huệ Năng", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Trung_Hoa" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/dai_giam_hue_nang"
+      },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Tong_Lam_Te_Trung_Hoa" },
+        { "@id": "ex:Tong_Tao_Dong" },
+        { "@id": "ex:Tong_Van_Mon" },
+        { "@id": "ex:Tong_Quy_Nguong_Trung_Hoa" },
+        { "@id": "ex:Tong_Phap_Nhan" }
+      ]
+    },
+    {
+      "@id": "ex:Thien_Tong_Tay_Tang",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Tây Tạng", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_An_Do" }
+    },
+    {
+      "@id": "ex:Tong_Lam_Te_Trung_Hoa",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Lâm Tế Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Tông Lâm Tế Trung Hoa, truyền từ Lâm Tế Nghĩa Huyền", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Hong_Chau_Tong" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/lam_te_nghia_huyen"
+      },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Phai_Duong_Ky" },
+        { "@id": "ex:Phai_Hoang_Long" }
+      ]
+    },
+    {
+      "@id": "ex:Phai_Duong_Ky",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Phái Dương Kỳ", "lang": "vi" },
+      "bkg:description": { "value": "Dòng Lâm Tế Dương Kỳ, truyền từ Dương Kỳ Phương Hội", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Tong_Lam_Te_Trung_Hoa" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/duong_ky_phuong_hoi"
+      },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Dong_Chuc_Thanh" },
+        { "@id": "ex:Dong_Lam_Te_Nguyen_Thieu" },
+        { "@id": "ex:Dong_Lam_Te_Gia_Pho" },
+        { "@id": "ex:Dong_Lam_Te_Lieu_Quan" }
+      ]
+    },
+    {
+      "@id": "ex:Dong_Chuc_Thanh",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Dòng Lâm Tế Chúc Thánh Việt Nam", "lang": "vi" },
+      "bkg:description": { "value": "Dòng Lâm Tế Chúc Thánh Việt Nam, truyền từ Minh Hải Pháp Bảo", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Phai_Duong_Ky" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/minh_hai_phap_bao"
+      }      
+    },
+    {
+      "@id": "ex:Dong_Lam_Te_Nguyen_Thieu",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Dòng Lâm Tế Nguyên Thiều Việt Nam", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Phai_Duong_Ky" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/nguyen_thieu_tho_tong"
+      }      
+    },
+    {
+      "@id": "ex:Dong_Lam_Te_Gia_Pho",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Dòng Lâm Tế Gia Phổ Việt Nam", "lang": "vi" },
+      "bkg:description": { "value": "Dòng Lâm Tế Gia Phổ Việt Nam, truyền từ Phật Ý Linh Nhạc", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Phai_Duong_Ky" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/phat_y_linh_nhac"
+      }
+    },
+    {
+      "@id": "ex:Dong_Lam_Te_Lieu_Quan",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Dòng Lâm Tế Liễu Quán Việt Nam", "lang": "vi" },
+      "bkg:description": { "value": "Dòng Lâm Tế Liễu Quán Việt Nam, truyền từ Thiệt Diệu Liễu Quán", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Phai_Duong_Ky" },
+       "bkg:hasFounder": {
+        "@id": "ex:monk/thiet_dieu_lieu_quan"
+      }
+    },
+    {
+      "@id": "ex:Phai_Hoang_Long",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Phái Hoàng Long", "lang": "vi" },      
+      "bkg:description": { "value": "Dòng Lâm Tế Hoàng Long, truyền từ Hoàng Long Huệ Nam", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Tong_Lam_Te_Trung_Hoa" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/hoang_long_hue_nam"
+      }
+    },
+    {
+      "@id": "ex:Tong_Tao_Dong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Tào Động Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Tông Tào Động Trung Hoa, truyền từ Động Sơn Lương Giới Vài Tào Sơn Bổn Tịch", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thach_Dau_Tong" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/dong_son_luong_gioi"
+      }
+    },
+    {
+      "@id": "ex:Tong_Van_Mon",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Vân Môn Trung Hoa", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Hong_Chau_Tong" }
+    },
+    {
+      "@id": "ex:Tong_Quy_Nguong_Trung_Hoa",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Quy Ngưỡng Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Tông Quy Ngưỡng Trung Hoa, truyền từ Quy Sơn Linh Hựu", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Hong_Chau_Tong" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/quy_son_linh_huu"
+      }
+    },
+    {
+      "@id": "ex:Tong_Phap_Nhan",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Pháp Nhãn Trung Hoa", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thach_Dau_Tong" }
+    },
+    {
+      "@id": "ex:Hong_Chau_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Hồng Châu Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Tông Hồng Châu Trung Hoa, truyền từ Mã Tổ Đạo Nhất", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/ma_to_dao_nhat"
+      }
+    },
+    {
+      "@id": "ex:Thach_Dau_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Thạch Đầu Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Tông Thạch Đầu Trung Hoa, truyền từ Thạch Đầu Hy Thiên", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/thach_dau_hy_thien"
+      }
+    },
+    {
+      "@id": "ex:Ha_Trach_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Hà Trạch Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Tông Hà Trạch Trung Hoa, truyền từ Hà Trạch Thần Hội", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" },
+      "bkg:hasFounder": {
+        "@id": "ex:monk/ha_trach_than_hoi"
+      }
+    }
+  ]
+}

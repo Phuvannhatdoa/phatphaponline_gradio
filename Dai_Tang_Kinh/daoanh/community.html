@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cộng đồng — Đạo Ảnh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg:#F2F0EC; --bg2:#ECEAE6; --surface:#FFFFFF; --border:#DDD8CE;
+  --gold:#B8941E; --gold-dim:rgba(184,148,30,0.10); --gold-glow:rgba(184,148,30,0.22);
+  --amethyst:#7B64CC; --amethyst-dim:rgba(123,100,204,0.10);
+  --text-hi:#1A1E28; --text-mid:#4A5160; --text-lo:#8A909E;
+  --shadow:0 2px 12px rgba(0,0,0,0.08); --r:12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#070C14; --bg2:#0A1120; --surface:#0F1824; --border:#1D2C3D;
+    --gold:#C8A84B; --gold-dim:rgba(200,168,75,0.12); --gold-glow:rgba(200,168,75,0.25);
+    --amethyst:#9E8CDB; --amethyst-dim:rgba(158,140,219,0.12);
+    --text-hi:#EDF0F3; --text-mid:#A0ACBA; --text-lo:#5A6680;
+    --shadow:0 2px 16px rgba(0,0,0,0.4);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#070C14; --bg2:#0A1120; --surface:#0F1824; --border:#1D2C3D;
+  --gold:#C8A84B; --gold-dim:rgba(200,168,75,0.12); --gold-glow:rgba(200,168,75,0.25);
+  --amethyst:#9E8CDB; --amethyst-dim:rgba(158,140,219,0.12);
+  --text-hi:#EDF0F3; --text-mid:#A0ACBA; --text-lo:#5A6680;
+  --shadow:0 2px 16px rgba(0,0,0,0.4);
+}
+:root[data-theme="light"] {
+  --bg:#F2F0EC; --bg2:#ECEAE6; --surface:#FFFFFF; --border:#DDD8CE;
+  --gold:#B8941E; --text-hi:#1A1E28; --text-mid:#4A5160; --text-lo:#8A909E;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text-hi);font-size:15px;line-height:1.6}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header */
+.hd{position:sticky;top:0;z-index:100;height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:24px;backdrop-filter:blur(12px)}
+.hd-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.hd-logo-mark{width:32px;height:32px;background:var(--gold);border-radius:8px;font-family:'Noto Serif SC',serif;font-weight:700;font-size:16px;color:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hd-logo-text{font-weight:600;font-size:15px;color:var(--text-hi)}
+.hd-spacer{flex:1}
+.hd-nav{display:flex;gap:4px}
+.hd-nav-link{padding:6px 12px;border-radius:6px;font-size:13px;color:var(--text-mid);font-weight:500;background:none;border:none;cursor:pointer;text-decoration:none;transition:color .15s,background .15s}
+.hd-nav-link:hover{color:var(--text-hi);background:var(--gold-dim);text-decoration:none}
+.hd-nav-link.active{color:var(--gold);background:var(--gold-dim)}
+.hd-theme-btn{width:34px;height:34px;border-radius:8px;background:none;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-lo);transition:color .15s,border-color .15s;flex-shrink:0}
+.hd-theme-btn:hover{color:var(--gold);border-color:var(--gold)}
+.hd-theme-btn svg{width:16px;height:16px}
+
+/* Page */
+.pg-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:56px 24px 48px;text-align:center}
+.pg-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.pg-title{font-family:'Noto Serif SC',serif;font-size:clamp(24px,4vw,36px);font-weight:700;color:var(--text-hi);line-height:1.25;text-wrap:balance;margin-bottom:14px}
+.pg-sub{font-size:15px;color:var(--text-mid);max-width:520px;margin:0 auto}
+
+.pg-body{max-width:760px;margin:0 auto;padding:48px 24px 64px}
+
+.sec-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.sec-title{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;color:var(--text-hi);margin-bottom:16px}
+.sec-body{color:var(--text-mid);font-size:14.5px;line-height:1.75;margin-bottom:24px}
+.sec-divider{border:none;border-top:1px solid var(--border);margin:40px 0}
+
+/* Contribute cards */
+.contrib-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px}
+.contrib-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px;box-shadow:var(--shadow);transition:border-color .2s,box-shadow .2s}
+.contrib-card:hover{border-color:var(--gold);box-shadow:var(--shadow),0 0 0 3px var(--gold-glow)}
+.contrib-icon{font-size:24px;margin-bottom:10px}
+.contrib-title{font-weight:600;font-size:14px;color:var(--text-hi);margin-bottom:6px}
+.contrib-desc{font-size:13px;color:var(--text-mid);line-height:1.6}
+
+/* Channel list */
+.channel-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.channel-item{display:flex;align-items:flex-start;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;box-shadow:var(--shadow)}
+.channel-badge{min-width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg2);border:1px solid var(--border)}
+.channel-info{flex:1}
+.channel-name{font-weight:600;font-size:14px;color:var(--text-hi);margin-bottom:3px}
+.channel-desc{font-size:13px;color:var(--text-mid)}
+.channel-link{font-size:12.5px;color:var(--gold);margin-top:4px}
+
+/* Roadmap */
+.roadmap{display:flex;flex-direction:column;gap:0;margin-bottom:32px}
+.rm-item{display:flex;gap:16px;position:relative;padding-bottom:20px}
+.rm-item:last-child{padding-bottom:0}
+.rm-item::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:1px;background:var(--border)}
+.rm-item:last-child::before{display:none}
+.rm-dot{min-width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px}
+.rm-dot.done{background:var(--gold-dim);color:var(--gold);border:1.5px solid var(--gold)}
+.rm-dot.wip{background:var(--amethyst-dim);color:var(--amethyst);border:1.5px solid var(--amethyst)}
+.rm-dot.todo{background:var(--bg2);color:var(--text-lo);border:1.5px solid var(--border)}
+.rm-content{padding-top:4px}
+.rm-title{font-weight:600;font-size:14px;color:var(--text-hi);margin-bottom:3px}
+.rm-desc{font-size:13px;color:var(--text-mid)}
+.rm-status{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:4px;margin-top:4px}
+.rm-status.done{background:var(--gold-dim);color:var(--gold)}
+.rm-status.wip{background:var(--amethyst-dim);color:var(--amethyst)}
+.rm-status.todo{background:var(--bg2);color:var(--text-lo)}
+
+/* Footer */
+.ft{border-top:1px solid var(--border);padding:20px 24px;text-align:center;font-size:12px;color:var(--text-lo)}
+</style>
+</head>
+<body>
+<header class="hd">
+  <a class="hd-logo" href="/daoanh/home.html">
+    <div class="hd-logo-mark">道</div>
+    <div><div class="hd-logo-text">Đạo Ảnh</div></div>
+  </a>
+  <div class="hd-spacer"></div>
+  <nav class="hd-nav">
+    <a class="hd-nav-link" href="/daoanh/home.html">Trang chủ</a>
+    <a class="hd-nav-link" href="/daoanh/places">Địa đồ</a>
+    <a class="hd-nav-link" href="/daoanh/about">Về Dự án</a>
+    <a class="hd-nav-link" href="/daoanh/opendata">Dữ liệu mở</a>
+    <a class="hd-nav-link active" href="/daoanh/community">Cộng đồng</a>
+  </nav>
+  <button class="hd-theme-btn" id="themeBtn" title="Đổi sáng/tối" aria-label="Toggle theme">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="10" cy="10" r="4"/>
+      <path d="M10 2v1.5M10 16.5V18M2 10h1.5M16.5 10H18M4.5 4.5l1 1M14.5 14.5l1 1M4.5 15.5l1-1M14.5 5.5l1-1" stroke-linecap="round"/>
+    </svg>
+  </button>
+</header>
+
+<div class="pg-hero">
+  <div class="pg-eyebrow">Cộng đồng · Phật học số</div>
+  <h1 class="pg-title">Cộng đồng</h1>
+  <p class="pg-sub">Nghiên cứu viên, người thực hành và đóng góp viên cùng xây dựng kho dữ liệu Phật học Việt Nam</p>
+</div>
+
+<main class="pg-body">
+
+  <div class="sec-label">Đóng góp</div>
+  <h2 class="sec-title">Cách bạn có thể tham gia</h2>
+  <p class="sec-body">
+    Đạo Ảnh là dự án mở — không phân biệt chuyên môn, bất kỳ ai quan tâm đến Phật học
+    và dữ liệu số đều có thể đóng góp theo nhiều hình thức:
+  </p>
+
+  <div class="contrib-grid">
+    <div class="contrib-card">
+      <div class="contrib-icon">🔍</div>
+      <div class="contrib-title">Kiểm tra dữ liệu</div>
+      <div class="contrib-desc">Phát hiện lỗi về tên địa danh, năm thành lập, dòng truyền thừa sai lệch và báo cáo để sửa</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-icon">🌐</div>
+      <div class="contrib-title">Dịch thuật</div>
+      <div class="contrib-desc">Dịch tên địa danh, tu sĩ từ Hán-Việt sang tiếng Việt phổ thông, hoặc sang tiếng Anh</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-icon">📚</div>
+      <div class="contrib-title">Nghiên cứu</div>
+      <div class="contrib-desc">Chia sẻ công trình nghiên cứu Phật học để tích hợp vào hệ thống chú thích và liên kết chéo</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-icon">💻</div>
+      <div class="contrib-title">Kỹ thuật</div>
+      <div class="contrib-desc">Phát triển tính năng mới — bản đồ, đồ thị quan hệ, RAG chat, giao diện tra cứu</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-icon">🗺</div>
+      <div class="contrib-title">Địa danh mới</div>
+      <div class="contrib-desc">Bổ sung tự viện, tháp, hang đá chưa có trong DILA BGIS — đặc biệt tại Việt Nam</div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-icon">📣</div>
+      <div class="contrib-title">Phổ biến</div>
+      <div class="contrib-desc">Giới thiệu Đạo Ảnh đến cộng đồng nghiên cứu, thiền viện, trường đại học</div>
+    </div>
+  </div>
+
+  <hr class="sec-divider">
+
+  <div class="sec-label">Kênh liên lạc</div>
+  <h2 class="sec-title">Tham gia cộng đồng</h2>
+  <p class="sec-body">Tìm chúng tôi qua các kênh sau:</p>
+
+  <ul class="channel-list">
+    <li class="channel-item">
+      <div class="channel-badge">🌐</div>
+      <div class="channel-info">
+        <div class="channel-name">Website chính</div>
+        <div class="channel-desc">Toàn bộ tài liệu, API và giao diện tra cứu</div>
+        <div class="channel-link"><a href="https://phatphaponline.org" target="_blank" rel="noopener">phatphaponline.org</a></div>
+      </div>
+    </li>
+    <li class="channel-item">
+      <div class="channel-badge">📖</div>
+      <div class="channel-info">
+        <div class="channel-name">Tài liệu kỹ thuật</div>
+        <div class="channel-desc">GitBook với hướng dẫn API, kiến trúc hệ thống và lịch sử phát triển</div>
+        <div class="channel-link"><a href="/daoanh/docs/" target="_blank">Mở tài liệu →</a></div>
+      </div>
+    </li>
+    <li class="channel-item">
+      <div class="channel-badge">📊</div>
+      <div class="channel-info">
+        <div class="channel-name">Dashboard tiến độ</div>
+        <div class="channel-desc">Theo dõi trạng thái phát triển — module, endpoint, task board</div>
+        <div class="channel-link"><a href="/daoanh/dashboard/">Xem dashboard →</a></div>
+      </div>
+    </li>
+    <li class="channel-item">
+      <div class="channel-badge">📬</div>
+      <div class="channel-info">
+        <div class="channel-name">Báo cáo lỗi & Đề xuất</div>
+        <div class="channel-desc">Phát hiện dữ liệu sai, tính năng chưa đúng, hoặc ý tưởng cải tiến</div>
+        <div class="channel-link"><a href="/daoanh/about">Liên hệ qua trang Về Dự án →</a></div>
+      </div>
+    </li>
+  </ul>
+
+  <hr class="sec-divider">
+
+  <div class="sec-label">Lộ trình</div>
+  <h2 class="sec-title">Kế hoạch phát triển</h2>
+  <p class="sec-body">Các tính năng đang và sẽ được xây dựng:</p>
+
+  <div class="roadmap">
+    <div class="rm-item">
+      <div class="rm-dot done">✓</div>
+      <div class="rm-content">
+        <div class="rm-title">Bản đồ địa danh DILA BGIS</div>
+        <div class="rm-desc">Tra cứu 8,241 tự viện, hang đá, thánh địa Phật giáo toàn cầu</div>
+        <span class="rm-status done">Hoàn thành</span>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot done">✓</div>
+      <div class="rm-content">
+        <div class="rm-title">Dashboard tiến độ phát triển</div>
+        <div class="rm-desc">Theo dõi module, endpoint, task board theo thời gian thực</div>
+        <span class="rm-status done">Hoàn thành</span>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot done">✓</div>
+      <div class="rm-content">
+        <div class="rm-title">Tích hợp văn bản liên quan (text_info)</div>
+        <div class="rm-desc">Hiển thị kinh điển CBETA đề cập đến từng địa danh</div>
+        <span class="rm-status done">Hoàn thành</span>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot wip">⋯</div>
+      <div class="rm-content">
+        <div class="rm-title">RAG Chat — Hỏi đáp Phật học tiếng Việt</div>
+        <div class="rm-desc">Chatbot RAG trả lời câu hỏi dựa trên corpus kinh điển và địa danh</div>
+        <span class="rm-status wip">Đang phát triển</span>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot wip">⋯</div>
+      <div class="rm-content">
+        <div class="rm-title">Dịch mượt kinh văn Hán–Việt</div>
+        <div class="rm-desc">Dịch thuật tự động chất lượng cao kết hợp ngữ cảnh Phật học</div>
+        <span class="rm-status wip">Đang phát triển</span>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot todo">○</div>
+      <div class="rm-content">
+        <div class="rm-title">Đồ thị quan hệ tương tác</div>
+        <div class="rm-desc">Mạng lưới liên kết kinh điển — tu sĩ — địa danh dạng đồ thị</div>
+        <span class="rm-status todo">Kế hoạch</span>
+      </div>
+    </div>
+    <div class="rm-item">
+      <div class="rm-dot todo">○</div>
+      <div class="rm-content">
+        <div class="rm-title">Chỉ mục địa danh Việt Nam</div>
+        <div class="rm-desc">Bổ sung tự viện Việt Nam chưa có trong DILA BGIS</div>
+        <span class="rm-status todo">Kế hoạch</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="ft">
+  © 2026 <strong>Đạo Ảnh</strong> · Hệ thống tra cứu Đại Tạng Kinh Việt Nam ·
+  Dữ liệu: CBETA · DILA · Marcus SNA
+</footer>
+
+<script>
+const themes = ['', 'light', 'dark'];
+let ti = 0;
+const btn = document.getElementById('themeBtn');
+btn.addEventListener('click', () => {
+  ti = (ti + 1) % themes.length;
+  const t = themes[ti];
+  if (t) document.documentElement.setAttribute('data-theme', t);
+  else document.documentElement.removeAttribute('data-theme');
+});
+</script>
+</body>
+</html>

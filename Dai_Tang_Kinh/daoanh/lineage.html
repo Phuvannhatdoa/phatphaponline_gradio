@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phổ Hệ Truyền Thừa - Đạo Ảnh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #e2e8f0; }
+        .serif { font-family: 'Noto Serif', serif; }
+        .card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; }
+        .person-chip { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b border-white/5 px-6 py-4 flex items-center gap-4">
+        <a href="/daoanh/" class="text-amber-500 text-2xl font-bold">卍</a>
+        <div>
+            <h1 class="text-sm font-black text-white uppercase tracking-wide">Phổ Hệ Truyền Thừa</h1>
+            <p class="text-[10px] text-slate-500 uppercase tracking-widest">Đạo Ảnh · Dữ liệu: DILA + Marcus (ChineseBuddhism_SNA)</p>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 py-10">
+        <div id="loading" class="text-center py-20 text-slate-500">Đang tra cứu...</div>
+        <div id="notFound" class="hidden text-center py-20">
+            <p class="text-slate-400">Không tìm thấy thiền sư này trong cơ sở dữ liệu.</p>
+        </div>
+        <div id="content" class="hidden space-y-8">
+            <div class="card p-6">
+                <span id="personId" class="text-[10px] font-mono text-amber-500"></span>
+                <h2 id="nameVi" class="text-2xl font-bold text-white mt-1"></h2>
+                <p id="nameZh" class="serif text-lg text-slate-400 italic"></p>
+                <p id="dynasty" class="text-xs text-slate-500 mt-2"></p>
+            </div>
+
+            <div id="marcusSection">
+                <div id="notLinked" class="hidden card p-6 text-center text-slate-500 text-sm">
+                    Chưa có dữ liệu quan hệ truyền thừa từ Marcus (ChineseBuddhism_SNA) cho vị này.
+                </div>
+                <div id="linkedContent" class="hidden space-y-6">
+                    <div>
+                        <h3 class="text-xs font-black text-amber-500 uppercase tracking-widest mb-3">Thầy (Sư phụ)</h3>
+                        <div id="teachersList" class="space-y-2"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-black text-emerald-400 uppercase tracking-widest mb-3">Học trò</h3>
+                        <div id="studentsList" class="space-y-2"></div>
+                    </div>
+                    <p class="text-[10px] text-slate-600 italic border-t border-white/5 pt-4">
+                        Nguồn: Marcus Bingenheimer, ChineseBuddhism_SNA (Historical Social Network of Chinese Buddhism).
+                        Trích dẫn CBETA đi kèm mỗi quan hệ do nguồn cung cấp, chưa qua kiểm chứng thủ công của Đạo Ảnh.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function escapeHtml(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[c]);
+        }
+
+        function renderRelationChip(r) {
+            const refLink = (r.ref || '').match(/https?:\/\/\S+/);
+            return `<div class="person-chip rounded-xl px-4 py-3 flex flex-col gap-1">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-white">${escapeHtml(r.label || r.id)}</span>
+                    <span class="text-[9px] font-mono text-slate-500">${escapeHtml(r.id)}</span>
+                </div>
+                ${refLink ? `<a href="${escapeHtml(refLink[0])}" target="_blank" class="text-[10px] text-sky-500/70 hover:text-sky-400 truncate">Nguồn CBETA ↗</a>` : ''}
+            </div>`;
+        }
+
+        async function loadLineage() {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get('name');
+            const idParam = params.get('id');
+
+            if (!name && !idParam) {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('notFound').classList.remove('hidden');
+                return;
+            }
+
+            try {
+                let personId = idParam;
+                let person = null;
+
+                if (!personId) {
+                    const res = await fetch('/daoanh/api/monk-resolve?name=' + encodeURIComponent(name));
+                    const data = await res.json();
+                    if (!data.ok) throw new Error('not found');
+                    person = data.person;
+                    personId = person.id;
+                }
+
+                const netRes = await fetch(`/daoanh/api/monk/${encodeURIComponent(personId)}/marcus-network`);
+                const net = await netRes.json();
+                if (!net.ok) throw new Error('not found');
+                person = net.person;
+
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('content').classList.remove('hidden');
+                document.getElementById('personId').innerText = person.id;
+                document.getElementById('nameVi').innerText = person.name_vi || person.name_zh || person.id;
+                document.getElementById('nameZh').innerText = person.name_zh || '';
+                document.getElementById('dynasty').innerText = person.dynasty ? ('Triều đại: ' + person.dynasty) : '';
+
+                if (!net.linked || (net.teachers.length === 0 && net.students.length === 0)) {
+                    document.getElementById('notLinked').classList.remove('hidden');
+                } else {
+                    document.getElementById('linkedContent').classList.remove('hidden');
+                    const teachersEl = document.getElementById('teachersList');
+                    const studentsEl = document.getElementById('studentsList');
+                    teachersEl.innerHTML = net.teachers.length
+                        ? net.teachers.map(renderRelationChip).join('')
+                        : '<p class="text-xs text-slate-600 italic">Không có dữ liệu thầy trong Marcus.</p>';
+                    studentsEl.innerHTML = net.students.length
+                        ? net.students.map(renderRelationChip).join('')
+                        : '<p class="text-xs text-slate-600 italic">Không có dữ liệu học trò trong Marcus.</p>';
+                }
+            } catch (e) {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('notFound').classList.remove('hidden');
+            }
+        }
+        loadLineage();
+    </script>
+</body>
+</html>

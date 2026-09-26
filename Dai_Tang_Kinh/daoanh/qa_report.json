@@ -1,0 +1,164 @@
+{
+  "timestamp": "2026-04-12",
+  "project": "Đạo Ảnh - Buddhist GIS",
+  "project_path": "/opt/phatphaponline_gradio/truyenthua/visjs-app/Dai_Tang_Kinh/daoanh/",
+  "summary": {
+    "total_issues": 13,
+    "critical": 7,
+    "medium": 4,
+    "low": 2
+  },
+  "missing_files": [
+    {
+      "file": "data/staging.json",
+      "called_by": "app.py:1110, 1113-1118",
+      "status": "NOT_FOUND",
+      "severity": "critical",
+      "description": "API endpoint exists but file never created - empty stub needed"
+    },
+    {
+      "file": "data/verification.json",
+      "called_by": "app.py:1111, 1120-1125",
+      "status": "NOT_FOUND",
+      "severity": "critical",
+      "description": "API endpoint exists but file never created - empty stub needed"
+    },
+    {
+      "file": "data/crawl/",
+      "called_by": "app.py:1394-1420",
+      "status": "NOT_FOUND",
+      "severity": "critical",
+      "description": "Directory referenced in admin_crawler_list but never created"
+    }
+  ],
+  "missing_functions": [
+    {
+      "function": "BuddhistIcons.createMarker()",
+      "called_by": "src/js/map.js:355",
+      "status": "UNCERTAIN",
+      "severity": "medium",
+      "description": "File buddhist_icons.js exists, need verify createMarker() exists"
+    }
+  ],
+  "broken_flows": [
+    {
+      "flow": "External API calls to thientong.py",
+      "issue": "Cross-project dependency - search.js calls https://phatphaponline.org/api/monk_names",
+      "files": ["search.js:100", "search.js:672", "search.js:676"],
+      "severity": "critical",
+      "fix": "Use relative path /api/monk_names or ensure thientong.py is running"
+    },
+    {
+      "flow": "GraphDB SPARQL API",
+      "issue": "Backend doesn't expose /api/graphdb/sparql endpoint",
+      "files": ["api_router.js:295", "orchestrator.js:273", "pathfinding.js:48,77"],
+      "severity": "critical",
+      "fix": "Add proxy endpoint in app.py to GraphDB at http://158.220.106.183:7200"
+    },
+    {
+      "flow": "RAG API endpoints",
+      "issue": "Backend doesn't implement /api/rag/query and /api/rag/health",
+      "files": ["rag_connector.js:60", "rag_connector.js:181"],
+      "severity": "critical",
+      "fix": "Implement RAG endpoints or point to external Gradio service"
+    },
+    {
+      "flow": "Admin crawler list",
+      "issue": "Tries to read from non-existent data/crawl/ directory",
+      "files": ["app.py:1394-1420"],
+      "severity": "medium",
+      "fix": "Create empty directory or handle gracefully"
+    }
+  ],
+  "api_gaps": [
+    {
+      "endpoint": "POST /api/graphdb/sparql",
+      "status": "NOT_IMPLEMENTED",
+      "severity": "critical"
+    },
+    {
+      "endpoint": "POST /api/rag/query",
+      "status": "NOT_IMPLEMENTED",
+      "severity": "critical"
+    },
+    {
+      "endpoint": "GET /api/rag/health",
+      "status": "NOT_IMPLEMENTED",
+      "severity": "critical"
+    }
+  ],
+  "data_gaps": [
+    {
+      "data": "data/staging.json",
+      "required_by": "admin_staging_list, admin_publish_local",
+      "status": "EMPTY_STUB_NEEDED",
+      "severity": "medium"
+    },
+    {
+      "data": "data/verification.json",
+      "required_by": "admin_verification_list",
+      "status": "EMPTY_STUB_NEEDED",
+      "severity": "medium"
+    },
+    {
+      "data": "data/crawl/",
+      "required_by": "admin_crawler_list",
+      "status": "NOT_CREATED",
+      "severity": "medium"
+    }
+  ],
+  "working_components": [
+    "data/places.json (1.6MB)",
+    "data/persons.json (48MB)",
+    "data/processed/search_index_critical.json",
+    "data/processed/monk_names.json",
+    "data/processed/temples_master_gps.json",
+    "Flask server app.py (port 5000)",
+    "DILA Authority module",
+    "Auth module"
+  ],
+  "priority_tasks": [
+    {
+      "priority": "P0",
+      "task": "Implement GraphDB SPARQL proxy API",
+      "effort": "2h",
+      "impact": "Fix AI agents, pathfinding, entity linking"
+    },
+    {
+      "priority": "P0",
+      "task": "Fix external API dependencies (thientong.py)",
+      "effort": "1h",
+      "impact": "Fix search functionality"
+    },
+    {
+      "priority": "P0",
+      "task": "Implement RAG API endpoint",
+      "effort": "2h",
+      "impact": "Fix semantic search"
+    },
+    {
+      "priority": "P1",
+      "task": "Create data/staging.json stub",
+      "effort": "10min",
+      "impact": "Fix admin staging list"
+    },
+    {
+      "priority": "P1",
+      "task": "Create data/verification.json stub",
+      "effort": "10min",
+      "impact": "Fix admin verification list"
+    },
+    {
+      "priority": "P1",
+      "task": "Create data/crawl/ directory or handle gracefully",
+      "effort": "10min",
+      "impact": "Fix admin crawler list"
+    },
+    {
+      "priority": "P2",
+      "task": "Verify BuddhistIcons.createMarker() exists",
+      "effort": "30min",
+      "impact": "Map marker rendering"
+    }
+  ]
+}

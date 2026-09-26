@@ -1,0 +1,40 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.phatphaponline.org/ex/> .
+
+<ex:monk/thiet_bao_cam_ung> a bkg:Monk ;
+    rdfs:label "Thiệt Bảo Cảm Ứng"@vi ;
+    crm:P1_is_identified_by <ex:monk/thiet_bao_cam_ung> ;
+    bkg:biographicalNote """
+THIỆT BẢO – CẢM ỨNG
+(...? - ...?)
+Khai sơn tổ đình Tập Phước, Gia Định
+(Đệ tử HT. Minh Hải - Đắc Trí - Pháp Bảo)
+Thiền sư pháp danh Thiệt Bảo, hiệu Cảm Ứng, nối pháp đời 35 tông Lâm Tế, thế hệ thứ 2 pháp phái Chúc Thánh.
+Ngài là đệ tử tổ Minh Hải - Pháp Bảo tại tổ đình Chúc Thánh và vào khai sơn chùa Tập Phước tại xã Bình Hòa, Gia Định (nay nằm trên đường Phan Văn Trị, quận Bình Thạnh, TP. Hồ Chí Minh).
+Đến nay, ta không rõ danh tánh, quê quán cũng như năm sinh và tịch của ngài.
+Đệ tử của ngài có các vị mà ta hiện biết như sau:
+01. Pháp Nhân - Thiên Trường: Trú trì tổ đình Tập Phước, Gia Định.
+(Từ đây, xem sự truyền thừa của ngài theo phổ hệ Gia Định-Bình Dương)
+
+"""@vi ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Gia Phổ Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 72 ;
+    bkg:hasTeacher <ex:monk/minh_hai_phap_bao> ;
+    bkg:hasDisciple <ex:monk/phap_nhan_thien_truong> ;
+    bkg:isLineageFounder "false"^^xsd:boolean .
+
+<ex:monk/minh_hai_phap_bao> rdfs:label "Minh Hải Pháp Bảo"@vi .
+<ex:monk/phap_nhan_thien_truong> rdfs:label "Pháp Nhân Thiên Trường"@vi .
+<ex:monk/thiet_dinh_an_triem> rdfs:label "Thiệt Dinh Ân Triêm"@vi .
+<ex:monk/thiet_dieu_chanh_hien> rdfs:label "Thiệt Diệu Chánh Hiền"@vi .
+<ex:monk/thiet_uy_khanh_van> rdfs:label "Thiệt Úy Khánh Vân"@vi .
+<ex:monk/thiet_uyen_chi_bao> rdfs:label "Thiệt Uyên Chí Bảo"@vi .
+<ex:monk/thiet_dang_bao_quang> rdfs:label "Thiệt Đăng Bảo Quang"@vi .
+<ex:monk/thiet_lam_chi_kien> rdfs:label "Thiệt Lãm Chí Kiên"@vi .
+<ex:monk/thiet_the_triem_an> rdfs:label "Thiệt Thể Triêm Ân"@vi .
+<ex:monk/thiet_dam_chanh_luan> rdfs:label "Thiệt Đàm Chánh Luân"@vi .
+<ex:monk/thiet_hoi_vien_quang> rdfs:label "Thiệt Hội Viên Quang"@vi .

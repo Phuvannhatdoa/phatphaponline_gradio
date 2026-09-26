@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Cache Bản Dịch — PTDA Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #0f172a; color: #e2e8f0; font-family: system-ui, sans-serif; font-size: 14px; }
+  .topbar { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #334155; }
+  .topbar a { color: #60a5fa; text-decoration: none; font-size: 13px; }
+  h1 { font-size: 18px; margin: 0; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 24px 16px; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat-box { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 14px; text-align: center; }
+  .stat-num { font-size: 24px; font-weight: 700; }
+  .stat-label { font-size: 11px; color: #64748b; margin-top: 4px; text-transform: uppercase; }
+  .section { background: #1e293b; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
+  .section-title { font-size: 15px; font-weight: 600; margin: 0 0 16px; color: #93c5fd; }
+  .filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  select, input[type=text] { background: #0f172a; border: 1px solid #334155; color: #e2e8f0; border-radius: 5px; padding: 6px 10px; font-size: 13px; }
+  .btn { padding: 6px 14px; border-radius: 5px; cursor: pointer; font-size: 13px; border: 1px solid; }
+  .btn-secondary { background: #1e293b; border-color: #334155; color: #94a3b8; }
+  .btn-danger { background: #2a1010; border-color: #7f1d1d; color: #f87171; }
+  .btn-primary { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 10px; font-size: 11px; color: #64748b; border-bottom: 1px solid #334155; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { padding: 8px 10px; border-bottom: 1px solid #1a2744; vertical-align: top; }
+  tr:hover td { background: #162032; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 10px; white-space: nowrap; }
+  .badge.auto { background: #2a2000; color: #fbbf24; }
+  .badge.approved { background: #0f2a1a; color: #4ade80; }
+  .badge.reported { background: #3f1010; color: #f87171; }
+  .badge.invalidated { background: #1a1a1a; color: #4b5563; }
+  .bio-short { max-width: 280px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 12px; color: #94a3b8; line-height: 1.5; }
+  .inv-panel { background: #1a1000; border: 1px solid #92400e; border-radius: 6px; padding: 14px; margin-top: 12px; }
+  .inv-panel-title { font-size: 13px; color: #fbbf24; margin: 0 0 10px; font-weight: 600; }
+  code { font-family: monospace; font-size: 11px; background: #0f172a; padding: 2px 5px; border-radius: 3px; color: #7dd3fc; }
+  #inv-result { margin-top: 10px; font-size: 13px; display: none; }
+  .pagination { display: flex; gap: 6px; margin-top: 14px; align-items: center; }
+  .page-btn { padding: 4px 10px; border: 1px solid #334155; border-radius: 4px; background: #1e293b; color: #94a3b8; cursor: pointer; font-size: 12px; }
+  .page-btn.active { border-color: #3b82f6; color: #93c5fd; }
+  .report-card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 14px; margin-bottom: 14px; }
+  .report-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .report-meta { display: flex; align-items: center; }
+  .tab-nav { gap: 8px; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Admin</a>
+  <span style="color:#334155">›</span>
+  <h1>Cache Bản Dịch AI</h1>
+</div>
+<div class="container">
+
+  <div class="stats-row" id="stats-row">
+    <div class="stat-box"><div class="stat-num" id="s-total">—</div><div class="stat-label">Tổng</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#fbbf24" id="s-auto">—</div><div class="stat-label">Tự động (auto)</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#4ade80" id="s-approved">—</div><div class="stat-label">Đã duyệt</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#f87171" id="s-reported">—</div><div class="stat-label">Báo lỗi</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#4b5563" id="s-invalidated">—</div><div class="stat-label">Invalidated</div></div>
+  </div>
+
+  <div class="tab-nav" style="display:flex;gap:8px;margin-bottom:16px;">
+    <button class="btn btn-primary" id="tab-cache" onclick="switchTab('cache')"><i class="fa-solid fa-book"></i> Cache</button>
+    <button class="btn btn-secondary" id="tab-reports" onclick="switchTab('reports')"><i class="fa-solid fa-triangle-exclamation"></i> Báo lỗi dịch</button>
+  </div>
+
+  <div class="section" id="sec-cache">
+    <div class="section-title">Danh sách bản dịch</div>
+    <div class="filter-row">
+      <select id="f-status" onchange="loadCache(1)">
+        <option value="">Tất cả status</option>
+        <option value="auto">auto</option>
+        <option value="reported">reported (lỗi)</option>
+        <option value="approved">approved</option>
+        <option value="invalidated">invalidated</option>
+      </select>
+      <select id="f-type" onchange="loadCache(1)">
+        <option value="">Tất cả loại</option>
+        <option value="person_bio">person_bio</option>
+        <option value="place_note">place_note</option>
+      </select>
+      <input type="text" id="f-entity" placeholder="Entity ID (VD: A000001)" style="width:160px" onkeyup="if(event.key==='Enter')loadCache(1)">
+      <button class="btn btn-secondary" onclick="loadCache(1)"><i class="fa-solid fa-search"></i> Lọc</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Entity</th>
+          <th>Status</th>
+          <th>Bản dịch (đầu)</th>
+          <th>Rules v.</th>
+          <th>Model</th>
+          <th>Báo lỗi</th>
+          <th>Tạo lúc</th>
+        </tr>
+      </thead>
+      <tbody id="cache-tbody"></tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <div class="section">
+    <div class="inv-panel">
+      <div class="inv-panel-title"><i class="fa-solid fa-triangle-exclamation"></i> Invalidate theo Rules Version</div>
+      <p style="font-size:12px;color:#92400e;margin:0 0 10px;">
+        Khi thay đổi quy tắc dịch, hủy bản dịch cũ để user nhận bản mới. Gõ <code>ALL</code> để hủy tất cả.
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="inv-rv" placeholder="rules_version hoặc ALL" style="width:220px">
+        <select id="inv-type">
+          <option value="all">Tất cả loại</option>
+          <option value="person_bio">person_bio</option>
+          <option value="place_note">place_note</option>
+        </select>
+        <!-- T178 gap 15 — batch có kiểm soát: để trống = full (hành vi cũ) -->
+        <input type="number" id="inv-limit" placeholder="giới hạn (vd 50)" min="0" step="1"
+               style="width:150px" title="T178: số row tối đa invalidate một lần. Để trống = không giới hạn (toàn bộ).">
+        <button class="btn btn-danger" onclick="invalidate()">
+          <i class="fa-solid fa-ban"></i> Invalidate
+        </button>
+      </div>
+      <p style="font-size:11px;color:#64748b;margin:6px 0 0;">
+        <i class="fa-solid fa-circle-info"></i> T178: điền <b>giới hạn</b> để hủy theo lô (an toàn, dễ rollback).
+        Để trống = hủy toàn bộ (như cũ).
+      </p>
+      <div id="inv-result"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="section" id="sec-reports" style="display:none">
+    <div class="section-title"><i class="fa-solid fa-triangle-exclamation"></i> Báo lỗi dịch từ user (chi tiết lỗi + đề xuất fix rule)</div>
+    <div class="filter-row">
+      <select id="fr-status" onchange="loadReports(1)">
+        <option value="">Tất cả trạng thái</option>
+        <option value="pending">pending</option>
+        <option value="resolved">resolved</option>
+        <option value="rejected">rejected</option>
+      </select>
+      <button class="btn btn-secondary" onclick="loadReports(1)"><i class="fa-solid fa-rotate"></i> Làm mới</button>
+    </div>
+    <div id="reports-box"></div>
+    <div class="pagination" id="reports-pagination"></div>
+  </div>
+
+</div>
+<script>
+let currentPage = 1;
+let reportPage = 1;
+const PAGE = 50;
+
+function switchTab(tab) {
+  const isCache = tab === 'cache';
+  document.getElementById('sec-cache').style.display = isCache ? '' : 'none';
+  document.getElementById('sec-reports').style.display = isCache ? 'none' : '';
+  document.getElementById('tab-cache').className = isCache ? 'btn btn-primary' : 'btn btn-secondary';
+  document.getElementById('tab-reports').className = isCache ? 'btn btn-secondary' : 'btn btn-primary';
+  if (!isCache) loadReports(1);
+}
+
+async function loadReports(page) {
+  reportPage = page;
+  const status = document.getElementById('fr-status').value;
+  let url = `/daoanh/api/admin/translation-error-reports?limit=${PAGE}&offset=${(page-1)*PAGE}`;
+  if (status) url += `&status=${encodeURIComponent(status)}`;
+  const r = await fetch(url);
+  const d = await r.json();
+  const box = document.getElementById('reports-box');
+  box.innerHTML = '';
+  const ruleMap = {};
+  (d.rules || []).forEach(rl => { ruleMap[rl.rule_code] = rl.rule_text; });
+  (d.rows || []).forEach(row => {
+    const sug = (row.suggested_rules || []).map(c =>
+      `<span class="badge approved" title="${esc(ruleMap[c] || '')}">${c}</span>`).join(' ') || '—';
+    const snap = esc((row.translated_text_snapshot || '').substring(0, 400)) + ((row.translated_text_snapshot || '').length > 400 ? '…' : '');
+    box.innerHTML += `<div class="report-card">
+      <div class="report-head">
+        <span class="badge ${row.status === 'pending' ? 'reported' : 'approved'}">${row.status}</span>
+        <span style="font-family:monospace;font-size:12px">#${row.id} · ${row.source_type || ''} · ${row.entity_id || ''}</span>
+        <span style="font-size:11px;color:#64748b;margin-left:auto">${(row.created_at || '').slice(0,16)}</span>
+      </div>
+      <div class="report-meta">
+        <span class="badge auto">${esc(row.error_type || 'style')}</span>
+        ${row.page_url ? `<a href="${esc(row.page_url)}" target="_blank" style="color:#60a5fa;font-size:12px;margin-left:8px">${esc(row.page_url)}</a>` : ''}
+      </div>
+      <div style="font-size:12px;color:#e2e8f0;background:#0f172a;border:1px solid #1a2744;border-radius:5px;padding:8px;margin-top:8px;white-space:pre-wrap;">${snap}</div>
+      <div style="font-size:12px;color:#94a3b8;margin-top:6px">📝 ${esc(row.note || '(không có ghi chú)')}</div>
+      <div style="margin-top:8px">
+        <span style="font-size:11px;color:#64748b">ĐỀ XUẤT RULE FIX:</span>
+        <div style="margin-top:4px">${sug}</div>
+      </div>
+      <div style="margin-top:8px">
+        ${row.status === 'pending' ? `
+          <button class="btn btn-primary" onclick="resolveReport(${row.id},'resolved')"><i class="fa-solid fa-check"></i> Resolved</button>
+          <button class="btn btn-danger"  onclick="resolveReport(${row.id},'rejected')"><i class="fa-solid fa-xmark"></i> Rejected</button>` : ''}
+        <span style="font-size:11px;color:#92400e;margin-left:8px">Sau khi fix rule → rules_version đổi → user bấm "Dịch lại" được bản mới.</span>
+      </div>
+    </div>`;
+  });
+  if (!(d.rows || []).length) box.innerHTML = '<div style="color:#64748b;padding:14px">Chưa có báo lỗi nào.</div>';
+  const pages = Math.ceil((d.total || 0) / PAGE);
+  const pag = document.getElementById('reports-pagination');
+  pag.innerHTML = `<span style="font-size:12px;color:#64748b">Tổng lỗi: ${d.total || 0}</span>`;
+  for (let p = 1; p <= Math.min(pages, 8); p++) {
+    pag.innerHTML += `<button class="page-btn ${p===page?'active':''}" onclick="loadReports(${p})">${p}</button>`;
+  }
+}
+
+async function resolveReport(id, status) {
+  if (!confirm(`Đóng báo lỗi #${id} (${status})?`)) return;
+  const r = await fetch(`/daoanh/api/admin/translation-error-reports/${id}`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({status})
+  });
+  const d = await r.json();
+  if (d.ok) loadReports(reportPage); else alert(d.error || 'Lỗi');
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+async function loadStats() {
+  const r = await fetch('/daoanh/api/admin/translation-rules');
+  const d = await r.json();
+  const cs = d.cache_stats || {};
+  const total = Object.values(cs).reduce((a,b) => a+b, 0);
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-auto').textContent = cs['auto'] || 0;
+  document.getElementById('s-approved').textContent = cs['approved'] || 0;
+  document.getElementById('s-reported').textContent = cs['reported'] || 0;
+  document.getElementById('s-invalidated').textContent = cs['invalidated'] || 0;
+  // Store current rules_version for rules_outdated badge
+  currentRulesVersion = d.rules_version || '';
+}
+
+let currentRulesVersion = '';
+
+async function loadCache(page) {
+  currentPage = page;
+  const status = document.getElementById('f-status').value;
+  const type   = document.getElementById('f-type').value;
+  const entity = document.getElementById('f-entity').value.trim();
+  let url = `/daoanh/api/admin/translation-cache?limit=${PAGE}&offset=${(page-1)*PAGE}`;
+  if (status) url += `&status=${encodeURIComponent(status)}`;
+  if (type)   url += `&source_type=${encodeURIComponent(type)}`;
+  if (entity) url += `&entity_id=${encodeURIComponent(entity)}`;
+  const r = await fetch(url);
+  const d = await r.json();
+  const tbody = document.getElementById('cache-tbody');
+  tbody.innerHTML = '';
+  (d.rows || []).forEach(row => {
+    const badge = `<span class="badge ${row.status}">${row.status}</span>`;
+    const shortText = (row.translated_text || '').substring(0, 100);
+    const rv = (row.rules_version || '').slice(0, 8);
+    const ts = (row.created_at || '').slice(0, 16);
+    // T178 gap 16 — server tính sẵn `outdated_reason` (edited|mismatch|unverified|ok).
+    // Phân biệt 3 trạng thái để badge có ý nghĩa thao tác được:
+    //   edited      (hổ phách) — bản sửa tay, Admin CẦN bấm "Dịch lại"
+    //   mismatch    (hổ phách) — rules đã đổi sau khi dịch → cần dịch lại
+    //   unverified  (xám)      — chưa có fingerprint, KHÔNG biết; KHÔNG phải lỗi
+    // Logic cũ `row.constitution_hash && ...` không bao giờ hiện vì hash NULL 100%
+    // (1.762/1.762) ⇒ badge chết. KHÔNG gộp unverified vào outdated (sẽ 200/200 hổ phách).
+    let outdatedBadge = '';
+    if (row.outdated_reason === 'edited') {
+      outdatedBadge = ' <span class="badge" style="background:#92400e;color:#fbbf24"'
+        + ' title="Bản sửa tay đang dùng rules cũ — bấm &quot;Dịch lại&quot; để đồng bộ">⚠ rules_outdated</span>';
+    } else if (row.outdated_reason === 'mismatch') {
+      outdatedBadge = ' <span class="badge" style="background:#92400e;color:#fbbf24"'
+        + ' title="Rules đã đổi sau khi dịch bản này">⚠ rules_outdated</span>';
+    } else if (row.outdated_reason === 'unverified') {
+      outdatedBadge = ' <span class="badge" style="background:#334155;color:#94a3b8"'
+        + ' title="Chưa có fingerprint của rules tại thời điểm dịch — không xác minh được, không phải lỗi">? chưa xác minh</span>';
+    }
+    tbody.innerHTML += `<tr>
+      <td style="color:#64748b;font-size:12px">${row.id}</td>
+      <td style="font-size:12px;font-family:monospace">${row.entity_id || ''}</td>
+      <td>${badge}${outdatedBadge}</td>
+      <td><div class="bio-short">${shortText}…</div></td>
+      <td style="font-family:monospace;font-size:11px;color:#64748b">${rv}</td>
+      <td style="font-size:11px;color:#64748b">${row.model_id || ''}</td>
+      <td style="text-align:center;color:${row.report_count > 0 ? '#f87171' : '#4b5563'}">${row.report_count || 0}</td>
+      <td style="font-size:11px;color:#64748b;white-space:nowrap">${ts}</td>
+    </tr>`;
+  });
+
+  // Pagination
+  const total = d.total || 0;
+  const pages = Math.ceil(total / PAGE);
+  const pag = document.getElementById('pagination');
+  pag.innerHTML = `<span style="font-size:12px;color:#64748b">Tổng: ${total}</span>`;
+  for (let p = 1; p <= Math.min(pages, 10); p++) {
+    pag.innerHTML += `<button class="page-btn ${p===page?'active':''}" onclick="loadCache(${p})">${p}</button>`;
+  }
+}
+
+async function invalidate() {
+  const rv = document.getElementById('inv-rv').value.trim();
+  const type = document.getElementById('inv-type').value;
+  // T178 gap 15 — limit rỗng/0 = full (tương thích cũ)
+  const limRaw = document.getElementById('inv-limit').value.trim();
+  const limit = limRaw === '' ? 0 : parseInt(limRaw, 10);
+  if (isNaN(limit) || limit < 0) { alert('Giới hạn phải là số >= 0'); return; }
+  if (!rv) { alert('Điền rules_version hoặc ALL'); return; }
+  const scope = limit > 0 ? `tối đa ${limit} bản dịch/lần` : 'TOÀN BỘ (không giới hạn)';
+  if (!confirm(`Invalidate ${scope} với rules_version="${rv}" (${type})?`)) return;
+  const r = await fetch('/daoanh/api/admin/translate/invalidate', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({rules_version: rv, source_type: type, limit: limit})
+  });
+  const d = await r.json();
+  const el = document.getElementById('inv-result');
+  el.style.display = 'block';
+  el.style.color = d.ok ? '#4ade80' : '#f87171';
+  el.textContent = d.ok
+    ? `Đã invalidate ${d.invalidated_count} bản dịch.` + (d.limited ? ` (đã giới hạn ${d.limit} bản dịch/lần)` : '')
+    : ('Lỗi: ' + d.error);
+  loadStats();
+  loadCache(1);
+}
+
+loadStats();
+loadCache(1);
+</script>
+</body>
+</html>

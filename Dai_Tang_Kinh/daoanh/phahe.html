@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phổ Hệ Truyền Thừa - Đạo Ảnh</title>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&display=swap');
+        
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-page: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #1e293b 100%);
+            border-bottom: 2px solid var(--primary);
+            padding: 80px 20px 60px;
+            text-align: center;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .nav-link:hover { color: var(--primary); }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            transition: 0.3s;
+            text-decoration: none;
+            color: var(--text-main);
+            display: block;
+        }
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .info-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 20px;
+        }
+
+        .admin-badge {
+            background: var(--primary);
+            color: black;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .admin-badge:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .lineage-node {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin: 6px;
+            transition: 0.2s;
+        }
+        .lineage-node:hover {
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-black text-xl">
+                    <i class="fa-solid fa-dharmachakra"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-black text-white uppercase">Đạo Ảnh</h1>
+                    <p class="text-[10px] text-amber-500 font-bold">Phật Học Việt Nam</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="/daoanh/" class="nav-link"><i class="fa-solid fa-house mr-1"></i>Trang chủ</a>
+                <a href="/daoanh/login.html" class="admin-badge">
+                    <i class="fa-solid fa-gear mr-2"></i>Admin
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-amber-500/20">
+            <i class="fa-solid fa-sitemap text-3xl text-amber-500"></i>
+        </div>
+        <h2 class="text-3xl font-black text-white mb-3 tracking-tight">Phổ Hệ Truyền Thừa</h2>
+        <p class="text-slate-400 max-w-xl mx-auto">Dòng chảy thiền tông Việt Nam qua các thế hệ — từ sơ tổ đến hiện đại</p>
+    </div>
+
+    <!-- Lineage Visualization -->
+    <div class="info-section">
+        <div class="info-card text-center">
+            <i class="fa-solid fa-diagram-project text-4xl text-amber-500 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-2">Cây Phổ Hệ Tương Tác</h3>
+            <p class="text-slate-400 text-sm mb-6">Khám phá mạng lưới truyền thừa của chư vị tổ sư qua các thời kỳ</p>
+            <a href="/daoanh/lineage" class="admin-badge inline-block text-base px-8 py-3">
+                <i class="fa-solid fa-eye mr-2"></i>Xem Phổ Hệ
+            </a>
+        </div>
+    </div>
+
+    <!-- Feature Grid -->
+    <div class="feature-grid">
+        <a href="/daoanh/lineage" class="feature-card">
+            <div class="feature-icon text-blue-400"><i class="fa-solid fa-network-wired"></i></div>
+            <h3 class="font-bold text-white text-lg mb-2">Thiền Tông Ấn-Hoa</h3>
+            <p class="text-slate-400 text-sm">Từ Ma Ha Ca Diếp đến Lục Tổ Huệ Năng, dòng thiền chính thống</p>
+        </a>
+        <a href="/daoanh/lineage" class="feature-card">
+            <div class="feature-icon text-amber-400"><i class="fa-solid fa-leaf"></i></div>
+            <h3 class="font-bold text-white text-lg mb-2">Thiền Tông Việt Nam</h3>
+            <p class="text-slate-400 text-sm">Dòng Lâm Tế, Tào Động, Liễu Quán — truyền thừa qua các thế hệ</p>
+        </a>
+        <a href="/daoanh/lineage" class="feature-card">
+            <div class="feature-icon text-emerald-400"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <h3 class="font-bold text-white text-lg mb-2">Dòng Thời Gian</h3>
+            <p class="text-slate-400 text-sm">Xem các tổ sư theo thế kỷ, từ khởi nguyên đến hiện đại</p>
+        </a>
+        <a href="/daoanh/places" class="feature-card">
+            <div class="feature-icon text-purple-400"><i class="fa-solid fa-map-location-dot"></i></div>
+            <h3 class="font-bold text-white text-lg mb-2">Địa danh Thiền Phái</h3>
+            <p class="text-slate-400 text-sm">Chùa, tổ đình, thánh tích gắn liền với các dòng thiền</p>
+        </a>
+        <a href="/daoanh/canon" class="feature-card">
+            <div class="feature-icon text-red-400"><i class="fa-solid fa-book-journal-whills"></i></div>
+            <h3 class="font-bold text-white text-lg mb-2">Ngữ Lục & Sử Liệu</h3>
+            <p class="text-slate-400 text-sm">Văn bản gốc Hán Nôm về truyền thừa của các tổ sư</p>
+        </a>
+        <a href="/daoanh/admin/placevn.html" class="feature-card">
+            <div class="feature-icon text-slate-400"><i class="fa-solid fa-pen-to-square"></i></div>
+            <h3 class="font-bold text-white text-lg mb-2">Biên tập Dữ liệu</h3>
+            <p class="text-slate-400 text-sm">Đóng góp và chỉnh sửa dữ liệu phổ hệ (cần đăng nhập)</p>
+        </a>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="info-section">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="info-card text-center">
+                <p class="text-3xl font-black text-amber-500">2.865+</p>
+                <p class="text-slate-400 text-sm mt-1">Tổ sư & Thiền sư</p>
+            </div>
+            <div class="info-card text-center">
+                <p class="text-3xl font-black text-amber-500">20+</p>
+                <p class="text-slate-400 text-sm mt-1">Thế kỷ truyền thừa</p>
+            </div>
+            <div class="info-card text-center">
+                <p class="text-3xl font-black text-amber-500">912</p>
+                <p class="text-slate-400 text-sm mt-1">Mối quan hệ sư-đồ</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <a href="/daoanh/" class="nav-link text-xs"><i class="fa-solid fa-house mr-1"></i>Trang chủ</a>
+                <span class="text-slate-700">|</span>
+                <a href="/daoanh/lineage" class="nav-link text-xs"><i class="fa-solid fa-sitemap mr-1"></i>Phổ hệ</a>
+                <span class="text-slate-700">|</span>
+                <a href="/daoanh/canon" class="nav-link text-xs"><i class="fa-solid fa-book mr-1"></i>Kinh tạng</a>
+                <span class="text-slate-700">|</span>
+                <a href="/daoanh/places" class="nav-link text-xs"><i class="fa-solid fa-map mr-1"></i>Địa danh</a>
+            </div>
+            <p class="text-slate-500 text-sm">
+                <span class="text-amber-500">Đạo Ảnh</span> - Hệ thống tra cứu Phật học Việt Nam<br>
+                <span class="text-slate-600">Dữ liệu: DILA Authority, CBETA, StartDict</span>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

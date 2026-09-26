@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Cây Truyền Thừa Tông Phái Thiền</title>
+
+<script src="https://unpkg.com/cytoscape@3.26.0/dist/cytoscape.min.js"></script>
+<script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+
+<style>
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system;
+    background: #f3f4f6;
+  }
+  header {
+    padding: 10px 16px;
+    background: #111827;
+    color: #fff;
+    font-weight: bold;
+  }
+  #cy {
+    width: 100vw;
+    height: calc(100vh - 48px);
+    background: #ffffff;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  Cây Truyền Thừa Tông Phái Thiền (lineage_graph.jsonld)
+</header>
+
+<div id="cy"></div>
+
+<script>
+function getLabel(x) {
+  if (!x) return '';
+  if (typeof x === 'string') return x;
+  if (Array.isArray(x)) {
+    return x[0]?.['@value'] || '';
+  }
+  if (typeof x === 'object') {
+    return x['@value'] || '';
+  }
+  return '';
+}
+
+async function loadLineage() {
+  const res = await fetch('./data/lineage_graph.jsonld');
+  const jsonld = await res.json();
+  const graph = jsonld['@graph'];
+
+  const nodes = [];
+  const edges = [];
+
+  // Nodes
+  graph.forEach(item => {
+    if (!item['@id']) return;
+
+    const label = getLabel(item['rdfs:label']) || item['@id'];
+
+    nodes.push({
+      data: {
+        id: item['@id'],
+        label: label
+      }
+    });
+  });
+
+  // Edges: parent → child
+  graph.forEach(item => {
+    const parent = item['bkg:hasParentLineage'];
+    if (!parent) return;
+
+    const parentId = typeof parent === 'string'
+      ? parent
+      : parent['@id'];
+
+    edges.push({
+      data: {
+        id: parentId + '__' + item['@id'],
+        source: parentId,
+        target: item['@id']
+      }
+    });
+  });
+
+  const cy = cytoscape({
+    container: document.getElementById('cy'),
+    elements: { nodes, edges },
+    layout: {
+      name: 'dagre',
+      rankDir: 'TB',
+      nodeSep: 70,
+      rankSep: 120
+    },
+    style: [
+      {
+        selector: 'node',
+        style: {
+          'shape': 'round-rectangle',
+          'background-color': '#e0f2fe',
+          'border-width': 1.5,
+          'border-color': '#0284c7',
+          'label': 'data(label)',
+          'text-wrap': 'wrap',
+          'text-max-width': 160,
+          'font-size': 12,
+          'text-valign': 'center',
+          'text-halign': 'center',
+          'padding': '10px'
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          'width': 2,
+          'line-color': '#64748b',
+          'target-arrow-color': '#64748b',
+          'target-arrow-shape': 'triangle',
+          'curve-style': 'bezier'
+        }
+      }
+    ]
+  });
+
+  cy.fit();
+}
+
+loadLineage();
+</script>
+
+</body>
+</html>

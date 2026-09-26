@@ -1,0 +1,463 @@
+# ──────────────────────────────────────────────────────────────────────
+# Canonical Lock Module (T166)
+# SSOT identity guard for Vietnamese Buddhist person names
+# ────────────────────────────────────────────────────────────────────
+
+import re
+import hashlib
+import unicodedata
+from dataclasses import dataclass
+from typing import Optional, List, Dict, Any, Tuple
+
+
+# ---------------------------------------------------------------------------
+# Dataclass for canonical lock entries
+# ---------------------------------------------------------------------------
+
+@dataclass
+class CanonicalLockEntry:
+    source_form: str
+    normalized_form: str
+    entity_type: str
+    canonical_id: str
+    canonical_value: str
+    authority_source: str
+    authority_level: float
+    status: str
+    claims: List[Any]
+
+
+# ---------------------------------------------------------------------------
+# Policy class for canonical lock rules
+# ---------------------------------------------------------------------------
+
+class Policy:
+    """Policy rules for canonical lock validation."""
+    MIN_TITLE_LENGTH = 1
+    MAX_TITLE_LENGTH = 20
+    ALLOWED_COMMON_WORDS = {'thích', 'trà', 'uống', 'tôi', 'bạn', 'người', 'thầy', 'cô', 'chú', 'bác'}
+    INVENTION_SEVERITY = 'HARD'
+    MOJIBAKE_SEVERITY = 'HARD'
+
+
+# ---------------------------------------------------------------------------
+# Title words to strip from VI names (honorific/buddhist titles as PREFIXES only)
+# Compound titles like "Hòa Thượng", "Thiền Sư" are part of names, not stripped
+# ---------------------------------------------------------------------------
+
+_TITLE_WORDS = (
+    'thích', 'thích ca', 'ca', 'ngài', 'trưởng lão', 'bhikkhu', 'bhikkhuni',
+    'samanera', 'samaneri', 'đại sư', 'pháp', 'giác', 'huệ', 'trí', 'tuệ',
+    'triết', 'đạo', 'nghệ', 'nghiệm', 'ứng', 'chứng', 'thần', 'thánh', 'hiền',
+)
+
+_PUNCT_RE = re.compile(r'[\s\W]+', re.UNICODE)
+_HAN_RE = re.compile(r'[\u4e00-\u9fff]+')
+
+
+# ---------------------------------------------------------------------------
+# normalize_vi: strip honorific titles, NFC, casefold, strip punctuation
+# ---------------------------------------------------------------------------
+
+def normalize_vi(s: str) -> str:
+    """Normalize VI for compare: strip honorific titles, NFC, casefold, strip punct."""
+    if not s:
+        return ''
+    s = s.strip()
+    # Repeatedly strip titles from start until no more matches
+    # This handles "Thích Ca Đơn Hà" -> strip "Thích" -> "Ca Đơn Hà" -> strip "Ca" -> "Đơn Hà"
+    changed = True
+    while changed:
+        changed = False
+        for title in _TITLE_WORDS:
+            pattern = rf'^{re.escape(title)}\s+'
+            if re.match(pattern, s, re.IGNORECASE):
+                s = re.sub(pattern, '', s, flags=re.IGNORECASE)
+                changed = True
+                break  # restart from first title
+    # NFC normalize + casefold
+    s = unicodedata.normalize('NFC', s).casefold()
+    # Strip punctuation/space
+    s = _PUNCT_RE.sub('', s)
+    return s
+
+
+# ---------------------------------------------------------------------------
+# extract_maximal_han_runs: extract maximal Han runs ≥2 chars from text
+# ---------------------------------------------------------------------------
+
+def extract_maximal_han_runs(text: str) -> list[str]:
+    """Extract maximal Han runs ≥2 chars from text.
+    Không n-gram chồng lấp, chỉ chuỗi Hán liên tục dài nhất.
+    Cap ~40 runs/prompt (SPEC §3.2).
+    """
+    if not text:
+        return []
+    runs = _HAN_RE.findall(text)
+    # Filter ≥2 chars, unique, keep order of first appearance
+    seen = set()
+    maximal = []
+    for run in runs:
+        if len(run) >= 2 and run not in seen:
+            seen.add(run)
+            maximal.append(run)
+    return maximal[:40]
+
+
+# ---------------------------------------------------------------------------
+# is_valid_vi: validate if text is proper Vietnamese
+# ---------------------------------------------------------------------------
+
+def is_valid_vi(text: str) -> bool:
+    """Check if text is valid Vietnamese (contains VI chars after stripping titles)."""
+    if not text:
+        return False
+    # Strip "Thích" title
+    s = re.sub(r'(?:^|[，。；，\.!?])\s*([Tt]hích)\s+', '', text, flags=re.IGNORECASE)
+    if not s.strip():
+        return False
+    # After stripping title, should have content
+    normalized = normalize_vi(s)
+    return len(normalized) > 0 and not normalized.isascii()
+
+
+# ---------------------------------------------------------------------------
+# _check_canonical_invention: detect invented person-like VI names
+# ---------------------------------------------------------------------------
+
+def _check_canonical_invention(output: str, lock: list[CanonicalLockEntry],
+                                allowed_by_entity: dict) -> list[dict]:
+    """Detect invented person-like VI names not in allowed_vi_set."""
+    issues = []
+    # Find "Thích" followed by name - capture all text after until punctuation/end
+    # Pattern: "Thích" at start or after punctuation, then capture name (including spaces) until next punctuation/end
+    pattern = r'(?:^|[，。；，\.!?])\s*([Tt]hích)\s+([^，。；！？]+?)(?:[，。；！？]\s*|$)'
+    for match in re.finditer(pattern, output, re.IGNORECASE):
+        after_title = match.group(2).strip()
+        if not after_title:
+            continue
+        # Normalize the text after "Thích"
+        norm_after = normalize_vi(after_title)
+        # Check if normalized after-title text matches any allowed canonical value
+        found = False
+        for eid, vi_set in allowed_by_entity.items():
+            for allowed in vi_set:
+                if norm_after == allowed:  # allowed values are already normalized
+                    found = True
+                    break
+            if found:
+                break
+        # Also do a full normalized output check as fallback
+        if not found:
+            full_norm = normalize_vi(output)
+            for eid, vi_set in allowed_by_entity.items():
+                for allowed in vi_set:
+                    if full_norm == allowed:
+                        found = True
+                        break
+                if found:
+                    break
+        if not found:
+            issues.append({
+                'code': 'CANONICAL_INVENTION',
+                'severity': 'HARD',
+                'detected': match.group(0).strip(),
+                'message': f'Tên người tự sáng tạo không có trong authority: {after_title}',
+            })
+    return issues
+
+
+# ---------------------------------------------------------------------------
+# build_canonical_lock_candidate_person: build candidate person entry
+# ---------------------------------------------------------------------------
+
+def build_canonical_lock_candidate_person(source_text: str) -> CanonicalLockEntry:
+    """Build a candidate person entry from source text."""
+    # Extract name after "Thích"
+    pattern = r'(?:^|[，。；，\.!?])\s*([Tt]hích)\s+([A-Za-zÀ-ÿ\u00c0-\u024f][A-Za-zÀ-ÿ\u00c9\u00cb-\u024f\'-]*)'
+    name = ''
+    for m in re.finditer(pattern, source_text, re.IGNORECASE):
+        name = m.group(2).strip()
+        if name:
+            break
+    # Compute normalized forms
+    normalized_form = normalize_vi(source_text)
+    # Derive canonical_value as the full name after "Thích"
+    canonical_value = name if name else source_text
+    # Entity type default to PERSON
+    entity_type = 'PERSON'
+    canonical_id = hashlib.sha256(normalized_form.encode('utf-8')).hexdigest()[:8]
+    authority_source = 'name_vi_map.name_vi_final'
+    authority_level = 0.7
+    status = 'CANDIDATE'
+    claims = []
+    return CanonicalLockEntry(
+        source_form=source_text,
+        normalized_form=normalized_form,
+        entity_type=entity_type,
+        canonical_id=canonical_id,
+        canonical_value=canonical_value,
+        authority_source=authority_source,
+        authority_level=authority_level,
+        status=status,
+        claims=claims,
+    )
+
+
+# ---------------------------------------------------------------------------
+# build_canonical_lock_conflict: build conflict entries
+# ---------------------------------------------------------------------------
+
+def build_canonical_lock_conflict(entries: list[CanonicalLockEntry]) -> CanonicalLockEntry:
+    """Build a conflict entry from existing entries."""
+    # Find entries with same normalized_form but different canonical_value
+    groups: dict[str, list[CanonicalLockEntry]] = {}
+    for e in entries:
+        groups.setdefault(e.normalized_form, []).append(e)
+    conflicts = [g for g in groups.values() if len(g) > 1]
+    if not conflicts:
+        # Return first entry as-is if no conflict
+        return entries[0] if entries else CanonicalLockEntry(
+            source_form='', normalized_form='', entity_type='',
+            canonical_id='', canonical_value='',
+            authority_source='', authority_level=0.0, status='',
+            claims=[]
+        )
+    # Return the first conflicting group's first entry as representative
+    return conflicts[0][0]
+
+
+# ---------------------------------------------------------------------------
+# build_canonical_lock_glossary_term: build glossary term entry
+# ---------------------------------------------------------------------------
+
+def build_canonical_lock_glossary_term(term: str, definition: str) -> CanonicalLockEntry:
+    """Build a glossary term entry."""
+    normalized = normalize_vi(term)
+    canonical_id = hashlib.sha256(normalized.encode('utf-8')).hexdigest()[:8]
+    return CanonicalLockEntry(
+        source_form=term,
+        normalized_form=normalized,
+        entity_type='GLOSSARY',
+        canonical_id=canonical_id,
+        canonical_value=term,
+        authority_source='glossary',
+        authority_level=1.0,
+        status='LOCKED',
+        claims=[],
+    )
+
+
+# ---------------------------------------------------------------------------
+# build_canonical_lock_locked_person: build locked person entry
+# ---------------------------------------------------------------------------
+
+def build_canonical_lock_locked_person(canonical_value: str, authority_level: float = 1.0) -> CanonicalLockEntry:
+    """Build a locked person entry."""
+    normalized = normalize_vi(canonical_value)
+    canonical_id = hashlib.sha256(normalized.encode('utf-8')).hexdigest()[:8]
+    return CanonicalLockEntry(
+        source_form=canonical_value,
+        normalized_form=normalized,
+        entity_type='PERSON',
+        canonical_id=canonical_id,
+        canonical_value=canonical_value,
+        authority_source='name_vi_map.name_vi_final',
+        authority_level=authority_level,
+        status='LOCKED',
+        claims=[],
+    )
+
+
+# ---------------------------------------------------------------------------
+# build_canonical_lock_locked_place: build locked place entry
+# ---------------------------------------------------------------------------
+
+def build_canonical_lock_locked_place(canonical_value: str) -> CanonicalLockEntry:
+    """Build a locked place entry."""
+    normalized = normalize_vi(canonical_value)
+    canonical_id = hashlib.sha256(normalized.encode('utf-8')).hexdigest()[:8]
+    return CanonicalLockEntry(
+        source_form=canonical_value,
+        normalized_form=normalized,
+        entity_type='PLACE',
+        canonical_id=canonical_id,
+        canonical_value=canonical_value,
+        authority_source='place_vi_map',
+        authority_level=1.0,
+        status='LOCKED',
+        claims=[],
+    )
+
+
+# ---------------------------------------------------------------------------
+# build_canonical_lock_mojibake_rejected: detect and reject mojibake
+# ---------------------------------------------------------------------------
+
+def build_canonical_lock_mojibake_rejected(text: str) -> bool:
+    """Detect if text contains mojibake (double-encoded UTF-8)."""
+    # Simple heuristic: if text contains replacement char or invalid sequences
+    if '\ufffd' in text:  # Unicode replacement character
+        return True
+    # Check for double-encoded patterns (e.g., %C3%A9 instead of é)
+    try:
+        text.encode('utf-8').decode('utf-8')
+    except (UnicodeDecodeError, UnicodeEncodeError):
+        return True
+    return False
+
+
+# ---------------------------------------------------------------------------
+# build_lock_prompt_section: build the prompt lock section for T165
+# ---------------------------------------------------------------------------
+
+def build_lock_prompt_section(lock: list[CanonicalLockEntry]) -> str:
+    """Build the prompt lock section text from lock entries."""
+    if not lock:
+        return ''
+    lines = ['=== LOCK SECTION (T166) ===']
+    locked = [e for e in lock if e.status == 'LOCKED']
+    candidates = [e for e in lock if e.status == 'CANDIDATE']
+    lines.append(f'Locked entries: {len(locked)}')
+    for e in sorted(locked, key=lambda x: x.canonical_value):
+        lines.append(f'  {e.canonical_id}: {e.canonical_value} ({e.entity_type})')
+    lines.append(f'Candidate entries: {len(candidates)}')
+    for e in sorted(candidates, key=lambda x: x.canonical_value):
+        lines.append(f'  {e.canonical_id}: {e.canonical_value} ({e.entity_type})')
+    lines.append('=== END LOCK SECTION ===')
+    return '\n'.join(lines)
+
+
+# ---------------------------------------------------------------------------
+# t166_lock_fingerprint: generate fingerprint for constitution_hash
+# ---------------------------------------------------------------------------
+
+def t166_lock_fingerprint(lock: list[CanonicalLockEntry]) -> str:
+    """Generate fingerprint for constitution_hash.
+    Only LOCKED entries contribute (sorted).
+    Returns sha256[:16] or '' if no LOCKED.
+    """
+    locked = [e for e in lock if e.status == 'LOCKED']
+    if not locked:
+        return ''
+    parts = []
+    for e in sorted(locked, key=lambda x: x.normalized_form):
+        parts.append(f"{e.normalized_form}:{e.canonical_value}:{e.entity_type}:{e.authority_source}")
+    blob = '|'.join(parts).encode('utf-8')
+    return hashlib.sha256(blob).hexdigest()[:16]
+
+
+# ---------------------------------------------------------------------------
+# pre_assert: pre-assertion check before adding to lock
+# ---------------------------------------------------------------------------
+
+def pre_assert(lock: list[CanonicalLockEntry], output: str,
+                allowed_by_entity: Optional[dict] = None) -> Tuple[str, list[dict]]:
+    """Pre-assertion: check if output is valid before adding to lock."""
+    if allowed_by_entity is None:
+        allowed_by_entity = _build_allowed_by_entity(lock)
+    # Check for canonical invention
+    issues = _check_canonical_invention(output, lock, allowed_by_entity)
+    if issues:
+        return 'review_required', issues
+    # Check mojibake
+    if build_canonical_lock_mojibake_rejected(output):
+        return 'failed', [{'code': 'MOJIBAKE', 'severity': 'HARD', 'message': 'Phát hiện mojibake trong output'}]
+    return 'passed', []
+
+
+# ---------------------------------------------------------------------------
+# post_assert: post-assertion check after adding to lock
+# ---------------------------------------------------------------------------
+
+def post_assert(lock: list[CanonicalLockEntry], output: str,
+                 allowed_by_entity: Optional[dict] = None) -> Tuple[str, list[dict]]:
+    """Post-assertion: check if output should be accepted or rejected."""
+    if allowed_by_entity is None:
+        allowed_by_entity = _build_allowed_by_entity(lock)
+    # Check for canonical invention
+    issues = _check_canonical_invention(output, lock, allowed_by_entity)
+    if issues:
+        status = 'failed' if any(i['severity'] == 'HARD' for i in issues) else 'review_required'
+        return status, issues
+    # Check mojibake
+    if build_canonical_lock_mojibake_rejected(output):
+        return 'failed', [{'code': 'MOJIBAKE', 'severity': 'HARD', 'message': 'Phát hiện mojibake trong output'}]
+    return 'passed', []
+
+
+# ---------------------------------------------------------------------------
+# t165_constitution_hash: generate constitution_hash for T165
+# ---------------------------------------------------------------------------
+
+def t165_constitution_hash(lock: list[CanonicalLockEntry]) -> str:
+    """Generate constitution_hash for T165 from lock entries.
+    Only LOCKED entries contribute, sorted by normalized_form.
+    Returns sha256[:16] or '' if no LOCKED.
+    """
+    locked = [e for e in lock if e.status == 'LOCKED']
+    if not locked:
+        return ''
+    parts = []
+    for e in sorted(locked, key=lambda x: x.normalized_form):
+        parts.append(f"{e.normalized_form}:{e.canonical_value}")
+    blob = '|'.join(parts).encode('utf-8')
+    return hashlib.sha256(blob).hexdigest()[:16]
+
+
+# ---------------------------------------------------------------------------
+# build_canonical_lock: build canonical lock from source text
+# ---------------------------------------------------------------------------
+
+def build_canonical_lock(source_text: str) -> list[CanonicalLockEntry]:
+    """Build canonical lock entries from source text.
+    Parses person names, titles, and creates lock entries.
+    """
+    entries = []
+    # Extract names after "Thích"
+    pattern = r'(?:^|[，。；，\.!?])\s*([Tt]hích)\s+([A-Za-zÀ-ÿ\u00c0-\u024f][A-Za-zÀ-ÿ\u00c9\u00cb-\u024f\'-]*)'
+    names = re.findall(pattern, source_text, re.IGNORECASE)
+    for name in names:
+        name = name[0].strip() if isinstance(name, tuple) else name.strip()
+        if not name:
+            continue
+        full_text = 'Thích ' + name
+        normalized = normalize_vi(full_text)
+        canonical_id = hashlib.sha256(normalized.encode('utf-8')).hexdigest()[:8]
+        entries.append(CanonicalLockEntry(
+            source_form=full_text,
+            normalized_form=normalized,
+            entity_type='PERSON',
+            canonical_id=canonical_id,
+            canonical_value=name,
+            authority_source='name_vi_map.name_vi_final',
+            authority_level=0.7,
+            status='CANDIDATE',
+            claims=[],
+        ))
+    # If no "Thích" found, create entry from source text
+    if not entries:
+        normalized = normalize_vi(source_text)
+        canonical_id = hashlib.sha256(normalized.encode('utf-8')).hexdigest()[:8]
+        entries.append(CanonicalLockEntry(
+            source_form=source_text,
+            normalized_form=normalized,
+            entity_type='PERSON',
+            canonical_id=canonical_id,
+            canonical_value=source_text,
+            authority_source='name_vi_map.name_vi_final',
+            authority_level=0.7,
+            status='CANDIDATE',
+            claims=[],
+        ))
+    return entries
+
+
+def _build_allowed_by_entity(lock: list[CanonicalLockEntry]) -> dict:
+    """Build allowed_by_entity dict from lock entries for invention detection."""
+    allowed: dict[str, set[str]] = {}
+    for e in lock:
+        if e.canonical_value and e.canonical_id:
+            full_norm = normalize_vi(e.canonical_value)
+            allowed.setdefault(e.canonical_id, set()).add(full_norm)
+    return allowed

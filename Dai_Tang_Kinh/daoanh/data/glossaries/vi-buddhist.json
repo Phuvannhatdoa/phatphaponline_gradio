@@ -1,0 +1,19 @@
+{
+  "$description": "Style-lock glossary — từ Hán tối giản → bản dịch Việt thống nhất (dùng bởi worker T95). Admin có thể bổ sung/sửa; khi thay đổi nên nâng 'version'.",
+  "version": 1,
+  "terms": {
+    "涅槃": "Niết-bàn",
+    "大乘": "Đại thừa",
+    "維摩經": "Kinh Duy-ma",
+    "成實": "Thành Thực luận",
+    "花嚴": "Hoa Nghiêm",
+    "地論": "Địa Luận",
+    "四分": "Tứ phần luật",
+    "鄴城": "Nghiệp Thành",
+    "寶山寺": "chùa Bảo Sơn",
+    "講": "giảng",
+    "禪": "thiền",
+    "道憑": "Đạo Bằng",
+    "韓": "Hàn"
+  }
+}

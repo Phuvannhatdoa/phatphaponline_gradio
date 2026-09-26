@@ -1,0 +1,57 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.phatphaponline.org/ex/> .
+
+<ex:monk/thiet_dinh_an_triem> a bkg:Monk ;
+    rdfs:label "Thiệt Dinh Ân Triêm"@vi ;
+    crm:P1_is_identified_by <ex:monk/thiet_dinh_an_triem> ;
+    bkg:biographicalNote """
+Thiền Sư Thiệt Dinh - Chánh Hiển - Ân Triêm
+實 营 正 顯 恩 霑 (1712–1789): Chùa Phước Lâm
+(Trong cuốn Phổ hệ in vào năm 2007, chúng tôi căn cứ vào văn bia tháp tổ ghi: “Lộc sinh Nhâm Thìn niên (1712), bát thập ngũ, Kỷ Dậu khứ (1789)”. Tuy nhiên, căn cứ văn bia ghi tuổi thọ 85 nên chúng tôi để năm tổ viên tịch là Bính Thìn (1796) chứ không phải Kỷ Dậu (1789). Theo tác giả Thích Đồng Dưỡng trong bài “Khảo về năm viên tịch của hòa thượng Ân Triêm” trong tập san Phật giáo Quảng Nam số 01 (tháng 1, 2023), chúng tôi thấy kiến giải của tác giả hợp lý, sát thực với lịch sử nên đính chính lại năm viên tịch của tổ là Kỷ Dậu (1789) chứ không phải Bính Thìn (1796) và tổ thọ 78 tuổi chứ không phải 85 như trên văn bia ghi nhầm).
+Hòa thượng thế danh Lê Hiển, sinh năm Nhâm Thìn (1712) tại xã Bến Ðền, phủ Ðiện Bàn, dinh Quảng Nam (nay là xã Ðiện Quang, huyện Ðiện Bàn, Quảng Nam). Tương truyền, mẹ Ngài một đêm nằm mộng thấy con trâu chọc sừng chui vào bụng, bà bắt đầu thọ thai. Từ khi mang thai, bà nhàm chán những thức ăn thịt cá, chỉ dùng toàn chay tịnh và sau đó sinh ra Ngài.
+Từ khi lọt lòng mẹ Ngài chỉ ăn chay. Mẹ có cho món ăn mặn thì Ngài đều từ chối. Biết con có duyên với cửa Thiền nên khi vừa tròn 10 tuổi (Theo tư liệu “Tây Trúc Đông Chấn Nam Việt Tổ Tổ Đích Truyền Thống Chánh Thư” do hòa thượng Khánh Anh chép tay bằng chữ Nho tại chùa Minh Tịnh, Quy Nhơn, Bình Định vào năm Bảo Đại thứ 4, Kỷ Tỵ (1929) cho rằng ngài xuất gia năm 16 tuổi.), cha mẹ đã đưa Ngài đến chùa Chúc Thánh thọ giáo với thiền sư Minh Hải–Pháp Bảo. Ðến năm 20 tuổi, Ngài được tổ Minh Hải cho thọ giới Cụ túc với pháp danh Thiệt Dinh, tự Chánh Hiển, hiệu Ân Triêm, nối pháp đời 35 dòng Lâm Tế, thế hệ thứ 2 pháp phái Chúc Thánh.
+Năm 25 tuổi, Ngài xin tổ Minh Hải ra lập thảo am Phước Lâm tại ấp Trảng Kèo, xã Thanh Hà, phủ Ðiện Bàn (nay là xã Cẩm Hà, thành phố Hội An) để tiện việc tu niệm.
+Với sự ấn chứng của Bổn sư cũng như sự nỗ lực tự thân, không bao lâu, hương thơm giới hạnh của Ngài lan khắp nơi và đồ chúng theo về tu học ngày càng đông đảo, dần dần tịnh thất Phước Lâm trở thành một tòng lâm nguy nga tại xứ Quảng.
+Ngài viên tịch vào ngày 24 tháng 4 năm Bính Thìn (1796) thọ 85 tuổi. Ðồ chúng xây Bảo tháp tại phía tây nam chùa Phước Lâm để phụng thờ linh cốt của Ngài.
+Hơn 70 năm tu hành và hoằng dương Phật pháp, Ngài đã kế thừa nghiệp Tổ thắp sáng ngọn đèn chánh pháp và làm cho Phật giáo Quảng Nam ngày một hưng thịnh. Ngài đã đào tạo một thế hệ kế thừa như các ngài: Pháp Ấn–Tường Quang–Quảng Ðộ (trú trì chùa Phước Lâm, Hội An và Viên Tôn tại Bình Sơn, Quảng Ngãi); Pháp Chuyên–Luật Truyền–Diệu Nghiêm (khai sơn chùa Từ Quang, Phú Yên); Pháp Kiêm–Luật Oai–Minh Giác còn gọi là tổ Bình Man Tảo Thị (trú trì chùa Phước Lâm, Hội An); Pháp Tịnh–Luật Phong–Viên Quang (khai sơn chùa Thiên Hòa, Tuy Phước, Bình Ðịnh) v.v... đã làm rạng danh Phật giáo xứ Quảng và thiền phái Chúc Thánh.
+"""@vi ;
+    bkg:birthEvent <ex:monk/thiet_dinh_an_triem_birthEvent> ;
+    bkg:deathEvent <ex:monk/thiet_dinh_an_triem_deathEvent> ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Chúc Thánh Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 72 ;
+    bkg:hasTeacher <ex:monk/minh_hai_phap_bao> ;
+    bkg:hasDisciple <ex:monk/phap_an_quang_do> ,
+        <ex:monk/phap_chuyen_dieu_nghiem> ,
+        <ex:monk/phap_kiem_minh_giac> ,
+		<ex:monk/phap_than_dao_minh> ,
+        <ex:monk/phap_tinh_vien_quang> ;
+    bkg:isLineageFounder "true"^^xsd:boolean .
+
+<ex:monk/thiet_dinh_an_triem_birthEvent> a bkg:BirthEvent ;
+    bkg:year "1712"^^xsd:gYear .
+
+<ex:monk/thiet_dinh_an_triem_deathEvent> a bkg:DeathEvent ;
+    bkg:year "1789"^^xsd:gYear .
+
+<ex:monk/minh_hai_phap_bao> rdfs:label "Minh Hải Pháp Bảo"@vi .
+<ex:monk/phap_an_quang_do> rdfs:label "Pháp Ấn Quảng Độ"@vi .
+<ex:monk/phap_chuyen_dieu_nghiem> rdfs:label "Pháp Chuyên Diệu Nghiêm"@vi .
+<ex:monk/phap_kiem_minh_giac> rdfs:label "Pháp Kiêm Minh Giác"@vi .
+<ex:monk/phap_tinh_vien_quang> rdfs:label "Pháp Tịnh Viên Quang"@vi .
+<ex:monk/thiet_dieu_chanh_hien> rdfs:label "Thiệt Diệu Chánh Hiền"@vi .
+<ex:monk/thiet_uy_khanh_van> rdfs:label "Thiệt Úy Khánh Vân"@vi .
+<ex:monk/thiet_uyen_chi_bao> rdfs:label "Thiệt Uyên Chí Bảo"@vi .
+<ex:monk/thiet_dang_bao_quang> rdfs:label "Thiệt Đăng Bảo Quang"@vi .
+<ex:monk/thiet_bao_cam_ung> rdfs:label "Thiệt Bảo Cảm Ứng"@vi .
+<ex:monk/thiet_lam_chi_kien> rdfs:label "Thiệt Lãm Chí Kiên"@vi .
+<ex:monk/thiet_the_triem_an> rdfs:label "Thiệt Thể Triêm Ân"@vi .
+<ex:monk/thiet_dam_chanh_luan> rdfs:label "Thiệt Đàm Chánh Luân"@vi .
+<ex:monk/thiet_hoi_vien_quang> rdfs:label "Thiệt Hội Viên Quang"@vi .
+<ex:monk/phap_than_dao_minh> rdfs:label "Pháp Thân Đạo Minh"@vi .
+
+
+

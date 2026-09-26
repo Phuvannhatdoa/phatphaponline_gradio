@@ -1,0 +1,202 @@
+import requests
+import json
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# ========================================================
+# 1. CẤU HÌNH (ĐẠO HỮU KIỂM TRA URL NÀY)
+# ========================================================
+GRAPHDB_URL = "http://localhost:7200/repositories/buddhist"
+
+LINEAGE_DATA = [
+    { "id": "AnDo", "label": "Thiền Tông Ấn Độ", "parent": "", "founderName": "Ma Ha Ca Diếp" },
+    { "id": "TrungHoa", "label": "Thiền Tông Trung Hoa", "parent": "AnDo", "founderName": "Bồ Đề Đạt Ma" },
+    { "id": "BacTong", "label": "Bắc Tông", "parent": "TrungHoa", "founderName": "Thần Tú" },
+    { "id": "NguuDau", "label": "Tông Ngưu Đầu", "parent": "TrungHoa", "founderName": "Pháp Dung" },
+    { "id": "NamTong", "label": "Nam Tông (Huệ Năng)", "parent": "TrungHoa", "founderName": "Lục Tổ Huệ Năng" },
+    { "id": "TyNi", "label": "Tỳ Ni Đa Lưu Chi (VN)", "parent": "TrungHoa", "founderName": "Tỳ Ni Đa Lưu Chi" },
+    { "id": "HongChau", "label": "Tông Hồng Châu", "parent": "NamTong", "founderName": "Mã Tổ Đạo Nhất" },
+    { "id": "ThachDau", "label": "Tông Thạch Đầu", "parent": "NamTong", "founderName": "Thạch Đầu Hy Thiên" },
+    { "id": "VoNgon", "label": "Vô Ngôn Thông (VN)", "parent": "NamTong", "founderName": "Vô Ngôn Thông" },
+    { "id": "QuyNguong", "label": "Tông Quy Ngưỡng", "parent": "HongChau", "founderName": "Quy Sơn Linh Hựu" },
+    { "id": "LamTe", "label": "Tông Lâm Tế", "parent": "HongChau", "founderName": "Lâm Tế Nghĩa Huyền" },
+    { "id": "TaoDong", "label": "Tông Tào Động", "parent": "ThachDau", "founderName": "Động Sơn Lương Giới" },
+    { "id": "VanMon", "label": "Tông Vân Môn", "parent": "ThachDau", "founderName": "Vân Môn Văn Yển" },
+    { "id": "PhapNhan", "label": "Tông Pháp Nhãn", "parent": "ThachDau", "founderName": "Pháp Nhãn Văn Ích" },
+    { "id": "ThaoDuong", "label": "Tông Thảo Đường (VN)", "parent": "VanMon", "founderName": "Thảo Đường" },
+    { "id": "HoangLong", "label": "Dòng Hoàng Long", "parent": "LamTe", "founderName": "Hoàng Long Huệ Nam" },
+    { "id": "DuongKy", "label": "Dòng Dương Kỳ", "parent": "LamTe", "founderName": "Dương Kỳ Phương Hội" },
+    { "id": "TrucLam", "label": "Trúc Lâm Yên Tử (VN)", "parent": "VoNgon", "founderName": "Trần Nhân Tông" },
+    { "id": "NguyenThieu", "label": "Lâm Tế Nguyên Thiều", "parent": "DuongKy", "founderName": "Nguyên Thiều" },
+    { "id": "LieuQuan", "label": "Lâm Tế Liễu Quán", "parent": "DuongKy", "founderName": "Thiệt Diệu Liễu Quán" },
+    { "id": "ChucThanh", "label": "Lâm Tế Chúc Thánh", "parent": "DuongKy", "founderName": "Minh Hải Pháp Bảo" },
+    { "id": "GiaPho", "label": "Lâm Tế Gia Phổ", "parent": "DuongKy", "founderName": "Phật Ý Linh Nhạc" }
+]
+
+@app.route('/api/search')
+def search():
+    q = request.args.get('q', '')
+    sparql = f"""
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT DISTINCT ?s ?l WHERE {{ 
+        ?s rdfs:label ?l . 
+        FILTER(regex(str(?l), '{q}', 'i')) 
+    }} LIMIT 10
+    """
+    try:
+        r = requests.get(GRAPHDB_URL, params={'query': sparql}, headers={'Accept': 'application/sparql-results+json'}, timeout=5)
+        return jsonify([{"s": i['s']['value'], "l": i['l']['value']} for i in r.json()['results']['bindings']])
+    except: return jsonify([])
+
+@app.route('/api/get_by_label')
+def get_by_label():
+    name = request.args.get('name', '')
+    sparql = f"""
+    PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT * WHERE {{
+        ?s rdfs:label ?name .
+        FILTER(regex(str(?name), "^{name}$", "i"))
+        OPTIONAL {{ ?s bkg:biographicalNote ?note }}
+        OPTIONAL {{ ?s bkg:generationOrder ?g }}
+        OPTIONAL {{ ?s bkg:dharmaLineageName ?ln }}
+    }} LIMIT 1
+    """
+    try:
+        r = requests.get(GRAPHDB_URL, params={'query': sparql}, headers={'Accept': 'application/sparql-results+json'}, timeout=5)
+        data = r.json()['results']['bindings']
+        if not data: return jsonify({"error": "notfound"})
+        f = data[0]
+        return jsonify({
+            "name": f['name']['value'],
+            "note": f['note']['value'] if 'note' in f else "Hành trạng đang cập nhật...",
+            "gVal": f['g']['value'] if 'g' in f else "N/A",
+            "lineage": f['ln']['value'] if 'ln' in f else "Thiền Tông"
+        })
+    except: return jsonify({"error": "fail"})
+
+@app.route('/')
+def index():
+    html = r'''
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"><title>Truyền Thừa Thiền Tông</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root { --p: #8b4513; --bg: #fdf5e6; }
+        body { margin: 0; display: flex; font-family: sans-serif; background: var(--bg); height: 100vh; }
+        #sidebar { width: 300px; background: white; padding: 20px; border-right: 2px solid #ddd; display: flex; flex-direction: column; }
+        .search-box { position: relative; margin-top: 15px; }
+        #search-input { width: 100%; padding: 12px; border: 2px solid #bc9b82; border-radius: 4px; box-sizing: border-box; }
+        #suggestions { position: absolute; width: 100%; background: white; border: 1px solid #ddd; display: none; z-index: 20; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .s-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; outline: none; }
+        .s-item:hover, .s-item:focus { background: #f0f0f0; color: #d35400; font-weight: bold; }
+        #tree-area { flex-grow: 1; }
+        .node rect { fill: white; stroke: var(--p); stroke-width: 2px; rx: 8; cursor: pointer; }
+        .node text { font-size: 12px; pointer-events: none; text-anchor: middle; }
+        .link { fill: none; stroke: #ccc; stroke-width: 1.5px; }
+        #bio-panel { position: fixed; top: 0; right: -450px; width: 400px; height: 100vh; background: white; border-left: 5px solid var(--p); transition: 0.4s; z-index: 100; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        #bio-panel.open { right: 0; }
+        .badge { background: #f4ece1; padding: 10px; border-radius: 4px; border-left: 4px solid #d35400; font-weight: bold; margin-bottom:15px; }
+    </style>
+</head>
+<body>
+<div id="sidebar">
+    <h3 style="color:var(--p)">THIỀN TÔNG VN</h3>
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Gõ tên Tổ sư..." autocomplete="off">
+        <div id="suggestions"></div>
+    </div>
+</div>
+<div id="tree-area"><svg id="canvas" style="width:100%; height:100%;"><g id="viewport"></g></svg></div>
+<div id="bio-panel">
+    <span style="float:right; cursor:pointer; font-size:24px" onclick="document.getElementById('bio-panel').classList.remove('open')">&times;</span>
+    <h2 id="bio-title"></h2>
+    <div id="bio-content"></div>
+</div>
+<script>
+    const data = JSON_DATA;
+    const svg = d3.select("#canvas"), container = d3.select("#viewport");
+    svg.call(d3.zoom().on("zoom", (e) => container.attr("transform", e.transform)));
+
+    function draw() {
+        const root = d3.stratify().id(d => d.id).parentId(d => d.parent)(data);
+        d3.tree().nodeSize([250, 150])(root);
+        container.selectAll(".link").data(root.links()).enter().append("path").attr("class", "link")
+                 .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
+        const node = container.selectAll(".node").data(root.descendants()).enter().append("g")
+                 .attr("class", "node").attr("transform", d => `translate(${d.x},${d.y})`)
+                 .on("click", (e, d) => loadBioByName(d.data.founderName));
+        node.append("rect").attr("width", 180).attr("height", 50).attr("x", -90).attr("y", -25);
+        node.append("text").attr("dy", -5).style("font-weight", "bold").text(d => d.data.label);
+        node.append("text").attr("dy", 15).text(d => d.data.founderName);
+        container.attr("transform", "translate(400, 100) scale(0.6)");
+    }
+
+    async function loadBioByName(name) {
+        const panel = document.getElementById('bio-panel');
+        const content = document.getElementById('bio-content');
+        document.getElementById('bio-title').innerText = name;
+        panel.classList.add('open');
+        content.innerHTML = "Đang truy vấn...";
+        sug.style.display = 'none';
+        const res = await fetch(`/api/get_by_label?name=${encodeURIComponent(name)}`).then(r => r.json());
+        if(res.error) content.innerHTML = `<div class="badge">Dữ liệu chưa có</div>`;
+        else content.innerHTML = `<div class="badge">${res.lineage} - Đời ${res.gVal}</div><div style="white-space:pre-wrap">${res.note}</div>`;
+    }
+
+    const inp = document.getElementById('search-input'), sug = document.getElementById('suggestions');
+    
+    // --- FIX LỖI 500 NĂM: KEYBOARD NAVIGATION ---
+    inp.addEventListener('keydown', (e) => {
+        const items = sug.querySelectorAll('.s-item');
+        if (e.key === 'ArrowDown' || e.key === 'Tab') {
+            if (items.length > 0) {
+                e.preventDefault();
+                items[0].focus();
+            }
+        }
+        if (e.key === 'Enter' && items.length === 1) {
+            loadBioByName(items[0].innerText);
+        }
+    });
+
+    sug.addEventListener('keydown', (e) => {
+        const current = document.activeElement;
+        const items = Array.from(sug.querySelectorAll('.s-item'));
+        const idx = items.indexOf(current);
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (idx < items.length - 1) items[idx + 1].focus();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (idx > 0) items[idx - 1].focus();
+            else inp.focus();
+        } else if (e.key === 'Enter') {
+            loadBioByName(current.innerText);
+        }
+    });
+
+    inp.addEventListener('input', async () => {
+        if(inp.value.length < 2) { sug.style.display='none'; return; }
+        const list = await fetch(`/api/search?q=${encodeURIComponent(inp.value)}`).then(r => r.json());
+        if(list.length > 0) {
+            sug.innerHTML = list.map(i => `<div class="s-item" tabindex="0" onclick="loadBioByName('${i.l}')">${i.l}</div>`).join('');
+            sug.style.display = 'block';
+        } else {
+            sug.style.display = 'none';
+        }
+    });
+
+    window.onload = draw;
+</script>
+</body>
+</html>
+    '''
+    return html.replace('JSON_DATA', json.dumps(LINEAGE_DATA))
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80, debug=False, use_reloader=False)

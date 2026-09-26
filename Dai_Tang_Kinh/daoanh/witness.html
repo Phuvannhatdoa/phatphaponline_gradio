@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phật Tổ Đạo Ảnh - Chứng Nhân Lịch Sử v1.6</title>
+    <!-- MỆNH LỆNH 1: Nạp Font hỗ trợ tiếng Việt tối ưu -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #d97706;
+            --primary-glow: rgba(217, 119, 6, 0.4);
+            --bg-deep: #020617;
+            --bg-panel: rgba(15, 23, 42, 0.9);
+            --border: rgba(51, 65, 85, 0.4);
+            --marcus-purple: #a855f7;
+            --dila-blue: #3b82f6;
+            --text-gold: #fde68a;
+        }
+
+        /* MỆNH LỆNH 2: Cấu hình hiển thị chữ không bị "liếm" dấu */
+        body { 
+            font-family: 'Be Vietnam Pro', sans-serif; 
+            background-color: var(--bg-deep); 
+            color: #f8fafc; 
+            margin: 0; 
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeSpeed; /* Thay đổi thành optimizeSpeed để tránh engine làm mịn cắt dấu */
+        }
+        
+        .han-nom { font-family: 'Noto Serif TC', serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Map Canvas */
+        #map-canvas {
+            position: absolute; inset: 0; z-index: 1;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.02) 1px, transparent 0);
+            background-size: 60px 60px;
+            transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Panels */
+        .glass { backdrop-filter: blur(25px); background: var(--bg-panel); border: 1px solid var(--border); }
+        .side-panel { width: 400px; height: 100vh; position: relative; z-index: 50; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        /* MỆNH LỆNH 3: CSS ĐẶC TRỊ LỖI MẤT DẤU - PHIÊN BẢN CƯỠNG CHẾ */
+        h1, h2, h3, h4 {
+            line-height: 2.2 !important; /* Tăng cực đại để không gian dấu an toàn */
+            padding-top: 1.2rem !important; /* Đẩy chữ xuống thấp hẳn so với mép container */
+            margin-top: -0.5rem;
+            letter-spacing: -0.01em;
+            display: inline-block; /* Ép tính toán lại bounding box */
+            width: 100%;
+            overflow: visible !important; /* Chống cắt cụt dấu */
+        }
+
+        /* Đặc trị văn bản nội dung */
+        .story-scroll {
+            font-size: 15px; 
+            line-height: 2.2; 
+            color: #cbd5e1;
+        }
+
+        .marker {
+            position: absolute; width: 28px; height: 28px; background: var(--primary);
+            border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+            border: 2px solid white; cursor: pointer; transition: all 0.6s;
+            box-shadow: 0 0 25px var(--primary-glow); z-index: 10;
+        }
+
+        .tag { font-size: 8px; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+        .tag-dila { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid #3b82f6; }
+        .tag-marcus { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid #a855f7; }
+
+        #message-box {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            padding: 12px 24px; border-radius: 12px; background: #1e293b;
+            border-left: 4px solid var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transform: translateX(200%); transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        #message-box.active { transform: translateX(0); }
+
+        .text-gold-gradient {
+            background: linear-gradient(to right, #fde68a, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="h-screen flex">
+
+    <!-- 1. SIDEBAR TRÁI -->
+    <aside id="side-panel" class="side-panel glass flex flex-col shadow-2xl border-r">
+        <div class="p-8 border-b border-white/5">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-amber-900 shadow-2xl">
+                    <i class="fa-solid fa-synagogue fa-xl"></i>
+                </div>
+                <div style="overflow: visible;">
+                    <h1 class="text-lg font-black tracking-tighter uppercase leading-none text-white p-0">Phật Tổ Đạo Ảnh</h1>
+                    <p class="text-[9px] font-bold text-amber-500 uppercase tracking-[0.3em] mt-1 italic">Witness Engine v1.6</p>
+                </div>
+            </div>
+
+            <div class="relative group">
+                <input type="text" id="portal-search" oninput="handleSearch(this.value)" placeholder="Gõ 'giấy phép' hoặc ID..." 
+                    class="w-full bg-slate-950/80 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-sm focus:border-amber-600 outline-none transition-all">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
+            <div>
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4 flex justify-between">
+                    <span>Trạng thái SQLite</span>
+                    <span class="text-emerald-500"><i class="fa-solid fa-server"></i> Active</span>
+                </h3>
+                <div id="sqlite-results" class="space-y-3">
+                    <div class="p-4 bg-white/5 rounded-2xl border border-white/5 cursor-pointer hover:bg-white/10 group transition-all" onclick="focusDrawer()">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="tag tag-marcus">Legal Info</span>
+                            <span class="tag tag-dila">v1.6</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white group-hover:text-amber-500 uppercase">Nguồn Dữ Liệu & Giấy Phép</h4>
+                        <p class="text-[10px] text-slate-500 mt-1 italic">Thông tin về bản quyền và liên thông tri thức...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 border-t border-white/5 bg-black/40 text-[9px] font-bold text-slate-600 uppercase tracking-widest flex justify-between">
+            <span>Puzzle Ecosystem 2026</span>
+            <i class="fa-solid fa-database"></i>
+        </div>
+    </aside>
+
+    <!-- 2. TRUNG TÂM -->
+    <section class="flex-1 relative overflow-hidden bg-[#050810]">
+        <div id="map-canvas"></div>
+        <div class="absolute bottom-10 left-10 z-30 pointer-events-none">
+            <div class="glass px-6 py-4 rounded-3xl border-l-4 border-amber-600 shadow-2xl">
+                <p class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">DILA Tọa Độ Thực Địa</p>
+                <p class="text-sm mono font-bold text-white tracking-tighter" id="coords-display">Đang chờ lệnh...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SIDEBAR PHẢI: CHIẾN THUẬT FIX LỖI LIẾM DẤU TOÀN DIỆN -->
+    <aside id="info-drawer" class="w-[550px] glass h-screen flex flex-col border-l shadow-[-40px_0_60px_rgba(0,0,0,0.8)] z-40 transform translate-x-full transition-transform duration-700 ease-in-out overflow-visible">
+        
+        <div class="p-8 border-b border-white/5 relative bg-black/40" style="overflow: visible !important;">
+            <button onclick="closeDrawer()" class="absolute top-8 right-8 text-slate-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex items-center gap-4 mb-2">
+                <span class="px-2 py-0.5 bg-amber-600 text-black text-[8px] font-black rounded uppercase tracking-widest">Pháp Thí Hội Master</span>
+                <span class="text-[9px] mono text-blue-400 font-bold uppercase tracking-widest">SSOT Active</span>
+            </div>
+            
+            <!-- TIÊU ĐỀ: Sử dụng Padding-Top 25px và line-height 2.2 để tách biệt dấu khỏi đỉnh khung hình -->
+            <div style="display: block; padding-top: 10px; overflow: visible !important;">
+                <h2 class="text-4xl font-black text-white mb-2 tracking-tighter leading-tight uppercase text-gold-gradient" style="padding-top: 25px !important; line-height: 2.2 !important; display: inline-block;">
+                    NGUỒN DỮ LIỆU <br>& GIẤY PHÉP
+                </h2>
+            </div>
+            <p class="text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-2">Website: phatphaponline.org</p>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar p-8 space-y-12">
+            <!-- Khối thông tin pháp lý -->
+            <div class="p-6 bg-slate-900/60 rounded-3xl border border-white/10 relative" style="overflow: visible;">
+                <div class="absolute -right-10 -top-10 opacity-5 text-9xl text-amber-600 pointer-events-none"><i class="fa-solid fa-file-shield"></i></div>
+                <h3 class="text-lg font-black text-amber-500 uppercase mb-4 tracking-tight" style="padding-top: 20px !important; line-height: 2.0 !important;">1. Glossary & Từ điển Phật học</h3>
+                <div class="story-scroll italic font-light text-slate-300">
+                    Hệ thống tích hợp dữ liệu từ **DILA Authority** và **Marcus SNA**. 
+                    Các nguồn dữ liệu văn bản được đối soát nghiêm ngặt để bảo tồn tính nguyên bản của Đại Tạng Kinh.
+                    <br><br>
+                    Các ký tự đặc biệt tiếng Việt như **Ữ (DỮ), Ệ (LIỆU), Ế (PHÉP)** hiện đã được cưỡng chế hiển thị với không gian đỉnh an toàn.
+                </div>
+            </div>
+
+            <div>
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-[10px] font-black text-purple-400 uppercase tracking-widest border-b-2 border-purple-600 pb-1">Bảo chứng liên thông</h3>
+                    <span class="tag tag-marcus">Integrity Nodes</span>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-4 bg-slate-900/50 rounded-2xl flex items-center gap-4 border border-white/5 hover:border-amber-600/30 transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 border border-blue-500/20 shadow-xl">
+                            <i class="fa-solid fa-link fa-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white uppercase tracking-tight" style="padding-top: 10px !important; line-height: 1.8 !important;">DILA Authority Linked</p>
+                            <p class="text-[10px] text-slate-500 tracking-wider">Hợp nhất định danh thực thể toàn cầu (UUID).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-8 border-t border-white/5 bg-black/60 flex gap-4">
+            <button class="flex-1 py-4 bg-gradient-to-r from-amber-900 to-amber-700 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-2xl hover:brightness-110 active:scale-95 transition-all" onclick="showMessage('Hệ thống đã ghi nhận sự chấp thuận của bạn.')">
+                CHẤP THUẬN ĐIỀU KHOẢN
+            </button>
+            <button class="w-14 h-14 glass rounded-2xl flex items-center justify-center text-slate-400 hover:text-white transition-all">
+                <i class="fa-solid fa-share-nodes"></i>
+            </button>
+        </div>
+    </aside>
+
+    <div id="message-box">
+        <p id="message-text" class="text-xs font-bold text-white uppercase"></p>
+    </div>
+
+    <script>
+        function handleSearch(val) {
+            const lower = val.toLowerCase();
+            if (lower.includes('giấy phép') || lower.includes('data')) focusDrawer();
+        }
+
+        function focusDrawer() {
+            document.getElementById('info-drawer').style.transform = 'translateX(0)';
+            showMessage("Đang hiển thị thông tin Giấy Phép & Nguồn Dữ Liệu");
+        }
+
+        function showMessage(text) {
+            const box = document.getElementById('message-box');
+            const txt = document.getElementById('message-text');
+            txt.innerText = text;
+            box.classList.add('active');
+            setTimeout(() => box.classList.remove('active'), 3000);
+        }
+
+        function closeDrawer() {
+            document.getElementById('info-drawer').style.transform = 'translateX(100%)';
+        }
+
+        window.onload = () => { console.log("Witness Portal v1.6 (Final Font Fix) - Online."); };
+    </script>
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Person — Đạo Ảnh Admin</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  [hidden] { display:none !important; }
+  body { margin:0; background:#0a0c10; color:#e2e8f0; font-family:'Inter',sans-serif; }
+  .mono { font-family:'JetBrains Mono',monospace; }
+  .fl { font-size:10px; font-weight:700; letter-spacing:.1em; color:#475569; text-transform:uppercase; margin-bottom:4px; font-family:'JetBrains Mono',monospace; }
+  .fv { font-size:14px; color:#e2e8f0; line-height:1.7; }
+  .fv.zh { font-family:serif; font-size:14px; color:#cbd5e1; }
+  .fv.empty { color:#334155; font-style:italic; }
+  pre { white-space:pre-wrap; word-break:break-word; margin:0; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .spinner { width:14px; height:14px; border:2px solid #f59e0b30; border-top-color:#f59e0b; border-radius:50%; animation:spin .7s linear infinite; display:inline-block; }
+  .badge-auto { background:#78350f22; color:#fbbf24; border:1px solid #78350f55; }
+  .badge-outdated { background:#7f1d1d22; color:#f87171; border:1px solid #7f1d1d55; }
+  .badge-reported { background:#1e1b4b22; color:#a78bfa; border:1px solid #1e1b4b55; }
+  /* Side-by-side grid cells */
+  .split-cell { padding:12px 16px; }
+  .split-cell-zh { border-right:1px solid rgba(51,65,85,0.5); background:rgba(15,19,24,0.4); }
+  .split-cell-vi { background:rgba(10,12,16,0.3); }
+  .split-row { display:contents; }
+  .split-row-border > * { border-bottom:1px solid rgba(51,65,85,0.3); }
+</style>
+</head>
+<body>
+<div class="min-h-screen p-4 md:p-6 max-w-[1440px] mx-auto">
+
+  <div id="loading" class="text-slate-600 mono text-sm mt-20 text-center animate-pulse">Đang tải…</div>
+  <div id="errbox" hidden class="text-red-500/70 mono text-sm mt-20 text-center"></div>
+
+  <!-- HEADER -->
+  <div id="hdr" hidden class="mb-6">
+    <div class="flex items-start justify-between gap-4 flex-wrap">
+      <div>
+        <div id="hdr-id" class="text-[10px] text-amber-500/60 mono font-bold tracking-widest mb-1"></div>
+        <div class="flex items-center gap-2">
+          <h1 id="hdr-name" class="text-2xl font-black text-white"></h1>
+          <button id="btn-name-edit" onclick="startNameEdit()" title="Sửa tên tiếng Việt"
+            class="text-[10px] mono text-slate-500 hover:text-amber-400 border border-slate-700/50 hover:border-amber-500/40
+                   bg-transparent hover:bg-amber-500/10 transition-all rounded-lg px-1.5 py-0.5 shrink-0">✎</button>
+        </div>
+        <div id="hdr-name-edit" hidden class="flex items-center gap-2 mt-1 flex-wrap">
+          <input id="hdr-name-input" type="text"
+            class="text-xl font-black text-white bg-[#0a0c10] border border-amber-500/40 rounded-xl px-3 py-1
+                   focus:outline-none focus:border-amber-500/70 min-w-0 w-72">
+          <button onclick="saveNameEdit()"
+            class="text-[11px] mono font-bold text-emerald-400 border border-emerald-500/30 bg-emerald-500/10
+                   hover:bg-emerald-500/20 transition-all rounded-lg px-3 py-1.5 shrink-0">💾 Lưu</button>
+          <button onclick="cancelNameEdit()"
+            class="text-[11px] mono text-slate-500 hover:text-slate-300 border border-slate-800/60
+                   hover:border-slate-600 transition-all rounded-lg px-3 py-1.5 shrink-0">Hủy</button>
+          <span id="hdr-name-msg" hidden class="text-[10px] mono"></span>
+        </div>
+        <div id="hdr-zh" class="text-slate-400 text-lg mt-1" style="font-family:serif" hidden></div>
+      </div>
+      <div class="flex gap-3 items-center shrink-0 mt-1">
+        <a href="javascript:history.back()" class="text-[11px] mono text-slate-500 hover:text-amber-500 transition-colors underline underline-offset-2">← Quay lại</a>
+        <button id="btn-prev" onclick="navAdjacent('prev')" hidden
+          class="text-[11px] mono text-slate-500 hover:text-amber-500 transition-colors underline underline-offset-2 bg-transparent border-0 cursor-pointer p-0">‹ Trước</button>
+        <button id="btn-next" onclick="navAdjacent('next')" hidden
+          class="text-[11px] mono text-slate-400 hover:text-amber-400 transition-colors underline underline-offset-2 bg-transparent border-0 cursor-pointer p-0">Tiếp theo ›</button>
+        <a href="/daoanh/admin/search_all.html" class="text-[11px] mono text-slate-500 hover:text-amber-500 transition-colors underline underline-offset-2">Search</a>
+      </div>
+    </div>
+    <div id="meta" class="flex flex-wrap gap-2 mt-4"></div>
+  </div>
+
+  <!-- DILA AUTHORITY — split view: ZH left / VI right -->
+  <div id="card-dila-extra" hidden class="bg-[#11151c] border border-amber-900/20 rounded-2xl overflow-hidden mb-5">
+    <!-- Top bar -->
+    <div class="flex items-center justify-between px-5 py-3 border-b border-slate-800/50 bg-[#0d1117]">
+      <div class="fl mb-0 text-slate-400">DỮ LIỆU DILA AUTHORITY (XML)</div>
+      <div class="flex items-center gap-3">
+        <button id="btn-dila-translate"
+          class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-500/10 border border-amber-500/30
+                 text-[10px] font-bold text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/60
+                 transition-all mono disabled:opacity-40 disabled:cursor-not-allowed"
+          onclick="doDilaTranslate()">
+          <span id="btn-dila-icon">✨</span>
+          <span id="btn-dila-label">AI Dịch DILA</span>
+        </button>
+      </div>
+    </div>
+    <!-- Side-by-side grid body -->
+    <div id="dila-split-body" hidden></div>
+    <div id="dila-suggested-rules" hidden class="px-5 py-4 border-t border-slate-800/40"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Auth ──
+(function() {
+  var s = localStorage.getItem('admin_session');
+  if (!s) { location.href = '/daoanh/login.html'; return; }
+  fetch('/daoanh/api/login/check', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_token:s})})
+    .then(r=>r.json()).then(d=>{ if(!d.valid){localStorage.removeItem('admin_session');location.href='/daoanh/login.html';} })
+    .catch(()=>{});
+})();
+
+var personId = new URLSearchParams(location.search).get('id') || '';
+var _personBioZh = '';
+var _dilaViData = null;
+
+var _adjPrev = null, _adjNext = null;
+function navAdjacent(dir) {
+  var target = dir === 'prev' ? _adjPrev : _adjNext;
+  if (target) location.href = '/daoanh/admin/person.html?id=' + encodeURIComponent(target);
+}
+(function loadAdjacent() {
+  if (!personId) return;
+  fetch('/daoanh/api/dila/persons/adjacent?id=' + encodeURIComponent(personId))
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      if (!d.ok) return;
+      _adjPrev = d.prev_id; _adjNext = d.next_id;
+      var bp = document.getElementById('btn-prev');
+      var bn = document.getElementById('btn-next');
+      if (bp) { if (_adjPrev) bp.removeAttribute('hidden'); else bp.setAttribute('hidden',''); }
+      if (bn) { if (_adjNext) bn.removeAttribute('hidden'); else bn.setAttribute('hidden',''); }
+    }).catch(function(){});
+})();
+var _dilaFullData = null;
+var _dilaTranslationId = null;
+var _personRelations = [];
+
+var MULTILINE_KEYS = {works_tripitaka_vi:1, works_by_vi:1, secondary_lit_vi:1, mentioned_in_vi:1, bio_concise_vi:1, bio_extensive_vi:1};
+
+function esc(s){ return s==null?'':(s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function normMultiline(s){ return s ? s.split('\n').map(function(l){return l.trim();}).filter(function(l){return l.length>0;}).join('\n') : ''; }
+
+// ── Side-by-side render ──
+function renderDilaSideBySide(d, vi, modelId, tId) {
+  _dilaFullData = d;
+  _personRelations = d.relations || [];
+  _dilaViData = vi || {};
+  if (tId !== undefined) _dilaTranslationId = tId || null;
+
+  var vi_ = _dilaViData;
+
+  var inputCls = 'fv text-sm text-slate-200 w-full bg-[#0a0c10] border border-amber-500/30 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500/60';
+  var taCls    = 'fv text-sm text-slate-200 leading-relaxed w-full bg-[#0a0c10] border border-amber-500/30 rounded-xl p-3 focus:outline-none focus:border-amber-500/60';
+
+  function cellVi(key_vi, val_vi, type, rows) {
+    rows = rows || 4;
+    val_vi = val_vi || '';
+    var display = MULTILINE_KEYS[key_vi] ? normMultiline(val_vi) : val_vi;
+    var out = '';
+    if (type === 'input') {
+      out += '<div id="dila-v-' + key_vi + '" class="fv text-sm' + (!val_vi?' empty':'') + '">' + (val_vi ? esc(display) : '(chưa dịch)') + '</div>';
+      out += '<div id="dila-e-' + key_vi + '" hidden class="mt-1"><input id="dila-ta-' + key_vi + '" type="text" value="' + esc(val_vi) + '" class="' + inputCls + '"></div>';
+    } else {
+      out += '<div id="dila-v-' + key_vi + '" class="fv text-sm' + (!val_vi?' empty':'') + '" style="white-space:pre-wrap;word-break:break-word">' + (val_vi ? esc(display) : '(chưa dịch)') + '</div>';
+      out += '<div id="dila-e-' + key_vi + '" hidden class="mt-2"><textarea id="dila-ta-' + key_vi + '" rows="' + rows + '" class="' + taCls + '">' + esc(display) + '</textarea></div>';
+    }
+    return out;
+  }
+
+  function row(label, val_zh, key_vi, val_vi, type, rows) {
+    if (!val_zh && !val_vi) return '';
+    var multiline = (type === 'textarea');
+    var out = '<div class="split-row split-row-border">';
+    // Left: ZH
+    out += '<div class="split-cell split-cell-zh">';
+    out += '<div class="fl">' + esc(label) + '</div>';
+    if (val_zh) {
+      out += '<div class="fv text-sm text-slate-300" style="white-space:' + (multiline?'pre-wrap':'normal') + ';word-break:break-word;font-family:serif">' + esc(val_zh) + '</div>';
+    } else {
+      out += '<div class="fv empty text-xs">(trống)</div>';
+    }
+    out += '</div>';
+    // Right: VI
+    out += '<div class="split-cell split-cell-vi">';
+    out += '<div class="fl" style="color:#d9770680">' + esc(label) + ' 🇻🇳</div>';
+    out += cellVi(key_vi, val_vi, type, rows);
+    out += '</div>';
+    out += '</div>';
+    return out;
+  }
+
+  var html = '<div class="grid grid-cols-2">';
+
+  // ── Column headers ──
+  html += '<div class="split-cell split-cell-zh py-2.5 border-b border-slate-800/50">';
+  html += '<div class="fl mb-0 text-slate-400/70">Nguyên bản (DILA · XML · Hán)</div>';
+  html += '</div>';
+  html += '<div class="split-cell split-cell-vi py-2.5 border-b border-slate-800/50 flex items-center justify-between">';
+  html += '<div class="fl mb-0 text-amber-500/60">Bản dịch Tiếng Việt (Phật học hàn lâm)';
+  if (modelId) html += ' <span class="text-slate-500 normal-case font-normal">' + esc(modelId) + '</span>';
+  html += '</div>';
+  html += '<button id="btn-dila-edit" onclick="startDilaEdit()" class="text-[9px] mono text-amber-400 hover:text-amber-300 border border-amber-500/30 hover:border-amber-500/60 bg-amber-500/10 hover:bg-amber-500/20 transition-all rounded-lg px-2 py-0.5 shrink-0">✎ Sửa</button>';
+  html += '</div>';
+
+  // ── Tên khác (paired alt names) ──
+  if ((d.alt_names && d.alt_names.length) || (vi_.alt_names_vi && vi_.alt_names_vi.length)) {
+    html += '<div class="split-row split-row-border">';
+    html += '<div class="split-cell split-cell-zh">';
+    html += '<div class="fl">Tên khác (DILA)</div>';
+    html += '<div class="flex flex-wrap gap-1 mt-1">';
+    (d.alt_names||[]).forEach(function(n){
+      html += '<span class="inline-block px-2 py-0.5 bg-slate-700/40 border border-slate-600/50 rounded-lg text-xs text-slate-300 mono">' + esc(n) + '</span>';
+    });
+    if (!d.alt_names || !d.alt_names.length) html += '<span class="fv empty text-xs">(trống)</span>';
+    html += '</div></div>';
+    html += '<div class="split-cell split-cell-vi">';
+    html += '<div class="fl" style="color:#d9770680">Tên khác (Việt) 🇻🇳</div>';
+    var altVi = vi_.alt_names_vi || [];
+    html += '<div id="dila-v-alt_names_vi" class="flex flex-wrap gap-1 mt-1">';
+    if (altVi.length) {
+      altVi.forEach(function(n){ html += '<span class="inline-block px-2 py-0.5 bg-amber-900/20 border border-amber-700/30 rounded-lg text-xs text-amber-300">' + esc(n) + '</span>'; });
+    } else {
+      html += '<span class="fv empty text-xs">(chưa dịch)</span>';
+    }
+    html += '</div>';
+    html += '<div id="dila-e-alt_names_vi" hidden class="mt-2"><textarea id="dila-ta-alt_names_vi" rows="3" placeholder="Mỗi tên một dòng" class="' + taCls + '">' + esc(altVi.join('\n')) + '</textarea></div>';
+    html += '</div></div>';
+  }
+
+  // ── Thông tin cơ bản (sex / is_monk / dates / wikidata — không cần dịch) ──
+  var infoZhItems = [];
+  if (d.name_latin) infoZhItems.push('<div class="mb-1"><span class="text-[9px] mono text-slate-500 uppercase font-bold tracking-wider">Latin/Skt: </span><span class="text-sm italic text-amber-300/80">' + esc(d.name_latin) + '</span></div>');
+  if (d.sex) infoZhItems.push('<div class="mb-1"><span class="text-[9px] mono text-slate-500 uppercase font-bold tracking-wider">Giới tính: </span><span class="text-sm">' + esc(d.sex) + '</span></div>');
+  if (d.is_monk) {
+    var ml = d.is_monk==='是'?'Tăng sĩ (是)':d.is_monk==='否'?'Tục gia (否)':d.is_monk;
+    infoZhItems.push('<div class="mb-1"><span class="text-[9px] mono text-slate-500 uppercase font-bold tracking-wider">Tăng/Tục: </span><span class="text-sm">' + esc(ml) + '</span></div>');
+  }
+  if (d.birth_date||d.death_date) {
+    var dts=[];
+    if(d.birth_date) dts.push('Sinh: '+d.birth_date);
+    if(d.death_date) dts.push('Mất: '+d.death_date);
+    infoZhItems.push('<div class="mb-1"><span class="text-[9px] mono text-slate-500 uppercase font-bold tracking-wider">Ngày: </span><span class="text-sm text-slate-400 mono">' + dts.map(esc).join(' | ') + '</span></div>');
+  }
+  if (d.wikidata_id) infoZhItems.push('<div class="mt-1"><span class="text-[9px] mono text-slate-500 uppercase font-bold tracking-wider">Wikidata: </span><a href="https://www.wikidata.org/wiki/'+esc(d.wikidata_id)+'" target="_blank" rel="noopener" class="text-xs text-sky-500 hover:text-sky-300 mono">'+esc(d.wikidata_id)+' ↗</a></div>');
+  if (infoZhItems.length) {
+    html += '<div class="split-row split-row-border">';
+    html += '<div class="split-cell split-cell-zh"><div class="fl">Thông tin cơ bản</div>' + infoZhItems.join('') + '</div>';
+    html += '<div class="split-cell split-cell-vi"><div class="fl text-slate-700/60" style="font-style:italic">— (dữ liệu số, không dịch) —</div></div>';
+    html += '</div>';
+  }
+
+  // ── Ghi chú năm mất (death_note) — có thể dịch ──
+  if (d.death_note || vi_.death_note_vi) {
+    html += '<div class="split-row split-row-border">';
+    html += '<div class="split-cell split-cell-zh"><div class="fl">Ghi chú năm mất</div>';
+    html += '<div class="fv zh text-sm">' + esc(d.death_note||'') + '</div>';
+    html += '</div>';
+    html += '<div class="split-cell split-cell-vi"><div class="fl" style="color:#d9770680">Ghi chú năm mất 🇻🇳</div>';
+    var dn_vi = vi_.death_note_vi || '';
+    html += '<div id="dila-v-death_note_vi" class="fv text-sm'+((!dn_vi)?' empty':'')+'">' + (dn_vi ? esc(dn_vi) : '(chưa dịch)') + '</div>';
+    html += '<div id="dila-e-death_note_vi" hidden class="mt-1"><input id="dila-ta-death_note_vi" type="text" value="' + esc(dn_vi) + '" class="' + inputCls + '"></div>';
+    html += '</div></div>';
+  }
+
+  // ── Trích dẫn năm sinh/mất (birth_death_quote) — có thể dịch ──
+  if (d.birth_death_quote || vi_.birth_death_quote_vi) {
+    html += '<div class="split-row split-row-border">';
+    html += '<div class="split-cell split-cell-zh"><div class="fl">Trích dẫn nguồn gốc</div>';
+    html += '<div class="fv zh text-sm" style="white-space:pre-wrap;word-break:break-word">' + esc(d.birth_death_quote||'') + '</div>';
+    html += '</div>';
+    html += '<div class="split-cell split-cell-vi"><div class="fl" style="color:#d9770680">Trích dẫn (Việt) 🇻🇳</div>';
+    var bdq_vi = vi_.birth_death_quote_vi || '';
+    html += '<div id="dila-v-birth_death_quote_vi" class="fv text-sm'+((!bdq_vi)?' empty':'')+'" style="white-space:pre-wrap;word-break:break-word">' + (bdq_vi ? esc(bdq_vi) : '(chưa dịch)') + '</div>';
+    html += '<div id="dila-e-birth_death_quote_vi" hidden class="mt-2"><textarea id="dila-ta-birth_death_quote_vi" rows="4" class="' + taCls + '">' + esc(bdq_vi) + '</textarea></div>';
+    html += '</div></div>';
+  }
+
+  // ── Các trường text chính (paried rows) ──
+  html += row('Triều đại', d.dynasty_xml, 'dynasty_vi', vi_.dynasty_vi, 'input');
+  html += row('Nghề nghiệp', d.occupation, 'occupation_vi', vi_.occupation_vi, 'input');
+  html += row('Nơi xuất xứ', d.place_of_origin, 'place_of_origin_vi', vi_.place_of_origin_vi, 'input');
+  html += row('Tiểu sử vắn tắt', _personBioZh, 'bio_concise_vi', vi_.bio_concise_vi, 'textarea', 8);
+  html += row('Tiểu sử chi tiết', normMultiline(d.bio_extensive||''), 'bio_extensive_vi', vi_.bio_extensive_vi, 'textarea', 12);
+  html += row('Kinh trong Đại Tạng', normMultiline(d.works_tripitaka||''), 'works_tripitaka_vi', vi_.works_tripitaka_vi, 'textarea', 5);
+  html += row('Tác phẩm', normMultiline(d.works_by||''), 'works_by_vi', vi_.works_by_vi, 'textarea', 5);
+  html += row('Tài liệu tham khảo', normMultiline(d.secondary_lit||''), 'secondary_lit_vi', vi_.secondary_lit_vi, 'textarea', 4);
+  html += row('Nơi hoạt động', d.active_at||'', 'active_at_vi', vi_.active_at_vi, 'input');
+
+  // ── Được đề cập trong ──
+  var mentioned_vi = vi_.mentioned_in_vi || '';
+  var has_mentioned_zh = (d.mentioned_in_refs&&d.mentioned_in_refs.length) || d.mentioned_in;
+  if (has_mentioned_zh || mentioned_vi) {
+    html += '<div class="split-row split-row-border">';
+    html += '<div class="split-cell split-cell-zh"><div class="fl">Được đề cập trong</div>';
+    if (d.mentioned_in_refs && d.mentioned_in_refs.length) {
+      d.mentioned_in_refs.forEach(function(r){
+        html += r.url
+          ? '<a href="'+esc(r.url)+'" target="_blank" rel="noopener" class="text-xs text-sky-400 hover:text-sky-200 underline block mb-0.5">'+esc(r.text)+' ↗</a>'
+          : '<div class="text-xs text-slate-300 mb-0.5 font-mono">'+esc(r.text)+'</div>';
+      });
+    } else if (d.mentioned_in) {
+      html += '<div class="fv text-sm text-slate-300" style="white-space:pre-wrap;font-family:serif">'+esc(d.mentioned_in)+'</div>';
+    }
+    html += '</div>';
+    html += '<div class="split-cell split-cell-vi"><div class="fl" style="color:#d9770680">Được đề cập trong 🇻🇳</div>';
+    html += '<div id="dila-v-mentioned_in_vi" class="fv text-sm'+((!mentioned_vi)?' empty':'')+'" style="white-space:pre-wrap;word-break:break-word">' + (mentioned_vi ? esc(mentioned_vi) : '(chưa dịch)') + '</div>';
+    html += '<div id="dila-e-mentioned_in_vi" hidden class="mt-2"><textarea id="dila-ta-mentioned_in_vi" rows="4" class="'+taCls+'">'+esc(mentioned_vi)+'</textarea></div>';
+    html += '</div></div>';
+  }
+
+  // ── Quan hệ Thầy / Học trò ──
+  if (d.relations && d.relations.length) {
+    var viRelMap = {};
+    (vi_.relations_vi||[]).forEach(function(r){ viRelMap[r.person_id] = r; });
+
+    var teachers = d.relations.filter(function(r){ return r.type==='teacher'; });
+    var students = d.relations.filter(function(r){ return r.type==='student'; });
+
+    function relCardZh(r) {
+      var o = '<div class="text-xs border border-slate-700/40 rounded-lg p-2 bg-slate-800/30 mb-1.5">';
+      o += '<div class="flex items-center gap-1.5 mb-0.5">';
+      o += '<a href="/daoanh/admin/person.html?id='+esc(r.person_id)+'" class="font-medium text-slate-200 hover:text-amber-300">'+esc(r.name||r.person_id)+'</a>';
+      o += ' <span class="text-[10px] text-slate-500 mono">'+esc(r.person_id)+'</span>';
+      o += '</div>';
+      if (r.bibl) o += '<div class="text-[10px] text-slate-400 leading-relaxed">'+esc(r.bibl.length>120?r.bibl.slice(0,120)+'…':r.bibl)+'</div>';
+      o += '</div>';
+      return o;
+    }
+    function relCardVi(r) {
+      var vr = viRelMap[r.person_id] || {};
+      // Priority: DB name (dila_full đã filter _ok_hanviet_name) > AI name > null
+      var viNameDB = r.name_vi || null;     // từ people.name_vi qua filter (backend)
+      var viNameAI = vr.name_vi || null;    // từ AI translation cache
+      var viName = viNameDB || viNameAI || null;
+      var srcBadge = viNameDB
+        ? '<span class="text-[8px] mono text-emerald-500/60 ml-1 shrink-0">DB</span>'
+        : (viNameAI ? '<span class="text-[8px] mono text-amber-500/50 ml-1 shrink-0">AI</span>' : '');
+
+      var o = '<div class="text-xs border border-amber-900/30 rounded-lg p-2 bg-amber-900/10 mb-1.5">';
+      o += '<div class="flex items-start gap-1 flex-wrap">';
+      if (viName) {
+        o += '<a href="/daoanh/admin/person.html?id='+esc(r.person_id)+'" class="font-medium text-amber-400 hover:underline">'+esc(viName)+'</a>';
+        o += srcBadge;
+        // Luôn hiện tên Hán gốc kèm theo để đối chiếu
+        o += ' <span class="text-[10px] text-slate-500 mono">('+esc(r.name||r.person_id)+')</span>';
+      } else {
+        // Không có tên VI — hiện tên Hán + note chưa có
+        o += '<a href="/daoanh/admin/person.html?id='+esc(r.person_id)+'" class="font-medium text-slate-400 hover:text-amber-300">'+esc(r.name||r.person_id)+'</a>';
+        o += ' <span class="text-[9px] mono text-slate-600 italic">chưa có tên VI</span>';
+      }
+      o += '</div>';
+      o += '<div class="text-[10px] text-slate-600 mono mt-0.5">'+esc(r.person_id)+'</div>';
+      o += '</div>';
+      return o;
+    }
+
+    if (teachers.length) {
+      html += '<div class="split-row split-row-border">';
+      html += '<div class="split-cell split-cell-zh"><div class="fl">Thầy ('+teachers.length+')</div>'+teachers.map(relCardZh).join('')+'</div>';
+      html += '<div class="split-cell split-cell-vi"><div class="fl" style="color:#d9770680">Thầy 🇻🇳</div>'+teachers.map(relCardVi).join('')+'</div>';
+      html += '</div>';
+    }
+    if (students.length) {
+      html += '<div class="split-row split-row-border">';
+      html += '<div class="split-cell split-cell-zh"><div class="fl">Học trò ('+students.length+')</div>'+students.map(relCardZh).join('')+'</div>';
+      html += '<div class="split-cell split-cell-vi"><div class="fl" style="color:#d9770680">Học trò 🇻🇳</div>'+students.map(relCardVi).join('')+'</div>';
+      html += '</div>';
+    }
+  }
+
+  // ── Trích dẫn CBETA ──
+  if (d.listbibl && d.listbibl.length) {
+    html += '<div class="split-row split-row-border">';
+    html += '<div class="split-cell split-cell-zh"><div class="fl">Trích dẫn CBETA ('+d.listbibl.length+')</div>';
+    d.listbibl.slice(0,12).forEach(function(b){ html += '<div class="text-xs text-slate-400 mb-1 leading-relaxed">'+esc(b)+'</div>'; });
+    if (d.listbibl.length>12) html += '<div class="text-xs text-slate-600">(+' + (d.listbibl.length-12) + ' nữa…)</div>';
+    html += '</div>';
+    var lb_vi = vi_.listbibl_vi || [];
+    html += '<div class="split-cell split-cell-vi"><div class="fl" style="color:#d9770680">Trích dẫn CBETA (Việt)</div>';
+    if (lb_vi.length) {
+      lb_vi.slice(0,12).forEach(function(b){ html += '<div class="text-xs text-slate-300 mb-1 leading-relaxed">'+esc(b)+'</div>'; });
+    } else {
+      html += '<div class="fv empty text-xs">(chưa dịch)</div>';
+    }
+    html += '</div></div>';
+  }
+
+  // ── Edit actions footer (full width) ──
+  html += '<div id="dila-edit-actions" hidden class="col-span-2 flex gap-2 px-4 py-3 border-t border-amber-800/20 items-center bg-slate-900/30">';
+  html += '<button onclick="saveDilaEdit()" class="text-[11px] mono font-bold text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 transition-all rounded-lg px-3 py-1.5">💾 Lưu tất cả</button>';
+  html += '<button onclick="cancelDilaEdit()" class="text-[11px] mono text-slate-500 hover:text-slate-300 border border-slate-800/60 hover:border-slate-600 transition-all rounded-lg px-3 py-1.5">Hủy</button>';
+  html += '<span id="dila-edit-msg" hidden class="text-[10px] mono"></span>';
+  html += '</div>';
+
+  html += '</div>'; // close grid
+
+  document.getElementById('dila-split-body').innerHTML = html;
+  document.getElementById('card-dila-extra').hidden = false;
+  document.getElementById('dila-split-body').hidden = false;
+}
+
+// ── DILA Card AI Translate ──
+var _dilaHasCache = false;  // true khi đang hiển thị bản dịch từ cache
+
+function doDilaTranslate() {
+  var btn = document.getElementById('btn-dila-translate');
+  var isRetranslate = _dilaHasCache;  // nếu đang là cache → dịch lại (force)
+  btn.disabled = true;
+  document.getElementById('btn-dila-icon').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('btn-dila-label').textContent = isRetranslate ? 'Đang dịch lại…' : 'Đang dịch…';
+
+  var url = '/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_translate'
+            + (isRetranslate ? '?force=1' : '');
+  fetch(url, {method:'POST'})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      btn.disabled = false;
+      if (!d.ok) {
+        document.getElementById('btn-dila-icon').textContent = '⚠️';
+        document.getElementById('btn-dila-label').textContent = d.error || 'Lỗi — thử lại';
+        return;
+      }
+      _dilaHasCache = d.from_cache;
+      document.getElementById('btn-dila-icon').textContent = '✅';
+      document.getElementById('btn-dila-label').textContent = d.from_cache ? 'Đã dịch (cache)' : 'Đã dịch mới ✨';
+      if (_dilaFullData) {
+        renderDilaSideBySide(_dilaFullData, d.vi, d.model_id, d.translation_id);
+      }
+      if (d.suggested_rules && d.suggested_rules.length) {
+        renderSuggestedRules(d.suggested_rules);
+      }
+    })
+    .catch(function(){
+      btn.disabled = false;
+      document.getElementById('btn-dila-icon').textContent = '⚠️';
+      document.getElementById('btn-dila-label').textContent = 'Lỗi kết nối';
+    });
+}
+
+function renderSuggestedRules(rules) {
+  var el = document.getElementById('dila-suggested-rules');
+  if (!el || !rules || !rules.length) return;
+  var html = '<div class="p-3 rounded-xl border border-yellow-600/40 bg-yellow-900/10">';
+  html += '<div class="text-[9px] mono font-bold tracking-widest text-yellow-400/80 mb-2">⚠ PHÁT HIỆN GAP — ĐỀ XUẤT BỔ SUNG RULES (' + rules.length + ')</div>';
+  rules.forEach(function(r, i) {
+    var rowId = 'sgr-' + i;
+    html += '<div id="' + rowId + '" class="mb-2 p-2 rounded-lg bg-yellow-900/20 border border-yellow-700/30 flex items-start gap-2">';
+    html += '<div class="flex-1 min-w-0">';
+    html += '<div class="text-[9px] mono text-yellow-500/70 font-bold">[' + esc((r.rule_type||'terminology').toUpperCase()) + '] ' + esc(r.rule_code) + '</div>';
+    html += '<div class="text-[11px] text-yellow-200/80 mt-0.5">' + esc(r.description) + '</div>';
+    html += '<div class="text-[10px] text-slate-400 mt-0.5 font-mono">' + esc(r.rule_text) + '</div>';
+    html += '</div>';
+    html += '<div class="flex flex-col gap-1 shrink-0">';
+    if (r.id) {
+      html += '<button onclick="approveRule(' + r.id + ',\'' + rowId + '\')" '
+            + 'class="text-[9px] mono px-2 py-0.5 rounded bg-emerald-600/20 border border-emerald-500/40 '
+            + 'text-emerald-400 hover:bg-emerald-600/40 transition-colors whitespace-nowrap">✓ Duyệt</button>';
+      html += '<button onclick="dismissRule(' + r.id + ',\'' + rowId + '\')" '
+            + 'class="text-[9px] mono px-2 py-0.5 rounded bg-slate-700/30 border border-slate-600/30 '
+            + 'text-slate-500 hover:text-rose-400 hover:border-rose-500/40 transition-colors whitespace-nowrap">✕ Bỏ</button>';
+    } else {
+      html += '<span class="text-[9px] mono text-slate-600">pending</span>';
+    }
+    html += '</div></div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+  el.hidden = false;
+}
+
+function approveRule(ruleId, rowId) {
+  var token = localStorage.getItem('admin_session') || '';
+  var row = document.getElementById(rowId);
+  if (row) row.style.opacity = '0.5';
+  fetch('/daoanh/api/admin/translation-rules/' + ruleId + '/approve', {
+    method: 'POST',
+    headers: {'X-Session-Token': token}
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      if (!d.ok) { if (row) row.style.opacity = '1'; alert('Lỗi: ' + (d.error||'?')); return; }
+      if (row) {
+        row.innerHTML = '<div class="flex-1 text-[10px] mono text-emerald-400">✓ Đã duyệt: ' + esc(d.approved.rule_code) + '</div>';
+        row.style.opacity = '1';
+        row.className = 'mb-2 p-2 rounded-lg bg-emerald-900/10 border border-emerald-700/30 flex items-center gap-2';
+      }
+    })
+    .catch(function(){ if (row) row.style.opacity = '1'; alert('Lỗi kết nối'); });
+}
+
+function dismissRule(ruleId, rowId) {
+  var token = localStorage.getItem('admin_session') || '';
+  var row = document.getElementById(rowId);
+  if (row) row.style.opacity = '0.5';
+  fetch('/daoanh/api/admin/translation-rules/' + ruleId + '/dismiss', {
+    method: 'POST',
+    headers: {'X-Session-Token': token}
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      if (!d.ok) { if (row) row.style.opacity = '1'; alert('Lỗi: ' + (d.error||'?')); return; }
+      if (row) row.remove();
+    })
+    .catch(function(){ if (row) row.style.opacity = '1'; alert('Lỗi kết nối'); });
+}
+
+// ── Inline edit (targets dila-split-body) ──
+function startDilaEdit() {
+  var body = document.getElementById('dila-split-body');
+  if (!body || body.hidden) { alert('Chưa có bản dịch DILA — hãy bấm "AI Dịch DILA" trước.'); return; }
+  body.querySelectorAll('[id^="dila-v-"]').forEach(function(el){ el.hidden = true; });
+  body.querySelectorAll('[id^="dila-e-"]').forEach(function(el){ el.hidden = false; });
+  var btn = document.getElementById('btn-dila-edit');
+  if (btn) btn.hidden = true;
+  var actions = document.getElementById('dila-edit-actions');
+  if (actions) actions.hidden = false;
+  var first = body.querySelector('[id^="dila-ta-"]');
+  if (first) first.focus();
+}
+
+function cancelDilaEdit() {
+  var body = document.getElementById('dila-split-body');
+  if (!body) return;
+  body.querySelectorAll('[id^="dila-v-"]').forEach(function(el){ el.hidden = false; });
+  body.querySelectorAll('[id^="dila-e-"]').forEach(function(el){ el.hidden = true; });
+  var btn = document.getElementById('btn-dila-edit');
+  if (btn) btn.hidden = false;
+  var actions = document.getElementById('dila-edit-actions');
+  if (actions) actions.hidden = true;
+  var msg = document.getElementById('dila-edit-msg');
+  if (msg) msg.hidden = true;
+}
+
+function saveDilaEdit() {
+  var token = localStorage.getItem('admin_session') || '';
+  var msg = document.getElementById('dila-edit-msg');
+  function flash(text, ok) {
+    if (!msg) return;
+    msg.textContent = text;
+    msg.className = 'text-[10px] mono ' + (ok ? 'text-emerald-400' : 'text-rose-400');
+    msg.hidden = false;
+  }
+  function getVal(key) {
+    var el = document.getElementById('dila-ta-' + key);
+    return el ? el.value.trim() : null;
+  }
+  var payload = {translation_id: _dilaTranslationId};
+  ['dynasty_vi','occupation_vi','place_of_origin_vi','bio_concise_vi','bio_extensive_vi',
+   'works_tripitaka_vi','works_by_vi','secondary_lit_vi','mentioned_in_vi','active_at_vi',
+   'death_note_vi','birth_death_quote_vi'].forEach(function(k){
+    var v = getVal(k);
+    if (v !== null) payload[k] = v;
+  });
+  var altEl = document.getElementById('dila-ta-alt_names_vi');
+  if (altEl) {
+    payload.alt_names_vi = altEl.value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s.length>0;});
+  }
+  fetch('/daoanh/api/admin/person/' + encodeURIComponent(personId) + '/dila_vi', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-Session-Token': token},
+    body: JSON.stringify(payload)
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (!d.ok) { flash('Lỗi: ' + (d.error || 'không lưu được'), false); return; }
+      if (_dilaViData) {
+        Object.keys(payload).forEach(function(k){ if (k !== 'translation_id') _dilaViData[k] = payload[k]; });
+      }
+      if (_dilaFullData) renderDilaSideBySide(_dilaFullData, _dilaViData, null, _dilaTranslationId);
+      var msg2 = document.getElementById('dila-edit-msg');
+      if (msg2) { msg2.textContent = '✓ Đã lưu'; msg2.className = 'text-[10px] mono text-emerald-400'; msg2.hidden = false; setTimeout(function(){ msg2.hidden = true; }, 2500); }
+    })
+    .catch(function(){ flash('Lỗi kết nối', false); });
+}
+
+// ── Load DILA extra ──
+function loadDilaExtra() {
+  fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_full')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (d.ok && d.has_extra) {
+        // Fetch cached translation in parallel
+        fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_translate')
+          .then(function(r){ return r.json(); })
+          .then(function(tv){
+            var vi_data = (tv.ok && tv.from_cache && tv.vi) ? tv.vi : null;
+            var modelId = null;
+            var tId = tv.ok ? tv.translation_id : null;
+            if (vi_data) {
+              _dilaHasCache = true;
+              document.getElementById('btn-dila-icon').textContent = '✅';
+              document.getElementById('btn-dila-label').textContent = 'Đã dịch (cache)';
+            }
+            renderDilaSideBySide(d, vi_data, modelId, tId);
+          })
+          .catch(function(){
+            renderDilaSideBySide(d, null, null, null);
+          });
+      }
+    })
+    .catch(function(){});
+}
+
+// ── Inline edit tên tiếng Việt ──
+function startNameEdit() {
+  var h1 = document.getElementById('hdr-name');
+  var inp = document.getElementById('hdr-name-input');
+  var editDiv = document.getElementById('hdr-name-edit');
+  var btn = document.getElementById('btn-name-edit');
+  inp.value = h1.textContent;
+  h1.hidden = true;
+  if (btn) btn.hidden = true;
+  editDiv.hidden = false;
+  inp.focus();
+  inp.select();
+}
+
+function cancelNameEdit() {
+  document.getElementById('hdr-name').hidden = false;
+  document.getElementById('btn-name-edit').hidden = false;
+  document.getElementById('hdr-name-edit').hidden = true;
+  document.getElementById('hdr-name-msg').hidden = true;
+}
+
+function saveNameEdit() {
+  var token = localStorage.getItem('admin_session') || '';
+  var inp = document.getElementById('hdr-name-input');
+  var msg = document.getElementById('hdr-name-msg');
+  var newName = inp.value.trim();
+  function flash(text, ok) {
+    msg.textContent = text;
+    msg.className = 'text-[10px] mono ' + (ok ? 'text-emerald-400' : 'text-rose-400');
+    msg.hidden = false;
+  }
+  if (!newName) { flash('Không được để trống', false); return; }
+  fetch('/daoanh/api/admin/person/' + encodeURIComponent(personId) + '/name_vi', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-Session-Token': token},
+    body: JSON.stringify({name_vi: newName})
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (!d.ok) { flash('Lỗi: ' + (d.error || 'không lưu được'), false); return; }
+      document.getElementById('hdr-name').textContent = newName;
+      cancelNameEdit();
+    })
+    .catch(function(){ flash('Lỗi kết nối', false); });
+}
+
+// ── Load person ──
+function load() {
+  if (!personId) {
+    document.getElementById('loading').hidden = true;
+    var e = document.getElementById('errbox');
+    e.textContent = 'Thiếu ?id= trong URL'; e.hidden = false;
+    return;
+  }
+
+  fetch('/daoanh/api/persons/' + encodeURIComponent(personId))
+    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(d=>{
+      document.getElementById('loading').hidden = true;
+
+      document.getElementById('hdr-id').textContent = d.id;
+      document.getElementById('hdr-name').textContent = d.name_vi || d.name_zh || d.id;
+      if (d.name_zh && d.name_zh !== d.name_vi) {
+        var zhEl = document.getElementById('hdr-zh');
+        zhEl.textContent = d.name_zh; zhEl.hidden = false;
+      }
+
+      var metaHtml = '';
+      if (d.dynasty) metaHtml += '<span class="bg-purple-500/10 text-purple-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc(d.dynasty) + '</span>';
+      if (d.sect) metaHtml += '<span class="bg-emerald-500/10 text-emerald-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc(d.sect) + '</span>';
+      if (d.birth_year || d.death_year) metaHtml += '<span class="bg-slate-700/30 text-slate-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc((d.birth_year||'?')+' – '+(d.death_year||'?')) + '</span>';
+      document.getElementById('meta').innerHTML = metaHtml;
+      document.getElementById('hdr').hidden = false;
+
+      _personBioZh = d.bio_zh || d.biography || '';
+
+      loadDilaExtra();
+    })
+    .catch(function(e){
+      document.getElementById('loading').hidden = true;
+      var el = document.getElementById('errbox');
+      el.textContent = 'Không tìm thấy: ' + personId + ' (' + e.message + ')';
+      el.hidden = false;
+    });
+}
+
+load();
+</script>
+</body>
+</html>

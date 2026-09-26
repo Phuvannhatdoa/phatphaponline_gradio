@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bio VI Draft Review — Đạo Ảnh Admin</title>
+<style>
+:root {
+  --bg: #0B0F1A; --surface: #131926; --surface2: #1A2235;
+  --border: rgba(255,255,255,0.08); --gold: #C9A84C; --gold-dim: rgba(201,168,76,0.12);
+  --text: #E2DDD5; --muted: rgba(226,221,213,0.45);
+  --green: #3ECF8E; --red: #F87171; --sky: #38BDF8;
+  --r: 8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);
+  font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+
+/* Header */
+.hd{display:flex;align-items:center;gap:16px;padding:14px 24px;
+  background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.hd-title{font-size:15px;font-weight:700;color:var(--text)}
+.hd-back{font-size:12px;color:var(--muted)}
+.hd-back:hover{color:var(--gold)}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-pending{background:rgba(201,168,76,.15);color:var(--gold)}
+.badge-approved{background:rgba(62,207,142,.15);color:var(--green)}
+.badge-rejected{background:rgba(248,113,113,.15);color:var(--red)}
+
+/* Stats bar */
+.stats{display:flex;gap:24px;padding:12px 24px;background:var(--surface2);
+  border-bottom:1px solid var(--border);font-size:13px;flex-wrap:wrap}
+.stat-item{display:flex;gap:6px;align-items:center}
+.stat-num{font-weight:700;font-size:15px}
+
+/* Filter bar */
+.filters{display:flex;gap:10px;padding:12px 24px;flex-wrap:wrap;align-items:center;
+  border-bottom:1px solid var(--border)}
+select,input{background:var(--surface2);border:1px solid var(--border);color:var(--text);
+  border-radius:6px;padding:5px 10px;font-size:13px;font-family:inherit}
+select:focus,input:focus{outline:1px solid var(--gold)}
+.btn{padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;border:none;
+  transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn-primary{background:var(--gold);color:#0B0F1A}
+.btn-sm{padding:4px 10px;font-size:12px;border-radius:5px;border:none}
+.btn-approve{background:rgba(62,207,142,.2);color:var(--green);border:1px solid rgba(62,207,142,.3)}
+.btn-reject{background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.25)}
+.btn-edit{background:rgba(56,189,248,.15);color:var(--sky);border:1px solid rgba(56,189,248,.25)}
+.btn-bulk{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+
+/* Card list */
+.list{padding:16px 24px;display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.card-approved{border-left:3px solid var(--green)}
+.card-rejected{border-left:3px solid var(--red)}
+.card-head{display:flex;align-items:center;gap:10px;padding:12px 16px;
+  border-bottom:1px solid var(--border)}
+.card-name{font-size:15px;font-weight:700;color:var(--text)}
+.card-han{font-size:14px;color:var(--gold);opacity:.8;margin-left:4px}
+.card-id{font-family:monospace;font-size:11px;color:var(--muted)}
+.card-meta{display:flex;gap:8px;margin-left:auto;align-items:center;flex-wrap:wrap}
+.chip{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;
+  background:var(--surface2);border:1px solid var(--border);color:var(--muted)}
+.card-body{padding:12px 16px}
+.bio-preview{font-size:13px;color:var(--muted);line-height:1.7;
+  max-height:80px;overflow:hidden;transition:max-height .3s}
+.bio-preview.expanded{max-height:none}
+.bio-expand{color:var(--sky);font-size:12px;cursor:pointer;margin-top:4px;display:inline-block}
+.card-actions{display:flex;gap:8px;padding:10px 16px;border-top:1px solid var(--border)}
+.edit-area{display:none;padding:12px 16px;border-top:1px solid var(--border)}
+.edit-area textarea{width:100%;min-height:120px;background:var(--surface2);
+  border:1px solid var(--border);color:var(--text);border-radius:6px;
+  padding:8px;font-size:13px;font-family:inherit;resize:vertical}
+.edit-btns{display:flex;gap:8px;margin-top:8px}
+.reject-area{display:none;padding:8px 16px;border-top:1px solid var(--border)}
+.reject-area input{width:100%;margin-bottom:8px}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;padding:20px 24px;align-items:center}
+.page-btn{padding:6px 12px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;color:var(--text);font-size:13px}
+.page-btn.active{background:var(--gold);color:#0B0F1A;border-color:var(--gold)}
+.page-btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* Empty / loading */
+.empty{text-align:center;padding:48px 24px;color:var(--muted)}
+.loading{text-align:center;padding:32px;color:var(--muted)}
+
+/* Bulk panel */
+.bulk-panel{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);
+  padding:12px 16px;margin:0 24px 0}
+.bulk-row{display:flex;align-items:center;gap:10px;padding:5px 0;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <a class="hd-back" href="/daoanh/admin">← Admin</a>
+  <div class="hd-title">Bio VI Draft Review</div>
+  <div id="hd-counts" style="margin-left:auto;display:flex;gap:8px"></div>
+</div>
+
+<div class="stats" id="statsBar">
+  <span class="stat-item">Đang tải...</span>
+</div>
+
+<!-- Bulk approve panel -->
+<div id="bulkPanel" class="bulk-panel" style="display:none;margin-top:12px"></div>
+
+<!-- Filters -->
+<div class="filters">
+  <select id="filterStatus">
+    <option value="0">Chờ duyệt (pending)</option>
+    <option value="1">Đã approve</option>
+    <option value="-1">Đã reject</option>
+    <option value="all">Tất cả</option>
+  </select>
+  <select id="filterSource"><option value="">Tất cả nguồn</option></select>
+  <select id="filterMatch">
+    <option value="">Tất cả match_type</option>
+    <option value="exact_term">exact_term</option>
+    <option value="name_zh_bracket">name_zh_bracket</option>
+    <option value="name_zh_body">name_zh_body</option>
+  </select>
+  <input type="text" id="filterQ" placeholder="Tìm tên, từ khóa..." style="width:180px">
+  <button class="btn btn-primary" onclick="loadList(1)">Lọc</button>
+  <span id="filterCount" style="margin-left:auto;color:var(--muted);font-size:12px"></span>
+</div>
+
+<div class="list" id="listArea">
+  <div class="loading">Đang tải...</div>
+</div>
+<div class="pagination" id="paginationArea"></div>
+
+<script>
+let currentPage = 1;
+let totalPages = 1;
+let statsData = null;
+
+async function loadStats() {
+  const r = await fetch('/daoanh/api/admin/bio-review/stats');
+  const d = await r.json();
+  if (!d.ok) return;
+  statsData = d;
+
+  // Header badges
+  document.getElementById('hd-counts').innerHTML = `
+    <span class="badge badge-pending">⏳ ${d.pending} chờ duyệt</span>
+    <span class="badge badge-approved">✅ ${d.approved} approved</span>
+    <span class="badge badge-rejected">❌ ${d.rejected} rejected</span>
+  `;
+
+  // Stats bar
+  document.getElementById('statsBar').innerHTML =
+    `<span class="stat-item"><span class="stat-num">${d.pending}</span> chờ duyệt</span>` +
+    `<span class="stat-item"><span class="stat-num" style="color:var(--green)">${d.approved}</span> approved</span>` +
+    `<span class="stat-item"><span class="stat-num" style="color:var(--red)">${d.rejected}</span> rejected</span>` +
+    `<span class="stat-item">Tổng: <span class="stat-num">${d.pending+d.approved+d.rejected}</span></span>`;
+
+  // Source filter
+  const srcSet = [...new Set(d.groups.map(g => g.source_name))];
+  const sel = document.getElementById('filterSource');
+  sel.innerHTML = '<option value="">Tất cả nguồn</option>' +
+    srcSet.map(s => `<option value="${esc(s)}">${abbrev(s)}</option>`).join('');
+
+  // Bulk panel
+  const bulkRows = d.groups.map(g =>
+    `<div class="bulk-row">
+      <span style="flex:1;font-size:12px">${abbrev(g.source_name)} · ${g.match_type} — <b>${g.count}</b> rows</span>
+      <button class="btn-sm btn-bulk"
+        onclick="bulkApprove('${esc(g.source_name)}','${esc(g.match_type)}',${g.count})">
+        Bulk approve ${g.count}
+      </button>
+    </div>`
+  ).join('');
+  const bp = document.getElementById('bulkPanel');
+  if (d.pending > 0) {
+    bp.innerHTML = '<div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px">BULK APPROVE (theo nhóm)</div>' + bulkRows;
+    bp.style.display = 'block';
+  }
+}
+
+async function loadList(page) {
+  currentPage = page;
+  document.getElementById('listArea').innerHTML = '<div class="loading">Đang tải...</div>';
+  const status = document.getElementById('filterStatus').value;
+  const source = document.getElementById('filterSource').value;
+  const matchType = document.getElementById('filterMatch').value;
+  const q = document.getElementById('filterQ').value;
+  const params = new URLSearchParams({page, per_page: 20, status});
+  if (source) params.set('source', source);
+  if (matchType) params.set('match_type', matchType);
+  if (q) params.set('q', q);
+
+  const r = await fetch('/daoanh/api/admin/bio-review/list?' + params);
+  const d = await r.json();
+  if (!d.ok) { document.getElementById('listArea').innerHTML = `<div class="empty">Lỗi: ${d.error}</div>`; return; }
+
+  totalPages = d.pages;
+  document.getElementById('filterCount').textContent = `${d.total} kết quả`;
+
+  if (d.items.length === 0) {
+    document.getElementById('listArea').innerHTML = '<div class="empty">Không có kết quả nào.</div>';
+    document.getElementById('paginationArea').innerHTML = '';
+    return;
+  }
+
+  document.getElementById('listArea').innerHTML = d.items.map(item => cardHTML(item)).join('');
+  renderPagination(page, d.pages);
+}
+
+function cardHTML(item) {
+  const cls = item.admin_approved === 1 ? 'card-approved' : item.admin_approved === -1 ? 'card-rejected' : '';
+  const statusBadge = item.admin_approved === 1
+    ? '<span class="badge badge-approved">approved</span>'
+    : item.admin_approved === -1
+    ? `<span class="badge badge-rejected">rejected: ${esc(item.admin_note||'')}</span>`
+    : '';
+  const actions = item.admin_approved === 0 ? `
+    <div class="card-actions">
+      <button class="btn-sm btn-approve" onclick="doApprove('${item.person_id}')">✅ Approve</button>
+      <button class="btn-sm btn-edit" onclick="toggleEdit('${item.person_id}')">✏ Sửa & Approve</button>
+      <button class="btn-sm btn-reject" onclick="toggleReject('${item.person_id}')">❌ Reject</button>
+    </div>
+    <div class="edit-area" id="edit-${item.person_id}">
+      <textarea id="edittext-${item.person_id}">${escTA(item.bio_preview)}</textarea>
+      <div class="edit-btns">
+        <button class="btn-sm btn-approve" onclick="doApproveEdit('${item.person_id}')">✅ Lưu & Approve</button>
+        <button class="btn-sm" onclick="toggleEdit('${item.person_id}')" style="background:var(--surface2);border:1px solid var(--border)">Huỷ</button>
+      </div>
+    </div>
+    <div class="reject-area" id="reject-${item.person_id}">
+      <input type="text" id="rejectnote-${item.person_id}" placeholder="Lý do reject (tuỳ chọn)">
+      <div style="display:flex;gap:8px">
+        <button class="btn-sm btn-reject" onclick="doReject('${item.person_id}')">❌ Xác nhận reject</button>
+        <button class="btn-sm" onclick="toggleReject('${item.person_id}')" style="background:var(--surface2);border:1px solid var(--border)">Huỷ</button>
+      </div>
+    </div>` : '';
+
+  return `<div class="card ${cls}" id="card-${item.person_id}">
+    <div class="card-head">
+      <span class="card-name">${esc(item.name_vi||'—')}</span>
+      <span class="card-han">${esc(item.name_zh||'')}</span>
+      <span class="card-id">${esc(item.person_id)}</span>
+      <div class="card-meta">
+        ${statusBadge}
+        <span class="chip">${abbrev(item.source_name||'')}</span>
+        <span class="chip">${esc(item.match_type||'')}</span>
+        <span class="chip">${item.char_count||0} ký tự</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="bio-preview" id="bio-${item.person_id}">${esc(item.bio_preview||'')}</div>
+      ${(item.bio_preview||'').length >= 298 ? `<span class="bio-expand" onclick="expandBio('${item.person_id}')">Xem thêm ▼</span>` : ''}
+    </div>
+    ${actions}
+  </div>`;
+}
+
+async function doApprove(pid) {
+  const r = await fetch('/daoanh/api/admin/bio-review/approve', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({person_id: pid})
+  });
+  const d = await r.json();
+  if (d.ok) { removeCard(pid); loadStats(); }
+  else alert('Lỗi: ' + d.error);
+}
+
+async function doApproveEdit(pid) {
+  const bio = document.getElementById('edittext-' + pid)?.value || '';
+  const r = await fetch('/daoanh/api/admin/bio-review/approve', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({person_id: pid, bio_override: bio})
+  });
+  const d = await r.json();
+  if (d.ok) { removeCard(pid); loadStats(); }
+  else alert('Lỗi: ' + d.error);
+}
+
+async function doReject(pid) {
+  const note = document.getElementById('rejectnote-' + pid)?.value || '';
+  const r = await fetch('/daoanh/api/admin/bio-review/reject', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({person_id: pid, note})
+  });
+  const d = await r.json();
+  if (d.ok) { removeCard(pid); loadStats(); }
+  else alert('Lỗi: ' + d.error);
+}
+
+async function bulkApprove(source, matchType, count) {
+  if (!confirm(`Bulk approve ${count} rows từ "${abbrev(source)}" · ${matchType}?\nHành động này không thể hoàn tác ngay.`)) return;
+  const r = await fetch('/daoanh/api/admin/bio-review/bulk-approve', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({source, match_type: matchType})
+  });
+  const d = await r.json();
+  if (d.ok) {
+    alert(`✅ Đã approve ${d.approved_count} rows.`);
+    loadStats(); loadList(1);
+  } else alert('Lỗi: ' + d.error);
+}
+
+function removeCard(pid) {
+  const el = document.getElementById('card-' + pid);
+  if (el) el.remove();
+}
+
+function toggleEdit(pid) {
+  const el = document.getElementById('edit-' + pid);
+  if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+
+function toggleReject(pid) {
+  const el = document.getElementById('reject-' + pid);
+  if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+
+function expandBio(pid) {
+  const el = document.getElementById('bio-' + pid);
+  if (el) { el.classList.toggle('expanded'); }
+  const btn = el?.nextElementSibling;
+  if (btn) btn.textContent = el.classList.contains('expanded') ? 'Thu gọn ▲' : 'Xem thêm ▼';
+}
+
+function renderPagination(page, pages) {
+  const el = document.getElementById('paginationArea');
+  if (pages <= 1) { el.innerHTML = ''; return; }
+  let html = `<button class="page-btn" onclick="loadList(${page-1})" ${page===1?'disabled':''}>‹ Trước</button>`;
+  const start = Math.max(1, page-2), end = Math.min(pages, page+2);
+  if (start > 1) html += `<button class="page-btn" onclick="loadList(1)">1</button>${start>2?'<span style="color:var(--muted)">…</span>':''}`;
+  for (let p = start; p <= end; p++)
+    html += `<button class="page-btn ${p===page?'active':''}" onclick="loadList(${p})">${p}</button>`;
+  if (end < pages) html += `${end<pages-1?'<span style="color:var(--muted)">…</span>':''}<button class="page-btn" onclick="loadList(${pages})">${pages}</button>`;
+  html += `<button class="page-btn" onclick="loadList(${page+1})" ${page===pages?'disabled':''}>Tiếp ›</button>`;
+  el.innerHTML = html;
+}
+
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+function escTA(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;') }
+function abbrev(s) {
+  const m = {'Tu Dien Thien Tong Han Viet - Han Man - Thong Thien':'Thiền Tông HV',
+    'Phat Hoc Tinh Tuyen - TK Thich Nguyen Tam':'Phật Học TT',
+    'Tu Dien Phat Hoc Tong Hop - Viet  - Anh - Cs Minh Thong - Mic Phuong':'PH Tổng Hợp',
+    'Trich Luc Tu Ngu Phat Hoc - Cs Hanh Co':'Trích Lục TN',
+    'Phat Quang Tu Dien - HT Quang Do':'Phật Quang TĐ'};
+  return m[s] || (s||'').substring(0,28);
+}
+
+// Init
+loadStats();
+loadList(1);
+document.getElementById('filterQ').addEventListener('keydown', e => { if (e.key==='Enter') loadList(1); });
+</script>
+</body>
+</html>

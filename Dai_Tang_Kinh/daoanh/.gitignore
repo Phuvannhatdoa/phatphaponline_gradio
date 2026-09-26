@@ -1,0 +1,34 @@
+# Git / honkit exclusions — giữ lại docs/, tasks/, dashboard/, styles/ (SUMMARY.md cần)
+node_modules/
+data/
+_book/
+tests/*
+!tests/*.py
+# src_python/ — TRACKED: app.py line 7569 gọi ETL scripts trong src_python/etl/
+# src/ — ignored: archive cũ, không load trong app.py (code đã chuyển sang src_python/ và static/)
+src/
+# .opencode/ — ignore node_modules/plugin, NHƯNG track skills/ + agents/ (dev-tooling dùng chung)
+.opencode/*
+.opencode/*/node_modules/
+!.opencode/skills/
+!.opencode/skills/**
+!.opencode/agents/
+!.opencode/agents/**
+# ontology/ — ignored: 48K+ files generated TTL/JSON, quá lớn để track trong git
+ontology/
+logs/
+# places/ — ignored: superseded bởi places.html root; chỉ còn 1 index.html cũ
+places/
+# config/ — ignored: chứa credentials (graphdb_password), không commit lên git
+config/
+# deploy/ — ignored: gunicorn_config.py + nginx.conf server-specific, không bao giờ commit
+deploy/
+# static/ — TRACKED: Flask route /daoanh/static/<path> serve từ đây (app.py line 7127-7130)
+test-results/
+*.pyc
+__pycache__/
+.DS_Store
+*.log
+*.db
+*.db.bak
+app.py.bak

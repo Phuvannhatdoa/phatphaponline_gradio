@@ -1,0 +1,96 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<ex:monk/ngu_to_phap_dien> a <bkg:Monk> ;
+    rdfs:label "Ngũ Tổ Pháp Diễn"@vi ;
+    crm:P1_is_identified_by <ex:monk/ngu_to_phap_dien_fa_yan_>,
+        <ex:monk/ngu_to_phap_dien_hoen>,
+        <ex:monk/ngu_to_phap_dien_thien_su> ;
+    bkg:associatedPlaces <ex:place/bach_van_son_hai_hoi_thien_vien>,
+        <ex:place/mien_chau>,
+        <ex:place/ngu_to_son>,
+        <ex:place/thai_binh_tu>,
+        <ex:place/thanh_do>,
+        <ex:place/tu_dien_son> ;
+    bkg:authoredWorks <ex:work/ngu_to_phap_dien_thien_su_ngu_luc> ;
+    bkg:biographicalNote "Ngũ Tổ Pháp Diễn (法演, Hōen, ?-1104): vị tăng của Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc, người vùng Miên Châu (綿州, thuộc Tỉnh Tứ Xuyên ngày nay), họ là Đăng (鄧). Năm 35 tuổi, ông xuất gia thọ cụ túc giới, sau lên Thành Đô học về Duy Thức, rồi đi về phương Nam tham yết Viên Chiếu Tông Bôn (圓照宗本), kế đến tham vấn Phu Sơn Pháp Viên (浮山法遠), cuối cùng theo học với Bạch Vân Thủ Đoan (白雲守端) và kế thừa dòng pháp của vị nầy. Tự đó, ông đến trú tại Tứ Diện Sơn (四面山) vùng An Khánh (安慶, thuộc Tỉnh An Huy ngày nay), sau chuyển đến Thái Bình Tự (太平寺), rồi Bạch Vân Sơn Hải Hội Thiền Viện (白雲山海會禪院) ở Thư Châu (舒州). Đến cuối đời, ông chuyển đến trú tại Ngũ Tổ Sơn (五祖山) ở Kì Châu (蘄州), cử xướng tông phong của Phái Dương Kì một cách mạnh mẽ. Chính ông đã cho ra khá nhiều bậc long tượng như Viên Ngộ Khắc Cần (圜悟克勤), Thái Bình Huệ Cần (太平慧懃), Phật Nhãn Thanh Viễn (佛眼清遠), Khai Phước Đạo Ninh (開福道寧), Đại Tùy Nguyên Tĩnh (大隨元靜), v.v…  Vào tháng 6 năm thứ 3 (1104) niên hiệu Sùng Ninh (崇寧) nhà Tống, ông thị tịch, hưởng thọ 80 tuổi. Trước tác của ông có Ngũ Tổ Pháp Diễn Thiền Sư Ngữ lục (五祖法演禪師語錄) 4 quyển."@vi ;
+    bkg:birthEvent <ex:monk/ngu_to_phap_dien_birthEvent> ;
+    bkg:deathEvent <ex:monk/ngu_to_phap_dien_deathEvent> ;
+    bkg:dharmaLineageName "Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 5 ;
+    bkg:hasContribution <ex:contribution/cu_xuong_tong_phong_phai_duong_ki> ;
+    bkg:hasDisciple <ex:monk/dai_tuy_nguyen_tinh>,
+        <ex:monk/khai_phuoc_dao_ninh>,
+        <ex:monk/phat_nhan_thanh_vien>,
+        <ex:monk/thai_binh_hue_can>,
+        <ex:monk/vien_ngo_khac_can> ;
+    bkg:hasKeyLifeEvent <ex:event/tru_tri_tai_bach_van_son_hai_hoi_thien_vien>,
+        <ex:event/tru_tri_tai_thai_binh_tu>,
+        <ex:event/tru_tri_tai_tu_dien_son>,
+        <ex:event/xuat_gia> ;
+    bkg:hasRelatedFigure <ex:monk/bach_van_thu_doan>,
+        <ex:monk/phu_son_phap_vien>,
+        <ex:monk/vien_chieu_tong_bon> ;
+    bkg:hasTeacher <ex:monk/bach_van_thu_doan> .
+
+<ex:contribution/cu_xuong_tong_phong_phai_duong_ki> rdfs:label "Cử xướng tông phong Phái Dương Kì"@vi .
+
+<ex:event/tru_tri_tai_bach_van_son_hai_hoi_thien_vien> rdfs:label "Trú trì tại Bạch Vân Sơn Hải Hội Thiền Viện"@vi .
+
+<ex:event/tru_tri_tai_thai_binh_tu> rdfs:label "Trú trì tại Thái Bình Tự"@vi .
+
+<ex:event/tru_tri_tai_tu_dien_son> rdfs:label "Trú trì tại Tứ Diện Sơn"@vi .
+
+<ex:event/xuat_gia> rdfs:label "Xuất gia"@vi .
+
+<ex:monk/dai_tuy_nguyen_tinh> rdfs:label "Đại Tùy Nguyên Tĩnh"@vi .
+
+<ex:monk/khai_phuoc_dao_ninh> rdfs:label "Khai Phước Đạo Ninh"@vi .
+
+<ex:monk/ngu_to_phap_dien_birthEvent> crm:P4_has_time-span "1024"^^xsd:gYear ;
+    crm:P7_took_place_at <ex:place/mien_chau> .
+
+<ex:monk/ngu_to_phap_dien_deathEvent> crm:P4_has_time-span "1104"^^xsd:gYear ;
+    crm:P7_took_place_at <ex:place/ngu_to_son> .
+
+<ex:monk/ngu_to_phap_dien_fa_yan_> a <crm:E41_Appellation> ;
+    rdfs:label "法演"@zh ;
+    bkg:hasAppellationType <bkg:DharmaName> .
+
+<ex:monk/ngu_to_phap_dien_hoen> a <crm:E41_Appellation> ;
+    rdfs:label "Hōen"@ja ;
+    bkg:hasAppellationType <bkg:DharmaName> .
+
+<ex:monk/ngu_to_phap_dien_thien_su> a <crm:E41_Appellation> ;
+    rdfs:label "Thiền sư"@vi ;
+    bkg:hasAppellationType <bkg:DharmaTitle> .
+
+<ex:monk/phat_nhan_thanh_vien> rdfs:label "Phật Nhãn Thanh Viễn"@vi .
+
+<ex:monk/phu_son_phap_vien> rdfs:label "Phu Sơn Pháp Viên"@vi .
+
+<ex:monk/thai_binh_hue_can> rdfs:label "Thái Bình Huệ Cần"@vi .
+
+<ex:monk/vien_chieu_tong_bon> rdfs:label "Viên Chiếu Tông Bôn"@vi .
+
+<ex:monk/vien_ngo_khac_can> rdfs:label "Viên Ngộ Khắc Cần"@vi .
+
+<ex:place/bach_van_son_hai_hoi_thien_vien> rdfs:label "Bạch Vân Sơn Hải Hội Thiền Viện"@vi .
+
+<ex:place/thai_binh_tu> rdfs:label "Thái Bình Tự"@vi .
+
+<ex:place/thanh_do> rdfs:label "Thành Đô"@vi .
+
+<ex:place/tu_dien_son> rdfs:label "Tứ Diện Sơn"@vi .
+
+<ex:work/ngu_to_phap_dien_thien_su_ngu_luc> rdfs:label "Ngũ Tổ Pháp Diễn Thiền Sư Ngữ lục"@vi .
+
+<ex:monk/bach_van_thu_doan> rdfs:label "Bạch Vân Thủ Đoan"@vi .
+
+<ex:place/mien_chau> rdfs:label "Miên Châu"@vi .
+
+<ex:place/ngu_to_son> rdfs:label "Ngũ Tổ Sơn"@vi .
+

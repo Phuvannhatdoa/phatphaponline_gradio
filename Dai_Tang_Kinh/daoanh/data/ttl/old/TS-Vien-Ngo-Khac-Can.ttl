@@ -1,0 +1,104 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<ex:monk/vien_ngo_khac_can> a bkg:Monk ;
+    rdfs:label "Viên Ngộ Khắc Cần"@vi ;
+    crm:P1_is_identified_by [ a crm:E41_Appellation ;
+            rdfs:label "Viên Ngộ Khắc Cần"@vi ;
+            bkg:hasAppellationType "bkg:DharmaName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Vô Trước"@vi ;
+            bkg:hasAppellationType "bkg:SecularName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Engo Kokugon"@en ;
+            bkg:hasAppellationType "bkg:SecularName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Lạc"@vi ;
+            bkg:hasAppellationType "bkg:SecularName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Thiền sư"@vi ;
+            bkg:hasAppellationType "bkg:DharmaTitle" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "圜悟克勤"@zh ;
+            bkg:hasAppellationType "bkg:DharmaName" ],
+        [ a crm:E41_Appellation ;
+            rdfs:label "Phật Quả Khắc Cần"@vi ;
+            bkg:hasAppellationType "bkg:DharmaName" ] ;
+    bkg:associatedPlaces <ex:place/chieu_giac_tu>,
+        <ex:place/chon_nhu_vien>,
+        <ex:place/dao_lam_tu>,
+        <ex:place/kim_son_long_du_tu>,
+        <ex:place/luc_to_tu>,
+        <ex:place/thien_ninh_tu>,
+        <ex:place/tuong_son_thai_binh_hung_quoc_tu> ;
+    bkg:authoredWorks <ex:work/vien_ngo_phat_qua_thien_su_ngu_luc>,
+        <ex:work/vien_ngo_thien_su_tam_yeu> ;
+    bkg:biographicalNote "Viên Ngộ Khắc Cần (圜悟克勤, Engo Kokugon, 1063-1135): nhân vật sống vào thời nhà Tống, vị tăng của Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc, họ là Lạc (駱), tự là Vô Trước (無著). Ông được vua Cao Tông nhà Nam Tống ban cho hiệu là Viên Ngộ (圜悟), rồi vua Huy Tông nhà Bắc Tống ban cho hiệu là Phật Quả (佛果), nên ông được gọi là Viên Ngộ Khắc Cần (圜悟克勤) hay Phật Quả Khắc Cần (佛果克勤).  Ông là người Sùng Ninh (崇寧, phía Tây Bắc Phố Thành Đô, Tỉnh Tứ Xuyên), Bành Châu (彭州), xuất gia từ lúc còn nhỏ, rồi đã từng tu tập với chư vị cao tăng ở các nơi, nhưng cuối cùng đến làm đệ tử của Ngũ Tổ Pháp Diễn (法演) và kế thừa dòng pháp của vị nầy. Về sau, thể theo lời thỉnh cầu của vị Hàn Lâm Quách Tri Chương (郭知章), ông đến thuyết pháp ở Lục Tổ Tự (六祖寺) và Chiêu Giác Tự (昭覺寺). Trong khoảng thời gian niên hiệu Chính Hòa (政和, 1111-1117), ông tuần du lên phương Nam, gặp Trương Thương Anh ( 張商英 ) và cùng đàm luận huyền chỉ của Hoa Nghiêm. Đương thời, Tể Tướng Trương Thương Anh của Phái Dung Phật (容佛派), Thái Thú Thành Đô Quách Tri Chương (郭知章), Đặng Tử Thường (鄧子常), v.v…, là những nhà ủng hộ đắc lực cho ông. Sau ông đã từng sống qua các chùa như Đạo Lâm Tự (道林寺) ở Đàm Châu (潭州, Tỉnh Hồ Nam), Tựơng Sơn Thái Bình Hưng Quốc Tự (蔣山太平興國寺) ở Kiến Khang Phủ (建康府, Nam Kinh), Thiên Ninh Tự (天寧寺) ở Đông Kinh (東京), Kim Sơn Long Du Tự (金山龍游寺) ở Nhuận Châu (潤州, Tỉnh Giang Tô), Chơn Như Viện (眞如院) ở Vân Cư Sơn (雲居山) thuộc Quận Nam Khang (南康郡, Tỉnh Giang Tây), v.v… Ông thị tịch vào tháng 8 năm thứ 5 niên hiệu Thiệu Hưng (紹興), hưởng thọ 73 tuổi, được ban cho thụy là Chơn Giác Thiền Sư (眞覺禪師). Môn nhân của ông có hơn ngàn người, trong đó có Đại Huệ Tông Cảo (大慧宗杲), Hổ Kheo Thiệu Long (虎丘紹隆). Sau khi ông qua đời, Hổ Kheo Thiệu Long đã biên tập bộ Viên Ngộ Phật Quả Thiền Sư Ngữ Lục (圜悟佛果禪師語錄) 20 quyển, và Tử Văn (子文) ghi chép thành bộ Viên Ngộ Thiền Sư Tâm Yếu (圜悟禪師心要) 2 quyển."@vi ;
+    bkg:birthEvent <ex:monk/vien_ngo_khac_can_birth_event> ;
+    bkg:deathEvent <ex:monk/vien_ngo_khac_can_death_event> ;
+    bkg:dharmaLineageName "Phái Dương Kì thuộc Lâm Tế Tông Trung Quốc" ;
+    bkg:gender "bkg:Male" ;
+    bkg:hasContribution <ex:contribution/vien_ngo_khac_can_contrib_phat_trien_lam_te_tong> ;
+    bkg:hasDisciple <ex:monk/dai_hue_tong_cao>,
+        <ex:monk/ho_kheo_thieu_long> ;
+    bkg:hasKeyLifeEvent <ex:event/vien_ngo_khac_can_event_thuyet_phap_luc_to_tu>,
+        <ex:event/vien_ngo_khac_can_event_tuan_du_phuong_nam> ;
+    bkg:hasRelatedFigure <ex:person/deng_tu_thuong>,
+        <ex:person/quach_tri_chuong>,
+        <ex:person/truong_thuong_anh>,
+        <ex:person/tu_van> ;
+    bkg:hasTeacher <ex:monk/ngu_to_phap_dien> .
+
+<ex:contribution/vien_ngo_khac_can_contrib_phat_trien_lam_te_tong> rdfs:label "Phát triển Phật giáo Lâm Tế Tông"@vi .
+
+<ex:event/vien_ngo_khac_can_event_thuyet_phap_luc_to_tu> rdfs:label "Thuyết pháp tại Lục Tổ Tự và Chiêu Giác Tự"@vi .
+
+<ex:event/vien_ngo_khac_can_event_tuan_du_phuong_nam> rdfs:label "Tuần du phương Nam, gặp Trương Thương Anh"@vi ;
+    crm:P4_has_time-span "1111"^^<xsd:gYear> .
+
+<ex:monk/dai_hue_tong_cao> rdfs:label "Đại Huệ Tông Cảo"@vi .
+
+<ex:monk/ho_kheo_thieu_long> rdfs:label "Hổ Kheo Thiệu Long"@vi .
+
+<ex:monk/ngu_to_phap_dien> rdfs:label "Ngũ Tổ Pháp Diễn"@vi .
+
+<ex:monk/vien_ngo_khac_can_birth_event> a crm:E67_Birth ;
+    crm:P4_has_time-span "1063"^^<xsd:gYear> .
+
+<ex:monk/vien_ngo_khac_can_death_event> a crm:E69_Death ;
+    crm:P4_has_time-span "1135"^^<xsd:gYear> .
+
+<ex:person/deng_tu_thuong> rdfs:label "Đặng Tử Thường"@vi .
+
+<ex:person/quach_tri_chuong> rdfs:label "Quách Tri Chương"@vi .
+
+<ex:person/truong_thuong_anh> rdfs:label "Trương Thương Anh"@vi .
+
+<ex:person/tu_van> rdfs:label "Tử Văn"@vi .
+
+<ex:place/chieu_giac_tu> rdfs:label "Chiêu Giác Tự"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/chon_nhu_vien> rdfs:label "Chơn Như Viện, Vân Cư Sơn"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/dao_lam_tu> rdfs:label "Đạo Lâm Tự, Đàm Châu"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/kim_son_long_du_tu> rdfs:label "Kim Sơn Long Du Tự, Nhuận Châu"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/luc_to_tu> rdfs:label "Lục Tổ Tự"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/thien_ninh_tu> rdfs:label "Thiên Ninh Tự, Đông Kinh"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:place/tuong_son_thai_binh_hung_quoc_tu> rdfs:label "Tựơng Sơn Thái Bình Hưng Quốc Tự, Kiến Khang"@vi ;
+    bkg:placeType "bkg:Monastery" .
+
+<ex:work/vien_ngo_phat_qua_thien_su_ngu_luc> rdfs:label "Viên Ngộ Phật Quả Thiền Sư Ngữ Lục"@vi .
+
+<ex:work/vien_ngo_thien_su_tam_yeu> rdfs:label "Viên Ngộ Thiền Sư Tâm Yếu"@vi .
+

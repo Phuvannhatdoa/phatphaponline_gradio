@@ -1,0 +1,8 @@
+﻿person_id,dila_person_id,display_name_vi,display_name_zh,authority_name_vi,verification_status,mapping_method,mapping_evidence,source_file,import_run_id
+A033489,A033489,Bạch Vân Thủ Đoan,白雲守端,Vân Tụ Thú Đoan,verified_direct,ttl_mapping_filename,ttl_mapping row stem=TS-Bach-Van-Thu-Doan,data/ttl/Lam Te Duong Ky/TS-Bach-Van-Thu-Doan.ttl,run_20260906_041727
+A038686,A038686,Đại Huệ Tông Cảo,,Đại Đức Tông Cảo,verified_direct,ttl_mapping_filename,ttl_mapping row stem=TS-Dai-Hue-Tong-Cao,data/ttl/Lam Te Duong Ky/TS-Dai-Hue-Tong-Cao.ttl,run_20260906_041727
+A004146,A004146,Dương Kì Phương Hội,,Dương Kỳ Hội,verified_direct,ttl_mapping_filename,ttl_mapping row stem=TS-Duong-Ki-Phuong-Hoi,data/ttl/Lam Te Duong Ky/TS-Duong-Ki-Phuong-Hoi.ttl,run_20260906_041727
+A036842,A036842,Ngũ Tổ Pháp Diễn,,Pháp Diễn,verified_direct,ttl_mapping_filename,ttl_mapping row stem=TS-Ngu-To-Phap-Dien,data/ttl/Lam Te Duong Ky/TS-Ngu-To-Phap-Dien.ttl,run_20260906_041727
+A000453,A000453,Viên Ngộ Khắc Cần,,Khắc Cần,verified_direct,ttl_mapping_filename,ttl_mapping row stem=TS-Vien-Ngo-Khac-Can,data/ttl/Lam Te Duong Ky/TS-Vien-Ngo-Khac-Can.ttl,run_20260906_041727
+A010097,A010097,Chung Sơn Đàm Thôi,鍾山曇璀,Chung Sơn Đàm Thôi,verified_crosswalk,chinese_name_exact,zh=鍾山曇璀 (bio hint) → A010097,data/ttl/TS-Chung-Son-Dam-Thoi.ttl,run_20260906_041727
+A014109,A014109,Thiên Trụ Sùng Huệ,天柱崇慧,Thiên Trụ Sùng Huệ,verified_crosswalk,chinese_name_exact,zh=天柱崇慧 (bio hint) → A014109,data/ttl/TS-Thien-Tru-Sung-Hue.ttl,run_20260906_041727

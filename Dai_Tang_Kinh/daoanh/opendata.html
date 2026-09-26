@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dữ liệu mở — Đạo Ảnh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg:       #F2F0EC; --bg2: #ECEAE6; --surface: #FFFFFF; --border: #DDD8CE;
+  --gold:     #B8941E; --gold-dim: rgba(184,148,30,0.10); --gold-glow: rgba(184,148,30,0.22);
+  --amethyst: #7B64CC;
+  --text-hi:  #1A1E28; --text-mid: #4A5160; --text-lo: #8A909E;
+  --shadow:   0 2px 12px rgba(0,0,0,0.08); --r: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#070C14; --bg2:#0A1120; --surface:#0F1824; --border:#1D2C3D;
+    --gold:#C8A84B; --gold-dim:rgba(200,168,75,0.12); --gold-glow:rgba(200,168,75,0.25);
+    --amethyst:#9E8CDB; --text-hi:#EDF0F3; --text-mid:#A0ACBA; --text-lo:#5A6680;
+    --shadow:0 2px 16px rgba(0,0,0,0.4);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#070C14; --bg2:#0A1120; --surface:#0F1824; --border:#1D2C3D;
+  --gold:#C8A84B; --gold-dim:rgba(200,168,75,0.12); --gold-glow:rgba(200,168,75,0.25);
+  --amethyst:#9E8CDB; --text-hi:#EDF0F3; --text-mid:#A0ACBA; --text-lo:#5A6680;
+  --shadow:0 2px 16px rgba(0,0,0,0.4);
+}
+:root[data-theme="light"] {
+  --bg:#F2F0EC; --bg2:#ECEAE6; --surface:#FFFFFF; --border:#DDD8CE;
+  --gold:#B8941E; --text-hi:#1A1E28; --text-mid:#4A5160; --text-lo:#8A909E;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg); color: var(--text-hi);
+  font-size: 15px; line-height: 1.6;
+}
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code {
+  font-family: 'Menlo', 'Consolas', monospace;
+  font-size: 12.5px; background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px;
+  color: var(--amethyst);
+}
+pre {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px 20px;
+  font-size: 12.5px; overflow-x: auto;
+  color: var(--text-mid); font-family: 'Menlo','Consolas',monospace;
+  line-height: 1.7; margin-bottom: 24px;
+}
+pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+
+/* Header */
+.hd { position:sticky;top:0;z-index:100;height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:24px;backdrop-filter:blur(12px); }
+.hd-logo { display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit; }
+.hd-logo-mark { width:32px;height:32px;background:var(--gold);border-radius:8px;font-family:'Noto Serif SC',serif;font-weight:700;font-size:16px;color:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.hd-logo-text { font-weight:600;font-size:15px;color:var(--text-hi); }
+.hd-spacer { flex:1; }
+.hd-nav { display:flex;gap:4px; }
+.hd-nav-link { padding:6px 12px;border-radius:6px;font-size:13px;color:var(--text-mid);font-weight:500;background:none;border:none;cursor:pointer;text-decoration:none;transition:color 0.15s,background 0.15s; }
+.hd-nav-link:hover { color:var(--text-hi);background:var(--gold-dim);text-decoration:none; }
+.hd-nav-link.active { color:var(--gold);background:var(--gold-dim); }
+.hd-theme-btn { width:34px;height:34px;border-radius:8px;background:none;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-lo);transition:color 0.15s,border-color 0.15s;flex-shrink:0; }
+.hd-theme-btn:hover { color:var(--gold);border-color:var(--gold); }
+.hd-theme-btn svg { width:16px;height:16px; }
+
+/* Page */
+.pg-hero { background:var(--bg2);border-bottom:1px solid var(--border);padding:56px 24px 48px;text-align:center; }
+.pg-eyebrow { font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px; }
+.pg-title { font-family:'Noto Serif SC',serif;font-size:clamp(24px,4vw,36px);font-weight:700;color:var(--text-hi);line-height:1.25;text-wrap:balance;margin-bottom:14px; }
+.pg-sub { font-size:15px;color:var(--text-mid);max-width:520px;margin:0 auto; }
+
+.pg-body { max-width:800px;margin:0 auto;padding:48px 24px 64px; }
+
+.sec-label { font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px; }
+.sec-title { font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;color:var(--text-hi);margin-bottom:16px; }
+.sec-body { color:var(--text-mid);font-size:14.5px;line-height:1.75;margin-bottom:24px; }
+.sec-divider { border:none;border-top:1px solid var(--border);margin:40px 0; }
+
+/* Source card */
+.src-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 24px 28px;
+  box-shadow: var(--shadow); margin-bottom: 20px;
+}
+.src-card-head {
+  display: flex; align-items: flex-start;
+  gap: 16px; margin-bottom: 16px;
+}
+.src-logo {
+  min-width: 52px; height: 52px;
+  background: var(--gold-dim); border-radius: 10px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 13px; color: var(--gold); letter-spacing: 0.05em;
+}
+.src-info-name {
+  font-weight: 700; font-size: 15px;
+  color: var(--text-hi); margin-bottom: 2px;
+}
+.src-info-full { font-size: 12.5px; color: var(--text-mid); }
+.src-badge {
+  margin-left: auto; display: inline-block;
+  padding: 3px 10px; border-radius: 5px;
+  font-size: 11.5px; font-weight: 600;
+  background: var(--gold-dim); color: var(--gold);
+  white-space: nowrap;
+}
+.src-body { font-size: 14px; color: var(--text-mid); line-height: 1.75; margin-bottom: 16px; }
+.src-body strong { color: var(--text-hi); font-weight: 600; }
+.src-meta {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  font-size: 12px; color: var(--text-lo);
+  border-top: 1px solid var(--border); padding-top: 14px;
+}
+.src-meta span { display: flex; align-items: center; gap: 4px; }
+
+/* API block */
+.api-block {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.api-method {
+  display: inline-block; padding: 2px 8px;
+  background: var(--gold-dim); color: var(--gold);
+  border-radius: 4px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.05em; margin-right: 8px;
+  font-family: 'Menlo','Consolas',monospace;
+}
+.api-path {
+  font-family: 'Menlo','Consolas',monospace;
+  font-size: 13px; color: var(--amethyst);
+}
+.api-desc { font-size: 13px; color: var(--text-mid); margin-top: 6px; }
+
+/* Footer */
+.ft { border-top:1px solid var(--border);padding:20px 24px;text-align:center;font-size:12px;color:var(--text-lo); }
+</style>
+</head>
+<body>
+<header class="hd">
+  <a class="hd-logo" href="/daoanh/home.html">
+    <div class="hd-logo-mark">道</div>
+    <div><div class="hd-logo-text">Đạo Ảnh</div></div>
+  </a>
+  <div class="hd-spacer"></div>
+  <nav class="hd-nav">
+    <a class="hd-nav-link" href="/daoanh/home.html">Trang chủ</a>
+    <a class="hd-nav-link" href="/daoanh/places">Địa đồ</a>
+    <a class="hd-nav-link" href="/daoanh/about">Về Dự án</a>
+    <a class="hd-nav-link active" href="/daoanh/opendata">Dữ liệu mở</a>
+    <a class="hd-nav-link" href="/daoanh/community">Cộng đồng</a>
+  </nav>
+  <button class="hd-theme-btn" id="themeBtn" title="Đổi sáng/tối" aria-label="Toggle theme">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="10" cy="10" r="4"/>
+      <path d="M10 2v1.5M10 16.5V18M2 10h1.5M16.5 10H18M4.5 4.5l1 1M14.5 14.5l1 1M4.5 15.5l1-1M14.5 5.5l1-1" stroke-linecap="round"/>
+    </svg>
+  </button>
+</header>
+
+<div class="pg-hero">
+  <div class="pg-eyebrow">Open Data · Giấy phép & Nguồn gốc</div>
+  <h1 class="pg-title">Dữ liệu mở</h1>
+  <p class="pg-sub">Chi tiết về ba nguồn dữ liệu học thuật quốc tế — giấy phép, phạm vi và điều khoản sử dụng</p>
+</div>
+
+<main class="pg-body">
+
+  <div class="sec-label">Chính sách</div>
+  <h2 class="sec-title">Nguyên tắc dữ liệu</h2>
+  <p class="sec-body">
+    Đạo Ảnh không sản xuất dữ liệu gốc. Toàn bộ dữ liệu đến từ các tổ chức học thuật quốc tế
+    đã được kiểm chứng. Chúng tôi chỉ lập chỉ mục, tích hợp và tái trình bày dưới giao diện
+    tiếng Việt — không sửa đổi nội dung gốc, không tái phân phối bộ dữ liệu đầy đủ.
+    Mọi sử dụng phải tuân thủ giấy phép của từng nguồn ghi dưới đây.
+  </p>
+
+  <hr class="sec-divider">
+
+  <div class="sec-label">Nguồn 1</div>
+  <div class="src-card">
+    <div class="src-card-head">
+      <div class="src-logo">CBETA</div>
+      <div>
+        <div class="src-info-name">Chinese Buddhist Electronic Text Association</div>
+        <div class="src-info-full">cbeta.org · Đài Loan</div>
+      </div>
+      <span class="src-badge">CC BY-NC-SA 4.0</span>
+    </div>
+    <p class="src-body">
+      CBETA cung cấp bản số hóa toàn bộ Đại Chính Tạng (大正藏, T) cùng nhiều tạng kinh khác
+      dưới dạng XML/TEI. Đây là kho kinh điển Hán văn lớn nhất và được trích dẫn rộng rãi nhất
+      trong nghiên cứu Phật học quốc tế.
+    </p>
+    <p class="src-body">
+      <strong>Điều khoản sử dụng:</strong> Giấy phép <strong>CC BY-NC-SA 4.0</strong> cho phép
+      chia sẻ và phỏng tạo với điều kiện: ghi rõ nguồn (Attribution), phi thương mại
+      (Non-Commercial), chia sẻ tương tự (ShareAlike). Đạo Ảnh sử dụng để xây dựng chỉ mục
+      tra cứu — không phân phối văn bản gốc đầy đủ.
+    </p>
+    <div class="src-meta">
+      <span>📌 Phạm vi: Chỉ mục tiêu đề, tác giả, triều đại</span>
+      <span>🔗 <a href="https://cbeta.org" target="_blank" rel="noopener">cbeta.org</a></span>
+      <span>📄 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></span>
+    </div>
+  </div>
+
+  <div class="sec-label">Nguồn 2</div>
+  <div class="src-card">
+    <div class="src-card-head">
+      <div class="src-logo">DILA</div>
+      <div>
+        <div class="src-info-name">Dharma Drum Institute of Liberal Arts — BGIS</div>
+        <div class="src-info-full">dila.edu.tw · Buddhist Geography Information System</div>
+      </div>
+      <span class="src-badge">Học thuật phi TM</span>
+    </div>
+    <p class="src-body">
+      DILA BGIS (Buddhist Geography Information System) là cơ sở dữ liệu địa lý Phật giáo
+      lớn nhất thế giới, bao gồm tự viện, hang đá kinh văn, thánh địa, và dữ liệu tiểu sử
+      tu sĩ (Person Authority) từ Trung Quốc, Nhật Bản, Hàn Quốc và Việt Nam.
+    </p>
+    <p class="src-body">
+      <strong>Điều khoản sử dụng:</strong> DILA cấp quyền sử dụng cho mục đích nghiên cứu học
+      thuật phi thương mại. Đạo Ảnh tích hợp API BGIS để hiển thị thông tin địa danh và tu sĩ.
+      Mọi quyền thuộc về DILA — không tái phân phối bộ dữ liệu gốc.
+    </p>
+    <div class="src-meta">
+      <span>📌 Phạm vi: 8,241 địa danh · 5,800+ tu sĩ</span>
+      <span>🔗 <a href="https://dila.edu.tw" target="_blank" rel="noopener">dila.edu.tw</a></span>
+    </div>
+  </div>
+
+  <div class="sec-label">Nguồn 3</div>
+  <div class="src-card">
+    <div class="src-card-head">
+      <div class="src-logo">SNA</div>
+      <div>
+        <div class="src-info-name">Marcus Bingenheimer — Buddhist Social Network Analysis</div>
+        <div class="src-info-full">Temple University · Philadelphia, USA</div>
+      </div>
+      <span class="src-badge">Học thuật phi TM</span>
+    </div>
+    <p class="src-body">
+      Bộ dữ liệu mạng lưới xã hội tăng nhân Phật giáo (SNA — Social Network Analysis) do
+      Marcus Bingenheimer (Temple University) và các cộng sự biên soạn. Dữ liệu mô tả quan hệ
+      sư-đệ, dòng truyền thừa, và mạng lưới tương tác giữa 1,200+ dòng truyền thừa Phật giáo.
+    </p>
+    <p class="src-body">
+      <strong>Điều khoản sử dụng:</strong> Sử dụng theo điều khoản nghiên cứu học thuật.
+      Trích dẫn: <em>Bingenheimer, M., Hung, J.-J., & Wiles, S. (2011). Social Network Visualization
+      from TEI Data.</em> Đạo Ảnh hiển thị quan hệ dạng đồ thị — không tái phân phối bộ dữ liệu gốc.
+    </p>
+    <div class="src-meta">
+      <span>📌 Phạm vi: 1,200+ dòng truyền thừa</span>
+      <span>🔗 <a href="https://buddhistinformatics.dila.edu.tw/socialnetwork/" target="_blank" rel="noopener">Buddhist SNA</a></span>
+    </div>
+  </div>
+
+  <hr class="sec-divider">
+
+  <div class="sec-label">API</div>
+  <h2 class="sec-title">API tra cứu (nội bộ)</h2>
+  <p class="sec-body">
+    Đạo Ảnh cung cấp API nội bộ phục vụ giao diện tra cứu. Các endpoint dưới đây khả dụng
+    tại <code>https://phatphaponline.org</code>:
+  </p>
+
+  <div class="api-block">
+    <div><span class="api-method">GET</span><span class="api-path">/daoanh/places/</span></div>
+    <div class="api-desc">Tìm kiếm địa danh qua <code>?q=</code> — trả về danh sách tự viện, tháp, hang đá khớp với truy vấn từ DILA BGIS.</div>
+  </div>
+
+  <div class="api-block">
+    <div><span class="api-method">GET</span><span class="api-path">/daoanh/api/progress/dashboard</span></div>
+    <div class="api-desc">Trạng thái phát triển hệ thống — JSON với danh sách module, endpoint và tiến độ. Thêm <code>?regenerate=1</code> để cập nhật.</div>
+  </div>
+
+  <p class="sec-body" style="margin-top:16px;font-size:13.5px">
+    API hoàn chỉnh cho Đại Tạng (CBETA) và Tu sĩ (DILA) đang trong giai đoạn phát triển.
+    Theo dõi tiến độ tại <a href="/daoanh/dashboard/">Dashboard</a>.
+  </p>
+
+</main>
+
+<footer class="ft">
+  © 2026 <strong>Đạo Ảnh</strong> · Hệ thống tra cứu Đại Tạng Kinh Việt Nam ·
+  Dữ liệu: CBETA · DILA · Marcus SNA
+</footer>
+
+<script>
+const themes = ['', 'light', 'dark'];
+let ti = 0;
+const btn = document.getElementById('themeBtn');
+btn.addEventListener('click', () => {
+  ti = (ti + 1) % themes.length;
+  const t = themes[ti];
+  if (t) document.documentElement.setAttribute('data-theme', t);
+  else document.documentElement.removeAttribute('data-theme');
+});
+</script>
+</body>
+</html>

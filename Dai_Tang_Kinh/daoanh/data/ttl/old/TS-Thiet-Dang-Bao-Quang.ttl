@@ -1,0 +1,40 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.phatphaponline.org/ex/> .
+
+<ex:monk/thiet_dang_bao_quang> a bkg:Monk ;
+    rdfs:label "Thiệt Đăng Bảo Quang"@vi ;
+    crm:P1_is_identified_by <ex:monk/thiet_dang_bao_quang> ;
+    bkg:biographicalNote """
+Thiền Sư Thiệt Ðăng - Chánh Trí - Bửu Quang
+實 燈 正 智 寳 光 (1699 - 1782): Chùa Sơn Long
+
+Hòa thượng pháp húy Thiệt Ðăng, tự Chánh Trí, hiệu Bửu Quang, nối pháp đời 35 tông Lâm Tế, thế hệ thứ 2 pháp phái Chúc Thánh. Cho đến nay, chúng ta vẫn chưa biết quê quán, tên họ và hành trạng của Ngài. Căn cứ vào long vị thờ tại chùa Sơn Long, chúng ta biết Tổ sinh giờ Tý ngày mồng 8 tháng 5 năm Kỷ Mão (1699) và viên tịch giờ Thìn ngày 21 tháng Giêng năm Nhâm Dần (1782)1Theo cách tính của văn bản Lược sử Tổ đình Sơn Long do Thượng tọa Ðồng Ðức cung cấp thì tính năm sinh của tổ Thiệt Ðăng-Bửu Quang là năm Kỷ Mão (1639) và năm tịch là năm Nhâm Dần (1722). Nhưng theo thiển ý của chúng tôi thì tổ sinh năm Kỹ Mão (1699) và tịch năm Nhâm Dần (1782) thì đúng hơn , hưởng thọ 84 tuổi.
+Căn cứ vào địa thế của chùa Sơn Long hiện tại, chúng ta có thể đoán rằng Hòa thượng Bửu Quang sau khi đắc pháp với tổ Minh Hải - Pháp Bảo đã theo đường biển vào Quy Nhơn hoằng pháp và lập Giang Long thiền thất vào những năm đầu và giữa thế kỷ XVIII. Trải qua bao thăng trầm biến thiên của lịch sử, những tư liệu về Ngài hoàn toàn bị thiêu hủy, chỉ xin ghi nhận nơi đây công đức của vị Tổ sư đầu tiên của dòng Chúc Thánh vào hoằng pháp tại tỉnh Bình Ðịnh.
+"""@vi ;
+    bkg:birthEvent <ex:monk/thiet_dang_bao_quang_birthEvent> ;
+    bkg:deathEvent <ex:monk/thiet_dang_bao_quang_deathEvent> ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Gia Phổ Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 72 ;
+    bkg:hasTeacher <ex:monk/minh_hai_phap_bao> ;
+    bkg:isLineageFounder "false"^^xsd:boolean .
+
+<ex:monk/thiet_dang_bao_quang_birthEvent> a bkg:BirthEvent ;
+    bkg:year "1699"^^xsd:gYear .
+
+<ex:monk/thiet_dang_bao_quang_deathEvent> a bkg:DeathEvent ;
+    bkg:year "1782"^^xsd:gYear .
+
+<ex:monk/minh_hai_phap_bao> rdfs:label "Minh Hải Pháp Bảo"@vi .
+<ex:monk/thiet_dinh_an_triem> rdfs:label "Thiệt Dinh Ân Triêm"@vi .
+<ex:monk/thiet_dieu_chanh_hien> rdfs:label "Thiệt Diệu Chánh Hiền"@vi .
+<ex:monk/thiet_uy_khanh_van> rdfs:label "Thiệt Úy Khánh Vân"@vi .
+<ex:monk/thiet_uyen_chi_bao> rdfs:label "Thiệt Uyên Chí Bảo"@vi .
+<ex:monk/thiet_bao_cam_ung> rdfs:label "Thiệt Bảo Cảm Ứng"@vi .
+<ex:monk/thiet_lam_chi_kien> rdfs:label "Thiệt Lãm Chí Kiên"@vi .
+<ex:monk/thiet_the_triem_an> rdfs:label "Thiệt Thể Triêm Ân"@vi .
+<ex:monk/thiet_dam_chanh_luan> rdfs:label "Thiệt Đàm Chánh Luân"@vi .
+<ex:monk/thiet_hoi_vien_quang> rdfs:label "Thiệt Hội Viên Quang"@vi .

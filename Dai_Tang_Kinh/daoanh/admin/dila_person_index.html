@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DILA Person Index — Đạo Ảnh</title>
+<link rel="stylesheet" href="/daoanh/styles/daoanh-design.css">
+<style>
+  body { font-family: var(--da-font-sans); background: var(--da-bg); color: var(--da-text); margin: 0; padding: 0; }
+  .da-topbar { display:flex; align-items:center; gap:12px; padding:12px 20px; background:var(--da-surface); border-bottom:1px solid var(--da-border); }
+  .da-topbar a { color:var(--da-muted); text-decoration:none; font-size:12px; }
+  .da-topbar a:hover { color:var(--da-text); }
+  .da-topbar h1 { font-size:15px; font-weight:700; color:var(--da-text); margin:0; flex:1; }
+  .filter-row { display:flex; flex-wrap:wrap; gap:8px; padding:14px 20px; background:var(--da-surface); border-bottom:1px solid var(--da-border); align-items:center; }
+  .filter-row input, .filter-row select { font-size:12px; padding:5px 10px; border:1px solid var(--da-border); border-radius:5px; background:var(--da-card); color:var(--da-text); }
+  .filter-row input { flex:1; min-width:180px; max-width:320px; }
+  .filter-row select { max-width:240px; }
+  .filter-row button { font-size:12px; padding:5px 14px; border:none; border-radius:5px; cursor:pointer; }
+  .btn-search { background:var(--da-cyan); color:#fff; }
+  .btn-export { background:var(--da-green); color:#fff; }
+  .stats-row { display:flex; gap:16px; padding:10px 20px; font-size:12px; color:var(--da-muted); flex-wrap:wrap; }
+  .stats-row span { background:var(--da-card); border:1px solid var(--da-border); border-radius:5px; padding:3px 10px; }
+  .stats-row strong { color:var(--da-text); }
+  .table-wrap { overflow-x:auto; padding:0 20px 20px; }
+  table { width:100%; border-collapse:collapse; font-size:12px; min-width:700px; }
+  th { text-align:left; padding:8px 10px; background:var(--da-surface); border-bottom:2px solid var(--da-border); font-weight:600; color:var(--da-muted); white-space:nowrap; }
+  td { padding:7px 10px; border-bottom:1px solid var(--da-border); vertical-align:top; }
+  tr:hover td { background:var(--da-card); }
+  .id-cell { font-family:var(--da-font-mono); font-size:10px; color:var(--da-cyan); }
+  .name-vi { color:var(--da-green); font-size:11px; }
+  .cat-badge { font-size:10px; background:var(--da-surface); border:1px solid var(--da-border); border-radius:4px; padding:1px 6px; color:var(--da-muted); }
+  .dist-cell { max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--da-muted); }
+  .conf-dot { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:4px; }
+  .status-badge { font-size:10px; font-weight:700; border-radius:4px; padding:2px 7px; white-space:nowrap; }
+  .status-saved { background:#10b98122; color:#10b981; border:1px solid #10b98155; }
+  .status-draft { background:#f59e0b22; color:#f59e0b; border:1px solid #f59e0b55; }
+  .status-none { background:var(--da-surface); color:var(--da-muted); border:1px solid var(--da-border); }
+  .pagination { display:flex; gap:8px; padding:12px 20px; align-items:center; font-size:12px; color:var(--da-muted); }
+  .pagination button { font-size:12px; padding:4px 12px; border:1px solid var(--da-border); border-radius:5px; background:var(--da-card); color:var(--da-text); cursor:pointer; }
+  .pagination button:disabled { opacity:0.4; cursor:default; }
+  #loadingMsg { padding:30px; text-align:center; color:var(--da-muted); font-size:13px; }
+  .da-tabbar { display:flex; gap:0; border-bottom:2px solid var(--da-border); padding:0 20px; background:var(--da-surface); }
+  .da-tab { font-size:12px; font-weight:600; padding:8px 18px; text-decoration:none; color:var(--da-muted); border-bottom:2px solid transparent; margin-bottom:-2px; transition:color .15s,border-color .15s; }
+  .da-tab:hover { color:var(--da-text); }
+  .da-tab.active { color:var(--da-cyan); border-bottom-color:var(--da-cyan); }
+</style>
+</head>
+<body>
+
+<div class="da-topbar">
+  <a href="/daoanh/places">← GIS Map</a>
+  <span style="color:var(--da-border)">|</span>
+  <a href="/daoanh/admin/">Admin</a>
+  <span style="color:var(--da-border)">|</span>
+  <h1>DILA Index</h1>
+  <span style="font-size:11px;color:var(--da-muted)" id="totalBadge">—</span>
+</div>
+<div class="da-tabbar">
+  <a href="/daoanh/admin/dila_index.html" class="da-tab">📍 DILA Place Index</a>
+  <a href="/daoanh/admin/dila_person_index.html" class="da-tab active">👤 DILA Person Index</a>
+</div>
+
+<div class="filter-row">
+  <input type="text" id="qInput" placeholder="Tìm tên 忠勇公 / Trung Dũng Công hoặc DILA ID A0…" onkeydown="if(event.key==='Enter')search()">
+  <select id="sectSelect" onchange="search()">
+    <option value="">— Tất cả tông phái —</option>
+  </select>
+  <select id="dynastySelect" onchange="search()">
+    <option value="">— Tất cả triều đại —</option>
+  </select>
+  <select id="statusSelect" onchange="search()">
+    <option value="">— Mọi trạng thái dịch —</option>
+    <option value="none">Chưa dịch</option>
+    <option value="draft">Có bản nháp AI (chưa lưu)</option>
+    <option value="translated">Đã lưu (chính thức)</option>
+  </select>
+  <button class="btn-search" onclick="search()">Tìm</button>
+  <button class="btn-export" onclick="exportCSV()">Xuất CSV</button>
+  <button class="btn-export" style="background:var(--da-amber)" onclick="exportJSON()">Xuất JSON</button>
+</div>
+
+<div class="stats-row" id="statsRow">Đang tải thống kê…</div>
+
+<div id="loadingMsg">Đang tải…</div>
+
+<div class="table-wrap" id="tableWrap" style="display:none">
+  <table>
+    <thead>
+      <tr>
+        <th>DILA ID</th>
+        <th>Tên Hán</th>
+        <th>Tên Việt</th>
+        <th>Tông phái</th>
+        <th>Triều đại</th>
+        <th>Năm sinh–mất</th>
+        <th>Trạng thái dịch
+          <button onclick="sortStatus('asc')" id="sortAsc" title="Chưa dịch lên đầu" style="background:none;border:none;cursor:pointer;color:var(--da-muted);font-size:13px;padding:0 3px;">↑</button>
+          <button onclick="sortStatus('desc')" id="sortDesc" title="Đã lưu lên đầu" style="background:none;border:none;cursor:pointer;color:var(--da-muted);font-size:13px;padding:0 3px;">↓</button>
+          <button onclick="sortStatus('')" id="sortNone" title="Mặc định (theo ID)" style="background:none;border:none;cursor:pointer;color:var(--da-muted);font-size:10px;padding:0 3px;display:none">✕</button>
+        </th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div class="pagination" id="pager" style="display:none">
+  <button id="prevBtn" onclick="goPage(-1)" disabled>← Trước</button>
+  <span id="pageInfo"></span>
+  <button id="nextBtn" onclick="goPage(1)">Sau →</button>
+</div>
+
+<script>
+// ── Auth guard (đồng bộ pattern person.html — chỉ admin đã login mới xem index) ──
+(function() {
+  var s = localStorage.getItem('admin_session');
+  if (!s) { location.href = '/daoanh/login.html'; return; }
+  fetch('/daoanh/api/login/check', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_token:s})})
+    .then(r=>r.json()).then(d=>{ if(!d.valid){localStorage.removeItem('admin_session');location.href='/daoanh/login.html';} })
+    .catch(()=>{});
+})();
+
+const BASE = '/daoanh/api';
+let _offset = 0, _total = 0, _sortStatus = '';
+const LIMIT = 50;
+
+async function loadStats() {
+  const d = await fetch(BASE + '/dila/persons/stats').then(r => r.json()).catch(() => null);
+  if (!d || !d.ok) return;
+  document.getElementById('totalBadge').textContent = `${d.total.toLocaleString()} nhân vật`;
+  document.getElementById('statsRow').innerHTML =
+    `<span>Tổng: <strong>${d.total.toLocaleString()}</strong></span>` +
+    `<span>Có tiểu sử Hán văn: <strong>${d.with_bio_zh.toLocaleString()}</strong></span>` +
+    `<span>Đã lưu bản dịch: <strong>${d.translated_saved.toLocaleString()}</strong></span>` +
+    `<span>Có bản nháp AI: <strong>${d.translated_draft.toLocaleString()}</strong></span>` +
+    d.by_category.slice(0,6).map(c => `<span>${c.note_category}: <strong>${c.n.toLocaleString()}</strong></span>`).join('');
+
+  const sectSel = document.getElementById('sectSelect');
+  d.by_category.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.note_category; o.textContent = `${c.note_category} (${c.n.toLocaleString()})`;
+    sectSel.appendChild(o);
+  });
+  const dynastySel = document.getElementById('dynastySelect');
+  d.by_country.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.country; o.textContent = `${c.country} (${c.n.toLocaleString()})`;
+    dynastySel.appendChild(o);
+  });
+}
+
+function buildQuery(extra) {
+  const q = encodeURIComponent(document.getElementById('qInput').value.trim());
+  const sect = encodeURIComponent(document.getElementById('sectSelect').value);
+  const dynasty = encodeURIComponent(document.getElementById('dynastySelect').value);
+  const status = encodeURIComponent(document.getElementById('statusSelect').value);
+  const ss = _sortStatus ? `&sort_status=${_sortStatus}` : '';
+  return `q=${q}&sect=${sect}&dynasty=${dynasty}&status=${status}${ss}${extra || ''}`;
+}
+
+function sortStatus(dir) {
+  _sortStatus = dir;
+  const active = 'var(--da-cyan)', muted = 'var(--da-muted)';
+  document.getElementById('sortAsc').style.color  = dir === 'asc'  ? active : muted;
+  document.getElementById('sortDesc').style.color = dir === 'desc' ? active : muted;
+  document.getElementById('sortNone').style.display = dir ? 'inline' : 'none';
+  search(true);
+}
+
+async function search(resetPage = true) {
+  if (resetPage) _offset = 0;
+  document.getElementById('loadingMsg').style.display = 'block';
+  document.getElementById('tableWrap').style.display = 'none';
+  document.getElementById('pager').style.display = 'none';
+
+  const url = `${BASE}/dila/persons?${buildQuery()}&limit=${LIMIT}&offset=${_offset}`;
+  const d = await fetch(url).then(r => r.json()).catch(() => null);
+  document.getElementById('loadingMsg').style.display = 'none';
+  if (!d || !d.ok) { document.getElementById('loadingMsg').textContent = 'Lỗi tải dữ liệu.'; document.getElementById('loadingMsg').style.display = 'block'; return; }
+  _total = d.total;
+  renderTable(d.items);
+  renderPager();
+}
+
+function statusBadge(r) {
+  if (r.bio_vi_saved) return '<span class="status-badge status-saved">✓ Đã lưu</span>';
+  if (r.draft_status) return '<span class="status-badge status-draft">✎ Nháp AI (' + (r.draft_status === 'reported' ? 'có báo lỗi' : r.draft_status) + ')</span>';
+  if (!r.has_bio_zh) return '<span class="status-badge status-none">— Không có Hán văn</span>';
+  return '<span class="status-badge status-none">Chưa dịch</span>';
+}
+
+function renderTable(items) {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = items.map(r => {
+    const nameVi = r.name_vi ? `<span class="name-vi">${r.name_vi}</span>` : '<span style="color:var(--da-muted);font-size:11px">—</span>';
+    const sect = r.sect ? `<span class="cat-badge">${r.sect}</span>` : '';
+    const yrs = (r.birth_year || r.death_year) ? `${r.birth_year || '?'}–${r.death_year || '?'}` : '';
+    return `<tr>
+      <td class="id-cell"><a href="/daoanh/admin/person.html?id=${encodeURIComponent(r.id)}" style="color:var(--da-cyan)">${r.id}</a></td>
+      <td>${r.name_zh || ''}</td>
+      <td>${nameVi}</td>
+      <td>${sect}</td>
+      <td class="dist-cell" title="${r.dynasty || ''}">${r.dynasty || ''}</td>
+      <td style="font-size:10px;color:var(--da-muted)">${yrs}</td>
+      <td>${statusBadge(r)}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tableWrap').style.display = 'block';
+}
+
+function renderPager() {
+  const totalPages = Math.ceil(_total / LIMIT);
+  const curPage = Math.floor(_offset / LIMIT) + 1;
+  document.getElementById('pageInfo').textContent = `Trang ${curPage}/${totalPages} — ${_total.toLocaleString()} kết quả`;
+  document.getElementById('prevBtn').disabled = _offset === 0;
+  document.getElementById('nextBtn').disabled = _offset + LIMIT >= _total;
+  document.getElementById('pager').style.display = 'flex';
+}
+
+function goPage(dir) {
+  _offset = Math.max(0, _offset + dir * LIMIT);
+  search(false);
+}
+
+function exportCSV() {
+  window.location.href = `${BASE}/dila/persons?${buildQuery()}&limit=5000&offset=0&format=csv`;
+}
+
+function exportJSON() {
+  window.open(`${BASE}/dila/persons?${buildQuery()}&limit=5000&offset=0&format=json`);
+}
+
+// Init
+loadStats();
+search();
+</script>
+</body>
+</html>

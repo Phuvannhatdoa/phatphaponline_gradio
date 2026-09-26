@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Potential Linker - Thiền Tông Phả Hệ</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #334155;
+        }
+        h1 { font-size: 24px; color: #fbbf24; }
+        .stats {
+            display: flex;
+            gap: 24px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fbbf24;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        input, select {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+        input { flex: 1; }
+        button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #fbbf24;
+            color: #0f172a;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background: #f59e0b; }
+        button.secondary {
+            background: #334155;
+            color: #e2e8f0;
+        }
+        button.secondary:hover { background: #475569; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        th {
+            background: #334155;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #334155;
+            font-size: 14px;
+        }
+        tr:hover { background: #1e293b; }
+        .name-cell {
+            font-weight: 600;
+            color: #fbbf24;
+        }
+        .count-cell {
+            text-align: center;
+            font-weight: bold;
+        }
+        .source-cell {
+            color: #64748b;
+            font-size: 12px;
+            font-family: monospace;
+        }
+        .context-cell {
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #94a3b8;
+        }
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-approve {
+            background: #22c55e;
+            color: white;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .btn-reject {
+            background: #ef4444;
+            color: white;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .empty {
+            text-align: center;
+            padding: 60px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>🔗 AI Potential Linker</h1>
+            <p style="color:#94a3b8; margin-top:4px;">Phát hiện liên kết ẩn trong văn bản</p>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="total">0</div>
+                <div class="stat-label">Tổng</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="pending">0</div>
+                <div class="stat-label">Chờ duyệt</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="approved">0</div>
+                <div class="stat-label">Đã duyệt</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="text" id="search" placeholder="Tìm kiếm thiền sư...">
+        <select id="filter">
+            <option value="all">Tất cả</option>
+            <option value="pending">Chờ duyệt</option>
+            <option value="approved">Đã duyệt</option>
+            <option value="rejected">Đã bỏ qua</option>
+        </select>
+        <button onclick="runLinker()">🔄 Chạy lại</button>
+        <button class="secondary" onclick="exportCSV()">📥 Export CSV</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên Thiền Sư</th>
+                <th>Số Lần</th>
+                <th>Trích Từ</th>
+                <th>Trích Đoạn Bio</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <tr><td colspan="5" class="empty">Đang tải...</td></tr>
+        </tbody>
+    </table>
+
+    <script>
+        let links = [];
+        let filtered = [];
+
+        async function loadLinks() {
+            try {
+                const resp = await fetch('data/potential_links.csv');
+                const text = await resp.text();
+                const lines = text.split('\n').filter(l => l.trim());
+                
+                links = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const parts = lines[i].split(',');
+                    if (parts.length >= 3) {
+                        links.push({
+                            name: parts[0].replace(/"/g, ''),
+                            count: parseInt(parts[1]) || 1,
+                            source: parts[2].replace(/"/g, ''),
+                            context: parts.slice(3).join(',').replace(/"/g, '').substring(0, 100),
+                            status: 'pending'
+                        });
+                    }
+                }
+                
+                filtered = [...links];
+                renderTable();
+                updateStats();
+            } catch (e) {
+                console.error(e);
+                document.getElementById('table-body').innerHTML = 
+                    '<tr><td colspan="5" class="empty">Chưa có dữ liệu. Chạy Potential-Linker.py trước.</td></tr>';
+            }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            const search = document.getElementById('search').value.toLowerCase();
+            const filter = document.getElementById('filter').value;
+            
+            filtered = links.filter(l => {
+                if (filter !== 'all' && l.status !== filter) return false;
+                if (search && !l.name.toLowerCase().includes(search) && !l.context.toLowerCase().includes(search)) return false;
+                return true;
+            });
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty">Không tìm thấy</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = filtered.slice(0, 50).map((l, i) => `
+                <tr>
+                    <td class="name-cell">${l.name}</td>
+                    <td class="count-cell">${l.count}</td>
+                    <td class="source-cell">${l.source}</td>
+                    <td class="context-cell" title="${l.context}">${l.context}</td>
+                    <td class="actions">
+                        ${l.status === 'pending' ? `
+                            <button class="btn-approve" onclick="approve(${i})">✅ Xác nhận</button>
+                            <button class="btn-reject" onclick="reject(${i})">❌ Bỏ qua</button>
+                        ` : l.status === 'approved' ? '✅ Đã duyệt' : l.status === 'rejected' ? '❌ Đã bỏ' : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('total').textContent = links.length;
+            document.getElementById('pending').textContent = links.filter(l => l.status === 'pending').length;
+            document.getElementById('approved').textContent = links.filter(l => l.status === 'approved').length;
+        }
+
+        function approve(idx) {
+            filtered[idx].status = 'approved';
+            renderTable();
+            updateStats();
+        }
+
+        function reject(idx) {
+            filtered[idx].status = 'rejected';
+            renderTable();
+            updateStats();
+        }
+
+        function runLinker() {
+            document.getElementById('table-body').innerHTML = '<tr><td colspan="5" class="empty">Đang chạy Potential-Linker.py...</td></tr>';
+            // Note: Cần backend API để chạy script
+            alert('Cần chạy: python3 Potential-Linker.py');
+            loadLinks();
+        }
+
+        function exportCSV() {
+            const csv = 'Tên,Số Lần,Trích Từ,Trạng Thái\n' + 
+                filtered.map(l => `${l.name},${l.count},${l.source},${l.status}`).join('\n');
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'potential_links_export.csv';
+            a.click();
+        }
+
+        document.getElementById('search').addEventListener('input', renderTable);
+        document.getElementById('filter').addEventListener('change', renderTable);
+        
+        loadLinks();
+    </script>
+</body>
+</html>

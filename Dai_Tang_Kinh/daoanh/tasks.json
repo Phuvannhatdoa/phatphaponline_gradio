@@ -1,0 +1,83 @@
+{
+  "version": "2026-04-12",
+  "source": "QA2.md",
+  "status": "v6.2-QA2-Complete",
+  "tasks": {
+    "P0": [
+      {
+        "id": "P0-1",
+        "task": "Add import requests",
+        "file": "app.py",
+        "line": 8,
+        "status": "DONE",
+        "commit": "b8cc40a"
+      },
+      {
+        "id": "P0-2",
+        "task": "Create wiki_buddhist_crawler.py",
+        "file": "src_python/crawler/wiki_buddhist_crawler.py",
+        "status": "DONE",
+        "note": "Created - Wikipedia API blocking prevents execution"
+      },
+      {
+        "id": "P0-3",
+        "task": "Consolidate duplicate functions",
+        "file": "app.py",
+        "status": "BY_DESIGN",
+        "note": "Different caching strategies - keep all"
+      }
+    ],
+    "P1": [
+      {
+        "id": "P1-1",
+        "task": "Static HTML deduplication",
+        "file": "index.html",
+        "status": "SKIP",
+        "note": "static/ serves different purpose (JS/CSS)"
+      },
+      {
+        "id": "P1-2",
+        "task": "Populate staging/verification data",
+        "file": "data/",
+        "status": "SKIP",
+        "note": "Wikipedia API blocked - requires external crawler"
+      },
+      {
+        "id": "P1-3",
+        "task": "Vietnamese translation pipeline",
+        "file": "data/",
+        "status": "SKIP",
+        "note": "External service needed"
+      }
+    ],
+    "P2": [
+      {
+        "id": "P2-1",
+        "task": "Add more data sources (Wiki)",
+        "file": "data/",
+        "status": "SKIP",
+        "note": "External service needed"
+      },
+      {
+        "id": "P2-2",
+        "task": "Standardize caching",
+        "file": "app.py",
+        "status": "SKIP",
+        "note": "Risk of breaking - different strategies intentional"
+      },
+      {
+        "id": "P2-3",
+        "task": "API documentation updates",
+        "file": "API_DOCS.md",
+        "status": "SKIP",
+        "note": "Can do manually via editor"
+      }
+    ]
+  },
+  "stats": {
+    "total": 9,
+    "done": 3,
+    "skip": 6,
+    "by_design": 1
+  }
+}

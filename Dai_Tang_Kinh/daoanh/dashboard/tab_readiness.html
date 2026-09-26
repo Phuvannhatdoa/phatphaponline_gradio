@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mức Sẵn Sàng 16 Tab · Đạo Ảnh (T100-P0)</title>
+<style>
+  :root{
+    --bg:#020617; --panel:#0a1226; --panel2:#0e1830; --line:#23304f;
+    --text:#dce5f4; --muted:#8b95ab; --gold:#d97706; --gold2:#f5c84b;
+    --green:#1f9d5a; --cyan:#5ac8fa; --red:#dc2626; --amber:#b45309;
+    --purple:#8b5cf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,system-ui,sans-serif;padding:28px;line-height:1.55}
+  h1{font-size:20px;font-weight:700}
+  .sub{color:var(--muted);font-size:12px;margin-top:2px}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 22px}
+  .chip{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:120px}
+  .chip b{display:block;font-size:18px;color:var(--gold2)}
+  .chip span{font-size:11px;color:var(--muted)}
+  h2{font-size:14px;margin:22px 0 10px;color:var(--gold);font-weight:700;letter-spacing:.2px;text-transform:uppercase}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+  .badge{display:inline-block;padding:1px 8px;border-radius:6px;font-size:10px;font-weight:700;margin-right:4px}
+  .b-open{background:#3b1113;color:#ff8a8a;border:1px solid #5a1f22}
+  .b-res{background:#0f2a1c;color:#7ee2a0;border:1px solid #1f6b43}
+  .b-high{border:1px solid #7f1d1d;background:#331011;color:#ff8a8a}
+  .b-med{border:1px solid #7c4700;background:#2f2108;color:#ffd08a}
+  .b-info{border:1px solid #134e77;background:#081f33;color:#9adcff}
+  .grade{font-weight:700}
+  .g-ds{color:#dc2626}.g-cn{color:#f5c84b}.g-ch{color:#7ee2a0}.g-ts{color:#5ac8fa}
+  .bar{background:#162039;border-radius:6px;height:8px;width:100%;margin-top:4px}
+  .bar i{display:block;height:8px;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+  .alerts li{list-style:none;padding:8px 10px;border-bottom:1px solid var(--line);font-size:12px}
+  .alerts li:last-child{border-bottom:none}
+  .small{font-size:11px;color:var(--muted)}
+  .kbd{font-family:ui-monospace,Consolas,monospace;font-size:11px;background:var(--panel2);padding:1px 6px;border-radius:4px;border:1px solid var(--line)}
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+  .core{color:var(--gold2)}
+  footer{margin-top:20px;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+  <h1>🪷 Mức Sẵn Sàng 16 Tab — Đạo Ảnh</h1>
+  <div class="sub">Mô hình <span class="kbd">ACADEMIC_3_LEVELS_16_TABS_V1</span> ❋ chấm 2 trục (data-exists × UI-displays ❋ bằng chứng = code + DB thật)</div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="grid">
+    <section>
+      <h2>8 Alerts — P0-SAFETY</h2>
+      <ul class="alerts" id="alerts"></ul>
+    </section>
+    <section>
+      <h2>Ngưỡng học thuật (Grade)</h2>
+      <ul class="alerts" id="thresholds"></ul>
+      <h2 style="margin-top:14px">Hiện trạng dữ liệu</h2>
+      <div class="cols2" id="dstatus"></div>
+    </section>
+  </div>
+
+  <h2>Bảng chấm theo tab</h2>
+  <section id="tabwrap">
+    <table id="tabtable">
+      <thead><tr>
+        <th>Tab</th><th>Hàm render</th><th>Route</th><th>Dữ liệu</th><th>Điểm</th><th>Grade</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="small" style="margin-top:8px;color:var(--muted)">
+      Thang 12 điểm: data_exist(2) · ui_render(2) · ui_route(2) · data_table(1) · data_verified(1) ·
+      index_honest(1) · label_safe(1) · ui_evidence(1). Tiến sĩ =12/12 kèm dataset_version + JSON-LD (P2/P3).
+    </div>
+  </section>
+
+  <footer>
+    Sinh bởi <span class="kbd">scripts/build_tab_readiness.py</span> (read-only, không ghi DB).
+    Toàn bộ 8 alert chấm bằng code/app.py + bảng lineage.db — không điểm chủ quan. Lộ trình chi tiết: docs/ACADEMIC_16TABS_IMPLEMENTATION_PLAN.md.
+  </footer>
+
+<script>
+async function load(){
+  const url = '../data/tab_readiness.json?t=' + Date.now();
+  let d;
+  try { d = await (await fetch(url)).json(); }
+  catch(e){ document.body.innerHTML = '<p>Không đọc được <b data-inline>../data/tab_readiness.json</b>. Chạy: <code>python scripts/build_tab_readiness.py</code></p><p class="small">' + e + '</p>'; return; }
+
+  const chips = document.getElementById('chips');
+  chips.innerHTML =
+    chip(d.tabs.filter(t=>!t.is_stub).length + '/' + d.tabs.length, 'tab render thật') +
+    chip(d.core_tabs.length, 'core tabs') +
+    chip((d.core_avg || 0).toFixed(2) + '/12', 'core trung bình') +
+    chip(d.alerts.filter(a=>a.status==='open').length + ' mở / ' + d.alerts.filter(a=>a.status==='resolved').length + ' resolved', '8 alerts');
+
+  document.querySelector('.sub').innerHTML += ' · sinh lúc ' + (d.generated_at || '?');
+
+  const thr = document.getElementById('thresholds');
+  thr.innerHTML =
+    li('Cử nhân · ≥ ' + d.thresholds.cu_nhan + '/12 — có dữ liệu + render thật') +
+    li('Cao học · ≥ ' + d.thresholds.cao_hoc + '/12 — label an toàn, bằng chứng từng edge/claim') +
+    li('Tiến sĩ · = ' + d.thresholds.tien_si + '/12 — + dataset_version + JSON-LD (P2/P3)') +
+    li('Release gate · trung bình ≥ ' + d.thresholds.release_gate + ' · core 9 tab ≥ ' + d.thresholds.core_gate);
+
+  const a = document.getElementById('alerts');
+  a.innerHTML = d.alerts.map(x =>
+    '<li><span class="badge b-' + (x.status==='resolved'?'res':'open') + '">' + x.status + '</span>'
+    + '<span class="badge b-' + x.level + '">' + x.level + '</span>'
+    + '<b>#' + x.id + ' · ' + x.title + '</b><br><span class="small">' + x.detail + '</span></li>'
+  ).join('');
+
+  const ds = document.getElementById('dstatus');
+  const st = d.data_status || {};
+  ds.innerHTML = Object.entries(st).map(([k,v])=>{
+    const s = typeof v === 'object' && v!==null ? JSON.stringify(v) : String(v);
+    return '<div><b>' + k + ':</b> <span class="small">' + s + '</span></div>';
+  }).join('');
+
+  const tb = document.querySelector('#tabtable tbody');
+  tb.innerHTML = d.tabs.map(t=>{
+    const g = t.grade;
+    const gcls = g.indexOf('Tiến')===0?'g-ts':g.indexOf('Cao')===0?'g-ch':g.indexOf('Cử')===0?'g-cn':'g-ds';
+    const isCore = d.core_tabs.indexOf(t.key) >= 0;
+    return '<tr>'
+      + '<td>' + (isCore?'<span class="core">★</span> ':'') + t.label + ' <span class="kbd">'+t.key+'</span></td>'
+      + '<td class="kbd">' + t.fn + '</td>'
+      + '<td>' + (t.route || '<span class="badge b-med">stub</span>')
+        + (t.route_found && t.route ? ' <span class="small" style="color:#7ee2a0">✓ route</span>'
+          : t.route ? ' <span class="small" style="color:#ff8a8a">✗ route</span>' : '') + '</td>'
+      + '<td>' + (t.table ? '<span class="kbd">'+t.table+'</span> ' + (t.row_count!==null?t.row_count: '?') + ' rows'
+          + (t.data_verified?' <span style="color:#7ee2a0">✓verified</span>':' <span style="color:#ff8a8a">chưa verify</span>')
+          : '<span class="small">—</span>')
+        + (t.label_safe?' <span style="color:#7ee2a0">· label ✓</span>':' <span style="color:#ff8a8a">· label ✗</span>') + '</td>'
+      + '<td><b>' + t.score + '/12</b><div class="bar"><i style="width:'+ ((t.score/12)*100) + '%"></i></div></td>'
+      + '<td class="grade ' + gcls + '">' + t.grade + '</td></tr>';
+  }).join('');
+
+  if (location.hash === '#jump-table') document.getElementById('tabtable').scrollIntoView();
+}
+function chip(v,l){ return '<div class="chip"><b>'+v+'</b><span>'+l+'</span></div>'; }
+function li(s){ return '<li><b>·</b> ' + s + '</li>'; }
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,3807 @@
+{
+  "generated_at": "2026-09-26T20:32:58",
+  "total_progress": 71,
+  "modules": [
+    {
+      "name": "DILA Authority",
+      "doc_status": "in_progress",
+      "progress": 75,
+      "code_found": 3,
+      "code_claimed": 4,
+      "routes": [
+        "/api/dila/persons",
+        "/api/dila/persons/stats",
+        "/api/dila/stats"
+      ],
+      "warnings": [
+        "Docs claim 4 nhưng chỉ tìm thấy 3 trong code. Thiếu: /api/dila/hv/stats"
+      ]
+    },
+    {
+      "name": "CBETA",
+      "doc_status": "in_progress",
+      "progress": 54,
+      "code_found": 31,
+      "code_claimed": 57,
+      "routes": [
+        "/api/admin/cbeta/aggregates",
+        "/api/admin/cbeta/context",
+        "/api/admin/cbeta/dashboard-data",
+        "/api/admin/cbeta/explain",
+        "/api/admin/cbeta/fuzzy-match-place",
+        "/api/admin/cbeta/resolve",
+        "/api/admin/cbeta/search-person",
+        "/api/admin/cbeta/search-place",
+        "/api/admin/cbeta/snippet",
+        "/api/admin/cbeta/stats",
+        "/api/admin/cbeta/translate_segment",
+        "/api/admin/cbeta/unit",
+        "/api/admin/translate_gemini_cbeta",
+        "/api/cbeta/passages/{}/units",
+        "/api/cbeta/works/{}/coverage",
+        "/api/cbeta/works/{}/translation-export",
+        "/api/cbeta/{}/related",
+        "/api/cbeta/{}/sat",
+        "/api/entity/{}",
+        "/api/entity/{}/canon",
+        "/api/entity/{}/marcus",
+        "/api/entity/{}/passages",
+        "/api/entity/{}/related",
+        "/api/entity/{}/summary",
+        "/api/entity/{}/unified",
+        "/api/entity/{}/web-enrich",
+        "audit_cbeta_corpus.py",
+        "build_cbeta_mentions.py",
+        "cbeta_build_text_passages.py",
+        "cbeta_translate_worker.py",
+        "fuzzy_match_cbeta_catalog.py"
+      ],
+      "warnings": [
+        "Docs claim 57 nhưng chỉ tìm thấy 31 trong code. Thiếu: /api/cbeta/T49n2035/related, /api/cbeta/compare, /api/cbeta/context, /api/cbeta/passages/{}/translations, /api/cbeta/translation-jobs/{}"
+      ]
+    },
+    {
+      "name": "Marcus SNA",
+      "doc_status": "in_progress",
+      "progress": 93,
+      "code_found": 13,
+      "code_claimed": 14,
+      "routes": [
+        "/api/admin/conflicts",
+        "/api/admin/lineage-conflicts",
+        "/api/admin/lineage-conflicts/{}/resolve",
+        "/api/admin/place/{}/conflict/resolve",
+        "/api/conflicts",
+        "/api/monk/{}/marcus",
+        "/api/monk/{}/marcus-network",
+        "/api/queue",
+        "/api/resolve_conflict",
+        "deep_conflict_analysis.py",
+        "link_marcus_entities.py",
+        "rebuild_conflicts_v2_b2.py",
+        "seed_t132_conflict_pending.py"
+      ],
+      "warnings": [
+        "Docs claim 14 nhưng chỉ tìm thấy 13 trong code. Thiếu: /api/place/{}/conflicts"
+      ]
+    },
+    {
+      "name": "TTL Thiền Sư VN",
+      "doc_status": "in_progress",
+      "progress": 67,
+      "code_found": 8,
+      "code_claimed": 12,
+      "routes": [
+        "etl_ttl_person_authority.py",
+        "import_person_authority.py",
+        "t05_ttl_namevi_etl.py",
+        "t05_ttl_pass3.py",
+        "t47_place_vi_lexicon_verify.py",
+        "t63_bio_vi_lexicon_p1.py",
+        "t71_place_name_lexicon_verify.py",
+        "ttl_person_name_extractor.py"
+      ],
+      "warnings": [
+        "Docs claim 12 nhưng chỉ tìm thấy 8 trong code. Thiếu: /api/ttl/old/, /api/ttl/save, api_ttl_rebuild.py, t58_bio_vi_lexicon_p1.py"
+      ]
+    },
+    {
+      "name": "CBDB",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 2,
+      "code_claimed": 2,
+      "routes": [
+        "/api/admin/places/{}/cbdb",
+        "/api/admin/places/{}/cbdb_translate"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "Wikipedia",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 1,
+      "code_claimed": 1,
+      "routes": [
+        "/api/admin/wiki/fetch"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "NameVi Map",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 9,
+      "code_claimed": 9,
+      "routes": [
+        "/api/admin/namevi-map-places/save",
+        "/api/admin/namevi-map/delete",
+        "/api/admin/namevi-map/update",
+        "/api/admin/namevi-queue",
+        "/api/admin/namevi-queue/{}",
+        "/api/name_vi/search",
+        "fix_t162_namevi.py",
+        "migrate_name_vi_norm.py",
+        "seed_persons_namevi.py"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "Keywords",
+      "doc_status": "in_progress",
+      "progress": 100,
+      "code_found": 2,
+      "code_claimed": 2,
+      "routes": [
+        "/api/admin/keywords/bulk_import",
+        "/api/admin/keywords/parse_txt"
+      ],
+      "warnings": []
+    },
+    {
+      "name": "GIS / Places",
+      "doc_status": "in_progress",
+      "progress": 75,
+      "code_found": 18,
+      "code_claimed": 24,
+      "routes": [
+        "/api/admin/place/{}/authority",
+        "/api/admin/place/{}/canonical",
+        "/api/admin/places_search",
+        "/api/dila/places",
+        "/api/places/search",
+        "/api/places/{}",
+        "/api/places/{}/cbeta",
+        "/api/places/{}/claims",
+        "/api/places/{}/doctrine",
+        "/api/places/{}/eight_four_thousand",
+        "/api/places/{}/events",
+        "/api/places/{}/graph",
+        "/api/places/{}/kanripo",
+        "/api/places/{}/pali",
+        "/api/places/{}/persons",
+        "/api/places/{}/time-mentions",
+        "/api/places/{}/timeline",
+        "/api/places/{}/vri"
+      ],
+      "warnings": [
+        "Docs claim 24 nhưng chỉ tìm thấy 18 trong code. Thiếu: /api/place/{}/languages, /api/places, /api/places/, /api/places/{}/hub, /api/places/{}/translations"
+      ]
+    },
+    {
+      "name": "DILA Integration Layer",
+      "doc_status": "in_progress",
+      "progress": 50,
+      "code_found": 2,
+      "code_claimed": 4,
+      "routes": [
+        "/api/research/entity/{}/audit-trail",
+        "/api/v1/entity/{}/lookup"
+      ],
+      "warnings": [
+        "Docs claim 4 nhưng chỉ tìm thấy 2 trong code. Thiếu: /api/time/entity/, /api/time/entity/{}"
+      ]
+    },
+    {
+      "name": "BDRC Integration",
+      "doc_status": "in_progress",
+      "progress": 0,
+      "code_found": 0,
+      "code_claimed": 0,
+      "routes": [],
+      "warnings": []
+    },
+    {
+      "name": "Translation Pipeline",
+      "doc_status": "in_progress",
+      "progress": 68,
+      "code_found": 17,
+      "code_claimed": 25,
+      "routes": [
+        "/api/admin/missing-hanzi",
+        "/api/admin/missing-hanzi/override",
+        "/api/admin/translate/invalidate",
+        "/api/admin/translate_context",
+        "/api/passage/{}/translate",
+        "/api/passage/{}/translate/report",
+        "/api/person/{}/dila_translate",
+        "/api/person/{}/translate",
+        "/api/public/transliterate",
+        "/api/relation/translate",
+        "/api/segments/translate",
+        "/api/translate",
+        "/api/translate-rules",
+        "/api/translate/all",
+        "/api/translate/google",
+        "expand_hanviet_dictionary.py",
+        "retranslate_residual_hanzi.py"
+      ],
+      "warnings": [
+        "Docs claim 25 nhưng chỉ tìm thấy 17 trong code. Thiếu: /api/person/A001361/translate, /api/person/A003881/dila_translate, /api/translate-cbeta, /api/translate/cbeta, bulk_transliterate.py"
+      ]
+    },
+    {
+      "name": "Nexus Visualization",
+      "doc_status": "in_progress",
+      "progress": 38,
+      "code_found": 3,
+      "code_claimed": 8,
+      "routes": [
+        "/api/nexus/find",
+        "/api/nexus/{}",
+        "build_event_text_link.py"
+      ],
+      "warnings": [
+        "Docs claim 8 nhưng chỉ tìm thấy 3 trong code. Thiếu: /api/nexus, /api/nexus/, /api/nexus/A003623, /api/nexus/A005671, /api/nexus/{}/{}"
+      ]
+    },
+    {
+      "name": "Hạ tầng / Docs",
+      "doc_status": "in_progress",
+      "progress": 75,
+      "code_found": 6,
+      "code_claimed": 8,
+      "routes": [
+        "/api/admin/dashboard/stats",
+        "/api/admin/emails",
+        "/api/compliance/dashboard",
+        "/api/dashboard/stats",
+        "/api/login/check",
+        "/api/progress/dashboard"
+      ],
+      "warnings": [
+        "Docs claim 8 nhưng chỉ tìm thấy 6 trong code. Thiếu: /api/login/, local_gateway.py"
+      ]
+    },
+    {
+      "name": "Timeline / Event Evidence",
+      "doc_status": "in_progress",
+      "progress": 75,
+      "code_found": 3,
+      "code_claimed": 4,
+      "routes": [
+        "/api/events",
+        "/api/events/{}",
+        "t97_parse_time_mentions.py"
+      ],
+      "warnings": [
+        "Docs claim 4 nhưng chỉ tìm thấy 3 trong code. Thiếu: t39_insert_timeline.py"
+      ]
+    }
+  ],
+  "endpoints_compare": [
+    {
+      "path": "/api/...",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/ai_judge/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/audit/trail",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/auto_save_name",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/bio-review/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/bio-review/apply",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/bio-review/pending",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/bio-review/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/aggregates",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/context",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/dashboard-data",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/explain",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/fuzzy-match-place",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/resolve",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/search-person",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/search-place",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/snippet",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/translate_segment",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/cbeta/unit",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/claims/bulk-review",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/claims/unverified",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/claims/{}/review",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/conflicts",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/dashboard/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/data-gaps",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/editor-stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/emails",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/entity-claims/unverified",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/geo-enrich",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/geo-enrich/candidates",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/keywords/bulk_import",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/keywords/parse_txt",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/lineage-conflicts",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/lineage-conflicts/{}/resolve",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/llm/summarize",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/missing-hanzi",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/missing-hanzi/override",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-map-places/save",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-map/delete",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-map/update",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-queue",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/namevi-queue/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/parse_district",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/person/A009462/bio_vi",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/person/{}/bio_vi",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/person/{}/name_standard",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/place-groq-review",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/place-groq-review/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/place-person-link",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/place/{}/authority",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/place/{}/canonical",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/place/{}/conflict/resolve",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/places/{}/cbdb",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/places/{}/cbdb_translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/places_search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/resolutions/history",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/source-add",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/source-check",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/sources/ssot",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/submit-for-review",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/translate/invalidate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translate_context",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translate_gemini_cbeta",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translation-cache",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translation-error-reports",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translation-rules",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translation/jobs",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translation/jobs/{}/raw",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translation/verify",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/translations",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/translations/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/admin/verification/list",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/wiki/fetch",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/admin/zenlineage/{candidates",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/bdrc/person",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/T49n2035/related",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/compare",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/context",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/passages/{}/translations",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/passages/{}/units",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/cbeta/translation-jobs/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/translation-jobs/{}/resume",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/works/T50n2060/coverage",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/works/T50n2060/translation-export",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/works/{}/coverage",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/cbeta/works/{}/translation-coverage",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/works/{}/translation-export",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/cbeta/works/{}/translation-jobs",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/{}/compare",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/{}/related",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/cbeta/{}/related/behavioral",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/cbeta/{}/sat",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/cbeta/{}/view",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/check-license",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/compliance/dashboard",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/conflicts",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/daitang/qa",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/dashboard/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/deepsearch",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/definitely-not-a-real-route-xyz",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/dict/fuzzy",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/dict/merge",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/dila/hv/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/dila/persons",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/dila/persons/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/dila/places",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/dila/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/A000001",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/A000005/marcus",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/A023597/passages",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/FAKE123",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/PL.../qa",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/T51n2076",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/T51n2076/passages",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/link",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/canon",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/deepsearch",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/{}/graph",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/{}/marcus",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/passages",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/qa",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/entity/{}/related",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/summary",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/unified",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/entity/{}/web-enrich",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/events",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/events/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/evidence/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/feedback",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/feedback.",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/fuzzy/matches",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/get_ttl/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/glossary",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/graphdb/sparql",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/lineage-ref/context",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/lineage-ref/passage",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/lineage/audit/issues",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/lineage/direct",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/lineage/expand",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/lineage/expand-primary",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/lineage/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/lineage/{}/network",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/login/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/login/check",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk-resolve",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/A000005/graph",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/A000294",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/A000453/lineage-tree",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/A001361",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/A005278/graph",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/A009460/ancestor-path",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/resolve",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/monk/search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/{}/ancestor-path",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/{}/ancestor-spine",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/{}/graph",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/{}/lineage-tree",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/{}/marcus",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk/{}/marcus-network",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/monk_names",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/name_vi/search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/nexus",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/nexus/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/nexus/A003623",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/nexus/A005671",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/nexus/find",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/nexus/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/nexus/{}/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/passage/<int",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/passage/{}/aligned-translation",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/passage/{}/translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/passage/{}/translate/report",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/person/A001361/translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/person/A003881/dila_translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/person/A004177/dila-axis",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/person/A005248/dila_full",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/person/A009460/dila_full",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/person/A025190/profile",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/person/{}/dila-axis",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/person/{}/dila_full",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/person/{}/dila_translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/person/{}/profile",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/person/{}/translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/persons/browse",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/persons/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/place/{}/cbeta_refs",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/place/{}/conflicts",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/place/{}/languages",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/places",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/places/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/places/search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/cbeta",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/claims",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/doctrine",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/eight_four_thousand",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/events",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/graph",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/hub",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/places/{}/kanripo",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/pali",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/persons",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/time-mentions",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/timeline",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/places/{}/translations",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/places/{}/vri",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/progress/dashboard",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/public/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/public/export/citation",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/public/transliterate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/queue",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/rag/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/rag/health",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/rag/query",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/rag_vi/chat",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/relation/translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/research/entity/{}/audit-trail",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/resolve",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/resolve_conflict",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/save-ttl",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/search",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/segments/translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/segments/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/sutra/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/time/entity/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/time/entity/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/time/periods",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/translate",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/translate-cbeta",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/translate-rules",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/translate/all",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/translate/cbeta",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/translate/google",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/translation/jobs",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/translation/jobs/{}",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/ttl/old/",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/ttl/save",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/v1/entity/{}/lookup",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": true
+    },
+    {
+      "path": "/api/vn/places",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    },
+    {
+      "path": "/api/vn/stats",
+      "method": "GET",
+      "docs_claim": true,
+      "code_found": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": "BUG-012",
+      "title": "\"Persistent marker re-triggers selectItem — cluster marker click không update left panel\"",
+      "file": "BUG-012-persistent-marker-refire-selectitem.md",
+      "module": "GIS / Places",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-16",
+      "done_when": "",
+      "desc": "## Triệu chứng Sau khi filter pill \"Chùa / Tự viện\" được active và có 1 địa danh đang chọn (persistent marker), click vào cluster marker khác xung quanh → left panel không cập nhật sang ID mới. ## Roo",
+      "criteria_done": 0,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "BUG-013",
+      "title": "\"Unified endpoint trả null cho DILA geo/name — places table không được fallback\"",
+      "file": "BUG-013-unified-dila-null-places-fallback.md",
+      "module": "GIS / Places / Unified API",
+      "priority": "P1",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-09",
+      "done_when": "",
+      "desc": "## Triệu chứng Click marker chùa (ví dụ PL056722 \"Sen Hoa Am\") → panel cột trái hiển thị: - COUNTRY — - DISTRICT — - GEO — - Tên Hán — (tất cả null) Nhưng marker có GPS đúng và `/api/places/PL056722` ",
+      "criteria_done": 5,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "BUG-014",
+      "title": "\"Nexus giật lag + cạnh chồng chéo rối khi click Hồ Sơ DILA — nexus-dila-expand-physics-jitter\"",
+      "file": "BUG-014-nexus-giat-lag-canh-chong-cheo-khi-mo-ho-so-dila.md",
+      "module": "Nexus / vis-network",
+      "priority": "P1",
+      "status": "in_progress",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-09",
+      "done_when": "",
+      "desc": "## Triệu chứng Tab Nexus → Click node \"Hồ Sơ DILA\" → - Hiệu ứng giật lag kinh khủng (jitter) - Các nút node văng lung tung rồi mới dừng - Các cạnh (edges) chồng chéo lên nhau, rối mắt ## Root cause ##",
+      "criteria_done": 0,
+      "criteria_total": 3,
+      "blockers": false
+    },
+    {
+      "id": "T100",
+      "title": "ACADEMIC_3_LEVELS_16_TABS_V1 — 16 tab evidence-first, 3 cấp học thuật, chấm 2 trục",
+      "file": "T100-academic-16-tabs-framework.md",
+      "module": "Hạ tầng / Docs",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-07",
+      "updated": "2026-09-07",
+      "done_when": "Mọi tab của file places.html hiển thị evidence-first với empty-state trung thực theo lược đồ 16 tab; tab GIÁO LÝ phân đôi (khối giáo lý Phật học + khối Đối Chiếu Tam Tạng trong cùng tab); bảng điểm 2 trục data-exists/UI-displays cho toàn bộ 16 tab tính từ dữ liệu/code thật kèm bằng chứng; dashboard admin `dashboard/tab_readiness.html` hiển thị được; release gate ≥8 điểm (core ≥9).",
+      "desc": "Đưa toàn bộ các tab của Đạo Ảnh đến chuẩn học thuật 3 cấp (Cử nhân / Cao học / Tiến sĩ) theo lược đồ **16 tab**: mỗi tab hiển thị bằng chứng thật từ DB, empty-state trung thực (không bịa, không \"đang ",
+      "criteria_done": 17,
+      "criteria_total": 26,
+      "blockers": true
+    },
+    {
+      "id": "T101",
+      "title": "Graph/Nexus Bug Fix — Tên hiển thị + Label Collision",
+      "file": "T101-graph-nexus-bug-fix.md",
+      "module": "Nexus / Graph / UI",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-23 (DONE — admin xác nhận)",
+      "done_when": "Admin xác nhận tất cả acceptance criteria bên dưới pass trên live UI",
+      "desc": "## Mô tả Fix 5 bugs phát hiện trong Nexus grouped view và API places/graph của Thiếu Lâm Tự: - **BUG-001**: Nexus center `label_zh` trả về `少室寺` thay vì `少林寺` - **BUG-004**: `api_places_graph` curated",
+      "criteria_done": 7,
+      "criteria_total": 9,
+      "blockers": true
+    },
+    {
+      "id": "T108",
+      "title": "\"Schema Design — Hiến pháp dữ liệu Evidence-first (docs SCHEMA_DESIGN.md)\"",
+      "file": "T108-schema-design.md",
+      "module": "Data Governance / Assertion Architecture",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-08",
+      "updated": "2026-09-08",
+      "done_when": ">",
+      "desc": "Chuyển đặc tả \"T01 — Cấu trúc Assertion\" (Lee Tổng phê chuẩn) thành **docs/SCHEMA_DESIGN.md**: định nghĩa Assertion là đơn vị dữ liệu nhỏ nhất (Nội dung + Chứng cứ + Trạng thái thẩm định), định nghĩa ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T109",
+      "title": "\"Provenance Compliance & Conflict Resolution Workflow\"",
+      "file": "T109-provenance-conflict-workflow.md",
+      "module": "Data Governance / Assertion Architecture",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T108, T100]",
+      "owner": "",
+      "created": "2026-09-08",
+      "updated": "2026-09-09",
+      "done_when": ">",
+      "desc": "# T109 — Provenance Compliance & Conflict Resolution Workflow (Zero-ALTER · Zero-RAM · Lean) ## Mục tiêu (gap thật #1/#2 của SCHEMA_DESIGN M7.2) 1. **Bịt lỗ hổng Provenance của `events`** — 3,530 even",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T11",
+      "title": "RAG Việt chat (Fojin-style, citations)",
+      "file": "T11-rag-vi-chat.md",
+      "module": "Translation Pipeline",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[T02]",
+      "owner": "",
+      "created": "2026-08-13",
+      "updated": "2026-08-24",
+      "done_when": "POST /daoanh/api/rag_vi/chat trả answer_vi + citations (ref/title_zh/excerpt_vi/excerpt_zh)",
+      "desc": "Khoá 6 — Build RAG tiếng Việt chuyên Phật học trên `lineage.db` + `cbeta.db` (không copy Fojin, chỉ học kiến trúc: layer corpus / search / chat / citations). Trả lời tiếng Việt kèm trích dẫn Hán + mã ",
+      "criteria_done": 0,
+      "criteria_total": 6,
+      "blockers": false
+    },
+    {
+      "id": "T110",
+      "title": "\"Glossary Vietnamese Pipeline — Việt hóa glossary_term (248,095)\"",
+      "file": "T110-glossary-vietnamese-pipeline.md",
+      "module": "Localization / Glossary",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T108]",
+      "owner": "",
+      "created": "2026-09-08",
+      "updated": "2026-09-08",
+      "done_when": ">",
+      "desc": "# T110 — Glossary Vietnamese Pipeline ## Mục tiêu (gap được trích từ đặc tả \"25 nguồn → 13/5/8\") `glossary_term` 248,095 rows KHÔNG có cột tiếng Việt (cols: id/term/language/definition/ full_text/sour",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T111",
+      "title": "\"Persona Display Layer (lock/mở Provenance) + ZenQ Disclaimer\"",
+      "file": "T111-persona-display-disclaimer.md",
+      "module": "UI/UX / Evidence Presentation",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T108, T100]",
+      "owner": "",
+      "created": "2026-09-08",
+      "updated": "2026-09-09",
+      "done_when": ">",
+      "desc": "# T111 — Persona Display Layer + ZenQ Disclaimer ## Mục tiêu (gap thật #3 của SCHEMA_DESIGN — đặc tả T01: \"khóa Provenance / mở toàn bộ\") Hiện tại: scoring 3 cấp độ (Cử nhân 6 / Cao học 9 / Tiến sĩ 12",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T112",
+      "title": "\"Source Pending Activation — 8 nguồn implemented=0\"",
+      "file": "T112-source-pending-activation.md",
+      "module": "Data Governance / Source Registry",
+      "priority": "low",
+      "status": "done",
+      "depends_on": "[T108, T70, T34]",
+      "owner": "",
+      "created": "2026-09-08",
+      "updated": "2026-09-10",
+      "done_when": ">",
+      "desc": "# T112 — Source Pending Activation ## Mục tiêu (đặc tả \"25 nguồn\" → sửa thành thực trạng 13/5/8) 8 nguồn `implemented=0` trong `source_authority`: SAT, CHGIS, BDRC, FoJin, Kanripo, TGAZ, SuttaCentral,",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T113",
+      "title": "\"QA/UAT + Compliance Meter — live :5000, Data Quality Report\"",
+      "file": "T113-qa-uat-compliance-meter.md",
+      "module": "QA / Testing",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[T108]",
+      "owner": "",
+      "created": "2026-09-08",
+      "updated": "2026-09-09",
+      "done_when": ">",
+      "desc": "1. **QA live** (điều kiện tiên quyết: :5000 được restart — đang blocked bởi port chiếm): verify Batch 4, case Thiếu Lâm Tự (PL000000023255), evidence drawer, doctrine tab. 2. **Compliance meter**: `sc",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T114",
+      "title": "\"Master Roadmap Meta-Update — đồng bộ lộ trình Evidence-first\"",
+      "file": "T114-roadmap-meta-update.md",
+      "module": "Project Management / Docs",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T108]",
+      "owner": "",
+      "created": "2026-09-08",
+      "updated": "2026-09-09",
+      "done_when": ">",
+      "desc": "Lộ trình Evidence-first (T108–T114) là văn bản **sống**: mỗi khi một task trong chuỗi đổi trạng thái, cập nhật tasktodo/progress/roadmap/ROLLBACK trong cùng commit.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T115",
+      "title": "\"Source Authority Matrix & Referee Rules\"",
+      "file": "T115-source-authority-matrix-referee.md",
+      "module": "Data Governance / Source Registry",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T112, T108, T78, T68]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-09",
+      "done_when": ">",
+      "desc": "Chốt **thứ bậc tin cậy nguồn** + **Luật Trọng Tài (Referee Principle)** cho conflict resolution: hệ thống không đếm phiếu, dùng `authority_score` → `precedence_order` (0-based). Bảng `source_authority",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T116",
+      "title": "\"System Registry & Handover Protocol — Roadmap Meta-Update (Self-documenting)\"",
+      "file": "T116-system-registry-handover.md",
+      "module": "Project Management / Docs / Governance",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T114, T115]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-10",
+      "done_when": ">",
+      "desc": "# T116 — System Registry & Handover Protocol ## Bối cảnh Lee đưa \"Đặc tả khái niệm T114 (Roadmap Meta-Update)\" yêu cầu file `/docs/ROADMAP_META_UPDATE.md` là \"bản đồ di sản\" Self-documenting. **T114 đ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T118",
+      "title": "\"Research Audit Tier API (Bậc Tiến sĩ — Audit Trail)\"",
+      "file": "T118-research-audit-tier-api.md",
+      "module": "API / Research Tier",
+      "priority": "low",
+      "status": "done",
+      "depends_on": "[T111, T100, T108]",
+      "owner": "AI Engineer (impl T135) · Lee Tổng (acceptance)",
+      "created": "2026-09-09",
+      "updated": "2026-09-14",
+      "done_when": "",
+      "desc": "# T118 — Research Audit Tier API (Track 2 của \"T117 Doctrine Retrieval\" rà đặc tả) ## Bối cảnh Rà đặc tả \"T117 Doctrine Retrieval Engine\" (2026-09-09): hầu hết đã phủ bởi T100+T111+T113. **DONE (impl ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T119",
+      "title": "\"Unified Editor Dashboard + Bulk Review + History Viewer\"",
+      "file": "T119-editor-dashboard-bulk-review.md",
+      "module": "Admin / HITL Workflow",
+      "priority": "medium",
+      "status": "in_progress",
+      "depends_on": "[T100, T109, T111]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-10",
+      "done_when": "",
+      "desc": "# T119 — Unified Editor Dashboard + Bulk Review + History Viewer ## Bối cảnh Rà đặc tả \"Curation & Editor Workflow\" (2026-09-09): cơ chế HITL đã xây dựng xong (T100 claim review + T109 conflict resolu",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T12",
+      "title": "Dịch Mượt & Cache Translation (Khoá 7)",
+      "file": "T12-dich-muot-cache-translation.md",
+      "module": "Translation Pipeline",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[T02]",
+      "owner": "",
+      "created": "2026-08-13",
+      "updated": "2026-08-24",
+      "done_when": "POST translate-cbeta trả polished_text (3 bước Dịch Mượt) + cache DB + admin approve/reject + UI panel",
+      "desc": "Khoá 7 — Hệ thống \"Dịch Mượt\" (Translation Polish) chuẩn hóa tự động văn bản CBETA dịch tiếng Việt: cache translation để user load nhanh bản dịch đã duyệt.",
+      "criteria_done": 0,
+      "criteria_total": 6,
+      "blockers": false
+    },
+    {
+      "id": "T120",
+      "title": "\"Unified Lookup + Wikidata Enrichment — 5-layer architecture dùng tables đã có\"",
+      "file": "T120-unified-lookup-wikidata-enrichment.md",
+      "module": "Data / Enrichment / Lookup",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T112, T115]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-10",
+      "done_when": "",
+      "desc": "# T120 — Unified Lookup + Wikidata Enrichment ## Bối cảnh & quyết định thiết kế Phân tích kiến trúc 2026-09-09 (session admin): DB đã có 130+ bảng, trong đó: | Bảng có sẵn | Rows | Vai trò trong T120 ",
+      "criteria_done": 4,
+      "criteria_total": 8,
+      "blockers": false
+    },
+    {
+      "id": "T121",
+      "title": "\"Web Enrichment vào DILA — Wikidata Geo/Elevation + Admin Queue (candidate-only)\"",
+      "file": "T121-web-enrichment-wikidata-geo-admin-queue.md",
+      "module": "Places / Geo Enrichment",
+      "priority": "medium",
+      "status": "in_progress",
+      "depends_on": "[T22, T56, T109, T100]",
+      "owner": "",
+      "created": "2026-09-09",
+      "updated": "2026-09-10",
+      "done_when": "",
+      "desc": "# T121 — Web Enrichment vào DILA (Wikidata Geo + Elevation + Hàng đợi Admin Duyệt) ## Bối cảnh Rà đặc tả \"Tích hợp dữ liệu web enrichment vào DILA\" (JSON 2026-09-09): yêu cầu auto-fetch Wikipedia/Wiki",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T122",
+      "title": "\"Batch D — Immediate-fix bundle 2026-09-10 (research audit id xuyên export · geo candidate runfront · bio review UI · docs hygiene)\"",
+      "file": "T122-batch-d-immediate-fix-bundle.md",
+      "module": "Evidence-first · Editorial / Ops",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[T112, T113, T118, T121]",
+      "owner": "",
+      "created": "2026-09-10",
+      "updated": "2026-09-10",
+      "done_when": "",
+      "desc": "# T122 — Batch D: Immediate-fix bundle (2026-09-10) Kế hoạch chi tiết đã thảo luận (Batch D, Lee phê chuẩn) — gom 4 hạng mục fix được NGAY, không cần key/quyết định/agent ngoài. Mỗi hạng mục = 1 commi",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T123",
+      "title": "\"Style Constitution 'Ban Dịch PTDA' — Style-Lock 4 lớp + Báo lỗi dịch + Đề xuất fix rule (văn phong đồng nhất mọi luồng Groq)\"",
+      "file": "T123-style-constitution-ban-dich-ptda.md",
+      "module": "Editorial / LLM Translation",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T50, T73, T74, T85, T96]",
+      "owner": "",
+      "created": "2026-09-12",
+      "updated": "2026-09-12",
+      "done_when": "\"Mọi luồng dịch Groq (passage legacy, T85 segments, translate_context, place, bio) dùng chung builder nhúng active rules + glossary lock + exemplar + persona Ban Dịch PTDA; nút Báo lỗi dịch ghi translation_error_report kèm snapshot/link; admin/translation_cache.html hiện chi tiết lỗi + hệ thống đề xuất rule fix; API /daoanh/api/translate-rules public; smoke đoạn Thích Diên Huy hết 'chàng'.\"",
+      "desc": "Tập trung hóa prompt dịch Groq về 1 unified Style-Lock builder; toàn bộ rule/style/glossary/ exemplar nằm trong DB `translation_rules` + 3 bảng additive mới; cache ghi `rules_version`; admin có đủ dữ ",
+      "criteria_done": 14,
+      "criteria_total": 14,
+      "blockers": false
+    },
+    {
+      "id": "T124",
+      "title": "\"DeepSearch UI V1 — Safe-Fallback (biến tab 🤖 DeepSearch từ mock thành UI hoàn chỉnh, không backend)\"",
+      "file": "T124-deepsearch-ui-safe-fallback.md",
+      "module": "Editorial / User Frontend",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-12",
+      "updated": "2026-09-12",
+      "done_when": "\"Tab DeepSearch trong places.html: có mô tả 'Hỏi theo ngữ cảnh', gợi ý bấm được fill+focus không submit, placeholder tiếng Việt, Enter=nút, validation inline input trống, đủ states idle/loading/unavailable (no-result/result là code path), không lộ endpoint/Groq; không regression 4 tab kia; npm run pipeline PASS; commit temp-index revert được.\"",
+      "desc": "# T124 — DeepSearch UI V1 (Safe-Fallback) (2026-09-12) Kế hoạch chi tiết thảo luận + Lee phê chuẩn. Mục tiêu: biến tab **🤖 DeepSearch** trong `places.html` từ chỗ hiển thị thử nghiệm (banner \"Groq sem",
+      "criteria_done": 9,
+      "criteria_total": 9,
+      "blockers": false
+    },
+    {
+      "id": "T125",
+      "title": "\"Q&A Tab Safe-Fallback (đồng bộ pattern T124 DeepSearch)\"",
+      "file": "T125-qa-tab-safe-fallback.md",
+      "module": "Hạ tầng / Docs",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (phê chuẩn)",
+      "created": "2026-09-12",
+      "updated": "2026-09-12",
+      "done_when": "",
+      "desc": "# T125 — Q&A Tab Safe-Fallback (đồng bộ pattern T124 DeepSearch) **Status:** done (build 2026-09-12, live :8080) **Ngày:** 2026-09-12 **Phạm vi:** 1 file `places.html` (tab ❓ Hỏi & Đáp) + backup + doc",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T126",
+      "title": "\"Q&A Backend thật + Wire UI (toàn hệ thống)\"",
+      "file": "T126-qa-backend-real.md",
+      "module": "Hạ tầng / Docs",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (phê chuẩn)",
+      "created": "2026-09-13",
+      "updated": "2026-09-13",
+      "done_when": "",
+      "desc": "Thay UI safe-fallback (T125/T124) bằng **QA thật**: retrieval toàn hệ thống + LLM Groq, với UI states B (busy spinner thật) / D (no_data) / E (answer).",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T127",
+      "title": "Tree Design System Refactor — shared renderer Pháp Mạch + Phả hệ mở rộng",
+      "file": "T127-tree-design-system-refactor.md",
+      "module": "UI/UX · places.html",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-13",
+      "updated": "2026-09-15",
+      "done_when": "Cả 2 tab (Pháp Mạch + Phả hệ mở rộng) dùng 1 shared renderer `_renderHierarchyTree` (node rect 2 dòng, palette chuẩn, layered-top-bottom, arrowheads, bỏ edge label thầy/trò), 4 checkbox filter hoạt động thật, dead code `_renderLineageTree`/`_mkLineageNode` bị xóa, npm run pipeline PASS.",
+      "desc": "Hợp nhất 2 renderer pháp hệ khác nhau thành **1 shared Tree Design System** trong `places.html`: | Hiện tại | Vấn đề | |---|---| | `_renderLineageChain()` (Pháp Mạch) — vis.js hierarchical UD, node bo",
+      "criteria_done": 7,
+      "criteria_total": 7,
+      "blockers": false
+    },
+    {
+      "id": "T128",
+      "title": "Relation Detail Panel — Tạm dịch AI + Đọc văn cảnh (embedded Đại Tạng reader)",
+      "file": "T128-relation-detail-panel-translate-reader.md",
+      "module": "UI/UX · places.html + app.py",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "T127",
+      "owner": "",
+      "created": "2026-09-13",
+      "updated": "2026-09-15",
+      "done_when": "Panel 'Chi tiết mối quan hệ' có nút '✨ Tạm dịch AI' (bản dịch + badge 'Dịch AI · cần hiệu đính', cache theo text-hash) + nút '📖 Đọc văn cảnh' (nhúng văn cảnh Đại Tạng trong panel, fallback trung thực khi chưa index), state isolation chống race; node --check PASS + npm run pipeline PASS.",
+      "desc": "Nâng cấp panel **\"Chi tiết mối quan hệ\"** (`_renderLineageInspectorEdge`, `places.html:5527-5539`): 1. Thêm nút **\"✨ Tạm dịch AI\"** — dịch đoạn dẫn chứng (evidence excerpt) + badge **\"Dịch AI · cần hi",
+      "criteria_done": 8,
+      "criteria_total": 8,
+      "blockers": false
+    },
+    {
+      "id": "T129",
+      "title": "Phả hệ mở rộng — pedigree refinement (generation, cycle-safe, expand, sort)",
+      "file": "T129-pedigree-refinement.md",
+      "module": "UI/UX · places.html",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "T127",
+      "owner": "",
+      "created": "2026-09-13",
+      "updated": "2026-09-15",
+      "done_when": "Phả hệ mở rộng (mode network) có (1) generation tuyệt đối theo tâm (level normalize ≥0, cùng gen cùng hàng), (2) sort ngang trong gen theo (niên đại→tên), (3) nút mở đời trên/dưới + toàn nhánh + thu gọn, (4) Tâm hoạt động ở network, (5) phát hiện chu trình (Tarjan SCC) → cạnh chu trình loại khỏi cây + footer \"Mâu thuẫn/chu trình\", (6) node không nối tới tâm bị ẩn + thông báo, (7) hover edge \"X truyền pháp cho Y\", (8) node title meta (triều đại/niên đại/tông/#thầy/#trò/dẫn chứng/mâu thuẫn); node --check PASS + npm run pipeline PASS.",
+      "desc": "# T129 — Phả hệ mở rộng: pedigree refinement batch **Status:** ✅ DONE + LIVE QA 2026-09-15 (QA closure 26/26 PASS; C7 edge tooltip fix trong places.html) **Ngày:** 2026-09-13 → 2026-09-15 **Phạm vi:**",
+      "criteria_done": 3,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T13",
+      "title": "CBDB → chatling.AI viết mượt + ghi chú Việt",
+      "file": "T13-cbdb-chatling-ai.md",
+      "module": "CBDB",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-08-13",
+      "updated": "2026-08-24",
+      "done_when": "Nút \"Gửi cho chatling.AI viết mượt\" xuất dữ liệu CBDB + lưu vào ghi chú Việt ngữ",
+      "desc": "Progress CBDB: thêm nút \"Gửi cho chatling.AI viết mượt và lưu vào ghi chú Việt ngữ\" cho kết quả CBDB.",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T130",
+      "title": "Pháp Mạch = trực hệ 1 nhánh (primary chain + icon +/- + chooser + routing)",
+      "file": "T130-phap-mach-direct-lineage.md",
+      "module": "app.py (additive param) · places.html (chain rewrite)",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "T127 (shared renderer) · T129 (Tâm/footer/level sẵn)",
+      "owner": "",
+      "created": "2026-09-13",
+      "updated": "2026-09-24",
+      "done_when": "Pháp Mạch (mode 'tree') chỉ hiển thị chuỗi trực hệ thầy→trò (ancestors + center + canonical successor), icon +/- thật trên node (DOM overlay, 28px, aria, tooltip, stopPropagation), 1 đời/click, collapse thu subtree đúng, +N nhánh → chooser (không auto-pick), CTA \"Xem Phả hệ mở rộng ↗\", controls chuẩn (Fit/Tâm/Thu gọn tất cả/Mở 1 đời tiếp, BỎ \"Mở toàn nhánh\"), deep-link ?mode=lineage&chain=..., ?expand= backend lazy, node-body click = mở hồ sơ; node --check + algorithm test + npm run pipeline PASS.",
+      "desc": "# T130 — Pháp Mạch: direct-lineage projection (trực hệ 1 nhánh) + node expand icon **Status:** done (2026-09-24) — **CLOSED 5/5 sessions.** Backend Session 1 (commit `f07d8cb`), frontend Session 2–3 (",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T131",
+      "title": "B2.1 REFINE: Source Governance + Compliance Gate + Extensible Adapter",
+      "file": "T131-b21-source-governance-refine.md",
+      "module": "Governance",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (phê chuẩn)",
+      "created": "2026-09-14",
+      "updated": "2026-09-18",
+      "done_when": "",
+      "desc": "# T131 — B2.1 REFINE: Source Governance + Compliance Gate + Extensible Adapter (map-lên-hệ-có-sẵn) --- ## 1. Context (AO — đã audit thật 2026-09-14) Spec \"B2.1 SOURCE GOVERNANCE + LICENSE COMPLIANCE G",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T132",
+      "title": "B2.5 REFINE: Trusted Source Registry + Legal/Capability Contract",
+      "file": "T132-b25-trusted-source-conformance.md",
+      "module": "Governance",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "T131",
+      "owner": "AI Engineer (build) · Lee Tổng (phê chuẩn)",
+      "created": "2026-09-14",
+      "updated": "2026-09-22",
+      "done_when": "",
+      "desc": "# T132 — B2.5 REFINE: Trusted Source Registry + Legal/Capability Contract (conformance map-lên-hệ-có-sẵn) --- ## 1. Context (AO — audit thật 2026-09-14, build mode sau khi phê chuẩn) Spec \"B2.5 TRUSTE",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T133",
+      "title": "OPS-Quality-GoLive: QA/Compliance Spec + UAT Persona + Backup + Pipeline Gate",
+      "file": "T133-ops-quality-golive.md",
+      "module": "Ops / Governance",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (value)",
+      "created": "2026-09-14",
+      "updated": "2026-09-14",
+      "done_when": "",
+      "desc": "# T133 — OPS-Quality-GoLive: QA/Compliance Spec + UAT Persona + Daily Backup + Pipeline Gate --- ## 1. Context (AO — audit thật 2026-09-14, phê chuẩn 2026-09-14) Spec T117–T121 (ZenQ naming: System QA",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T134",
+      "title": "Curation-Workflow-Conformance: HITL demo + Curations Spec + Fix Resolutions-History Gap",
+      "file": "T134-curation-workflow-conformance.md",
+      "module": "Ops / Governance / Curation",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (HITL quilt quan trọng)",
+      "created": "2026-09-14",
+      "updated": "2026-09-14",
+      "done_when": "",
+      "desc": "# T134 — Curation-Workflow-Conformance (Đường A): HITL demo + CURATION_WORKFLOW_SPEC + fix Resolutions-History --- ## 1. Context (AO — audit thật 2026-09-14, admin chọn Đường A 2026-09-14) Spec \"T116 ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T135",
+      "title": "Doctrine-Retrieval-Conformance: RETRIEVAL_ENGINE_SPEC + Public Audit Trail (T118)",
+      "file": "T135-doctrine-retrieval-conformance.md",
+      "module": "Ops / Governance / Retrieval",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (acceptance)",
+      "created": "2026-09-14",
+      "updated": "2026-09-14",
+      "done_when": "",
+      "desc": "# T135 — Doctrine-Retrieval-Conformance (Option A): RETRIEVAL_ENGINE_SPEC thin + Audit Trail bậc Tiến sĩ (T118) --- ## 1. Context (AO — audit thật 2026-09-14, Lee phê chuẩn Option A 2026-09-14) Spec \"",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T136",
+      "title": "Conflict-Engine-Conformance: CONFLICT_ENGINE_SPEC + resolve pick|merge|reject + Authority Score",
+      "file": "T136-conflict-engine-conformance.md",
+      "module": "Ops / Governance / Conflict",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (phán quyết HITL)",
+      "created": "2026-09-14",
+      "updated": "2026-09-14",
+      "done_when": "",
+      "desc": "# T136 — Conflict-Engine-Conformance (spec \"T115/T109 Lineage Consensus\"): CONFLICT_ENGINE_SPEC + merge/reject + Authority Score --- ## 1. Context (AO — audit thật 2026-09-14, Lee phê chuẩn đề xuất tố",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T137",
+      "title": "\"Zen Lineage Integration Audit (AUDIT-ONLY): nguồn đối chiếu Excel ZenLineage.org — audit repo + doc\"",
+      "file": "T137-zen-lineage-integration-audit.md",
+      "module": "Ops / Sources / Governance",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "AI Engineer (audit) · Lee Tổng (phán quyết HITL / Approve)",
+      "created": "2026-09-14",
+      "updated": "2026-09-14",
+      "done_when": "",
+      "desc": "# T137 — Zen Lineage Integration Audit (AUDIT-ONLY) > **AUDIT-ONLY phase**: repository `echojoel/zenlineage` được audit làm nguồn **đối chiếu độc lập** cho Pháp mạch Đạo Ảnh. KHÔNG import, KHÔNG clone",
+      "criteria_done": 0,
+      "criteria_total": 3,
+      "blockers": false
+    },
+    {
+      "id": "T138",
+      "title": "\"Zen Lineage Render Policy + Edge Assertion Model — đa-nguồn cạnh truyền thừa (L1–L4)\"",
+      "file": "T138-zen-lineage-render-policy.md",
+      "module": "Ops / Sources / Governance / Lineage Tree",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (phán quyết HITL / Approve)",
+      "created": "2026-09-14",
+      "updated": "2026-09-14",
+      "done_when": "",
+      "desc": "# T138 — Zen Lineage Render Policy + Edge Assertion Model > **Phase 2 (build)**: mô hình hóa quy tắc vẽ cây đã được thẩm định *\"Quy tắc vẽ cây\"* (canvas 2026-09-14) thành code — mỗi cạnh truyền thừa l",
+      "criteria_done": 0,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T139",
+      "title": "\"Zen Lineage Gateway (Đăng ký nguồn + Staging ETL + HITL Review + Edges)\"",
+      "file": "T139-zen-lineage-gateway.md",
+      "module": "Ops / Sources / Governance / Lineage Tree",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (HITL approve)",
+      "created": "2026-09-15",
+      "updated": "2026-09-22",
+      "done_when": "",
+      "desc": "# T139 — Zen Lineage Gateway (Đăng ký nguồn + Staging ETL + HITL Review + Edges) - **Trạng thái:** IN_PROGRESS (Phase 2 completion 2026-09-22 — code DONE, chờ HITL approve thật) - **Ngày:** 2026-09-15",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T140",
+      "title": "\"PhÁp Mạch UI/UX Fix — Truyền Thừa tab (breadcrumb, 3 đời default, legend nguồn, race-guard, zoom-label, filter nhóm)\"",
+      "file": "T140-phap-mach-ui-ux-fix.md",
+      "module": "places.html (UI only — API/Schema/DB NONE)",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "T127 (shared renderer) ✦ T129 (Tâm/footer/level sẵn) ✦ T138 (edge assertion L1–L4)",
+      "owner": "",
+      "created": "2026-09-15",
+      "updated": "2026-09-23",
+      "done_when": "Breadcrumb+summary header trong #lineage-main-panel · default fetch ?up=2&down=2 với initial expanded = center+1 đệ tử · legend nguồn Marcus=base/DILA=overlay (không hiểu nhầm ngang hàng) · AbortController bọc loadLineageTree+centerLineageOn (hết race click nhanh) · edge HIDE nguồn Zen (0 assertions) · zoom-out truncate label non-selected giữ tooltip đầy đủ · filter nhóm PHẠM VI/NGUỒN/TRẠNG THÁI · bỏ \"N/A\" field null · node --check + lint + E2E PASS + Admin QA ×1 DONE.",
+      "desc": "Hiệu chỉnh UI/UX tab **🌳 Truyền Thừa / Pháp Mạch** theo plan đã audit logic (4 hiệu chỉnh) và được user phê chuẩn 2026-09-15. Chỉ sửa `daoanh/places.html`; **không** đổi API/Schema/DB.",
+      "criteria_done": 12,
+      "criteria_total": 15,
+      "blockers": false
+    },
+    {
+      "id": "T141",
+      "title": "\"Nexus Bus Bar — Mũi tên Truyền Thừa Marcus dùng shared horizontal bus bar thay Z-path riêng từng cạnh\"",
+      "file": "T141-nexus-busbar-truyenthua-arrows.md",
+      "module": "places.html (UI only — API/Schema/DB NONE)",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "T140 (Nexus panel đã có, afterDrawing listener tồn tại)",
+      "owner": "",
+      "created": "2026-09-15",
+      "updated": "2026-09-15",
+      "done_when": "Mỗi row học trò cùng thầy chung 1 thanh bus bar ngang · thân mũi tên dài nhìn thấy rõ · không còn Z-path riêng chồng lên nhau.",
+      "desc": "# T141 — Nexus Bus Bar: Mũi tên Truyền Thừa Marcus ## Vấn đề (bug user report) Tab Nexus → click nhóm \"Truyền thừa Marcus\" → expand hiện cây thầy-trò. Renderer cũ (`afterDrawing`) vẽ mỗi cạnh thầy→trò",
+      "criteria_done": 6,
+      "criteria_total": 6,
+      "blockers": false
+    },
+    {
+      "id": "T142",
+      "title": "\"Nexus Panel: nút ẩn/hiện sidebar + expand node con smooth (fix loăng quăng)\"",
+      "file": "T142-nexus-sidebar-toggle-smooth-expand.md",
+      "module": "places.html (UI only — API/Schema/DB NONE)",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "T141 (Nexus panel đã có)",
+      "owner": "",
+      "created": "2026-09-15",
+      "updated": "2026-09-15",
+      "done_when": "Nút ◀ Danh sách ẩn/hiện aside.pp-sidebar + click node cha → node con xuất hiện gọn nhẹ theo grid, không chạy loăng quăng.",
+      "desc": "# T142 — Nexus: sidebar toggle + smooth expand ## Vấn đề (user report 2026-09-15) 1. **Sidebar 99 nút · 99 cạnh chiếm không gian**: Panel thông tin bên trái không có nút ẩn/hiện trong Nexus — phải cuộ",
+      "criteria_done": 7,
+      "criteria_total": 7,
+      "blockers": false
+    },
+    {
+      "id": "T143",
+      "title": "\"Nexus + Truyền Thừa: move nút toggle sidebar về góc 1h panel trái (unified)\"",
+      "file": "T143-sidebar-toggle-goc-1h-unified.md",
+      "module": "places.html (UI only — API/Schema/DB NONE)",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "T142 (sidebar toggle đã có)",
+      "owner": "",
+      "created": "2026-09-15",
+      "updated": "2026-09-15",
+      "done_when": "Nút ◀/▶ toggle sidebar nằm cố định ở góc 1h (top-right) của panel trái, hoạt động đồng nhất cho cả Nexus và Truyền Thừa tab.",
+      "desc": "# T143 — Move sidebar toggle về góc 1h (unified button) ## Vấn đề (user report 2026-09-15) T142 đặt nút \"◀ Danh sách\" riêng trong từng header: - Nexus: nút `nmp-btn-toggle-sidebar` trong Nexus toolbar",
+      "criteria_done": 9,
+      "criteria_total": 9,
+      "blockers": false
+    },
+    {
+      "id": "T144",
+      "title": "\"Nexus: double-click node → set làm root ngay lập tức\"",
+      "file": "T144-nexus-doubleclick-set-root.md",
+      "module": "places.html (UI only — API/Schema/DB NONE)",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "T143 (sidebar toggle unified)",
+      "owner": "",
+      "created": "2026-09-15",
+      "updated": "2026-09-15",
+      "done_when": "Double-click bất kỳ node person/place trong Nexus graph → _nexusSetRoot() được gọi → graph reload với node đó làm root mới.",
+      "desc": "# T144 — Nexus double-click node → set root ngay ## Vấn đề (user report 2026-09-15) Trước đây để set một node làm root mới trong Nexus, user phải: 1. Single-click node → mở detail panel 2. Bấm nút \"✦ ",
+      "criteria_done": 9,
+      "criteria_total": 9,
+      "blockers": false
+    },
+    {
+      "id": "T145",
+      "title": "\"Admin Bio-VI Editor — chỉnh sửa bản dịch trực tiếp trong inspector Truyền Thừa\"",
+      "file": "T145-bio-vi-admin-editor-inspector.md",
+      "module": "truyenthua",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[b1f52fc]",
+      "owner": "",
+      "created": "2026-09-16",
+      "updated": "2026-09-16",
+      "done_when": "",
+      "desc": "## Mô tả Thêm inline bio-vi editor vào phần \"Nguồn & chứng cứ\" của Truyền Thừa inspector. Admin có thể xem, chỉnh sửa và lưu bản dịch tiếng Việt (`bio_vi`) trực tiếp mà không cần vào trang admin riêng",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T146",
+      "title": "\"Optimal Solution Docs Closure — Quy trình Governance chuẩn hoá (docs-only, 0 code, 0 DB)\"",
+      "file": "T146-optimal-solution-docs-closure.md",
+      "module": "daoanh",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-16",
+      "updated": "2026-09-16",
+      "done_when": "",
+      "desc": "# T146 — Optimal Solution Docs Closure (Governance chuẩn hoá) ## Bối cảnh Admin phê chuẩn đề xuất \"Giải pháp tối ưu\" cho dự án Đạo Ảnh (Truyền Thừa) — hoá thạch thành **quy trình governance chuẩn** để",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T147",
+      "title": "\"DILA Person Index (mirror DILA Place Index) + fix bug hidden/flex CSS chặn AI translate persist trong person.html\"",
+      "file": "T147-dila-person-index-and-translate-persist-fix.md",
+      "module": "admin",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T145, T73, T123]",
+      "owner": "",
+      "created": "2026-09-16",
+      "updated": "2026-09-16",
+      "done_when": "",
+      "desc": "## Bối cảnh Admin cần một trang duyệt Person tương đương DILA Place Index (`admin/dila_index.html`) để theo dõi tiến độ dịch Hán→Việt của 48,673 person records, và xác nhận bug báo cáo \"AI tạm dịch tạ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T148",
+      "title": "\"Hiển thị đầy đủ tiểu sử DILA trong inspector Truyền Thừa (listBibl, worksBy, worksInTripitaka, mentionedIn, alt names)\"",
+      "file": "T148-dila-full-inspector.md",
+      "module": "truyenthua",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[b1f52fc, T145]",
+      "owner": "",
+      "created": "2026-09-16",
+      "updated": "2026-09-16",
+      "done_when": "",
+      "desc": "## Mô tả Trước T148, inspector Truyền Thừa chỉ hiển thị `bio` — tức là trường `note type=\"concise\"` từ DILA. Dữ liệu phong phú hơn (tên thay thế, CBETA citations, kinh điển Đại Tạng, tác phẩm, nguồn đ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T149",
+      "title": "\"Fix bug import_dila_person lấy alt name thay vì main persName cho name_zh (28,273 rows sai)\"",
+      "file": "T149-fix-name-zh-import-bug.md",
+      "module": "data-import",
+      "priority": "critical",
+      "status": "done",
+      "depends_on": "[T148]",
+      "owner": "",
+      "created": "2026-09-16",
+      "updated": "2026-09-16",
+      "done_when": "",
+      "desc": "## Mô tả Toàn bộ 28,255/48,673 rows trong bảng `people` bị lưu sai `name_zh` — lưu alt name (type=\"alternative\") thay vì main persName từ DILA XML. ### Root cause **`src_python/db/import_dila_person.p",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T150",
+      "title": "\"Lineage Integrity & Review Pipeline (Audit 5-lớp · Traceability · ZQ Review · Published Lineage)\"",
+      "file": "T150-lineage-audit-review-pipeline.md",
+      "module": "truyenthua",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T149]",
+      "owner": "",
+      "created": "2026-09-16",
+      "updated": "2026-09-17",
+      "done_when": "",
+      "desc": "# T150 — Lineage Integrity & Review Pipeline (Audit 5-lớp · Traceability · ZQ Review · Published Lineage) > **Module:** `truyenthua` (Pháp Mạch / DILA / Zen Lineage / CBETA provenance) > **Priority:**",
+      "criteria_done": 5,
+      "criteria_total": 9,
+      "blockers": false
+    },
+    {
+      "id": "T150b",
+      "title": "\"Reseed name_vi cho 28,275 DILA person bị ảnh hưởng bởi T149 (T162 implementation)\"",
+      "file": "T150b-reseed-namevi-post-t149.md",
+      "module": "data-import",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T149, T162]",
+      "owner": "",
+      "created": "2026-09-22",
+      "updated": "2026-09-22",
+      "done_when": "",
+      "desc": "# T150b — Reseed name_vi post-T149 (T162 Implementation) > **Module:** `data-import` · **Priority:** high · **Status:** done > **Type:** docs closure (additive, 0 ALTER, 0 Schema, 0 DB, 0 API, 0 code)",
+      "criteria_done": 6,
+      "criteria_total": 6,
+      "blockers": false
+    },
+    {
+      "id": "T151",
+      "title": "\"Pháp Mạch Ancestor Spine — Docs Closure (acceptance framework, additive)\"",
+      "file": "T151-phap-mach-ancestor-spine-docs-closure.md",
+      "module": "truyenthua",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T150]",
+      "owner": "",
+      "created": "2026-09-17",
+      "updated": "2026-09-17",
+      "done_when": "",
+      "desc": "# T151 — Pháp Mạch Ancestor Spine — Docs Closure (acceptance framework, additive) > **Module:** `truyenthua` (Pháp Mạch · DILA · CBETA provenance) > **Priority:** high · **Status:** pending (canonical",
+      "criteria_done": 5,
+      "criteria_total": 17,
+      "blockers": false
+    },
+    {
+      "id": "T152",
+      "title": "\"Pháp Mạch Ancestor Spine — Code Telemetry (endpoint + renderer)\"",
+      "file": "T152-phap-mach-spine-code-telemetry.md",
+      "module": "truyenthua",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T151]",
+      "owner": "",
+      "created": "2026-09-17",
+      "updated": "2026-09-17",
+      "done_when": "",
+      "desc": "# T152 — Pháp Mạch Ancestor Spine — Code Telemetry (endpoint + renderer) > **Module:** `truyenthua` (Pháp Mạch · Phả hệ mở rộng · places.html · app.py) > **Priority:** high · **Status:** pending (code",
+      "criteria_done": 0,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "T153",
+      "title": "\"DILA Index unified tab bar (Place Index + Person Index)\"",
+      "file": "T153-dila-index-unified-tabbar.md",
+      "module": "admin",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T147]",
+      "owner": "",
+      "created": "2026-09-17",
+      "updated": "2026-09-17",
+      "done_when": "",
+      "desc": "# T153 — DILA Index unified tab bar (Place Index + Person Index) > **Module:** `admin` (DILA Place Index · DILA Person Index) > **Priority:** medium · **Status:** done > **Type:** UI fix (additive, HT",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T154",
+      "title": "\"agents/README refresh (kiến trúc hiện tại)\"",
+      "file": "T154-agents-readme-refresh.md",
+      "module": "docs",
+      "priority": "low",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-17",
+      "updated": "2026-09-17",
+      "done_when": "",
+      "desc": "# T154 — agents/README refresh (kiến trúc hiện tại) > **Module:** `docs` (`Dai_Tang_Kinh/agents/README.md`) > **Priority:** low · **Status:** done > **Type:** docs (additive, 0 code, 0 ALTER, 0 DB, 0 ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T155",
+      "title": "\"Repo Hygiene / SSOT Guard (dọn gitlink mồ côi + vô hiệu hoá .git hỏng + guard tự động)\"",
+      "file": "T155-repo-hygiene-ssot-guard.md",
+      "module": "infra",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-17",
+      "updated": "2026-09-17",
+      "done_when": "",
+      "desc": "# T155 — Repo Hygiene / SSOT Guard > **Module:** `infra` (git / SSOT / pipeline guard) > **Priority:** high · **Status:** done > **Type:** chore/infra (additive, 0 code nghiệp vụ, 0 DB, 0 ALTER) > **C",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T156",
+      "title": "\"Lineage Relation Conflict Comparison (Đối chiếu truyền thừa — biến raw source comparison thành conflict cluster dễ hiểu; case Đàm Dận A004177)\"",
+      "file": "T156-lineage-relation-conflict-comparison.md",
+      "module": "lineage",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T138]",
+      "owner": "",
+      "created": "2026-09-17",
+      "updated": "2026-09-17",
+      "done_when": "",
+      "desc": "# T156 — Lineage Relation Conflict Comparison > **Module:** `lineage` · **Priority:** medium · **Status:** done (Phase 1 audit + root-cause redirect; Phase 2 UI → T157) > **Type:** UI/UX refinement củ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T157",
+      "title": "\"Root-cause lật chiều DILA + fix ETL (lineage_edge_assertions) + UI Đối chiếu nguồn sau fix (B-1 minimal, hoãn B-2)\"",
+      "file": "T157-dila-direction-inversion-fix.md",
+      "module": "lineage",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T138, T156]",
+      "owner": "",
+      "created": "2026-09-17",
+      "updated": "2026-09-17",
+      "done_when": "",
+      "desc": "# T157 — Root-cause Lật Chiều DILA + Fix ETL + UI Sau Fix > **Module:** `lineage` · **Priority:** high · **Status:** done ✅ > **Depends on:** T138 (edge assertion model) · T156 (audit gốc, đã đóng sup",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T158",
+      "title": "\"GlossaryResolver — Pre-translation DB lookup + reject duplicate AI proposals\"",
+      "file": "T158-glossary-resolver-pre-translation-lookup.md",
+      "module": "translation",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T123, T73]",
+      "owner": "",
+      "created": "2026-09-21",
+      "updated": "2026-09-21",
+      "done_when": "|",
+      "desc": "## Bug description (trước khi fix) **Vấn đề**: AI tạo pending rules cho những thuật ngữ đã có trong DB (vd: 南嶽→Nam Nhạc trong namevi_map_places, 祖堂集→Tổ Đường Tập trong term_glossaries). 3-layer dedup ",
+      "criteria_done": 6,
+      "criteria_total": 6,
+      "blockers": false
+    },
+    {
+      "id": "T158",
+      "title": "\"Lineage Consensus Layer — Đa Nguồn Đồng Thuận Pháp Mạch\"",
+      "file": "T158-lineage-consensus.md",
+      "module": "Lineage / Pháp Hệ",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T157]",
+      "owner": "",
+      "created": "2026-09-22",
+      "updated": "2026-09-22",
+      "done_when": "\"lineage_edge_consensus table populated, API dùng consensus thay marcus_networks, UI legend và edge inspector hiện source_badge, 12/12 tests pass\"",
+      "desc": "## Mô tả Refactor pháp mạch truyền thừa từ \"Marcus = backbone\" sang hệ đa nguồn đồng thuận: - Tạo bảng `lineage_edge_consensus` tổng hợp 4 nguồn (DILA, Marcus, TTL, Lineage) - Mặc định chỉ hiện `relat",
+      "criteria_done": 9,
+      "criteria_total": 9,
+      "blockers": false
+    },
+    {
+      "id": "T159",
+      "title": "\"Fix 法嗣 → pháp tự trong pipeline dịch DILA card\"",
+      "file": "T159-fix-phap-tu-translation.md",
+      "module": "translation",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T158, T123]",
+      "owner": "",
+      "created": "2026-09-21",
+      "updated": "2026-09-21",
+      "done_when": "|",
+      "desc": "## Bug description **Triệu chứng**: DILA card bio_concise_vi chứa \"Pháp嗣\" thay vì \"pháp tự\". - A020039: `bio_han = \"孝義性空禪師法嗣。\"` → `bio_vi = \"Pháp嗣 của Thiền Sư Cát Châu Tính Không.\"` - A020037: `\"Pháp",
+      "criteria_done": 5,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "T160",
+      "title": "\"Thiết lập deploy pipeline một chiều local → VPS (git push production master:main)\"",
+      "file": "T160-deploy-pipeline-local-to-vps.md",
+      "module": "devops",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-21",
+      "updated": "2026-09-21",
+      "done_when": "",
+      "desc": "# T160 — Deploy Pipeline Local → VPS > **Module:** `devops` · **Priority:** high · **Status:** in_progress > **Created:** 2026-09-21 --- ## Kiến trúc ``` [Local master] → git push production master:ma",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T161",
+      "title": "\"Bug Fix Batch — Nexus evidence_type API + _nexusSafeLabel + auto-expand tang_nhan\"",
+      "file": "T161-bug-fix-batch-nexus-evidence-api.md",
+      "module": "graph",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T157]",
+      "owner": "",
+      "created": "2026-09-22",
+      "updated": "2026-09-22",
+      "done_when": "",
+      "desc": "# T161 — Bug Fix Batch: Nexus Evidence API + Label + Auto-expand > **Module:** `graph` · **Priority:** medium · **Status:** done > **Created:** 2026-09-22 --- ## Tóm tắt Batch 4 bugs nhỏ liên quan đến",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T163",
+      "title": "\"Unify DILA Lineage Relation Card Format (places.html renderer)\"",
+      "file": "T163-unify-dila-lineage-relation-card.md",
+      "module": "graph",
+      "priority": "low",
+      "status": "done",
+      "depends_on": "[T148, T157, T161]",
+      "owner": "",
+      "created": "2026-09-22",
+      "updated": "2026-09-22",
+      "done_when": "",
+      "desc": "# T163 — Unify DILA Lineage Relation Card Format > **Module:** `graph` · **Priority:** low · **Status:** done > **Created:** 2026-09-22 --- ## Tóm tắt Hợp nhất 2 hệ card hiển thị quan hệ thầy/trò của ",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T164",
+      "title": "\"Lineage Tree UI Cleanup — giảm clutter tab Truyền Thừa (Pháp Mạch + Phả hệ mở rộng)\"",
+      "file": "T164-lineage-tree-ui-cleanup.md",
+      "module": "places.html (UI only — API/Schema/DB NONE)",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "T127 (shared renderer) ✦ T140 (breadcrumb, race-guard) ✦ T146 (+/- icon)",
+      "owner": "",
+      "created": "2026-09-23",
+      "updated": "2026-09-24",
+      "done_when": "Label nodes không có count decorators (▸N/▾N bị xóa) · Ancestor bar bị xóa (breadcrumb giữ đủ context) · Zoom+/- buttons xóa (vis.js scroll-wheel đủ) · Legend row static HTML luôn hiển thị bên dưới toolbar · Inspector evidence section collapse khi không chọn node · Overflow node hiện dạng ellipse thay box · T129 footer trong <details> collapsed mặc định · Admin QA ×1 DONE",
+      "desc": "# T164 — Lineage Tree UI Cleanup ## Nguồn gốc Audit plan sinh từ phiên 2026-09-23 (ANALYZE_ONLY mode). Approved build: 2026-09-23. ## Việc làm - [x] **S1**: `_buildFtVisTree:6498-6501` — xóa `▸ N hậu ",
+      "criteria_done": 12,
+      "criteria_total": 13,
+      "blockers": false
+    },
+    {
+      "id": "T165",
+      "title": "Dashboard regen + T130 closure (docs-only, additive, 0 code, 0 DB)",
+      "file": "T165-dash-regen-t130-closure.md",
+      "module": "docs · dashboard (scripts/build_progress_data.py)",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "T130 (CLOSED 5/5)",
+      "owner": "Lee",
+      "created": "2026-09-24",
+      "updated": "2026-09-24",
+      "done_when": "progress_data.json được regen chứa T130 status=done + git_history có commits T130; task T130 frontmatter status=done; ROLLBACK.md có row T165; commit docs từ git toplevel visjs-app PASS.",
+      "desc": "# T165 — Dashboard regen + T130 closure **Status:** done (2026-09-24) — ĐÃ XONG: frontmatter T130→done, regen progress_data.json (89 tasks, done=49), tasktodo/ROLLBACK/session log cập nhật, guard PASS",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T166",
+      "title": "Dashboard hygiene batch — đồng bộ frontmatter 9 task stale + regen progress_data.json (docs-only, 0 code, 0 DB)",
+      "file": "T166-dashboard-hygiene-batch.md",
+      "module": "docs · dashboard (scripts/build_progress_data.py)",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "T165 (dashboard regen convention)",
+      "owner": "Lee",
+      "created": "2026-09-24",
+      "updated": "2026-09-24",
+      "done_when": "9 task file frontmatter khớp thực tế docs/tasktodo.md (T131/T137/T138/T110/T52/T97b/T125/T126 → done; T139 → in_progress); 4 file không-frontmatter (T97b/T125/T126/T139) được thêm frontmatter YAML để parse chuẩn; progress_data.json regen (89 tasks, done=57); tasktodo/ROLLBACK/session log cập nhật; commit docs từ git toplevel visjs-app PASS.",
+      "desc": "# T166 — Dashboard hygiene batch (frontmatter stale sync) **Status:** done (2026-09-24) — ĐÃ XONG: 9 frontmatter đồng bộ, regen progress_data.json (89 tasks · done=57 · in_progress=17 · pending=13 · g",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T167-rules-constrained-buddhist-translation-engine",
+      "title": "T167 rules constrained buddhist translation engine",
+      "file": "T167-rules-constrained-buddhist-translation-engine.md",
+      "module": "Chưa phân loại",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "",
+      "updated": "",
+      "done_when": "",
+      "desc": "# T167 - Rules-Constrained Buddhist Translation Engine **Status:** in_progress (2026-09-24) - SPEC ĐÃ HIỆU CHỈNH THEO AUDIT THẬT + Phase 1 (Schema + Constitution) DONE + worker quota contract DONE + P",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T168",
+      "title": "\"T165 SPEC v2 review-accepted — apply verdict §14.1/§14.2/§14.3 into SPEC + docs closure (docs-only, 0 code, 0 DB)\"",
+      "file": "T168-t165-spec-v2-review-accepted.md",
+      "module": "docs · Mimo-Flash SPEC review (no code, 0 DB, 0 API)",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T165 (SPEC, id quản lý số task riêng), T166, T167]",
+      "owner": "claudecode",
+      "created": "2026-09-25",
+      "updated": "2026-09-25",
+      "done_when": "T165 SPEC §2/§14.1/§14.2/§14.3 đã apply toàn bộ verdict đã được Admin/lead phê chuẩn (15/15 issue xác nhận, 2 hiệu chỉnh thật: admin/app.py KHÔNG tồn tại, DB counts lệch do T167 seed RULE-001..015); banner REVIEW-ACCEPTED 2026-09-25; tasktodo/ROLLBACK/session log cập nhật; progress_data.json regen (T168 hiện board); guard + npm pipeline PASS; commit docs 2-pass hash-fill.",
+      "desc": "# T168 — T165 SPEC v2 review-accepted (apply verdict đã phê chuẩn) **Status:** done (2026-09-25) — ĐÃ XONG: apply toàn bộ verdict §14.2 vào SPEC (chỉ sửa tại chỗ, không tạo bản copy v2), tasktodo/ROLL",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T169",
+      "title": "\"T165 engine BUILD Phase 3 — Rules-Constrained Translation Engine implementation (SPEC v2 §14.3 checklist)\"",
+      "file": "T169-t165-engine-build.md",
+      "module": "app · scripts · docs · DB (additive 5 cột + backfill match_scope)",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T165 (SPEC, id quản lý số task riêng), T167 (seed RULE-001..015), T168 (SPEC v2 review-accepted)]",
+      "owner": "claudecode",
+      "created": "2026-09-25",
+      "updated": "2026-09-25",
+      "done_when": "SPEC §14.3 BUILD PHASE 3 checklist (6 mục) toàn bộ PASS; migration additive 5 cột (match_scope/match_terms + constitution_hash/selected_rule_codes/glossary_hash) + backfill match_scope chạy trên DB thật với backup; style_constitution.py SSOT + tests PASS; app.py _t73_* wrap dual-key (lookup source_type/status='edited' guard, write constitution/selected/glossary_hash, invalidate upsert/approve, _t73_call_gemini log usage) + Phase 3b 8 call site truyền source_text; t50 refactor import; admin UI match fields + invalidated_cache_count; prompt_tokens HIT+MISS đo được; guard + npm pipeline + e2e:runtime PASS; tasktodo/ROLLBACK/session log/db_schema.md cập nhật; dashboard regen; commit 2-pass hash-fill qua scripts/t83_force_commit.py.",
+      "desc": "# T169 — T165 engine BUILD Phase 3 (Rules-Constrained Translation Engine) **Status:** DONE (2026-09-25) — Build toàn bộ Phase 1-8 hoàn thành. Xem `docs/Mimo-Flash/T165-rules-constrained-translation-en",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T178",
+      "title": "\"T165 BUILD — đóng 5 gap D3/D8 (acceptance §8 mục 13–17)\"",
+      "file": "T178-t165-build-gap-d3-13-17.md",
+      "module": "Editorial / LLM Translation",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[T165, T169, T177]",
+      "owner": "claudecode",
+      "created": "2026-09-26",
+      "updated": "2026-09-26",
+      "done_when": "|",
+      "desc": "# T178 — T165 BUILD: đóng 5 gap D3/D8 (§8 mục 13–17) **Bối cảnh:** T169 đã build T165 Phase 1–6 (migration, `style_constitution.py` SSOT, app.py `_t73_*` wrap, t50 refactor, admin UI). T177 absorb DIR",
+      "criteria_done": 27,
+      "criteria_total": 27,
+      "blockers": false
+    },
+    {
+      "id": "T18",
+      "title": "BDRC Integration — Decision & Scope Assessment",
+      "file": "T18-bdrc-integration-decision.md",
+      "module": "External Data",
+      "priority": "low",
+      "status": "blocked",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-08-23",
+      "updated": "2026-08-23",
+      "done_when": "Admin quyết định scope mới và approve ETL design trước khi bất kỳ code nào được viết",
+      "desc": "# T18 — BDRC Integration: Quyết Định & Đánh Giá Phạm Vi ## Quyết định hiện tại: **SKIP — Đúng và có lý do** Ngày 2026-08-23, sau khi audit cả code base và verify dữ liệu thực tế từ BDRC: **BDRC integr",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": true
+    },
+    {
+      "id": "T22",
+      "title": "Founding Date Pipeline — 59K Places → HOME Integration",
+      "file": "T22-nlp-fosi-zhi-founding-dates.md",
+      "module": "GIS Places / Timeline / HOME",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[T21, T22.1]",
+      "owner": "",
+      "created": "2026-08-20",
+      "updated": "2026-08-30",
+      "done_when": ">",
+      "desc": "## Trạng thái các Layer (2026-09-02 — cập nhật) | Layer | Nguồn | Trạng thái | Rows | Task | |-------|-------|-----------|------|------| | A — Wikidata P571 | Wikidata SPARQL | ✅ **DONE** | +30 net ne",
+      "criteria_done": 0,
+      "criteria_total": 11,
+      "blockers": false
+    },
+    {
+      "id": "T27",
+      "title": "Source-Neutral Integer entity_id — long-term migration",
+      "file": "T27-source-neutral-entity-id.md",
+      "module": "Identity Hub / Architecture",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[T23, T24, T25, T26]",
+      "owner": "",
+      "created": "2026-08-20",
+      "updated": "2026-08-25",
+      "done_when": "entity.entity_id là INTEGER tự tăng, không phụ thuộc DILA ID, tất cả sources được đối xử bình đẳng như peers",
+      "desc": "# T27 — Source-Neutral Integer entity_id (Undone / Long-term) > **Undone — Đây là technical debt lớn nhất của Identity Hub. Không có tổ chức nào giải quyết được vấn đề này một lần cho xong — chỉ cần m",
+      "criteria_done": 0,
+      "criteria_total": 6,
+      "blockers": false
+    },
+    {
+      "id": "T34",
+      "title": "Tam Tạng Integration — 84000 / VRI / Kanripo (thật, không placeholder)",
+      "file": "T34-tam-tang-integration.md",
+      "module": "Đại Tạng / Tam Tạng Kinh Điển",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T24, T33]",
+      "owner": "",
+      "created": "2026-08-24",
+      "updated": "2026-09-06",
+      "done_when": ">",
+      "desc": "## ⚠️ TRẠNG THÁI HIỆN TẠI — CẢNH BÁO DATA GIẢ Một session code song song đã tạo schema tables + API routes cho 84000/VRI/Kanripo trong DB và app.py, nhưng **toàn bộ data trong DB là fake/placeholder —",
+      "criteria_done": 2,
+      "criteria_total": 8,
+      "blockers": true
+    },
+    {
+      "id": "T50",
+      "title": "\"CBETA Data Cleanup & Quality (merged T84 - passage vi_text draft cache + report)\"",
+      "file": "T50-cbeta-cleanup.md",
+      "module": "CBETA Core / Data Quality",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[T03, T20, T35, T38, T40, T73, TAB_DAI_TANG_PLACE]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-09-12",
+      "done_when": ">",
+      "desc": "Dọn dẹp dữ liệu CBETA hiện có: giảm noise, merge orphaned data, backfill translations (`passage.vi_text`) làm **bản dịch nháp AI** dùng lại qua `translation_cache`, kèm nút **Báo lỗi** → Dashboard.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T52",
+      "title": "\"Đối Chiếu Tam Tạng — Cross-Tradition Text Comparison UI\"",
+      "file": "T52-doi-chieu-tam-tang.md",
+      "module": "Tam Tạng / Commercial References / UI",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T34, T35, T36, T37, T38]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-09-11",
+      "done_when": ">",
+      "desc": "Xây giao diện so sánh \"Tam Tạng\" — hiển thị song song cùng 1 đoạn kinh qua nhiều truyền thống.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T53",
+      "title": "\"CBETA Content Enhancement\"",
+      "file": "T53-cbeta-content-enhancement.md",
+      "module": "CBETA Content / Translation Pipeline",
+      "priority": "high",
+      "status": "pending",
+      "depends_on": "[T50]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-08-26",
+      "done_when": ">",
+      "desc": "Mở rộng nội dung CBETA: batch translate, expand crossrefs, build aggregate analytics.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T54",
+      "title": "\"CBETA Analytics & Admin Dashboard\"",
+      "file": "T54-cbeta-analytics-dashboard.md",
+      "module": "CBETA Analytics / UI",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[T50, T53]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-08-26",
+      "done_when": ">",
+      "desc": "Xây dashboard cho admin theo dõi tình trạng CBETA data + implement Home page CBETA tab.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T55",
+      "title": "\"Trích Dẫn Tự Động — Related Texts & Intelligent Recommendation\"",
+      "file": "T55-trich-dan-tu-dong.md",
+      "module": "CBETA / Commercial References / Recommendation",
+      "priority": "medium",
+      "status": "done",
+      "depends_on": "[T36, T40, T42, T43]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-09-22",
+      "done_when": ">",
+      "desc": "Xây lớp gợi ý thông minh: khi đọc 1 text/địa danh/nhân vật → đề xuất nội dung liên quan.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T56",
+      "title": "\"Bản Đồ Lịch Sử — Dynasty Map & Temporal Slider\"",
+      "file": "T56-ban-do-lich-su.md",
+      "module": "GIS / Timeline / UI",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[T21, T31, T32, T39]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-08-26",
+      "done_when": ">",
+      "desc": "Thêm lớp lịch sử lên bản đồ hiện có: hiển thị chùa theo triều đại + animation theo thời gian.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T57",
+      "title": "\"Glossary Đa Ngôn — Multilingual Buddhist Terminology Popup\"",
+      "file": "T57-glossary-da-ngon.md",
+      "module": "Marcus / 84000 / StarDict / UI",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[T04, T34]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-08-26",
+      "done_when": ">",
+      "desc": "Click thuật ngữ khó → popup giải nghĩa đa ngôn, giúp Tăng/Ni tra cứu nhanh khi đọc kinh.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T58",
+      "title": "\"Tìm Kiếm Thông Minh — Cross-Language Search (Hán/Pali/Sanskrit)\"",
+      "file": "T58-tim-kiem-thong-minh.md",
+      "module": "Search / Entity Resolution / UI",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[T07, T30]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-08-26",
+      "done_when": ">",
+      "desc": "Cho phép tìm kiếm bằng Pali/Sanskrit token và tự động resolve sang tên Hán/Việt tương ứng.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T59",
+      "title": "\"Giáo Dục — Buddhist Learning Portal (Courses & Quizzes)\"",
+      "file": "T59-giao-duc.md",
+      "module": "Education / UI / Content",
+      "priority": "low",
+      "status": "pending",
+      "depends_on": "[T51, T52, T53]",
+      "owner": "",
+      "created": "2026-08-26",
+      "updated": "2026-08-26",
+      "done_when": ">",
+      "desc": "Xây cổng học tập cho Tăng/Ni: khóa học, tài liệu, quiz, tiến độ.",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T65",
+      "title": "\"Person Bio VI Phase 2 — Chinese Name Pattern Matching (2,000+ persons)\"",
+      "file": "T60-bio-vi-lexicon-phase2.md",
+      "module": "Person Authority",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[T58]",
+      "owner": "",
+      "created": "2026-08-27",
+      "updated": "2026-08-27",
+      "done_when": "≥1,500 additional persons có bio_vi_draft qua Chinese name matching; tổng person_bio_vi_draft ≥2,000 rows",
+      "desc": "T58 xử lý 437 persons khớp trực tiếp qua `name_vi`. T60 mở rộng sang matching qua **tên Hán trong phần nội dung definition** — nhiều từ điển PG VN ghi \"Huệ Năng (慧能)...\" trong body text, không nhất th",
+      "criteria_done": 0,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "T66",
+      "title": "\"Place Description VI — Lexicon ĐỊA DANH 15,863 entries → place note_vi\"",
+      "file": "T61-place-desc-vi-lexicon-diadanh.md",
+      "module": "Place Authority / DILA",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[T48]",
+      "owner": "",
+      "created": "2026-08-27",
+      "updated": "2026-08-27",
+      "done_when": "≥5,000 DILA places được bổ sung note_vi hoặc description_vi từ lexicon ĐỊA DANH; bảng place_desc_vi_draft tồn tại",
+      "desc": "# T61 — Place Description VI từ Lexicon ĐỊA DANH ## Vấn đề Hiện tại places chỉ có `name_vi` (tên Việt) nhưng không có mô tả tiếng Việt nào. Người dùng tra \"Thiếu Lâm Tự\" nhận được tọa độ GPS + danh sá",
+      "criteria_done": 0,
+      "criteria_total": 6,
+      "blockers": false
+    },
+    {
+      "id": "T73",
+      "title": "\"Admin Review UI for bio_vi_draft (2,093 rows) + apply to people.bio_vi\"",
+      "file": "T73-admin-review-bio-vi.md",
+      "module": "Editorial / Person Authority (Bio Vietnamese)",
+      "priority": "medium",
+      "status": "in_progress",
+      "depends_on": "[T58, T59]",
+      "owner": "",
+      "created": "2026-08-27",
+      "updated": "2026-09-10",
+      "done_when": ">",
+      "desc": "# T73 — Admin Review Bio VI (person_bio_vi_draft → people.bio_vi) **Xây dựng Batch D (2026-09-10) — IMPLEMENTED (đợt 1):** - `GET /daoanh/api/admin/bio-review/pending?status=&page=&per_page=` — hàng c",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    },
+    {
+      "id": "T74",
+      "title": "\"Place Desc VI — Gemini Batch Translate DILA notes → Tiếng Việt\"",
+      "file": "T74-place-desc-vi-gemini-translate.md",
+      "module": "Place Authority / Content",
+      "priority": "medium",
+      "status": "pending",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-08-30",
+      "updated": "2026-08-30",
+      "done_when": "≥5,000 rows trong place_desc_vi_draft có desc_vi_draft tiếng Việt thực sự (không phải Hán/Anh); batch translate script hoạt động với rate limiting; admin có thể preview + approve",
+      "desc": "# T74 — Place Desc VI: Gemini Batch Translate ## Vấn đề `place_desc_vi_draft` hiện có **14,000 rows** nhưng nội dung là tiếng Hán/Anh gốc từ `places_dila.note`. Không phục vụ được người dùng Việt. | H",
+      "criteria_done": 0,
+      "criteria_total": 7,
+      "blockers": false
+    },
+    {
+      "id": "T74b",
+      "title": "\"Person Bio VI — Claude Haiku Batch Translate DILA bio → Tiếng Việt\"",
+      "file": "T74b-claude-translate-person-bio-dila.md",
+      "module": "DILA Authority",
+      "priority": "high",
+      "status": "blocked",
+      "depends_on": "[T73]",
+      "owner": "",
+      "created": "2026-08-31",
+      "updated": "2026-08-31",
+      "done_when": "≥20,000 rows trong person_bio_vi_draft có bio_vi_draft tiếng Việt thực sự từ DILA (source='claude_haiku'); script hoạt động rate-limit + resume; admin bulk-approve ≥5,000 rows; copy sang people.bio_vi",
+      "desc": "# T74b — Person Bio VI: Claude Haiku Batch Translate DILA ## Vấn đề `people.bio` có **48,180 rows** tiểu sử tiếng Hán từ DILA — 98.9% coverage. `people.bio_vi` = 0 rows — người dùng Việt không đọc đượ",
+      "criteria_done": 0,
+      "criteria_total": 8,
+      "blockers": true
+    },
+    {
+      "id": "T82",
+      "title": "\"Schema Freeze + Data Lock Status (release gate)\"",
+      "file": "T82-schema-freeze-data-lock.md",
+      "module": "Data Governance / Release",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "",
+      "created": "2026-09-11",
+      "updated": "2026-09-11",
+      "done_when": ">",
+      "desc": "\"Đóng băng schema + audit toàn bộ data trước release\" — theo đúng trọng tâm trong `docs/tasktodo.md`. Phiên read-only: 0 ALTER, 0 INSERT/UPDATE/DELETE, 0 sửa app.py/HTML. Chỉ query + ghi docs.",
+      "criteria_done": 5,
+      "criteria_total": 5,
+      "blockers": false
+    },
+    {
+      "id": "T83",
+      "title": "\"Review Bootstrap theo Lớp Ưu Tiên + Workflow Admin Mỏng\"",
+      "file": "T83-review-bootstrap-priority-layers.md",
+      "module": "Data Governance / HITL Review",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T109, T115]",
+      "owner": "",
+      "created": "2026-09-11",
+      "updated": "2026-09-11",
+      "done_when": ">",
+      "desc": "# T83 — Review Bootstrap theo Lớp Ưu Tiên + Workflow Admin Mỏng > Corrected từ đề xuất gốc (đã audit 6 lỗi logic, incorporated). > Task T109/T115/T119 đã build infra; task này bootstrap review data + ",
+      "criteria_done": 10,
+      "criteria_total": 10,
+      "blockers": false
+    },
+    {
+      "id": "T96",
+      "title": "\"Per-Segment Translation System\"",
+      "file": "T96-per-segment-translation.md",
+      "module": "CBETA Reader / Translation Engine",
+      "priority": "high",
+      "status": "in_progress",
+      "depends_on": "[T94, T95]",
+      "owner": "",
+      "created": "2026-09-05",
+      "updated": "2026-09-05",
+      "done_when": ">",
+      "desc": "# T96 — Per-Segment Translation System ## Bối cảnh **Vấn đề hiện tại:** - T95 đã import 9,316 text_passages vào DB (từ CBETA T50n2060) - Passage `0-0457a-` (Thiếu Lâm Tự) có 59 segments đánh số - Bản ",
+      "criteria_done": 0,
+      "criteria_total": 10,
+      "blockers": false
+    },
+    {
+      "id": "T97",
+      "title": "\"Timeline/Event Evidence Layer — Mở tab Sự Kiện + Niên Đại cho person (T82 data reuse)\"",
+      "file": "T97-timeline-event-evidence-layer.md",
+      "module": "ui",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[T82, T79, T81, T83, T109]",
+      "owner": "",
+      "created": "2026-09-23",
+      "updated": "2026-09-23",
+      "done_when": "",
+      "desc": "# T97 — Timeline/Event Evidence Layer (mở tab cho person) > **Module:** `ui` (`places.html`) · **Priority:** high · **Status:** done > **Type:** build additive (UI-only, 0 ALTER, 0 Schema, 0 DB, 0 API",
+      "criteria_done": 4,
+      "criteria_total": 4,
+      "blockers": false
+    },
+    {
+      "id": "T97b",
+      "title": "\"Tab Sự Kiện place: Section Tu Sĩ Liên Quan · Timeline (co-mention → vn_person_events)\"",
+      "file": "T97b-place-tu-si-timeline-events.md",
+      "module": "Timeline / Event Evidence",
+      "priority": "high",
+      "status": "done",
+      "depends_on": "[]",
+      "owner": "AI Engineer (build) · Lee Tổng (QA confirm)",
+      "created": "2026-09-23",
+      "updated": "2026-09-23",
+      "done_when": "",
+      "desc": "# T97b — Tab Sự Kiện place: Section \"Tu Sĩ Liên Quan · Timeline\" (co-mention → vn_person_events) **Status:** DONE (build `ed03c86` + docs) — CHỜ ADMIN QA (item 17 ADMIN_REVIEW_DASHBOARD) **Date:** 202",
+      "criteria_done": 0,
+      "criteria_total": 0,
+      "blockers": false
+    }
+  ],
+  "task_meta": {
+    "done": 61,
+    "in_progress": 17,
+    "pending": 14,
+    "blocked": 2,
+    "total": 94,
+    "done_percent": 65,
+    "blocked_tasks": [
+      "T18",
+      "T74b"
+    ]
+  },
+  "git_history": {
+    "total": 508,
+    "first_date": "2026-08-14",
+    "last_date": "2026-09-26",
+    "by_module": {
+      "DILA Authority": 53,
+      "CBETA": 27,
+      "Marcus SNA": 21,
+      "TTL Thiền Sư VN": 10,
+      "CBDB": 0,
+      "Wikipedia": 8,
+      "NameVi Map": 4,
+      "Keywords": 1,
+      "GIS / Places": 40,
+      "DILA Integration Layer": 9,
+      "BDRC Integration": 7,
+      "Translation Pipeline": 13,
+      "Nexus Visualization": 19,
+      "Hạ tầng / Docs": 211,
+      "Timeline / Event Evidence": 6
+    },
+    "by_month": [
+      {
+        "month": "2026-08",
+        "commits": 134
+      },
+      {
+        "month": "2026-09",
+        "commits": 374
+      }
+    ],
+    "unmatched": 79
+  },
+  "meta": {
+    "docs_files": [
+      "ACADEMIC_16TABS_IMPLEMENTATION_PLAN.md",
+      "ACADEMIC_16TABS_INVENTORY.md",
+      "ADMIN_PERSON_EDIT_BUTTON_MISSING_REPORT.md",
+      "ADMIN_REVIEW_DASHBOARD.md",
+      "B1_ALREADY_EXISTS.md",
+      "B2_5_TRUSTED_SOURCE_REGISTRY.md",
+      "BUG-015_CONSOLE_SYNTAXERROR_MONK_RESOLVE_REPORT.md",
+      "BUILD1_AUDIT.md",
+      "CONFLICT_ENGINE_SPEC.md",
+      "CURATION_WORKFLOW_SPEC.md",
+      "DAI_TANG_KINH_TAB_SPEC.md",
+      "DATA_DICTIONARY.md",
+      "DEPLOYMENT_SPEC.md",
+      "DEV_HISTORY.md",
+      "EVENTS_TAB_SEMANTIC_AND_TIME_FIX_REPORT.md",
+      "EVIDENCE_GRAPH_CONTRACT.md",
+      "HOME-identity-hub-spec.md",
+      "HOME-redesign-approved-2026-08-30.md",
+      "KNOWLEDGE_MGMT_SPEC.md",
+      "LICENSE_FIREWALL.md",
+      "LICENSE_FIREWALL_AUDIT.md",
+      "LICENSE_FIREWALL_TEST_REPORT.md",
+      "LICENSE_POLICY.md",
+      "LINEAGE_RECURSIVE_GRAPH_LAYOUT_AUDIT_AND_FIX.md",
+      "LINEAGE_TREE_NODE_EXPAND_ICON_FIX_REPORT.md",
+      "Mimo-Flash/T168-rule-resolver-context-compiler-PLAN.md",
+      "Mimo-Flash/T169-groq-place-verify-pipeline-SPEC.md",
+      "Mimo-Flash/T169-groq-place-verify-pipeline.md",
+      "Mimo-Flash/T170-dila-place-person-v41-verify-SPEC.md",
+      "Mimo-Flash/T170-dila-place-person-v41-verify.md",
+      "Mimo-Flash/T171-person-name-standard-SPEC.md",
+      "Mimo-Flash/T171-person-name-standard.md",
+      "Mimo-Flash/T172-hanviet-charwise-debug-SPEC.md",
+      "Mimo-Flash/T172-hanviet-charwise-debug.md",
+      "Mimo-Flash/T173-person-lineage-tab-merge.md",
+      "Mimo-Flash/T174-t158-phase0-reuse-first-canonical-guard.md",
+      "Mimo-Flash/T175-phase0c-canonical-person-identity-audit.md",
+      "Mimo-Flash/T176-phase0c-rev2-canonical-person-identity-audit.md",
+      "Mimo-Flash/T177-directive-v2-trie-xml-dualhash-REVIEW.md",
+      "Mimo-Flash/T177-dynamic-filter-absorb-directive-v2.md",
+      "Mimo-Flash/X-T165-rules-constrained-translation-engine-SPEC.md",
+      "Mimo-Flash/X-T165-rules-constrained-translation-engine.md",
+      "Mimo-Flash/X-T166-canonical-identity-guard-SPEC.md",
+      "Mimo-Flash/X-T166-canonical-identity-guard.md",
+      "NEXUS_GRAPH_STABLE_EXPAND_FIX_REPORT.md",
+      "NEXUS_LINE1_LABEL_FIX_REPORT.md",
+      "OPS_LOG.md",
+      "PLACE_GRAPH_DISPLAY_SPEC.md",
+      "PROVENANCE_POLICY.md",
+      "QA_COMPLIANCE_SPEC.md",
+      "README.md",
+      "REPORT_TAB_TRUYENTHUA.md",
+      "RETRIEVAL_ENGINE_SPEC.md",
+      "ROADMAP_META_UPDATE.md",
+      "ROLLBACK.md",
+      "SCHEMA_DESIGN.md",
+      "SCHEMA_FREEZE.md",
+      "SOURCE_AUTHORITY_MATRIX.md",
+      "SOURCE_INTEGRATION_ARCHITECTURE.md",
+      "SOURCE_INTEGRATION_CONTRACT.md",
+      "SOURCE_INTEGRATION_POLICY.md",
+      "SOURCE_ONBOARDING.md",
+      "SOURCE_REGISTRY.md",
+      "SPEC_TAB_NEXUS_V1.md",
+      "SUMMARY.md",
+      "T76_B2_FAILURES_AND_REMEDIATION.md",
+      "T76_B2_REAL_DATA_ACCEPTANCE_REPORT.md",
+      "T76_B2_REAL_DATA_ENVIRONMENT_REPORT.md",
+      "T92_PHASE0_VERIFICATION.md",
+      "TAB_DAI_TANG_IMPLEMENTATION_REPORT.md",
+      "TGS-integration-masterplan.md",
+      "TTL_PERSON_FORMAL_NAME_INTEGRATION_REPORT.md",
+      "UNDONE_place_name_vi.md",
+      "UNDONE_vietnamese_places.md",
+      "UNIFY_DILA_LINEAGE_RELATION_CARD_FORMAT_REPORT.md",
+      "ZEN_LINEAGE_INTEGRATION_AUDIT_V1.md",
+      "alignment-audit-report.md",
+      "alignment-test-cases.md",
+      "architecture-identity-hub.md",
+      "bilingual-passage-alignment-design.md",
+      "bilingual-reader-audit.md",
+      "bilingual-reader-implementation.md",
+      "bug-reports/BUG-2026-04-17-search-gui-panels.md",
+      "bug-reports/README.md",
+      "bug-reports/perlexdebug.md",
+      "bug-reports/workbench-render-fail-2026-04-17-v2.md",
+      "bugs.md",
+      "build1_frozen_contract.md",
+      "build1_inventory.md",
+      "cbeta-corpus-audit-results-20260904.md",
+      "cbeta-corpus-audit.md",
+      "cbeta-global-passage-standard.md",
+      "cbeta-migration-rollout-plan.md",
+      "cbeta_bilingual_translation_architecture.md",
+      "cbeta_translation_manual_verify_T50n2060_0484c.md",
+      "cbeta_translation_pipeline_audit.md",
+      "contract_opencode.md",
+      "contracts/opencode.md",
+      "conventions.md",
+      "db_schema.md",
+      "design-spec.md",
+      "fix-logs/FIX-2026-04-17-search-gui-panels.md",
+      "fix-logs/README.md",
+      "fix-logs/fix-id-mismatch-render-v4-2026-04-17.md",
+      "fix-logs/fix-renderpanel-v3-2026-04-17.md",
+      "graph-tab-audit.md",
+      "graph-tab-implementation.md",
+      "lineage-conflict-audit.md",
+      "lineage-conflict-implementation.md",
+      "lineage-relation-conflict-A004177-audit.md",
+      "lineage-relation-conflict-A004177-implementation.md",
+      "opencode-directives.md",
+      "overview.md",
+      "pipelines.md",
+      "progress.md",
+      "roadmap.md",
+      "rules/data-integrity.md",
+      "rules/graph-layout.md",
+      "rules/naming-and-identity.md",
+      "rules/ui-evidence-rules.md",
+      "sessions/2026-09-01_T82_consolidation_data_lock.md",
+      "sessions/2026-09-01_t52c_giaoly_tab.md",
+      "sessions/2026-09-02_T50_passage_vi.md",
+      "sessions/2026-09-05_T96_per_segment_translation.md",
+      "sessions/2026-09-07_tasktodo_split.md",
+      "sessions/2026-09-08_bug002_person_identity_fix.md",
+      "sessions/2026-09-08_map_semantic_icons.md",
+      "sessions/2026-09-08_master-dashboard.md",
+      "sessions/2026-09-08_master_roadmap.md",
+      "sessions/2026-09-08_t100_batch4.md",
+      "sessions/2026-09-08_t109-provenance-conflict.md",
+      "sessions/2026-09-08_t110-glossary-vi.md",
+      "sessions/2026-09-09/t101-graph-nexus-bug-fix.md",
+      "sessions/2026-09-09_bug011_place_profile_metadata.md",
+      "sessions/2026-09-09_bug012_stale_state_gps_rag.md",
+      "sessions/2026-09-09_curation-workflow-spec-review.md",
+      "sessions/2026-09-09_t109-conflict-spec-review.md",
+      "sessions/2026-09-09_t111-persona-disclaimer.md",
+      "sessions/2026-09-09_t113-compliance-meter.md",
+      "sessions/2026-09-09_t113-qa-compliance-spec-review.md",
+      "sessions/2026-09-09_t113-qa-live.md",
+      "sessions/2026-09-09_t113-spec-review.md",
+      "sessions/2026-09-09_t114-roadmap-meta-update.md",
+      "sessions/2026-09-09_t115-source-authority-matrix.md",
+      "sessions/2026-09-09_t116-system-registry.md",
+      "sessions/2026-09-09_t117-retrieval-spec-review.md",
+      "sessions/2026-09-09_t118-knowledge-mgmt-spec-review.md",
+      "sessions/2026-09-09_t119-deploy-ops-spec-review.md",
+      "sessions/2026-09-09_t120-web-enrichment-spec-review.md",
+      "sessions/2026-09-09_task-hygiene-frontmatter.md",
+      "sessions/2026-09-10_batch-a-b-build.md",
+      "sessions/2026-09-10_batch-d-immediate-fix.md",
+      "sessions/2026-09-10_batch-e1-admin-dashboard-t120.md",
+      "sessions/2026-09-10_t120-phase-a-live-wikidata.md",
+      "sessions/2026-09-10_t55b-related-texts-api.md",
+      "sessions/2026-09-11_t52a-cbeta-data-prep-verify.md",
+      "sessions/2026-09-11_t55a-qa-scale-integrity.md",
+      "sessions/2026-09-11_t55a-topic-clusters.md",
+      "sessions/2026-09-11_t55a-topic-qa-samples.md",
+      "sessions/2026-09-11_t55c-collaborative-reading-log.md",
+      "sessions/2026-09-11_t61-place-desc-verify.md",
+      "sessions/2026-09-11_t82-data-lock-audit.md",
+      "sessions/2026-09-11_t82-schema-freeze.md",
+      "sessions/2026-09-11_t83-review-bootstrap-plan.md",
+      "sessions/2026-09-11_t83-run2-compliance.md",
+      "sessions/2026-09-12_t123-style-constitution.md",
+      "sessions/2026-09-12_t124-deepsearch-ui-v1.md",
+      "sessions/2026-09-12_t125-qa-tab-safe-fallback.md",
+      "sessions/2026-09-12_t50-unblock-groq-key-test.md",
+      "sessions/2026-09-13_t126-qa-backend-real.md",
+      "sessions/2026-09-13_t127-t128-tree-design-relation-panel-plan.md",
+      "sessions/2026-09-13_t128-relation-detail-panel.md",
+      "sessions/2026-09-13_t129-pedigree-refinement.md",
+      "sessions/2026-09-13_t130-phap-mach-direct-lineage.md",
+      "sessions/2026-09-14_t131-b21-source-governance-refine.md",
+      "sessions/2026-09-14_t132-b25-trusted-source-conformance.md",
+      "sessions/2026-09-14_t133-ops-quality-golive.md",
+      "sessions/2026-09-14_t134-curation-workflow-conformance.md",
+      "sessions/2026-09-14_t135-doctrine-retrieval-conformance.md",
+      "sessions/2026-09-14_t136-conflict-engine-conformance.md",
+      "sessions/2026-09-14_t137-zen-lineage-integration-audit.md",
+      "sessions/2026-09-14_t138-zen-lineage-render-policy.md",
+      "sessions/2026-09-15/security-audit.md",
+      "sessions/2026-09-15_t127-t128-t129-live-qa-closure.md",
+      "sessions/2026-09-15_t139-zen-lineage-gateway.md",
+      "sessions/2026-09-15_t140-phap-mach-ui-ux-fix.md",
+      "sessions/2026-09-15_t141-nexus-busbar-filter3levels.md",
+      "sessions/2026-09-16/2026-09-16_t147-dila-person-index-and-translate-fix.md",
+      "sessions/2026-09-16_t146-optimal-solution-docs-closure.md",
+      "sessions/2026-09-16_t147-dila-person-index-translate-persist-docs-closure.md",
+      "sessions/2026-09-16_t148-dila-full-inspector-docs-closure.md",
+      "sessions/2026-09-16_t149-session.md",
+      "sessions/2026-09-16_t150-lineage-audit-review-pipeline-docs-closure.md",
+      "sessions/2026-09-17/changes.md",
+      "sessions/2026-09-17_t151-phap-mach-ancestor-spine-docs-closure.md",
+      "sessions/2026-09-17_t152-phap-mach-spine-code-telemetry.md",
+      "sessions/2026-09-17_t153-dila-index-unified-tabbar.md",
+      "sessions/2026-09-17_t154-agents-readme-refresh.md",
+      "sessions/2026-09-17_t155-repo-hygiene-ssot-guard.md",
+      "sessions/2026-09-17_t156-lineage-relation-conflict-comparison.md",
+      "sessions/2026-09-17_t157-dila-direction-inversion-fix.md",
+      "sessions/2026-09-18/changes.md",
+      "sessions/2026-09-18_pre-t130-t131-additive-snapshot/00_manifest.md",
+      "sessions/2026-09-18_pre-t130-t131-build-wip-snapshot/00_manifest.md",
+      "sessions/2026-09-18_t130-t131-additive-build-closure.md",
+      "sessions/2026-09-18_t130-t131-additive-build-pre-snap/pre_build.md",
+      "sessions/2026-09-18_t130-t131-integration-audit-report.md",
+      "sessions/2026-09-20/changes.md",
+      "sessions/2026-09-22/changes.md",
+      "sessions/2026-09-22_ssl-renewal.md",
+      "sessions/2026-09-22_t132_p1-registry-claims-additive-closure.md",
+      "sessions/2026-09-22_t132_p2-p8-authority-contract.md",
+      "sessions/2026-09-22_t150b-reseed-namevi-post-t149.md",
+      "sessions/2026-09-23/changes.md",
+      "sessions/2026-09-23_t130_session1_backend_compliance.md",
+      "sessions/2026-09-23_t97-person-events-tabs.md",
+      "sessions/2026-09-23_t97b-place-tu-si-timeline.md",
+      "sessions/2026-09-24_t130_session2_frontend_core.md",
+      "sessions/2026-09-24_t130_session4_deeplink_state.md",
+      "sessions/2026-09-24_t130_session5_t129_regression_browser_qa.md",
+      "sessions/2026-09-24_t165-dash-regen-t130-closure.md",
+      "sessions/2026-09-24_t166-dashboard-hygiene-batch.md",
+      "sessions/2026-09-24_t167-rules-constrained-translation-engine.md",
+      "sessions/2026-09-25/changes.md",
+      "sessions/2026-09-25_t166_phase1_core_module.md",
+      "sessions/2026-09-25_t168-t165-spec-review.md",
+      "sessions/2026-09-25_t169-t165-engine-build.md",
+      "sessions/2026-09-26_t166_build_integration.md",
+      "sessions/2026-09-26_t177_directive_v2_absorb.md",
+      "sessions/2026-09-26_t178-t165-build-gap-d3.md",
+      "sessions/backup/2026-05-21_cbdb_place_block.md",
+      "sessions/backup/2026-05-21_cbdb_real_database.md",
+      "sessions/backup/2026-05-21_docs_cleanup_scan.md",
+      "sessions/backup/2026-05-21_legacy_notes_import.md",
+      "sessions/backup/2026-05-22_cbeta_backend_frontend.md",
+      "sessions/backup/2026-05-22_cbeta_unit_summarize.md",
+      "sessions/backup/2026-05-22_fix_cbdb_cbeta_search.md",
+      "sessions/backup/2026-05-22_fix_cbeta_no_match_error_toast.md",
+      "sessions/backup/2026-05-22_fix_cbeta_search_500.md",
+      "sessions/backup/2026-05-22_fix_crash_length_undefined.md",
+      "sessions/backup/2026-05-22_replace_cbeta_search_with_snippet.md",
+      "sessions/backup/2026-05-22_restart_server_fix_404_cbdb.md",
+      "sessions/backup/2026-05-22_wikipedia_block.md",
+      "sessions/backup/2026-05-23_dila_integration_layer.md",
+      "sessions/backup/2026-05-23_dila_integration_layer_phase2.md",
+      "sessions/backup/2026-05-23_search_db_first.md",
+      "sessions/backup/2026-05-24_dila_3block_restructure.md",
+      "sessions/backup/2026-05-24_fix_cbeta_translate_input_and_error.md",
+      "sessions/backup/2026-05-24_keyword_import.md",
+      "sessions/backup/2026-05-24_merge_dila_cbeta_blocks.md",
+      "sessions/backup/2026-05-26_places_search_api.md",
+      "sessions/backup/2026-05-27_cbeta_resolve_pure_han.md",
+      "sessions/backup/2026-05-27_fix_hv_place_names_and_cbeta_translate.md",
+      "sessions/backup/2026-05-28_cbeta_explain_place.md",
+      "sessions/backup/2026-05-28_fix_cbeta_resolve_inline_and_timeout.md",
+      "sessions/backup/2026-05-29_cbeta_catalog_vn_license.md",
+      "sessions/backup/2026-05-29_gis_marker_cluster.md",
+      "sessions/backup/2026-05-30_monk_personography_api.md",
+      "sessions/backup/2026-06-01_fix-namevimap-json-error.md",
+      "sessions/backup/2026-06-01_fix-namevimap-json-routes.md",
+      "sessions/backup/2026-07-29_etl_ttl_person_authority.md",
+      "sessions/backup/2026-07-29_fuzzy_match_cbeta_catalog.md",
+      "sessions/backup/2026-07-29_link_marcus_entities.md",
+      "sessions/backup/2026-07-29_seed_monk_names_integration_fix.md",
+      "sessions/backup/2026-08-13_gitbook_honkit.md",
+      "sessions/backup/2026-08-13_progress_dashboard.md",
+      "sessions/backup/2026-08-13_progressive-places-load.md",
+      "sessions/backup/2026-08-13_seed_tasks_gitbook_docs.md",
+      "sessions/backup/2026-08-14_t09_dashboard_stats_api.md",
+      "sessions/backup/2026-08-15_fix_places_search_charmap.md",
+      "sessions/backup/2026-08-16_dila_time_authority_timeline.md",
+      "sessions/backup/2026-08-16_fix_places_autocomplete.md",
+      "sessions/backup/2026-08-16_fix_places_search_timeout.md",
+      "sessions/backup/2026-08-16_fix_places_vitri_block.md",
+      "sessions/backup/2026-08-17_home_feature_status_dashboard.md",
+      "sessions/backup/2026-08-18_dila_data_places_page.md",
+      "sessions/backup/2026-08-18_hanviet_district_fix.md",
+      "sessions/backup/2026-08-18_t04_marcus_people_link.md",
+      "sessions/backup/2026-08-18_t08_missing_hanzi_admin.md",
+      "sessions/backup/2026-08-19_content_integrity_cbeta_catalog.md",
+      "sessions/backup/2026-08-19_nien_dai_tab_removal.md",
+      "sessions/backup/2026-08-19_t17_graph_tab_marcus.md",
+      "sessions/backup/2026-08-19_t21_geo_identity_linking_spec.md",
+      "sessions/backup/2026-08-20_T22.1_GiaiDoanA.md",
+      "sessions/backup/2026-08-20_t01_namevi_100pct.md",
+      "sessions/backup/2026-08-20_t21_nien_dai_implementation.md",
+      "sessions/backup/2026-08-20_t28_persons_lineage_tabs.md",
+      "sessions/backup/2026-08-20_t29_hanviet_dictionary_expansion.md",
+      "sessions/backup/2026-08-21_t30_home_search_api.md",
+      "sessions/backup/2026-08-23_check_places_and_t07.md",
+      "sessions/backup/2026-08-24/session_changes.md",
+      "sessions/backup/2026-08-24_tam_tang_integration_audit.md",
+      "sessions/backup/2026-08-25/changes.md",
+      "sessions/backup/2026-08-25/session_changes.md",
+      "sessions/backup/2026-08-25/session_log_afternoon.md",
+      "sessions/backup/2026-08-25/t46_name_correction_report.md",
+      "sessions/backup/2026-08-27/session_changes.md",
+      "sessions/backup/2026-08-27_T45_fosizhi_etl.md",
+      "sessions/backup/2026-08-27_T52_T63_T64.md",
+      "sessions/backup/2026-08-27_strategy_ptda_phase_ab.md",
+      "sessions/backup/2026-08-28/session_log.md",
+      "sessions/backup/2026-08-28/session_t64b_log.md",
+      "sessions/backup/2026-08-29_T52_compare_backend.md",
+      "sessions/backup/2026-08-29_T57_glossary_yokoyama_dongmon.md",
+      "sessions/backup/2026-08-29_T58_nexus_point.md",
+      "sessions/backup/2026-08-30/session_t22_strategy_log.md",
+      "sessions/backup/2026-08-30_T22d_regex_dila_notes.md",
+      "sessions/backup/2026-08-30_T67_TGS_build1_acceptance.md",
+      "sessions/backup/2026-08-30_T67_TGS_build1_acceptance_impl.md",
+      "sessions/backup/2026-08-30_T68_source_authority_conflict.md",
+      "sessions/backup/2026-08-30_T69_wire_evidence_entity_claims.md",
+      "sessions/backup/2026-08-30_T70_data_governance_cleanup.md",
+      "sessions/backup/2026-08-30_T71_place_lexicon_verify.md",
+      "sessions/backup/2026-08-30_T72_build1_inventory_frozen_contract.md",
+      "sessions/backup/2026-08-30_T73_T74_fix_task_files.md",
+      "sessions/backup/2026-08-30_TGS_B2_PhaseA_defect_fix.md",
+      "sessions/backup/2026-08-30_TGS_B2_PhaseB_provenance_columns.md",
+      "sessions/backup/2026-08-30_TGS_B2_PhaseC_evidence_api.md",
+      "sessions/backup/2026-08-30_TGS_B2_PhaseD_crossref_sources.md",
+      "sessions/backup/2026-08-30_home-gui-redesign.md",
+      "sessions/backup/2026-08-30_places_text_info_vps_sync.md",
+      "sessions/backup/2026-08-31_T76_T77_source_integration.md",
+      "sessions/backup/2026-08-31_T78_license_firewall.md",
+      "sessions/backup/2026-08-31_T79_person_dates.md",
+      "sessions/backup/2026-08-31_TGS_B2_PhaseE_docs_refresh.md",
+      "sessions/backup/2026-08-31_admin_menu_panel_update.md",
+      "sessions/backup/2026-08-31_process_dashboard_ttl_undone_note.md",
+      "sessions/backup/2026-09-01_T79_person_dates.md",
+      "sessions/backup/2026-09-01_T80_founding_coverage.md",
+      "sessions/backup/2026-09-01_T81_active_period.md",
+      "sessions/backup/2026-09-01_T83_commit_daitang_ref.md",
+      "sessions/backup/2026-09-01_TAB_DAI_TANG_place.md",
+      "sessions/backup/2026-09-02_T05_pass3.md",
+      "sessions/backup/2026-09-02_T85_lazy_translate.md",
+      "sessions/backup/2026-09-02_T86_truyenthua.md",
+      "sessions/backup/2026-09-03_T16_nexus_done.md",
+      "sessions/backup/2026-09-03_T87_place_lineage.md",
+      "sessions/backup/2026-09-03_T88_quanhe.md",
+      "sessions/backup/2026-09-03_T89_nexus_spec.md",
+      "sessions/backup/2026-09-03_T90_dothi_texthub.md",
+      "sessions/backup/2026-09-04_T91_daitang_left_panel.md",
+      "sessions/backup/2026-09-04_T91_places-filter-fix.md",
+      "sessions/backup/2026-09-04_T92_nexus_build.md",
+      "sessions/backup/2026-09-04_T92_phase3_evidence_share_export.md",
+      "sessions/backup/2026-09-04_T93_fix_map_marker_color.md",
+      "sessions/backup/2026-09-04_T93_passage_vi_giaoly.md",
+      "sessions/backup/2026-09-04_T94_cbeta_alignment_reader.md",
+      "sessions/backup/2026-09-04_T94_phase1_schema.md",
+      "sessions/backup/2026-09-05/changes.md",
+      "sessions/backup/2026-09-05_T16_lineage_family_tree.md",
+      "sessions/backup/2026-09-05_T16_nexus_grouped_view.md",
+      "sessions/backup/2026-09-05_T16_nexus_person_grouped_view.md",
+      "sessions/backup/2026-09-05_T86_inspector_panel_fixes.md",
+      "sessions/backup/2026-09-05_T86_phapmach_vistree.md",
+      "sessions/backup/2026-09-05_T92_nexus_qa.md",
+      "sessions/backup/2026-09-05_T94_phase2b_fullblock_reader.md",
+      "sessions/backup/2026-09-05_T95_build1_schema_importer.md",
+      "sessions/backup/2026-09-05_T95_build2_worker_phaseC.md",
+      "sessions/backup/2026-09-05_T95_build3_ui_pairedview.md",
+      "sessions/backup/2026-09-05_T95_build4_phaseE.md",
+      "sessions/backup/2026-09-05_T95_build5_live_groq.md",
+      "sessions/backup/2026-09-05_T95_task_approved.md",
+      "sessions/backup/2026-09-05_T97_build1_sukien_tab.md",
+      "sessions/backup/2026-09-05_T97_build2_phase2_3.md",
+      "sessions/backup/2026-09-05_T97_timeline-event-evidence-plan.md",
+      "sessions/backup/2026-09-05_source_picker_ux_fix.md",
+      "sessions/backup/2026-09-06_T85_v2_lazy_translate.md",
+      "sessions/backup/2026-09-06_T94_phase3_manual_verify.md",
+      "sessions/backup/2026-09-06_T99_ttl_formal_name.md",
+      "sessions/backup/2026-09-06_nexus_line1_label_fix.md",
+      "sessions/backup/2026-09-06_opencode_skill_daoanh_debug.md",
+      "sessions/backup/2026-09-06_vi_qa_readability.md",
+      "sessions/backup/2026-09-07_T101_graph_nexus_bugfix.md",
+      "sessions/backup/2026-09-07_academic_16tabs_plan.md",
+      "sessions/backup/README.md",
+      "t50n2060-repair-plan.md",
+      "taskdone.md",
+      "tasktodo.md",
+      "templates/audit-report.md",
+      "translation_workflow.md",
+      "trusted-sources.md",
+      "update contract_opencode.md",
+      "update_contract_opencode.md",
+      "vi_qa_readability_REPORT.md"
+    ],
+    "route_total": 277,
+    "script_total": 248,
+    "task_total": 94
+  }
+}

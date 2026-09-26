@@ -1,0 +1,41 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.phatphaponline.org/ex/> .
+
+<ex:monk/chuong_hiep_chanh_tri> a bkg:Monk ;
+    rdfs:label "Chương Hiệp Chánh Trì"@vi ;
+    crm:P1_is_identified_by <ex:monk/chuong_hiep_chanh_tri> ;
+    bkg:biographicalNote """
+
+"""@vi ;
+    bkg:birthEvent <ex:monk/chuong_hiep_chanh_tri_birthEvent> ;
+    bkg:deathEvent <ex:monk/chuong_hiep_chanh_tri_deathEvent> ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Chúc Thánh Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 75 ;
+    bkg:hasTeacher <ex:monk/toan_y_pho_hue> ;
+    bkg:hasDisciple <ex:monk/an_bao_chanh_nhon> ,
+        <ex:monk/an_binh_buu_quang> ,
+        <ex:monk/an_phuoc_chi_thanh> ,
+        <ex:monk/an_doan_hoang_nghia> ;
+    bkg:isLineageFounder "false"^^xsd:boolean .
+
+<ex:monk/chuong_hiep_chanh_tri_birthEvent> a bkg:BirthEvent ;
+    bkg:year "1833"^^xsd:gYear .
+
+<ex:monk/chuong_hiep_chanh_tri_deathEvent> a bkg:DeathEvent ;
+    bkg:year "1910"^^xsd:gYear .
+
+<ex:monk/toan_y_pho_hue> rdfs:label "Toàn Ý Phổ Huệ"@vi .
+<ex:monk/an_bao_chanh_nhon> rdfs:label "Ấn Bảo Chánh Nhơn"@vi .
+<ex:monk/an_binh_buu_quang> rdfs:label "Ấn Bình Bửu Quang"@vi .
+<ex:monk/an_phuoc_chi_thanh> rdfs:label "Ấn Phước Chí Thành"@vi .
+<ex:monk/an_doan_hoang_nghia> rdfs:label "Ấn Đoan Hoằng Nghĩa"@vi .
+<ex:monk/chuong_thien_hoang_ao> rdfs:label "Chương Thiện Hoằng Ðạo"@vi .
+<ex:monk/chuong_tri_quang_giac> rdfs:label "Chương Trí Quảng Giác"@vi .
+<ex:monk/chuong_ly_hoang_hoa> rdfs:label "Chương Lý Hoằng Hóa"@vi .
+<ex:monk/chuong_hai_thanh_nguyen> rdfs:label "Chương Hải Thanh Nguyên"@vi .
+<ex:monk/chuong_nghia_thanh_tuyen> rdfs:label "Chương Nghĩa Thanh Tuyền"@vi .
+<ex:monk/chuong_tuong_vinh_ien> rdfs:label "Chương Tường Vĩnh Ðiền"@vi .

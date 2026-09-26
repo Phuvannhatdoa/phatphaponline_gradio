@@ -1,0 +1,429 @@
+
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Thiền Tông 3.9.0</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    :root { --p: #4e342e; --a: #bf360c; --bg: #fdf5e6; --gold: #d4af37; --paper: #fffcf5; }
+    body { margin: 0; display: flex; font-family: 'Times New Roman', serif; background: var(--bg); height: 100vh; overflow: hidden; }
+    #sidebar { width: 60px; background: var(--p); z-index: 1000; color: white; flex-shrink: 0; }
+    .side-icon { padding: 20px; cursor: pointer; text-align: center; font-size: 22px; }
+    #search-box { display: none; padding: 15px; position: absolute; left: 60px; top: 60px; width: 250px; background: var(--p); z-index: 1001; }
+    #inp { width: 100%; padding: 10px; border: none; }
+    #tree-area { flex-grow: 1; position: relative; background: #fff; }
+    
+    /* BIO PANEL - SÁCH PHẬT GIÁO */
+    #bio-panel { position: fixed; right: -460px; width: 450px; height: 100vh; background: var(--paper); transition: 0.5s; z-index: 2000; box-shadow: -5px 0 20px rgba(0,0,0,0.15); }
+    #bio-panel.open { right: 0; }
+    .bio-header { background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%); color: white; padding: 25px 20px; text-align: center; position: relative; border-bottom: 3px solid var(--gold); }
+    .bio-close { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 22px; padding: 5px 10px; border-radius: 5px; }
+    .bio-close:hover { background: rgba(255,255,255,0.2); }
+    .bio-gens { background: linear-gradient(90deg, #efe4d1 0%, #f5ebd8 100%); padding: 15px 25px; border-bottom: 1px solid #d4c4a8; font-weight: bold; font-size: 14px; line-height: 1.6; }
+    .bio-content { padding: 25px 30px; font-size: 17px; line-height: 1.9; color: #2b1d1a; height: calc(100vh - 180px); overflow-y: auto; text-align: justify; }
+    
+    /* DIALOGUE FORMATTING - THIỀN NGỮ CHUẨN SÁCH PHẬT GIÁO */
+    .bio-narrative { margin-bottom: 12px; text-indent: 24px; text-align: justify; line-height: 1.6; }
+    .bio-dialogue { margin-bottom: 12px; padding: 10px 15px; background: #fffdf5; margin-left: 0px; border-left: 3px solid var(--gold); }
+    .zen-speaker { color: #bf360c; font-weight: bold; display: block; margin-bottom: 5px; font-style: italic; padding-left: 5px; }
+    .zen-content { color: #2b1d1a; display: block; text-align: justify; padding-left: 5px; }
+    .zen-separator { display: block; text-align: center; border: none; height: 1px; background-color: #d4af37; margin: 15px 0; position: relative; }
+    .zen-separator::before { content: "★"; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--paper); padding: 0 15px; color: #d4af37; font-size: 18px; }
+    .zen-separator-block { text-align: center; margin: 20px 0; }
+
+    .node rect { stroke-width: 2px; rx: 8; fill: #fffde7; stroke: #8d6e63; cursor: pointer; }
+    .node-main rect { stroke: var(--gold); stroke-width: 3px; }
+    .node-current rect { stroke: var(--a) !important; stroke-width: 4px !important; }
+    .node-main rect { stroke: var(--gold); stroke-width: 3px; }
+    .node text { font-weight: bold; text-anchor: middle; font-size: 13px; fill: var(--p); pointer-events: none; }
+    .node .founder-text { font-size: 10px; fill: #888; font-weight: normal; }
+    .link { fill: none; stroke: #bc9b82; stroke-width: 2px; opacity: 0.6; }
+    
+    /* LINEAGE TREE STYLES */
+    .lineage-node rect { fill: #fffde7; stroke: #8d6e63; stroke-width: 2px; }
+    .lineage-node.main rect { stroke: var(--gold); stroke-width: 4px; fill: #fff9c4; }
+    .lineage-node rect { cursor: pointer; }
+    .lineage-node text { font-size: 12px; text-anchor: middle; fill: var(--p); }
+    .lineage-link { fill: none; stroke: #8d6e63; stroke-width: 1.5px; }
+    .expand-btn { cursor: pointer; font-size: 14px; fill: var(--a); font-weight: bold; }
+    .expand-btn:hover { fill: var(--gold); }
+</style>
+<body>
+<div id="sidebar"><div class="side-icon" onclick="location.reload()"><i class="fas fa-home"></i></div><div class="side-icon" onclick="toggleSearch()"><i class="fas fa-search"></i></div></div>
+<div id="search-box"><input type="text" id="inp" placeholder="Tìm Tổ sư..."><div id="sug" style="background:white; color:black; max-height:300px; overflow-y:auto;"></div></div>
+<div id="tree-area"><svg id="canvas" style="width:100%; height:100%;"><g id="viewport"></g></svg></div>
+<div id="bio-panel"><div class="bio-header"><b id="bio-title"></b><span class="bio-close" onclick="closeBio()">✕</span></div><div id="bio-gens" class="bio-gens"></div><div id="bio-content" class="bio-content"></div></div>
+
+<script>
+    const svg = d3.select("#canvas"), container = d3.select("#viewport");
+    let zoom = d3.zoom().on("zoom", (e) => container.attr("transform", e.transform));
+    svg.call(zoom);
+
+    function toggleSearch() { d3.select('#search-box').style('display', d3.select('#search-box').style('display')==='none'?'block':'none'); }
+    
+    // Helper to check full name match (case insensitive)
+    function isFullMatch(s, t) {
+        if (!s || !t) return false;
+        return s.trim().toLowerCase() === t.trim().toLowerCase();
+    }
+
+    // Lineage tree state
+    let lineageData = {};
+    let expandedNodes = new Set();
+    let inlineExpandedStudents = [];
+    let allGenerations = []; // [currentName, teacherName, studentName...]
+    let maxDepth = 3; // Default 3 generations
+    let monkNames = [];
+    let monkNamesLoaded = false;
+    
+    async function searchRoot(name) {
+        container.selectAll("*").remove();
+        expandedNodes.clear();
+        
+        // Get lineage data from API
+        const lineage = await fetch(`/api/get_lineage?name=${encodeURIComponent(name)}`).then(r => r.json());
+        
+        if (lineage.error) {
+            // Fallback to simple display if API fails
+            const g = container.append("g").attr("transform", "translate(0,100)").attr("class", "node node-current");
+            g.append("rect").attr("width", 200).attr("height", 40).attr("x", -100).attr("y", -20);
+            g.append("text").attr("dy", 5).text(name);
+            showBio(name);
+            forceCenter(0, 100, 0.8);
+            return;
+        }
+        
+        lineageData = lineage;
+        expandedNodes.add(name);
+        inlineExpandedStudents = [];
+        allGenerations = [name];
+        
+        // Get founder status for all names in the tree
+        const allNames = [name, lineage.teacher, ...(lineage.students || [])].filter(Boolean);
+        const founderStatus = await fetch(`/api/get_founders?names=${encodeURIComponent(JSON.stringify(allNames))}`).then(r => r.json()).catch(e => ({}));
+        
+        // Load all descendants up to maxDepth
+        await loadGenerations(name, 1, maxDepth);
+        
+        // Build tree
+        renderLineageTree(name, lineage.teacher, lineage.students || [], [], founderStatus);
+        showBio(name);
+        
+        // Center view
+        const treeArea = document.getElementById('tree-area');
+        if (treeArea) {
+            const w = treeArea.clientWidth;
+            const h = treeArea.clientHeight;
+            svg.transition().duration(800).call(zoom.transform, d3.zoomIdentity.translate(w/2, h/2 - 50).scale(0.55));
+        }
+    }
+    
+    function renderLineageTree(currentName, teacherName, studentNames, expandedStudents = [], founderStatus = {}) {
+        container.selectAll("*").remove();
+        
+        // Adjust node size for larger fonts (+)
+        const nodeWidth = 200; // Increased for full names
+        const nodeHeight = 50;
+        const levelHeight = 130;
+        const centerX = 0;
+        
+        // Level 0: Current (giữa)
+        const currentY = 0;
+        
+        // Level -1: Teacher/Thầy (trên)
+        const teacherY = -levelHeight;
+        
+        // Level 1: Students/Đệ tử (dưới)
+        const studentY = levelHeight;
+        
+        // Determine if current node is a Main Lineage Founder
+        const isCurrentMain = founderStatus[currentName] === true;
+        
+        // Draw teacher (Thầy) - Level -1
+        if (teacherName) {
+            const isTeacherMain = founderStatus[teacherName] === true;
+            const teacherG = container.append("g").attr("class", "lineage-node" + (isTeacherMain ? " main" : ""))
+                .attr("transform", `translate(${centerX},${teacherY})`);
+            teacherG.append("rect").attr("width", nodeWidth).attr("height", nodeHeight)
+                .attr("x", -nodeWidth/2).attr("y", -nodeHeight/2).attr("rx", 5)
+                .on("click", (e) => {
+                    e.stopPropagation();
+                    showBio(teacherName);
+                });
+            teacherG.append("text").attr("dy", 4).attr("font-size", "14px").text(teacherName);
+            
+            // + button at 6h position for teacher (expand up)
+            teacherG.append("text").attr("class", "expand-btn").attr("x", nodeWidth/2 + 5).attr("y", nodeHeight/2 + 5)
+                .text("+").style("font-size", "24px").on("click", (e) => {
+                    e.stopPropagation();
+                    expandUp(teacherName);
+                });
+            
+            // Orthogonal pipe: vertical down from teacher
+            container.append("path").attr("class", "lineage-link")
+                .attr("d", `M${centerX},${teacherY + nodeHeight/2} L${centerX},${currentY - nodeHeight/2}`);
+        }
+        
+        // Draw current (Thiền sư hiện tại) - Level 0 - MAIN NODE
+        const currentG = container.append("g").attr("class", "lineage-node main")
+            .attr("transform", `translate(${centerX},${currentY})`);
+        currentG.append("rect").attr("width", nodeWidth).attr("height", nodeHeight)
+            .attr("x", -nodeWidth/2).attr("y", -nodeHeight/2).attr("rx", 5)
+            .attr("fill", isCurrentMain ? "#fff9c4" : "#fffde7")
+            .on("click", (e) => {
+                e.stopPropagation();
+                showBio(currentName);
+            });
+        currentG.append("text").attr("dy", -8).attr("font-weight", "bold").attr("font-size", "14px").text(currentName);
+        currentG.append("text").attr("dy", 12).attr("font-size", "10px").attr("fill", "#666").text("▼ Đệ tử");
+        
+        // + button at 6h position for current (toggle all students inline)
+        currentG.append("text").attr("class", "expand-btn").attr("x", nodeWidth/2 + 5).attr("y", nodeHeight/2 + 5)
+            .text("+").style("font-size", "28px").style("font-weight", "bold").on("click", (e) => {
+                e.stopPropagation();
+                toggleStudents(currentName);
+            });
+        
+        // Draw students (Đệ tử) - Level 1 - ALL STUDENTS IN ONE ROW with extra spacing
+        if (studentNames && studentNames.length > 0) {
+            // Tính spacing linh hoạt
+            const maxStudents = Math.max(studentNames.length, 10);
+            const studentSpacing = 180; 
+            const totalWidth = (studentNames.length - 1) * studentSpacing;
+            
+            // Tính position để tree không bị tràn màn hình
+            let startX = centerX;
+            if (totalWidth > 1000) {
+                // Nếu quá rộng, tăng node spacing hoặc thu nhỏ
+                const adjustedSpacing = 1000 / (studentNames.length - 1);
+                const adjustedTotalWidth = (studentNames.length - 1) * adjustedSpacing;
+                startX = -adjustedTotalWidth / 2;
+            }
+            
+            // Vertical pipe from current to students junction
+            container.append("path").attr("class", "lineage-link")
+                .attr("d", `M${centerX},${currentY + nodeHeight/2} L${centerX},${studentY - nodeHeight/2 - 30}`);
+            
+            // Horizontal bar for all students (dựa trên startX tính toán)
+            const halfWidth = totalWidth / 2;
+            container.append("path").attr("class", "lineage-link")
+                .attr("d", `M${centerX - halfWidth},${studentY - nodeHeight/2 - 30} L${centerX + halfWidth},${studentY - nodeHeight/2 - 30}`);
+            
+            studentNames.forEach((studentName, i) => {
+                const studentX = (totalWidth > 1000) 
+                    ? (-totalWidth/2 + i * (1000/(studentNames.length-1))) // Điều chỉnh spacing
+                    : (-totalWidth/2 + i * studentSpacing);
+                
+                const isStudentMain = founderStatus[studentName] === true;
+                
+                // Vertical pipe to each student
+                container.append("path").attr("class", "lineage-link")
+                    .attr("d", `M${studentX},${studentY - nodeHeight/2 - 30} L${studentX},${studentY - nodeHeight/2}`);
+                
+                const isExpanded = expandedStudents.includes(studentName);
+                const studentG = container.append("g").attr("class", "lineage-node" + (isStudentMain ? " main" : ""))
+                    .attr("transform", `translate(${studentX},${studentY})`);
+                studentG.append("rect").attr("width", nodeWidth).attr("height", nodeHeight)
+                    .attr("x", -nodeWidth/2).attr("y", -nodeHeight/2).attr("rx", 5)
+                    .attr("fill", isStudentMain ? "#fff9c4" : "#fffde7")
+                    .on("click", (e) => {
+                        e.stopPropagation();
+                        showBio(studentName);
+                    });
+                studentG.append("text").attr("dy", 4).attr("font-size", "14px").text(studentName);
+                
+                // + button at 6h position for each student (toggle grandchildren inline)
+                studentG.append("text").attr("class", "expand-btn").attr("x", nodeWidth/2 + 5).attr("y", nodeHeight/2 + 5)
+                    .text("+").style("font-size", "24px").on("click", (e) => {
+                        e.stopPropagation();
+                        expandDown(studentName);
+                    });
+                
+                // Show grandchildren inline if expanded
+                if (isExpanded) {
+                    renderInlineChildren(studentName, studentX, studentY + levelHeight, founderStatus);
+                }
+            });
+        }
+    }
+    
+    // Track all generations for multi-level expansion
+    let allGenerations = []; // [currentName, teacherName, studentName...]
+    let maxDepth = 3; // Default 3 generations
+    
+    function addGeneration(genName) {
+        if (!allGenerations.includes(genName)) {
+            allGenerations.push(genName);
+        }
+    }
+    
+    function toggleStudents(monkName) {
+        fetch(`/api/get_lineage?name=${encodeURIComponent(monkName)}`).then(r => r.json()).then(lineage => {
+            if (lineage.students && lineage.students.length > 0) {
+                const allExpanded = lineage.students.every(s => inlineExpandedStudents.includes(s));
+                const newState = !allExpanded;
+                inlineExpandedStudents = newState ? [...lineage.students] : [];
+                
+                // Get founder status for current tree view
+                fetch(`/api/get_founders?names=${encodeURIComponent(JSON.stringify([monkName, lineage.teacher, ...lineage.students]))}`).then(r => r.json()).then(founderStatus => {
+                    // Bung ngay trên cây hiện tại
+                    renderLineageTree(monkName, lineage.teacher, lineage.students, inlineExpandedStudents, founderStatus);
+                });
+            }
+        });
+    }
+    
+    function renderInlineChildren(parentName, parentX, startY, founderStatus) {
+        fetch(`/api/get_lineage?name=${encodeURIComponent(parentName)}`).then(r => r.json()).then(lineage => {
+            if (lineage.students && lineage.students.length > 0) {
+                const childSpacing = 160;
+                const childY = startY + 50;
+                const totalWidth = (lineage.students.length - 1) * childSpacing;
+                
+                // Vertical pipe from parent
+                container.append("path").attr("class", "lineage-link")
+                    .attr("d", `M${parentX},${startY} L${parentX},${childY - 25}`);
+                
+                // Horizontal bar
+                container.append("path").attr("class", "lineage-link")
+                    .attr("d", `M${parentX - totalWidth/2},${childY - 25} L${parentX + totalWidth/2},${childY - 25}`);
+                
+                lineage.students.forEach((childName, i) => {
+                    const childX = parentX - totalWidth/2 + i * childSpacing;
+                    const isChildMain = founderStatus[childName] === true;
+                    
+                    container.append("path").attr("class", "lineage-link")
+                        .attr("d", `M${childX},${childY - 25} L${childX},${childY - 20}`);
+                    
+                    const childG = container.append("g").attr("class", "lineage-node" + (isChildMain ? " main" : ""))
+                        .attr("transform", `translate(${childX},${childY})`);
+                    childG.append("rect").attr("width", 140).attr("height", 35)
+                        .attr("x", -70).attr("y", -17.5).attr("rx", 5)
+                        .attr("fill", isChildMain ? "#fff9c4" : "#fffde7")
+                        .on("click", (e) => {
+                            e.stopPropagation();
+                            showBio(childName);
+                        });
+                    childG.append("text").attr("dy", 4).text(childName);
+                });
+            }
+        });
+    }
+    
+    async function expandUp(monkName) {
+        const lineage = await fetch(`/api/get_lineage?name=${encodeURIComponent(monkName)}`).then(r => r.json());
+        if (!lineage.error) {
+            // Toggle inline expansion for this teacher
+            const founderStatus = await fetch(`/api/get_founders?names=${encodeURIComponent(JSON.stringify([monkName, lineage.teacher, ...lineage.students]))}`).then(r => r.json());
+            
+            // Check if teacher's teacher exists to enable further expansion
+            if (lineage.teacher) {
+                renderLineageTree(monkName, lineage.teacher, lineage.students || [], [], founderStatus);
+            }
+            expandedNodes.add(monkName);
+        }
+    }
+    
+    async function expandDown(monkName) {
+        const lineage = await fetch(`/api/get_lineage?name=${encodeURIComponent(monkName)}`).then(r => r.json());
+        if (!lineage.error) {
+            // Toggle inline expansion for this student
+            if (inlineExpandedStudents.includes(monkName)) {
+                inlineExpandedStudents = inlineExpandedStudents.filter(s => s !== monkName);
+            } else {
+                inlineExpandedStudents.push(monkName);
+            }
+            // Load descendants for this student if expanded
+            if (inlineExpandedStudents.includes(monkName)) {
+                await loadGenerations(monkName, 1, 2); // Load 2 levels down
+            }
+            
+            // Get founder status for current tree view
+            const founderStatus = await fetch(`/api/get_founders?names=${encodeURIComponent(JSON.stringify([monkName, lineage.teacher, ...lineage.students]))}`).then(r => r.json());
+            // Rebuild tree with current as center, show all students
+            renderLineageTree(monkName, lineage.teacher, lineage.students || [], inlineExpandedStudents, founderStatus);
+            expandedNodes.add(monkName);
+        }
+    }
+
+    async function showBio(name) {
+        const d = await fetch(`/api/get_details?name=${encodeURIComponent(name)}`).then(r => r.json());
+        document.getElementById('bio-title').innerText = "TỔ SƯ " + d.name.toUpperCase();
+        document.getElementById('bio-gens').innerHTML = `${d.gens.l1}<br>${d.gens.l2}<br><u>${d.gens.l3_tag}: Đời thứ ${d.gens.l3_val}</u>`;
+        document.getElementById('bio-content').innerHTML = d.note;
+        d3.select("#bio-panel").classed("open", true);
+    }
+    
+    function closeBio() {
+        d3.select("#bio-panel").classed("open", false);
+    }
+
+    function forceCenter(tx=null, ty=150, s=0.55) {
+        const w = document.getElementById('tree-area').clientWidth;
+        let x = tx === null ? w/2 : w/2 - tx;
+        svg.transition().duration(800).call(zoom.transform, d3.zoomIdentity.translate(x, ty).scale(s));
+    }
+
+    function initHome() {
+        container.selectAll("*").remove();
+        const rawData = document.getElementById('raw_data');
+        if (!rawData) {
+            console.error("raw_data element not found");
+            return;
+        }
+        try {
+            const data = JSON.parse(rawData.textContent);
+            const root = d3.stratify().id(d => d.id).parentId(d => d.parent)(data);
+            d3.tree().nodeSize([280, 180])(root);
+            container.selectAll(".link").data(root.links()).enter().append("path").attr("class", "link")
+                .attr("d", d => `M${d.source.x},${d.source.y+20} L${d.source.x},${(d.source.y+d.target.y)/2} L${d.target.x},${(d.source.y+d.target.y)/2} L${d.target.x},${d.target.y-20}`);
+            container.selectAll(".node").data(root.descendants()).enter().append("g")
+                .attr("class", "node node-main").attr("transform", d => `translate(${d.x},${d.y})`)
+                .append("rect").attr("width", 200).attr("height", 60).attr("x", -100).attr("y", -30).on("click", (e, d) => showBio(d.data.founder || d.id));
+            container.selectAll(".node").append("text").attr("dy", -8).text(d => d.data.label);
+            container.selectAll(".node").append("text").attr("class", "founder-text").attr("dy", 12).text(d => d.data.founder ? `Khai Tổ: ${d.data.founder}` : "");
+            forceCenter();
+        } catch (e) {
+            console.error("Error loading home tree:", e);
+            // Fallback: show simple text
+            const g = container.append("g").attr("transform", "translate(0,100)");
+            g.append("text").attr("dy", 5).text("Cây phả hệ Thiền Tông").style("font-size", "20px");
+            forceCenter();
+        }
+    }
+    window.onload = function() {
+        initHome();
+        // Fetch monk names for search
+        fetch('/api/monk_names').then(r => r.json()).then(data => { 
+            monkNames = data; 
+            monkNamesLoaded = true; 
+            console.log("Loaded " + monkNames.length + " monk names");
+        }).catch(e => console.error("Failed to load monk names:", e));
+    };
+    
+    let monkNames = [];
+    let monkNamesLoaded = false;
+    
+    document.getElementById('inp').onkeyup = async (e) => {
+        const val = e.target.value; 
+        if(val.length < 2) {
+            document.getElementById('sug').innerHTML = '';
+            return;
+        }
+        // Wait for data to load
+        if (!monkNamesLoaded) {
+            document.getElementById('sug').innerHTML = '<div style="padding:10px; color:#888;">Đang tải...</div>';
+            return;
+        }
+        // Autocomplete from monk names - case insensitive
+        const valLower = val.toLowerCase();
+        const matches = monkNames.filter(n => n.toLowerCase().includes(valLower)).slice(0, 15);
+        if (matches.length === 0) {
+            document.getElementById('sug').innerHTML = '<div style="padding:10px; color:#888;">Không tìm thấy</div>';
+            return;
+        }
+        document.getElementById('sug').innerHTML = matches.map(n => 
+            `<div style="padding:10px; border-bottom:1px solid #eee; cursor:pointer;" onclick="searchRoot('${n.replace(/'/g, "\\'")}')">${n}</div>`
+        ).join('');
+    };
+</script>
+<script id="raw_data" type="application/json">[{"id": "AnDo", "label": "Thi\u1ec1n T\u00f4ng \u1ea4n \u0110\u1ed9", "parent": null, "founder": "Ma Ha Ca Di\u1ebfp"}, {"id": "TrungHoa", "label": "Thi\u1ec1n T\u00f4ng Trung Hoa", "parent": "AnDo", "founder": "B\u1ed3 \u0110\u1ec1 \u0110\u1ea1t Ma"}, {"id": "NamTong", "label": "Thi\u1ec1n T\u00f4ng Nam T\u00f4ng", "parent": "TrungHoa", "founder": "L\u1ee5c T\u1ed5 Hu\u1ec7 N\u0103ng"}, {"id": "HongChau", "label": "T\u00f4ng H\u1ed3ng Ch\u00e2u", "parent": "NamTong", "founder": "M\u00e3 T\u1ed5 \u0110\u1ea1o Nh\u1ea5t"}, {"id": "ThachDau", "label": "T\u00f4ng Th\u1ea1ch \u0110\u1ea7u", "parent": "NamTong", "founder": "Th\u1ea1ch \u0110\u1ea7u Hy Thi\u00ean"}, {"id": "LamTe", "label": "T\u00f4ng L\u00e2m T\u1ebf", "parent": "HongChau", "founder": "L\u00e2m T\u1ebf Ngh\u0129a Huy\u1ec1n"}, {"id": "TaoDong", "label": "T\u00f4ng T\u00e0o \u0110\u1ed9ng", "parent": "ThachDau", "founder": "\u0110\u1ed9ng S\u01a1n L\u01b0\u01a1ng Gi\u1edbi"}, {"id": "DuongKy", "label": "Ph\u00e1i D\u01b0\u01a1ng K\u1ef3", "parent": "LamTe", "founder": "D\u01b0\u01a1ng K\u1ef3 Ph\u01b0\u01a1ng H\u1ed9i"}, {"id": "LieuQuan", "label": "D\u00f2ng L\u00e2m T\u1ebf Li\u1ec5u Qu\u00e1n", "parent": "DuongKy", "founder": "Thi\u1ec7t Di\u1ec7u Li\u1ec5u Qu\u00e1n"}, {"id": "ChucThanh", "label": "D\u00f2ng L\u00e2m T\u1ebf Ch\u00fac Th\u00e1nh", "parent": "DuongKy", "founder": "Minh H\u1ea3i Ph\u00e1p B\u1ea3o"}, {"id": "NguyenThieu", "label": "D\u00f2ng L\u00e2m T\u1ebf Nguy\u00ean Thi\u1ec1u", "parent": "DuongKy", "founder": "Nguy\u00ean Thi\u1ec1u Si\u00eau B\u1ea1ch"}, {"id": "GiaPho", "label": "D\u00f2ng L\u00e2m T\u1ebf Gia Ph\u1ed5", "parent": "DuongKy", "founder": "Ph\u1eadt \u00dd Linh Nh\u1ea1c"}, {"id": "TrucLam", "label": "Thi\u1ec1n Ph\u00e1i Tr\u00fac L\u00e2m", "parent": "DuongKy", "founder": "Tr\u1ea7n Nh\u00e2n T\u00f4ng"}]</script>
+</body></html>

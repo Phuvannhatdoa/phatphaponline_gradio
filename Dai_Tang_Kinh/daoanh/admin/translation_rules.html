@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Quy Tắc Dịch AI — PTDA Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #0f172a; color: #e2e8f0; font-family: system-ui, sans-serif; font-size: 14px; }
+  .topbar { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #334155; }
+  .topbar a { color: #60a5fa; text-decoration: none; font-size: 13px; }
+  h1 { font-size: 18px; margin: 0; }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+  .section { background: #1e293b; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
+  .section-title { font-size: 15px; font-weight: 600; margin: 0 0 16px; color: #93c5fd; }
+  .rules-version { font-size: 11px; color: #64748b; margin-left: 8px; font-family: monospace; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 8px 10px; font-size: 12px; color: #64748b; border-bottom: 1px solid #334155; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { padding: 10px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+  tr:hover td { background: #162032; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 10px; }
+  .badge.forbidden { background: #3f1010; color: #f87171; }
+  .badge.terminology { background: #0f2a1a; color: #4ade80; }
+  .badge.style { background: #1a1a3f; color: #a78bfa; }
+  .badge.grammar { background: #2a1f0a; color: #fbbf24; }
+  .toggle-btn { padding: 3px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; border: 1px solid; }
+  .toggle-btn.active { background: #0f2a1a; border-color: #166534; color: #4ade80; }
+  .toggle-btn.inactive { background: #2a1010; border-color: #7f1d1d; color: #f87171; }
+  textarea { width: 100%; background: #0f172a; border: 1px solid #334155; color: #e2e8f0; border-radius: 5px; padding: 8px; font-size: 13px; resize: vertical; }
+  input[type=text], select { background: #0f172a; border: 1px solid #334155; color: #e2e8f0; border-radius: 5px; padding: 6px 10px; font-size: 13px; width: 100%; }
+  .btn { padding: 7px 16px; border-radius: 5px; cursor: pointer; font-size: 13px; border: 1px solid; }
+  .btn-primary { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
+  .btn-danger { background: #2a1010; border-color: #7f1d1d; color: #f87171; margin-top: 16px; }
+  .info-box { background: #0f1f2e; border: 1px solid #1e3a5f; border-radius: 6px; padding: 12px; font-size: 12px; color: #7db4d8; margin-bottom: 16px; line-height: 1.7; }
+  .form-row { margin-bottom: 12px; }
+  .form-label { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  #msg { display: none; padding: 10px; border-radius: 5px; margin-top: 12px; font-size: 13px; }
+  #msg.ok { background: #0f2a1a; color: #4ade80; border: 1px solid #166534; }
+  #msg.err { background: #2a1010; color: #f87171; border: 1px solid #7f1d1d; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Admin</a>
+  <span style="color:#334155">›</span>
+  <h1>Quy Tắc Dịch AI <span class="rules-version" id="rv-display"></span></h1>
+</div>
+<div class="container">
+
+  <div class="info-box">
+    <b>Cách hoạt động:</b> Mỗi lần user click "Tạm Dịch", hệ thống gửi toàn bộ rules đang <i>active</i> vào Gemini
+    cùng với nguyên bản chữ Hán. Rules được nhúng vào system prompt — thay đổi rules → chất lượng dịch thay đổi ngay.
+    <br>
+    <b>rules_version</b> là mã SHA256 của toàn bộ rules hiện tại. Khi admin cập nhật rules → rules_version thay đổi
+    → có thể vào <a href="translation_cache.html" style="color:#60a5fa">Cache Bản Dịch</a>
+    để <b>invalidate</b> toàn bộ bản dịch cũ (user sẽ dịch lại với rules mới).
+  </div>
+
+  <!-- PENDING RULES SECTION — đặt trên cùng để admin phê chuẩn ngay -->
+  <div class="section" id="pending-section" style="display:none;border-color:#78350f">
+    <div class="section-title" style="color:#fbbf24;">⚠ Rules Đề Xuất Bởi AI <span id="pending-count" style="font-weight:400;font-size:13px;color:#78350f;"></span></div>
+    <div style="font-size:12px;color:#92400e;margin-bottom:12px;">
+      AI phát hiện trong quá trình dịch các thuật ngữ/tên gọi chưa có rules. Phê chuẩn để thêm vào hệ thống, hoặc Từ chối nếu không phù hợp.
+    </div>
+    <table id="pending-tbody-table">
+      <thead>
+        <tr>
+          <th style="width:140px">Rule Code</th>
+          <th style="width:90px">Loại</th>
+          <th>Nội dung</th>
+          <th style="width:60px">Nguồn</th>
+          <th style="width:140px">Hành động</th>
+        </tr>
+      </thead>
+      <tbody id="pending-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Rules đang active <span id="active-count" style="color:#64748b;font-weight:400;font-size:13px;"></span></div>
+    <table id="rules-table">
+      <thead>
+        <tr>
+          <th style="width:40px">#</th>
+          <th style="width:160px">Rule Code</th>
+          <th style="width:90px">Loại</th>
+          <th>Nội dung rule</th>
+          <th style="width:80px">Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody id="rules-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Thêm / Cập nhật Rule</div>
+    <div class="form-row-2">
+      <div class="form-row">
+        <div class="form-label">Rule Code (viết HOA, không dấu cách)</div>
+        <input type="text" id="f-code" placeholder="VD: TEMPLE_NAMES">
+      </div>
+      <div class="form-row">
+        <div class="form-label">Loại</div>
+        <select id="f-type">
+          <option value="forbidden">forbidden — cấm</option>
+          <option value="terminology">terminology — thuật ngữ</option>
+          <option value="style">style — văn phong</option>
+          <option value="grammar">grammar — cú pháp</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row">
+        <div class="form-label">Mô tả ngắn (cho admin)</div>
+        <input type="text" id="f-desc" placeholder="VD: Tên chùa nổi tiếng → Hán-Việt">
+      </div>
+      <div class="form-row">
+        <div class="form-label">Ưu tiên (số nhỏ = ưu tiên cao)</div>
+        <input type="text" id="f-priority" value="50" style="width:80px">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-label">Nội dung rule (instruction cho LLM)</div>
+      <textarea id="f-text" rows="4" placeholder="VD: Tên chùa nổi tiếng phải dùng tên Hán-Việt chuẩn: 少林寺→Thiếu Lâm Tự, 白馬寺→Bạch Mã Tự…"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="upsertRule()"><i class="fa-solid fa-floppy-disk"></i> Lưu Rule</button>
+    <div id="msg"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title" style="color:#f87171;">Invalidate Bản Dịch Cũ</div>
+    <p style="font-size:13px;color:#94a3b8;margin:0 0 12px;">
+      Sau khi thay đổi rules, invalidate bản dịch cũ để user nhận bản mới với rules đã cập nhật.
+    </p>
+    <button class="btn btn-danger" onclick="invalidateAll()">
+      <i class="fa-solid fa-trash-can"></i> Invalidate TẤT CẢ bản dịch (rules_version = ALL)
+    </button>
+    <div id="inv-msg" style="margin-top:10px;font-size:13px;display:none;"></div>
+  </div>
+
+</div>
+<script>
+function esc(s) { return s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+async function loadRules() {
+  const r = await fetch('/daoanh/api/admin/translation-rules');
+  const d = await r.json();
+  document.getElementById('rv-display').textContent = 'v.' + (d.rules_version || '').slice(0, 8);
+  document.getElementById('active-count').textContent = `(${d.active_count} active)`;
+  const tbody = document.getElementById('rules-tbody');
+  tbody.innerHTML = '';
+  (d.rules || []).filter(rule => rule.status !== 'pending' && rule.status !== 'dismissed').forEach((rule, i) => {
+    const badge = `<span class="badge ${rule.rule_type}">${rule.rule_type}</span>`;
+    const scopeBadge = rule.match_scope === 'terms'
+      ? `<span class="badge" style="background:#3b2f00;color:#fbbf24;margin-left:4px" title="match_terms: ${esc((rule.match_terms||[]).join(', '))}">terms</span>`
+      : `<span class="badge" style="background:#1e293b;color:#64748b;margin-left:4px">always</span>`;
+    const btnClass = rule.is_active ? 'active' : 'inactive';
+    const btnLabel = rule.is_active ? 'Active' : 'Off';
+    const cid = 'r-' + rule.rule_code.replace(/[^a-zA-Z0-9]/g,'_');
+    tbody.innerHTML += `<tr id="row-${cid}">
+      <td style="color:#64748b">${rule.priority}</td>
+      <td style="font-family:monospace;font-size:12px;color:#e2e8f0">${esc(rule.rule_code)}</td>
+      <td>${badge}${scopeBadge}</td>
+      <td id="cell-${cid}">
+        <div id="view-${cid}">
+          <div style="font-size:12px;color:#94a3b8;margin-bottom:2px">${esc(rule.description || '')}</div>
+          <div style="font-size:13px;line-height:1.5">${esc(rule.rule_text)}</div>
+        </div>
+        <div id="edit-${cid}" style="display:none">
+          <input id="ei-desc-${cid}" type="text" value="${esc(rule.description || '')}"
+            style="width:100%;margin-bottom:6px;background:#0f172a;border:1px solid #4f6082;color:#e2e8f0;border-radius:4px;padding:4px 8px;font-size:12px">
+          <textarea id="ei-text-${cid}" rows="4"
+            style="width:100%;background:#0f172a;border:1px solid #4f6082;color:#e2e8f0;border-radius:4px;padding:6px 8px;font-size:13px;resize:vertical">${esc(rule.rule_text)}</textarea>
+          <div style="margin-top:6px;font-size:11px;color:#94a3b8">
+            match scope:
+            <select id="ei-scope-${cid}" style="background:#0f172a;border:1px solid #4f6082;color:#e2e8f0;border-radius:4px;padding:2px 6px;font-size:12px">
+              <option value="auto" ${(rule.match_scope==='terms'||rule.match_scope===undefined) ? '' : ''}>auto (tự trích Hán)</option>
+              <option value="always" ${rule.match_scope==='always' ? 'selected' : ''}>always (mọi đoạn)</option>
+            </select>
+            <span style="color:#64748b">(terminology sẽ tự backfill match_terms từ rule_text)</span>
+          </div>
+        </div>
+      </td>
+      <td style="white-space:nowrap">
+        <button class="toggle-btn ${btnClass}" id="tog-${cid}"
+          onclick="toggleRule('${rule.rule_code}',${rule.is_active ? 0 : 1},'${rule.rule_type}','${rule.priority}')">${btnLabel}</button>
+        <button class="btn btn-primary" id="btn-edit-${cid}"
+          style="padding:3px 10px;font-size:12px;margin-top:4px;display:block"
+          onclick="startEdit('${cid}','${esc(rule.rule_code)}','${rule.rule_type}',${rule.priority},${rule.is_active})">✎ Edit</button>
+        <button class="btn btn-primary" id="btn-save-${cid}"
+          style="padding:3px 10px;font-size:12px;margin-top:4px;display:none;background:#0f2a0f;border-color:#166534;color:#4ade80"
+          onclick="saveEdit('${cid}','${esc(rule.rule_code)}','${rule.rule_type}',${rule.priority},${rule.is_active})">💾 Save</button>
+        <button class="btn" id="btn-cancel-${cid}"
+          style="padding:3px 10px;font-size:12px;margin-top:4px;display:none;background:#1e293b;border-color:#334155;color:#94a3b8"
+          onclick="cancelEdit('${cid}')">✕</button>
+      </td>
+    </tr>`;
+  });
+
+  // Pending rules section
+  const pending = d.pending_rules || [];
+  const pendingSection = document.getElementById('pending-section');
+  const pendingTbody = document.getElementById('pending-tbody');
+  if (pending.length) {
+    pendingSection.style.display = '';
+    document.getElementById('pending-count').textContent = `(${pending.length} chờ phê chuẩn)`;
+    pendingTbody.innerHTML = '';
+    pending.forEach(rule => {
+      const badge = `<span class="badge ${esc(rule.rule_type)}">${esc(rule.rule_type)}</span>`;
+      const src = (rule.suggested_by || '').replace('ai_dila:', '').split(':')[0];
+      pendingTbody.innerHTML += `<tr style="background:#1a1206">
+        <td style="font-family:monospace;font-size:12px;color:#fde68a">${esc(rule.rule_code)}</td>
+        <td>${badge}</td>
+        <td>
+          <div style="font-size:12px;color:#92400e;margin-bottom:2px">${esc(rule.description || '')}</div>
+          <div style="font-size:13px;line-height:1.5;color:#d4a017">${esc(rule.rule_text)}</div>
+        </td>
+        <td style="font-size:11px;color:#78350f">${esc(src)}</td>
+        <td>
+          <button class="btn btn-primary" style="padding:4px 10px;font-size:12px;margin-right:4px" onclick="approveRule(${rule.id})">✅ Phê chuẩn</button>
+          <button class="btn btn-danger" style="padding:4px 10px;font-size:12px;margin-top:0" onclick="dismissRule(${rule.id})">✕ Từ chối</button>
+        </td>
+      </tr>`;
+    });
+  } else {
+    pendingSection.style.display = 'none';
+  }
+}
+
+function startEdit(cid, code, type, priority, isActive) {
+  document.getElementById('view-' + cid).style.display = 'none';
+  document.getElementById('edit-' + cid).style.display = '';
+  document.getElementById('btn-edit-' + cid).style.display = 'none';
+  document.getElementById('btn-save-' + cid).style.display = 'block';
+  document.getElementById('btn-cancel-' + cid).style.display = 'block';
+  document.getElementById('tog-' + cid).disabled = true;
+  document.getElementById('ei-text-' + cid).focus();
+}
+
+function cancelEdit(cid) {
+  document.getElementById('view-' + cid).style.display = '';
+  document.getElementById('edit-' + cid).style.display = 'none';
+  document.getElementById('btn-edit-' + cid).style.display = 'block';
+  document.getElementById('btn-save-' + cid).style.display = 'none';
+  document.getElementById('btn-cancel-' + cid).style.display = 'none';
+  document.getElementById('tog-' + cid).disabled = false;
+}
+
+async function saveEdit(cid, code, type, priority, isActive) {
+  const newDesc = document.getElementById('ei-desc-' + cid).value.trim();
+  const newText = document.getElementById('ei-text-' + cid).value.trim();
+  const newScope = document.getElementById('ei-scope-' + cid).value;
+  if (!newText) { showMsg('Nội dung rule không được để trống.', 'err'); return; }
+  const btn = document.getElementById('btn-save-' + cid);
+  btn.textContent = '⏳';
+  btn.disabled = true;
+  const r = await fetch('/daoanh/api/admin/translation-rules', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({rule_code: code, rule_type: type, description: newDesc,
+                          rule_text: newText, priority: priority, is_active: isActive,
+                          match_scope: newScope})
+  });
+  const d = await r.json();
+  if (d.ok) {
+    showMsg(`✅ Đã cập nhật rule [${code}]. Rules version mới: ${(d.new_rules_version||'').slice(0,8)} · invalidate ${d.invalidated_cache_count||0}`, 'ok');
+    loadRules();
+  } else {
+    btn.textContent = '💾 Save';
+    btn.disabled = false;
+    showMsg('Lỗi: ' + (d.error || 'unknown'), 'err');
+  }
+}
+
+async function toggleRule(code, newActive, type, priority) {
+  await fetch('/daoanh/api/admin/translation-rules', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({rule_code: code, is_active: newActive, rule_type: type, priority: parseInt(priority), rule_text: '_keep_'})
+  });
+  loadRules();
+}
+
+async function upsertRule() {
+  const code = document.getElementById('f-code').value.trim().toUpperCase();
+  const type = document.getElementById('f-type').value;
+  const desc = document.getElementById('f-desc').value.trim();
+  const text = document.getElementById('f-text').value.trim();
+  const prio = parseInt(document.getElementById('f-priority').value) || 100;
+  if (!code || !text) { showMsg('Cần điền Rule Code và Nội dung rule.', 'err'); return; }
+  const r = await fetch('/daoanh/api/admin/translation-rules', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({rule_code: code, rule_type: type, description: desc, rule_text: text, priority: prio, is_active: 1})
+  });
+  const d = await r.json();
+  if (d.ok) {
+    showMsg(`Đã lưu rule [${code}]. Rules version mới: ${(d.new_rules_version||'').slice(0,8)}`, 'ok');
+    loadRules();
+  } else {
+    showMsg('Lỗi: ' + (d.error || 'unknown'), 'err');
+  }
+}
+
+async function invalidateAll() {
+  if (!confirm('Invalidate TẤT CẢ bản dịch? User sẽ cần dịch lại với rules mới.')) return;
+  const r = await fetch('/daoanh/api/admin/translate/invalidate', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({rules_version: 'ALL', source_type: 'all'})
+  });
+  const d = await r.json();
+  const el = document.getElementById('inv-msg');
+  el.style.display = 'block';
+  el.style.color = d.ok ? '#4ade80' : '#f87171';
+  el.textContent = d.ok ? `Đã invalidate ${d.invalidated_count} bản dịch.` : ('Lỗi: ' + d.error);
+}
+
+async function approveRule(id) {
+  const r = await fetch(`/daoanh/api/admin/translation-rules/${id}/approve`, {method:'POST'});
+  const d = await r.json();
+  if (d.ok) {
+    showMsg(`✅ Đã phê chuẩn rule [${d.approved.rule_code}] — sẽ áp dụng cho lần dịch tiếp theo.`, 'ok');
+    loadRules();
+  } else {
+    showMsg('Lỗi: ' + (d.error || 'unknown'), 'err');
+  }
+}
+
+async function dismissRule(id) {
+  const r = await fetch(`/daoanh/api/admin/translation-rules/${id}/dismiss`, {method:'POST'});
+  const d = await r.json();
+  if (d.ok) {
+    showMsg('Đã từ chối rule đề xuất.', 'ok');
+    loadRules();
+  } else {
+    showMsg('Lỗi: ' + (d.error || 'unknown'), 'err');
+  }
+}
+
+function showMsg(text, type) {
+  const el = document.getElementById('msg');
+  el.style.display = 'block';
+  el.className = type;
+  el.textContent = text;
+}
+
+loadRules();
+</script>
+</body>
+</html>

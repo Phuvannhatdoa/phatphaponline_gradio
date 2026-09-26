@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "id": "ST001",
+      "name": "Chùa Bái Đính",
+      "name_vi": "Chùa Bái Đính",
+      "name_zh": "白亭寺",
+      "province": "Ninh Bình",
+      "source": "DILA",
+      "status": "pending",
+      "added": "2026-04-13"
+    },
+    {
+      "id": "ST002", 
+      "name": "Chùa Trấn Quốc",
+      "name_vi": "Chùa Trấn Quốc",
+      "name_zh": "鎮國寺",
+      "province": "Hà Nội",
+      "source": "Manual",
+      "status": "pending",
+      "added": "2026-04-13"
+    },
+    {
+      "id": "ST003",
+      "name": "Thiền Viện Trúc Lâm",
+      "name_vi": "Thiền Viện Trúc Lâm",
+      "name_zh": "禪院竹林",
+      "province": "Bắc Ninh",
+      "source": "Manual",
+      "status": "pending",
+      "added": "2026-04-13"
+    }
+  ],
+  "last_updated": "2026-04-13",
+  "note": "Staging area for new entries - sample data added"
+}

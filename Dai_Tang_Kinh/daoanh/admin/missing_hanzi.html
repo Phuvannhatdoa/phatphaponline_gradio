@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missing Hán tự — Admin</title>
+<link rel="stylesheet" href="/daoanh/styles/daoanh-design.css">
+<style>
+  body { margin: 0; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 20px 18px 60px; }
+  .top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .top a { color: var(--da-muted); font-size: 11px; text-decoration: none; }
+  .top a:hover { color: var(--da-gold); }
+  h1 { font-family: var(--da-font-serif); font-size: 20px; margin: 6px 0 2px; color: var(--da-text); }
+  .sub { color: var(--da-muted); font-size: 11px; margin-bottom: 16px; }
+  .toolbar { display: flex; gap: 8px; margin-bottom: 14px; }
+  .toolbar input[type=text] {
+    flex: 1; max-width: 280px; padding: 7px 11px; border-radius: 18px;
+    background: var(--da-card); border: 1px solid var(--da-border); color: var(--da-text);
+    font-size: 12px; font-family: var(--da-font-ui); outline: none;
+  }
+  .toolbar input[type=text]:focus { border-color: var(--da-gold); box-shadow: 0 0 0 3px var(--da-gold-bg); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; background: var(--da-panel);
+    border: 1px solid var(--da-border); border-radius: 8px; overflow: hidden; }
+  th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--da-border); }
+  th { color: var(--da-muted); font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase; background: var(--da-card); }
+  tr:last-child td { border-bottom: none; }
+  .char-cell { font-family: var(--da-font-serif); font-size: 20px; color: var(--da-text); }
+  .override-input {
+    width: 90px; padding: 5px 8px; border-radius: 5px; background: var(--da-bg);
+    border: 1px solid var(--da-border); color: var(--da-text); font-size: 12px; font-family: var(--da-font-ui);
+  }
+  .override-input:focus { outline: none; border-color: var(--da-gold); }
+  .row-status { font-size: 9.5px; }
+  .empty { text-align: center; padding: 40px; color: var(--da-muted); font-size: 12px; }
+  .pager { display: flex; gap: 8px; justify-content: center; margin-top: 16px; align-items: center; }
+  .pager span { color: var(--da-muted); font-size: 11px; }
+</style>
+</head>
+<body class="da-body">
+<div class="wrap">
+  <div class="top">
+    <a href="index.html">&larr; Quay lại Dashboard</a>
+    <span class="da-chip da-chip-partial">T08</span>
+  </div>
+  <h1>Missing Hán tự</h1>
+  <div class="sub">Ký tự Hán chưa có bản dịch Hán-Việt (bảng <code>missing_hanzi</code>). Thêm override sẽ áp dụng ngay cho các bản dịch tiếp theo.</div>
+
+  <div class="toolbar">
+    <input type="text" id="searchInput" placeholder="Tìm ký tự...">
+    <button class="da-btn" id="searchBtn">Tìm</button>
+    <button class="da-btn" id="refreshBtn">Làm mới</button>
+  </div>
+
+  <table id="tbl">
+    <thead>
+      <tr><th style="width:56px">Chữ</th><th>Số lần gặp</th><th>Lần cuối</th><th>Override Hán-Việt</th><th style="width:70px"></th></tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="empty" id="emptyMsg" style="display:none">Không có ký tự nào thiếu bản dịch.</div>
+
+  <div class="pager">
+    <button class="da-btn" id="prevBtn">&laquo; Trước</button>
+    <span id="pageInfo"></span>
+    <button class="da-btn" id="nextBtn">Sau &raquo;</button>
+  </div>
+</div>
+
+<script>
+const API_LIST = '/daoanh/api/admin/missing-hanzi';
+const API_SAVE = '/daoanh/api/admin/missing-hanzi/override';
+let page = 1, limit = 50, total = 0, search = '';
+
+async function load() {
+  const url = `${API_LIST}?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const tbody = document.getElementById('tbody');
+  const emptyMsg = document.getElementById('emptyMsg');
+  tbody.innerHTML = '';
+  if (!data.ok) {
+    tbody.innerHTML = `<tr><td colspan="5">Lỗi: ${data.error || 'unknown'}</td></tr>`;
+    return;
+  }
+  total = data.total;
+  if (data.items.length === 0) {
+    emptyMsg.style.display = 'block';
+    document.getElementById('tbl').style.display = 'none';
+  } else {
+    emptyMsg.style.display = 'none';
+    document.getElementById('tbl').style.display = 'table';
+  }
+  for (const item of data.items) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="char-cell">${item.char}</td>
+      <td>${item.count}</td>
+      <td>${item.last_seen_at || ''}</td>
+      <td><input type="text" class="override-input" placeholder="vd: Trạng" value="${item.override || ''}"></td>
+      <td><button class="da-btn da-btn-primary save-btn">Lưu</button></td>
+    `;
+    const input = tr.querySelector('.override-input');
+    tr.querySelector('.save-btn').addEventListener('click', () => saveOverride(item.char, input.value.trim(), tr));
+    tbody.appendChild(tr);
+  }
+  const totalPages = Math.max(Math.ceil(total / limit), 1);
+  document.getElementById('pageInfo').textContent = `Trang ${page}/${totalPages} — ${total} ký tự`;
+  document.getElementById('prevBtn').disabled = page <= 1;
+  document.getElementById('nextBtn').disabled = page >= totalPages;
+}
+
+async function saveOverride(char, hanviet, tr) {
+  if (!hanviet) { alert('Nhập âm Hán-Việt trước khi lưu.'); return; }
+  const res = await fetch(API_SAVE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ char, hanviet })
+  });
+  const data = await res.json();
+  if (data.ok) {
+    tr.style.transition = 'opacity 0.3s';
+    tr.style.opacity = '0.4';
+    setTimeout(load, 300);
+  } else {
+    alert('Lỗi: ' + (data.error || 'unknown'));
+  }
+}
+
+document.getElementById('searchBtn').addEventListener('click', () => {
+  search = document.getElementById('searchInput').value.trim();
+  page = 1; load();
+});
+document.getElementById('searchInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('searchBtn').click();
+});
+document.getElementById('refreshBtn').addEventListener('click', load);
+document.getElementById('prevBtn').addEventListener('click', () => { if (page > 1) { page--; load(); } });
+document.getElementById('nextBtn').addEventListener('click', () => { page++; load(); } );
+
+load();
+</script>
+</body>
+</html>

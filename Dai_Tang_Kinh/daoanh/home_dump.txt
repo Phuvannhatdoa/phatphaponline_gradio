@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Ảnh - Identity Hub</title>
+    <link rel="stylesheet" href="styles/daoanh-design.css">
+</head>
+<body>
+    <header class="da-header">
+        <div class="da-header-logo">
+            <a href="/daoanh/home">
+                <img src="/static/logo.svg" alt="Đạo Ảnh" height="40">
+                <span>Đạo Ảnh</span>
+            </a>
+        </di

@@ -1,0 +1,44 @@
+__pycache__/
+*.pyc
+*.log
+node_modules/
+.env
+*.json
+!AGENTS.md
+!data/processed/monk_names.json
+!data/master_db.json
+!data/indexed/master_index.json
+!data/indexed/fuzzy_matches.json
+thientong-V*.py
+ontology/
+
+# Allow specific HTML files
+!admin/ttl_queue.html
+!admin/index.html
+Dai_Tang_Kinh/daoanh/data/lineage.db
+Dai_Tang_Kinh/daoanh/data/backups/*.db
+Dai_Tang_Kinh/daoanh/data/backups/*.db-*
+
+# T155 — nested data repos (gitlink mồ côi, không có .gitmodules): giữ trên đĩa, không track
+Dai_Tang_Kinh/daoanh/data/dila_import/Authority-Databases/
+Dai_Tang_Kinh/daoanh/data/chinese_buddhism_sna_temp/
+Dai_Tang_Kinh/daoanh/.git.disabled-*/
+
+# Scratch/analysis files từ AI work sessions (root level)
+_*.txt
+_new_expand_func.py
+_new_registration.py
+_new_route_expand.py
+_t130_current.py
+
+# Backup files (session snapshots)
+*.bak-*
+Dai_Tang_Kinh/daoanh/app.py.backup_*
+Dai_Tang_Kinh/daoanh/scripts/_t97b_tmp.py
+Dai_Tang_Kinh/daoanh/docs/sessions/check_t97b_head.py
+Dai_Tang_Kinh/daoanh/dashboard/_out2.txt
+Dai_Tang_Kinh/daoanh/docs/sessions/places.html.bak-*
+
+# Tool-specific dirs không cần track
+.kilo/
+Dai_Tang_Kinh/.claude/worktrees/

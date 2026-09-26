@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Event Candidates — T97</title>
+<style>
+:root {
+  --bg: #f8f9fa; --card: #fff; --border: #e2e8f0; --text: #1e293b;
+  --muted: #64748b; --accent: #d97706; --ok: #16a34a; --warn: #b45309;
+  --err: #dc2626; --radius: 10px; --font: system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f172a; --card: #1e293b; --border: #334155; --text: #f1f5f9;
+          --muted: #94a3b8; }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 13px; padding: 16px; }
+h1 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+.subtitle { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+.toolbar select, .toolbar input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--card); color: var(--text); font-size: 12px; }
+.toolbar button { padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer;
+  background: var(--accent); color: #fff; font-weight: 600; font-size: 12px; }
+.stats { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.ev-list { display: flex; flex-direction: column; gap: 8px; }
+.ev-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 12px 14px; }
+.ev-card.reviewed { border-left: 3px solid var(--ok); }
+.ev-card.disputed { border-left: 3px solid var(--warn); }
+.ev-card.rejected { border-left: 3px solid var(--err); opacity: .6; }
+.ev-header { display: flex; align-items: flex-start; gap: 8px; }
+.ev-title { font-size: 14px; font-weight: 700; color: var(--text); flex: 1; }
+.ev-year { font-size: 18px; font-weight: 800; color: var(--accent); min-width: 60px; text-align: right; }
+.ev-meta { font-size: 10px; color: var(--muted); margin-top: 4px; }
+.chip { display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 9px; font-weight: 600;
+  background: #e2e8f0; color: var(--muted); }
+.chip.ok { background: #dcfce7; color: #15803d; }
+.chip.warn { background: #fef3c7; color: #92400e; }
+.chip.err { background: #fee2e2; color: #b91c1c; }
+.chip.info { background: #dbeafe; color: #1d4ed8; }
+.ev-evidence { margin-top: 8px; padding: 6px 10px; background: var(--bg); border-radius: 6px;
+  font-size: 10px; color: var(--muted); }
+.ev-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.btn-action { padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer;
+  background: var(--card); color: var(--text); font-size: 11px; font-weight: 600; }
+.btn-action:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-action.active-ok { background: var(--ok); color: #fff; border-color: var(--ok); }
+.btn-action.active-warn { background: var(--warn); color: #fff; border-color: var(--warn); }
+.btn-action.active-err { background: var(--err); color: #fff; border-color: var(--err); }
+.notes-row { display: flex; gap: 6px; margin-top: 6px; }
+.notes-row input { flex: 1; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg); color: var(--text); font-size: 11px; }
+.pagination { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
+.pagination button { padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--card); color: var(--text); cursor: pointer; font-size: 12px; }
+.pagination button:disabled { opacity: .4; cursor: default; }
+.msg { padding: 8px 12px; border-radius: 6px; font-size: 11px; margin-bottom: 8px;
+  background: #dcfce7; color: #15803d; display: none; }
+.loading { text-align: center; color: var(--muted); padding: 32px; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>⚡ Event Candidates — T97</h1>
+<p class="subtitle">Xem xét và duyệt sự kiện lịch sử (evidence-first). Mỗi event trỏ về nguồn kinh điển.</p>
+
+<div class="toolbar">
+  <select id="filterStatus" onchange="load(0)">
+    <option value="">Tất cả status</option>
+    <option value="candidate" selected>Candidate</option>
+    <option value="reviewed">Reviewed ✓</option>
+    <option value="disputed">Disputed ⚠</option>
+    <option value="rejected">Rejected ✗</option>
+  </select>
+  <input type="text" id="filterPlace" placeholder="DILA ID (VD: PL000000023255)" style="width:220px" onkeydown="if(event.key==='Enter')load(0)">
+  <button onclick="load(0)">Lọc</button>
+  <span id="statsText" class="stats"></span>
+</div>
+
+<div id="msg" class="msg"></div>
+<div id="evList" class="ev-list"><div class="loading">Đang tải…</div></div>
+<div class="pagination">
+  <button id="btnPrev" onclick="prev()" disabled>← Trước</button>
+  <span id="pageInfo" style="font-size:12px;color:var(--muted);padding:6px 0"></span>
+  <button id="btnNext" onclick="next()">Sau →</button>
+</div>
+
+<script>
+const BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5000' : '';
+let _offset = 0, _total = 0;
+const LIMIT = 25;
+
+function statusChip(s) {
+  const cls = s === 'reviewed' ? 'ok' : s === 'disputed' ? 'warn' : s === 'rejected' ? 'err' : 'info';
+  const lbl = s === 'reviewed' ? '✓ Xác nhận' : s === 'disputed' ? '⚠ Tranh chấp' : s === 'rejected' ? '✗ Từ chối' : '● Chờ duyệt';
+  return `<span class="chip ${cls}">${lbl}</span>`;
+}
+
+function precChip(p) {
+  const map = { year:'Năm xác định', year_range:'Khoảng năm', reign_era:'Niên hiệu',
+    dynasty_period:'Triều đại', relative:'Tương đối', unknown:'Không rõ' };
+  return `<span class="chip">${map[p] || p}</span>`;
+}
+
+function methodChip(m) {
+  const map = { regex_rule:'Regex', authority_mapping:'DILA map', imported:'Import', editorial:'Tay' };
+  return `<span class="chip info">${map[m] || m}</span>`;
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function load(offset) {
+  _offset = offset || 0;
+  const status = document.getElementById('filterStatus').value;
+  const place = document.getElementById('filterPlace').value.trim();
+  let url = `${BASE}/daoanh/api/events?limit=${LIMIT}&offset=${_offset}`;
+  if (status) url += `&status=${encodeURIComponent(status)}`;
+  if (place) url += `&place_id=${encodeURIComponent(place)}`;
+
+  document.getElementById('evList').innerHTML = '<div class="loading">Đang tải…</div>';
+  fetch(url).then(r => r.json()).then(d => {
+    if (!d.ok) { document.getElementById('evList').innerHTML = `<div class="loading">Lỗi: ${esc(d.error)}</div>`; return; }
+    _total = d.total;
+    document.getElementById('statsText').textContent = `${d.total} sự kiện`;
+    document.getElementById('pageInfo').textContent = `${_offset+1}–${Math.min(_offset+LIMIT, _total)} / ${_total}`;
+    document.getElementById('btnPrev').disabled = _offset <= 0;
+    document.getElementById('btnNext').disabled = _offset + LIMIT >= _total;
+
+    if (!d.events.length) {
+      document.getElementById('evList').innerHTML = '<div class="loading">Không có kết quả.</div>';
+      return;
+    }
+    document.getElementById('evList').innerHTML = d.events.map(ev => renderCard(ev)).join('');
+  }).catch(e => {
+    document.getElementById('evList').innerHTML = `<div class="loading">Lỗi kết nối: ${esc(e.message)}</div>`;
+  });
+}
+
+function renderCard(ev) {
+  const yearStr = ev.start_year !== null ? `${ev.start_year} CE` : '—';
+  const evid = ev.evidence && ev.evidence[0];
+  const evidHtml = evid ? `<div class="ev-evidence">📄 ${esc(evid.source_record)} · ${esc(evid.source_ref||'')} · ${esc(evid.evidence_type||'')}</div>` : '';
+  const statusClass = ev.review_status === 'reviewed' ? 'active-ok' : ev.review_status === 'disputed' ? 'active-warn' : ev.review_status === 'rejected' ? 'active-err' : '';
+
+  return `<div class="ev-card ${ev.review_status}" id="evcard-${esc(ev.event_id.replace(/[^a-z0-9]/gi,'_'))}">
+  <div class="ev-header">
+    <div style="flex:1">
+      <div class="ev-title">${esc(ev.title_vi || ev.title_zh || ev.event_id)}</div>
+      ${ev.title_zh && ev.title_vi ? `<div style="font-size:11px;color:var(--muted);margin-top:1px">${esc(ev.title_zh)}</div>` : ''}
+      <div class="ev-meta" style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap">
+        ${statusChip(ev.review_status)} ${ev.precision ? precChip(ev.precision) : ''} ${ev.extraction_method ? methodChip(ev.extraction_method) : ''}
+        <span class="chip">ID: ${esc(ev.event_id)}</span>
+      </div>
+    </div>
+    <div class="ev-year">${esc(yearStr)}</div>
+  </div>
+  ${evidHtml}
+  <div class="ev-actions">
+    <button class="btn-action ${ev.review_status==='reviewed'?'active-ok':''}" onclick="setStatus('${esc(ev.event_id)}','reviewed',this)">✓ Xác nhận</button>
+    <button class="btn-action ${ev.review_status==='disputed'?'active-warn':''}" onclick="setStatus('${esc(ev.event_id)}','disputed',this)">⚠ Tranh chấp</button>
+    <button class="btn-action ${ev.review_status==='rejected'?'active-err':''}" onclick="setStatus('${esc(ev.event_id)}','rejected',this)">✗ Từ chối</button>
+    <button class="btn-action" onclick="setStatus('${esc(ev.event_id)}','candidate',this)">↩ Đặt lại</button>
+  </div>
+  <div class="notes-row">
+    <input type="text" id="notes-${esc(ev.event_id.replace(/[^a-z0-9]/gi,'_'))}" placeholder="Ghi chú người duyệt (tùy chọn)" value="${esc(ev.notes||'')}">
+  </div>
+</div>`;
+}
+
+function setStatus(eventId, status, btn) {
+  const safeId = eventId.replace(/[^a-z0-9]/gi, '_');
+  const notesEl = document.getElementById('notes-' + safeId);
+  const notes = notesEl ? notesEl.value : '';
+  fetch(`${BASE}/daoanh/api/events/${encodeURIComponent(eventId)}`, {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({status, notes})
+  }).then(r => r.json()).then(d => {
+    if (d.ok) {
+      showMsg(`✓ ${eventId} → ${status}`);
+      const card = document.getElementById('evcard-' + safeId);
+      if (card) { card.className = 'ev-card ' + status; }
+    } else {
+      showMsg('Lỗi: ' + (d.error || ''), true);
+    }
+  }).catch(e => showMsg('Lỗi kết nối: ' + e.message, true));
+}
+
+function showMsg(text, isErr) {
+  const el = document.getElementById('msg');
+  el.textContent = text;
+  el.style.display = 'block';
+  el.style.background = isErr ? '#fee2e2' : '#dcfce7';
+  el.style.color = isErr ? '#b91c1c' : '#15803d';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+function prev() { if (_offset > 0) load(Math.max(0, _offset - LIMIT)); }
+function next() { if (_offset + LIMIT < _total) load(_offset + LIMIT); }
+
+load(0);
+</script>
+</body>
+</html>

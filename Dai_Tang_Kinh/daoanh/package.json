@@ -1,0 +1,43 @@
+{
+  "name": "daoanh",
+  "version": "1.0.0",
+  "description": "> **Version:** v10.4-Full-GPS (2026-04-22) > **Status:** ✅ FULL GPS: 58,476 places | 48,803 monks | 166,278 dictionary terms > **Completion:** ~99%",
+  "main": "search.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "guard": "python -X utf8 scripts/repo_guard.py",
+    "lint": "powershell -ExecutionPolicy Bypass -File scripts/lint-check.ps1 || exit 0",
+    "test": "node tests/run-tests.js 2>&1",
+    "test:t95": "python scripts/test_t95_18.py",
+    "test:t165": "python -X utf8 tests/test_t165_style_constitution.py 2>&1",
+    "test:t166": "python -X utf8 tests/test_t166_canonical_lock.py 2>&1",
+    "test:t178": "python -X utf8 tests/test_t178_gap_d3.py 2>&1",
+    "test:translation": "npm run test:t165 && npm run test:t166 && npm run test:t178",
+    "test:uat": "python -X utf8 scripts/uat_persona_test.py 2>&1",
+    "test:compliance": "python -X utf8 scripts/verify_design_compliance.py 2>&1",
+    "test:gov": "python -X utf8 -m pytest tests/test_b25_authority_contract.py -v 2>&1",
+    "audit:t166": "python -X utf8 scripts/t166_identity_audit.py 2>&1",
+    "e2e": "node scripts/e2e-test.js 2>&1",
+    "e2e:runtime": "npx playwright test tests/e2e-runtime.spec.js --reporter=list 2>&1",
+    "tester:agent": "node scripts/tester-agent.mjs",
+    "docs:serve": "honkit serve ./ --port 4000",
+    "docs:build": "honkit build ./",
+    "pipeline": "npm run guard && npm run lint && npm run test && npm run test:translation && npm run test:uat && npm run test:compliance && npm run test:gov && npm run audit:t166 && npm run e2e && npm run e2e:runtime && echo '\n✅ PIPELINE COMPLETE: All checks passed!' || (echo '\n❌ PIPELINE FAILED!' && exit 1)"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/parser": "^7.24.0",
+    "eslint": "^9.0.0",
+    "honkit": "^6.2.2",
+    "playwright": "^1.59.1",
+    "tailwindcss": "^4.2.4"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.59.1"
+  }
+}

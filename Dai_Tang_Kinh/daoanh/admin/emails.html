@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Admin - Đạo Ảnh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+        
+        :root {
+            --primary: #d97706;
+            --bg-page: #020617;
+            --bg-card: #0f172a;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: var(--bg-card);
+            border-bottom: 2px solid var(--primary);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-input {
+            background: rgba(0,0,0,0.4);
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            color: white;
+            width: 100%;
+            outline: none;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: black;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .email-list {
+            list-style: none;
+        }
+        
+        .email-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .email-item:hover {
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .email-address {
+            font-family: monospace;
+            color: #10b981;
+        }
+        
+        .btn-delete {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .btn-delete:hover {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .success-msg {
+            color: #10b981;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        .error-msg {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-dharmachakra"></i>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold">Đạo Ảnh</h1>
+                <p class="text-xs text-slate-400">Quản lý Admin</p>
+            </div>
+        </div>
+        <a href="/daoanh/admin/" class="btn">
+            <i class="fa-solid fa-arrow-left mr-2"></i>Admin
+        </a>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Add New Email -->
+        <div class="card">
+            <h2 class="card-title">
+                <i class="fa-solid fa-user-plus text-amber-500"></i>
+                Thêm Admin Mới
+            </h2>
+            <div style="display:flex;gap:12px">
+                <input type="email" id="new-email" class="form-input" placeholder="Nhập địa chỉ Gmail" style="flex:1">
+                <button class="btn" onclick="addEmail()">
+                    <i class="fa-solid fa-plus mr-2"></i>Thêm
+                </button>
+            </div>
+            <div id="add-success" class="success-msg"></div>
+            <div id="add-error" class="error-msg"></div>
+        </div>
+        
+        <!-- Email List -->
+        <div class="card">
+            <h2 class="card-title">
+                <i class="fa-solid fa-users text-amber-500"></i>
+                Danh Sách Admin
+                <span id="email-count" class="text-sm font-normal text-slate-400 ml-2">(0)</span>
+            </h2>
+            <div id="email-loading" class="loading">
+                <i class="fa-solid fa-spinner fa-spin"></i> Đang tải...
+            </div>
+            <ul id="email-list" class="email-list" style="display:none"></ul>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = '/daoanh/api';
+        
+        async function loadEmails() {
+            try {
+                const res = await fetch(API_BASE + '/admin/emails');
+                const data = await res.json();
+                
+                document.getElementById('email-loading').style.display = 'none';
+                
+                const list = document.getElementById('email-list');
+                document.getElementById('email-count').textContent = '(' + data.emails.length + ')';
+                
+                if (data.emails.length === 0) {
+                    list.innerHTML = '<li class="text-slate-500 text-center py-4">Chưa có admin nào</li>';
+                    list.style.display = 'block';
+                    return;
+                }
+                
+                let html = '';
+                data.emails.forEach(email => {
+                    html += '<li class="email-item">';
+                    html += '<span class="email-address">' + email + '</span>';
+                    html += '<button class="btn-delete" onclick="deleteEmail(\'' + email + '\')">';
+                    html += '<i class="fa-solid fa-trash mr-1"></i>Xóa';
+                    html += '</button>';
+                    html += '</li>';
+                });
+                
+                list.innerHTML = html;
+                list.style.display = 'block';
+            } catch(e) {
+                document.getElementById('email-loading').innerHTML = '<span class="text-red-500">Lỗi: ' + e.message + '</span>';
+            }
+        }
+        
+        async function addEmail() {
+            const email = document.getElementById('new-email').value.trim().toLowerCase();
+            
+            if (!email) {
+                document.getElementById('add-error').textContent = 'Vui lòng nhập email';
+                document.getElementById('add-error').style.display = 'block';
+                return;
+            }
+            
+            if (!email.endsWith('@gmail.com') && !email.endsWith('@googlemail.com')) {
+                document.getElementById('add-error').textContent = 'Phải là địa chỉ Gmail';
+                document.getElementById('add-error').style.display = 'block';
+                return;
+            }
+            
+            try {
+                const res = await fetch(API_BASE + '/admin/emails/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+                
+                const data = await res.json();
+                
+                if (data.success) {
+                    document.getElementById('new-email').value = '';
+                    document.getElementById('add-success').textContent = 'Đã thêm ' + email;
+                    document.getElementById('add-success').style.display = 'block';
+                    document.getElementById('add-error').style.display = 'none';
+                    loadEmails();
+                } else {
+                    document.getElementById('add-error').textContent = data.message || 'Lỗi';
+                    document.getElementById('add-error').style.display = 'block';
+                    document.getElementById('add-success').style.display = 'none';
+                }
+            } catch(e) {
+                document.getElementById('add-error').textContent = 'Lỗi: ' + e.message;
+                document.getElementById('add-error').style.display = 'block';
+            }
+        }
+        
+        async function deleteEmail(email) {
+            if (!confirm('Xóa ' + email + '?')) return;
+            
+            try {
+                const res = await fetch(API_BASE + '/admin/emails/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+                
+                const data = await res.json();
+                
+                if (data.success) {
+                    document.getElementById('add-success').textContent = 'Đã xóa ' + email;
+                    document.getElementById('add-success').style.display = 'block';
+                    loadEmails();
+                }
+            } catch(e) {
+                alert('Lỗi: ' + e.message);
+            }
+        }
+        
+        // Enter key on input
+        document.getElementById('new-email').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') addEmail();
+        });
+        
+        // Load on start
+        loadEmails();
+    </script>
+</body>
+</html>

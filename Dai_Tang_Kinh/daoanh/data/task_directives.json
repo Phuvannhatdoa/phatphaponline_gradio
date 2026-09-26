@@ -1,0 +1,1059 @@
+{
+  "T01": {
+    "title": "Seed monk persons (48K records)",
+    "module": "DILA Authority",
+    "home_impact": "Sidebar 'Thực Thể' — trường name_vi của persons hiển thị tiếng Việt thay vì rỗng",
+    "task_file": "daoanh/tasks/T01-seed-monk-persons.md",
+    "status": "done",
+    "done_when": "people.name_vi coverage = 100% (48,673/48,673), verify độc lập trên DB — ĐÃ ĐẠT 2026-08-21, xem tasks/T01-seed-monk-persons.md + tasks/T29-hanviet-dictionary-expansion.md",
+    "_stale_directive_note": "Bị dispatch lại 2026-08-24 dù status=done vì directives_progress.json vẫn ghi số cũ 94.4% (đã sửa cùng lúc với entry này). Steps dưới đây GIỮ NGUYÊN nội dung gốc làm tài liệu lịch sử nhưng chứa 2 lỗi thật: (1) bảng đúng tên là `people`, không phải `persons` (chạy `persons` sẽ lỗi `no such table`); (2) endpoint đúng là `/daoanh/api/admin/namevi-queue` (gạch nối, không phải `/namevi/queue`). scripts/seed_persons_namevi.py ĐÃ TỒN TẠI và đã được viết lại đúng (fix NameError bug + dùng CUSTOM_HANVIET/hanviet_fallback thật, không phải Gemini) — KHÔNG tạo lại file này theo step 3 dưới, sẽ ghi đè bản đã đúng.",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra trạng thái hiện tại",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print('persons total:', c.execute('SELECT COUNT(*) FROM persons').fetchone()[0]); print('name_vi filled:', c.execute('SELECT COUNT(*) FROM persons WHERE name_vi IS NOT NULL AND name_vi != \"\"').fetchone()[0])\""
+      },
+      {
+        "t": "shell",
+        "l": "Kiểm tra API namevi-queue",
+        "c": "curl \"http://localhost:5000/daoanh/api/admin/namevi/queue?limit=5\""
+      },
+      {
+        "t": "edit",
+        "l": "Tạo script bulk ETL: daoanh/scripts/seed_persons_namevi.py",
+        "c": "# Script dùng HAN_VIET dict + Gemini để bulk generate name_vi cho persons chưa có\n# Đọc persons WHERE name_vi IS NULL LIMIT 500\n# Với mỗi person: tra HAN_VIET hoặc gọi Gemini\n# UPDATE persons SET name_vi=? WHERE id=?\n# In tiến độ mỗi 100 records\n# QUAN TRỌNG: không expose Gemini key, tái dùng hàm đã có trong app.py"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy ETL (batch nhỏ trước để test)",
+        "c": "python scripts/seed_persons_namevi.py --limit 100"
+      },
+      {
+        "t": "shell",
+        "l": "Verify kết quả",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print('name_vi filled after:', c.execute('SELECT COUNT(*) FROM persons WHERE name_vi IS NOT NULL AND name_vi != \"\"').fetchone()[0])\""
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T01-seed-monk-persons.md\n→ Tick acceptance criteria\n→ status: done (khi >= 90% persons có name_vi)\n→ updated: YYYY-MM-DD\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T01_done.md\n→ Chạy: python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T02": {
+    "title": "CBETA Passages + Entity Summary API",
+    "module": "CBETA",
+    "home_impact": "Tab '📜 Đại Tạng' trong sidebar places/index.html hiển thị đoạn văn Hán + dịch Việt khi click địa điểm",
+    "task_file": "daoanh/tasks/T02-passage-vi-entity-summary.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng passages",
+        "c": "python -c \"\nimport sqlite3\nc = sqlite3.connect('data/lineage.db')\ntables = [t[0] for t in c.execute(\\\"SELECT name FROM sqlite_master WHERE type='table' AND name LIKE '%passage%'\\\").fetchall()]\nprint('Tables:', tables)\nfor t in tables: print(t, c.execute('SELECT COUNT(*) FROM ' + t).fetchone()[0])\n\""
+      },
+      {
+        "t": "shell",
+        "l": "Test API hiện tại",
+        "c": "curl \"http://localhost:5000/daoanh/api/entity/PL000000023255/passages\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm route vào app.py (nếu trả 404)",
+        "c": "@app.route('/daoanh/api/entity/<entity_id>/passages')\ndef api_entity_passages(entity_id):\n    try:\n        conn = get_db()\n        rows = conn.execute(\"\"\"\n            SELECT p.id, p.cbeta_ref, p.text_zh, p.title_zh,\n                   pv.text_vi, pv.status as vi_status\n            FROM passages p\n            LEFT JOIN passage_vi pv ON pv.passage_id = p.id\n            WHERE p.entity_id = ?\n            ORDER BY p.cbeta_ref LIMIT 20\n        \"\"\", [entity_id]).fetchall()\n        return jsonify({'entity_id': entity_id, 'count': len(rows),\n                        'passages': [dict(r) for r in rows]})\n    except Exception as e:\n        return jsonify({'entity_id': entity_id, 'count': 0, 'passages': [], 'error': str(e)})"
+      },
+      {
+        "t": "edit",
+        "l": "Cập nhật tab CBETA trong daoanh/places/index.html",
+        "c": "// Tìm div id='tp-cbeta', thay nội dung:\n<div class='da-block'>\n  <div class='da-block-label'>Đại Tạng Kinh · CBETA Passages</div>\n  <div id='cbeta-loading' style='color:var(--da-dim);font-size:11px'>Đang tải...</div>\n  <div id='cbeta-list'></div>\n  <div id='cbeta-empty' class='da-warn' style='display:none'>⚠ Chưa có đoạn CBETA · T02 pending</div>\n</div>\n\n// Thêm JS: hàm loadCbetaPassages(entityId) fetch API rồi render .da-passage blocks\n// Gọi hàm này khi entity được chọn trên bản đồ"
+      },
+      {
+        "t": "shell",
+        "l": "Test API sau khi thêm route",
+        "c": "curl \"http://localhost:5000/daoanh/api/entity/PL000000023255/passages\""
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T02-passage-vi-entity-summary.md\n→ - [x] Bảng PASSAGE_VI tạo & populate\n→ - [x] passages trả count > 0\n→ - [x] Entity summary endpoint\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T02_done.md\n→ python scripts/build_progress_data.py\n→ Cập nhật data/directives_progress.json: percent_total: 28"
+      }
+    ],
+    "status": "pending",
+    "done_when": "GET /daoanh/api/entity/{id}/passages trả count > 0 + endpoint summary trả tóm tắt tiếng Việt",
+    "_stale_directive_note": "SKIP theo yêu cầu user 2026-08-24: KHÔNG thực hiện steps 3-4 ở trên (thêm/nối route /daoanh/api/entity/<id>/passages vào UI, hoặc bất kỳ route Dịch/Tóm tắt nào của T02 lên HOME). Lý do: route đó đọc từ bảng `passage`/`passage_entity`, nằm trong danh sách nguồn KHÔNG tin cậy của CLAUDE.md (auto-linked, chưa scholarly review) — test 2026-08-24 xác nhận 1 trong 15 kết quả trả về chính là case T51n2076/少林寺 đã bị phát hiện SAI và gỡ khỏi UI ngày 2026-08-18. Phần PASSAGE_VI + entity summary LLM cũng thiếu Gemini key hợp lệ (key cũ bị Google revoke). User chủ động dừng hẳn, đánh dấu 'Undone' (status: pending) để dành cho repopen sau này, KHÔNG coi là blocked cần giải quyết gấp. Mục tiêu HOME-facing thật của task gốc (tab '📜 Đại Tạng' hiển thị CBETA) đã đạt từ trước qua route khác, an toàn hơn: GET /daoanh/api/places/<id>/cbeta (DILA listbibl JOIN cbeta_catalog_vn), đã live — route đó KHÔNG thuộc phạm vi bị skip này. Chi tiết: tasks/T02-passage-vi-entity-summary.md."
+  },
+  "T03": {
+    "title": "Fuzzy matching CBETA Catalog",
+    "module": "CBETA",
+    "home_impact": "Kết quả search places chính xác hơn khi title_zh khớp với tên địa điểm",
+    "task_file": "daoanh/tasks/T03-fuzzy-match-cbeta-catalog.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Cài rapidfuzz nếu chưa có",
+        "c": "pip install rapidfuzz"
+      },
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng cbeta catalog",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM cbeta_catalog').fetchone())\""
+      },
+      {
+        "t": "edit",
+        "l": "Thay thế LIKE bằng RapidFuzz trong app.py",
+        "c": "# Tìm trong app.py chỗ dùng LIKE cho cbeta catalog search\n# Thay bằng:\nfrom rapidfuzz import fuzz, process\n# rows = all_catalog_names\n# matches = process.extract(query, rows, scorer=fuzz.WRatio, limit=10, score_cutoff=70)"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T03-fuzzy-match-cbeta-catalog.md\n→ - [x] Fuzzy matching thay thế LIKE\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T03_done.md\n→ python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T04": {
+    "title": "Marcus Glossaries → People/Works linking",
+    "module": "Marcus SNA",
+    "home_impact": "Entity detail sidebar hiển thị liên kết term → person/work từ Marcus SNA glossaries",
+    "task_file": "daoanh/tasks/T04-marcus-glossaries-link.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng term_glossaries",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM term_glossaries').fetchone()); print(c.execute('SELECT * FROM term_glossaries LIMIT 2').fetchall())\""
+      },
+      {
+        "t": "shell",
+        "l": "Kiểm tra các cột liên kết",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print([d[1] for d in c.execute('PRAGMA table_info(term_glossaries)').fetchall()])\""
+      },
+      {
+        "t": "edit",
+        "l": "Tạo script link term → dila_id trong term_glossaries",
+        "c": "# Script: đọc term_glossaries WHERE person_id IS NULL\n# Dùng fuzzy match tên term với persons.name_zh\n# UPDATE term_glossaries SET person_id=? WHERE id=?\n# In thống kê: X/Y terms đã link được"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy script link",
+        "c": "python scripts/link_marcus_glossaries.py"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T04-marcus-glossaries-link.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T05": {
+    "title": "TTL Expand ETL (~2000 file VN monk)",
+    "module": "TTL Thiền Sư VN",
+    "home_impact": "Search persons trả thêm dữ liệu dòng phái Thiền tông VN từ ~2000 file TTL",
+    "task_file": "daoanh/tasks/T05-ttl-expand-etl.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Đếm file TTL hiện có",
+        "c": "Get-ChildItem -Recurse -Filter '*.ttl' | Measure-Object | Select Count"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy ETL hiện có thử",
+        "c": "python scripts/api_ttl_rebuild.py --dry-run 2>&1 | head -30"
+      },
+      {
+        "t": "edit",
+        "l": "Mở rộng ETL để xử lý file còn lại",
+        "c": "# Đọc daoanh/scripts/api_ttl_rebuild.py\n# Xem file nào chưa được xử lý\n# Thêm logic: nếu file TTL chưa có trong DB → parse → insert\n# QUAN TRỌNG: zero-RAM — dùng streaming, không load >1 file vào RAM cùng lúc"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy ETL đầy đủ",
+        "c": "python scripts/api_ttl_rebuild.py"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T05-ttl-expand-etl.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T06": {
+    "title": "GIS Cluster Click + Icon Density",
+    "module": "GIS / Places",
+    "home_impact": "Bản đồ places/index.html: click cluster → zoom vào vùng đó (thay vì không làm gì)",
+    "task_file": "daoanh/tasks/T06-gis-cluster-click.md",
+    "steps": [
+      {
+        "t": "edit",
+        "l": "Tìm markerClusterGroup trong places/index.html",
+        "c": "// Tìm dòng: L.markerClusterGroup() hoặc markerClusterGroup\n// Ghi nhớ tên biến (vd: markers, clusterGroup, cluster...)"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm cluster click handler",
+        "c": "// Sau dòng khởi tạo cluster, thêm:\nclusterGroup.on('clusterclick', function(e) {\n  e.layer.zoomToBounds({ padding: [30, 30] });\n});\n// Thay 'clusterGroup' bằng tên biến thực tế tìm được ở bước trên"
+      },
+      {
+        "t": "shell",
+        "l": "Reload và test",
+        "c": "// Mở http://localhost:8080/daoanh/places\n// Zoom out để thấy clusters\n// Click cluster → bản đồ phải zoom in"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T06-gis-cluster-click.md\n→ - [x] Click cluster → zoom-to-bounds\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T06_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 80"
+      }
+    ]
+  },
+  "T07": {
+    "title": "Wikipedia Multi-language Fallback",
+    "module": "Wikipedia",
+    "home_impact": "Entity detail sidebar hiển thị bio Wikipedia đầy đủ hơn (vi → zh → en fallback)",
+    "task_file": "daoanh/tasks/T07-wikipedia-fallback.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Tìm hàm Wikipedia hiện tại trong app.py",
+        "c": "grep -n 'wikipedia' daoanh/app.py | head -20"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm multi-language fallback",
+        "c": "# Tìm hàm fetch Wikipedia trong app.py\n# Thêm fallback chain: vi → zh → en\ndef fetch_wiki(title):\n    for lang in ['vi', 'zh', 'en']:\n        url = f'https://{lang}.wikipedia.org/api/rest_v1/page/summary/{title}'\n        # fetch với cache → nếu có → return\n        # nếu 404 → thử lang tiếp theo\n    return None"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T07-wikipedia-fallback.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T08": {
+    "title": "Missing Hanzi Admin View",
+    "module": "Translation Pipeline",
+    "home_impact": "Trang admin: admin thấy được bảng missing_hanzi và bổ sung CUSTOM_HANVIET từ UI",
+    "task_file": "daoanh/tasks/T08-missing-hanzi-admin.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng missing_hanzi",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM missing_hanzi').fetchone()); print(c.execute('SELECT * FROM missing_hanzi LIMIT 3').fetchall())\""
+      },
+      {
+        "t": "shell",
+        "l": "Tìm trang admin hiện tại",
+        "c": "ls daoanh/admin/"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm section missing_hanzi vào admin page",
+        "c": "// Trong admin page liên quan (hoặc tạo admin/missing_hanzi.html)\n// Bảng: hanzi | occurrences | custom_vi | actions (thêm custom)\n// POST /daoanh/api/admin/hanzi/custom { hanzi, vi_text }"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API route vào app.py",
+        "c": "@app.route('/daoanh/api/admin/hanzi/missing')\ndef api_hanzi_missing():\n    rows = get_db().execute('SELECT * FROM missing_hanzi ORDER BY count DESC LIMIT 200').fetchall()\n    return jsonify([dict(r) for r in rows])\n\n@app.route('/daoanh/api/admin/hanzi/custom', methods=['POST'])\ndef api_hanzi_custom():\n    data = request.get_json()\n    get_db().execute('INSERT OR REPLACE INTO custom_hanviet(hanzi, vi_text) VALUES(?,?)',\n                     [data['hanzi'], data['vi_text']])\n    return jsonify({'ok': True})"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T08-missing-hanzi-admin.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T10": {
+    "title": "DILA Place Index + API Thống Kê/Export",
+    "module": "DILA Authority",
+    "home_impact": "Trang index mới /daoanh/places/dila-index hoặc tab trong admin: bảng tất cả DILA places, filter + export CSV",
+    "task_file": "daoanh/tasks/T10-dila-place-index.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Đếm places trong DILA",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM places_dila').fetchone())\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API search places_dila",
+        "c": "@app.route('/daoanh/api/dila/places')\ndef api_dila_places():\n    q = request.args.get('q', '')\n    dynasty = request.args.get('dynasty', '')\n    page = int(request.args.get('page', 1))\n    offset = (page-1)*50\n    rows = get_db().execute(\"\"\"\n        SELECT id, name_zh, name_vi, country, province, dynasty\n        FROM places_dila WHERE name_zh LIKE ? AND dynasty LIKE ?\n        LIMIT 50 OFFSET ?\n    \"\"\", [f'%{q}%', f'%{dynasty}%', offset]).fetchall()\n    return jsonify({'rows': [dict(r) for r in rows], 'page': page})"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API export CSV",
+        "c": "@app.route('/daoanh/api/dila/places/export')\ndef api_dila_places_export():\n    import csv, io\n    rows = get_db().execute('SELECT id,name_zh,name_vi,country,province FROM places_dila').fetchall()\n    output = io.StringIO()\n    w = csv.writer(output)\n    w.writerow(['id','name_zh','name_vi','country','province'])\n    w.writerows(rows)\n    return Response(output.getvalue(), mimetype='text/csv',\n                    headers={'Content-Disposition': 'attachment;filename=dila_places.csv'})"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T10-dila-place-index.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T11": {
+    "title": "RAG Việt Chat (citations từ CBETA)",
+    "module": "Translation Pipeline",
+    "home_impact": "Tab '💬 Hỏi Đáp' trong sidebar places/index.html: hỏi câu hỏi về địa điểm → AI trả lời tiếng Việt + trích dẫn CBETA",
+    "task_file": "daoanh/tasks/T11-rag-vi-chat.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra API rag hiện tại",
+        "c": "curl -X POST http://localhost:5000/daoanh/api/rag_vi/chat -H 'Content-Type: application/json' -d '{\"question\":\"test\"}'"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm tab Chat vào sidebar places/index.html",
+        "c": "// Thêm tab thứ 5 vào .da-stabs:\n<button class='da-stab' data-t='chat'>💬 Hỏi Đáp</button>\n\n// Thêm panel:\n<div class='da-tab-panel' id='tp-chat' style='display:none'>\n  <div class='da-block'>\n    <div class='da-block-label'>Hỏi Đáp · RAG Việt</div>\n    <div id='da-chat-log' style='max-height:200px;overflow-y:auto;margin-bottom:8px'></div>\n    <div style='display:flex;gap:6px'>\n      <input id='da-chat-input' style='flex:1;background:var(--da-card);border:1px solid var(--da-border);border-radius:6px;padding:5px 10px;color:var(--da-text)' placeholder='Hỏi về địa điểm này...'>\n      <button class='da-btn da-btn-primary' onclick='sendChat()'>Gửi</button>\n    </div>\n    <div class='da-warn' style='margin-top:6px'>⚠ RAG chưa có vector index · T11</div>\n  </div>\n</div>"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API route RAG vào app.py",
+        "c": "@app.route('/daoanh/api/rag_vi/chat', methods=['POST'])\ndef api_rag_vi_chat():\n    data = request.get_json() or {}\n    question = data.get('question', '')\n    entity_id = data.get('entity_id', '')\n    if not question:\n        return jsonify({'error': 'question required'}), 400\n    # Dùng lại Gemini call gần dòng 1065 trong app.py\n    # Context: passages liên quan đến entity_id\n    # Trả: answer_vi + citations[]\n    return jsonify({\n        'answer_vi': 'Đang xây dựng vector index. Vui lòng quay lại sau.',\n        'citations': [], 'entity_id': entity_id\n    })"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm JS sendChat() vào places/index.html",
+        "c": "function sendChat() {\n  var input = document.getElementById('da-chat-input');\n  var log = document.getElementById('da-chat-log');\n  var q = input.value.trim(); if (!q) return;\n  log.innerHTML += '<div style=\"color:var(--da-gold);font-size:11px\">Bạn: ' + q + '</div>';\n  input.value = '';\n  fetch('/daoanh/api/rag_vi/chat', { method: 'POST',\n    headers: {'Content-Type': 'application/json'},\n    body: JSON.stringify({question: q, entity_id: window._currentEntityId || ''})\n  }).then(r => r.json()).then(d => {\n    log.innerHTML += '<div style=\"font-size:11px;margin-bottom:8px\">' + (d.answer_vi || d.error) + '</div>';\n    log.scrollTop = log.scrollHeight;\n  });\n}"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T11-rag-vi-chat.md\n→ - [x] POST /daoanh/api/rag_vi/chat trả answer_vi\n→ - [x] Chat UI hiển thị trong sidebar\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T11_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 90"
+      }
+    ]
+  },
+  "T12": {
+    "title": "Dịch Mượt & Cache Translation",
+    "module": "Translation Pipeline",
+    "home_impact": "Nút 'Dịch Mượt →' trong tab CBETA của places/index.html: gọi Gemini dịch 3 bước → cache vào DB → admin approve",
+    "task_file": "daoanh/tasks/T12-dich-muot-cache-translation.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra API translate hiện tại",
+        "c": "curl -X POST http://localhost:5000/daoanh/api/translate/cbeta -H 'Content-Type: application/json' -d '{\"passage_id\":\"1\"}'"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API Dịch Mượt 3 bước vào app.py",
+        "c": "@app.route('/daoanh/api/translate/cbeta', methods=['POST'])\ndef api_translate_cbeta():\n    data = request.get_json() or {}\n    passage_id = data.get('passage_id')\n    if not passage_id: return jsonify({'error': 'passage_id required'}), 400\n    conn = get_db()\n    p = conn.execute('SELECT text_zh, cbeta_ref FROM passages WHERE id=?', [passage_id]).fetchone()\n    if not p: return jsonify({'error': 'not found'}), 404\n    # TÁI DÙNG hàm Gemini gần dòng 1065 trong app.py để dịch 3 bước:\n    # Bước 1: dịch thô\n    # Bước 2: chỉnh văn phong (literary)\n    # Bước 3: kiểm tra thuật ngữ Phật học\n    # Cache vào passage_vi (status=draft)\n    conn.execute('INSERT OR REPLACE INTO passage_vi(passage_id, text_vi, status) VALUES(?,?,?)',\n                 [passage_id, '[bản dịch]', 'draft'])\n    return jsonify({'passage_id': passage_id, 'status': 'draft', 'text_vi': '[bản dịch]'})"
+      },
+      {
+        "t": "edit",
+        "l": "Kết nối nút Dịch Mượt → trong places/index.html",
+        "c": "// Tìm hàm translatePassage(passageId) đã tạo ở T02\n// Thay stub alert bằng:\nfunction translatePassage(passageId) {\n  var btn = event.target;\n  btn.disabled = true; btn.textContent = 'Đang dịch...';\n  fetch('/daoanh/api/translate/cbeta', { method: 'POST',\n    headers: {'Content-Type': 'application/json'},\n    body: JSON.stringify({passage_id: passageId})\n  }).then(r => r.json()).then(d => {\n    btn.textContent = 'Đã dịch ✓';\n    if (window._currentEntityId) loadCbetaPassages(window._currentEntityId);\n  }).catch(() => { btn.disabled=false; btn.textContent='Dịch Mượt →'; });\n}"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T12-dich-muot-cache-translation.md\n→ - [x] POST translate-cbeta trả polished_text\n→ - [x] Cache DB\n→ - [x] UI panel nút dịch\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T12_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 38"
+      }
+    ]
+  },
+  "T13": {
+    "title": "CBDB → Chatling.AI Ghi Chú Việt",
+    "module": "CBDB",
+    "home_impact": "Nút 'Gửi Chatling.AI' trong admin person detail: export CBDB data → chatling.AI → lưu ghi chú tiếng Việt",
+    "task_file": "daoanh/tasks/T13-cbdb-chatling-ai.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng CBDB",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM cbdb_persons').fetchone())\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API export CBDB person data",
+        "c": "@app.route('/daoanh/api/cbdb/person/<person_id>/export')\ndef api_cbdb_export(person_id):\n    conn = get_db()\n    data = conn.execute('SELECT * FROM cbdb_persons WHERE id=?', [person_id]).fetchone()\n    if not data: return jsonify({'error': 'not found'}), 404\n    return jsonify({'cbdb_data': dict(data), 'format': 'chatling_ready'})"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T13-cbdb-chatling-ai.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T14": {
+    "title": "Import DILA Time Authority (time_periods = 0)",
+    "module": "DILA Authority",
+    "home_impact": "Tab '⏱ Niên Đại' trong sidebar places/index.html: hiển thị triều đại / niên hiệu / JDN khi click địa điểm",
+    "task_file": "daoanh/tasks/T14-time-authority-import.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra time_periods hiện tại",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print('rows:', c.execute('SELECT COUNT(*) FROM time_periods').fetchone()[0]); print('columns:', [d[1] for d in c.execute('PRAGMA table_info(time_periods)').fetchall()])\""
+      },
+      {
+        "t": "shell",
+        "l": "Tìm file DILA Time trong Authority-Databases",
+        "c": "Get-ChildItem -Recurse 'daoanh\\data\\dila_import\\Authority-Databases' | Where Name -match 'time|period|era|dynasty'"
+      },
+      {
+        "t": "edit",
+        "l": "Tạo ETL script: daoanh/scripts/import_time_periods.py",
+        "c": "import sqlite3, json, os\nDB = 'data/lineage.db'\n# Đọc file DILA Time Authority (tìm được ở bước trên)\n# Parse: dynasty, era_name, emperor, start_year, end_year, jdn_start, jdn_end\n# INSERT OR IGNORE vào time_periods\n# In: 'Imported X rows'"
+      },
+      {
+        "t": "shell",
+        "l": "Chạy ETL",
+        "c": "python scripts/import_time_periods.py"
+      },
+      {
+        "t": "shell",
+        "l": "Thêm API route vào app.py",
+        "c": "# Thêm vào app.py:\n@app.route('/daoanh/api/time/entity/<entity_id>')\ndef api_time_entity(entity_id):\n    try:\n        rows = get_db().execute(\n            'SELECT tp.* FROM time_periods tp '\n            'JOIN entity_chronology ec ON ec.period_id=tp.id '\n            'WHERE ec.entity_id=? LIMIT 10', [entity_id]).fetchall()\n        return jsonify({'count':len(rows),'periods':[dict(r) for r in rows]})\n    except:\n        return jsonify({'count':0,'periods':[]})"
+      },
+      {
+        "t": "edit",
+        "l": "Cập nhật tab Niên Đại trong places/index.html",
+        "c": "// Tìm div id='tp-timeline'. Thay nội dung:\n<div class='da-block'>\n  <div class='da-block-label'>Niên Đại · Time Authority</div>\n  <div class='da-time-grid' id='da-time-grid'>\n    <div class='da-time-cell'><div class='da-time-cell-label'>Triều Đại</div><div class='da-time-cell-value serif' id='tc-dynasty'>—</div></div>\n    <div class='da-time-cell'><div class='da-time-cell-label'>Kiến Lập</div><div class='da-time-cell-value' id='tc-year'>—</div></div>\n    <div class='da-time-cell'><div class='da-time-cell-label'>Niên Hiệu</div><div class='da-time-cell-value serif' id='tc-era'>—</div></div>\n    <div class='da-time-cell'><div class='da-time-cell-label'>JDN</div><div class='da-time-cell-value mono' id='tc-jdn'>—</div></div>\n  </div>\n  <div class='da-warn' id='da-time-warn' style='display:none'>⚠ Không có dữ liệu niên đại</div>\n</div>\n// Thêm JS: hàm populateTimePanel(entityId) fetch /api/time/entity/{id} rồi fill tc-dynasty, tc-year, tc-era, tc-jdn\n// Gọi khi entity được chọn"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T14-time-authority-import.md\n→ - [x] ETL import time_periods thành công\n→ - [x] Bảng time_periods có rows\n→ - [x] API tra cứu niên hiệu\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T14_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 15"
+      }
+    ]
+  },
+  "T15": {
+    "title": "Keyword Map Export/Delete + Category Filter",
+    "module": "Keywords",
+    "home_impact": "Trang admin keyword_import.html: nút export CSV + nút delete + filter theo category",
+    "task_file": "daoanh/tasks/T15-keyword-export-delete.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Tìm trang admin keywords",
+        "c": "ls daoanh/admin/ | grep keyword"
+      },
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng keyword_map",
+        "c": "python -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print(c.execute('SELECT COUNT(*) FROM keyword_map').fetchone()); print([d[1] for d in c.execute('PRAGMA table_info(keyword_map)').fetchall()])\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API export và delete vào app.py",
+        "c": "@app.route('/daoanh/api/admin/keywords/export')\ndef api_keywords_export():\n    import csv, io\n    rows = get_db().execute('SELECT * FROM keyword_map').fetchall()\n    output = io.StringIO()\n    csv.writer(output).writerows(rows)\n    return Response(output.getvalue(), mimetype='text/csv',\n        headers={'Content-Disposition':'attachment;filename=keywords.csv'})\n\n@app.route('/daoanh/api/admin/keywords/<int:kid>', methods=['DELETE'])\ndef api_keyword_delete(kid):\n    get_db().execute('DELETE FROM keyword_map WHERE id=?', [kid])\n    return jsonify({'ok': True})"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T15-keyword-export-delete.md\n→ status: done\n→ Ghi log + python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T16": {
+    "title": "Nexus Points — Entity Linking",
+    "module": "DILA Integration Layer",
+    "home_impact": "Tab '地 Thực Thể' trong sidebar places/index.html: block 'Nhân Vật Liên Quan' hiện danh sách person rows với NEXUS badge",
+    "task_file": "daoanh/tasks/T16-nexus-points.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra bảng nexus và persons",
+        "c": "python -c \"\nimport sqlite3; c=sqlite3.connect('data/lineage.db')\nfor t in ['nexus','entity_persons','place_persons']:\n    try: print(t, c.execute('SELECT COUNT(*) FROM '+t).fetchone()[0])\n    except: print(t, 'not found')\n\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API nexus/find vào app.py",
+        "c": "@app.route('/daoanh/api/nexus/find')\ndef api_nexus_find():\n    place_id = request.args.get('place', '')\n    try:\n        conn = get_db()\n        rows = conn.execute(\"\"\"\n            SELECT p.id, p.name_vi, p.name_zh, 1 as is_nexus\n            FROM persons p\n            JOIN entity_persons ep ON ep.person_id = p.id\n            WHERE ep.entity_id = ? LIMIT 15\n        \"\"\", [place_id]).fetchall()\n        return jsonify({'count': len(rows), 'nexus': [dict(r) for r in rows]})\n    except Exception as e:\n        return jsonify({'count':0,'nexus':[],'note':str(e)})"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm Nexus block vào tab Thực Thể trong places/index.html",
+        "c": "// Tìm panel id='tp-entity'. Sau nội dung hiện tại, thêm:\n<div class='da-block' id='da-nexus-block'>\n  <div class='da-block-label'>Nhân Vật Liên Quan · Nexus</div>\n  <div id='da-nexus-list'></div>\n  <div id='da-nexus-empty' class='da-warn' style='display:none'>⚠ Chưa có nexus · T16</div>\n</div>\n\n// Thêm JS:\nfunction loadNexusPersons(entityId) {\n  fetch('/daoanh/api/nexus/find?place='+entityId)\n  .then(r=>r.json()).then(data=>{\n    var list = document.getElementById('da-nexus-list');\n    if (data.nexus && data.nexus.length) {\n      list.innerHTML = data.nexus.map(n => {\n        var av = n.name_zh ? n.name_zh[0] : '人';\n        return '<div class=\"da-person-row\">'+\n          '<div class=\"da-person-avatar\">'+av+'</div>'+\n          '<div style=\"flex:1\"><div class=\"da-person-name-vi\">'+(n.name_vi||n.name_zh)+'</div>'+\n          '<div class=\"da-person-name-zh\">'+(n.name_zh||'')+'</div></div>'+\n          (n.is_nexus?'<span class=\"da-nexus-badge\">NEXUS</span>':'')+\n        '</div>';\n      }).join('');\n      document.getElementById('da-nexus-empty').style.display='none';\n    } else document.getElementById('da-nexus-empty').style.display='flex';\n  });\n}\n// Gọi loadNexusPersons(entityId) khi entity được chọn"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T16-nexus-points.md\n→ - [x] Route /nexus/find hoạt động\n→ - [x] UI hiển thị nexus trong sidebar\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T16_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 55"
+      }
+    ]
+  },
+  "T17": {
+    "title": "Knowledge Graph Visualization",
+    "module": "DILA Integration Layer",
+    "home_impact": "Tab '🕸 Đồ Thị' trong sidebar places/index.html: canvas force-directed graph entity/person/text tương tác được",
+    "task_file": "daoanh/tasks/T17-knowledge-graph-viz.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Kiểm tra API graph hiện tại",
+        "c": "curl \"http://localhost:5000/daoanh/api/entity/PL000000023255/graph\""
+      },
+      {
+        "t": "edit",
+        "l": "Thêm API entity graph vào app.py",
+        "c": "@app.route('/daoanh/api/entity/<entity_id>/graph')\ndef api_entity_graph(entity_id):\n    conn = get_db()\n    nodes = [{'id': entity_id, 'label': entity_id, 'type': 'place'}]\n    edges = []\n    try:\n        persons = conn.execute(\n            'SELECT p.id,p.name_vi,p.name_zh FROM persons p '\n            'JOIN entity_persons ep ON ep.person_id=p.id '\n            'WHERE ep.entity_id=? LIMIT 8', [entity_id]).fetchall()\n        for p in persons:\n            nodes.append({'id':p['id'],'label':p['name_vi'] or p['name_zh'],'type':'person'})\n            edges.append({'from':entity_id,'to':p['id'],'label':'liên quan'})\n    except: pass\n    return jsonify({'nodes': nodes, 'edges': edges})"
+      },
+      {
+        "t": "edit",
+        "l": "Thêm Graph canvas vào tab Đồ Thị trong places/index.html",
+        "c": "// Tìm panel id='tp-graph'. Thay nội dung:\n<div class='da-block'>\n  <div class='da-block-label'>Đồ Thị Tri Thức</div>\n  <canvas id='da-graph-canvas' width='350' height='280'\n    style='width:100%;border:1px solid var(--da-border);border-radius:8px;background:var(--da-card)'></canvas>\n  <div id='da-graph-empty' class='da-warn' style='display:none'>⚠ Không có dữ liệu graph</div>\n</div>\n\n// Thêm JS force-directed (không cần CDN — tự vẽ canvas):\n// Xem code đầy đủ trong daoanh/docs/opencode-directives.md Bước 503"
+      },
+      {
+        "t": "shell",
+        "l": "Test graph UI",
+        "c": "// Mở http://localhost:8080/daoanh/places\n// Click địa điểm → click tab '🕸 Đồ Thị'\n// Canvas phải hiển thị nodes chuyển động"
+      },
+      {
+        "t": "done",
+        "l": "Cập nhật task file",
+        "c": "daoanh/tasks/T17-knowledge-graph-viz.md\n→ - [x] API trả graph entity (nodes + edges)\n→ - [x] Frontend render đồ thị\n→ - [x] Click node → navigate\n→ status: done\n→ Ghi log: daoanh/docs/sessions/YYYY-MM-DD_T17_done.md\n→ python scripts/build_progress_data.py\n→ data/directives_progress.json: percent_total: 70"
+      }
+    ]
+  },
+  "T18": {
+    "title": "BDRC Integration — Fix 6 Blockers",
+    "module": "BDRC Integration",
+    "home_impact": "BDRC chip tren places.html hien data thuc; entity_source_ids co BDRC cross-references",
+    "task_file": "daoanh/tasks/T18-bdrc-integration.md",
+    "steps": [
+      {
+        "t": "edit",
+        "l": "Blocker 1: Fix syntax error bdrc_linker.py dong 14",
+        "c": "# File: daoanh/src_python/etl/bdrc_linker.py\n# Dong 14: fromcollections import defaultdict\n# Sua thanh: from collections import defaultdict\n# Verify:\npython -c \"from src_python.etl.bdrc_linker import BDRCLinker; print('OK - syntax fixed')\""
+      },
+      {
+        "t": "shell",
+        "l": "Blocker 2: Test BDRC API adapter (live call)",
+        "c": "cd daoanh\npython -c \"\nfrom adapters.bdrc.bdrc_adapter import fetch_entity, search_persons, get_sameas\nprint('fetch_entity P1583:', str(fetch_entity('P1583'))[:120])\nprint('search Nagarjuna:', search_persons('Nagarjuna', 3))\nprint('sameas P1583:', get_sameas('P1583'))\n\""
+      },
+      {
+        "t": "shell",
+        "l": "Blocker 3: Chay ETL bdrc_resolve.py populate entity_source_ids",
+        "c": "cd daoanh\n# Kiem tra truoc\npython -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print('BDRC rows truoc:', c.execute(\\\"SELECT COUNT(*) FROM entity_source_ids WHERE source='BDRC' AND entity_id != 167009\\\").fetchone()[0])\"\n# Chay ETL\npython scripts/bdrc_resolve.py --limit 200\n# Verify sau\npython -c \"import sqlite3; c=sqlite3.connect('data/lineage.db'); print('BDRC rows sau:', c.execute(\\\"SELECT COUNT(*) FROM entity_source_ids WHERE source='BDRC'\\\").fetchone()[0])\""
+      },
+      {
+        "t": "edit",
+        "l": "Blocker 4: Them bdrc_id vao JSON response route places trong app.py",
+        "c": "# Tim route /daoanh/api/places/<place_id> trong app.py\n# Them LEFT JOIN:\n#   LEFT JOIN entity_source_ids esi ON esi.entity_id = pd.id AND esi.source = 'BDRC' AND esi.verified = 1\n# Them vao SELECT:\n#   esi.source_entity_id AS bdrc_id\n# Them vao return jsonify(...):\n#   'bdrc_id': row['bdrc_id'] if row['bdrc_id'] else None"
+      },
+      {
+        "t": "edit",
+        "l": "Blocker 5: Them route /daoanh/api/places/<id>/bdrc vao app.py",
+        "c": "@app.route('/daoanh/api/places/<place_id>/bdrc')\ndef api_place_bdrc(place_id):\n    try:\n        conn = get_db()\n        row = conn.execute(\"\"\"\n            SELECT esi.source_entity_id AS bdrc_id,\n                   esi.confidence, esi.match_status\n            FROM entity_source_ids esi\n            JOIN places_dila pd ON pd.id = esi.entity_id\n            WHERE pd.place_id = ? AND esi.source = 'BDRC'\n            ORDER BY esi.confidence DESC LIMIT 1\n        \"\"\", [place_id]).fetchone()\n        if not row:\n            return jsonify({'ok': False, 'bdrc_id': None,\n                            'note': 'No BDRC mapping for this place'}), 200\n        from adapters.bdrc.bdrc_adapter import fetch_entity\n        bdrc_data = fetch_entity(row['bdrc_id']) or {}\n        return jsonify({'ok': True, 'bdrc_id': row['bdrc_id'],\n                        'match_status': row['match_status'],\n                        'confidence': row['confidence'],\n                        'bdrc': bdrc_data})\n    except Exception as e:\n        app.logger.error(f'api_place_bdrc error: {e}')\n        return jsonify({'ok': False, 'error': str(e)}), 500"
+      },
+      {
+        "t": "edit",
+        "l": "Blocker 6: places.html BDRC chip hien data thuc sau khi load entity",
+        "c": "// Trong ham loadPlaceData(placeId) hoac sau block render sidebar:\n// Them fetch BDRC:\nfetch(baseUrl + '/daoanh/api/places/' + placeId + '/bdrc')\n  .then(r => r.json())\n  .then(b => {\n    if (b.ok && b.bdrc_id) {\n      document.getElementById('bdrcId').innerText = b.bdrc_id;\n      const chip = document.getElementById('chipBdrc');\n      chip.className = 'da-chip da-chip-ok';\n      chip.textContent = 'BDRC';\n    }\n  })\n  .catch(() => {});"
+      },
+      {
+        "t": "done",
+        "l": "Verify va cap nhat task T18",
+        "c": "# Test API:\ncurl http://localhost:5000/daoanh/api/places/PL000000023255/bdrc\n# Neu BDRC chip hien G-ID thuc tren places.html: task DONE\n# tasks/T18-bdrc-integration.md -> status: done\n# docs/tasktodo.md -> ✅ T18\n# python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T22.1": {
+    "title": "Founding Date Data Reuse Audit — AUDIT TRUOC KHI NLP",
+    "module": "GIS Places / Timeline Research",
+    "home_impact": "Sau khi audit xong: place_timeline_events co founding date chinh xac, tab Nien Dai hien thi nam thanh lap, HOME co stats",
+    "task_file": "daoanh/tasks/T22.1-founding-date-data-reuse-audit.md",
+    "status": "in_progress",
+    "current_phase": "Giai doan A — raw_xml Audit (Buoc 1000-1004)",
+    "gate_file": "data/t22_1_approvals.json",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Buoc 1000: Tao Backup DB",
+        "c": "cp data/lineage.db data/lineage_audit_backup.db && echo 'Backup created. KHONG sua lineage.db'"
+      },
+      {
+        "t": "shell",
+        "l": "Buoc 1001: Baseline raw_xml count",
+        "c": "python -c \"\nimport sqlite3\nc=sqlite3.connect('data/lineage_audit_backup.db')\ntotal=c.execute('SELECT COUNT(*) FROM places_dila').fetchone()[0]\nhas_xml=c.execute('SELECT COUNT(*) FROM places_dila WHERE raw_xml IS NOT NULL AND raw_xml != \"\"').fetchone()[0]\nprint(f'Total: {total} | Has raw_xml: {has_xml} ({has_xml/total*100:.1f}%)')\n\""
+      },
+      {
+        "t": "shell",
+        "l": "Buoc 1002: Quet pattern thanh lap",
+        "c": "python -c \"\nimport sqlite3, re\nc=sqlite3.connect('data/lineage_audit_backup.db')\npats=['建','創','始建','建於','創於','始置']\nrows=c.execute('SELECT raw_xml FROM places_dila WHERE raw_xml IS NOT NULL LIMIT 10000').fetchall()\nfor p in pats: print(f'{p}: {sum(1 for r in rows if re.search(p, r[0] or \"\"))} hits')\n\""
+      },
+      {
+        "t": "shell",
+        "l": "Buoc 1003: Xuat 10 mau records cho Lee Tong",
+        "c": "python -c \"\nimport sqlite3,json\nc=sqlite3.connect('data/lineage_audit_backup.db')\nsamples=c.execute(\\\"SELECT id,name_zh,raw_xml FROM places_dila WHERE raw_xml LIKE '%建%' LIMIT 10\\\").fetchall()\nout=[{'id':r[0],'name':r[1],'xml_excerpt':(r[2] or '')[:500]} for r in samples]\nwith open('data/t221_giai_doan_a_samples.json','w',encoding='utf-8') as f: json.dump(out,f,ensure_ascii=False,indent=2)\nprint('Saved: data/t221_giai_doan_a_samples.json')\n\""
+      },
+      {
+        "t": "edit",
+        "l": "Buoc 1004: Tao Session Log Giai Doan A",
+        "c": "# Tao file: docs/sessions/2026-08-20_T22.1_GiaiDoanA.md\n# Noi dung:\n#   - Baseline: tong places, co raw_xml bao nhieu\n#   - Pattern hits: moi pattern bao nhieu lan\n#   - Link den 10 mau: data/t221_giai_doan_a_samples.json\n#   - Ket luan so bo ve % co the reuse\n#   - Yeu cau Lee Tong: (1) Xac nhan baseline, (2) Xem 10 mau, (3) Click Duyet tren Admin Dashboard\n# SAU DO DUNG LAI - CHO LEE TONG DUYET TREN DASHBOARD"
+      },
+      {
+        "t": "shell",
+        "l": "Buoc 1005 [GATE CHECK]: Xac nhan Lee Tong approved Gate 1",
+        "c": "python -c \"\nimport json,sys\nwith open('data/t22_1_approvals.json',encoding='utf-8') as f: d=json.load(f)\nstatus=d.get('gates',{}).get('giai_doan_a',{}).get('status','pending')\nif status!='approved':\n    print(f'GATE BLOCKED: status={status}. Cho Lee Tong click Duyet tren /daoanh/admin/')\n    sys.exit(1)\nprint(f'GATE PASSED: approved by {d[\\\"gates\\\"][\\\"giai_doan_a\\\"].get(\\\"approved_by\\\",\\\"?\\\")}')\n\""
+      },
+      {
+        "t": "shell",
+        "l": "Buoc 1006: Wikidata confirm coverage",
+        "c": "python -c \"\ntry:\n    from SPARQLWrapper import SPARQLWrapper,JSON\n    s=SPARQLWrapper('https://query.wikidata.org/sparql')\n    s.setQuery('SELECT (COUNT(?i) AS ?c) WHERE { ?i wdt:P1188 ?d . ?i wdt:P571 ?dt . }')\n    s.setReturnFormat(JSON); r=s.query().convert()\n    print('P1188+P571:',r['results']['bindings'][0]['c']['value'])\nexcept: print('Known: ~148 direct P1188, ~2106 Buddhist temples with P571 total')\n\""
+      },
+      {
+        "t": "read",
+        "l": "Buoc 1007: BGIS Download va inspect Starting year",
+        "c": "1. Download: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/VAYEUZ\n2. Mo CSV -> xem field 'Starting year' cho Shaolin Tu (495?) va Bach Ma Tu (68?)\n3. Ghi nhan: Historical founding date hay modern registration (post-1983)?"
+      },
+      {
+        "t": "shell",
+        "l": "Buoc 1008: Tao Coverage Matrix CSV",
+        "c": "python -c \"\nimport sqlite3,csv\nc=sqlite3.connect('data/lineage_audit_backup.db')\nplaces=c.execute('SELECT id,name_zh,geo_lat,geo_long FROM places_dila LIMIT 200').fetchall()\nwith open('data/founding_date_source_coverage.csv','w',newline='',encoding='utf-8') as f:\n    w=csv.writer(f)\n    w.writerow(['dila_id','name_zh','has_raw_xml','has_geo','wikidata_match','bgis_match','chgis_match','classification'])\n    for pid,name,lat,lng in places:\n        has_xml=bool(c.execute('SELECT 1 FROM places_dila WHERE id=? AND raw_xml IS NOT NULL',(pid,)).fetchone())\n        w.writerow([pid,name,has_xml,bool(lat),'TBD','TBD','TBD','TBD'])\nprint('CSV created')\n\""
+      },
+      {
+        "t": "edit",
+        "l": "Buoc 1009: Tao founding_date_sources.json",
+        "c": "python -c \"\nimport json\nsources=[{'source':'DILA_RAW_XML','type':'EVIDENCE_REUSE','coverage_estimated':'TBD','license':'CC BY-SA'},{'source':'WIKIDATA_P1188','type':'DIRECT_REUSE','coverage_estimated':148,'license':'CC0'},{'source':'WIKIDATA_SPATIAL','type':'DIRECT_REUSE','coverage_estimated':1958,'license':'CC0'},{'source':'CHGIS','type':'DIRECT_REUSE','coverage_estimated':2407,'license':'CC BY'},{'source':'BGIS_2006','type':'TBD_pending_buoc_1007','coverage_estimated':17933,'license':'TBD'},{'source':'OLLAMA_QWEN','type':'NLP_REQUIRED','coverage_estimated':'~53000_remaining','license':'free_local'}]\nwith open('data/founding_date_sources.json','w',encoding='utf-8') as f: json.dump(sources,f,ensure_ascii=False,indent=2)\nprint('Done')\n\""
+      },
+      {
+        "t": "edit",
+        "l": "Buoc 1010: Tao T22.1 Audit Report chinh thuc",
+        "c": "# File: docs/T22.1_FOUNDING_DATE_DATA_REUSE_AUDIT.md\n# Dien day du ket qua Giai doan A + B\n# Phan loai: Direct Reuse X / Evidence Reuse Y / NLP Required Z\n# Khuyen nghi va yeu cau sign-off tu Lee Tong"
+      },
+      {
+        "t": "shell",
+        "l": "Buoc 1011: Cap nhat directives_progress.json",
+        "c": "python -c \"\nimport json\nfrom datetime import datetime\nd={'current_group':'T22.1 AUDIT COMPLETE - cho Lee Tong final sign-off','current_step':1011,'percent_total':100,'note':'Ket qua audit: X places co raw_xml, ~2106 Wikidata, ~2407 CHGIS, BGIS TBD','last_updated':datetime.now().isoformat()[:16]}\nwith open('data/directives_progress.json','w',encoding='utf-8') as f: json.dump(d,f,ensure_ascii=False,indent=2)\nprint('Updated')\n\""
+      },
+      {
+        "t": "shell",
+        "l": "Buoc 1012: Rebuild Dashboard + STOP",
+        "c": "python scripts/build_progress_data.py\n# STOP SAU BUOC 1012\n# TUYET DOI KHONG viet NLP pipeline cho den khi Lee Tong click 'Duyet & Authorize NLP'\n# Kiem tra trang thai NLP: cat data/t22_1_approvals.json | grep nlp_authorized"
+      }
+    ]
+  },
+  "T22": {
+    "title": "Founding Date Pipeline — 59K Places → HOME Integration",
+    "module": "GIS Places / Timeline / HOME",
+    "home_impact": "Tab Nien Dai (places.html) hien thi nam thanh lap chinh xac + HOME stat card 'X/59K places co nien dai verified'",
+    "task_file": "daoanh/tasks/T22-nlp-fosi-zhi-founding-dates.md",
+    "status": "pending",
+    "blocked_by": "T22.1 — phai co nlp_authorized=true trong data/t22_1_approvals.json",
+    "architecture": "5-layer pipeline: A(Wikidata) > B(CHGIS) > C(BGIS) > D(Regex) > E(Ollama). Admin trigger tung layer tu dashboard. Chi hien thi verified records len web.",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "[GATE] Kiem tra nlp_authorized truoc khi lam bat cu dieu gi",
+        "c": "python -c \"\nimport json,sys\nwith open('data/t22_1_approvals.json',encoding='utf-8') as f: d=json.load(f)\nif not d.get('nlp_authorized',False):\n    print('BLOCKED: nlp_authorized=False. Lee Tong chua sign-off T22.1.')\n    print('  -> Vao /daoanh/admin/ -> T22.1 Final Sign-off -> click Duyet & Authorize NLP')\n    sys.exit(1)\nprint('AUTHORIZED: nlp_authorized=True. Tien hanh T22.')\n\""
+      },
+      {
+        "t": "shell",
+        "l": "Backup lineage.db truoc khi bat dau (bat buoc)",
+        "c": "cp data/lineage.db data/lineage_t22_backup.db\necho 'Backup created: data/lineage_t22_backup.db'"
+      },
+      {
+        "t": "shell",
+        "l": "Tao schema place_timeline_events + pipeline_runs (neu chua co)",
+        "c": "python -c \"\nimport sqlite3\nconn = sqlite3.connect('data/lineage.db')\nconn.executescript(\"\"\"\nCREATE TABLE IF NOT EXISTS place_timeline_events (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dila_id TEXT NOT NULL,\n    event_type TEXT DEFAULT 'FOUNDING',\n    year_ce INTEGER,\n    year_end_ce INTEGER,\n    label_zh TEXT,\n    label_vi TEXT,\n    source TEXT NOT NULL,\n    source_ref TEXT,\n    confidence REAL DEFAULT 0.5,\n    verification_status TEXT DEFAULT 'candidate',\n    verified_by TEXT,\n    verified_at TEXT,\n    evidence_text TEXT,\n    pipeline_run_id TEXT,\n    created_at TEXT DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE(dila_id, source, year_ce)\n);\nCREATE TABLE IF NOT EXISTS pipeline_runs (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    layer TEXT NOT NULL,\n    status TEXT,\n    started_at TEXT,\n    ended_at TEXT,\n    processed INTEGER DEFAULT 0,\n    inserted INTEGER DEFAULT 0,\n    errors INTEGER DEFAULT 0,\n    notes TEXT\n);\n\"\"\")\nconn.commit()\nprint('Schema OK')\nprint('place_timeline_events:', conn.execute('SELECT COUNT(*) FROM place_timeline_events').fetchone()[0], 'rows')\nprint('pipeline_runs:', conn.execute('SELECT COUNT(*) FROM pipeline_runs').fetchone()[0], 'runs')\n\""
+      },
+      {
+        "t": "edit",
+        "l": "Tao scripts/etl_wikidata_founding.py (Layer A)",
+        "c": "# File: daoanh/scripts/etl_wikidata_founding.py\n# Coverage: ~148 direct (P1188) + ~1958 spatial match = ~2106 total\n# Trust: auto-approve cho direct P1188; candidate cho spatial\n#\n# SPARQL P1188 (DILA bridge):\n# SELECT ?item ?dila_id ?inception WHERE {\n#   ?item wdt:P1188 ?dila_id .\n#   ?item wdt:P571 ?inception .\n# }\n#\n# SPARQL Buddhist temples China (spatial):\n# SELECT ?item ?inception ?lat ?long WHERE {\n#   ?item wdt:P31/wdt:P279* wd:Q44613 .\n#   ?item wdt:P17 wd:Q148 .\n#   ?item wdt:P571 ?inception .\n#   ?item wdt:P625 ?coord .\n#   BIND(geof:latitude(?coord) AS ?lat)\n#   BIND(geof:longitude(?coord) AS ?long)\n# }\n#\n# Xem day du code trong: tasks/T22-nlp-fosi-zhi-founding-dates.md Section 'Layer A'"
+      },
+      {
+        "t": "shell",
+        "l": "Chay Layer A: Wikidata ETL (sau khi tao script)",
+        "c": "python scripts/etl_wikidata_founding.py --db data/lineage.db --dry-run\n# Kiem tra output roi chay that:\n# python scripts/etl_wikidata_founding.py --db data/lineage.db"
+      },
+      {
+        "t": "shell",
+        "l": "Verify Layer A results",
+        "c": "python -c \"\nimport sqlite3\nconn = sqlite3.connect('data/lineage.db')\nprint('Layer A results:')\nprint(conn.execute('SELECT source, verification_status, COUNT(*) FROM place_timeline_events WHERE source=\\\"WIKIDATA\\\" GROUP BY source, verification_status').fetchall())\n\""
+      },
+      {
+        "t": "read",
+        "l": "[ADMIN] Phase 0: BGIS inspection (lam truoc Layer C)",
+        "c": "1. Download BGIS: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/VAYEUZ\n2. Mo CSV -> xem field 'Starting year' cho:\n   - Shaolin Tu (少林寺): Starting year = 495? (Bac Nguyen Thai Hoa 19)\n   - Bach Ma Tu (白馬寺): Starting year = 68? (Han Vinh Binh)\n3. Neu la nam lich su -> Layer C co gia tri cao (17,933 records)\n4. Neu la 1983/1984/1985 (dang ky hien dai) -> SKIP Layer C\n5. Ghi ket qua vao: docs/T22.1_FOUNDING_DATE_DATA_REUSE_AUDIT.md"
+      },
+      {
+        "t": "edit",
+        "l": "Tao scripts/etl_chgis_founding.py (Layer B)",
+        "c": "# File: daoanh/scripts/etl_chgis_founding.py\n# Coverage: ~2407 tu Da Qing yitong zhi (Imperial gazetteer)\n# Trust: auto-approve (scholarly digitized)\n# Input: CHGIS Temples CSV tu Harvard CHGIS dataset (CC BY)\n# Fields: temple_name_zh, founding_year, lat, long, dynasty, chgis_id\n# Match: (1) name exact match, (2) fallback spatial 1km\n# Xem day du code trong: tasks/T22-nlp-fosi-zhi-founding-dates.md Section 'Layer B'"
+      },
+      {
+        "t": "edit",
+        "l": "Tao scripts/etl_bgis_founding.py (Layer C — chi chay sau Phase 0 OK)",
+        "c": "# File: daoanh/scripts/etl_bgis_founding.py\n# Chi chay neu Phase 0 xac nhan 'Starting year' = historical founding\n# Input: BGIS shapefile/CSV tu Harvard Dataverse\n# Fields: ID, name, lat, long, Starting_year, Ending_year, province\n# Match: spatial 0.5km + name\n# confidence=0.85 (historical), verification_status='approved'\n# Xem day du trong: tasks/T22-nlp-fosi-zhi-founding-dates.md Section 'Layer C'"
+      },
+      {
+        "t": "edit",
+        "l": "Tao scripts/etl_regex_founding.py (Layer D)",
+        "c": "# File: daoanh/scripts/etl_regex_founding.py\n# Patterns (uu tien thu tu nay):\n# r'（(\\d{3,4})年）'         confidence=0.92  year_in_parens\n# r'公元(\\d{3,4})年'         confidence=0.90  gongyan\n# r'始建(?:於|于)(\\d{3,4})年' confidence=0.88  shijian\n# r'建(?:於|于)(\\d{3,4})年'  confidence=0.85  jian_yu\n# r'創建?(?:於|于)(\\d{3,4})年' confidence=0.85 chuangjian\n# r'立(?:寺|院|堂)(?:於|于)(\\d{3,4})年' confidence=0.83\n#\n# RENOVATION WARNING (confidence * 0.7, flag candidate):\n# 重修|重建|重興|重創|重立\n#\n# Valid range: 1 <= year_ce <= 1950\n# confidence >= 0.9 AND NOT renovation -> verification_status='approved' (auto)\n# confidence < 0.9 OR renovation -> verification_status='candidate' (can review)\n#\n# Xem day du code trong: tasks/T22-nlp-fosi-zhi-founding-dates.md Section 'Layer D'"
+      },
+      {
+        "t": "shell",
+        "l": "Chay Layer D: Regex ETL",
+        "c": "python scripts/etl_regex_founding.py --db data/lineage.db --dry-run\n# python scripts/etl_regex_founding.py --db data/lineage.db"
+      },
+      {
+        "t": "shell",
+        "l": "Verify Layer D results",
+        "c": "python -c \"\nimport sqlite3\nconn = sqlite3.connect('data/lineage.db')\nrows = conn.execute('SELECT verification_status, COUNT(*) FROM place_timeline_events WHERE source=\\\"REGEX\\\" GROUP BY verification_status').fetchall()\nfor r in rows: print(r)\ntotal = conn.execute('SELECT COUNT(DISTINCT dila_id) FROM place_timeline_events WHERE verification_status=\\\"approved\\\"').fetchone()[0]\nprint(f'Total approved so far: {total}')\n\""
+      },
+      {
+        "t": "edit",
+        "l": "Tao Admin pipeline control API trong app.py",
+        "c": "# Them cac route sau vao app.py (sau cac T22.1 routes):\n#\n# GET  /daoanh/api/admin/pipeline/status\n#   -> tra layer status + counts tu pipeline_runs + place_timeline_events\n#\n# POST /daoanh/api/admin/pipeline/run/<layer>\n#   -> trigger chay etl script (A/B/C/D/E)\n#   -> luu vao pipeline_runs\n#   -> chi admin duoc goi\n#\n# GET  /daoanh/api/admin/pipeline/review\n#   -> paginated: SELECT * FROM place_timeline_events WHERE verification_status='candidate'\n#   -> filter: source, confidence_min, limit, offset\n#\n# POST /daoanh/api/admin/pipeline/approve/<id>\n#   -> UPDATE verification_status='approved', verified_by, verified_at\n#\n# POST /daoanh/api/admin/pipeline/bulk-approve\n#   -> body: {source, confidence_min}\n#   -> UPDATE nhieu rows 1 luc\n#\n# POST /daoanh/api/admin/pipeline/reject/<id>\n#   -> UPDATE verification_status='rejected', note"
+      },
+      {
+        "t": "edit",
+        "l": "Them Pipeline Control Panel vao admin/index.html",
+        "c": "# Them panel 'FOUNDING DATE PIPELINE' vao admin/index.html\n# Hien thi bang:\n# Layer | Source    | Status  | Processed | Done | Action\n# ------+-----------+---------+-----------+------+-------\n# Ph. 0 | BGIS check| PENDING | -         | -    | Admin\n# Layer A| Wikidata  | PENDING | 0/2106   | 0    | [Run]\n# Layer B| CHGIS     | PENDING | 0/2407   | 0    | [Run]\n# Layer C| BGIS      | BLOCKED | -         | -    | Needs Ph.0\n# Layer D| Regex     | PENDING | 0/?      | 0    | [Run]\n# Layer E| Ollama    | PENDING | 0/~53K   | 0    | [Run]\n#\n# Review Queue: X candidate records [Review Queue] [Bulk Approve REGEX>0.9]\n#\n# JS loadPipelineStatus() -> GET /daoanh/api/admin/pipeline/status\n# JS runLayer(layer) -> POST /daoanh/api/admin/pipeline/run/{layer}"
+      },
+      {
+        "t": "edit",
+        "l": "Tao scripts/etl_ollama_founding.py (Layer E — chay sau cung)",
+        "c": "# File: daoanh/scripts/etl_ollama_founding.py\n# Yeu cau: ollama da cai dat + model qwen2.5:7b da pull\n#   -> ollama pull qwen2.5:7b  (4.7GB, free, local)\n#\n# Chi process places CHUA co founding date tu A/B/C/D:\n#   SELECT id, raw_xml FROM places_dila\n#   WHERE id NOT IN (SELECT dila_id FROM place_timeline_events\n#                    WHERE source IN ('WIKIDATA','CHGIS','BGIS','REGEX'))\n#\n# System prompt:\n#   'Ban la chuyen gia van ban Han co. Tim NAM THANH LAP lan dau (建/創/立寺/開山).\n#    KHONG lay nam trung tu (重修/重建).\n#    Tra JSON: {\"year_ce\": <int|null>, \"confidence\": 0-1, \"evidence\": \"<doan goc>\"}'\n#\n# Batch: 100 records/batch (admin trigger tu dashboard)\n# verification_status='candidate' (LUON can review)\n# Xem day du code trong: tasks/T22-nlp-fosi-zhi-founding-dates.md Section 'Layer E'"
+      },
+      {
+        "t": "edit",
+        "l": "Tao API places timeline + HOME stats",
+        "c": "# Them vao app.py:\n#\n# GET /daoanh/api/places/<place_id>/timeline\n#   -> SELECT year_ce, label_zh, source, confidence, source_ref\n#      FROM place_timeline_events\n#      WHERE dila_id=? AND verification_status='approved'\n#      ORDER BY year_ce ASC\n#   -> CHI tra verified records\n#\n# GET /daoanh/api/home/timeline-stats\n#   -> {\n#       'total_places': 58167,\n#       'verified_count': COUNT(DISTINCT dila_id WHERE status='approved'),\n#       'by_source': {'wikidata': N, 'chgis': N, 'regex': N, 'ollama': N},\n#       'pipeline_complete_pct': verified/58167*100\n#      }"
+      },
+      {
+        "t": "edit",
+        "l": "Cap nhat places.html Nien Dai tab hien thi founding date",
+        "c": "# Sua places.html: tab 'Nien Dai' goi /api/places/{id}/timeline\n# Hien thi:\n#   <div class='founding-year'>\n#     <span class='year'>495 CE</span>\n#     <span class='da-chip da-chip-ok'>WIKIDATA</span>\n#     <span class='evidence-text'>Thai Hoa 19 (495 CE) - Shaolin</span>\n#   </div>\n# Neu khong co: <div class='da-warn'>Chua co du lieu nien dai duoc xac nhan</div>\n# KHONG hien thi candidate records"
+      },
+      {
+        "t": "shell",
+        "l": "Test end-to-end: places.html Nien Dai tab",
+        "c": "# Lay place_id co founding date (Layer A hoac D)\npython -c \"\nimport sqlite3\nconn = sqlite3.connect('data/lineage.db')\nrow = conn.execute(\\\"SELECT dila_id, year_ce, source FROM place_timeline_events WHERE verification_status='approved' LIMIT 1\\\").fetchone()\nif row: print(f'Test place: {row[0]} | year: {row[1]} | source: {row[2]}')\nelse: print('No approved records yet')\n\"\n# Kiem tra URL: http://localhost:8080/daoanh/places.html?id={dila_id}"
+      },
+      {
+        "t": "shell",
+        "l": "Chay Layer E: Ollama batch dau tien (sau khi da co A+B+D)",
+        "c": "# Bat buoc: ollama da cai dat\n# ollama list  <- kiem tra co qwen2.5:7b chua\n# Neu chua: ollama pull qwen2.5:7b\n\npython scripts/etl_ollama_founding.py --db data/lineage.db --batch-size 100 --dry-run\n# Xem output truoc, roi chay that:\n# python scripts/etl_ollama_founding.py --db data/lineage.db --batch-size 100"
+      },
+      {
+        "t": "shell",
+        "l": "Rebuild dashboard sau khi moi layer xong",
+        "c": "python scripts/build_progress_data.py\n# Kiem tra: http://localhost:8080/dashboard/dashboard_process.html"
+      }
+    ]
+  },
+  "T09": {
+    "title": "T09 — (slot trống / chưa có task)",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "Chưa có task T09. Khi được phân công, tạo file tasks/T09-*.md và thêm directive tại đây."
+      }
+    ]
+  },
+  "T19": {
+    "title": "T19 — Audit .gitignore daoanh/",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "Đọc daoanh/.gitignore hiện tại — liệt kê tất cả entries."
+      },
+      {
+        "id": 2,
+        "desc": "Với mỗi entry bị ignore: kiểm tra thư mục/file đó có tồn tại không (ls hoặc Get-ChildItem). Nếu chứa code app.py gọi đến (script Python, config) → KHÔNG nên ignore."
+      },
+      {
+        "id": 3,
+        "desc": "Ưu tiên kiểm tra: scripts/ — nếu chứa build_progress_data.py hoặc script vận hành thật → remove khỏi .gitignore."
+      },
+      {
+        "id": 4,
+        "desc": "Kiểm tra static/ — nếu chứa CSS/JS/asset của app → remove."
+      },
+      {
+        "id": 5,
+        "desc": "Kiểm tra config/ — nếu chứa nginx config hay app config không secret → remove."
+      },
+      {
+        "id": 6,
+        "desc": "Giữ lại: data/ (DB 664MB), *.db, *.log, __pycache__, node_modules, _book (honkit output)."
+      },
+      {
+        "id": 7,
+        "desc": "Sau khi gỡ entry nhầm: chạy `git status` để xác nhận file đó hiện ra trong untracked. Commit .gitignore với message 'fix: unignore <dirname> - app operational files'."
+      },
+      {
+        "id": 8,
+        "desc": "Cập nhật task T19 status=done, tick acceptance criteria, rebuild progress_data.json."
+      }
+    ]
+  },
+  "T20": {
+    "title": "T20 — CBETA X-series & T-series missing Vietnamese catalog",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "Kiểm tra các X-series refs trong places_dila.listbibl: SELECT DISTINCT substr(ref,1,20) FROM places_dila WHERE listbibl LIKE '%X%' LIMIT 30."
+      },
+      {
+        "id": 2,
+        "desc": "Confirm 14 T-series texts còn thiếu trong cbeta_catalog_vn: SELECT t FROM (SELECT DISTINCT instr(listbibl,'T') t FROM places_dila WHERE listbibl NOT NULL) WHERE t NOT IN (SELECT sh_number FROM cbeta_catalog_vn)."
+      },
+      {
+        "id": 3,
+        "desc": "Tìm nguồn tên tiếng Việt cho T-series thiếu (14 texts): thử CBETA online catalog, Thư Viện Hoa Nghiêm, Thư Viện Phật Việt — record URL nguồn."
+      },
+      {
+        "id": 4,
+        "desc": "X-series: không có tổ chức nào dịch mục lục X-series sang tiếng Việt (2026-08-19). Phương án: dùng title_zh (Hán Việt) + note [X-series, chưa có bản dịch VN]. INSERT vào cbeta_catalog_vn với confidence=0.5, source=CBETA_ONLINE."
+      },
+      {
+        "id": 5,
+        "desc": "KHÔNG dùng JOIN sh_number của X-series với T-series — hệ đánh số khác nhau hoàn toàn. Tạo cột series TEXT trong cbeta_catalog_vn nếu chưa có."
+      },
+      {
+        "id": 6,
+        "desc": "Sau khi seed data: verify places.html tab ĐẠI TẠNG hiển thị đúng title_vi cho cả T-series và X-series refs."
+      },
+      {
+        "id": 7,
+        "desc": "Cập nhật T20 status=done, coverage metrics, rebuild progress."
+      }
+    ]
+  },
+  "T21": {
+    "title": "T21 — Niên Đại Tab: Geo-Identity Linking (Bridge Table)",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "Tạo table geo_cross_ref nếu chưa có: CREATE TABLE geo_cross_ref (dila_id TEXT, source TEXT, ext_id TEXT, confidence REAL, last_updated TEXT). Đây là bridge table — KHÔNG import raw data Wikidata/CHGIS, chỉ lưu ID."
+      },
+      {
+        "id": 2,
+        "desc": "Chạy Wikidata SPARQL để tìm P571 (inception date) cho top 100 Buddhist temples có trong DILA. Query: dila_id P18+P571 WHERE P856 LIKE 'authority.dila%'. Lưu kết quả vào file JSON."
+      },
+      {
+        "id": 3,
+        "desc": "INSERT vào geo_cross_ref: dila_id, source='wikidata', ext_id=QID, confidence. KHÔNG ghi thẳng P571 vào places_dila."
+      },
+      {
+        "id": 4,
+        "desc": "Implement API endpoint GET /daoanh/api/places/<id>/timeline — query geo_cross_ref → on-demand fetch Wikidata P571. Cache 24h trong memory hoặc SQLite temp table."
+      },
+      {
+        "id": 5,
+        "desc": "Cập nhật places.html tab NIÊN ĐẠI: fetch /api/places/<id>/timeline → hiển thị năm + attribution badge [Wikidata QXX]. KHÔNG hardcode dynasty list."
+      },
+      {
+        "id": 6,
+        "desc": "Nếu Wikidata không có: hiển thị 'Chưa có dữ liệu niên đại xác minh' — KHÔNG tự tính từ note text."
+      },
+      {
+        "id": 7,
+        "desc": "Acceptance: geo_cross_ref có ≥100 rows, API trả dữ liệu thật, tab hiển thị không còn ⚠ T21 pending."
+      },
+      {
+        "id": 8,
+        "desc": "Cập nhật T21 status=done, rebuild progress."
+      }
+    ]
+  },
+  "T23": {
+    "title": "T23 — Populate entity_claims (Provenance Layer)",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "Xác nhận entity_claims hiện có 0 rows: SELECT COUNT(*) FROM entity_claims."
+      },
+      {
+        "id": 2,
+        "desc": "Phase 1 — Seed GPS claims từ places_dila: INSERT INTO entity_claims (entity_id, source_id, claim_type, subject, predicate, object_text, source_record_id, confidence) SELECT id, (SELECT id FROM data_sources WHERE code='DILA'), 'LOCATION', id, 'hasCoordinates', geo_lat||','||geo_long, id, 0.99 FROM places_dila WHERE geo_lat IS NOT NULL."
+      },
+      {
+        "id": 3,
+        "desc": "Phase 2 — Seed name_zh claims: INSERT entity_claims for predicate='hasNameZH' từ places_dila.name_zh, source=DILA, confidence=0.99."
+      },
+      {
+        "id": 4,
+        "desc": "Phase 3 — Seed CBETA refs: với mỗi places_dila.listbibl có T-series refs, INSERT entity_claims predicate='mentionedIn', object_text=CBETARef, source_id=CBETA, confidence=0.95."
+      },
+      {
+        "id": 5,
+        "desc": "Phase 4 — Seed name_vi claims: INSERT entity_claims predicate='hasNameVI', source_id=ZQLOCAL, confidence=0.8 từ places_dila.name (tên Việt do ZQ phiên âm)."
+      },
+      {
+        "id": 6,
+        "desc": "Verify: SELECT claim_type, COUNT(*) FROM entity_claims GROUP BY claim_type — phải có ≥10,000 rows tổng."
+      },
+      {
+        "id": 7,
+        "desc": "Cập nhật places.html để hiển thị source badge [DILA] [CBETA] [ZQLOCAL] bên cạnh mỗi fact. Click badge → tooltip với source_record_id, confidence."
+      },
+      {
+        "id": 8,
+        "desc": "Cập nhật T23 status=done, rebuild progress."
+      }
+    ]
+  },
+  "T24": {
+    "title": "T24 — ZQLOCAL Content Layer",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "Tạo table zqlocal_content nếu chưa có: CREATE TABLE zqlocal_content (id INTEGER PRIMARY KEY AUTOINCREMENT, entity_id TEXT NOT NULL, content_type TEXT NOT NULL, content TEXT NOT NULL, confidence REAL DEFAULT 0.8, created_by TEXT, created_at TEXT, source_note TEXT)."
+      },
+      {
+        "id": 2,
+        "desc": "Migrate name_vi từ places_dila sang zqlocal_content: INSERT INTO zqlocal_content (entity_id, content_type, content, confidence, source_note) SELECT id, 'VI_NAME', name, 0.8, 'ZQ phiên âm — chưa học giả verify' FROM places_dila WHERE name IS NOT NULL."
+      },
+      {
+        "id": 3,
+        "desc": "Sau migrate: places_dila.name giữ nguyên (source DILA data, không xóa). zqlocal_content là layer bổ sung có attribution rõ."
+      },
+      {
+        "id": 4,
+        "desc": "Cập nhật entity_claims: INSERT claims với source=ZQLOCAL, predicate='hasNameVI', source_record_id từ zqlocal_content.id cho mỗi VI_NAME."
+      },
+      {
+        "id": 5,
+        "desc": "Cập nhật API /daoanh/api/places/<id> để include zqlocal_content trong response, tagged source=ZQLOCAL."
+      },
+      {
+        "id": 6,
+        "desc": "Verify: places.html hiển thị tên Việt với badge [ZQLOCAL] — không còn implicit assumption tên Việt = DILA-provided."
+      },
+      {
+        "id": 7,
+        "desc": "Cập nhật T24 status=done, rebuild progress."
+      }
+    ]
+  },
+  "T25": {
+    "title": "BDRC Entity Linking — DILA Place ↔ BDRC G-ID",
+    "module": "BDRC Integration",
+    "home_impact": "places.html tab Thuc The hien BDRC G-ID va placeEvent (founding date) tu BDRC",
+    "task_file": "daoanh/tasks/T25-bdrc-entity-linking.md",
+    "steps": [
+      {
+        "t": "shell",
+        "l": "Xac minh BDRC Place API (G-series IDs) kha dung",
+        "c": "# Test thu mot G-ID cua BDRC Place\ncurl 'http://purl.bdrc.io/resource/G1PGA10614.jsonld' | python -m json.tool | head -40\n# Thu SPARQL tim places co sameAs DILA:\ncurl -G 'http://purl.bdrc.io/sparql' \\\n  --data-urlencode \"query=SELECT ?place ?dilaId WHERE { ?place a <http://purl.bdrc.io/ontology/core/Place> . ?place <http://www.w3.org/2002/07/owl#sameAs> ?dilaId . FILTER(contains(str(?dilaId),'dila')) } LIMIT 10\" \\\n  -H 'Accept: application/sparql-results+json'"
+      },
+      {
+        "t": "edit",
+        "l": "Tao staging table bdrc_places trong lineage.db",
+        "c": "# Script: daoanh/scripts/create_bdrc_tables.py\nimport sqlite3\nconn = sqlite3.connect('data/lineage.db')\nconn.execute('''\n    CREATE TABLE IF NOT EXISTS bdrc_places (\n        bdrc_id       TEXT PRIMARY KEY,\n        name_bo       TEXT,\n        name_zh       TEXT,\n        name_en       TEXT,\n        geo_lat       REAL,\n        geo_long      REAL,\n        dila_id       TEXT,\n        founding_year INTEGER,\n        raw_json      TEXT,\n        fetched_at    TEXT DEFAULT (datetime(\"now\"))\n    )\n''')\nconn.commit(); conn.close()\nprint('bdrc_places created')"
+      },
+      {
+        "t": "shell",
+        "l": "Chay script fetch BDRC Places co sameAs DILA",
+        "c": "# Viet script daoanh/scripts/fetch_bdrc_places_sameas.py:\n# 1. SPARQL: lay tat ca BDRC Places co owl:sameAs DILA ID\n# 2. Fetch tung G-ID: GET /resource/{G-id}.jsonld\n# 3. Extract name, geo, placeEvent, sameAs\n# 4. INSERT vao bdrc_places + entity_source_ids (source='BDRC', confidence=0.95)\npython scripts/fetch_bdrc_places_sameas.py --limit 100"
+      },
+      {
+        "t": "shell",
+        "l": "Verify du lieu vao DB",
+        "c": "python -c \"\nimport sqlite3\nc = sqlite3.connect('data/lineage.db')\nprint('bdrc_places:', c.execute('SELECT COUNT(*) FROM bdrc_places').fetchone()[0])\nprint('sample:', c.execute('SELECT bdrc_id, name_zh, dila_id, founding_year FROM bdrc_places LIMIT 5').fetchall())\nprint('entity_source_ids BDRC:', c.execute(\\\"SELECT COUNT(*) FROM entity_source_ids WHERE source='BDRC'\\\").fetchone()[0])\n\""
+      },
+      {
+        "t": "edit",
+        "l": "Them BDRC founding year vao API va UI places.html",
+        "c": "# app.py: JOIN bdrc_places trong route /daoanh/api/entity/<id>:\n#   LEFT JOIN bdrc_places bp ON bp.dila_id = pd.place_id\n#   SELECT bp.founding_year, bp.bdrc_id AS bdrc_g_id\n# places.html: trong renderEntityTab(d):\n#   if (d.bdrc_founding_year) {\n#     html += '<div class=\"da-block-label\" style=\"margin-top:12px\">Nien Dai BDRC</div>';\n#     html += '<div style=\"font-size:12px\">Thanh lap: ' + d.bdrc_founding_year + '</div>';\n#     html += '<div style=\"font-size:9px;color:var(--da-muted)\">Nguon: BDRC bdo:placeEvent · ' + d.bdrc_g_id + '</div>';\n#   }"
+      },
+      {
+        "t": "done",
+        "l": "Verify va cap nhat task T25",
+        "c": "# Acceptance: >=100 BDRC places linked, founding year hien cho >=5 dia danh\ncurl http://localhost:5000/daoanh/api/entity/PL000000023255\n# Kiem tra co 'bdrc_founding_year' trong response chua\n# tasks/T25-bdrc-entity-linking.md -> status: done\n# docs/tasktodo.md -> ✅ T25\n# python scripts/build_progress_data.py"
+      }
+    ]
+  },
+  "T26": {
+    "title": "T26 — Unified API Response Object",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "BLOCKED — depends on T23 (entity_claims có data). Kiểm tra T23 done trước."
+      },
+      {
+        "id": 2,
+        "desc": "Thiết kế unified response: { entity: {entity_id, entity_type, canonical_name, canonical_name_vi}, sources: {dila, cbeta, bdrc, marcus}, claims: [{claim_type, predicate, object_text, source, confidence}], zqlocal: {name_vi, summary_vi} }."
+      },
+      {
+        "id": 3,
+        "desc": "Implement GET /daoanh/api/entity/<id> mới (hoặc refactor /api/places/<id>): query entity → entity_claims → entity_source_ids → zqlocal_content → assemble unified object."
+      },
+      {
+        "id": 4,
+        "desc": "Frontend (places.html) refactor để consume /api/entity/<id> thay vì query trực tiếp /api/places/<id> cho claim data. Giữ /api/places/<id> cho backward compat nhưng thêm note deprecated."
+      },
+      {
+        "id": 5,
+        "desc": "Verify: GET /daoanh/api/entity/PL023255 (Thiếu Lâm Tự) trả đủ sources + claims với attribution. Frontend hiển thị đúng badges."
+      },
+      {
+        "id": 6,
+        "desc": "Cập nhật T26 status=done, rebuild progress."
+      }
+    ]
+  },
+  "T27": {
+    "title": "T27 — Source-Neutral Integer entity_id (long-term, blocked)",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "LONG-TERM BLOCKED — depends on T23+T24+T25+T26 đều done. Đây là migration kiến trúc lớn nhất. KHÔNG làm khi chưa có lệnh rõ ràng từ Lee Tổng."
+      },
+      {
+        "id": 2,
+        "desc": "Khi được kích hoạt: tạo entity_v2 table với id INTEGER PRIMARY KEY AUTOINCREMENT, giữ nguyên entity hiện tại."
+      },
+      {
+        "id": 3,
+        "desc": "Tạo entity_id_mapping: old_text_id TEXT → new_int_id INTEGER. Populate bằng INSERT SELECT."
+      },
+      {
+        "id": 4,
+        "desc": "Migration plan: (1) Add new_id column khắp nơi; (2) Backfill; (3) UPDATE FKs; (4) DROP old TEXT id. Mỗi bước là 1 transaction có thể rollback."
+      },
+      {
+        "id": 5,
+        "desc": "Sau migration: BDRC-only entities (Tibetan masters không trong DILA) có thể tồn tại trong Identity Hub với INT entity_id không phụ thuộc DILA."
+      },
+      {
+        "id": 6,
+        "desc": "Cập nhật T27 status=done, rebuild progress."
+      }
+    ]
+  },
+  "T28": {
+    "title": "T28 — Nhân Vật + Truyền Thừa tabs (place↔person link + Marcus lineage)",
+    "steps": [
+      {
+        "id": 1,
+        "desc": "Kiểm tra DB: KHÔNG có cột/bảng nào nối person↔place trực tiếp trong schema hiện tại. SELECT name FROM sqlite_master WHERE type='table' AND name LIKE '%person%place%'."
+      },
+      {
+        "id": 2,
+        "desc": "Research step bắt buộc (15 nguồn CLAUDE.md): tìm nguồn nào có person↔place association có uy tín: DILA DDBC persons API, CBETA author index, Wikidata Q-item statements. Tài liệu kết quả research."
+      },
+      {
+        "id": 3,
+        "desc": "Tạo place_person_curated table: place_id TEXT, person_id TEXT, relation_type TEXT, source TEXT, confidence REAL, source_ref TEXT. Chỉ insert từ nguồn đã verified."
+      },
+      {
+        "id": 4,
+        "desc": "Seed Thiếu Lâm Tự case: tìm person_id của Bồ Đề Đạt Ma và Huệ Khả trong DILA persons. INSERT với source='DILA_DDBC' và source_ref = DDBC biography URL."
+      },
+      {
+        "id": 5,
+        "desc": "Implement API GET /daoanh/api/places/<id>/persons — query place_person_curated JOIN marcus_networks. Return [{person_id, name_zh, name_vi, relation_type, marcus_network_id}]."
+      },
+      {
+        "id": 6,
+        "desc": "Thêm Tab 'Nhân Vật' vào places.html: fetch /api/places/<id>/persons → hiển thị danh sách. Click 1 nhân vật → chuyển sang Tab 'Truyền Thừa'."
+      },
+      {
+        "id": 7,
+        "desc": "Tab 'Truyền Thừa': fetch /daoanh/api/marcus/network/<person_id> → vẽ cây phả hệ bằng vis.js Network (dùng cùng lib với đồ thị tab T04). Nodes = persons, edges = lineage relations."
+      },
+      {
+        "id": 8,
+        "desc": "Acceptance: click Thiếu Lâm Tự → Tab Nhân Vật có Bồ Đề Đạt Ma + Huệ Khả → click → Tab Truyền Thừa vẽ cây Marcus lineage."
+      },
+      {
+        "id": 9,
+        "desc": "Cập nhật T28 status=done, rebuild progress."
+      }
+    ]
+  }
+}

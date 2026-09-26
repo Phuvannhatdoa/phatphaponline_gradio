@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Person — Đạo Ảnh Admin</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#0a0c10; color:#e2e8f0; font-family:'Inter',sans-serif; }
+  .mono { font-family:'JetBrains Mono',monospace; }
+  .fl { font-size:10px; font-weight:700; letter-spacing:.1em; color:#475569; text-transform:uppercase; margin-bottom:4px; font-family:'JetBrains Mono',monospace; }
+  .fv { font-size:14px; color:#e2e8f0; line-height:1.7; }
+  .fv.zh { font-family:serif; font-size:15px; color:#cbd5e1; }
+  .fv.empty { color:#334155; font-style:italic; }
+  pre { white-space:pre-wrap; word-break:break-word; margin:0; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .spinner { width:14px; height:14px; border:2px solid #f59e0b30; border-top-color:#f59e0b; border-radius:50%; animation:spin .7s linear infinite; display:inline-block; }
+  .badge-auto { background:#78350f22; color:#fbbf24; border:1px solid #78350f55; }
+  .badge-outdated { background:#7f1d1d22; color:#f87171; border:1px solid #7f1d1d55; }
+  .badge-reported { background:#1e1b4b22; color:#a78bfa; border:1px solid #1e1b4b55; }
+</style>
+</head>
+<body>
+<div class="min-h-screen p-6 md:p-10 max-w-3xl mx-auto">
+
+  <div id="loading" class="text-slate-600 mono text-sm mt-20 text-center animate-pulse">Đang tải…</div>
+  <div id="errbox" hidden class="text-red-500/70 mono text-sm mt-20 text-center"></div>
+
+  <!-- HEADER -->
+  <div id="hdr" hidden class="mb-8">
+    <div class="flex items-start justify-between gap-4 flex-wrap">
+      <div>
+        <div id="hdr-id" class="text-[10px] text-amber-500/60 mono font-bold tracking-widest mb-1"></div>
+        <h1 id="hdr-name" class="text-2xl font-black text-white"></h1>
+        <div id="hdr-zh" class="text-slate-400 text-lg mt-1" style="font-family:serif" hidden></div>
+      </div>
+      <div class="flex gap-3 items-center shrink-0 mt-1">
+        <a href="javascript:history.back()" class="text-[11px] mono text-slate-500 hover:text-amber-500 transition-colors underline underline-offset-2">← Quay lại</a>
+        <a href="/daoanh/admin/search_all.html" class="text-[11px] mono text-slate-500 hover:text-amber-500 transition-colors underline underline-offset-2">Search</a>
+      </div>
+    </div>
+    <!-- meta badges -->
+    <div id="meta" class="flex flex-wrap gap-2 mt-4"></div>
+  </div>
+
+  <!-- BASIC INFO -->
+  <div id="card-basic" hidden class="bg-[#11151c] border border-slate-800/50 rounded-2xl p-6 mb-5">
+    <div class="fl mb-4">THÔNG TIN CƠ BẢN</div>
+    <div id="basic-fields"></div>
+  </div>
+
+  <!-- BIO HÁN VĂN + NÚT DỊCH -->
+  <div id="card-bio-zh" hidden class="bg-[#11151c] border border-slate-800/50 rounded-2xl p-6 mb-5">
+    <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
+      <div class="fl mb-0">TIỂU SỬ HÁN VĂN (DILA)</div>
+      <button id="btn-translate"
+        class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30
+               text-[11px] font-bold text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/60
+               transition-all mono disabled:opacity-40 disabled:cursor-not-allowed"
+        onclick="doTranslate()">
+        <span id="btn-icon">✨</span>
+        <span id="btn-label">Dịch AI → Tiếng Việt</span>
+      </button>
+    </div>
+    <pre id="bio-zh-text" class="fv zh text-sm"></pre>
+  </div>
+
+  <!-- BIO TIẾNG VIỆT -->
+  <div id="card-bio-vi" hidden class="bg-[#11151c] border border-slate-800/50 rounded-2xl p-6 mb-5">
+    <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
+      <div class="fl mb-0">TIỂU SỬ TIẾNG VIỆT</div>
+      <div id="vi-badges" class="flex gap-2 items-center"></div>
+    </div>
+    <pre id="bio-vi-text" class="fv text-sm text-slate-200 leading-relaxed"></pre>
+    <!-- report bar -->
+    <div id="report-bar" hidden class="mt-5 pt-4 border-t border-slate-800/40 flex items-center gap-3 flex-wrap">
+      <span class="text-[11px] text-slate-600 mono">Bản dịch có sai sót?</span>
+      <button onclick="reportTranslation('style')"
+        class="text-[10px] mono text-slate-500 hover:text-rose-400 transition-colors border border-slate-800/60 hover:border-rose-500/40 px-2.5 py-1 rounded-lg">
+        🚩 Báo lỗi văn phong
+      </button>
+      <button onclick="reportTranslation('content')"
+        class="text-[10px] mono text-slate-500 hover:text-rose-400 transition-colors border border-slate-800/60 hover:border-rose-500/40 px-2.5 py-1 rounded-lg">
+        🚩 Báo lỗi nội dung
+      </button>
+      <span id="report-msg" class="text-[10px] mono text-emerald-500 hidden"></span>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div id="card-timeline" hidden class="bg-[#11151c] border border-slate-800/50 rounded-2xl p-6 mb-5">
+    <div class="fl mb-4">TIMELINE</div>
+    <div id="timeline-body"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Auth ──
+(function() {
+  var s = localStorage.getItem('admin_session');
+  if (!s) { location.href = '/daoanh/login.html'; return; }
+  fetch('/daoanh/api/login/check', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_token:s})})
+    .then(r=>r.json()).then(d=>{ if(!d.valid){localStorage.removeItem('admin_session');location.href='/daoanh/login.html';} })
+    .catch(()=>{});
+})();
+
+var personId = new URLSearchParams(location.search).get('id') || '';
+var translationId = null;
+
+function esc(s){ return s==null?'':(s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function field(label, val){
+  var empty = val==null||val==='';
+  return '<div class="mb-4"><div class="fl">' + esc(label) + '</div>'
+    + '<div class="fv' + (empty?' empty':'') + '">' + (empty?'(chưa có)':esc(val)) + '</div></div>';
+}
+
+function showViBadges(status, rulesOutdated, modelId) {
+  var html = '';
+  if (status === 'auto') html += '<span class="badge-auto text-[9px] font-bold mono px-2 py-0.5 rounded-full">AI TỰ ĐỘNG</span>';
+  if (status === 'reported') html += '<span class="badge-reported text-[9px] font-bold mono px-2 py-0.5 rounded-full">CÓ BÁO LỖI</span>';
+  if (rulesOutdated) html += '<span class="badge-outdated text-[9px] font-bold mono px-2 py-0.5 rounded-full">RULES CŨ</span>';
+  if (modelId) html += '<span class="text-[9px] mono text-slate-600">' + esc(modelId.replace(/^models\//,'')) + '</span>';
+  document.getElementById('vi-badges').innerHTML = html;
+}
+
+function renderBioVi(bioVi, status, rulesOutdated, modelId, tId) {
+  translationId = tId;
+  document.getElementById('bio-vi-text').textContent = bioVi;
+  showViBadges(status, rulesOutdated, modelId);
+  document.getElementById('card-bio-vi').hidden = false;
+  document.getElementById('report-bar').hidden = false;
+
+  // Đổi nút sang "Dịch lại"
+  document.getElementById('btn-icon').textContent = '🔄';
+  document.getElementById('btn-label').textContent = rulesOutdated ? 'Dịch lại (rules mới)' : 'Dịch lại';
+}
+
+function doTranslate() {
+  var btn = document.getElementById('btn-translate');
+  btn.disabled = true;
+  document.getElementById('btn-icon').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('btn-label').textContent = 'Đang dịch…';
+
+  fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/translate', {method:'POST'})
+    .then(r=>r.json())
+    .then(d=>{
+      btn.disabled = false;
+      if (!d.ok) {
+        document.getElementById('btn-icon').textContent = '⚠️';
+        document.getElementById('btn-label').textContent = d.error || 'Lỗi — thử lại';
+        return;
+      }
+      document.getElementById('btn-icon').textContent = '✅';
+      document.getElementById('btn-label').textContent = 'Đã dịch';
+      renderBioVi(d.bio_vi, d.status, d.rules_outdated, d.model_id, d.translation_id);
+    })
+    .catch(()=>{
+      btn.disabled = false;
+      document.getElementById('btn-icon').textContent = '⚠️';
+      document.getElementById('btn-label').textContent = 'Lỗi kết nối';
+    });
+}
+
+function reportTranslation(errType) {
+  if (!translationId) return;
+  fetch('/daoanh/api/person/' + encodeURIComponent(personId) + '/translate/report', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({translation_id: translationId, error_type: errType, page_url: location.href})
+  }).then(r=>r.json()).then(d=>{
+    var msg = document.getElementById('report-msg');
+    msg.textContent = d.ok ? '✓ Đã ghi nhận báo lỗi' : ('Lỗi: ' + (d.error||''));
+    msg.classList.remove('hidden');
+    setTimeout(()=>msg.classList.add('hidden'), 3000);
+  }).catch(()=>{});
+}
+
+// ── Load person ──
+function load() {
+  if (!personId) {
+    document.getElementById('loading').hidden = true;
+    var e = document.getElementById('errbox');
+    e.textContent = 'Thiếu ?id= trong URL'; e.hidden = false;
+    return;
+  }
+
+  fetch('/daoanh/api/persons/' + encodeURIComponent(personId))
+    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(d=>{
+      document.getElementById('loading').hidden = true;
+
+      // Header
+      document.getElementById('hdr-id').textContent = d.id;
+      document.getElementById('hdr-name').textContent = d.name_vi || d.name_zh || d.id;
+      if (d.name_zh && d.name_zh !== d.name_vi) {
+        var zhEl = document.getElementById('hdr-zh');
+        zhEl.textContent = d.name_zh; zhEl.hidden = false;
+      }
+
+      // Meta badges
+      var metaHtml = '';
+      if (d.dynasty) metaHtml += '<span class="bg-purple-500/10 text-purple-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc(d.dynasty) + '</span>';
+      if (d.sect) metaHtml += '<span class="bg-emerald-500/10 text-emerald-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc(d.sect) + '</span>';
+      if (d.birth_year || d.death_year) metaHtml += '<span class="bg-slate-700/30 text-slate-400 text-[11px] mono font-bold px-3 py-1.5 rounded-full">' + esc((d.birth_year||'?')+' – '+(d.death_year||'?')) + '</span>';
+      document.getElementById('meta').innerHTML = metaHtml;
+      document.getElementById('hdr').hidden = false;
+
+      // Basic fields
+      var bf = field('Tên tiếng Việt', d.name_vi) + field('Tên Hán', d.name_zh) + field('Tên tiếng Anh', d.name_en)
+             + field('Triều đại', d.dynasty) + field('Tông phái', d.sect)
+             + (d.birth_year ? field('Năm sinh / mất', (d.birth_year||'?')+' – '+(d.death_year||'?')) : '');
+      document.getElementById('basic-fields').innerHTML = bf;
+      document.getElementById('card-basic').hidden = false;
+
+      // Bio Hán văn
+      var bioZh = d.bio_zh || d.biography || '';
+      if (bioZh) {
+        document.getElementById('bio-zh-text').textContent = bioZh;
+        document.getElementById('card-bio-zh').hidden = false;
+      } else {
+        // Không có tiểu sử → ẩn nút dịch
+        document.getElementById('card-bio-zh').hidden = true;
+      }
+
+      // Bio tiếng Việt từ cache (nếu đã dịch trước)
+      if (d.bio_vi) {
+        renderBioVi(d.bio_vi, d.bio_vi_status, d.rules_outdated, d.model_id, d.translation_id);
+      }
+
+      // Timeline
+      if (d.timeline && d.timeline.length > 0) {
+        var tlHtml = '';
+        d.timeline.forEach(function(t) {
+          tlHtml += '<div class="flex gap-4 mb-2">'
+            + '<span class="text-amber-500/50 mono text-[11px] shrink-0 mt-0.5 w-14 text-right">' + esc(t.event_year||'?') + '</span>'
+            + '<div><span class="text-[10px] mono text-slate-600 mr-2">' + esc(t.event_type||'') + '</span>'
+            + '<span class="text-sm text-slate-300">' + esc(t.label_vi||'') + '</span></div>'
+            + '</div>';
+        });
+        document.getElementById('timeline-body').innerHTML = tlHtml;
+        document.getElementById('card-timeline').hidden = false;
+      }
+    })
+    .catch(function(e){
+      document.getElementById('loading').hidden = true;
+      var el = document.getElementById('errbox');
+      el.textContent = 'Không tìm thấy: ' + personId + ' (' + e.message + ')';
+      el.hidden = false;
+    });
+}
+
+load();
+</script>
+</body>
+</html>

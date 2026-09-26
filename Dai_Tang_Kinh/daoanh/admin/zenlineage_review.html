@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zen Lineage Review — HITL Mapping (T139)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&display=swap');
+:root{
+  --primary:#d97706; --primary-hover:#b45309; --bg-page:#020617; --bg-card:#0f172a;
+  --text-main:#f8fafc; --text-muted:#94a3b8; --border:#334155; --info:#3b82f6;
+  --success:#10b981; --error:#ef4444; --warning:#f59e0b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg-page);color:var(--text-main);padding:28px;min-height:100vh}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.top h1{font-family:'Noto Serif TC',serif;font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.top h1 i{color:var(--primary)}
+.top a{color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:600}
+.top a:hover{color:var(--primary)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat .num{font-size:26px;font-weight:900;font-family:'Noto Serif TC',serif}
+.stat .lbl{color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.controls{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+select,input[type=text]{padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:#020617;color:var(--text-main);font-size:13px;outline:none}
+select:focus,input:focus{border-color:var(--primary)}
+input[type=text]{min-width:220px;flex:1}
+button{cursor:pointer;border:none;border-radius:8px;padding:10px 16px;font-weight:700;font-size:13px;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-green{background:var(--success);color:#022c22}
+.btn-green:hover{background:#059669}
+.btn-red{background:var(--error);color:#fff}
+.btn-red:hover{background:#dc2626}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+.btn{background:#1e293b;color:var(--text-main)}
+.btn:hover{background:#334155}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+.card h2{font-size:15px;font-weight:700;margin-bottom:4px;font-family:'Noto Serif TC',serif;display:flex;align-items:center;gap:8px}
+.card .sub{color:var(--text-muted);font-size:12px;margin-bottom:12px;line-height:1.6}
+.cand-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.cand-name{font-family:'Noto Serif TC',serif;font-size:17px;font-weight:700}
+.cand-meta{color:var(--text-muted);font-size:12px}
+.sugg{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sugg-card{background:#0b1220;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;cursor:pointer;transition:border-color .15s;min-width:150px}
+.sugg-card:hover{border-color:var(--info)}
+.sugg-card.selected{border-color:var(--success);background:rgba(16,185,129,.08)}
+.sugg-card .hn{color:var(--warning);font-weight:700}
+.sugg-card .vi{color:var(--text-main)}
+.sugg-card .meta{color:var(--text-muted);font-size:11px;margin-top:3px}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.note-input{flex:1;min-width:140px;padding:8px 10px;border-radius:6px;border:1px solid var(--border);background:#020617;color:var(--text-main);font-size:12px}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}
+.badge.pending{background:rgba(148,163,184,.15);color:var(--text-muted)}
+.badge.approved{background:rgba(16,185,129,.15);color:var(--success)}
+.badge.rejected{background:rgba(239,68,68,.15);color:var(--error)}
+.pager{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:18px;color:var(--text-muted);font-size:13px}
+.pager button{background:#1e293b;color:var(--text-main)}
+.pager button:disabled{opacity:.4;cursor:not-allowed}
+.toast{position:fixed;bottom:20px;right:20px;background:#0b1220;border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.5);display:none;z-index:99;max-width:420px}
+.toast.ok{border-color:var(--success)} .toast.ok i{color:var(--success)}
+.toast.err{border-color:var(--error)} .toast.err i{color:var(--error)}
+.mono{font-family:'Consolas',monospace;font-size:11px;color:var(--text-muted)}
+.tier{font-size:10px;color:var(--text-muted);margin-left:4px}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1><i class="fa-solid fa-tree"></i> Zen Lineage Review — HITL Mapping (T139 Phase 2)</h1>
+  <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Về Dashboard</a>
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="card" style="padding:14px">
+  <div class="controls">
+    <select id="f-filter" onchange="loadCandidates(1)">
+      <option value="all">Tất cả</option>
+      <option value="pending">Pending (chưa duyệt)</option>
+      <option value="approved">Approved</option>
+      <option value="rejected">Rejected</option>
+    </select>
+    <input type="text" id="f-q" placeholder="Tìm tên / slug zen master..." onkeydown="if(event.key==='Enter')loadCandidates(1)">
+    <button class="btn-primary" onclick="loadCandidates(1)"><i class="fa-solid fa-magnifying-glass"></i> Tìm</button>
+  </div>
+</div>
+
+<div id="list"></div>
+
+<div class="pager" id="pager"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const EDITOR = localStorage.getItem('adminName') || (()=>{ const n=prompt('Tên editor (HITL reviewer):','admin'); localStorage.setItem('adminName',n||'admin'); return n||'admin'; })();
+let PAGE=1, LIMIT=20, TOTAL=0;
+let sel={};
+let CAND={};
+
+function $id(x){return document.getElementById(x)}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function toast(msg,ok){
+  const t=$id('toast');
+  t.innerHTML='<i class="fa-solid '+(ok?'fa-check-circle':'fa-triangle-exclamation')+'"></i> '+esc(msg);
+  t.className='toast '+(ok?'ok':'err'); t.style.display='block';
+  clearTimeout(t._h); t._h=setTimeout(()=>t.style.display='none',3500);
+}
+function fmtYears(b,d){ const pb=b?('Năm '+b+(d?'':'+')):''; const pd=d?(' – '+d):''; if(!pb&&!pd)return '?'; return pb+pd; }
+
+async function loadStats(){
+  try{ const r=await fetch('/daoanh/api/admin/zenlineage/stats'); const j=await r.json();
+    if(!j.ok){ $id('stats').innerHTML='<div class="stat"><div class="num" style="color:var(--error)">ERR</div><div class="lbl">'+esc(j.error||'lỗi')+'</div></div>'; return; }
+    const bs=j.by_status||{}; const bt=j.by_tier||{};
+    const items=[
+      ['Tổng candidate', j.total, null],
+      ['Approved', bs.approved||0, 'var(--success)'],
+      ['Pending', bs.pending||0, 'var(--warning)'],
+      ['Rejected', bs.rejected||0, 'var(--error)'],
+      ['Transmissions', j.transmissions||0, null],
+      ['Tier A/B/C/D', (bt.A||0)+'/'+(bt.B||0)+'/'+(bt.C||0)+'/'+(bt.D||0), null],
+    ];
+    $id('stats').innerHTML=items.map(x=>'<div class="stat"><div class="num" style="color:'+(x[2]||'var(--primary)')+'">'+x[1]+'</div><div class="lbl">'+x[0]+'</div></div>').join('');
+  }catch(e){ toast('Lỗi tải stats: '+e.message,false); }
+}
+
+async function loadCandidates(page){
+  PAGE=page;
+  const filter=$id('f-filter').value, q=encodeURIComponent($id('f-q').value.trim());
+  $id('list').innerHTML='<div class="card" style="text-align:center;color:var(--text-muted)"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải...</div>';
+  try{
+    const r=await fetch('/daoanh/api/admin/zenlineage/candidates?page='+page+'&limit='+LIMIT+'&filter='+filter+(q?'&q='+q:''));
+    const j=await r.json();
+    if(!j.ok){ $id('list').innerHTML='<div class="card" style="color:var(--error)">'+esc(j.error||'lỗi')+'</div>'; return; }
+    TOTAL=j.total; sel={}; CAND={};
+    j.items.forEach(it=>CAND[it.slug]=it);
+    renderList(j.items);
+  }catch(e){ $id('list').innerHTML='<div class="card" style="color:var(--error)">'+esc(e.message)+'</div>'; }
+}
+
+function renderList(items){
+  if(!items.length){ $id('list').innerHTML='<div class="card" style="color:var(--text-muted);text-align:center">Không có candidate nào</div>'; }
+  else{
+    $id('list').innerHTML=items.map(c=>{
+      const st=c.status||'pending';
+      const badge='<span class="badge '+st+'">'+esc(st)+'</span>';
+      const revInfo = st==='approved'
+        ? '<span class="mono">→ '+esc(c.dila_person_id||'?')+ (c.editor?(' · '+esc(c.editor)):'') + (c.confidence!=null?(' · conf '+c.confidence):'') +'</span>'
+        : (st==='rejected' ? '<span class="mono">'+(c.note?esc(c.note):'rejected')+'</span>' : '');
+      const suggs=(c.suggestions||[]).map((s,i)=>
+        '<div class="sugg-card" id="sg-'+esc(c.slug)+'-'+i+'" onclick="pickSugg(\''+esc(c.slug)+'\','+i+')">'+
+          '<div><span class="hn">'+esc(s.name_zh||'')+'</span> <span class="vi">'+esc(s.name_vi||'')+'</span></div>'+
+          '<div class="meta">'+esc(s.dila_id||'')+(s.entity_hub_id?(' · hub#'+s.entity_hub_id):'')+(s.sect?(' · '+esc(s.sect)):'' )+'</div>'+
+        '</div>').join('');
+      return '<div class="card" id="card-'+esc(c.slug)+'">'+
+        '<div class="cand-head">'+
+          '<div><span class="cand-name">'+esc(c.name||c.slug)+'</span> <span class="cand-meta">'+esc(c.slug)+'</span></div>'+
+          '<div>'+badge+' '+revInfo+'</div>'+
+        '</div>'+
+        '<div class="cand-meta">'+fmtYears(c.birth_year,c.death_year)+(c.school?(' · school: '+esc(c.school)):'')+'</div>'+
+        (st==='pending' ? '<div class="sugg">'+suggs+'</div>' : '')+
+        '<div class="actions">'+
+          (st==='pending'
+            ? '<input class="note-input" id="note-'+esc(c.slug)+'" placeholder="Ghi chú (tùy chọn)">'+
+              '<button class="btn-green" onclick="approve(\''+esc(c.slug)+'\')"><i class="fa-solid fa-check"></i> Approve</button>'+
+              '<button class="btn-red" onclick="reject(\''+esc(c.slug)+'\')"><i class="fa-solid fa-xmark"></i> Reject</button>'
+            : '<button class="btn-ghost" onclick="unset(\''+esc(c.slug)+'\')"><i class="fa-solid fa-rotate-left"></i> Hủy quyết định</button>')+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }
+  const pages=Math.max(1,Math.ceil(TOTAL/LIMIT));
+  $id('pager').innerHTML='<button '+(PAGE<=1?'disabled':'')+' onclick="loadCandidates('+(PAGE-1)+')"><i class="fa-solid fa-chevron-left"></i> Trước</button>'+
+    '<span>Trang '+PAGE+' / '+pages+' · '+TOTAL+' candidate</span>'+
+    '<button '+(PAGE>=pages?'disabled':'')+' onclick="loadCandidates('+(PAGE+1)+')">Sau <i class="fa-solid fa-chevron-right"></i></button>';
+}
+
+function pickSugg(slug,i){
+  const all=document.querySelectorAll('#card-'+CSS.escape(slug)+' .sugg-card');
+  all.forEach(el=>el.classList.remove('selected'));
+  const el=document.getElementById('sg-'+slug+'-'+i);
+  if(el){ el.classList.add('selected'); sel[slug]=i; }
+}
+
+function getPicked(c){
+  const i=sel[c.slug];
+  if(i!=null && c.suggestions && c.suggestions[i]) return c.suggestions[i];
+  return c.suggestions && c.suggestions[0] ? c.suggestions[0] : null;
+}
+
+async function approve(slug){
+  const c=CAND[slug];
+  if(!c){ toast('Không tìm thấy candidate',false); return; }
+  const sug=getPicked(c);
+  if(!sug){ toast('Không có gợi ý DILA — chọn gợi ý (bấm vào thẻ) hoặc reject.',false); return; }
+  const conf=prompt('Confidence (0-1):', '0.9');
+  if(conf==null) return;
+  const body={dila_id:sug.dila_id, confidence:parseFloat(conf)||0, editor:EDITOR};
+  try{
+    const r=await fetch('/daoanh/api/admin/zenlineage/candidate/'+encodeURIComponent(slug)+'/approve',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json();
+    if(j.ok){ toast('Approved '+slug+' → '+sug.dila_id,true); loadStats(); loadCandidates(PAGE); }
+    else toast(j.error||'lỗi approve',false);
+  }catch(e){ toast('Lỗi: '+e.message,false); }
+}
+
+async function reject(slug){
+  const note=(document.getElementById('note-'+CSS.escape(slug))||{}).value||''; 
+  if(!confirm('Reject '+slug+'?')) return;
+  try{
+    const r=await fetch('/daoanh/api/admin/zenlineage/candidate/'+encodeURIComponent(slug)+'/reject',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({note, editor:EDITOR})});
+    const j=await r.json();
+    if(j.ok){ toast('Rejected '+slug,true); loadStats(); loadCandidates(PAGE); }
+    else toast(j.error||'lỗi reject',false);
+  }catch(e){ toast('Lỗi: '+e.message,false); }
+}
+
+async function unset(slug){
+  if(!confirm('Hủy quyết định '+slug+' (về pending)?')) return;
+  try{
+    const r=await fetch('/daoanh/api/admin/zenlineage/candidate/'+encodeURIComponent(slug)+'/unset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({editor:EDITOR})});
+    const j=await r.json();
+    if(j.ok){ toast('Đã hủy quyết định '+slug,true); loadStats(); loadCandidates(PAGE); }
+    else toast(j.error||'lỗi',false);
+  }catch(e){ toast('Lỗi: '+e.message,false); }
+}
+
+loadStats(); loadCandidates(1);
+</script>
+</body>
+</html>
