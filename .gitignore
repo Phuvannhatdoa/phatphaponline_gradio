@@ -42,3 +42,4 @@ Dai_Tang_Kinh/daoanh/docs/sessions/places.html.bak-*
 # Tool-specific dirs không cần track
 .kilo/
 Dai_Tang_Kinh/.claude/worktrees/
+.claude/settings.local.json
