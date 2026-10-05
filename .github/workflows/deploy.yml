@@ -25,7 +25,7 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no" \
             ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/opt/phatphaponline_gradio/truyenthua/visjs-app/
 
-      - name: Restart Flask app on VPS (managed by systemd: daoanh-api.service)
+      - name: "Restart Flask app on VPS (systemd: daoanh-api.service)"
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} '
             cd /opt/phatphaponline_gradio/truyenthua/visjs-app/Dai_Tang_Kinh/daoanh
