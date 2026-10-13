@@ -1,0 +1,206 @@
+# 
+1. Prompt Nhắc Nhở Checklist (Để tránh Lỗi Hồi Quy)
+"KHI UPDATE CODE, NGƯƠI PHẢI TUÂN THỦ CÁC NGUYÊN TẮC SAU:
+
+BẢO TỒN TÍNH NĂNG (Inheritance): Không được tự ý xóa hoặc tối giản hóa các module đang chạy tốt: Ô Search, 22 dòng thiền gốc, Sidebar, và Popup tiểu sử.
+
+CẬU TRÚC DỮ LIỆU: Giữ nguyên mảng LINEAGE_DATA đầy đủ 22 dòng.
+
+THUẬT TOÁN ĐỜI KÉP (Dual-Lineage Algorithm):
+
+Đời Tổng (G): Lấy trực tiếp từ thuộc tính generationOrder trong GraphDB (Ví dụ: đời 39 Lâm Tế).
+
+Đời Nhánh (L): Phải truy vấn tìm isLineageFounder của nhánh đó (ví dụ: Chúc Thánh) để làm mốc 0, sau đó lấy G(hiện tại) - G(founder) + 1 (Ví dụ: 39 - 34 + 1 = 6).
+
+GIAO DIỆN: Khi Click vào node trên cây chính, chỉ thay đổi nội dung vùng viewport (vẽ lại cây con 3 đời), tuyệt đối không được làm mất thanh Search ở Sidebar."
+
+Câu lệnh hệ thống (Prompt):
+
+"Hãy tạo file thientong.py (Flask + D3.js) hoàn chỉnh để quản lý cây truyền thừa Thiền Tông với các yêu cầu nghiêm ngặt sau:
+
+Dữ liệu gốc (Niêm Ấn): Hardcode danh sách LINEAGE_DATA gồm 22 dòng thiền chính (Ấn Độ, Trung Hoa, Việt Nam: Chúc Thánh, Liễu Quán, Nguyên Thiều, Gia Phổ, Trúc Lâm...).
+
+Chức năng Search (Mớm tin): Tạo API /api/search truy vấn SPARQL vào GraphDB (http://localhost:7200/repositories/buddhist) để gợi ý tên Tổ sư ngay dưới ô nhập liệu khi người dùng gõ.
+
+Popup 3 Tầng (Văn phong Thiền sử): Khi click vào một vị Tổ, hiện bảng thông tin bên phải với 3 dòng định dạng chuẩn:
+
+Dòng 1: Thiền Tông Thế Giới: Đời thứ [X]
+
+Dòng 2: Tông Lâm Tế Trung Hoa: Đời thứ [X-37] (nếu có)
+
+Dòng 3: Pháp phái : [Tên dòng]: Đời thứ [Công thức tính].
+
+Lưu ý: Phần tiểu sử (note) phải dùng white-space: pre-wrap để giữ đúng lối xuống dòng của kệ và thiền sử.
+
+Cây 3 Đời (Vertical Tree): Khi chọn một Tổ sư, dùng D3.js vẽ lại sơ đồ phân cấp dọc rõ ràng: Thầy (trên cùng) -> Vị đó (giữa, màu nổi bật) -> Các trò (dưới cùng). Tuyệt đối không dùng Force Simulation (lực đẩy) để tránh node bay lộn xộn.
+
+Nút Phục Hồi: Luôn có nút '22 DÒNG THIỀN GỐC' ở sidebar để quay về sơ đồ tổng thể ban đầu.
+
+Giao diện: Tone màu nâu sồng (#4e342e), đỏ đậm (#bf360c), nền giấy cổ (#fdf5e6), Font Serif trang trọng."
+
+Tại sao câu lệnh này là "Vô Lỗ":
+Nó khóa chặt logic hiển thị: AI sẽ không dám tự ý dùng Force Simulation nữa mà phải dùng d3.tree() hoặc tọa độ tĩnh.
+
+Nó định nghĩa rõ "Dấu :": Việc thêm dấu : vào Pháp phái đã được ghi vào yêu cầu cứng.
+
+Nó bảo đảm tính năng Search: "Mớm tin" là từ khóa để AI hiểu phải viết hàm Javascript lắng nghe sự kiện input.
+
+
+
+
+# sudo systemctl status buddhist-proxy.service
+# sudo systemctl restart buddhist-proxy.service
+
+Dừng service hoàn toàn: sudo systemctl stop buddhist-proxy.service
+
+Chạy lệnh thanh lọc Port 80: sudo fuser -k 80/tcp
+
+Chạy tay để test: python /opt/phatphaponline_gradio/truyenthua/visjs-app/thientong.py
+
+Quan trọng nhất: Xóa cache trình duyệt (nhấn Ctrl+F5) để giao diện D3.js mới được tải về.
+
+
+---o0o--- 
+1. Bản Niêm Ấn (Prompt để dán cho AI sau này)
+Đạo hữu hãy copy đoạn dưới đây lưu vào một file .txt. Khi nào tôi làm sai, hãy dán nó lên đầu tiên:
+
+Hệ thống: Truyền Thừa Thiền Tông (D3.js & SPARQL)
+
+Cấu trúc lõi không được thay đổi:
+
+Framework: Flask (Python) + D3.js (Frontend). KHÔNG dùng Vis.js hay thư viện khác.
+
+Dữ liệu mồi: Danh sách 22 dòng thiền (AnDo -> TrungHoa -> NamTong/BacTong -> VN...) được khai báo cứng trong LINEAGE_DATA.
+
+Logic SPARQL: >    - Click hoặc Search đều dùng rdfs:label để truy vấn qua api/get_by_label.
+
+Prefix: bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> (có dấu #).
+
+Giao diện: Sidebar Search bên trái, Bio Panel trượt bên phải.
+
+Điều hướng: Search mớm hỗ trợ Tab, Mũi tên lên/xuống và Enter.
+
+Cấu hình VPS: debug=False, use_reloader=False, port 80.
+
+D3 View: Tree phải được căn giữa (Center) và có tính năng Zoom/Drag.
+
+Yêu cầu: Tiếp tục phát triển dựa trên cấu trúc này, chỉ sửa đúng phần được yêu cầu, không viết lại từ đầu, không đổi thư viện.
+
+---o0o--- 
+
+# Đây là một file code đã chạy đúng trong dự án web “home”.
+Nhiệm vụ của bạn:
+
+
+Đọc toàn bộ code và mô tả lại thành một đặc tả kỹ thuật (technical specification) thật chi tiết, để một model khác có thể dựa vào đó mà viết lại đúng file này và chạy được ngay.
+
+
+Đặc tả cần có cấu trúc như sau:
+
+
+2.1. Tổng quan file
+
+
+File này dùng công nghệ gì (VD: React + TypeScript, D3, SPA thuần JS...).
+
+
+Vai trò của file trong dự án (VD: trang Home, component layout, module gọi API...).
+
+
+
+
+2.2. Cấu trúc DOM / Component
+
+
+Mô tả cây component / HTML chính: các section, id, class quan trọng.
+
+
+Mỗi phần dùng để làm gì (ví dụ: sidebar tìm kiếm, vùng canvas D3, popup chi tiết...).
+
+
+
+
+2.3. State & dữ liệu
+
+
+Các biến state chính, global object, cấu trúc dữ liệu (VD: nodes, flatData, endpoint, v.v.).
+
+
+Dạng dữ liệu (mảng gì, mỗi phần tử có thuộc tính nào).
+
+
+
+
+2.4. Hàm & logic
+
+
+Liệt kê từng hàm (tên hàm), mô tả:
+
+
+Mục đích.
+
+
+Input (tham số, kiểu).
+
+
+Output (trả về gì).
+
+
+Side-effect (VD: cập nhật DOM, vẽ lại SVG, gọi API...).
+
+
+
+
+Ghi rõ thứ tự luồng chạy chính: user làm gì → hàm nào chạy → gọi API nào → cập nhật UI ra sao.
+
+
+
+
+2.5. Giao tiếp API / backend
+
+
+Danh sách endpoint được gọi (URL mẫu, phương thức GET/POST, query/body).
+
+
+Kiểu response (JSON structure) và cách parse.
+
+
+
+
+2.6. Ràng buộc & yêu cầu đặc biệt
+
+
+Bất kỳ chi tiết nào quan trọng: debounce input, zoom D3, tự tính width rect theo text, v.v.
+
+
+Những chỗ “bẫy” dễ sai (VD: phải gán transform cho g, phải gọi treeLayout(root) trước khi vẽ, v.v.).
+
+
+
+
+
+
+Văn phong:
+
+
+Viết rõ ràng, có mục lục, đánh số mục như tài liệu kỹ thuật.
+
+
+Không cần trích dẫn lại code, chỉ mô tả hành vi, contract, cấu trúc.
+
+
+
+
+Mục tiêu:
+
+
+Một model khác (ví dụ ChatGPT) chỉ cần đọc đặc tả này, không xem code gốc, vẫn có thể code lại một file với hành vi tương đương 100% (UI, API, logic) và chạy được ngay.
+
+
+
+
+Nếu hiểu yêu cầu, hãy bắt đầu mô tả theo cấu trúc trên.
+
+
+
+# 

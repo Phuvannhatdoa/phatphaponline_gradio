@@ -1,0 +1,6 @@
+﻿ Dai_Tang_Kinh/daoanh/data/progress_data.json       |  24 ++--
+ Dai_Tang_Kinh/daoanh/docs/ROLLBACK.md              |   1 +
+ .../2026-09-28_t188-t171-spec-logic-fixes.md       | 128 +++++++++++++++++++++
+ Dai_Tang_Kinh/daoanh/docs/tasktodo.md              |   5 +-
+ .../daoanh/tasks/T188-t171-spec-logic-fixes.md     | 127 ++++++++++++++++++++
+ 5 files changed, 272 insertions(+), 13 deletions(-)

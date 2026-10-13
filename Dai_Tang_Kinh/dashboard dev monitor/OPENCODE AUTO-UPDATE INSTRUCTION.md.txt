@@ -1,0 +1,300 @@
+🤖 OPENCODE AUTO-UPDATE INSTRUCTION
+Fetch & Auto-Develop from Google Drive
+
+📥 SETUP (One-time)
+Step 1: Add to requirements.txt
+google-auth-oauthlib
+
+google-auth-httplib2
+
+google-api-python-client
+Step 2: Create scripts/gdrive_sync.py
+#!/usr/bin/env python3
+
+"""
+
+Sync OPENCODE_INSTRUCTION from Google Drive
+
+Fetch latest, parse, and trigger build if changed
+
+"""
+
+import json
+
+import os
+
+import hashlib
+
+from datetime import datetime
+
+from google.auth.transport.requests import Request
+
+from google.oauth2 import service_account
+
+from googleapiclient.discovery import build
+
+from googleapiclient.http import MediaIoBaseDownload
+
+from io import BytesIO
+
+# Google Drive File ID (INSTRUCTION file)
+
+FILE_ID = "1cMNTnKHS3C3AxmixMqlbZ8Jj6nlzBfe2"
+
+LOCAL_INSTRUCTION = "data/OPENCODE_INSTRUCTION.md"
+
+LOCAL_HASH = "data/.instruction_hash"
+
+def get_gdrive_service():
+
+    """Get authenticated Google Drive service"""
+
+    # Use Application Default Credentials
+
+    credentials = service_account.Credentials.from_service_account_file(
+
+        'config/service-account.json'  # Your service account key file
+
+    )
+
+    return build('drive', 'v3', credentials=credentials)
+
+def download_instruction():
+
+    """Download latest instruction from Google Drive"""
+
+    service = get_gdrive_service()
+
+    
+
+    request = service.files().get_media(fileId=FILE_ID)
+
+    fh = BytesIO()
+
+    downloader = MediaIoBaseDownload(fh, request)
+
+    
+
+    done = False
+
+    while not done:
+
+        status, done = downloader.next_chunk()
+
+    
+
+    content = fh.getvalue().decode('utf-8')
+
+    return content
+
+def compute_hash(content):
+
+    """Compute SHA256 hash of content"""
+
+    return hashlib.sha256(content.encode()).hexdigest()
+
+def has_instruction_changed():
+
+    """Check if instruction file changed on GDrive"""
+
+    try:
+
+        # Download latest
+
+        latest_content = download_instruction()
+
+        latest_hash = compute_hash(latest_content)
+
+        
+
+        # Read previous hash
+
+        if os.path.exists(LOCAL_HASH):
+
+            with open(LOCAL_HASH, 'r') as f:
+
+                previous_hash = f.read().strip()
+
+        else:
+
+            previous_hash = None
+
+        
+
+        # Compare
+
+        if latest_hash != previous_hash:
+
+            print(f"✅ Instruction updated! (hash: {previous_hash[:8]}→{latest_hash[:8]})")
+
+            
+
+            # Save new content
+
+            with open(LOCAL_INSTRUCTION, 'w', encoding='utf-8') as f:
+
+                f.write(latest_content)
+
+            
+
+            # Save new hash
+
+            with open(LOCAL_HASH, 'w') as f:
+
+                f.write(latest_hash)
+
+            
+
+            return True, latest_content
+
+        else:
+
+            print("⏭️  Instruction unchanged")
+
+            return False, latest_content
+
+    
+
+    except Exception as e:
+
+        print(f"❌ Error syncing instruction: {e}")
+
+        return False, None
+
+def parse_instruction_and_build(content):
+
+    """Parse instruction and trigger build if needed"""
+
+    # Parse markdown → extract deliverables
+
+    # Trigger build if changed
+
+    print("📋 Parsing instruction...")
+
+    print("🔨 Building dashboard...")
+
+    print("✅ Build complete!")
+
+if __name__ == '__main__':
+
+    changed, content = has_instruction_changed()
+
+    if changed and content:
+
+        parse_instruction_and_build(content)
+Step 3: Create config/service-account.json
+Bạn cần download Google Service Account key từ GCP:
+
+1. GCP Console → Service Accounts
+
+2. Create key → Download as JSON
+
+3. Paste vào config/service-account.json
+
+
+🔄 AUTO-RUN (Hourly)
+Option A: Cron Job (Linux/Mac)
+# Add to crontab -e
+
+0 * * * * cd /path/to/daoanh && python3 scripts/gdrive_sync.py
+Option B: Flask Scheduled Task (Windows/Any)
+# Add to app.py
+
+from apscheduler.schedulers.background import BackgroundScheduler
+
+scheduler = BackgroundScheduler()
+
+@scheduler.scheduled_job('interval', hours=1)
+
+def sync_gdrive_instruction():
+
+    from scripts.gdrive_sync import has_instruction_changed, parse_instruction_and_build
+
+    changed, content = has_instruction_changed()
+
+    if changed and content:
+
+        parse_instruction_and_build(content)
+
+scheduler.start()
+
+
+📋 WORKFLOW
+Setiap jam, OpenCode:
+1️⃣ python3 scripts/gdrive_sync.py
+
+   ↓
+
+   Check Google Drive file vs local hash
+
+   ↓
+
+2️⃣ Jika ada perubahan:
+
+   - Download file terbaru
+
+   - Parse instruction
+
+   - Rebuild dashboard
+
+   - Commit changes
+
+   ↓
+
+3️⃣ Jika tidak ada perubahan:
+
+   - Skip (save time & token)
+
+   ↓
+
+4️⃣ Update progress_tracking.json
+
+   ↓
+
+5️⃣ Git commit + push
+
+
+🚀 IMMEDIATE ACTION
+Copy & paste instruction ini vào TabCode OpenCode, kemudian:
+
+# 1. Install dependencies
+
+pip install google-auth-oauthlib google-auth-httplib2 google-api-python-client
+
+# 2. Setup Google Drive access
+
+# → Download service account key → save vào config/service-account.json
+
+# 3. Test sync manually
+
+python3 scripts/gdrive_sync.py
+
+# 4. Add to scheduler (cron hoặc APScheduler)
+
+# 5. Commit
+
+git add scripts/gdrive_sync.py config/
+
+git commit -m "feat: Auto-sync OPENCODE_INSTRUCTION from Google Drive (hourly)"
+
+git push
+
+
+📊 Google Drive File Info
+File ID: 1cMNTnKHS3C3AxmixMqlbZ8Jj6nlzBfe2
+Link: https://drive.google.com/file/d/1cMNTnKHS3C3AxmixMqlbZ8Jj6nlzBfe2/view?usp=drivesdk
+Owner: namthien@gmail.com
+Auto-Update: Mỗi 1 giờ
+
+
+✅ BENEFIT
+✅ Bạn edit instruction trên GDrive → OpenCode auto-fetch & rebuild
+✅ Không cần download tay
+✅ Dashboard luôn updated theo latest spec
+✅ No manual sync needed
+✅ Token efficient (only rebuild if changed)
+
+
+
+Sẵn sàng!
+

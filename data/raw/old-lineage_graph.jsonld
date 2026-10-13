@@ -1,0 +1,167 @@
+{
+  "@context": {
+    "ex": "http://data.phatphaponline.org/lineage/",
+    "bkg": "http://buddhist-kg.org/ontology/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "ex:Thien_Tong_An_Do",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Ấn Độ", "lang": "vi" },
+      "bkg:description": { "value": "Dòng Thiền Tông Ấn Độ từ Thủy Tổ Thích Ca Mâu Ni Phật truyền tới tổ Bồ Đề Đạt Ma", "lang": "vi" },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Thien_Tong_Trung_Hoa" },
+        { "@id": "ex:Thien_Tong_Tay_Tang" }
+      ]
+    },
+    {
+      "@id": "ex:Thien_Tong_Trung_Hoa",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Trung Hoa", "lang": "vi" },
+      "bkg:description": { "value": "Thiền Tông Trung Hoa, truyền từ Tổ sư Bồ Đề Đạt Ma", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_An_Do" },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Thien_Tong_Bac_Tong" },
+        { "@id": "ex:Thien_Tong_Nam_Tong" },
+        { "@id": "ex:Nguu_Dau_Tong" }
+      ]
+    },
+    {
+      "@id": "ex:Thien_Tong_Bac_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Trung Hoa - Bắc Tông", "lang": "vi" },
+      "bkg:description": { "value": "Tông Lâm Tế Trung Hoa Bắc Tông, truyền từ Thần Tú", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Trung_Hoa" }
+    },
+    {
+      "@id": "ex:Thien_Tong_Nam_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Trung Hoa - Nam Tông", "lang": "vi" },
+      "bkg:description": { "value": "Tông Lâm Tế Trung Hoa Nam Tông, truyền từ Lục Tổ Huệ Năng", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Trung_Hoa" },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Zen_Hongzhou" },
+        { "@id": "ex:Zen_Shitou" },
+        { "@id": "ex:Zen_Heze" },
+        { "@id": "ex:Tong_Lam_Te_Trung_Hoa" },
+        { "@id": "ex:Tong_Tao_Dong" },
+        { "@id": "ex:Tong_Van_Mon" },
+        { "@id": "ex:Tong_Quy_Nguong" },
+        { "@id": "ex:Tong_Phap_Nhan" }
+      ]
+    },
+    {
+      "@id": "ex:Thien_Tong_Tay_Tang",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thiền Tông Tây Tạng", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_An_Do" }
+    },
+    {
+      "@id": "ex:Tong_Lam_Te_Trung_Hoa",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Lâm Tế Trung Hoa", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Phai_Duong_Ki" },
+        { "@id": "ex:Phai_Hoang_Long" }
+      ]
+    },
+    {
+      "@id": "ex:Phai_Duong_Ki",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Phái Dương Kì", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Tong_Lam_Te_Trung_Hoa" }
+    },
+    {
+      "@id": "ex:Phai_Hoang_Long",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Phái Hoàng Long", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Tong_Lam_Te_Trung_Hoa" }
+    },
+    {
+      "@id": "ex:Tong_Tao_Dong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Tào Động", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" }
+    },
+    {
+      "@id": "ex:Tong_Van_Mon",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Vân Môn", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" }
+    },
+    {
+      "@id": "ex:Tong_Quy_Nguong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Quy Ngưỡng", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" }
+    },
+    {
+      "@id": "ex:Tong_Phap_Nhan",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Pháp Nhãn", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" }
+    },
+    {
+      "@id": "ex:Nguu_Dau_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Ngưu Đầu Tông", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Trung_Hoa" }
+    },
+    {
+      "@id": "ex:Tong_Lam_Te_Viet_Nam",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Tông Lâm Tế Việt Nam", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Trung_Hoa" },
+      "bkg:hasSubLineage": [
+        { "@id": "ex:Dong_Chuc_Thanh" },
+        { "@id": "ex:Dong_Lam_Te_Gia_Pho" },
+        { "@id": "ex:Dong_Lieu_Quan" },
+        { "@id": "ex:Dong_Lam_Te_Chanh_Tong" }
+      ]
+    },
+    {
+      "@id": "ex:Dong_Chuc_Thanh",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Dòng Chúc Thánh", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Tong_Lam_Te_Viet_Nam" }
+    },
+    {
+      "@id": "ex:Dong_Lam_Te_Gia_Pho",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Dòng Lâm Tế Gia Phổ", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Tong_Lam_Te_Viet_Nam" }
+    },
+    {
+      "@id": "ex:Dong_Lieu_Quan",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Dòng Liễu Quán", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Tong_Lam_Te_Viet_Nam" }
+    },
+    {
+      "@id": "ex:Dong_Lam_Te_Chanh_Tong",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Dòng Lâm Tế Chánh Tông", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Tong_Lam_Te_Viet_Nam" }
+    },
+    {
+      "@id": "ex:Zen_Hongzhou",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Hồng Châu Tông", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" }
+    },
+    {
+      "@id": "ex:Zen_Shitou",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Thạch Đầu Tông", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" }
+    },
+    {
+      "@id": "ex:Zen_Heze",
+      "@type": "bkg:DharmaLineage",
+      "rdfs:label": { "value": "Hà Trạch Tông", "lang": "vi" },
+      "bkg:isSubLineageOf": { "@id": "ex:Thien_Tong_Nam_Tong" }
+    }
+  ]
+}

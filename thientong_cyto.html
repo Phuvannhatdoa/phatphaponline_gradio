@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thiền Tông - Cytoscape Version</title>
+
+<!-- Cytoscape.js + Dagre -->
+<script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+<script>window.cytoLoaded = typeof cytoscape !== 'undefined';</script>
+<script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+<script>
+if (typeof cytoscape === 'undefined') {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.28.1/dist/cytoscape.min.js"><\/script>');
+}
+if (typeof cytoscapeDagre === 'undefined') {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.js"><\/script>');
+}
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    :root { --p: #4e342e; --a: #bf360c; --bg: #fdf5e6; --gold: #d4af37; --paper: #fffcf5; }
+    body { margin: 0; display: flex; font-family: 'Times New Roman', serif; background: var(--bg); height: 100vh; overflow: hidden; }
+    
+    #sidebar { width: 60px; background: var(--p); z-index: 1000; color: white; flex-shrink: 0; }
+    .side-icon { padding: 20px; cursor: pointer; text-align: center; font-size: 22px; }
+    .side-icon:hover { background: rgba(255,255,255,0.1); }
+    
+    #search-box { display: none; padding: 15px; position: absolute; left: 60px; top: 60px; width: 280px; background: var(--p); z-index: 1001; border-radius: 0 0 8px 8px; }
+    #inp { width: 100%; max-width: 100%; padding: 10px; border: none; box-sizing: border-box; border-radius: 4px; }
+    #sug { background: white; color: black; max-height: 300px; overflow-y: auto; margin-top: 5px; border-radius: 0 0 4px 4px; }
+    #sug div { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
+    #sug div:hover { background: #f0f0f0; }
+    
+    #tree-area { flex-grow: 1; position: relative; background: #fff; }
+    #cy { width: 100%; height: 100%; }
+    
+    #bio-panel { position: fixed; right: -460px; width: 450px; height: 100vh; background: var(--paper); transition: 0.5s; z-index: 2000; box-shadow: -5px 0 20px rgba(0,0,0,0.15); }
+    #bio-panel.open { right: 0; }
+    .bio-header { background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%); color: white; padding: 25px 20px; text-align: center; position: relative; border-bottom: 3px solid var(--gold); }
+    .bio-close { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 22px; padding: 5px 10px; border-radius: 5px; }
+    .bio-close:hover { background: rgba(255,255,255,0.2); }
+    .bio-gens { background: linear-gradient(90deg, #efe4d1 0%, #f5ebd8 100%); padding: 15px 25px; border-bottom: 1px solid #d4c4a8; font-weight: bold; font-size: 14px; line-height: 1.6; }
+    .bio-content { padding: 25px 30px; font-size: 17px; line-height: 1.6; color: #2b1d1a; height: calc(100vh - 180px); overflow-y: auto; text-align: justify; white-space: pre-line; word-wrap: break-word; }
+    .bio-content::-webkit-scrollbar { width: 6px; }
+    .bio-content::-webkit-scrollbar-thumb { background: #d4c4a8; border-radius: 3px; }
+    .bio-content::-webkit-scrollbar-track { background: #f5ebd8; }
+    
+    #status { position: fixed; bottom: 10px; left: 70px; background: var(--p); color: white; padding: 8px 15px; border-radius: 4px; font-size: 12px; z-index: 500; }
+</style>
+</head>
+
+<body>
+<div id="sidebar">
+    <div class="side-icon" onclick="initHome()"><i class="fas fa-home"></i></div>
+    <div class="side-icon" onclick="toggleSearch()"><i class="fas fa-search"></i></div>
+</div>
+
+<div id="search-box">
+    <input type="text" id="inp" placeholder="Tìm Tổ sư...">
+    <div id="sug"></div>
+</div>
+
+<div id="tree-area">
+    <div id="cy"></div>
+</div>
+
+<div id="bio-panel">
+    <div class="bio-header"><b id="bio-title"></b><span class="bio-close" onclick="closeBio()">✕</span></div>
+    <div id="bio-gens" class="bio-gens"></div>
+    <div id="bio-content" class="bio-content"></div>
+</div>
+
+<div id="status">Đang tải...</div>
+
+<script>
+cytoscape.use(cytoscapeDagre);
+
+let cy;
+let monkNames = [];
+let monkNamesLoaded = false;
+
+// SVG icon for + (expand down - green)
+const plusIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23006400" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>');
+
+// SVG icon for ↑ (expand up - blue)
+const upIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%2300648f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>');
+
+// Founder name mapping
+const FOUNDER_NAMES = {
+    "ma_ha_ca_diep": "Ma Ha Ca Diếp",
+    "bo_de_dat_ma": "Bồ Đề Đạt Ma",
+    "dai_giam_hue_nang": "Đại Giám Huệ Năng",
+    "ma_to_dao_nhat": "Mã Tổ Đạo Nhất",
+    "thach_dau_hy_thien": "Thạch Đầu Hy Thiên",
+    "lam_te_nghia_huyen": "Lâm Tế Nghĩa Huyền",
+    "duong_ky_phuong_hoi": "Dương Kỳ Phương Hội",
+    "phat_y_linh_nhac": "Phật Ý Linh Nhạc",
+    "van_mon_van_yen": "Vân Môn Vân Yên",
+    "quy_son_linh_huu": "Quy Sơn Linh Hựu",
+    "phap_nhan_van_ich": "Pháp Nhãn Văn Ích",
+    "vo_ngon_thong": "Vô Ngôn Thông",
+    "ty_ni_da_luu_chi": "Tỳ Ni Đa Lưu Chi",
+    "minh_hai_phap_bao": "Minh Hải Pháp Bảo",
+    "thiet_dieu_lieu_quan": "Thiệt Diệu Liễu Quán",
+    "dong_son_luong_gioi": "Động Sơn Lương Giới",
+    "hoang_long_hue_nam": "Hoàng Long Huệ Nam",
+    "ha_trach_than_hoi": "Hà Trạch Thần Hội",
+    "ngoc_tuyen_than_tu": "Ngọc Tuyền Thần Tú",
+    "nguu_dau_phap_dung": "Ngưu Đầu Pháp Dung"
+};
+
+function getFounderName(id) {
+    if (!id) return '';
+    const key = id.replace('ex:monk/', '').replace('id:ex:monk/', '');
+    return FOUNDER_NAMES[key] || key;
+}
+
+// ========== INIT CYTOSCAPE ==========
+function initCy() {
+    if (cy) cy.destroy();
+    
+    cy = cytoscape({
+        container: document.getElementById('cy'),
+        style: [
+            {
+                selector: 'node',
+                style: {
+                    'label': 'data(label)',
+                    'text-wrap': 'wrap',
+                    'text-max-width': '220px',
+                    'font-size': '13px',
+                    'color': '#333',
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                    'background-color': '#fff9e6',
+                    'border-width': '2px',
+                    'border-color': '#d4a017',
+                    'shape': 'roundrectangle',
+                    'width': 'label',
+                    'height': 'label',
+                    'padding': '12px 18px',
+                    'min-width': '140px'
+                }
+            },
+            // Dấu + bên phải node (expand down) - using background-image
+            {
+                selector: 'node[hasChildren = "true"]',
+                style: {
+                    'background-image': plusIcon,
+                    'background-position-x': '100%',
+                    'background-position-y': '50%',
+                    'background-width': '20px',
+                    'background-height': '20px',
+                    'background-fit': 'contain',
+                    'background-clip': 'node',
+                    'padding-right': '28px'
+                }
+            },
+            // Dấu ↑ bên trái node (expand up)
+            {
+                selector: 'node[hasParent = "true"]',
+                style: {
+                    'background-image': upIcon,
+                    'background-position-x': '0px',
+                    'background-position-y': '50%',
+                    'background-width': '20px',
+                    'background-height': '20px',
+                    'background-fit': 'contain',
+                    'background-clip': 'node',
+                    'padding-left': '28px'
+                }
+            },
+            // Cả hai mũi tên
+            {
+                selector: 'node[hasChildren = "true"][hasParent = "true"]',
+                style: {
+                    'background-image': upIcon + ', ' + plusIcon,
+                    'background-position-x': '0px, 100%',
+                    'background-position-y': '50%, 50%',
+                    'background-width': '20px, 20px',
+                    'background-height': '20px, 20px',
+                    'background-fit': 'contain, contain',
+                    'background-clip': 'node, node',
+                    'padding-left': '28px',
+                    'padding-right': '28px'
+                }
+            },
+            // Edge - Đường ống vuông góc
+            {
+                selector: 'edge',
+                style: {
+                    'curve-style': 'round-taxi',
+                    'taxi-direction': 'vertical',
+                    'taxi-turn': 20,
+                    'width': 2.5,
+                    'line-color': '#8B5A2B',
+                    'line-cap': 'round'
+                }
+            }
+        ],
+        layout: {
+            name: 'dagre',
+            rankDir: 'TB',
+            rankSep: 110,
+            nodeSep: 80,
+            edgeSep: 50,
+            nodeDimensionsIncludeLabels: true,
+            animate: true,
+            animationDuration: 800
+        }
+    });
+    
+    // Click label = mở Bio
+    cy.on('tap', 'node', function(evt) {
+        const node = evt.target;
+        
+        // Skip trace root button
+        if (node.id().startsWith('traceRoot_')) {
+            traceLineage(node.id().replace('traceRoot_', ''));
+            return;
+        }
+        
+        const pos = evt.position;
+        const box = node.boundingBox();
+        
+        // Click vào phần bên phải ≈ 35px cuối node thì expand DOWN (tải đệ tử)
+        if (pos.x > box.x2 - 35 && node.data('hasChildren') === true) {
+            loadChildren(node.id());
+            return;
+        }
+        
+        // Click vào phần bên trái ≈ 35px đầu node thì expand UP (tải thầy)
+        if (pos.x < box.x1 + 35 && node.data('hasParent') === true) {
+            loadTeachers(node.id());
+            return;
+        }
+        
+        // Click vào label = mở Bio
+        if (node.data('isLineageNode')) {
+            showBio(node.data('label'));
+        } else {
+            const founder = node.data('founder');
+            if (founder) showBio(founder);
+        }
+    });
+    
+    setStatus('Đã khởi tạo');
+}
+
+// ========== RUN LAYOUT ==========
+function runLayout() {
+    cy.layout({
+        name: 'dagre',
+        rankDir: 'TB',
+        rankSep: 110,
+        nodeSep: 80,
+        edgeSep: 50,
+        nodeDimensionsIncludeLabels: true,
+        animate: true,
+        animationDuration: 800
+    }).run();
+}
+
+// ========== LOAD CHILDREN ==========
+async function loadChildren(parentId) {
+    setStatus('Đang tải: ' + parentId);
+    
+    try {
+        // Use JSON cache first
+        let students = [];
+        const lineage = lineageTreeData[parentId];
+        
+        if (lineage && lineage.students && lineage.students.length > 0) {
+            students = lineage.students.slice(0, 10);
+        } else {
+            // Fallback to API
+            const apiData = await fetch(`/api/get_lineage?name=${encodeURIComponent(parentId)}`).then(r => r.json());
+            if (!apiData.error && apiData.students) {
+                students = apiData.students.slice(0, 10);
+            }
+        }
+        
+        if (students.length > 0) {
+            students.forEach(student => {
+                if (!cy.getElementById(student).length) {
+                    const studentData = lineageTreeData[student];
+                    const studentHasChildren = studentData && studentData.students && studentData.students.length > 0;
+                    const studentHasParent = !!studentData?.teacher;
+                    
+                    cy.add({
+                        group: 'nodes',
+                        data: {
+                            id: student,
+                            label: student,
+                            isLineageNode: true,
+                            hasChildren: studentHasChildren,
+                            hasParent: studentHasParent
+                        }
+                    });
+                    
+                    cy.add({
+                        group: 'edges',
+                        data: { id: parentId + '_' + student, source: parentId, target: student }
+                    });
+                }
+            });
+            
+            // Mark parent as expanded (no more + for expand down)
+            cy.getElementById(parentId).data('hasChildren', false);
+            
+            runLayout();
+            setStatus('Đã tải đệ tử của ' + parentId);
+        } else {
+            setStatus('Không có đệ tử');
+            cy.getElementById(parentId).data('hasChildren', false);
+        }
+        
+    } catch (e) {
+        console.error(e);
+        setStatus('Lỗi: ' + e.message);
+    }
+}
+
+// ========== LOAD TEACHERS (EXPAND UP) ==========
+async function loadTeachers(childId) {
+    setStatus('Đang tải thầy của: ' + childId);
+    
+    try {
+        let teacher = null;
+        let grandTeacher = null;
+        
+        const lineage = lineageTreeData[childId];
+        if (lineage && lineage.teacher) {
+            teacher = lineage.teacher;
+            
+            // Check if teacher has parent
+            const teacherData = lineageTreeData[teacher];
+            if (teacherData && teacherData.teacher) {
+                grandTeacher = teacherData.teacher;
+            }
+        }
+        
+        if (!teacher) {
+            setStatus('Không có thầy');
+            cy.getElementById(childId).data('hasParent', false);
+            return;
+        }
+        
+        // Add teacher node if not exists
+        if (!cy.getElementById(teacher).length) {
+            const teacherData = lineageTreeData[teacher];
+            const teacherHasParent = teacherData && teacherData.teacher;
+            
+            cy.add({
+                group: 'nodes',
+                data: {
+                    id: teacher,
+                    label: teacher,
+                    isLineageNode: true,
+                    hasChildren: true,
+                    hasParent: teacherHasParent
+                }
+            });
+            
+            cy.add({
+                group: 'edges',
+                data: { id: teacher + '_' + childId, source: teacher, target: childId }
+            });
+        }
+        
+        // Add grand teacher if not exists
+        if (grandTeacher && !cy.getElementById(grandTeacher).length) {
+            const gtData = lineageTreeData[grandTeacher];
+            const gtHasParent = gtData && gtData.teacher;
+            
+            cy.add({
+                group: 'nodes',
+                data: {
+                    id: grandTeacher,
+                    label: grandTeacher,
+                    isLineageNode: true,
+                    hasChildren: true,
+                    hasParent: gtHasParent
+                }
+            });
+            
+            cy.add({
+                group: 'edges',
+                data: { id: grandTeacher + '_' + teacher, source: grandTeacher, target: teacher }
+            });
+        }
+        
+        // Mark child as expanded (no more ↑)
+        cy.getElementById(childId).data('hasParent', false);
+        
+        runLayout();
+        setStatus('Đã tải thầy của ' + childId);
+        
+    } catch (e) {
+        console.error(e);
+        setStatus('Lỗi: ' + e.message);
+    }
+}
+
+// ========== TRACE LINEAGE ==========
+async function traceLineage(monkName) {
+    setStatus('Đang truy tìm gốc pháp...');
+    
+    try {
+        const response = await fetch(`/api/trace_lineage?name=${encodeURIComponent(monkName)}`);
+        const data = await response.json();
+        
+        if (data.error) {
+            alert('Lỗi: ' + data.error);
+            return;
+        }
+        
+        const chain = data.chain;
+        let displayText = "🔗 TRUYỀN THỪA\n\n";
+        displayText += chain.join(" → ");
+        
+        if (data.stop_reason) {
+            displayText += "\n\n📍 " + data.stop_reason;
+        }
+        
+        if (!data.reached_root) {
+            displayText += "\n\n⚠️ Chưa thể truy về Bồ Đề Đạt Ma vì thiếu dữ liệu.";
+        }
+        
+        alert(displayText);
+        setStatus('Đã hiển thị chuỗi truyền thừa');
+        
+    } catch (e) {
+        console.error(e);
+        setStatus('Lỗi: ' + e.message);
+    }
+}
+
+// ========== INIT HOME ==========
+async function initHome() {
+    setStatus('Đang tải cây phả hệ...');
+    
+    if (typeof cytoscape === 'undefined' || typeof cytoscapeDagre === 'undefined') {
+        setStatus('Đang chờ thư viện...');
+        setTimeout(initHome, 500);
+        return;
+    }
+    
+    initCy();
+    
+    try {
+        const resp = await fetch('/data/lineage_graph.jsonld');
+        const data = await resp.json();
+        
+        const nodeMap = new Map();
+        const graph = data['@graph'];
+        
+        // Create nodes
+        graph.forEach(item => {
+            const id = item['@id'].replace('ex:', '');
+            const label = item['rdfs:label']?.value || id;
+            const founder = item['bkg:hasFounder']?.['@id'] || '';
+            const founderName = getFounderName(founder);
+            const hasSubLineage = item['bkg:hasSubLineage'] && item['bkg:hasSubLineage'].length > 0;
+            
+            nodeMap.set(id, {
+                id: id,
+                label: label + '\n(Khai Tổ: ' + founderName + ')',
+                parent: null,
+                founder: founderName,
+                hasChildren: hasSubLineage
+            });
+        });
+        
+        // Set parent relationships
+        graph.forEach(item => {
+            const id = item['@id'].replace('ex:', '');
+            const parent = item['bkg:isSubLineageOf']?.['@id'];
+            if (parent && nodeMap.has(id)) {
+                const parentId = parent.replace('ex:', '');
+                nodeMap.get(id).parent = parentId;
+            }
+        });
+        
+        const lineageData = Array.from(nodeMap.values());
+        
+        // Add nodes
+        lineageData.forEach(item => {
+            cy.add({
+                group: 'nodes',
+                data: {
+                    id: item.id,
+                    label: item.label,
+                    founder: item.founder,
+                    isLineageNode: false,
+                    hasChildren: item.hasChildren,
+                    hasParent: !!item.parent
+                }
+            });
+        });
+        
+        // Add edges
+        lineageData.forEach(item => {
+            if (item.parent) {
+                cy.add({
+                    group: 'edges',
+                    data: { id: item.id + '_' + item.parent, source: item.parent, target: item.id }
+                });
+            }
+        });
+        
+        // Run layout
+        cy.layout({
+            name: 'dagre',
+            rankDir: 'TB',
+            rankSep: 110,
+            nodeSep: 80,
+            edgeSep: 50,
+            nodeDimensionsIncludeLabels: true,
+            animate: true,
+            animationDuration: 800,
+            fit: true,
+            padding: 50
+        }).run();
+        
+        setStatus('Cây phả hệ đã hiển thị');
+        
+    } catch (e) {
+        console.error(e);
+        setStatus('Lỗi: ' + e.message);
+    }
+}
+
+// ========== SEARCH ROOT ==========
+function searchRoot(name) {
+    setStatus('Đang tìm ' + name + '...');
+    initCy();
+    
+    // Use JSON cache first
+    let lineage = lineageTreeData[name];
+    
+    if (!lineage) {
+        setStatus('Không tìm thấy: ' + name);
+        return;
+    }
+    
+    const hasStudents = lineage.students && lineage.students.length > 0;
+    const hasParent = !!lineage.teacher;
+    
+    // Add current node
+    cy.add({
+        group: 'nodes',
+        data: { 
+            id: name, 
+            label: name, 
+            isLineageNode: true,
+            hasChildren: hasStudents,
+            hasParent: hasParent
+        }
+    });
+    
+    // Add teacher (above)
+    if (lineage.teacher) {
+        const teacherData = lineageTreeData[lineage.teacher];
+        const teacherHasParent = teacherData && teacherData.teacher;
+        
+        cy.add({
+            group: 'nodes',
+            data: { 
+                id: lineage.teacher, 
+                label: lineage.teacher, 
+                isLineageNode: true, 
+                hasChildren: true,
+                hasParent: teacherHasParent
+            }
+        });
+        cy.add({
+            group: 'edges',
+            data: { id: name + '_t', source: lineage.teacher, target: name }
+        });
+    }
+    
+    // Add grand teacher
+    if (lineage.grand_teacher) {
+        const gtData = lineageTreeData[lineage.grand_teacher];
+        const gtHasParent = gtData && gtData.teacher;
+        
+        cy.add({
+            group: 'nodes',
+            data: { 
+                id: lineage.grand_teacher, 
+                label: lineage.grand_teacher, 
+                isLineageNode: true, 
+                hasChildren: true,
+                hasParent: gtHasParent
+            }
+        });
+        cy.add({
+            group: 'edges',
+            data: { id: lineage.teacher + '_gt', source: lineage.grand_teacher, target: lineage.teacher }
+        });
+    }
+    
+    // Add great teacher
+    if (lineage.great_teacher) {
+        const ggtData = lineageTreeData[lineage.great_teacher];
+        const ggtHasParent = ggtData && ggtData.teacher;
+        
+        cy.add({
+            group: 'nodes',
+            data: { 
+                id: lineage.great_teacher, 
+                label: lineage.great_teacher, 
+                isLineageNode: true, 
+                hasChildren: true,
+                hasParent: ggtHasParent
+            }
+        });
+        cy.add({
+            group: 'edges',
+            data: { id: lineage.grand_teacher + '_gt2', source: lineage.great_teacher, target: lineage.grand_teacher }
+        });
+    }
+    
+    // Add students
+    if (lineage.students && lineage.students.length > 0) {
+        const students = lineage.students.slice(0, 10);
+        
+        students.forEach(student => {
+            // Check if student exists in lineageTreeData
+            const studentData = lineageTreeData[student];
+            const studentHasChildren = studentData && studentData.students && studentData.students.length > 0;
+            const studentHasParent = !!studentData?.teacher;
+            
+            cy.add({
+                group: 'nodes',
+                data: { 
+                    id: student, 
+                    label: student, 
+                    isLineageNode: true, 
+                    hasChildren: studentHasChildren,
+                    hasParent: studentHasParent
+                }
+            });
+            cy.add({
+                group: 'edges',
+                data: { id: name + '_' + student, source: name, target: student }
+            });
+        });
+    }
+    
+    // Run layout
+    cy.layout({
+        name: 'dagre',
+        rankDir: 'TB',
+        rankSep: 110,
+        nodeSep: 80,
+        edgeSep: 50,
+        nodeDimensionsIncludeLabels: true,
+        animate: true,
+        animationDuration: 800,
+        fit: true,
+        padding: 50
+    }).run();
+    
+    // Add trace root button
+    const currentNode = cy.getElementById(name);
+    const pos = currentNode.position();
+    
+    cy.add({
+        group: 'nodes',
+        data: { id: 'traceRoot_' + name, label: '⬆', hasChildren: false },
+        position: { x: pos.x - 120, y: pos.y }
+    });
+    
+    runLayout();
+    setStatus('Đã hiển thị: ' + name);
+    showBio(name);
+}
+
+// ========== SHOW BIO ==========
+async function showBio(name) {
+    try {
+        const d = await fetch(`/api/get_details?name=${encodeURIComponent(name)}`).then(r => r.json());
+        
+        if (d.error) {
+            document.getElementById('bio-title').innerText = name;
+            document.getElementById('bio-gens').innerHTML = 'Đời: N/A';
+            document.getElementById('bio-content').innerHTML = 'Không có tiểu sử';
+        } else {
+            document.getElementById('bio-title').innerText = "TỔ SƯ " + d.name.toUpperCase();
+            document.getElementById('bio-gens').innerHTML = `${d.gens.l1}<br>${d.gens.l2 || ''}<br><u>${d.gens.l3_tag}: Đời thứ ${d.gens.l3_val}</u>`;
+            document.getElementById('bio-content').innerHTML = d.note;
+            document.getElementById('bio-content').scrollTop = 0;
+        }
+        
+        document.getElementById('bio-panel').classList.add('open');
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function closeBio() {
+    document.getElementById('bio-panel').classList.remove('open');
+}
+
+function toggleSearch() {
+    const sb = document.getElementById('search-box');
+    sb.style.display = sb.style.display === 'none' ? 'block' : 'none';
+    if (sb.style.display === 'block') document.getElementById('inp').focus();
+}
+
+function setStatus(msg) {
+    document.getElementById('status').innerText = msg;
+}
+
+// ========== AUTOCOMPLETE ==========
+document.getElementById('inp').onkeyup = async (e) => {
+    const val = e.target.value;
+    if (val.length < 2) { document.getElementById('sug').innerHTML = ''; return; }
+    if (!monkNamesLoaded) { document.getElementById('sug').innerHTML = '<div style="padding:10px;">Đang tải...</div>'; return; }
+    
+    const matches = monkNames.filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 15);
+    document.getElementById('sug').innerHTML = matches.length ? 
+        matches.map(n => `<div onclick="searchRoot('${n.replace(/'/g, "\\'")}')">${n}</div>`).join('') :
+        '<div style="padding:10px;">Không tìm thấy</div>';
+};
+
+document.getElementById('inp').onkeydown = async (e) => {
+    if (e.key === 'Tab' || e.key === 'Enter') {
+        const val = e.target.value.trim();
+        if (val.length >= 2 && monkNamesLoaded) {
+            const match = monkNames.find(n => n.toLowerCase().includes(val.toLowerCase()));
+            if (match) {
+                e.preventDefault();
+                searchRoot(match);
+                document.getElementById('sug').innerHTML = '';
+            }
+        }
+    }
+};
+
+// ========== ON LOAD ==========
+let lineageTreeData = {}; // Full lineage data from JSON
+
+window.onload = async function() {
+    console.log('Cytoscape version:', cytoscape?.version);
+    console.log('Dagre available:', typeof dagre !== 'undefined');
+    console.log('Cytoscape-dagre available:', typeof cytoscapeDagre !== 'undefined');
+    
+    if (typeof cytoscape === 'undefined') {
+        setStatus('Lỗi: Không tải được Cytoscape');
+        alert('Không tải được thư viện. Vui lòng refresh trang.');
+        return;
+    }
+    
+    // Load lineage tree data from JSON (offline)
+    try {
+        const resp = await fetch('/data/lineage_tree.json');
+        const data = await resp.json();
+        lineageTreeData = data.monks || {};
+        console.log('Loaded lineage tree:', Object.keys(lineageTreeData).length, 'monks');
+        
+        // Build monk names list from lineage tree
+        monkNames = Object.keys(lineageTreeData);
+        monkNamesLoaded = true;
+        setStatus('Đã tải ' + monkNames.length + ' tên từ JSON');
+    } catch (e) {
+        console.error('Failed to load lineage_tree.json:', e);
+        setStatus('Lỗi tải dữ liệu: ' + e.message);
+        // Fallback to API
+        fetch('/api/monk_names').then(r => r.json()).then(data => {
+            monkNames = data;
+            monkNamesLoaded = true;
+            setStatus('Đã tải ' + monkNames.length + ' tên từ API');
+        });
+    }
+    
+    // Load home tree
+    setTimeout(initHome, 100);
+};
+</script>
+</body>
+</html>

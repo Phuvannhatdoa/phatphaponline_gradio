@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Phật Pháp Online — Cây Truyền Thừa (Home)</title>
+
+<!-- vis-network standalone -->
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+<style>
+  :root{
+    --bg:#fbfbfb;
+    --panel:#ffffff;
+    --muted:#6b7280;
+    --accent:#34495e;
+    --gold:#ffeb99;
+    --box-border:#cfcfcf;
+  }
+  html,body{height:100%;margin:0;font-family: "Inter", "Segoe UI", Arial, sans-serif;background:var(--bg);color:#111}
+  header{background:var(--accent);color:#fff;padding:18px 24px;display:flex;align-items:center;gap:12px}
+  header h1{font-size:18px;margin:0}
+  .container{display:flex;height:calc(100vh - 72px)}
+  #left{width:72%;min-width:640px;background:var(--panel);border-right:1px solid #e6e6e6;position:relative}
+  #right{width:28%;padding:18px;background:#fff;overflow:auto}
+  #controls{display:flex;gap:10px;align-items:center;padding:12px 18px;border-bottom:1px solid #eee;background:#fafafa}
+  select,button,input{padding:8px 10px;border:1px solid #d3d6db;border-radius:6px;font-size:14px}
+  #status{margin-left:auto;font-size:13px;color:var(--muted)}
+  #network{width:100%;height:calc(100% - 56px)} /* leftover under controls */
+  .infoTitle{font-size:16px;font-weight:600;margin:6px 0 10px 0}
+  .bioBox{white-space:pre-line;font-size:14px;line-height:1.45;color:#222}
+  .lineageGrid{display:flex;flex-wrap:wrap;gap:12px}
+  .lineageCard{background:#fff;border:1px solid var(--box-border);padding:10px 12px;border-radius:8px;cursor:pointer;min-width:220px;max-width:280px;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+  .lineageCard .title{font-weight:700}
+  .lineageCard .desc{font-size:13px;color:var(--muted);margin-top:6px}
+  /* popup bio positioned at 1 o'clock */
+  #nodePopup{
+    position:absolute;
+    z-index:40;
+    right:18%;
+    top:6%;
+    width:26%;
+    max-height:60%;
+    background:#fff;
+    border:1px solid #ddd;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    border-radius:10px;
+    padding:14px;
+    overflow:auto;
+    display:none;
+  }
+  #nodePopup .closeBtn{position:absolute;right:8px;top:8px;border:none;background:transparent;font-size:18px;cursor:pointer}
+  .founderBadge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--gold);border:1px solid #f1c40f;font-weight:700;color:#333}
+  /* status small */
+  .smallMuted{font-size:13px;color:var(--muted)}
+  /* responsive */
+  @media(max-width:1000px){
+    #left{width:100%;min-width:unset}
+    #right{display:none}
+    #nodePopup{right:6%;width:44%}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="font-size:22px">🪷</div>
+  <h1>Cây Truyền Thừa — Phật Pháp Online</h1>
+  <div style="margin-left:8px" class="smallMuted">Toàn cảnh tông phái và dòng truyền thừa — click để xem/thu phóng</div>
+</header>
+
+<div id="controls" style="gap:12px">
+  <label style="font-weight:600">Chọn Tông phái:</label>
+  <select id="lineageSelect"><option value="">-- Tải Home (Tất cả tông) --</option></select>
+
+  <button id="btnHome">Trang chủ</button>
+  <button id="btnFit">Fit</button>
+  <span id="status">Ready</span>
+</div>
+
+<div class="container">
+  <div id="left">
+    <div id="network"></div>
+
+    <!-- popup tiểu sử (ở góc ~1h) -->
+    <div id="nodePopup" aria-hidden="true">
+      <button class="closeBtn" id="popupClose" title="Đóng">✕</button>
+      <div id="popupContent"></div>
+    </div>
+  </div>
+
+  <aside id="right">
+    <div>
+      <div class="infoTitle">Giới thiệu tông phái</div>
+      <div id="homePanel">
+        <!-- will show lineage cards -->
+        <div class="lineageGrid" id="lineageGrid"></div>
+      </div>
+
+      <hr style="margin:16px 0">
+
+      <div class="infoTitle">Tiểu sử</div>
+      <div id="bioPanel" class="bioBox">Click một vị Thiền sư trên đồ thị để xem tiểu sử ở popup (góc 1h) — hoặc xem tóm tắt nhanh ở đây.</div>
+    </div>
+  </aside>
+</div>
+
+<script>
+/* CONFIG */
+const GRAPHDB_ENDPOINT = "http://phatphaponline.org/graphdb-api/repositories/buddhist";
+const LINEAGE_JSON = "lineage_graph.jsonld";
+
+let network;
+let nodes = new vis.DataSet();
+let edges = new vis.DataSet();
+let currentLineageId = null;
+let lineageJson = null;
+
+/* Helpers */
+function esc(s){ return encodeURIComponent(s); }
+function localNameFromId(id){
+  if(!id) return id;
+  const parts = (""+id).split(/[\/#]/);
+  return parts[parts.length-1];
+}
+function safeText(text){
+  if(!text) return "";
+  return text.replaceAll("<","&lt;").replaceAll(">","&gt;");
+}
+
+/* SPARQL runner */
+async function runSparql(query){
+  const url = `${GRAPHDB_ENDPOINT}?query=${esc(query)}`;
+  const res = await fetch(url, { headers: {"Accept":"application/sparql-results+json"} });
+  if(!res.ok){
+    const text = await res.text();
+    throw new Error(`SPARQL error ${res.status}: ${res.statusText} — ${text.slice(0,200)}`);
+  }
+  return res.json();
+}
+
+/* Load lineage JSON-LD and populate home */
+async function loadLineageJson(){
+  const resp = await fetch(LINEAGE_JSON);
+  lineageJson = await resp.json();
+
+  // build select and home cards
+  const sel = document.getElementById("lineageSelect");
+  const grid = document.getElementById("lineageGrid");
+  sel.innerHTML = '<option value="">-- Chọn tông phái --</option>';
+  grid.innerHTML = '';
+
+  (lineageJson["@graph"] || []).forEach(item=>{
+    const id = item["@id"];
+    const label = item["rdfs:label"]?.value || localNameFromId(id);
+    const desc = item["bkg:description"]?.value || "";
+    sel.innerHTML += `<option value="${id}">${safeText(label)}</option>`;
+
+    // create card for home view - show founder label + desc tooltip
+    const founder = item["bkg:hasFounder"]?.["@id"] || "";
+    const card = document.createElement("div");
+    card.className = "lineageCard";
+    card.dataset.lineage = id;
+    card.title = (desc || "").replace(/<[^>]*>/g,'');
+    card.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
+        <div style="flex:1">
+          <div class="title">${safeText(label)}</div>
+          <div class="smallMuted" style="margin-top:6px">Khai tổ: ${safeText(localNameFromId(founder) || " — ")}</div>
+        </div>
+        <div style="min-width:64px;display:flex;align-items:center;justify-content:flex-end">
+          <div class="founderBadge">Root</div>
+        </div>
+      </div>`;
+    card.addEventListener("click", ()=> {
+      document.getElementById("lineageSelect").value = id;
+      loadLineageById(id);
+    });
+    grid.appendChild(card);
+  });
+
+  // select onchange
+  sel.addEventListener("change", () => {
+    const v = sel.value;
+    if(!v){ renderHomeGraph(); }
+    else loadLineageById(v);
+  });
+
+  // initial home render
+  renderHomeGraph();
+}
+
+/* Build home graph from lineage JSON-LD: show top-level lineage hierarchy (Thich Ca -> sublineages) */
+function renderHomeGraph(){
+  nodes.clear(); edges.clear();
+  document.getElementById("status").innerText = "Hiển thị Home — Tông phái";
+
+  // create nodes for each lineage (not monks) - use lineage id as id
+  const graph = lineageJson["@graph"] || [];
+  graph.forEach(item=>{
+    const id = item["@id"];
+    const label = item["rdfs:label"]?.value || localNameFromId(id);
+    const desc = item["bkg:description"]?.value || "";
+    nodes.add({
+      id: id,
+      label: label,
+      title: desc,
+      shape: "box",
+      margin: 8,
+      font:{size:14},
+      color: {background:"#fff",border:"#aaa"},
+      widthConstraint: {maximum:380},
+      physics:false,
+      level: 1 // will be adjusted
+    });
+  });
+
+  // create edges for lineage isSubLineage relationships so the tree shows hierarchy
+  graph.forEach(item=>{
+    const parent = item["bkg:isSubLineageOf"]?.["@id"];
+    const id = item["@id"];
+    if(parent){
+      // ensure nodes exist
+      try{ edges.add({ id: parent + "->" + id, from: parent, to: id, arrows: {to:{enabled:true}} }); } catch(e){ /* ignore duplicate */ }
+    } else {
+      // if no parent, connect from Thich Ca root (a virtual root)
+    }
+  });
+
+  // Add a virtual root representing "Thích Ca Mâu Ni" to show global tree if desired
+  const rootId = "ex:ThichCaMauNi";
+  if(!nodes.get(rootId)){
+    nodes.add({ id:rootId, label:"Thích Ca Mâu Ni", title:"Thủy Tổ", shape:"box", margin:8, font:{size:14}, color:{background:"#fff7e6",border:"#f1c40f"}, physics:false, level:0 });
+  }
+  // connect top-level (no parent) nodes to root
+  graph.forEach(item=>{
+    const isSub = !!item["bkg:isSubLineageOf"];
+    if(!isSub){
+      const nid = item["@id"];
+      try{ edges.add({ id: rootId + "->" + nid, from: rootId, to: nid }); } catch(e) {}
+    }
+  });
+
+  // render
+  drawNetwork({ hierarchical:{enabled:true,direction:"UD",levelSeparation:160,nodeSpacing:160,sortMethod:"directed"} });
+  document.getElementById("status").innerText = `Home: ${nodes.length} tông/phái • ${edges.length} quan hệ`;
+}
+
+/* Load lineage page: given lineage id from JSON-LD, find founder label and run SPARQL to load monks in that lineage */
+async function loadLineageById(lineageId){
+  currentLineageId = lineageId;
+  nodes.clear(); edges.clear();
+  document.getElementById("status").innerText = "Tải tông phái...";
+
+  // find item in JSON-LD
+  const item = (lineageJson["@graph"] || []).find(x => x["@id"] === lineageId);
+  if(!item){
+    document.getElementById("status").innerText = "Không tìm thấy thông tin tông phái trong JSON-LD.";
+    return;
+  }
+  const lineageLabelVi = item["rdfs:label"]?.value || "";
+  const founderId = item["bkg:hasFounder"]?.["@id"] || "";
+  const founderLocal = localNameFromId(founderId).toLowerCase();
+  const founderLabel = item["bkg:hasFounder"]?.["@id"] ? (localNameFromId(founderId)) : "";
+
+  // Query SPARQL: load monks where bkg:dharmaLineageName contains lineageLabelVi (case-insensitive)
+  const q = `
+    PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+    SELECT ?monk ?label ?teacher ?gen ?found ?discCount
+    WHERE {
+      ?monk bkg:dharmaLineageName ?ln .
+      FILTER(CONTAINS(LCASE(STR(?ln)), LCASE("${lineageLabelVi.replace(/"/g,'\\"')}")))
+
+      OPTIONAL { ?monk rdfs:label ?label . }
+      OPTIONAL { ?monk bkg:hasTeacher ?teacher . }
+      OPTIONAL { ?monk bkg:generationOrder ?gen . }
+      OPTIONAL { ?monk bkg:isLineageFounder ?found . }
+      OPTIONAL {
+        SELECT ?monk (COUNT(?d) AS ?discCount) WHERE { ?d bkg:hasTeacher ?monk } GROUP BY ?monk
+      }
+    }
+    ORDER BY xsd:integer(?gen)
+  `;
+
+  let json;
+  try{
+    json = await runSparql(q);
+  } catch(err){
+    document.getElementById("status").innerText = "SPARQL error: " + err.message;
+    console.error(err);
+    return;
+  }
+
+  // build nodes/edges
+  const rows = json.results.bindings || [];
+  let maxGen = 0;
+  rows.forEach(r=>{
+    const id = r.monk.value;
+    const label = r.label ? r.label.value : localNameFromId(id);
+    const gen = r.gen ? Number(r.gen.value) : 0;
+    maxGen = Math.max(maxGen, gen);
+    const isFounder = (r.found && (r.found.value === "true" || r.found.value === "1")) || (localNameFromId(id).toLowerCase() === founderLocal);
+
+    // add node (box)
+    try{
+      nodes.add({
+        id: id,
+        label: label,
+        title: `Generation: ${gen}${ r.discCount ? " — Disciples: " + (r.discCount.value || 0) : "" }`,
+        shape: "box",
+        margin: 8,
+        font: {size: 14},
+        color: isFounder ? { background: "#fff4c7", border:"#f1c40f" } : { background: "#ffffff", border:"#bdbdbd" },
+        widthConstraint: {maximum:420},
+        physics:false,
+        group: "g"+gen,
+        level: gen
+      });
+    }catch(e){ /* ignore duplicates */ }
+
+    if(r.teacher){
+      // add edge teacher -> monk
+      try{
+        edges.add({ id: r.teacher.value + "->" + id, from: r.teacher.value, to: id, arrows: "to" });
+      }catch(e){}
+    }
+  });
+
+  // ensure founder's teacher is also included (load one generation above founder)
+  if(founderLocal){
+    const q2 = `
+      PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+      SELECT ?founder ?founderLabel ?teacher ?teacherLabel ?gen WHERE {
+        ?founder ?p ?o .
+        FILTER(CONTAINS(LCASE(STR(?founder)), "${founderLocal}"))
+        OPTIONAL { ?founder rdfs:label ?founderLabel . }
+        OPTIONAL { ?founder bkg:hasTeacher ?teacher . }
+        OPTIONAL { ?teacher rdfs:label ?teacherLabel . }
+        OPTIONAL { ?founder bkg:generationOrder ?gen . }
+      } LIMIT 10
+    `;
+    try{
+      const res2 = await runSparql(q2);
+      const r = (res2.results.bindings || [])[0];
+      if(r){
+        const furi = r.founder?.value;
+        const flabel = r.founderLabel?.value || (furi ? localNameFromId(furi) : "");
+        const turi = r.teacher?.value;
+        const tlabel = r.teacherLabel?.value || (turi ? localNameFromId(turi) : "");
+        const fgen = r.gen ? Number(r.gen.value) : undefined;
+
+        if(furi && !nodes.get(furi)){
+          nodes.add({ id:furi, label:flabel, title:"Founder", shape:"box", margin:8, color:{background:"#fff4c7",border:"#f1c40f"}, physics:false, level: fgen || 0 });
+        }
+        if(turi && !nodes.get(turi)){
+          nodes.add({ id:turi, label:tlabel, title:"FounderTeacher", shape:"box", margin:8, color:{background:"#ffffff",border:"#bdbdbd"}, physics:false, level: (fgen?fgen-1:0) });
+        }
+        if(turi && furi){
+          try{ edges.add({ id: turi + "->" + furi, from: turi, to: furi, arrows: "to" }); }catch(e){}
+        }
+      }
+    }catch(err){ console.warn("Không lấy được đời thầy của founder:", err); }
+  }
+
+  // draw with hierarchical layout; ensure main trunk centered by giving founder and main chain middle levels (vis will arrange by level)
+  drawNetwork({ hierarchical: { enabled:true, direction:"UD", levelSeparation:140, nodeSpacing:120, sortMethod:"directed" } });
+
+  document.getElementById("status").innerText = `Load OK: ${nodes.length} nodes • ${edges.length} edges — Tông: ${item["rdfs:label"]?.value || lineageId}`;
+}
+
+/* Draw network with options (supports hierarchical config) */
+function drawNetwork(layoutOpts){
+  const container = document.getElementById("network");
+  const defaultOptions = {
+    autoResize:true,
+    nodes: { shape:"box", margin:10, font:{face:"Inter, Arial", size:14}, borderWidth:1 },
+    edges: { color:{inherit:false}, arrows:{to:{enabled:true,scaleFactor:0.6}} },
+    groups: {},
+    interaction: { hover:true, navigationButtons:true, tooltipDelay:100 },
+    physics: false
+  };
+
+  // merge nested hierarchical options
+  if(layoutOpts && layoutOpts.hierarchical) defaultOptions.layout = { hierarchical: layoutOpts.hierarchical };
+
+  if(network) network.destroy();
+  network = new vis.Network(container, { nodes, edges }, defaultOptions);
+
+  // click handler: show popup with bio; zoom to node and load disciples
+  network.on("click", async (params) => {
+    if(params.nodes && params.nodes.length > 0){
+      const nid = params.nodes[0];
+      // zoom to node and center
+      network.focus(nid, { scale: 1.1, animation: { duration: 400 } });
+      // load bio in popup and right panel
+      await showNodePopup(nid);
+      // load children (disciples) into view (query and add if missing)
+      await loadChildrenOf(nid);
+    }
+  });
+
+  // stabilize view
+  setTimeout(()=>{ try{ network.fit({animation:{duration:400}}); } catch(e){} }, 250);
+}
+
+/* Show popup at ~1 o'clock with bio content */
+async function showNodePopup(nodeId){
+  const popup = document.getElementById("nodePopup");
+  const content = document.getElementById("popupContent");
+  content.innerHTML = `<div class="smallMuted">Đang tải...</div>`;
+  popup.style.display = "block";
+  popup.setAttribute("aria-hidden","false");
+
+  // query label and bio
+  const q = `
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+
+    SELECT ?label ?bio ?birth ?death WHERE {
+      OPTIONAL { <${nodeId}> rdfs:label ?label . }
+      OPTIONAL { <${nodeId}> bkg:biographicalNote ?bio . }
+      OPTIONAL { <${nodeId}> bkg:birthEvent ?birth . }
+      OPTIONAL { <${nodeId}> bkg:deathEvent ?death . }
+    } LIMIT 1
+  `;
+  try{
+    const res = await runSparql(q);
+    const b = res.results.bindings[0] || {};
+    const name = b.label ? b.label.value : localNameFromId(nodeId);
+    const bio = b.bio ? b.bio.value : "(Không có tiểu sử)";
+    const birth = b.birth ? b.birth.value : "";
+    const death = b.death ? b.death.value : "";
+
+    content.innerHTML = `
+      <div style="font-weight:700;font-size:16px;margin-bottom:6px">${safeText(name)}</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:8px">URI: <span style="font-family:monospace;font-size:12px">${safeText(nodeId)}</span></div>
+      ${ birth || death ? `<div class="smallMuted">(${safeText(birth)} — ${safeText(death)})</div><hr/>` : "" }
+      <div style="font-size:14px;line-height:1.45;color:#222">${safeText(bio)}</div>
+    `;
+    // also show summary on right panel
+    document.getElementById("bioPanel").innerHTML = `<div style="font-weight:700">${safeText(name)}</div><div style="margin-top:8px">${safeText(bio)}</div>`;
+  }catch(err){
+    content.innerHTML = `<div class="smallMuted">Lỗi tải tiểu sử: ${err.message}</div>`;
+  }
+}
+
+/* load children (disciples) of nodeId and add them if missing */
+async function loadChildrenOf(nodeId){
+  const q = `
+    PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+    SELECT ?d ?label ?gen WHERE {
+      ?d bkg:hasTeacher <${nodeId}> .
+      OPTIONAL { ?d rdfs:label ?label . }
+      OPTIONAL { ?d bkg:generationOrder ?gen . }
+    } ORDER BY xsd:integer(?gen)
+  `;
+  try{
+    const res = await runSparql(q);
+    const rows = res.results.bindings || [];
+    let added = 0;
+    rows.forEach(r=>{
+      const id = r.d.value;
+      const label = r.label ? r.label.value : localNameFromId(id);
+      const gen = r.gen ? Number(r.gen.value) : undefined;
+      if(!nodes.get(id)){
+        nodes.add({ id:id, label:label, shape:"box", margin:8, font:{size:14}, color:{background:"#fff",border:"#bdbdbd"}, physics:false, level: gen });
+        added++;
+      }
+      try{ edges.add({ id: nodeId + "->" + id, from: nodeId, to: id, arrows: "to" }); } catch(e){}
+    });
+    if(added) {
+      // re-layout to show added nodes
+      drawNetwork({ hierarchical:{enabled:true,direction:"UD",levelSeparation:140,nodeSpacing:120,sortMethod:"directed"} });
+    }
+  }catch(err){ console.warn("Không load disciples:", err); }
+}
+
+/* Close popup */
+document.getElementById("popupClose").addEventListener("click", ()=>{
+  const popup = document.getElementById("nodePopup");
+  popup.style.display = "none";
+  popup.setAttribute("aria-hidden","true");
+});
+
+/* Buttons */
+document.getElementById("btnFit").addEventListener("click", ()=>{ try{ network.fit({animation:{duration:400}}); }catch(e){} });
+document.getElementById("btnHome").addEventListener("click", ()=>{ document.getElementById("lineageSelect").value = ""; renderHomeGraph(); });
+
+/* Init */
+(async function init(){
+  try{
+    // empty network container initial
+    nodes.add({ id: "init", label: "Đang khởi tạo...", shape:"box", color:{background:"#fff"} });
+    drawNetwork({ hierarchical:{enabled:false} });
+    nodes.clear();
+
+    // load JSON-LD and render home
+    await loadLineageJson();
+
+    // auto-load nothing (home) by default
+    document.getElementById("status").innerText = "Sẵn sàng — chọn tông phái hoặc click card ở Home.";
+  }catch(err){
+    console.error(err);
+    document.getElementById("status").innerText = "Khởi tạo lỗi: " + err.message;
+  }
+})();
+</script>
+
+</body>
+</html>

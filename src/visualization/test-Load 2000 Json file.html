@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cây Phả Hệ Thiền Tông</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    
+    <style>
+        /* CSS VẪN GIỮ NGUYÊN NHƯ CÁC PHIÊN BẢN TRƯỚC */
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; overflow: hidden; }
+        #network { 
+            width: 100%; 
+            height: 100vh; 
+            border: 1px solid lightgray; 
+            background-color: #ffffff; 
+            transition: width 0.5s ease; 
+        }
+        
+        /* ------------------------------------------- */
+        /* CẤU TRÚC VÀ ĐỊNH VỊ CHO THANH ĐIỀU KHIỂN BÊN TRÁI */
+        /* ------------------------------------------- */
+        #controls-wrapper {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 20; 
+            transition: transform 0.3s ease-in-out; 
+        }
+        
+        #controls-minimal { 
+            width: 350px; 
+            padding: 15px; 
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column; 
+            gap: 15px; 
+        }
+
+        #toggle-button {
+            position: absolute;
+            top: 10px;
+            right: -30px; 
+            width: 30px;
+            height: 30px;
+            border-radius: 0 4px 4px 0;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .hidden-controls {
+            transform: translateX(calc(-100% + 40px)); 
+        }
+        
+        /* ------------------------------------------- */
+        /* THANH THÔNG TIN BÊN PHẢI (INFO PANEL) */
+        /* ------------------------------------------- */
+        #info-panel {
+            position: fixed;
+            top: 0;
+            right: -400px; /* Khởi tạo ẩn */
+            width: 400px; 
+            height: 100vh;
+            background-color: #fdfefe;
+            box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+            z-index: 10;
+            transition: right 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #info-panel-header {
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #info-panel-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2C3E50;
+        }
+        
+        #info-panel-close {
+            cursor: pointer;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #E74C3C;
+            line-height: 1;
+        }
+
+        #info-panel-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px; 
+            font-size: 15px;
+            line-height: 1.6;
+            color: #34495E;
+        }
+
+        /* CSS cho đoạn text Bio */
+        #info-panel-bio strong {
+            font-size: 1.1em;
+            color: #1ABC9C;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        #info-panel-bio p {
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        
+        /* ------------------------------------------- */
+        /* CSS cho ICON MỞ POPUP (Quan trọng) */
+        /* ------------------------------------------- */
+        .info-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #3498DB;
+            color: white;
+            text-align: center;
+            line-height: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            /* Vị trí tuyệt đối để đặt ở góc 1h của node (sẽ được vis.js đặt đúng vị trí) */
+            position: absolute; 
+            top: 0; 
+            right: 0;
+            z-index: 1;
+            transition: background-color 0.2s;
+        }
+        .info-icon:hover {
+            background-color: #2980B9;
+        }
+        
+        /* Cần bọc node label trong một container để định vị icon */
+        .monk-label-container {
+            position: relative;
+            display: inline-block; 
+            padding-right: 25px; /* Tạo khoảng trống cho icon */
+        }
+        
+        /* ------------------------------------------- */
+        /* CSS còn lại */
+        /* ------------------------------------------- */
+
+        .control-group {
+            display: flex;
+            flex-direction: column; 
+            align-items: flex-start;
+            gap: 5px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .control-group:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        #currentNodeLabel {
+            display: block;
+            margin-top: 5px;
+            font-weight: normal;
+            color: #2C3E50;
+            font-size: 13px;
+            max-width: 500px; 
+        }
+        .error-message { 
+            color: #E74C3C; 
+            font-weight: bold; 
+            padding: 10px; 
+            position: fixed; 
+            bottom: 10px; 
+            left: 10px; 
+            background: #FADBD8; 
+            border: 2px solid #E74C3C; 
+            z-index: 10; 
+            border-radius: 5px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        button { padding: 5px 10px; cursor: pointer; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 14px; margin-left: 5px; }
+        button:hover { background-color: #45a049; }
+        input { padding: 4px; border: 1px solid #ccc; border-radius: 4px; }
+        #lineageSearchInput, #monkSearchInput { width: 180px; }
+        #depthInput { width: 40px; text-align: center; }
+        .highlight-text { font-weight: bold; color: #E74C3C; }
+        .control-title { font-weight: bold; color: #2C3E50; margin-bottom: 5px; }
+        
+        .has-hidden-children {
+            border-color: #2ECC71 !important; 
+            border-width: 5px !important;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+<div id="controls-wrapper">
+    <div id="controls-minimal">
+        <div class="control-group">
+            <div class="control-title">1. Tìm kiếm Tông Phái & Khai Tổ</div>
+            <div style="display: flex; align-items: center;">
+                <label for="lineageSearchInput">Tìm Tông Phái:</label>
+                <input type="text" id="lineageSearchInput" list="lineageNames" placeholder="Gõ tên Tông Phái...">
+                <datalist id="lineageNames"></datalist>
+                <button onclick="handleLineageSearch()">Tập Trung</button>
+            </div>
+            <span id="currentNodeLabel">Click vào node hoặc tìm kiếm để bắt đầu.</span>
+        </div>
+        
+        <div class="control-group">
+            <div class="control-title">2. Tìm kiếm Thiền Sư (Gợi ý)</div>
+            <div style="display: flex; align-items: center;">
+                <label for="monkSearchInput">Tìm Thiền Sư:</label>
+                <input type="text" id="monkSearchInput" list="monkNames" placeholder="Gõ tên Thiền Sư...">
+                <datalist id="monkNames"></datalist>
+                <button onclick="handleMonkSearch()">Tập Trung</button>
+            </div>
+            <div id="monkDataCountInfo" style="font-size: 10px; color: #7f8c8d; margin-top: 5px;">* Dữ liệu Thiền Sư đang được tải (lớn)...</div>
+        </div>
+
+        <div class="control-group" style="border-bottom: none;">
+            <div class="control-title">3. Cài đặt Hiển thị</div>
+            <div style="display: flex; align-items: center;">
+                <label for="depthInput">Số Cấp Muốn Tải:</label>
+                <input type="number" id="depthInput" min="1" value="3">
+                <button onclick="refreshGraphWithNewDepth()">Cập Nhật</button>
+            </div>
+            <div style="font-size: 10px; color: #7f8c8d; margin-top: 5px;">* Cấp tải cho chức năng Tập Trung (mặc định 3 đời).</div>
+        </div>
+    </div>
+    <div id="toggle-button" onclick="toggleControls()">&lt;</div> 
+</div>
+
+<div id="network"></div>
+<div id="errorContainer" class="error-message" style="display: none;"></div>
+
+<div id="info-panel">
+    <div id="info-panel-header">
+        <span id="info-panel-title">Thông tin chi tiết Thiền Sư</span>
+        <span id="info-panel-close" onclick="toggleInfoPanel(null)">&times;</span>
+    </div>
+    <div id="info-panel-content">
+        <div id="info-panel-bio">Click vào biểu tượng **i** trên node Thiền Sư để xem thông tin.</div>
+    </div>
+</div>
+
+<script>
+    /* =========================================================================
+     * CÁC HẰNG SỐ VÀ BIẾN TOÀN CỤC 
+     * ========================================================================= */
+    const LINEAGE_JSON_URL = 'lineage_graph.jsonld'; 
+    const MONK_GENEALOGY_JSON_URL = 'genealogy_data.json'; 
+    
+    // Màu sắc
+    const NORMAL_NODE_COLOR = { background: '#D6EAF8', border: '#3498DB', highlight: { background: '#A9CCE3', border: '#2874A6' } };
+    const DISCIPLE_NODE_COLOR = { background: '#D6EAF8', border: '#3498DB', highlight: { background: '#A9CCE3', border: '#2874A6' } };
+    const FOUNDER_NODE_COLOR = { background: '#FCF3CF', border: '#F1C40F', highlight: { background: '#F7DC6F', border: '#D4AC0D' } }; 
+    const TEACHER_NODE_COLOR = { background: '#D1F2EB', border: '#1ABC9C', highlight: { background: '#A3E4D7', border: '#17A589' } }; 
+    const FOCUSED_NODE_COLOR = { background: '#D5F5E3', border: '#27AE60', highlight: { background: '#ABEBC6', border: '#1D8348' } }; 
+    const LAZY_LOAD_NODE_BORDER = '#2ECC71'; 
+    
+    const DEFAULT_MAX_GENERATIONS = 3; 
+    const INFO_PANEL_WIDTH = 400;
+
+    let network = null;
+    let container = null; // Biến lưu trữ container DOM element
+    let currentMode = 'lineage'; // 'lineage' hoặc 'monk'
+    let allLineageGraphData = { nodes: new vis.DataSet(), edges: new vis.DataSet() }; 
+    let allNodesMap = new Map(); 
+    let allLineageNames = new Set(); 
+
+    // Dữ liệu Thiền Sư (được lưu trong bộ nhớ nền)
+    let monkData = new Map(); 
+    let monkIdToTeacherIdMap = new Map(); 
+    let monkIdToDiscipleIdsMap = new Map(); 
+    let monkIdToMaxDepthMap = new Map(); 
+    let allMonkNames = new Set(); 
+    let monkDataReady = false; 
+    
+    // Trạng thái đồ thị Monk Tree hiện tại
+    let currentMonkGraph = {
+        nodes: new vis.DataSet(),
+        edges: new vis.DataSet(),
+        expandedNodes: new Set(), 
+        hiddenDisciples: new Map(),
+        rootMonkId: null
+    };
+    
+    /* =========================================================================
+     * HÀM XỬ LÝ GIAO DIỆN & PANEL
+     * ========================================================================= */
+     
+    /**
+     * TẠO CHUỖI HTML LABEL CÓ ICON
+     * @param {string} labelText - Tên Thiền Sư
+     * @param {string} monkId - ID của Thiền Sư
+     * @returns {string} Chuỗi HTML
+     */
+    function createMonkLabelHtml(labelText, monkId) {
+        // Sử dụng data-monk-id để nhận biết Thiền sư nào được click
+        return `<div class="monk-label-container">
+                    ${labelText}
+                    <span class="info-icon" data-monk-id="${monkId}">i</span>
+                </div>`;
+    }
+
+     function toggleControls() {
+        const wrapper = document.getElementById('controls-wrapper');
+        const button = document.getElementById('toggle-button');
+        wrapper.classList.toggle('hidden-controls');
+        
+        if (wrapper.classList.contains('hidden-controls')) {
+            button.innerHTML = '&gt;'; 
+            button.style.right = '-30px';
+        } else {
+            button.innerHTML = '&lt;'; 
+            button.style.right = '-30px';
+        }
+        
+        if (network && !wrapper.classList.contains('hidden-controls')) {
+            setTimeout(() => {
+                network.fit({ animation: { duration: 500, easingFunction: "easeOutCubic" } });
+            }, 350);
+        }
+    }
+
+    function formatBioText(bio) {
+        if (!bio) return 'Không có thông tin tiểu sử.';
+        
+        let formatted = bio.trim().replace(/\n/g, '<br>');
+        let paragraphs = formatted.split('<br><br>').map(p => {
+            return p.trim().replace(/<br>/g, ' '); 
+        }).filter(p => p.length > 0);
+        
+        let result = '';
+        if (paragraphs.length > 0) {
+            result += `<p><strong>${paragraphs[0].trim()}</strong></p>`;
+            for (let i = 1; i < paragraphs.length; i++) {
+                result += `<p>${paragraphs[i]}</p>`;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Mở/Đóng/Cập nhật Panel Thông tin và điều chỉnh kích thước Network.
+     * @param {string | null} monkId - ID của Thiền Sư để hiển thị. Nếu null, đóng panel.
+     */
+    function toggleInfoPanel(monkId = null) {
+        const infoPanel = document.getElementById('info-panel');
+        const networkContainer = document.getElementById('network');
+        
+        if (monkId) {
+            const monk = monkData.get(monkId);
+            if (!monk) return;
+
+            // 1. Populate panel
+            document.getElementById('info-panel-title').innerText = monk.label || 'Thông tin Thiền Sư';
+            document.getElementById('info-panel-bio').innerHTML = formatBioText(monk.bio || 'Không có thông tin tiểu sử chi tiết.');
+            
+            // 2. OPENING THE PANEL
+            infoPanel.style.right = '0px';
+            networkContainer.style.width = `calc(100% - ${INFO_PANEL_WIDTH}px)`;
+            
+        } else {
+            // 3. CLOSING THE PANEL
+            infoPanel.style.right = `-${INFO_PANEL_WIDTH}px`;
+            networkContainer.style.width = '100%';
+        }
+        
+        // 4. Always call redraw/fit after changing container size
+        if (network) {
+            // Giữ vị trí nhìn hiện tại, chỉ điều chỉnh viewport
+            network.fit({ animation: { duration: 500, easingFunction: "easeInOutQuad", fitOptions: {locked: true} } }); 
+        }
+    }
+
+
+    /* =========================================================================
+     * CÁC HÀM HỖ TRỢ & TRÍCH XUẤT DỮ LIỆU CỤ THỂ
+     * ========================================================================= */
+
+    function setErrorMessage(title, message) {
+        const errorDiv = document.getElementById('errorContainer');
+        errorDiv.innerHTML = `<strong>${title}</strong><br>${message}`;
+        errorDiv.style.display = 'block';
+    }
+
+    function formatNameFallback(id) {
+        if (!id) return '';
+        const namePart = id.split('/').pop().replace(/_/g, ' '); 
+        return namePart.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+    
+    function getLineageLabel(labelObj) {
+        if (labelObj && typeof labelObj === 'object') {
+             if (Array.isArray(labelObj)) {
+                const viLabel = labelObj.find(l => (l['@language'] === 'vi' || l.lang === 'vi') && l['@value']);
+                if (viLabel) return viLabel['@value'];
+            } else if (labelObj.value) {
+                return labelObj.value; 
+            }
+        }
+        return null;
+    }
+    
+    function extractIdOrValue(property) {
+        if (!property) return null;
+        if (Array.isArray(property)) {
+            for (const item of property) {
+                 const value = extractIdOrValue(item);
+                 if (value) return value;
+            }
+            return null;
+        }
+        if (typeof property === 'object' && property !== null) {
+            if (property['@value'] !== undefined) {
+                return property['@value'];
+            }
+            if (property['@id']) {
+                return property['@id'];
+            }
+        }
+        return property;
+    }
+
+    function getMonkName(monkId) {
+        if (monkData.has(monkId) && monkData.get(monkId).label) {
+            return monkData.get(monkId).label;
+        }
+        return formatNameFallback(monkId); 
+    }
+    
+    function normalizeLineageLabel(rawLabel) {
+        if (!rawLabel) return '';
+        let label = rawLabel.trim();
+        return label.replace(/\n/g, ' ');
+    }
+    
+    function populateLineageSearchOptions() {
+        const datalist = document.getElementById('lineageNames');
+        datalist.innerHTML = '';
+        Array.from(allLineageNames).sort().forEach(name => {
+            const datalistOption = document.createElement('option');
+            datalistOption.value = name; 
+            datalist.appendChild(datalistOption);
+        });
+    }
+
+    function populateMonkSearchOptions() {
+        const datalist = document.getElementById('monkNames');
+        if (!datalist) return;
+        datalist.innerHTML = '';
+        Array.from(allMonkNames).sort().forEach(monkName => {
+            const option = document.createElement('option');
+            option.value = monkName; 
+            datalist.appendChild(option);
+        });
+    }
+    
+    /**
+     * Tính độ sâu tối đa của một nhánh từ một Thiền sư (Đã thêm Cycle Detection).
+     */
+    function calculateMaxDepth(monkId, discipleMap, memo, path = new Set()) {
+        if (memo.has(monkId)) {
+            return memo.get(monkId);
+        }
+        
+        if (path.has(monkId)) {
+            console.warn(`[LỖI] Phát hiện Chu trình tại ID: ${monkId}.`);
+            return 1; 
+        }
+
+        path.add(monkId); 
+        
+        const disciples = discipleMap.get(monkId) || [];
+        if (disciples.length === 0) {
+            path.delete(monkId);
+            memo.set(monkId, 1);
+            return 1;
+        }
+        
+        let maxDepth = 0;
+        for (const discipleId of disciples) {
+            const newPath = new Set(path); 
+            maxDepth = Math.max(maxDepth, calculateMaxDepth(discipleId, discipleMap, memo, newPath)); 
+        }
+        
+        path.delete(monkId); 
+        const result = 1 + maxDepth;
+        memo.set(monkId, result);
+        return result;
+    }
+
+
+    /* =========================================================================
+     * NẠP VÀ XỬ LÝ DỮ LIỆU
+     * ========================================================================= */
+    
+    async function loadMonkGenealogyData() {
+        // ... (Giữ nguyên phần loadMonkGenealogyData)
+        monkData.clear();
+        monkIdToTeacherIdMap.clear();
+        monkIdToDiscipleIdsMap.clear();
+        allMonkNames.clear();
+        monkIdToMaxDepthMap.clear();
+        monkDataReady = false;
+
+        try {
+            console.log(`[NETWORK] Đang tải dữ liệu Thiền Sư từ: ${MONK_GENEALOGY_JSON_URL}`);
+            const startTime = performance.now(); 
+            const res = await fetch(MONK_GENEALOGY_JSON_URL); 
+            if (!res.ok) throw new Error(`Status: ${res.status} (Có thể đường dẫn file bị sai)`);
+            const rawData = await res.json();
+            
+            if (!rawData || !rawData.nodes || rawData.nodes.length === 0) {
+                 throw new Error("Dữ liệu nodes của Thiền Sư trống.");
+            }
+            
+            rawData.nodes.forEach(n => {
+                n.id = n.id;
+                let label = n.label || getLineageLabel(n['rdfs:label']) || formatNameFallback(n.id);
+                n.label = label;
+                monkData.set(n.id, n);
+                allMonkNames.add(label);
+                
+                const teacherId = n.teacher || (n['bkg:hasTeacher'] ? extractIdOrValue(n['bkg:hasTeacher']) : null);
+                if (teacherId) {
+                    const discipleId = n.id;
+                    monkIdToTeacherIdMap.set(discipleId, teacherId);
+                    
+                    if (!monkIdToDiscipleIdsMap.has(teacherId)) {
+                        monkIdToDiscipleIdsMap.set(teacherId, []);
+                    }
+                    monkIdToDiscipleIdsMap.get(teacherId).push(discipleId);
+                }
+            });
+            
+            const loadTime = ((performance.now() - startTime) / 1000).toFixed(2);
+            console.log(`[DATA] Đã tải thành công ${monkData.size} Thiền sư trong ${loadTime} giây. Bắt đầu tính toán độ sâu...`);
+            
+            const depthMemo = new Map();
+            monkData.forEach((_, monkId) => {
+                 calculateMaxDepth(monkId, monkIdToDiscipleIdsMap, depthMemo);
+            });
+            monkIdToMaxDepthMap = depthMemo;
+
+            console.log(`[DATA] Hoàn tất tính toán độ sâu.`);
+
+            populateMonkSearchOptions();
+            
+            const monkCount = monkData.size;
+            const countInfoDiv = document.getElementById('monkDataCountInfo');
+            if (countInfoDiv) {
+                countInfoDiv.innerHTML = `* Dữ liệu Thiền Sư đã sẵn sàng: <strong>${monkCount}</strong> vị.`;
+            }
+            
+            monkDataReady = true; 
+            return true;
+        } catch (err) {
+            console.error(`[LỖI TẢI THIỀN SƯ] Lỗi: ${err.message}`, err);
+            setErrorMessage(
+                `LỖI KHI TẢI DỮ LIỆU THIỀN SƯ`, 
+                `Lỗi: ${err.message}. (Kiểm tra lại tệp ${MONK_GENEALOGY_JSON_URL} và Console Log)`
+            );
+            return false;
+        }
+        // ... (Hết phần loadMonkGenealogyData)
+    }
+
+    async function loadLineageData() {
+        // ... (Giữ nguyên phần loadLineageData)
+        allNodesMap.clear();
+        allLineageNames.clear();
+        allLineageGraphData.nodes.clear();
+        allLineageGraphData.edges.clear();
+
+        try {
+            console.log(`[NETWORK] Đang tải dữ liệu Tông Phái từ: ${LINEAGE_JSON_URL}`);
+            const res = await fetch(LINEAGE_JSON_URL); 
+            if (!res.ok) throw new Error(`Status: ${res.status} (Có thể đường dẫn file bị sai)`);
+            const rawData = await res.json();
+            
+            let nodesArray = rawData['@graph'];
+            if (!nodesArray || !Array.isArray(nodesArray) || nodesArray.length === 0) throw new Error("Dữ liệu Lineage trống.");
+            
+            const nodesToAdd = [];
+            const edgesToAdd = [];
+            
+            nodesArray.forEach(n => {
+                n.id = n['@id'] || n.id;
+                let rawLineageName = getLineageLabel(n['rdfs:label']);
+                n.rawLabel = rawLineageName || formatNameFallback(n.id);
+                n.parent = extractIdOrValue(n['bkg:isSubLineageOf']); 
+                allNodesMap.set(n.id, n);
+
+                 if (n.rawLabel) allLineageNames.add(n.rawLabel); 
+
+                 const founderId = extractIdOrValue(n['bkg:hasFounder']);
+                 if (founderId && !monkData.has(founderId)) {
+                     monkData.set(founderId, { id: founderId, label: getMonkName(founderId) });
+                 }
+            });
+
+            const levelMap = new Map();
+            const childrenMap = new Map(); 
+            const rootNodes = [];
+
+            allNodesMap.forEach(n => {
+                if (n.parent) {
+                    if (!childrenMap.has(n.parent)) {
+                        childrenMap.set(n.parent, []);
+                    }
+                    childrenMap.get(n.parent).push(n.id);
+                } else {
+                    rootNodes.push(n.id);
+                }
+            });
+
+            const queue = [...rootNodes]; 
+            rootNodes.forEach(id => levelMap.set(id, 0)); 
+            let head = 0;
+
+            while (head < queue.length) {
+                const parentId = queue[head++];
+                const currentLevel = levelMap.get(parentId);
+
+                const childrenIds = childrenMap.get(parentId) || [];
+
+                childrenIds.forEach(childId => {
+                    if (!levelMap.has(childId)) {
+                        levelMap.set(childId, currentLevel + 1);
+                        queue.push(childId);
+                    }
+                });
+            }
+
+            allNodesMap.forEach(n => {
+                if (!levelMap.has(n.id)) {
+                    levelMap.set(n.id, 0); 
+                }
+            });
+
+            allNodesMap.forEach(n => {
+                nodesToAdd.push({
+                    id: n.id,
+                    label: normalizeLineageLabel(n.rawLabel), 
+                    color: NORMAL_NODE_COLOR,
+                    level: levelMap.get(n.id) || 0, 
+                    rawLabel: n.rawLabel, 
+                    shape: 'box' 
+                });
+
+                if (n.parent) {
+                    edgesToAdd.push({ 
+                        from: n.parent, 
+                        to: n.id,
+                        arrows: 'to',
+                        color: '#999999'
+                    });
+                }
+            });
+
+            allLineageGraphData.nodes.add(nodesToAdd);
+            allLineageGraphData.edges.add(edgesToAdd);
+
+            populateLineageSearchOptions();
+            return true;
+        } catch (err) {
+            console.error(`[LỖI TẢI TÔNG PHÁI] Lỗi: ${err.message}`, err);
+            setErrorMessage(
+                `LỖI KHI TẢI DỮ LIỆU TÔNG PHÁI`, 
+                `Lỗi: ${err.message}. (Kiểm tra lại tệp ${LINEAGE_JSON_URL} và Console Log)`
+            );
+            return false;
+        }
+        // ... (Hết phần loadLineageData)
+    }
+    
+    /* =========================================================================
+     * VẼ ĐỒ THỊ VÀ LOGIC LAZY LOAD
+     * ========================================================================= */
+     
+    // Options mặc định cho LINEAGE TREE VÀ MONK TREE
+    const visOptions = {
+        nodes: { 
+            shape: 'box', 
+            margin: 15, 
+            // 🚨 CẬP NHẬT: Font size nhỏ hơn cho Lineage Tree, Monk Tree sẽ dùng font size 20
+            font: { size: 20, color: '#222', face: 'Segoe UI', multi: 'html', align: 'left'}, 
+            borderWidth: 3, 
+        },
+        edges: { 
+            width: 2, 
+            // 💡 FIX LỖI ĐƯỜNG CONG: Giữ 'straightCross' và tăng cường layout
+            smooth: { type: 'straightCross' }, 
+            color: { color: '#999999', highlight: '#999999', hover: '#999999', inherit: 'from' }, 
+            arrows: { to: { enabled: true, scaleFactor: 0.8, type: 'arrow' } } 
+        },
+        interaction: { hover: true, tooltipDelay: 160, hoverConnectedEdges: true, navigationButtons: true, keyboard: true },
+        layout: {
+            hierarchical: { 
+                enabled: true, 
+                direction: "UD", 
+                sortMethod: "directed", 
+                levelSeparation: 350, 
+                nodeSpacing: 1000, 
+                parentCentralization: true, 
+                // 🚨 TẮT EDGE MINIMIZATION: Giúp thuật toán ít cố gắng uốn cong hơn
+                edgeMinimization: false, 
+                treeSpacing: 1200, 
+                // 🚨 THÊM HƯỚNG BẮT BUỘC: Ép phải đi theo chiều ngang-dọc
+                layoutMethod: 'directed',
+            } 
+        },
+        physics: { enabled: false } 
+    };
+
+    /**
+     * Hàm đệ quy để thêm đệ tử (Lazy Load check)
+     */
+    function recursivelyAddDisciples(monkId, currentLevel, maxLevel, drawnNodes, nodes, edges) {
+        // ... (Giữ nguyên phần recursivelyAddDisciples)
+        if (currentLevel >= maxLevel) {
+            return monkIdToDiscipleIdsMap.has(monkId) && monkIdToDiscipleIdsMap.get(monkId).length > 0;
+        }
+
+        const discipleIds = monkIdToDiscipleIdsMap.get(monkId) || [];
+        let hasHiddenChildren = false;
+
+        const sortedDisciples = discipleIds.map(id => ({
+            id: id,
+            depth: monkIdToMaxDepthMap.get(id) || 1
+        })).sort((a, b) => b.depth - a.depth); 
+
+        sortedDisciples.forEach(discipleInfo => {
+            const discipleId = discipleInfo.id;
+
+            if (!monkData.has(discipleId)) return; 
+            
+            if (!drawnNodes.has(discipleId)) {
+                nodes.add({
+                    id: discipleId,
+                    // 🚨 CẬP NHẬT LABEL: Dùng HTML Label có ICON
+                    label: createMonkLabelHtml(getMonkName(discipleId), discipleId),
+                    color: DISCIPLE_NODE_COLOR,
+                    level: currentLevel + 1, 
+                    shape: 'box',
+                    font: { size: 20 }
+                });
+                drawnNodes.add(discipleId); 
+                
+                edges.add({
+                    id: `dharma:${monkId}:${discipleId}`, 
+                    from: monkId, 
+                    to: discipleId, 
+                    arrows: { to: { enabled: true, type: 'arrow', scaleFactor: 1.2 } }, 
+                    color: '#3498DB',
+                });
+            }
+
+            const hasMoreDisciples = recursivelyAddDisciples(discipleId, currentLevel + 1, maxLevel, drawnNodes, nodes, edges);
+            
+            if (hasMoreDisciples) {
+                hasHiddenChildren = true;
+                
+                const allDisciples = monkIdToDiscipleIdsMap.get(discipleId) || [];
+                const hidden = allDisciples.filter(id => !drawnNodes.has(id)); 
+                
+                if (hidden.length > 0) {
+                     currentMonkGraph.hiddenDisciples.set(discipleId, hidden);
+                     nodes.update({ 
+                         id: discipleId, 
+                         borderWidth: 5,
+                         borderWidthSelected: 5,
+                         color: { ...DISCIPLE_NODE_COLOR, border: LAZY_LOAD_NODE_BORDER } 
+                     });
+                } else {
+                    currentMonkGraph.hiddenDisciples.delete(discipleId);
+                }
+            }
+        });
+        
+        return hasHiddenChildren;
+    }
+
+    /**
+     * [FIXED] Hàm mở rộng node chỉ tải thêm một cấp độ con (Lazy Load Single Step)
+     * @param {string} teacherId ID của node được Double-click
+     */
+    function expandNode(teacherId) {
+        // ... (Giữ nguyên phần expandNode)
+        if (!currentMonkGraph.hiddenDisciples.has(teacherId) || currentMonkGraph.expandedNodes.has(teacherId)) {
+            return;
+        }
+
+        const disciplesToDraw = currentMonkGraph.hiddenDisciples.get(teacherId);
+        if (disciplesToDraw.length === 0) return;
+
+        currentMonkGraph.expandedNodes.add(teacherId);
+        currentMonkGraph.hiddenDisciples.delete(teacherId); 
+        
+        currentMonkGraph.nodes.update({ 
+            id: teacherId, 
+            borderWidth: 3, 
+            borderWidthSelected: 3,
+            color: DISCIPLE_NODE_COLOR 
+        });
+        
+        const teacherNode = currentMonkGraph.nodes.get(teacherId);
+        if (!teacherNode) return;
+        const teacherLevel = teacherNode.level; 
+        
+        const drawnNodes = new Set(currentMonkGraph.nodes.getIds());
+        
+        const nodesToAdd = [];
+        const edgesToAdd = [];
+        const nodesToUpdateLazyLoad = [];
+
+        const sortedDisciples = disciplesToDraw.map(id => ({
+            id: id,
+            depth: monkIdToMaxDepthMap.get(id) || 1
+        })).sort((a, b) => b.depth - a.depth); 
+        
+        sortedDisciples.forEach(discipleInfo => {
+            const discipleId = discipleInfo.id;
+
+            if (!monkData.has(discipleId) || drawnNodes.has(discipleId)) return;
+            
+            // 🚨 CẬP NHẬT LABEL: Dùng HTML Label có ICON
+            nodesToAdd.push({
+                id: discipleId,
+                label: createMonkLabelHtml(getMonkName(discipleId), discipleId),
+                color: DISCIPLE_NODE_COLOR,
+                level: teacherLevel + 1, 
+                shape: 'box',
+                font: { size: 20 }
+            });
+            drawnNodes.add(discipleId); 
+            
+            edgesToAdd.push({
+                id: `dharma:${teacherId}:${discipleId}`, 
+                from: teacherId, 
+                to: discipleId, 
+                arrows: { to: { enabled: true, type: 'arrow', scaleFactor: 1.2 } }, 
+                color: '#3498DB',
+            });
+            
+            const hasMoreDisciples = recursivelyAddDisciples(
+                discipleId, 
+                teacherLevel + 1, 
+                teacherLevel + 2, 
+                drawnNodes, 
+                currentMonkGraph.nodes, 
+                currentMonkGraph.edges
+            );
+            
+            if (hasMoreDisciples) {
+                 const allNextDisciples = monkIdToDiscipleIdsMap.get(discipleId) || [];
+                 const stillHidden = allNextDisciples.filter(id => !drawnNodes.has(id));
+                 
+                 if (stillHidden.length > 0) {
+                     currentMonkGraph.hiddenDisciples.set(discipleId, stillHidden);
+                      nodesToUpdateLazyLoad.push({ 
+                          id: discipleId, 
+                          borderWidth: 5,
+                          borderWidthSelected: 5,
+                          color: { ...DISCIPLE_NODE_COLOR, border: LAZY_LOAD_NODE_BORDER } 
+                      });
+                 }
+            }
+        });
+
+        currentMonkGraph.nodes.add(nodesToAdd);
+        currentMonkGraph.edges.add(edgesToAdd);
+        currentMonkGraph.nodes.update(nodesToUpdateLazyLoad);
+
+        network.setData({ nodes: currentMonkGraph.nodes, edges: currentMonkGraph.edges });
+        
+        network.focus(teacherId, { 
+            scale: 1.0, 
+            animation: { duration: 1000, easingFunction: "easeInOutQuad" } 
+        });
+
+        document.getElementById('currentNodeLabel').innerText = `Đã mở rộng đệ tử của: ${getMonkName(teacherId)}. Double-click để mở rộng thêm.`;
+    }
+
+    /**
+     * Hàm vẽ lại cây dựa trên một Thiền Sư gốc (Founder hoặc Focused Monk)
+     */
+    function drawMonkTree(newRootMonkId, lineageName, isFocusing = false) {
+        if (!monkDataReady) {
+            alert("Dữ liệu Thiền Sư đang được tải trong nền. Vui lòng chờ vài giây rồi thử lại.");
+            return;
+        }
+
+        if (!monkData.has(newRootMonkId)) {
+            alert("Không tìm thấy thông tin Thiền Sư này.");
+            return;
+        }
+        
+        const monkTreeOptions = {
+            ...visOptions,
+            nodes: { 
+                 ...visOptions.nodes, 
+                 font: { size: 20, color: '#222', face: 'Segoe UI', multi: 'html', align: 'left'} 
+            },
+        };
+
+        currentMode = 'monk'; 
+        toggleInfoPanel(null); 
+
+        currentMonkGraph.nodes.clear();
+        currentMonkGraph.edges.clear();
+        currentMonkGraph.expandedNodes.clear();
+        currentMonkGraph.hiddenDisciples.clear();
+        currentMonkGraph.rootMonkId = newRootMonkId;
+        const drawnNodes = new Set();
+        
+        const depthInput = document.getElementById('depthInput');
+        const maxGenerations = parseInt(depthInput.value) || DEFAULT_MAX_GENERATIONS;
+        
+        
+
+        // 1. Thêm Thiền Sư được focus (Level 1)
+        const rootColor = isFocusing ? FOCUSED_NODE_COLOR : FOUNDER_NODE_COLOR;
+        const rootLevel = 1;
+        currentMonkGraph.nodes.add({ 
+            id: newRootMonkId, 
+            // 🚨 CẬP NHẬT LABEL: Dùng HTML Label có ICON
+            label: createMonkLabelHtml(getMonkName(newRootMonkId), newRootMonkId), 
+            color: rootColor, 
+            level: rootLevel, 
+            shape: 'box',
+            font: { size: 24 }
+        });
+        drawnNodes.add(newRootMonkId);
+
+        // 2. Thêm Thầy của Thiền Sư (Level 0)
+        let rootMonkIdToFocus = newRootMonkId;
+        const teacherId = monkIdToTeacherIdMap.get(newRootMonkId) || null;
+        if (teacherId) {
+             if (!monkData.has(teacherId)) {
+                monkData.set(teacherId, { id: teacherId, label: getMonkName(teacherId) });
+             }
+             
+            currentMonkGraph.nodes.add({ 
+                id: teacherId, 
+                // 🚨 CẬP NHẬT LABEL: Dùng HTML Label có ICON
+                label: createMonkLabelHtml(getMonkName(teacherId), teacherId),
+                color: TEACHER_NODE_COLOR,
+                level: 0, 
+                shape: 'box',
+                font: { size: 20 } 
+            });
+            drawnNodes.add(teacherId);
+            
+            currentMonkGraph.edges.add({ 
+                from: teacherId, 
+                to: newRootMonkId, 
+                arrows: { to: { enabled: true, type: 'arrow', scaleFactor: 1.2 } }, 
+                color: '#1ABC9C', 
+                dashes: true,
+            });
+            rootMonkIdToFocus = teacherId;
+        }
+
+        // 3. Sắp xếp các nhánh đệ tử cấp 1 theo độ dài
+        const immediateDisciples = (monkIdToDiscipleIdsMap.get(newRootMonkId) || [])
+            .map(id => ({
+                id: id,
+                depth: monkIdToMaxDepthMap.get(id) || 1 
+            }))
+            .sort((a, b) => b.depth - a.depth); 
+
+        // 4. THÊM ĐỆ TỬ CẤP 1 (L2) VÀ GỌI ĐỆ QUY
+        immediateDisciples.forEach(discipleInfo => {
+            const discipleId = discipleInfo.id;
+            
+            if (!drawnNodes.has(discipleId) && monkData.has(discipleId)) {
+                currentMonkGraph.nodes.add({
+                    id: discipleId,
+                    // 🚨 CẬP NHẬT LABEL: Dùng HTML Label có ICON
+                    label: createMonkLabelHtml(getMonkName(discipleId), discipleId),
+                    color: DISCIPLE_NODE_COLOR,
+                    level: rootLevel + 1, 
+                    shape: 'box',
+                    font: { size: 20 }
+                });
+                drawnNodes.add(discipleId);
+                
+                currentMonkGraph.edges.add({
+                    id: `dharma:${newRootMonkId}:${discipleId}`, 
+                    from: newRootMonkId, 
+                    to: discipleId, 
+                    arrows: { to: { enabled: true, type: 'arrow', scaleFactor: 1.2 } }, 
+                    color: '#3498DB',
+                });
+            }
+            
+            recursivelyAddDisciples(
+                discipleId, 
+                rootLevel + 1, 
+                rootLevel + maxGenerations, 
+                drawnNodes, 
+                currentMonkGraph.nodes, 
+                currentMonkGraph.edges
+            );
+        });
+
+        // 5. Cập nhật Network và dịch chuyển
+        network.setOptions(monkTreeOptions); 
+        network.setData({ nodes: currentMonkGraph.nodes, edges: currentMonkGraph.edges });
+        
+        network.once('stabilized', function () {
+             const nodePosition = network.getPositions(newRootMonkId);
+             // Giữ vị trí node tập trung ở giữa view, bù trừ cho Info Panel bên phải
+             const offset_x = (INFO_PANEL_WIDTH / 2) * network.getScale(); 
+             
+             network.moveTo({
+                 position: nodePosition,
+                 offset: { x: -offset_x, y: 0 }, 
+                 scale: 1.0,
+                 animation: { duration: 1000, easingFunction: "easeInOutQuad" }
+             });
+             
+             if (isFocusing) {
+                toggleInfoPanel(newRootMonkId);
+             }
+        });
+
+        const rootName = getMonkName(newRootMonkId);
+        document.getElementById('currentNodeLabel').innerHTML = isFocusing ? 
+            `Đang tập trung vào Thiền Sư: <strong class="highlight-text">${rootName}</strong>. <br> Đã tải ${maxGenerations} đời đệ tử. **Click vào icon (i) để xem thông tin.**` :
+            `Đang hiển thị Phổ Hệ Truyền Thừa của dòng: <strong class="highlight-text">${lineageName}</strong>. <br> Khai Tổ: ${rootName}. **Click vào icon (i) để xem thông tin.**`;
+    }
+
+    /**
+     * TẬP TRUNG vào Thiền Sư được click và vẽ lại cây 3 đời
+     */
+    function focusAndRedrawMonkTree(newRootMonkId) {
+        // ... (Giữ nguyên phần focusAndRedrawMonkTree)
+        const lineageNode = Array.from(allNodesMap.values()).find(n => extractIdOrValue(n['bkg:hasFounder']) === newRootMonkId) 
+                            || Array.from(allNodesMap.values()).find(n => extractIdOrValue(n['bkg:hasFounder']) === monkIdToTeacherIdMap.get(newRootMonkId));
+        const lineageName = lineageNode ? lineageNode.rawLabel : "Phổ Hệ Truyền Thừa";
+        
+        drawMonkTree(newRootMonkId, lineageName, true);
+    }
+
+    /**
+     * VẼ ĐỒ THỊ BAN ĐẦU (Chế độ mặc định Lineage Tree)
+     */
+    async function drawInitial() {
+        currentMode = 'lineage';
+        toggleInfoPanel(null);
+
+        if (!network) {
+            container = document.getElementById('network');
+            network = new vis.Network(container, allLineageGraphData, visOptions);
+            
+            // 🚨 CẬP NHẬT: Thay đổi Event Listener
+            network.on('click', (params) => {
+                if (params.nodes.length > 0) {
+                    const clickedId = params.nodes[0];
+                    if (currentMode === 'lineage' && allNodesMap.has(clickedId)) {
+                        const selectedLineage = allNodesMap.get(clickedId);
+                        document.getElementById('currentNodeLabel').innerText = `Đang chọn dòng: ${selectedLineage.rawLabel}. Double-click để xem Phổ Hệ Truyền Thừa.`;
+                    }
+                    // Bỏ qua sự kiện click cho Monk Mode vì nó sẽ được xử lý bởi click icon (i)
+                } else {
+                    toggleInfoPanel(null);
+                }
+            });
+
+            network.on('doubleClick', (params) => {
+                if (params.nodes.length > 0) {
+                    const clickedId = params.nodes[0];
+                    
+                    if (currentMode === 'lineage' && allNodesMap.has(clickedId)) {
+                         if (monkDataReady) { 
+                            const selectedLineage = allNodesMap.get(clickedId);
+                            const founderId = extractIdOrValue(selectedLineage['bkg:hasFounder']);
+                            if (founderId) { 
+                                handleLineageSearch(selectedLineage.rawLabel);
+                            }
+                        } else {
+                            alert("Dữ liệu Thiền Sư đang được tải trong nền. Vui lòng chờ một lát.");
+                        }
+
+                    } else if (currentMode === 'monk' && currentMonkGraph.hiddenDisciples.has(clickedId)) {
+                        // Double-click vào node Thiền Sư có đệ tử ẩn (Mở rộng)
+                        expandNode(clickedId);
+                    } else if (currentMode === 'monk' && monkData.has(clickedId)) {
+                        // Double-click vào node Thiền Sư (Mở rộng Node)
+                        focusAndRedrawMonkTree(clickedId);
+                    }
+                }
+            });
+            
+            // 🚨 SỰ KIỆN MỚI: Xử lý click trên icon (i) trong HTML Label
+            container.addEventListener('click', handleIconClick);
+        }
+        
+        network.setOptions(visOptions); 
+        network.setData({ nodes: allLineageGraphData.nodes, edges: allLineageGraphData.edges });
+        
+        if (allLineageGraphData.nodes.length > 0) {
+             network.fit({ animation: true }); 
+             network.once('stabilized', function () {
+                 let focusNode = allLineageGraphData.nodes.get().find(n => n.level === 0) || allLineageGraphData.nodes.get()[0];
+                 if (focusNode) {
+                     network.focus(focusNode.id, {
+                         offset: { x: 0, y: 0 }, 
+                         scale: network.getScale(),
+                         animation: { duration: 1000, easingFunction: "easeInOutQuad" }
+                     });
+                 }
+             });
+        }
+         document.getElementById('currentNodeLabel').innerText = `Đang hiển thị ${allLineageGraphData.nodes.length} dòng thiền. Double-click vào node để xem Phổ Hệ Truyền Thừa.`;
+    }
+
+    /**
+     * Xử lý sự kiện click trên ICON (i) trong HTML Label
+     */
+    function handleIconClick(event) {
+        const target = event.target;
+        // Kiểm tra xem phần tử được click có phải là icon 'i' hay không
+        if (target.classList.contains('info-icon')) {
+            const monkId = target.getAttribute('data-monk-id');
+            if (monkId && monkDataReady) {
+                 // Ngăn chặn sự kiện lan truyền lên vis.js click handler
+                 event.stopPropagation(); 
+                 
+                 // Mở Panel Thông tin
+                 toggleInfoPanel(monkId);
+                 
+                 // Tập trung đồ thị vào node này (tùy chọn)
+                 if (currentMode === 'monk') {
+                     network.focus(monkId, {
+                        scale: network.getScale(),
+                        animation: { duration: 500, easingFunction: "easeOutCubic" } 
+                     });
+                 }
+            } else if (!monkDataReady) {
+                alert("Dữ liệu Thiền Sư đang được tải trong nền. Vui lòng chờ một lát.");
+            }
+        }
+    }
+
+    /* =========================================================================
+     * HÀM XỬ LÝ THANH ĐIỀU KHIỂN
+     * ========================================================================= */
+
+    function handleLineageSearch(searchName = document.getElementById('lineageSearchInput').value.trim()) {
+        if (!monkDataReady) {
+             alert("Dữ liệu Thiền Sư đang được tải (lớn). Vui lòng chờ vài giây rồi thử lại.");
+             return;
+        }
+
+        const selectedLineage = Array.from(allNodesMap.values()).find(n => n.rawLabel === searchName); 
+
+        if (selectedLineage) {
+            const founderId = extractIdOrValue(selectedLineage['bkg:hasFounder']);
+            
+            if (!founderId) {
+                alert(`Tông Phái "${searchName}" không có dữ liệu Khai Tổ.`);
+                return;
+            }
+            
+            drawMonkTree(founderId, selectedLineage.rawLabel, false);
+            
+            const wrapper = document.getElementById('controls-wrapper');
+            if (!wrapper.classList.contains('hidden-controls')) {
+                toggleControls();
+            }
+
+        } else {
+            alert(`Không tìm thấy Tông Phái: "${searchName}". Vui lòng chọn từ danh sách gợi ý.`);
+        }
+    }
+    
+    function handleMonkSearch() {
+        if (!monkDataReady) {
+             alert("Dữ liệu Thiền Sư đang được tải (lớn). Vui lòng chờ vài giây rồi thử lại.");
+             return;
+        }
+
+        const searchName = document.getElementById('monkSearchInput').value.trim();
+
+        const founderInfo = Array.from(monkData.values()).find(m => m.label === searchName);
+        
+        if (founderInfo) {
+            const founderId = founderInfo.id;
+            focusAndRedrawMonkTree(founderId);
+            
+            const wrapper = document.getElementById('controls-wrapper');
+            if (!wrapper.classList.contains('hidden-controls')) {
+                toggleControls();
+            }
+        } else {
+             alert(`Không tìm thấy Thiền Sư: "${searchName}". Vui lòng chọn từ danh sách gợi ý hoặc kiểm tra lại dữ liệu.`);
+        }
+    }
+
+    function refreshGraphWithNewDepth() {
+        const depthInput = document.getElementById('depthInput');
+        const newDepth = parseInt(depthInput.value);
+
+        if (isNaN(newDepth) || newDepth < 1) {
+            alert("Số cấp muốn tải phải là một số nguyên dương.");
+            depthInput.value = DEFAULT_MAX_GENERATIONS;
+            return;
+        }
+        
+        if (currentMode === 'monk' && currentMonkGraph.rootMonkId) {
+             focusAndRedrawMonkTree(currentMonkGraph.rootMonkId);
+        } else {
+            alert(`Cập nhật thành công. Số cấp đã được đặt là ${newDepth}. Thay đổi này sẽ áp dụng khi bạn click vào một Thiền Sư.`);
+        }
+    }
+    
+    /* =========================================================================
+     * KHỞI TẠO CHƯƠNG TRÌNH
+     * ========================================================================= */
+
+    async function init() {
+        console.log("Khởi tạo ứng dụng...");
+        
+        const lineageLoaded = await loadLineageData(); 
+        
+        if (lineageLoaded && allLineageGraphData.nodes.length > 0) {
+            console.log("[INIT] Bắt đầu vẽ đồ thị Lineage (Home Screen).");
+            drawInitial(); 
+        } else {
+             const errorMsg = `Lỗi: Không tải được dữ liệu Tông Phái. Vui lòng kiểm tra file JSON và Console Log.`;
+             document.getElementById('currentNodeLabel').innerText = errorMsg;
+             console.error(`[INIT] KHÔNG VẼ ĐƯỢC ĐỒ THỊ: ${errorMsg}`);
+             setErrorMessage("LỖI KHỞI TẠO", `Không thể tải dữ liệu Tông Phái. Vui lòng kiểm tra file JSON và Console Log (F12) để biết chi tiết lỗi.`);
+        }
+        
+        loadMonkGenealogyData().then(() => {
+             console.log("[INIT] Đã tải xong dữ liệu Thiền Sư nền. Các chức năng tìm kiếm Monk đã sẵn sàng.");
+        }).catch(err => {
+             console.error("[INIT] Lỗi khi tải dữ liệu Thiền Sư nền.", err);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

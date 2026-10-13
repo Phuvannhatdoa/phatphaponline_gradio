@@ -1,0 +1,7 @@
+﻿git : fatal: update_ref failed for ref 'refs/heads/master': couldn't set 'refs/heads/master'
+At line:8 char:1
++ git update-ref refs/heads/master $sha 3991c28dc42c290c0848603c4d3ee9d ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: update_r...s/heads/master':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
