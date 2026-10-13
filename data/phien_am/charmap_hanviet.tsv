@@ -1,0 +1,4298 @@
+﻿char	codepoint	am_de_xuat	doi_chieu_NguyenQuocHung	tinh_trang
+㒜	U+349C			thieu_am
+㗔	U+35D4			thieu_am
+㗚	U+35DA			thieu_am
+㙻	U+367B		triền×1	thieu_am
+㝹	U+3779			thieu_am
+㞦	U+37A6			thieu_am
+㞧	U+37A7			thieu_am
+㞰	U+37B0			thieu_am
+㟈	U+37C8			thieu_am
+㟏	U+37CF			thieu_am
+㟧	U+37E7			thieu_am
+㟲	U+37F2			thieu_am
+㣧	U+38E7			thieu_am
+㣲	U+38F2			thieu_am
+㤊	U+390A			thieu_am
+㥫	U+396B			thieu_am
+㦂	U+3982			thieu_am
+㫤	U+3AE4			thieu_am
+㬎	U+3B0E			thieu_am
+㬚	U+3B1A			thieu_am
+㬭	U+3B2D			thieu_am
+㭁	U+3B41			thieu_am
+㭘	U+3B58		hạp×1	thieu_am
+㭰	U+3B70			thieu_am
+㲀	U+3C80			thieu_am
+㲈	U+3C88		thiều×1	thieu_am
+㳂	U+3CC2			thieu_am
+㴵	U+3D35			thieu_am
+㴶	U+3D36			thieu_am
+㵎	U+3D4E			thieu_am
+㵽	U+3D7D		luỹ×1; lũy×1	thieu_am
+㵿	U+3D7F			thieu_am
+㷆	U+3DC6			thieu_am
+㸅	U+3E05			thieu_am
+㹠	U+3E60		đồn×1	thieu_am
+㻠	U+3EE0			thieu_am
+㻽	U+3EFD			thieu_am
+䂐	U+4090			thieu_am
+䂮	U+40AE			thieu_am
+䖍	U+458D			thieu_am
+䗲	U+45F2			thieu_am
+䘄	U+4604			thieu_am
+䛒	U+46D2			thieu_am
+䛿	U+46FF			thieu_am
+䜿	U+473F			thieu_am
+䝞	U+475E			thieu_am
+䝺	U+477A			thieu_am
+䢦	U+48A6			thieu_am
+䢼	U+48BC			thieu_am
+䪼	U+4ABC			thieu_am
+䵻	U+4D7B			thieu_am
+一	U+4E00	Nhất	nhất×72	khop_tu_dien
+丁	U+4E01	Đinh	đinh×28	khop_tu_dien
+七	U+4E03	Thất	thất×10; thất×1	khop_tu_dien
+万	U+4E07	Vạn	vạn×1	khop_tu_dien
+丈	U+4E08	Trượng	trượng×11	khop_tu_dien
+三	U+4E09	Tam	tam×78; tạm×2	khop_tu_dien
+上	U+4E0A	Thượng	thượng×56; thướng×1	khop_tu_dien
+下	U+4E0B	Hạ	hạ×61; há×1	khop_tu_dien
+不	U+4E0D	Bất	bất×179; bỉ×1; bưu×1	khop_tu_dien
+丏	U+4E0F	Miện/Cái	cái×1; miễn×1	lech_tu_dien
+丑	U+4E11	Sửu	sửu×2	khop_tu_dien
+且	U+4E14	Thả	thả×3	khop_tu_dien
+丕	U+4E15	Phi	phi×1	khop_tu_dien
+世	U+4E16	Thế	thế×103	khop_tu_dien
+丘	U+4E18	Khâu	khâu×4; khưu×1	khop_tu_dien
+丙	U+4E19	Bính	bính×4	khop_tu_dien
+丞	U+4E1E	Thừa	thừa×8	khop_tu_dien
+中	U+4E2D	Trung	trung×66; trúng×20	khop_tu_dien
+丰	U+4E30	Phong	phong×1	khop_tu_dien
+丸	U+4E38	Hoàn	hoàn×5	khop_tu_dien
+丹	U+4E39	Đan	đan×14; đơn×3	khop_tu_dien
+主	U+4E3B	Chủ	chủ×92; chúa×3	khop_tu_dien
+乂	U+4E42	Nghệ	nghệ×3	khop_tu_dien
+乃	U+4E43	Nãi	nãi×2	khop_tu_dien
+久	U+4E45	Cửu	cửu×11	khop_tu_dien
+之	U+4E4B	Chi	chi×17	khop_tu_dien
+乘	U+4E58	Thừa	thừa×19; thặng×3	khop_tu_dien
+乙	U+4E59	Ất	ất×7	khop_tu_dien
+九	U+4E5D	Cửu	cửu×17; cưu×1	khop_tu_dien
+乞	U+4E5E	Khất	khất×11; khí×1	khop_tu_dien
+也	U+4E5F	Dã	dã×3	khop_tu_dien
+乩	U+4E69	Kê	kê×2	khop_tu_dien
+乳	U+4E73	Nhũ	nhũ×22	khop_tu_dien
+乾	U+4E7E	Càn/Kiền	kiền×7; can×5	lech_tu_dien
+了	U+4E86	Liễu	liễu×5	khop_tu_dien
+予	U+4E88	Dư	dư×1; dữ×1	khop_tu_dien
+事	U+4E8B	Sự	sự×135	khop_tu_dien
+二	U+4E8C	Nhị	nhị×17	khop_tu_dien
+于	U+4E8E	Vu	vu×3	khop_tu_dien
+云	U+4E91	Vân	vân×3	khop_tu_dien
+五	U+4E94	Ngũ	ngũ×40	khop_tu_dien
+井	U+4E95	Tỉnh	tỉnh×6; đán×1	khop_tu_dien
+亘	U+4E98	Tuyên	tuyên×1	am_doan_chua_chac
+亙	U+4E99		cắng×1	thieu_am
+些	U+4E9B	Ta	ta×5; tá×1	khop_tu_dien
+亞	U+4E9E	Á	á×17; a×1	khop_tu_dien
+亟	U+4E9F	Cức/Kỷ	cức×1	khop_tu_dien
+亡	U+4EA1	Vong	vong×21; vô×1	khop_tu_dien
+亢	U+4EA2	Kháng	hàng×2; kháng×1	khop_tu_dien
+交	U+4EA4	Giao	giao×66	khop_tu_dien
+亥	U+4EA5	Hợi	hợi×1; giai×1	khop_tu_dien
+亦	U+4EA6	Diệc	diệc×2	khop_tu_dien
+亨	U+4EA8	Hanh	hanh×4; hưởng×1; phanh×1	khop_tu_dien
+享	U+4EAB	Hưởng	hưởng×11	khop_tu_dien
+京	U+4EAC	Kinh	kinh×12	khop_tu_dien
+亭	U+4EAD	Đình	đình×20	khop_tu_dien
+亮	U+4EAE	Lượng	lượng×3; lương×1	khop_tu_dien
+亶	U+4EB6	Đản	chiên×1; đàn×1; đản×1	khop_tu_dien
+亷	U+4EB7	Liêm		khong_co_trong_tu_dien
+亹	U+4EB9		vĩ×3	thieu_am
+人	U+4EBA	Nhân	nhân×216; quân×1	khop_tu_dien
+亻	U+4EBB			thieu_am
+什	U+4EC0	Thập	thập×1	khop_tu_dien
+仁	U+4EC1	Nhân	nhân×19; nhơn×1	khop_tu_dien
+仇	U+4EC7	Cừu	cừu×12; câu×1	khop_tu_dien
+今	U+4ECA	Kim	kim×16	khop_tu_dien
+介	U+4ECB	Giới	giới×10	khop_tu_dien
+仍	U+4ECD	Nhưng	nhưng×4	khop_tu_dien
+仔	U+4ED4	Tử	tử×2	khop_tu_dien
+仕	U+4ED5	Sĩ	sĩ×4	khop_tu_dien
+他	U+4ED6	Tha	tha×9; đà×1	khop_tu_dien
+付	U+4ED8	Phó	phó×11; phụ×1	khop_tu_dien
+仙	U+4ED9	Tiên	tiên×36	khop_tu_dien
+仝	U+4EDD	Đồng	đồng×1	khop_tu_dien
+仞	U+4EDE	Nhận	nhận×1	khop_tu_dien
+仟	U+4EDF	Thiên	thiên×1	khop_tu_dien
+代	U+4EE3	Đại	đại×21	khop_tu_dien
+令	U+4EE4	Linh/Lệnh	lệnh×44; linh×1	khop_tu_dien
+以	U+4EE5	Dĩ	dĩ×16	khop_tu_dien
+仰	U+4EF0	Ngưỡng	ngưỡng×16; ngang×1	khop_tu_dien
+仲	U+4EF2	Trọng	trọng×10	khop_tu_dien
+价	U+4EF7	Giới	giới×1	khop_tu_dien
+任	U+4EFB	Nhậm	nhiệm×18; nhậm×11; nhâm×1	khop_tu_dien
+份	U+4EFD	Phận/Phần	phần×2; phân×1	lech_tu_dien
+仿	U+4EFF	Phảng	phảng×3; phỏng×2	khop_tu_dien
+伉	U+4F09	Kháng	kháng×1	khop_tu_dien
+伊	U+4F0A	Y	y×12	khop_tu_dien
+伋	U+4F0B	Cấp	cấp×1	khop_tu_dien
+伍	U+4F0D	Ngũ	ngũ×6	khop_tu_dien
+伎	U+4F0E	Kỹ	kĩ×1; ki×1	khop_tu_dien
+伏	U+4F0F	Phục	phục×25; bặc×1; phúc×1	khop_tu_dien
+伐	U+4F10	Phạt	phạt×11	khop_tu_dien
+休	U+4F11	Hưu	hưu×16; hu×1	khop_tu_dien
+伒	U+4F12			thieu_am
+伭	U+4F2D			thieu_am
+伯	U+4F2F	Bá	bá×22; bách×1	khop_tu_dien
+伴	U+4F34	Bạn	bạn×10; phán×1	khop_tu_dien
+伶	U+4F36	Linh	linh×5	khop_tu_dien
+伷	U+4F37			thieu_am
+伸	U+4F38	Thân	thân×2	khop_tu_dien
+伺	U+4F3A	Tứ	tứ×1	khop_tu_dien
+似	U+4F3C	Tự	tự×3	khop_tu_dien
+伽	U+4F3D	Già	già×6	khop_tu_dien
+佃	U+4F43	Điền	điền×1	khop_tu_dien
+但	U+4F46	Đãn	đãn×1	khop_tu_dien
+佇	U+4F47	Trữ	trữ×1	khop_tu_dien
+佉	U+4F49	Khư	khư×1	khop_tu_dien
+位	U+4F4D	Vị	vị×46	khop_tu_dien
+低	U+4F4E	Đê	đê×8	khop_tu_dien
+住	U+4F4F	Trụ	trú×16	khop_tu_dien
+佐	U+4F50	Tá	tá×17	khop_tu_dien
+佑	U+4F51	Hựu/Hữu	hữu×1	lech_tu_dien
+体	U+4F53	Thể	bổn×2; thể×1	khop_tu_dien
+何	U+4F55	Hà	hà×5	khop_tu_dien
+佗	U+4F57	Đà	đà×3	khop_tu_dien
+佘	U+4F58	Xà		am_doan_chua_chac
+余	U+4F59	Dư	dư×2; xà×1	khop_tu_dien
+佚	U+4F5A	Dật	dật×4	khop_tu_dien
+佛	U+4F5B	Phật	phật×35; phất×1; bột×1	khop_tu_dien
+作	U+4F5C	Tác	tác×48; tá×1	khop_tu_dien
+佟	U+4F5F	Đồng/Đông	đông×1	lech_tu_dien
+你	U+4F60	Nễ	nễ×1	khop_tu_dien
+佩	U+4F69	Bội	bội×9	khop_tu_dien
+佳	U+4F73	Giai	giai×12; gia×1	khop_tu_dien
+佶	U+4F76	Cát	cát×1	khop_tu_dien
+佺	U+4F7A	Thuyên		khong_co_trong_tu_dien
+佼	U+4F7C	Giảo	giao×1; giảo×1	khop_tu_dien
+佾	U+4F7E	Dật	dật×3	khop_tu_dien
+使	U+4F7F	Sử	sứ×37; sử×18	khop_tu_dien
+侁	U+4F81	Sân	sân×3; tân×1	am_doan_chua_chac
+侂	U+4F82		thác×1	thieu_am
+侃	U+4F83	Khản	khản×1	khop_tu_dien
+來	U+4F86	Lai	lai×36	khop_tu_dien
+例	U+4F8B	Lệ	lệ×26	khop_tu_dien
+侍	U+4F8D	Thị	thị×13	khop_tu_dien
+侑	U+4F91	Hựu	hựu×1	khop_tu_dien
+侒	U+4F92			thieu_am
+侖	U+4F96	Luân	lôn×1; luân×1	khop_tu_dien
+侗	U+4F97	Đồng	đồng×2; thông×1	khop_tu_dien
+供	U+4F9B	Cung	cung×17	khop_tu_dien
+依	U+4F9D	Y	y×16; ỷ×1	khop_tu_dien
+侯	U+4FAF	Hầu	hầu×8	khop_tu_dien
+侶	U+4FB6	Lữ	lữ×3	khop_tu_dien
+係	U+4FC2	Hệ	hệ×6	khop_tu_dien
+俊	U+4FCA	Tuấn	tuấn×8	khop_tu_dien
+俍	U+4FCD		lang×1	thieu_am
+俗	U+4FD7	Tục	tục×35	khop_tu_dien
+俛	U+4FDB	Miễn	miễn×1	khop_tu_dien
+保	U+4FDD	Bảo	bảo×41	khop_tu_dien
+俞	U+4FDE	Du	du×1	khop_tu_dien
+俠	U+4FE0	Hiệp	hiệp×8	khop_tu_dien
+信	U+4FE1	Tín	tín×48; tin×1	khop_tu_dien
+修	U+4FEE	Tu	tu×20	khop_tu_dien
+俯	U+4FEF	Phủ	phủ×2	khop_tu_dien
+俱	U+4FF1	Câu	câu×2	khop_tu_dien
+俶	U+4FF6	Thục	thục×1	am_doan_chua_chac
+俸	U+4FF8	Bổng	bổng×10	khop_tu_dien
+俺	U+4FFA	Yêm	yêm×1	khop_tu_dien
+倀	U+5000	Trành	trành×2	khop_tu_dien
+倉	U+5009	Thương	sảng×1; thương×1	khop_tu_dien
+倍	U+500D	Bội	bội×8	khop_tu_dien
+倎	U+500E			thieu_am
+倓	U+5013	Đạm/Đàm	đàm×1	lech_tu_dien
+倕	U+5015	Thùy	thuỳ×1	khop_tu_dien
+候	U+5019	Hậu	hậu×5; hầu×4	khop_tu_dien
+倚	U+501A	Ỷ	ỷ×9; kì×1; ỷ×1	khop_tu_dien
+倜	U+501C	Địch/Thích	thích×1	lech_tu_dien
+借	U+501F	Tá	tá×17	khop_tu_dien
+倧	U+5027	Tông	tông×1	khop_tu_dien
+倩	U+5029	Thiến	sai×1; sảnh×1; thiến×1	khop_tu_dien
+倪	U+502A	Nghê	nghê×3	khop_tu_dien
+倫	U+502B	Luân	luân×15	khop_tu_dien
+倬	U+502C	Trác	trác×1	khop_tu_dien
+值	U+503C	Trị	trị×1	khop_tu_dien
+偁	U+5041	Xưng	xưng×1	khop_tu_dien
+偃	U+5043	Yển	yển×11	khop_tu_dien
+假	U+5047	Giả	giả×24; hà×2; giá×1	khop_tu_dien
+偈	U+5048	Kệ	kệ×1; khế×1	khop_tu_dien
+偉	U+5049	Vĩ	vĩ×8	khop_tu_dien
+偓	U+5053	Ốc/Ác	ác×2	lech_tu_dien
+偕	U+5055	Giai	giai×3	khop_tu_dien
+偘	U+5058	Khản	khản×1	khop_tu_dien
+健	U+5065	Kiện	kiện×7	khop_tu_dien
+偦	U+5066			thieu_am
+偰	U+5070	Tiết	tiết×1	khop_tu_dien
+偲	U+5072	Ty/Tai	tai×1	lech_tu_dien
+側	U+5074	Trắc	trắc×11	khop_tu_dien
+偶	U+5076	Ngẫu	ngẫu×14	khop_tu_dien
+偷	U+5077	Thâu	thâu×1	khop_tu_dien
+傅	U+5085	Phó	phó×4; phu×1; phụ×1	khop_tu_dien
+傑	U+5091	Kiệt	kiệt×11	khop_tu_dien
+傒	U+5092	Hề	hề×1; hễ×1	khop_tu_dien
+傕	U+5095		giác×1	thieu_am
+傘	U+5098	Tản	tản×2; tán×1	khop_tu_dien
+備	U+5099	Bị	bị×28	khop_tu_dien
+傳	U+50B3	Truyền	truyền×40; truyện×14	khop_tu_dien
+傷	U+50B7	Thương	thương×19	khop_tu_dien
+傾	U+50BE	Khuynh	khuynh×12	khop_tu_dien
+傿	U+50BF			thieu_am
+僅	U+50C5	Cận/Cẩn	cẩn×1	lech_tu_dien
+僉	U+50C9	Thiêm	thiêm×2	khop_tu_dien
+僊	U+50CA	Tiên	tiên×1	khop_tu_dien
+僎	U+50CE	Soạn	soạn×1	am_doan_chua_chac
+像	U+50CF	Tượng	tượng×7	khop_tu_dien
+僑	U+50D1	Kiều	kiều×7	khop_tu_dien
+僔	U+50D4	Tồn/Tổn	tổn×1	lech_tu_dien
+僕	U+50D5	Bộc	bộc×12	khop_tu_dien
+僖	U+50D6	Hi	hi×1	khop_tu_dien
+僚	U+50DA	Liêu	liêu×10	khop_tu_dien
+僜	U+50DC			thieu_am
+僟	U+50DF			thieu_am
+僧	U+50E7	Tăng	tăng×17	khop_tu_dien
+價	U+50F9	Giá	giá×24	khop_tu_dien
+僼	U+50FC			thieu_am
+儀	U+5100	Nghi	nghi×26	khop_tu_dien
+儁	U+5101	Tuấn	tuấn×1	khop_tu_dien
+億	U+5104	Ức	ức×4	khop_tu_dien
+儆	U+5106	Cảnh	cảnh×1	khop_tu_dien
+儇	U+5107	Huyên	huyên×1	khop_tu_dien
+儉	U+5109	Kiệm	kiệm×7	khop_tu_dien
+儋	U+510B	Đam	đam×1; đảm×1	khop_tu_dien
+儒	U+5112	Nho	nho×40; nhu×2	khop_tu_dien
+儔	U+5114	Trù	trù×1	khop_tu_dien
+儕	U+5115	Sài	sài×1	khop_tu_dien
+儞	U+511E	Nễ		khong_co_trong_tu_dien
+優	U+512A	Ưu	ưu×16	khop_tu_dien
+儱	U+5131		lũng×2	thieu_am
+儲	U+5132	Trữ	trữ×4	khop_tu_dien
+儴	U+5134	Nhương	nhương×1	khop_tu_dien
+儼	U+513C	Nghiễm	nghiễm×2	khop_tu_dien
+兀	U+5140	Ngột	ngột×3; ngoạt×1	khop_tu_dien
+允	U+5141	Doãn	doãn×8	khop_tu_dien
+元	U+5143	Nguyên	nguyên×31	khop_tu_dien
+兄	U+5144	Huynh	huynh×32; huống×1	khop_tu_dien
+充	U+5145	Sung	sung×21	khop_tu_dien
+兆	U+5146	Triệu	triệu×9	khop_tu_dien
+先	U+5148	Tiên	tiên×28	khop_tu_dien
+光	U+5149	Quang	quang×59	khop_tu_dien
+克	U+514B	Khắc	khắc×6	khop_tu_dien
+兌	U+514C	Đoái	đoái×2; đoài×1; duyệt×1	khop_tu_dien
+免	U+514D	Miễn	miễn×28	khop_tu_dien
+兒	U+5152	Nhi	nhi×26	khop_tu_dien
+兖	U+5156	Duyện		khong_co_trong_tu_dien
+兗	U+5157	Duyện	duyện×1	khop_tu_dien
+党	U+515A	Đảng	đảng×1	khop_tu_dien
+兜	U+515C	Đâu	đâu×3	khop_tu_dien
+兢	U+5162	Căng	căng×2	khop_tu_dien
+入	U+5165	Nhập	nhập×48	khop_tu_dien
+內	U+5167	Nội	nội×36; hội×1	khop_tu_dien
+全	U+5168	Toàn	toàn×37	khop_tu_dien
+兩	U+5169	Lưỡng	lưỡng×13; lượng×3	khop_tu_dien
+八	U+516B	Bát	bát×53	khop_tu_dien
+公	U+516C	Công	công×104	khop_tu_dien
+六	U+516D	Lục	lục×41	khop_tu_dien
+兮	U+516E	Hề	hề×1	khop_tu_dien
+共	U+5171	Cộng	cộng×10; củng×1	khop_tu_dien
+其	U+5176	Kỳ	kì×6	khop_tu_dien
+具	U+5177	Cụ	cụ×14	khop_tu_dien
+典	U+5178	Điển	điển×37	khop_tu_dien
+兼	U+517C	Kiêm	kiêm×7	khop_tu_dien
+冀	U+5180	Ký	kí×1	khop_tu_dien
+内	U+5185	Nội	nội×6; nạp×1	khop_tu_dien
+冉	U+5189	Nhiễm	nhiễm×1	khop_tu_dien
+冋	U+518B		quynh×1	thieu_am
+册	U+518C	Sách	sách×7	khop_tu_dien
+再	U+518D	Tái	tái×22	khop_tu_dien
+冏	U+518F	Quýnh	quýnh×1	khop_tu_dien
+冑	U+5191	Trụ	trụ×3	khop_tu_dien
+冒	U+5192	Mạo	mạo×10; danh×1	khop_tu_dien
+冕	U+5195	Miện	miện×4	khop_tu_dien
+冠	U+51A0	Quán	quan×21; quán×7	khop_tu_dien
+冤	U+51A4	Oan	oan×29	khop_tu_dien
+冥	U+51A5	Minh	minh×12	khop_tu_dien
+冬	U+51AC	Đông	đông×13	khop_tu_dien
+冰	U+51B0	Băng	băng×41; ngưng×1	khop_tu_dien
+冲	U+51B2	Xung	xung×1	khop_tu_dien
+冶	U+51B6	Dã	dã×5	khop_tu_dien
+冷	U+51B7	Lãnh	lãnh×14	khop_tu_dien
+冺	U+51BA			thieu_am
+冽	U+51BD	Liệt	liệt×2	khop_tu_dien
+冾	U+51BE			thieu_am
+净	U+51C0	Tịnh		khong_co_trong_tu_dien
+凃	U+51C3	Đồ		khong_co_trong_tu_dien
+准	U+51C6	Chuẩn	chuẩn×9	khop_tu_dien
+凈	U+51C8	Tịnh		khong_co_trong_tu_dien
+凉	U+51C9	Lương	lương×2	khop_tu_dien
+凊	U+51CA	Thanh/Thính	thính×1; sảnh×1	lech_tu_dien
+凌	U+51CC	Lăng	lăng×1	khop_tu_dien
+凍	U+51CD	Đống	đống×5	khop_tu_dien
+凖	U+51D6	Chuẩn	chuẩn×1	khop_tu_dien
+凜	U+51DC	Lẫm		khong_co_trong_tu_dien
+凝	U+51DD	Ngưng	ngưng×10	khop_tu_dien
+凞	U+51DE	Hi		khong_co_trong_tu_dien
+凡	U+51E1	Phàm	phàm×16; hoàn×1	khop_tu_dien
+凰	U+51F0	Hoàng	hoàng×3	khop_tu_dien
+凱	U+51F1	Khải	khải×6	khop_tu_dien
+出	U+51FA	Xuất	xuất×59	khop_tu_dien
+函	U+51FD	Hàm	hàm×6	khop_tu_dien
+刀	U+5200	Đao	đao×27; lực×1	khop_tu_dien
+刁	U+5201	Điêu	điêu×5	khop_tu_dien
+刂	U+5202			thieu_am
+分	U+5206	Phân	phân×77; phận×23; phần×5	khop_tu_dien
+切	U+5207	Thiết	thiết×20	khop_tu_dien
+刊	U+520A	San	san×7; khan×1	khop_tu_dien
+刑	U+5211	Hình	hình×33; hình×1	khop_tu_dien
+列	U+5217	Liệt	liệt×15	khop_tu_dien
+初	U+521D	Sơ	sơ×36	khop_tu_dien
+判	U+5224	Phán	phán×14	khop_tu_dien
+別	U+5225	Biệt	biệt×58	khop_tu_dien
+利	U+5229	Lợi	lợi×62	khop_tu_dien
+刪	U+522A	San		khong_co_trong_tu_dien
+到	U+5230	Đáo	đáo×9	khop_tu_dien
+制	U+5236	Chế	chế×53	khop_tu_dien
+刺	U+523A	Thích/Thứ	thích×5; thứ×2	khop_tu_dien
+刼	U+523C	Kiếp	kiếp×4	khop_tu_dien
+則	U+5247	Tắc	tắc×13	khop_tu_dien
+削	U+524A	Tước	tước×3; sảo×1	khop_tu_dien
+剋	U+524B	Khắc	khắc×1	khop_tu_dien
+剌	U+524C	Lạt	lạt×4	khop_tu_dien
+前	U+524D	Tiền	tiền×46; tiễn×1	khop_tu_dien
+剎	U+524E	Sát	sát×1	khop_tu_dien
+剖	U+5256	Phẫu	phẫu×7	khop_tu_dien
+剛	U+525B	Cương	cương×13	khop_tu_dien
+副	U+526F	Phó	phó×21; phốc×1	khop_tu_dien
+創	U+5275	Sáng	sáng×14; sang×1	khop_tu_dien
+劇	U+5287	Kịch	kịch×19	khop_tu_dien
+劉	U+5289	Lưu	lưu×2	khop_tu_dien
+劌	U+528C		quế×1	thieu_am
+劍	U+528D	Kiếm	kiếm×22	khop_tu_dien
+劒	U+5292	Kiếm	kiếm×1	khop_tu_dien
+力	U+529B	Lực	lực×74	khop_tu_dien
+功	U+529F	Công	công×37	khop_tu_dien
+加	U+52A0	Gia	gia×23	khop_tu_dien
+助	U+52A9	Trợ	trợ×21	khop_tu_dien
+努	U+52AA	Nỗ	nỗ×3	khop_tu_dien
+劫	U+52AB	Kiếp	kiếp×5	khop_tu_dien
+劬	U+52AC	Cù	cù×3	khop_tu_dien
+劭	U+52AD	Thiệu	thiệu×1	khop_tu_dien
+効	U+52B9	Hiệu	hiệu×4	khop_tu_dien
+劼	U+52BC		cật×1	thieu_am
+勁	U+52C1	Kính	kính×1	khop_tu_dien
+勃	U+52C3	Bột	bột×9	khop_tu_dien
+勅	U+52C5	Sắc	sắc×2	khop_tu_dien
+勇	U+52C7	Dũng	dũng×16	khop_tu_dien
+勉	U+52C9	Miễn	miễn×3	khop_tu_dien
+勍	U+52CD	Kình	kình×3	khop_tu_dien
+勒	U+52D2	Lặc	lặc×5	khop_tu_dien
+動	U+52D5	Động	động×67	khop_tu_dien
+勖	U+52D6	Húc	húc×1	khop_tu_dien
+勗	U+52D7	Húc		khong_co_trong_tu_dien
+務	U+52D9	Vụ	vụ×27	khop_tu_dien
+勛	U+52DB	Huân	huân×1	khop_tu_dien
+勝	U+52DD	Thắng	thắng×20; thăng×3	khop_tu_dien
+勞	U+52DE	Lao	lao×21; lạo×2	khop_tu_dien
+勢	U+52E2	Thế	thế×26	khop_tu_dien
+勣	U+52E3	Tích	tích×1	khop_tu_dien
+勤	U+52E4	Cần	cần×14	khop_tu_dien
+勰	U+52F0	Hiệp	hiệp×1	khop_tu_dien
+勱	U+52F1		mại×1	thieu_am
+勲	U+52F2	Huân	huân×7	khop_tu_dien
+勳	U+52F3	Huân		khong_co_trong_tu_dien
+勵	U+52F5	Lệ	lệ×4	khop_tu_dien
+勸	U+52F8	Khuyến	khuyến×12	khop_tu_dien
+勻	U+52FB	Quân	quân×1	khop_tu_dien
+勾	U+52FE	Câu	câu×8	khop_tu_dien
+勿	U+52FF	Vật	vật×3	khop_tu_dien
+匄	U+5304	Cái	cái×1	khop_tu_dien
+包	U+5305	Bao	bao×30	khop_tu_dien
+匏	U+530F	Bào	bào×4	khop_tu_dien
+化	U+5316	Hóa	hoá×32; hóa×21	khop_tu_dien
+北	U+5317	Bắc	bắc×34; bối×1; bội×1	khop_tu_dien
+匝	U+531D	Táp	táp×1	khop_tu_dien
+匠	U+5320	Tượng	tượng×3	khop_tu_dien
+匡	U+5321	Khuông	khuông×6	khop_tu_dien
+匯	U+532F	Hối	hối×4	khop_tu_dien
+匱	U+5331	Quỹ	quỹ×2	khop_tu_dien
+匾	U+533E	Biển	biển×2; biền×1	khop_tu_dien
+匿	U+533F	Nặc	nặc×8	khop_tu_dien
+區	U+5340	Khu	khu×7	khop_tu_dien
+十	U+5341	Thập	thập×12	khop_tu_dien
+千	U+5343	Thiên	thiên×12	khop_tu_dien
+升	U+5347	Thăng	thăng×14	khop_tu_dien
+午	U+5348	Ngọ	ngọ×19; ngỗ×1	khop_tu_dien
+卉	U+5349	Hủy	huỷ×1	khop_tu_dien
+半	U+534A	Bán	bán×38	khop_tu_dien
+卍	U+534D	Vạn	vạn×1	khop_tu_dien
+卑	U+5351	Ti	ti×5	khop_tu_dien
+卓	U+5353	Trác	trác×5	khop_tu_dien
+協	U+5354	Hiệp	hiệp×10	khop_tu_dien
+南	U+5357	Nam	nam×57	khop_tu_dien
+博	U+535A	Bác	bác×23	khop_tu_dien
+卜	U+535C	Bốc	bốc×9	khop_tu_dien
+卞	U+535E	Biện	biện×1	khop_tu_dien
+占	U+5360	Chiêm	chiếm×7; chiêm×5	khop_tu_dien
+卡	U+5361	Tạp	sá×1; tạp×1	am_doan_chua_chac
+卭	U+536D		cung×1	thieu_am
+卯	U+536F	Mão	mão×4	khop_tu_dien
+印	U+5370	Ấn	ấn×31	khop_tu_dien
+危	U+5371	Nguy	nguy×16	khop_tu_dien
+卲	U+5372	Thiệu	thiệu×1	khop_tu_dien
+即	U+5373	Tức	tức×2	khop_tu_dien
+却	U+5374	Khước	khước×3	khop_tu_dien
+卵	U+5375	Noãn	noãn×5; côn×1	khop_tu_dien
+卷	U+5377	Quyển	quyển×6	khop_tu_dien
+卻	U+537B	Khước	khước×6	khop_tu_dien
+卼	U+537C		quỵ×1	thieu_am
+卿	U+537F	Khanh	khanh×12	khop_tu_dien
+厂	U+5382		hán×1	thieu_am
+厓	U+5393	Nhai	nhai×1	khop_tu_dien
+厖	U+5396		mang×1	thieu_am
+厚	U+539A	Hậu	hậu×21	khop_tu_dien
+原	U+539F	Nguyên	nguyên×24	khop_tu_dien
+厫	U+53AB		ngao×1	thieu_am
+厭	U+53AD	Yếm	yếm×8	khop_tu_dien
+厲	U+53B2	Lệ	lệ×8; lại×1	khop_tu_dien
+厸	U+53B8			thieu_am
+去	U+53BB	Khứ	khứ×9; khử×5	khop_tu_dien
+參	U+53C3	Tham	tham×14; sâm×9; tảm×1	khop_tu_dien
+叅	U+53C5	Tham		khong_co_trong_tu_dien
+又	U+53C8	Hựu	hựu×1	khop_tu_dien
+叉	U+53C9	Xoa	xoa×5	khop_tu_dien
+及	U+53CA	Cập	cập×14	khop_tu_dien
+友	U+53CB	Hữu	hữu×32	khop_tu_dien
+反	U+53CD	Phản	phản×45; phiên×1	khop_tu_dien
+叔	U+53D4	Thúc	thúc×6	khop_tu_dien
+取	U+53D6	Thủ	thủ×7	khop_tu_dien
+受	U+53D7	Thụ	thụ×16	khop_tu_dien
+叟	U+53DF	Tẩu	tẩu×3; sưu×3	khop_tu_dien
+叡	U+53E1	Duệ	duệ×2	khop_tu_dien
+叢	U+53E2	Tùng	tùng×6	khop_tu_dien
+口	U+53E3	Khẩu	khẩu×66	khop_tu_dien
+古	U+53E4	Cổ	cổ×59; niên×1	khop_tu_dien
+句	U+53E5	Cú/Câu	cú×11; câu×2; cấu×1	khop_tu_dien
+叩	U+53E9	Khấu	khấu×6	khop_tu_dien
+只	U+53EA	Chỉ	chỉ×1	khop_tu_dien
+召	U+53EC	Triệu	triệu×4; thiệu×1	khop_tu_dien
+可	U+53EF	Khả	khả×24	khop_tu_dien
+台	U+53F0	Thai/Đài	thai×2; đài×1; di×1	khop_tu_dien
+叱	U+53F1	Sất	sất×5	khop_tu_dien
+史	U+53F2	Sử	sử×63	khop_tu_dien
+右	U+53F3	Hữu	hữu×9	khop_tu_dien
+叶	U+53F6	Hiệp	hiệp×1	khop_tu_dien
+司	U+53F8	Tư	ti×7; tư×6; ty×1	khop_tu_dien
+吃	U+5403	Cật	cật×5	khop_tu_dien
+各	U+5404	Các	các×1	khop_tu_dien
+合	U+5408	Hợp	hợp×65; hiệp×1; cáp×1	khop_tu_dien
+吉	U+5409	Cát	cát×22	khop_tu_dien
+同	U+540C	Đồng	đồng×60; đồng×7	khop_tu_dien
+名	U+540D	Danh	danh×130; mạo×1	khop_tu_dien
+后	U+540E	Hậu	hậu×9	khop_tu_dien
+吏	U+540F	Lại	lại×20	khop_tu_dien
+吐	U+5410	Thổ	thổ×4	khop_tu_dien
+向	U+5411	Hướng	hướng×15	khop_tu_dien
+吒	U+5412	Tra		khong_co_trong_tu_dien
+君	U+541B	Quân	quân×44	khop_tu_dien
+吞	U+541E	Thôn	thôn×4	khop_tu_dien
+吟	U+541F	Ngâm	ngâm×12	khop_tu_dien
+否	U+5426	Phủ/Bĩ	phủ×4; bĩ×4; bỉ×1	khop_tu_dien
+含	U+542B	Hàm	hàm×8; hám×1	khop_tu_dien
+听	U+542C		ngân×1; thính×1	thieu_am
+吳	U+5433	Ngô	ngô×5	khop_tu_dien
+吴	U+5434	Ngô		khong_co_trong_tu_dien
+吹	U+5439	Xuy	xuy×9; xúy×1; xuý×1	khop_tu_dien
+吻	U+543B	Vẫn	vẫn×2	khop_tu_dien
+吼	U+543C	Hống	hống×3	khop_tu_dien
+吽	U+543D	Hồng/Ngâu	ngâu×2; oanh×1	lech_tu_dien
+吾	U+543E	Ngô	ngô×5	khop_tu_dien
+呂	U+5442	Lã	lã×1; lữ×1	khop_tu_dien
+呆	U+5446	Ngai	ngai×4; bảo×1	khop_tu_dien
+呈	U+5448	Trình	trình×5; trình×4	khop_tu_dien
+告	U+544A	Cáo	cáo×45; cốc×1	khop_tu_dien
+呑	U+5451	Thôn		khong_co_trong_tu_dien
+周	U+5468	Chu	chu×20	khop_tu_dien
+呱	U+5471		cô×1	thieu_am
+味	U+5473	Vị	vị×33	khop_tu_dien
+呵	U+5475	Ha	ha×2	khop_tu_dien
+呻	U+547B	Thân	thân×2	khop_tu_dien
+呼	U+547C	Hô	hô×16; hao×1; há×1	khop_tu_dien
+命	U+547D	Mệnh	mệnh×71; mạng×1	khop_tu_dien
+呾	U+547E	Đát	đát×1; thát×1	khop_tu_dien
+呿	U+547F		khư×1	thieu_am
+咄	U+5484	Đốt	đốt×1	khop_tu_dien
+和	U+548C	Hòa	hòa×23; hoà×14; họa×3	khop_tu_dien
+咎	U+548E	Cữu	cữu×8; cao×2; cứu×1	khop_tu_dien
+咥	U+54A5	Điệt	điệt×1; hí×1	khop_tu_dien
+咨	U+54A8	Tư	tư×2	khop_tu_dien
+咱	U+54B1		ta×1	thieu_am
+咲	U+54B2	Tiếu	tiếu×1	khop_tu_dien
+咸	U+54B8	Hàm	hàm×3; giảm×1; hám×1	khop_tu_dien
+哀	U+54C0	Ai	ai×35	khop_tu_dien
+品	U+54C1	Phẩm	phẩm×51; hạnh×1	khop_tu_dien
+哂	U+54C2		sẩn×3	thieu_am
+哆	U+54C6	Đa/Xỉ	xỉ×1	lech_tu_dien
+哇	U+54C7	Oa	oa×1	khop_tu_dien
+哈	U+54C8	Cáp	cáp×4	khop_tu_dien
+哉	U+54C9	Tai	tai×3	khop_tu_dien
+哌	U+54CC			thieu_am
+哞	U+54DE			thieu_am
+員	U+54E1	Viên	viên×24	khop_tu_dien
+哥	U+54E5	Ca	ca×2	khop_tu_dien
+哩	U+54E9	Lý	lí×1	khop_tu_dien
+哲	U+54F2	Triết	triết×11	khop_tu_dien
+哺	U+54FA	Bộ	bộ×1; bổ×1	khop_tu_dien
+哿	U+54FF	Khả/Cả	cả×1	lech_tu_dien
+唐	U+5510	Đường	đường×4	khop_tu_dien
+唧	U+5527	Tức		khong_co_trong_tu_dien
+唯	U+552F	Duy	duy×11; dụy×2	khop_tu_dien
+唱	U+5531	Xướng	xướng×6	khop_tu_dien
+唵	U+5535	Úm	ảm×1; úm×1	khop_tu_dien
+啄	U+5544	Trác	trác×2; trụ×1	khop_tu_dien
+商	U+5546	Thương	thương×24	khop_tu_dien
+啇	U+5547		đích×1	thieu_am
+問	U+554F	Vấn	vấn×45; vấn×1	khop_tu_dien
+啐	U+5550		thối×1; tát×1	thieu_am
+啓	U+5553	Khải	khải×1	khop_tu_dien
+啟	U+555F	Khải	khải×12	khop_tu_dien
+啼	U+557C	Đề	đề×2	khop_tu_dien
+喀	U+5580	Khách	khách×1	khop_tu_dien
+喃	U+5583	Nam	nam×3	khop_tu_dien
+善	U+5584	Thiện	thiện×27	khop_tu_dien
+喆	U+5586	Triết	triết×1	khop_tu_dien
+喇	U+5587	Lạt	lạt×3	khop_tu_dien
+喈	U+5588	Giai	giai×1	khop_tu_dien
+喚	U+559A	Hoán	hoán×3	khop_tu_dien
+喜	U+559C	Hỷ	hỉ×12; hỷ×1	khop_tu_dien
+喝	U+559D	Hát	hát×3; ái×3; hạt×1	khop_tu_dien
+喦	U+55A6	Nham	nham×1	khop_tu_dien
+喩	U+55A9	Dụ	dụ×1	khop_tu_dien
+喬	U+55AC	Kiều	kiều×3	khop_tu_dien
+單	U+55AE	Đơn/Thiền	đơn×29; đạn×1; thiền×1	khop_tu_dien
+喻	U+55BB	Dụ	dụ×3; du×1	khop_tu_dien
+嗏	U+55CF			thieu_am
+嗜	U+55DC	Thị	thị×3	khop_tu_dien
+嗣	U+55E3	Tự	tự×11	khop_tu_dien
+嘉	U+5609	Gia	gia×11	khop_tu_dien
+嘏	U+560F	Hạ/Hỗ	hỗ×1	lech_tu_dien
+嘗	U+5617	Thường	thưởng×1; thường×1	khop_tu_dien
+嘛	U+561B	Ma	ma×2	khop_tu_dien
+嘯	U+562F	Khiếu/Sất	sất×1; tiêu×1	lech_tu_dien
+嘿	U+563F	Mặc	mặc×1	khop_tu_dien
+噇	U+5647		tràng×1	thieu_am
+噋	U+564B			thieu_am
+噏	U+564F		hấp×1	thieu_am
+器	U+5668	Khí	khí×35	khop_tu_dien
+噩	U+5669	Ngạc	ngạc×2	khop_tu_dien
+噲	U+5672	Khoái	khoái×1	khop_tu_dien
+噴	U+5674	Phún	phún×16	khop_tu_dien
+噶	U+5676	Cát	cát×2	am_doan_chua_chac
+嚩	U+56A9	Phược		khong_co_trong_tu_dien
+嚭	U+56AD	Phỉ	phỉ×1	khop_tu_dien
+嚮	U+56AE	Hướng	hướng×5; hưởng×1	khop_tu_dien
+嚳	U+56B3	Khốc	khốc×1	khop_tu_dien
+嚴	U+56B4	Nghiêm	nghiêm×38	khop_tu_dien
+嚷	U+56B7	Nhương/Nhưỡng	nhưỡng×1	lech_tu_dien
+囉	U+56C9	La	la×2	khop_tu_dien
+囊	U+56CA	Nang	nang×15	khop_tu_dien
+囏	U+56CF	Gian	gian×1	khop_tu_dien
+囗	U+56D7	Vi	vi×1	khop_tu_dien
+四	U+56DB	Tứ	tứ×29	khop_tu_dien
+回	U+56DE	Hồi	hồi×23; hồi×4	khop_tu_dien
+因	U+56E0	Nhân	nhân×12	khop_tu_dien
+囡	U+56E1		nam×1	thieu_am
+囤	U+56E4	Đồn/Độn	độn×1	lech_tu_dien
+囦	U+56E6	Uyên	uyên×1	khop_tu_dien
+困	U+56F0	Khốn	khốn×11	khop_tu_dien
+囷	U+56F7		khuân×1	thieu_am
+固	U+56FA	Cố	cố×16	khop_tu_dien
+国	U+56FD	Quốc	quốc×1	khop_tu_dien
+囿	U+56FF	Hựu/Hữu	hữu×1	lech_tu_dien
+圃	U+5703	Phố	phố×2	khop_tu_dien
+圅	U+5705	Hàm	hàm×1	khop_tu_dien
+國	U+570B	Quốc	quốc×173; quốc×1	khop_tu_dien
+圍	U+570D	Vi	vi×15	khop_tu_dien
+圎	U+570E			thieu_am
+園	U+5712	Viên	viên×24	khop_tu_dien
+圓	U+5713	Viên	viên×28	khop_tu_dien
+圖	U+5716	Đồ	đồ×12; đồ×7	khop_tu_dien
+團	U+5718	Đoàn	đoàn×20	khop_tu_dien
+圜	U+571C	Hoàn	hoàn×1; viên×1	khop_tu_dien
+土	U+571F	Thổ	thổ×51	khop_tu_dien
+圠	U+5720		át×1	thieu_am
+在	U+5728	Tại	tại×31	khop_tu_dien
+圩	U+5729		vu×1	thieu_am
+圭	U+572D	Khuê	khuê×3	khop_tu_dien
+圮	U+572E	Bĩ	bĩ×2	khop_tu_dien
+地	U+5730	Địa	địa×119	khop_tu_dien
+圻	U+573B	Kỳ	kì×4	khop_tu_dien
+坂	U+5742	Phản	bản×2; phản×1	khop_tu_dien
+均	U+5747	Quân	quân×10	khop_tu_dien
+坊	U+574A	Phường	phường×11; phòng×1	khop_tu_dien
+坡	U+5761	Pha	pha×2	khop_tu_dien
+坣	U+5763		đường×1	thieu_am
+坤	U+5764	Khôn	khôn×6	khop_tu_dien
+坦	U+5766	Thản	thản×3	khop_tu_dien
+坪	U+576A	Bình	bình×1	khop_tu_dien
+坰	U+5770	Quynh		khong_co_trong_tu_dien
+坱	U+5771		ương×1	thieu_am
+坸	U+5778			thieu_am
+坻	U+577B		chỉ×1; để×1; trì×1	thieu_am
+坽	U+577D			thieu_am
+垂	U+5782	Thùy	thuỳ×3; thùy×2	khop_tu_dien
+型	U+578B	Hình	hình×3	khop_tu_dien
+垍	U+578D			thieu_am
+垓	U+5793	Cai	cai×1	khop_tu_dien
+垕	U+5795	Hậu	hậu×1	khop_tu_dien
+垚	U+579A	Nghiêu	nghiêu×1	khop_tu_dien
+垠	U+57A0	Ngân	ngân×2	khop_tu_dien
+垢	U+57A2	Cấu	cấu×5	khop_tu_dien
+垣	U+57A3	Viên	viên×2	khop_tu_dien
+埁	U+57C1			thieu_am
+埋	U+57CB	Mai	mai×5	khop_tu_dien
+城	U+57CE	Thành	thành×31	khop_tu_dien
+埏	U+57CF	Diên	diên×1	khop_tu_dien
+埒	U+57D2	Liệt	liệt×1	khop_tu_dien
+埕	U+57D5	Trình		khong_co_trong_tu_dien
+埜	U+57DC	Dã	dã×1	khop_tu_dien
+域	U+57DF	Vực	vực×15	khop_tu_dien
+埰	U+57F0		thái×1	thieu_am
+埵	U+57F5	Đóa	đoá×1	khop_tu_dien
+執	U+57F7	Chấp	chấp×33	khop_tu_dien
+培	U+57F9	Bồi	bồi×4; bồi×2; bẫu×1	khop_tu_dien
+基	U+57FA	Cơ	cơ×9	khop_tu_dien
+埼	U+57FC	Kỳ	kì×1	khop_tu_dien
+堀	U+5800	Quật	quật×1	khop_tu_dien
+堂	U+5802	Đường	đường×50; đuờng×1	khop_tu_dien
+堃	U+5803	Khôn	khôn×1	khop_tu_dien
+堅	U+5805	Kiên	kiên×9	khop_tu_dien
+堆	U+5806	Đôi	đôi×2	khop_tu_dien
+堈	U+5808	Cương		khong_co_trong_tu_dien
+堉	U+5809	Dục	dục×1	khop_tu_dien
+堙	U+5819	Nhân	nhân×2	khop_tu_dien
+堤	U+5824	Đê	đê×2; đề×1	khop_tu_dien
+堦	U+5826	Giai	giai×1	khop_tu_dien
+堪	U+582A	Kham	kham×3	khop_tu_dien
+堯	U+582F	Nghiêu	nghiêu×5	khop_tu_dien
+報	U+5831	Báo	báo×59	khop_tu_dien
+場	U+5834	Trường	trường×27; trưởng×1	khop_tu_dien
+塊	U+584A	Khối	khối×3	khop_tu_dien
+塋	U+584B	Oanh/Doanh	doanh×3	lech_tu_dien
+塔	U+5854	Tháp	tháp×4	khop_tu_dien
+塗	U+5857	Đồ	đồ×4; đồ×3	khop_tu_dien
+塘	U+5858	Đường	đường×1	khop_tu_dien
+塙	U+5859		sác×1	thieu_am
+塚	U+585A	Trủng	trủng×1	khop_tu_dien
+塞	U+585E	Tắc/Tái	tắc×11; tái×7	khop_tu_dien
+塤	U+5864	Huân	huân×1	khop_tu_dien
+填	U+586B	Điền	điền×2; trấn×1; trần×1	khop_tu_dien
+塵	U+5875	Trần	trần×30	khop_tu_dien
+塼	U+587C	Chuyên	chuyên×1	khop_tu_dien
+墀	U+5880	Trì	trì×2	khop_tu_dien
+境	U+5883	Cảnh	cảnh×21	khop_tu_dien
+墉	U+5889	Dung	dung×1	khop_tu_dien
+墓	U+5893	Mộ	mộ×11	khop_tu_dien
+墜	U+589C	Truy/Truỵ	truỵ×3; truỵ×1	lech_tu_dien
+增	U+589E	Tăng	tăng×14	khop_tu_dien
+墦	U+58A6		phiền×1	thieu_am
+墨	U+58A8	Mặc	mặc×17	khop_tu_dien
+墮	U+58AE	Đọa	đọa×4; đoạ×1; huy×1	khop_tu_dien
+墺	U+58BA	Úc	úc×1	khop_tu_dien
+壁	U+58C1	Bích	bích×16	khop_tu_dien
+壇	U+58C7	Đàn	đàn×10	khop_tu_dien
+壎	U+58CE	Huân	huân×1	khop_tu_dien
+壑	U+58D1	Hác	hác×2	khop_tu_dien
+壘	U+58D8	Lũy	luỹ×5; lỗi×1; luật×1	khop_tu_dien
+壞	U+58DE	Hoại	hoại×10	khop_tu_dien
+壤	U+58E4	Nhưỡng	nhưỡng×5	khop_tu_dien
+士	U+58EB	Sĩ	sĩ×91	khop_tu_dien
+壬	U+58EC	Nhâm	nhâm×3	khop_tu_dien
+壯	U+58EF	Tráng	tráng×17; trang×1	khop_tu_dien
+壹	U+58F9	Nhất	nhất×3	khop_tu_dien
+壺	U+58FA	Hồ	hồ×4; hồ×3	khop_tu_dien
+壼	U+58FC	Khổn	khổn×1	khop_tu_dien
+壽	U+58FD	Thọ	thọ×10	khop_tu_dien
+夀	U+5900	Thọ	thọ×12	khop_tu_dien
+夏	U+590F	Hạ	hạ×15	khop_tu_dien
+夔	U+5914	Quỳ	quỳ×1	khop_tu_dien
+外	U+5916	Ngoại	ngoại×69	khop_tu_dien
+夙	U+5919	Túc	túc×6	khop_tu_dien
+多	U+591A	Đa	đa×32	khop_tu_dien
+夜	U+591C	Dạ	dạ×48; dịch×1	khop_tu_dien
+夡	U+5921			thieu_am
+夢	U+5922	Mộng	mộng×25	khop_tu_dien
+大	U+5927	Đại	đại×168	khop_tu_dien
+天	U+5929	Thiên	thiên×93	khop_tu_dien
+太	U+592A	Thái	thái×19	khop_tu_dien
+夫	U+592B	Phu	phu×59; phù×1	khop_tu_dien
+夬	U+592C	Quải/Quái	quái×3	lech_tu_dien
+央	U+592E	Ương	ương×3	khop_tu_dien
+失	U+5931	Thất	thất×39	khop_tu_dien
+夷	U+5937	Di	di×14	khop_tu_dien
+夸	U+5938	Khoa	khoa×1	khop_tu_dien
+夽	U+593D			thieu_am
+夾	U+593E	Giáp	giáp×4	khop_tu_dien
+奆	U+5946			thieu_am
+奇	U+5947	Kỳ	kì×23; cơ×3; kì×2	khop_tu_dien
+奈	U+5948	Nại	nại×4	khop_tu_dien
+奉	U+5949	Phụng	phụng×22	khop_tu_dien
+奎	U+594E	Khuê	khuê×1	khop_tu_dien
+奏	U+594F	Tấu	tấu×17; thấu×1	khop_tu_dien
+奐	U+5950	Hoán	hoán×1	khop_tu_dien
+契	U+5951	Khế	khế×11; khiết×1	khop_tu_dien
+奔	U+5954	Bôn	bôn×17; phẫn×1	khop_tu_dien
+奕	U+5955	Dịch	dịch×2	khop_tu_dien
+套	U+5957	Sáo	sáo×5	khop_tu_dien
+奘	U+5958	Trang	trang×1	khop_tu_dien
+奚	U+595A	Hề	hề×1	khop_tu_dien
+奝	U+595D	Điêu	điêu×1	am_doan_chua_chac
+奠	U+5960	Điện	điện×1	khop_tu_dien
+奢	U+5962	Xa	xa×13	khop_tu_dien
+奣	U+5963			thieu_am
+奧	U+5967	Áo	áo×6; úc×1	khop_tu_dien
+奪	U+596A	Đoạt	đoạt×20	khop_tu_dien
+奫	U+596B	Uân		khong_co_trong_tu_dien
+奬	U+596C	Tưởng	tưởng×7	khop_tu_dien
+奭	U+596D	Thích	thích×1	khop_tu_dien
+奯	U+596F			thieu_am
+女	U+5973	Nữ	nữ×70; nự×1; nhữ×1	khop_tu_dien
+奴	U+5974	Nô	nô×11	khop_tu_dien
+奶	U+5976	Nãi	nãi×5	khop_tu_dien
+好	U+597D	Hảo	hảo×17; hiếu×13; hiêu×1	khop_tu_dien
+如	U+5982	Như	như×14	khop_tu_dien
+妃	U+5983	Phi	phi×4	khop_tu_dien
+妄	U+5984	Vọng	vọng×9; vong×1	khop_tu_dien
+妙	U+5999	Diệu	diệu×32; dược×1	khop_tu_dien
+妤	U+59A4	Dư	dư×1	khop_tu_dien
+妥	U+59A5	Thỏa	thoả×8	khop_tu_dien
+妧	U+59A7			thieu_am
+妮	U+59AE	Ni	ni×1	khop_tu_dien
+妻	U+59BB	Thê	thê×19; thế×1	khop_tu_dien
+姆	U+59C6	Mỗ	hối×1; mỗ×1	am_doan_chua_chac
+始	U+59CB	Thủy	thuỷ×7; thủy×3	khop_tu_dien
+姍	U+59CD	San	san×1	khop_tu_dien
+姑	U+59D1	Cô	cô×20	khop_tu_dien
+姒	U+59D2	Tự	tự×3	khop_tu_dien
+姓	U+59D3	Tính	tính×9	khop_tu_dien
+委	U+59D4	Ủy	ủy×14; uỷ×1	khop_tu_dien
+姚	U+59DA	Diêu	diêu×2; dao×1	khop_tu_dien
+姜	U+59DC	Khương	khương×2	khop_tu_dien
+姬	U+59EC	Cơ	cơ×5	khop_tu_dien
+威	U+5A01	Uy	uy×25; oai×1	khop_tu_dien
+娃	U+5A03	Oa	oa×1	khop_tu_dien
+娑	U+5A11	Sa	sa×5	khop_tu_dien
+娘	U+5A18	Nương	nương×20	khop_tu_dien
+娜	U+5A1C	Na	nả×1; na×1	khop_tu_dien
+娟	U+5A1F	Quyên	quyên×1	khop_tu_dien
+娥	U+5A25	Nga	nga×7	khop_tu_dien
+婁	U+5A41	Lâu	lâu×2; lũ×2	khop_tu_dien
+婆	U+5A46	Bà	bà×21	khop_tu_dien
+婉	U+5A49	Uyển	uyển×6	khop_tu_dien
+婕	U+5A55	Tiệp	tiệp×1	khop_tu_dien
+婦	U+5A66	Phụ	phụ×45	khop_tu_dien
+婭	U+5A6D	Á	á×2	khop_tu_dien
+婷	U+5A77	Đình	đình×1	khop_tu_dien
+婺	U+5A7A	Vụ	vụ×1	khop_tu_dien
+媆	U+5A86		nhuyễn×1; nộn×1	thieu_am
+媛	U+5A9B	Viện	viện×1	khop_tu_dien
+媧	U+5AA7	Oa	oa×2	khop_tu_dien
+媯	U+5AAF	Quy	quy×1	khop_tu_dien
+媺	U+5ABA	Mỹ	mĩ×1	khop_tu_dien
+媼	U+5ABC	Ảo	ảo×2	khop_tu_dien
+嫂	U+5AC2	Tẩu	tẩu×3	khop_tu_dien
+嫩	U+5AE9	Nộn	nộn×5	khop_tu_dien
+嫻	U+5AFB	Nhàn	nhàn×1	khop_tu_dien
+嬃	U+5B03		tu×1	thieu_am
+嬌	U+5B0C	Kiều	kiều×9	khop_tu_dien
+嬛	U+5B1B	Hoàn/Huyên	huyên×1	lech_tu_dien
+嬪	U+5B2A	Tần	tần×3	khop_tu_dien
+嬰	U+5B30	Anh	anh×8	khop_tu_dien
+嬴	U+5B34	Doanh	doanh×2	khop_tu_dien
+嬾	U+5B3E	Lại/Lãn	lãn×1	lech_tu_dien
+嬿	U+5B3F	Yến	yến×2	khop_tu_dien
+子	U+5B50	Tử	tử×176; tí×2	khop_tu_dien
+孔	U+5B54	Khổng	khổng×13	khop_tu_dien
+孕	U+5B55	Dựng	dựng×4	khop_tu_dien
+孖	U+5B56		tư×1	thieu_am
+字	U+5B57	Tự	tự×36	khop_tu_dien
+存	U+5B58	Tồn	tồn×16; tồn×3	khop_tu_dien
+孚	U+5B5A	Phu	phu×2	khop_tu_dien
+孛	U+5B5B	Bột	bột×5	khop_tu_dien
+孜	U+5B5C	Tư	tư×1	khop_tu_dien
+孝	U+5B5D	Hiếu	hiếu×17; hiệu×1	khop_tu_dien
+孟	U+5B5F	Mạnh	mạnh×10; mãng×1	khop_tu_dien
+孠	U+5B60			thieu_am
+季	U+5B63	Quý	quý×17	khop_tu_dien
+孤	U+5B64	Cô	cô×37	khop_tu_dien
+孥	U+5B65	Noa	noa×3; nô×1	khop_tu_dien
+孩	U+5B69	Hài	hài×5	khop_tu_dien
+孫	U+5B6B	Tôn	tôn×18; tốn×1	khop_tu_dien
+孰	U+5B70	Thục	thục×1	khop_tu_dien
+孳	U+5B73	Tư	tư×1	khop_tu_dien
+學	U+5B78	Học	học×106	khop_tu_dien
+孺	U+5B7A	Nhụ	nhụ×4	khop_tu_dien
+宅	U+5B85	Trạch	trạch×13	khop_tu_dien
+宇	U+5B87	Vũ	vũ×8	khop_tu_dien
+守	U+5B88	Thủ	thủ×27; thú×1	khop_tu_dien
+安	U+5B89	An	an×85; yên×3	khop_tu_dien
+宋	U+5B8B	Tống	tống×2	khop_tu_dien
+完	U+5B8C	Hoàn	hoàn×6	khop_tu_dien
+宏	U+5B8F	Hoành	hoành×5	khop_tu_dien
+宓	U+5B93	Mật	mật×1; phục×1	khop_tu_dien
+宗	U+5B97	Tông	tông×20; tôn×1	khop_tu_dien
+官	U+5B98	Quan	quan×108	khop_tu_dien
+宙	U+5B99	Trụ	trụ×2	khop_tu_dien
+定	U+5B9A	Định	định×64; đính×1	khop_tu_dien
+宛	U+5B9B	Uyển	uyển×1	khop_tu_dien
+宜	U+5B9C	Nghi	nghi×12	khop_tu_dien
+客	U+5BA2	Khách	khách×60	khop_tu_dien
+宣	U+5BA3	Tuyên	tuyên×13	khop_tu_dien
+室	U+5BA4	Thất	thất×38	khop_tu_dien
+宥	U+5BA5	Hựu	hựu×2	khop_tu_dien
+宦	U+5BA6	Hoạn	hoạn×6	khop_tu_dien
+宫	U+5BAB	Cung		khong_co_trong_tu_dien
+宮	U+5BAE	Cung	cung×43	khop_tu_dien
+宰	U+5BB0	Tể	tể×15	khop_tu_dien
+害	U+5BB3	Hại	hại×29; hạt×1	khop_tu_dien
+宴	U+5BB4	Yến	yến×24	khop_tu_dien
+宵	U+5BB5	Tiêu	tiêu×3	khop_tu_dien
+家	U+5BB6	Gia	gia×132; cô×2	khop_tu_dien
+宸	U+5BB8	Thần	thần×1	khop_tu_dien
+容	U+5BB9	Dung	dung×40	khop_tu_dien
+宿	U+5BBF	Túc	túc×16; tú×3	khop_tu_dien
+寀	U+5BC0	Thái	thái×1	am_doan_chua_chac
+寂	U+5BC2	Tịch	tịch×12	khop_tu_dien
+寄	U+5BC4	Ký	kí×10	khop_tu_dien
+寅	U+5BC5	Dần	dần×3	khop_tu_dien
+密	U+5BC6	Mật	mật×31	khop_tu_dien
+寇	U+5BC7	Khấu	khấu×7	khop_tu_dien
+富	U+5BCC	Phú	phú×31	khop_tu_dien
+寒	U+5BD2	Hàn	hàn×39	khop_tu_dien
+寓	U+5BD3	Ngụ	ngụ×12	khop_tu_dien
+寔	U+5BD4	Thực	thật×1; thực×1	khop_tu_dien
+寕	U+5BD5	Ninh	ninh×1	khop_tu_dien
+寗	U+5BD7	Ninh		khong_co_trong_tu_dien
+寘	U+5BD8	Chí/Trí	trí×1	lech_tu_dien
+察	U+5BDF	Sát	sát×31	khop_tu_dien
+寡	U+5BE1	Quả	quả×17	khop_tu_dien
+寤	U+5BE4	Ngộ/Ngụ	ngụ×1	lech_tu_dien
+寥	U+5BE5	Liêu	liêu×2	khop_tu_dien
+實	U+5BE6	Thật	thật×23; thực×22; chí×1	khop_tu_dien
+寧	U+5BE7	Ninh	ninh×10	khop_tu_dien
+審	U+5BE9	Thẩm	thẩm×17	khop_tu_dien
+寬	U+5BEC	Khoan	khoan×11	khop_tu_dien
+寰	U+5BF0	Hoàn	hoàn×4	khop_tu_dien
+寳	U+5BF3	Bảo	bảo×1	khop_tu_dien
+寵	U+5BF5	Sủng	sủng×14	khop_tu_dien
+寶	U+5BF6	Bảo	bảo×35	khop_tu_dien
+寸	U+5BF8	Thốn	thốn×7	khop_tu_dien
+寺	U+5BFA	Tự	tự×4	khop_tu_dien
+封	U+5C01	Phong	phong×22	khop_tu_dien
+射	U+5C04	Xạ/Dạ	xạ×12	khop_tu_dien
+將	U+5C07	Tương	tướng×35; tương×3	khop_tu_dien
+專	U+5C08	Chuyên	chuyên×31	khop_tu_dien
+尉	U+5C09	Úy/Uất	uý×5; úy×2; uý×1	khop_tu_dien
+尊	U+5C0A	Tôn	tôn×22	khop_tu_dien
+尋	U+5C0B	Tầm	tầm×19	khop_tu_dien
+對	U+5C0D	Đối	đối×31	khop_tu_dien
+導	U+5C0E	Đạo	đạo×8	khop_tu_dien
+小	U+5C0F	Tiểu	tiểu×54	khop_tu_dien
+少	U+5C11	Thiếu	thiếu×13; thiểu×5	khop_tu_dien
+尒	U+5C12	Nhĩ	nhĩ×1	khop_tu_dien
+尖	U+5C16	Tiêm	tiêm×3	khop_tu_dien
+尚	U+5C1A	Thượng	thượng×9	khop_tu_dien
+尤	U+5C24	Vưu	vưu×8	khop_tu_dien
+尫	U+5C2B		uông×1	thieu_am
+就	U+5C31	Tựu	tựu×5	khop_tu_dien
+尸	U+5C38	Thi	thi×3	khop_tu_dien
+尹	U+5C39	Doãn	doãn×6	khop_tu_dien
+尺	U+5C3A	Xích	xích×15	khop_tu_dien
+尼	U+5C3C	Ni	ni×5; nật×1	khop_tu_dien
+尾	U+5C3E	Vĩ	vĩ×19	khop_tu_dien
+居	U+5C45	Cư	cư×59	khop_tu_dien
+屆	U+5C46	Giới	giới×1	khop_tu_dien
+屈	U+5C48	Khuất	khuất×12	khop_tu_dien
+屋	U+5C4B	Ốc	ốc×11	khop_tu_dien
+屏	U+5C4F	Bình/Bính	bình×4; bính×1; phanh×1	khop_tu_dien
+展	U+5C55	Triển	triển×10	khop_tu_dien
+屠	U+5C60	Đồ	đồ×5; đồ×2	khop_tu_dien
+屢	U+5C62	Lũ	lũ×1	khop_tu_dien
+層	U+5C64	Tằng	tằng×13; tầng×1	khop_tu_dien
+履	U+5C65	Lý	lí×7	khop_tu_dien
+屯	U+5C6F	Truân/Đồn	đồn×8; truân×3; đồn×1	khop_tu_dien
+山	U+5C71	Sơn	sơn×85; san×3	khop_tu_dien
+屹	U+5C79	Ngật	ngật×2	khop_tu_dien
+屺	U+5C7A	Khỉ/Dĩ	dĩ×2	lech_tu_dien
+屼	U+5C7C	Ngột	ngột×1	khop_tu_dien
+屾	U+5C7E	San		khong_co_trong_tu_dien
+岊	U+5C8A	Tiệt/Tiết	tiết×1	lech_tu_dien
+岌	U+5C8C	Cấp/Ngập	ngập×1	lech_tu_dien
+岐	U+5C90	Kỳ	kì×2	khop_tu_dien
+岑	U+5C91	Sầm	sầm×10	khop_tu_dien
+岠	U+5CA0	Cự	cự×1	khop_tu_dien
+岡	U+5CA1	Cương	cương×1	khop_tu_dien
+岩	U+5CA9	Nham	nham×2	khop_tu_dien
+岫	U+5CAB	Tụ	tụ×1	khop_tu_dien
+岱	U+5CB1	Đại	đại×1	khop_tu_dien
+岳	U+5CB3	Nhạc	nhạc×5	khop_tu_dien
+岷	U+5CB7	Dân	dân×1; mân×1	khop_tu_dien
+岸	U+5CB8	Ngạn	ngạn×8	khop_tu_dien
+峋	U+5CCB	Tuân	tuân×1	khop_tu_dien
+峒	U+5CD2	Đồng/Động	động×2; đỗng×1	lech_tu_dien
+峘	U+5CD8	Hoàn	hoàn×1	khop_tu_dien
+峙	U+5CD9	Trĩ	trĩ×2	khop_tu_dien
+峨	U+5CE8	Nga	nga×3	khop_tu_dien
+峩	U+5CE9	Nga	nga×1	khop_tu_dien
+峭	U+5CED	Tiễu	tiễu×3	khop_tu_dien
+峯	U+5CEF	Phong	phong×2	khop_tu_dien
+峰	U+5CF0	Phong	phong×2	khop_tu_dien
+峴	U+5CF4	Hiện	hiện×1	khop_tu_dien
+島	U+5CF6	Đảo	đảo×10	khop_tu_dien
+峻	U+5CFB	Tuấn	tuấn×1	khop_tu_dien
+峽	U+5CFD	Hiệp	hiệp×3; hạp×1	khop_tu_dien
+崇	U+5D07	Sùng	sùng×18	khop_tu_dien
+崎	U+5D0E	Kỳ	khi×2; kì×1	khop_tu_dien
+崐	U+5D10	Côn		khong_co_trong_tu_dien
+崑	U+5D11	Côn	côn×6	khop_tu_dien
+崔	U+5D14	Thôi	tồi×1; thôi×1	khop_tu_dien
+崖	U+5D16	Nhai	nhai×7	khop_tu_dien
+崗	U+5D17	Cương	cương×1	khop_tu_dien
+崙	U+5D19	Côn/Luân	luân×2; lôn×1	lech_tu_dien
+崛	U+5D1B	Quật	quật×2	khop_tu_dien
+崟	U+5D1F		ngâm×2	thieu_am
+崧	U+5D27	Tung	tung×1	khop_tu_dien
+崱	U+5D31		trắc×2; tắc×1	thieu_am
+嵆	U+5D46	Kê	kê×1	khop_tu_dien
+嵇	U+5D47	Kê	kê×2	khop_tu_dien
+嵋	U+5D4B	My	mi×1	khop_tu_dien
+嵐	U+5D50	Lam	lam×4	khop_tu_dien
+嵒	U+5D52	Nham		khong_co_trong_tu_dien
+嵓	U+5D53	Nham		khong_co_trong_tu_dien
+嵕	U+5D55	Tông	tông×1	khop_tu_dien
+嵩	U+5D69	Tung	tung×2	khop_tu_dien
+嵫	U+5D6B		tư×3	thieu_am
+嵬	U+5D6C	Ngôi	ngôi×1; nguy×1	khop_tu_dien
+嵯	U+5D6F	Ta/Tha	tha×1; si×1	lech_tu_dien
+嵸	U+5D78			thieu_am
+嵿	U+5D7F			thieu_am
+嶂	U+5D82	Chướng	chướng×1	khop_tu_dien
+嶅	U+5D85			thieu_am
+嶙	U+5D99	Lân	lân×3	khop_tu_dien
+嶟	U+5D9F		tôn×1	thieu_am
+嶠	U+5DA0	Kiệu/Kiêu	kiêu×1	lech_tu_dien
+嶢	U+5DA2	Nghiêu	nghiêu×2	khop_tu_dien
+嶦	U+5DA6			thieu_am
+嶧	U+5DA7	Dịch	dịch×1	khop_tu_dien
+嶮	U+5DAE	Hiểm	hiểm×2	khop_tu_dien
+嶴	U+5DB4		áo×1	thieu_am
+嶷	U+5DB7	Nghi/Nghịch	ngực×1; nghi×1	khop_tu_dien
+嶸	U+5DB8	Vanh	vanh×1	khop_tu_dien
+嶺	U+5DBA	Lĩnh	lĩnh×3; lãnh×2	khop_tu_dien
+嶼	U+5DBC	Dữ	dữ×1; tự×1	khop_tu_dien
+嶽	U+5DBD	Nhạc	nhạc×2	khop_tu_dien
+嶾	U+5DBE		ẩn×2	thieu_am
+巋	U+5DCB	Khuy	khuy×1	khop_tu_dien
+巍	U+5DCD	Nguy	nguy×2	khop_tu_dien
+巒	U+5DD2	Loan	loan×1	khop_tu_dien
+巔	U+5DD4	Điên	điên×1	khop_tu_dien
+巖	U+5DD6	Nham	nham×11	khop_tu_dien
+巗	U+5DD7	Nham		khong_co_trong_tu_dien
+巘	U+5DD8	Nghiễn	nghiễn×1	khop_tu_dien
+川	U+5DDD	Xuyên	xuyên×7	khop_tu_dien
+州	U+5DDE	Châu	châu×16	khop_tu_dien
+巡	U+5DE1	Tuần	tuần×14; duyên×1	khop_tu_dien
+巢	U+5DE2	Sào	sào×13	khop_tu_dien
+工	U+5DE5	Công	công×54	khop_tu_dien
+左	U+5DE6	Tả	tả×14	khop_tu_dien
+巧	U+5DE7	Xảo	xảo×28	khop_tu_dien
+巨	U+5DE8	Cự	cự×15	khop_tu_dien
+巫	U+5DEB	Vu	vu×3	khop_tu_dien
+差	U+5DEE	Sai	sai×21; si×2; sái×1	khop_tu_dien
+己	U+5DF1	Kỷ	kỉ×13	khop_tu_dien
+已	U+5DF2	Dĩ	dĩ×7	khop_tu_dien
+巳	U+5DF3	Tỵ	tị×1	khop_tu_dien
+巴	U+5DF4	Ba	ba×12	khop_tu_dien
+巹	U+5DF9	Cẩn	cẩn×1	khop_tu_dien
+巽	U+5DFD	Tốn	tốn×2	khop_tu_dien
+市	U+5E02	Thị	thị×21	khop_tu_dien
+布	U+5E03	Bố	bố×34	khop_tu_dien
+帆	U+5E06	Phàm	phàm×1	khop_tu_dien
+希	U+5E0C	Hy	hi×7	khop_tu_dien
+帕	U+5E15	Phạ	mạt×1; phạ×1; bạch×1	khop_tu_dien
+帖	U+5E16	Thiếp	thiếp×7	khop_tu_dien
+帛	U+5E1B	Bạch	bạch×6	khop_tu_dien
+帝	U+5E1D	Đế	đế×25	khop_tu_dien
+帡	U+5E21		bình×2	thieu_am
+帥	U+5E25	Soái	súy×6; suất×4; suý×2	khop_tu_dien
+師	U+5E2B	Sư	sư×65	khop_tu_dien
+席	U+5E2D	Tịch	tịch×18	khop_tu_dien
+帶	U+5E36	Đới	đái×16; đới×6	khop_tu_dien
+常	U+5E38	Thường	thường×28	khop_tu_dien
+帾	U+5E3E			thieu_am
+幕	U+5E55	Mạc	mạc×6; mạn×1	khop_tu_dien
+幖	U+5E56	Tiêu		khong_co_trong_tu_dien
+幟	U+5E5F	Xí	xí×3	khop_tu_dien
+幡	U+5E61	Phan	phan×3; phiên×1	khop_tu_dien
+幢	U+5E62	Tràng	tràng×1	khop_tu_dien
+幬	U+5E6C	Trù	đào×1; trù×1	khop_tu_dien
+干	U+5E72	Can	can×19	khop_tu_dien
+平	U+5E73	Bình	bình×81; bình×1; bằng×1	khop_tu_dien
+年	U+5E74	Niên	niên×64	khop_tu_dien
+幸	U+5E78	Hạnh	hạnh×10	khop_tu_dien
+幹	U+5E79	Cán	cán×16	khop_tu_dien
+幻	U+5E7B	Huyễn	ảo×10; huyễn×8	khop_tu_dien
+幼	U+5E7C	Ấu	ấu×11; yếu×2	khop_tu_dien
+幽	U+5E7D	U	u×17	khop_tu_dien
+幾	U+5E7E	Kỷ	kỉ×3; ki×1; kí×1	khop_tu_dien
+庄	U+5E84	Trang	bành×1; trang×1	khop_tu_dien
+庇	U+5E87	Tý	tí×3	khop_tu_dien
+床	U+5E8A	Sàng	sàng×3	khop_tu_dien
+序	U+5E8F	Tự	tự×5	khop_tu_dien
+底	U+5E95	Để	để×9	khop_tu_dien
+庖	U+5E96	Bào	bào×8	khop_tu_dien
+店	U+5E97	Điếm	điếm×12	khop_tu_dien
+庚	U+5E9A	Canh	canh×6	khop_tu_dien
+府	U+5E9C	Phủ	phủ×28	khop_tu_dien
+庠	U+5EA0	Tường	tường×2	khop_tu_dien
+庥	U+5EA5	Hưu	hưu×1	khop_tu_dien
+度	U+5EA6	Độ	độ×58; đạc×4; đô×1	khop_tu_dien
+座	U+5EA7	Tòa	toà×3; toạ×2; tòa×2	khop_tu_dien
+庫	U+5EAB	Khố	khố×14	khop_tu_dien
+庭	U+5EAD	Đình	đình×18	khop_tu_dien
+庵	U+5EB5	Am	am×10	khop_tu_dien
+庶	U+5EB6	Thứ	thứ×12	khop_tu_dien
+康	U+5EB7	Khang	khang×9	khop_tu_dien
+庸	U+5EB8	Dung	dung×7	khop_tu_dien
+庾	U+5EBE	Dữu	dữu×1	khop_tu_dien
+廈	U+5EC8	Hạ	hạ×1	khop_tu_dien
+廉	U+5EC9	Liêm	liêm×13	khop_tu_dien
+廊	U+5ECA	Lang	lang×3	khop_tu_dien
+廓	U+5ED3	Khuếch	khuếch×1	khop_tu_dien
+廕	U+5ED5	Ấm	ấm×5	khop_tu_dien
+廖	U+5ED6	Liêu	liêu×1; liệu×1	khop_tu_dien
+廙	U+5ED9		dực×1; dị×1	thieu_am
+廞	U+5EDE		hâm×1	thieu_am
+廟	U+5EDF	Miếu	miếu×19	khop_tu_dien
+廣	U+5EE3	Quảng	quảng×24; quáng×1; khoát×1	khop_tu_dien
+廩	U+5EE9	Lẫm	lẫm×3	khop_tu_dien
+廬	U+5EEC	Lư	lư×6; lữ×1	khop_tu_dien
+延	U+5EF6	Diên	diên×16	khop_tu_dien
+廷	U+5EF7	Đình	đình×7; đình×1	khop_tu_dien
+廸	U+5EF8	Địch		khong_co_trong_tu_dien
+建	U+5EFA	Kiến	kiến×9; kiển×1	khop_tu_dien
+廼	U+5EFC	Nãi		khong_co_trong_tu_dien
+弁	U+5F01	Biện	biện×4; biền×2; bàn×1	khop_tu_dien
+弄	U+5F04	Lộng	lộng×17	khop_tu_dien
+弇	U+5F07	Yểm	yểm×3; yêm×2	khop_tu_dien
+弈	U+5F08	Dịch	dịch×3	khop_tu_dien
+弊	U+5F0A	Tệ	tệ×17; tế×1; tiết×1	khop_tu_dien
+弌	U+5F0C	Nhất	nhất×1	khop_tu_dien
+弍	U+5F0D	Nhị	nhị×1	khop_tu_dien
+式	U+5F0F	Thức	thức×20	khop_tu_dien
+弓	U+5F13	Cung	cung×12	khop_tu_dien
+引	U+5F15	Dẫn	dẫn×29	khop_tu_dien
+弗	U+5F17	Phất	phất×1	khop_tu_dien
+弘	U+5F18	Hoằng	hoằng×1	khop_tu_dien
+弝	U+5F1D		bá×1	thieu_am
+张	U+5F20	Trương		khong_co_trong_tu_dien
+弢	U+5F22	Thao	thao×1	khop_tu_dien
+弦	U+5F26	Huyền	huyền×6	khop_tu_dien
+弨	U+5F28		siêu×1	thieu_am
+弩	U+5F29	Nỗ	nỗ×5	khop_tu_dien
+弱	U+5F31	Nhược	nhược×22	khop_tu_dien
+張	U+5F35	Trương	trương×13; trướng×1	khop_tu_dien
+強	U+5F37	Cường	cường×17; cưỡng×8	khop_tu_dien
+弼	U+5F3C	Bật	bật×2	khop_tu_dien
+彈	U+5F48	Đàn/Đạn	đàn×6; đạn×4	khop_tu_dien
+彊	U+5F4A	Cường	cương×6; cường×1	khop_tu_dien
+彌	U+5F4C	Di	di×7; nhị×1	khop_tu_dien
+彖	U+5F56	Thoán	thoán×1	khop_tu_dien
+彙	U+5F59	Vị	vựng×2; vị×1	khop_tu_dien
+彚	U+5F5A	Vị	vị×1	khop_tu_dien
+彜	U+5F5C	Di	di×1	khop_tu_dien
+彝	U+5F5D	Di	di×1	khop_tu_dien
+形	U+5F62	Hình	hình×33; hình×1	khop_tu_dien
+彤	U+5F64	Đồng	đồng×1	khop_tu_dien
+彥	U+5F65	Ngạn	ngạn×1	khop_tu_dien
+彦	U+5F66	Ngạn		khong_co_trong_tu_dien
+彧	U+5F67	Úc	úc×1	khop_tu_dien
+彩	U+5F69	Thải/Thái	thái×3; thể×1	lech_tu_dien
+彪	U+5F6A	Bưu	bưu×3	khop_tu_dien
+彬	U+5F6C	Bân	bân×4	khop_tu_dien
+彭	U+5F6D	Bành	bành×11; bàng×4	khop_tu_dien
+彰	U+5F70	Chương	chương×2	khop_tu_dien
+影	U+5F71	Ảnh	ảnh×28	khop_tu_dien
+役	U+5F79	Dịch	dịch×27	khop_tu_dien
+彼	U+5F7C	Bỉ	bỉ×5	khop_tu_dien
+征	U+5F81	Chinh	chinh×26	khop_tu_dien
+待	U+5F85	Đãi	đãi×15; đãi×1	khop_tu_dien
+律	U+5F8B	Luật	luật×23	khop_tu_dien
+後	U+5F8C	Hậu	hậu×37; hấu×1	khop_tu_dien
+徐	U+5F90	Từ	từ×1	khop_tu_dien
+徑	U+5F91	Kính	kính×7	khop_tu_dien
+徒	U+5F92	Đồ	đồ×17; đồ×16	khop_tu_dien
+得	U+5F97	Đắc	đắc×25	khop_tu_dien
+從	U+5F9E	Tùng	tòng×40; tùng×4; thung×2	khop_tu_dien
+徠	U+5FA0	Lai	lại×1; lai×1	khop_tu_dien
+御	U+5FA1	Ngự	ngự×28; nhạ×1	khop_tu_dien
+徤	U+5FA4	Kiện		khong_co_trong_tu_dien
+徧	U+5FA7	Biến	biến×4	khop_tu_dien
+復	U+5FA9	Phục	phục×23; phúc×1	khop_tu_dien
+循	U+5FAA	Tuần	tuần×3	khop_tu_dien
+微	U+5FAE	Vi	vi×33	khop_tu_dien
+徳	U+5FB3	Đức	đức×19	khop_tu_dien
+徵	U+5FB5	Trưng	trưng×16; truỷ×1	khop_tu_dien
+德	U+5FB7	Đức	đức×29	khop_tu_dien
+徹	U+5FB9	Triệt	triệt×5	khop_tu_dien
+徽	U+5FBD	Huy	huy×4	khop_tu_dien
+心	U+5FC3	Tâm	tâm×208	khop_tu_dien
+必	U+5FC5	Tất	tất×8	khop_tu_dien
+忋	U+5FCB			thieu_am
+忌	U+5FCC	Kỵ	kị×17; kí×1	khop_tu_dien
+忍	U+5FCD	Nhẫn	nhẫn×16	khop_tu_dien
+忖	U+5FD6	Thốn	thốn×1	khop_tu_dien
+志	U+5FD7	Chí	chí×45	khop_tu_dien
+忞	U+5FDE	Mân	mân×1	khop_tu_dien
+忠	U+5FE0	Trung	trung×18	khop_tu_dien
+忡	U+5FE1	Xung	xung×3	khop_tu_dien
+忢	U+5FE2			thieu_am
+快	U+5FEB	Khoái	khoái×13	khop_tu_dien
+忭	U+5FED	Biện	biện×1	khop_tu_dien
+忱	U+5FF1	Thầm	thầm×1	khop_tu_dien
+念	U+5FF5	Niệm	niệm×15	khop_tu_dien
+忻	U+5FFB	Hân		khong_co_trong_tu_dien
+忽	U+5FFD	Hốt	hốt×14	khop_tu_dien
+怒	U+6012	Nộ	nộ×16	khop_tu_dien
+怙	U+6019	Hỗ	hỗ×2	khop_tu_dien
+怛	U+601B	Đát	đát×6	khop_tu_dien
+思	U+601D	Tư	tư×20; tứ×9	khop_tu_dien
+怡	U+6021	Di	di×1	khop_tu_dien
+怤	U+6024		phu×2	thieu_am
+性	U+6027	Tính	tính×49	khop_tu_dien
+怪	U+602A	Quái	quái×20	khop_tu_dien
+怯	U+602F	Khiếp	khiếp×6	khop_tu_dien
+怳	U+6033	Hoảng	hoảng×3	khop_tu_dien
+恂	U+6042	Tuân	tuấn×2; tuân×1	khop_tu_dien
+恆	U+6046	Hằng	hằng×6; cắng×1	khop_tu_dien
+恒	U+6052	Hằng	hằng×1	khop_tu_dien
+恕	U+6055	Thứ	thứ×3	khop_tu_dien
+恢	U+6062	Khôi	khôi×4	khop_tu_dien
+恤	U+6064	Tuất	tuất×13	khop_tu_dien
+恦	U+6066			thieu_am
+恩	U+6069	Ân	ân×66	khop_tu_dien
+恪	U+606A	Khác	khác×1	khop_tu_dien
+恬	U+606C	Điềm	điềm×5	khop_tu_dien
+恭	U+606D	Cung	cung×14	khop_tu_dien
+息	U+606F	Tức	tức×25	khop_tu_dien
+悅	U+6085	Duyệt	duyệt×7	khop_tu_dien
+悆	U+6086	Dự	dự×1	khop_tu_dien
+悉	U+6089	Tất	tất×3	khop_tu_dien
+悌	U+608C	Đễ	đễ×1	khop_tu_dien
+悔	U+6094	Hối	hối×9	khop_tu_dien
+悖	U+6096	Bội	bội×1	khop_tu_dien
+悛	U+609B	Thuyên		khong_co_trong_tu_dien
+悝	U+609D	Khôi	lí×1; khôi×1	khop_tu_dien
+悟	U+609F	Ngộ	ngộ×12	khop_tu_dien
+悠	U+60A0	Du	du×6	khop_tu_dien
+患	U+60A3	Hoạn	hoạn×6	khop_tu_dien
+悦	U+60A6	Duyệt		khong_co_trong_tu_dien
+悰	U+60B0	Tông	tông×1	khop_tu_dien
+悲	U+60B2	Bi	bi×15	khop_tu_dien
+悳	U+60B3	Đức		khong_co_trong_tu_dien
+悺	U+60BA			thieu_am
+悾	U+60BE		không×1	thieu_am
+情	U+60C5	Tình	tình×97	khop_tu_dien
+惇	U+60C7	Đôn	đôn×4	khop_tu_dien
+惑	U+60D1	Hoặc	hoặc×11	khop_tu_dien
+惒	U+60D2	Hòa		khong_co_trong_tu_dien
+惔	U+60D4	Đàm	đàm×1; đạm×1	khop_tu_dien
+惕	U+60D5	Dịch/Thích	thích×1	khop_tu_dien
+惜	U+60DC	Tích	tích×11	khop_tu_dien
+惟	U+60DF	Duy	duy×3	khop_tu_dien
+惠	U+60E0	Huệ	huệ×8	khop_tu_dien
+惡	U+60E1	Ác/Ố	ác×68; ố×4; ô×1	khop_tu_dien
+惣	U+60E3	Tổng		khong_co_trong_tu_dien
+惲	U+60F2	Uẩn	uẩn×1	khop_tu_dien
+惴	U+60F4	Chuế/Chúy	chúy×1	lech_tu_dien
+惹	U+60F9	Nhạ/Nha	nha×1	lech_tu_dien
+惺	U+60FA	Tinh	tinh×1	khop_tu_dien
+惻	U+60FB	Trắc	trắc×6	khop_tu_dien
+愁	U+6101	Sầu	sầu×40	khop_tu_dien
+愃	U+6103			thieu_am
+愈	U+6108	Dũ	dũ×1	khop_tu_dien
+愉	U+6109	Du	du×8; thâu×1	khop_tu_dien
+愍	U+610D	Mẫn	mẫn×1	khop_tu_dien
+意	U+610F	Ý	ý×60; y×1	khop_tu_dien
+愔	U+6114	Âm	âm×4	khop_tu_dien
+愚	U+611A	Ngu	ngu×11	khop_tu_dien
+愛	U+611B	Ái	ái×59	khop_tu_dien
+感	U+611F	Cảm	cảm×46	khop_tu_dien
+愧	U+6127	Quý	quý×4	khop_tu_dien
+愷	U+6137	Khải	khải×1	khop_tu_dien
+愻	U+613B	Tốn		khong_co_trong_tu_dien
+愼	U+613C	Thận		khong_co_trong_tu_dien
+愿	U+613F	Nguyện	nguyện×2	khop_tu_dien
+慇	U+6147	Ân	ân×5	khop_tu_dien
+慈	U+6148	Từ	từ×10; tư×1	khop_tu_dien
+慍	U+614D	Uấn	uẩn×1; uấn×1	khop_tu_dien
+慎	U+614E	Thận	thận×5	khop_tu_dien
+慕	U+6155	Mộ	mộ×12	khop_tu_dien
+慘	U+6158	Thảm	thảm×16	khop_tu_dien
+慚	U+615A	Tàm	tàm×1	khop_tu_dien
+慜	U+615C	Mẫn		khong_co_trong_tu_dien
+慤	U+6164	Xác/Khác	khác×1	lech_tu_dien
+慥	U+6165	Tháo	tháo×1	khop_tu_dien
+慧	U+6167	Huệ/Tuệ	huệ×9	khop_tu_dien
+慨	U+6168	Khái	khái×4	khop_tu_dien
+慰	U+6170	Úy	ủy×4; uỷ×1; úy×1	khop_tu_dien
+慵	U+6175	Dung		khong_co_trong_tu_dien
+慶	U+6176	Khánh	khánh×15	khop_tu_dien
+憂	U+6182	Ưu	ưu×27	khop_tu_dien
+憍	U+618D	Kiêu	kiêu×2	khop_tu_dien
+憐	U+6190	Liên	lân×11; liên×1	khop_tu_dien
+憑	U+6191	Bằng	bằng×17	khop_tu_dien
+憕	U+6195			thieu_am
+憘	U+6198	Hỷ	hi×1; hỉ×1	khop_tu_dien
+憙	U+6199	Hỷ/Hí	hí×1	lech_tu_dien
+憧	U+61A7	Đồng/Xung	xung×1	lech_tu_dien
+憨	U+61A8	Hàm	ham×1; hàm×1	khop_tu_dien
+憩	U+61A9	Khế	khế×1	khop_tu_dien
+憬	U+61AC	Cảnh	cảnh×1	khop_tu_dien
+憭	U+61AD	Liễu/Liệu	liệu×1	lech_tu_dien
+憲	U+61B2	Hiến	hiến×13	khop_tu_dien
+憶	U+61B6	Ức	ức×4	khop_tu_dien
+懃	U+61C3	Cần	cần×2	khop_tu_dien
+應	U+61C9	Ứng	ứng×31; ưng×7	khop_tu_dien
+懋	U+61CB	Mậu	mậu×1	khop_tu_dien
+懌	U+61CC	Dịch	dịch×1	khop_tu_dien
+懍	U+61CD	Lẫm	lẫm×1	khop_tu_dien
+懐	U+61D0	Hoài		khong_co_trong_tu_dien
+懶	U+61F6	Lại	lại×3; lãn×3	khop_tu_dien
+懷	U+61F7	Hoài	hoài×26	khop_tu_dien
+懸	U+61F8	Huyền	huyền×10	khop_tu_dien
+懺	U+61FA	Sám	sám×5	khop_tu_dien
+懽	U+61FD	Hoan	hoan×1; quán×1	khop_tu_dien
+懿	U+61FF	Ý	ý×10	khop_tu_dien
+戈	U+6208	Qua	qua×6	khop_tu_dien
+戊	U+620A	Mậu		khong_co_trong_tu_dien
+戎	U+620E	Nhung	nhung×16	khop_tu_dien
+成	U+6210	Thành	thành×43	khop_tu_dien
+我	U+6211	Ngã	ngã×10	khop_tu_dien
+戒	U+6212	Giới	giới×19	khop_tu_dien
+或	U+6216	Hoặc	hoặc×5; vực×1	khop_tu_dien
+戚	U+621A	Thích	thích×7; xúc×1	khop_tu_dien
+戞	U+621E		kiết×1	thieu_am
+戟	U+621F	Kích	kích×3	khop_tu_dien
+戡	U+6221	Kham		khong_co_trong_tu_dien
+戣	U+6223	Quỳ	quỳ×1	khop_tu_dien
+戩	U+6229	Tiễn	tiễn×1	khop_tu_dien
+截	U+622A	Tiệt	tiệt×4	khop_tu_dien
+戰	U+6230	Chiến	chiến×75	khop_tu_dien
+戲	U+6232	Hí	hí×18; hý×2; huy×1	khop_tu_dien
+戴	U+6234	Đái	đái×5	doi_chieu_sua
+戶	U+6236	Hộ	hộ×4	khop_tu_dien
+房	U+623F	Phòng	phòng×35; phòng×1	khop_tu_dien
+所	U+6240	Sở	sở×36	khop_tu_dien
+扁	U+6241	Biển	biển×4; biên×2; thiên×2	khop_tu_dien
+扃	U+6243	Quynh	quynh×3; côi×1	khop_tu_dien
+扆	U+6246	Ỷ	ỷ×2	khop_tu_dien
+扇	U+6247	Phiến	phiến×16	khop_tu_dien
+扈	U+6248	Hỗ	hỗ×4	khop_tu_dien
+手	U+624B	Thủ	thủ×76	khop_tu_dien
+才	U+624D	Tài	tài×65	khop_tu_dien
+扎	U+624E	Trát	trát×1	khop_tu_dien
+打	U+6253	Đả	đả×24	khop_tu_dien
+托	U+6258	Thác	thác×3	khop_tu_dien
+扛	U+625B		giang×1	thieu_am
+扣	U+6263	Khấu	khấu×4	khop_tu_dien
+扶	U+6276	Phù	phù×16	khop_tu_dien
+承	U+627F	Thừa	thừa×4; tặng×1	khop_tu_dien
+技	U+6280	Kỹ	kĩ×16	khop_tu_dien
+抃	U+6283	Biện	biện×3	khop_tu_dien
+把	U+628A	Bả	bả×14; bà×1; bá×1	khop_tu_dien
+抑	U+6291	Ức	ức×8	khop_tu_dien
+投	U+6295	Đầu	đầu×17	khop_tu_dien
+抗	U+6297	Kháng	kháng×12	khop_tu_dien
+折	U+6298	Chiết	chiết×23	khop_tu_dien
+抝	U+629D			thieu_am
+抦	U+62A6			thieu_am
+披	U+62AB	Phi	phi×4; phị×1	khop_tu_dien
+抱	U+62B1	Bão	bão×18; bào×1	khop_tu_dien
+抽	U+62BD	Trừu	trừu×5	khop_tu_dien
+拂	U+62C2	Phất	phất×5; phật×1	khop_tu_dien
+拈	U+62C8	Niêm	niêm×1	khop_tu_dien
+拉	U+62C9	Lạp	lạp×2	khop_tu_dien
+拏	U+62CF	Noa/Nã	nã×2	lech_tu_dien
+拓	U+62D3	Thác	thác×2; chích×1	khop_tu_dien
+拔	U+62D4	Bạt	bạt×28; bội×1	khop_tu_dien
+拖	U+62D6	Tha	đà×3; tha×1	khop_tu_dien
+拘	U+62D8	Câu	câu×15	khop_tu_dien
+拙	U+62D9	Chuyết	chuyết×16	khop_tu_dien
+招	U+62DB	Chiêu	chiêu×24; kiêu×1; thiều×1	khop_tu_dien
+拜	U+62DC	Bái	bái×34	khop_tu_dien
+括	U+62EC	Quát	quát×11	khop_tu_dien
+拭	U+62ED	Thức	thức×3	khop_tu_dien
+拯	U+62EF	Chửng	chửng×1	khop_tu_dien
+拱	U+62F1	Củng	củng×6	khop_tu_dien
+拳	U+62F3	Quyền	quyền×10	khop_tu_dien
+拾	U+62FE	Thập	thập×4; kiệp×1	khop_tu_dien
+拿	U+62FF	Nã	nã×6; nã×2	khop_tu_dien
+持	U+6301	Trì	trì×19; trì×2	khop_tu_dien
+指	U+6307	Chỉ	chỉ×37	khop_tu_dien
+按	U+6309	Án	án×14	khop_tu_dien
+挋	U+630B		chấn×1	thieu_am
+振	U+632F	Chấn	chấn×4; chẩn×1	khop_tu_dien
+挺	U+633A	Đĩnh	đĩnh×3	khop_tu_dien
+挻	U+633B			thieu_am
+挽	U+633D	Vãn	vãn×7	khop_tu_dien
+捃	U+6343		quấn×1; quận×1	thieu_am
+捨	U+6368	Xả	xả×7	khop_tu_dien
+捩	U+6369	Lệ	lệ×2; liệt×1	khop_tu_dien
+捴	U+6374	Tổng		khong_co_trong_tu_dien
+捷	U+6377	Tiệp	tiệp×9	khop_tu_dien
+捺	U+637A	Nại	nại×1	khop_tu_dien
+捻	U+637B	Niệp	niêm×1; niệp×1; niệm×1	khop_tu_dien
+掄	U+6384	Luân	luân×1	khop_tu_dien
+授	U+6388	Thụ	thụ×10	khop_tu_dien
+掌	U+638C	Chưởng	chưởng×24	khop_tu_dien
+排	U+6392	Bài	bài×25	khop_tu_dien
+掘	U+6398	Quật	quật×3	khop_tu_dien
+掞	U+639E		thiểm×1	thieu_am
+採	U+63A1	Thải/Thái	thái×1	lech_tu_dien
+探	U+63A2	Thám	thám×9	khop_tu_dien
+接	U+63A5	Tiếp	tiếp×35	khop_tu_dien
+控	U+63A7	Khống	khống×3; khoang×1	khop_tu_dien
+推	U+63A8	Thôi	suy×30; thôi×2	khop_tu_dien
+措	U+63AA	Thố	thố×3; trách×1	khop_tu_dien
+掬	U+63AC	Cúc	cúc×1	khop_tu_dien
+揀	U+63C0	Giản	giản×1	khop_tu_dien
+揆	U+63C6	Quỹ	quỹ×3	khop_tu_dien
+揉	U+63C9	Nhu	nhu×1	khop_tu_dien
+提	U+63D0	Đề	đề×27; để×1	khop_tu_dien
+揖	U+63D6	Ấp/Tập	ấp×4; tập×1	khop_tu_dien
+揚	U+63DA	Dương	dương×24	khop_tu_dien
+換	U+63DB	Hoán	hoán×9	khop_tu_dien
+揩	U+63E9	Khai	khai×1	khop_tu_dien
+揭	U+63ED	Yết	yết×12	khop_tu_dien
+揮	U+63EE	Huy	huy×5	khop_tu_dien
+援	U+63F4	Viện	viện×13; viên×4	khop_tu_dien
+揵	U+63F5	Kiền		khong_co_trong_tu_dien
+損	U+640D	Tổn	tổn×13	khop_tu_dien
+搏	U+640F	Bác	bác×4	khop_tu_dien
+搡	U+6421			thieu_am
+摛	U+645B	Si	si×2	khop_tu_dien
+摠	U+6460	Tổng	tổng×1	khop_tu_dien
+摩	U+6469	Ma	ma×5	khop_tu_dien
+摭	U+646D		chích×1	thieu_am
+摶	U+6476	Đoàn	chuyên×1; đoàn×1	khop_tu_dien
+摸	U+6478	Mô	mô×4; mạc×1	khop_tu_dien
+摹	U+6479	Mô	mô×1	khop_tu_dien
+摻	U+647B	Sam	sâm×3; sam×1; thám×1	am_doan_chua_chac
+摽	U+647D		phiếu×2; phiêu×1; tiêu×1	thieu_am
+撐	U+6490	Sanh	sanh×1	am_doan_chua_chac
+撒	U+6492	Tát	tát×3; tản×1	khop_tu_dien
+撓	U+6493	Nạo	nạo×1	khop_tu_dien
+撕	U+6495	Tê/Tề	tề×1	lech_tu_dien
+撙	U+6499	Tổn	tổn×2	khop_tu_dien
+撝	U+649D	Huy	huy×1	khop_tu_dien
+撨	U+64A8			thieu_am
+撫	U+64AB	Phủ	phủ×20; mô×1	khop_tu_dien
+播	U+64AD	Bá	bá×13; bả×1	khop_tu_dien
+撮	U+64AE	Toát	toát×3	khop_tu_dien
+撰	U+64B0	Soạn	soạn×9; toán×1; tuyển×1	khop_tu_dien
+撻	U+64BB	Thát	thát×1	khop_tu_dien
+撿	U+64BF	Kiểm	kiểm×1; liệm×1	khop_tu_dien
+擇	U+64C7	Trạch	trạch×7	khop_tu_dien
+擊	U+64CA	Kích	kích×14	khop_tu_dien
+操	U+64CD	Thao	thao×7; tháo×4	khop_tu_dien
+擎	U+64CE	Kình	kình×2	khop_tu_dien
+擔	U+64D4	Đảm	đảm×8; đam×1	khop_tu_dien
+據	U+64DA	Cứ	cứ×19	khop_tu_dien
+擧	U+64E7	Cử	cử×1	khop_tu_dien
+擲	U+64F2	Trịch	trịch×6	khop_tu_dien
+擴	U+64F4	Khuếch	khuếch×5; khoáng×1; khoắc×1	khop_tu_dien
+擺	U+64FA	Bãi	bãi×4	khop_tu_dien
+攀	U+6500	Phan	phan×6	khop_tu_dien
+攄	U+6504		sư×1	thieu_am
+攘	U+6518	Nhương	nhương×6; nhưỡng×1	khop_tu_dien
+攝	U+651D	Nhiếp	nhiếp×10	khop_tu_dien
+攢	U+6522		toàn×1; toản×1	thieu_am
+支	U+652F	Chi	chi×32	khop_tu_dien
+攴	U+6534	Phộc	phộc×1	khop_tu_dien
+收	U+6536	Thu	thu×17; thâu×2	khop_tu_dien
+攸	U+6538	Du	du×1	khop_tu_dien
+改	U+6539	Cải	cải×37	khop_tu_dien
+攽	U+653D	Ban	ban×1	khop_tu_dien
+放	U+653E	Phóng	phóng×45; phỏng×1	khop_tu_dien
+政	U+653F	Chính	chính×51; chinh×1	khop_tu_dien
+故	U+6545	Cố	cố×35	khop_tu_dien
+效	U+6548	Hiệu	hiệu×10	khop_tu_dien
+敎	U+654E	Giáo		khong_co_trong_tu_dien
+敏	U+654F	Mẫn	mẫn×9	khop_tu_dien
+救	U+6551	Cứu	cứu×29	khop_tu_dien
+敔	U+6554	Ngữ	ngữ×1	khop_tu_dien
+敕	U+6555	Sắc	sắc×12	khop_tu_dien
+敖	U+6556	Ngao	ngao×1; ngạo×1	khop_tu_dien
+敘	U+6558	Tự		khong_co_trong_tu_dien
+教	U+6559	Giáo	giáo×65	khop_tu_dien
+敝	U+655D	Tệ	tệ×4	khop_tu_dien
+敞	U+655E	Sưởng		khong_co_trong_tu_dien
+敢	U+6562	Cảm	cảm×6	khop_tu_dien
+散	U+6563	Tán/Tản	tán×32; tản×12	khop_tu_dien
+敦	U+6566	Đôn	đôn×3; đồn×1; đôi×1	khop_tu_dien
+敫	U+656B	Kích		khong_co_trong_tu_dien
+敬	U+656C	Kính	kính×14	khop_tu_dien
+敭	U+656D	Dương	dương×1	khop_tu_dien
+敳	U+6573		ngai×1	thieu_am
+整	U+6574	Chỉnh	chỉnh×15	khop_tu_dien
+敵	U+6575	Địch	địch×20	khop_tu_dien
+敷	U+6577	Phu	phu×11	khop_tu_dien
+數	U+6578	Số/Sác	số×43; sổ×2; số×1	khop_tu_dien
+敻	U+657B		quýnh×1	thieu_am
+斅	U+6585	Hiệu	hiệu×1	khop_tu_dien
+斆	U+6586	Hiệu		khong_co_trong_tu_dien
+文	U+6587	Văn	văn×111	khop_tu_dien
+斈	U+6588	Học		khong_co_trong_tu_dien
+斌	U+658C	Bân	bân×2	khop_tu_dien
+斐	U+6590	Phỉ	phi×1; phỉ×1	khop_tu_dien
+斗	U+6597	Đẩu	đẩu×18	khop_tu_dien
+斛	U+659B	Hộc	hộc×1	khop_tu_dien
+斡	U+65A1	Oát	oát×1; quản×1	khop_tu_dien
+斤	U+65A4	Cân	cân×4	khop_tu_dien
+斧	U+65A7	Phủ	phủ×9	khop_tu_dien
+斯	U+65AF	Tư	tư×5	khop_tu_dien
+新	U+65B0	Tân	tân×50	khop_tu_dien
+斷	U+65B7	Đoạn	đoạn×20; đoán×19	khop_tu_dien
+方	U+65B9	Phương	phương×63	khop_tu_dien
+於	U+65BC	Ư/Ô	ư×7; ô×1	khop_tu_dien
+施	U+65BD	Thí	thi×9; thí×7; di×1	khop_tu_dien
+旁	U+65C1	Bàng	bàng×22; banh×3; bạng×2	khop_tu_dien
+旂	U+65C2	Kỳ	kì×1	khop_tu_dien
+旃	U+65C3	Chiên	chiên×2	khop_tu_dien
+旋	U+65CB	Toàn	toàn×6; triền×1	khop_tu_dien
+族	U+65CF	Tộc	tộc×31; tấu×1	khop_tu_dien
+旒	U+65D2	Lưu	lưu×1	khop_tu_dien
+旛	U+65DB	Phan	phan×1	khop_tu_dien
+旟	U+65DF		dư×1	thieu_am
+无	U+65E0	Vô	vô×1	khop_tu_dien
+旡	U+65E1		kí×1	thieu_am
+既	U+65E2	Ký	kí×1	khop_tu_dien
+日	U+65E5	Nhật	nhật×98	khop_tu_dien
+旦	U+65E6	Đán	đán×9	khop_tu_dien
+旨	U+65E8	Chỉ	chỉ×15	khop_tu_dien
+早	U+65E9	Tảo	tảo×14	khop_tu_dien
+旬	U+65EC	Tuần	tuần×8; tuấn×1	khop_tu_dien
+旭	U+65ED	Húc	húc×1	khop_tu_dien
+旰	U+65F0	Hãn/Cán	cán×1	lech_tu_dien
+旲	U+65F2			thieu_am
+旵	U+65F5	Thiền		am_doan_chua_chac
+旹	U+65F9	Thời	thời×1	khop_tu_dien
+旺	U+65FA	Vượng	vượng×6	khop_tu_dien
+旻	U+65FB	Mân	mân×1	khop_tu_dien
+旼	U+65FC	Mân	mân×1	khop_tu_dien
+旿	U+65FF			thieu_am
+昀	U+6600	Quân	quân×1	khop_tu_dien
+昂	U+6602	Ngang	ngang×5	khop_tu_dien
+昆	U+6606	Côn	côn×5	khop_tu_dien
+昇	U+6607	Thăng	thăng×3	khop_tu_dien
+昉	U+6609	Phảng/Phưởng	phưởng×1	lech_tu_dien
+昊	U+660A	Hạo	hạo×1	khop_tu_dien
+昌	U+660C	Xương	xương×8	khop_tu_dien
+昍	U+660D			thieu_am
+明	U+660E	Minh	minh×66	khop_tu_dien
+易	U+6613	Dịch	dịch×12; dị×9	khop_tu_dien
+昔	U+6614	Tích	tích×10	khop_tu_dien
+昕	U+6615	Hân	hân×1	khop_tu_dien
+昚	U+661A	Thận	thận×1	khop_tu_dien
+昝	U+661D		tảm×1	thieu_am
+昞	U+661E	Bỉnh/Bính	bính×1	lech_tu_dien
+星	U+661F	Tinh	tinh×30	khop_tu_dien
+映	U+6620	Ánh	ánh×6	khop_tu_dien
+春	U+6625	Xuân	xuân×54	khop_tu_dien
+昧	U+6627	Muội	muội×12; mạt×1	khop_tu_dien
+昪	U+662A	Biện	biện×1	khop_tu_dien
+昫	U+662B		hu×1	thieu_am
+昭	U+662D	Chiêu	chiêu×4; thiều×1	khop_tu_dien
+是	U+662F	Thị	thị×10	khop_tu_dien
+昰	U+6630	Thị		khong_co_trong_tu_dien
+昱	U+6631	Dục	dục×1	khop_tu_dien
+昶	U+6636	Sưởng		khong_co_trong_tu_dien
+昹	U+6639			thieu_am
+昺	U+663A	Bỉnh/Bính	bính×1	lech_tu_dien
+昻	U+663B	Ngang		khong_co_trong_tu_dien
+晁	U+6641	Triều	triều×1	khop_tu_dien
+時	U+6642	Thời	thời×64; thì×4	khop_tu_dien
+晃	U+6643	Hoảng	hoảng×1	khop_tu_dien
+晅	U+6645		huyên×1	thieu_am
+晈	U+6648		hiểu×1	thieu_am
+晉	U+6649	Tấn	tấn×3	khop_tu_dien
+晌	U+664C		hướng×2	thieu_am
+晏	U+664F	Yến	yến×4	khop_tu_dien
+晙	U+6659	Tuấn		khong_co_trong_tu_dien
+晚	U+665A	Vãn	vãn×27	khop_tu_dien
+晝	U+665D	Trú	trú×4	khop_tu_dien
+晞	U+665E	Hy	hi×2	khop_tu_dien
+晟	U+665F	Thịnh	thịnh×1	khop_tu_dien
+晠	U+6660			thieu_am
+晤	U+6664	Ngộ	ngộ×1	khop_tu_dien
+晥	U+6665			thieu_am
+晦	U+6666	Hối	hối×6	khop_tu_dien
+晧	U+6667	Hạo	hạo×1	khop_tu_dien
+晨	U+6668	Thần	thần×5	khop_tu_dien
+晫	U+666B			thieu_am
+普	U+666E	Phổ	phổ×10	khop_tu_dien
+景	U+666F	Cảnh	cảnh×26; ảnh×1	khop_tu_dien
+晰	U+6670	Tích	tích×1	khop_tu_dien
+晳	U+6673	Tích	tích×1	khop_tu_dien
+晴	U+6674	Tình	tình×3	khop_tu_dien
+晶	U+6676	Tinh	tinh×3	khop_tu_dien
+晷	U+6677	Quỹ	quỹ×2	khop_tu_dien
+智	U+667A	Trí	trí×27	khop_tu_dien
+暀	U+6680		vưởng×3	thieu_am
+暄	U+6684	Huyên	huyên×1	khop_tu_dien
+暅	U+6685			thieu_am
+暈	U+6688	Vựng	vựng×3; vận×1	khop_tu_dien
+暉	U+6689	Huy	huy×4	khop_tu_dien
+暎	U+668E	Ánh	ánh×1	khop_tu_dien
+暐	U+6690	Vĩ	vĩ×1	khop_tu_dien
+暕	U+6695	Giản		khong_co_trong_tu_dien
+暖	U+6696	Noãn	noãn×2; huyên×1	khop_tu_dien
+暗	U+6697	Ám	ám×52	khop_tu_dien
+暘	U+6698	Dương	dương×1	khop_tu_dien
+暟	U+669F	Khải		khong_co_trong_tu_dien
+暠	U+66A0	Hạo	hạo×1	khop_tu_dien
+暢	U+66A2	Sướng	sướng×9	khop_tu_dien
+暨	U+66A8	Kỵ	kị×1	khop_tu_dien
+暮	U+66AE	Mộ	mộ×10	khop_tu_dien
+暲	U+66B2	Chương		khong_co_trong_tu_dien
+暹	U+66B9	Xiêm	xiêm×2	khop_tu_dien
+暾	U+66BE	Thôn/Đôn	đôn×1	lech_tu_dien
+曄	U+66C4	Diệp	diệp×1	khop_tu_dien
+曆	U+66C6	Lịch	lịch×10	khop_tu_dien
+曇	U+66C7	Đàm	đàm×1	khop_tu_dien
+曈	U+66C8	Đồng	đồng×1	khop_tu_dien
+曉	U+66C9	Hiểu	hiểu×7	khop_tu_dien
+曌	U+66CC	Chiếu	chiếu×1	khop_tu_dien
+曙	U+66D9	Thự	thự×1	khop_tu_dien
+曜	U+66DC	Diệu	diệu×7	khop_tu_dien
+曠	U+66E0	Khoáng	khoáng×13	khop_tu_dien
+曣	U+66E3		yến×1	thieu_am
+曦	U+66E6	Hi	hi×1	khop_tu_dien
+曧	U+66E7			thieu_am
+曩	U+66E9	Nẵng/Nãng	nãng×1	lech_tu_dien
+曮	U+66EE	Diễm		am_doan_chua_chac
+曰	U+66F0	Viết	viết×1	khop_tu_dien
+曲	U+66F2	Khúc	khúc×24	khop_tu_dien
+更	U+66F4	Canh/Cánh	canh×13; cánh×2	khop_tu_dien
+曷	U+66F7	Hạt	hạt×1	khop_tu_dien
+書	U+66F8	Thư	thư×84; thuyết×1	khop_tu_dien
+曹	U+66F9	Tào	tào×7	khop_tu_dien
+曼	U+66FC	Mạn	mạn×1	khop_tu_dien
+曾	U+66FE	Tằng	tằng×5; tăng×1	khop_tu_dien
+替	U+66FF	Thế	thế×3	khop_tu_dien
+最	U+6700	Tối	tối×8	khop_tu_dien
+會	U+6703	Hội	hội×55; cối×1	khop_tu_dien
+月	U+6708	Nguyệt	nguyệt×107	khop_tu_dien
+有	U+6709	Hữu	hữu×31; hựu×1	khop_tu_dien
+朋	U+670B	Bằng	bằng×15	khop_tu_dien
+服	U+670D	Phục	phục×73	khop_tu_dien
+朎	U+670E			thieu_am
+朏	U+670F	Phỉ	phỉ×1	khop_tu_dien
+朓	U+6713	Thiếu/Thiêu	thiêu×1	lech_tu_dien
+朔	U+6714	Sóc	sóc×15	khop_tu_dien
+朕	U+6715	Trẫm	trẫm×3	khop_tu_dien
+朗	U+6717	Lãng		khong_co_trong_tu_dien
+望	U+671B	Vọng	vọng×46	khop_tu_dien
+朝	U+671D	Triều	triều×39; triêu×9; trào×1	khop_tu_dien
+期	U+671F	Kỳ	kì×32; ki×1	khop_tu_dien
+木	U+6728	Mộc	mộc×38	khop_tu_dien
+未	U+672A	Vị	vị×15; mùi×1	khop_tu_dien
+末	U+672B	Mạt	mạt×21	khop_tu_dien
+本	U+672C	Bản	bản×49; bổn×2	khop_tu_dien
+札	U+672D	Trát	trát×5	khop_tu_dien
+朮	U+672E	Truật		khong_co_trong_tu_dien
+朱	U+6731	Chu	chu×8	khop_tu_dien
+朴	U+6734	Phác	phác×1; phu×1	khop_tu_dien
+朵	U+6735	Đóa	đoá×1	khop_tu_dien
+朶	U+6736	Đóa	đoá×1	khop_tu_dien
+朽	U+673D	Hủ	hủ×5	khop_tu_dien
+杉	U+6749	Sam	sam×1	khop_tu_dien
+李	U+674E	Lý	lí×5	khop_tu_dien
+杏	U+674F	Hạnh	hạnh×2	khop_tu_dien
+材	U+6750	Tài	tài×7	khop_tu_dien
+村	U+6751	Thôn	thôn×6	khop_tu_dien
+杓	U+6753	Thược/Chước	chước×1; tiêu×1	lech_tu_dien
+杜	U+675C	Đỗ	đỗ×7	khop_tu_dien
+杞	U+675E	Kỷ	kỉ×2	khop_tu_dien
+束	U+675F	Thúc	thúc×10	khop_tu_dien
+条	U+6761	Điều	điều×1	khop_tu_dien
+来	U+6765	Lai	lai×1	khop_tu_dien
+杬	U+676C		ngoạn×1; nguyên×1	thieu_am
+杭	U+676D	Hàng	hàng×1	khop_tu_dien
+杯	U+676F	Bôi	bôi×16	khop_tu_dien
+杰	U+6770	Kiệt	kiệt×1	khop_tu_dien
+東	U+6771	Đông	đông×20	khop_tu_dien
+杲	U+6772	Cảo	cảo×1	khop_tu_dien
+杵	U+6775	Xử	xử×3	khop_tu_dien
+杷	U+6777	Bà	bà×2; ba×1; bá×1	khop_tu_dien
+松	U+677E	Tùng	tùng×4	khop_tu_dien
+板	U+677F	Bản	bản×19	khop_tu_dien
+枋	U+678B	Phương	phương×1; bính×1	khop_tu_dien
+析	U+6790	Tích	tích×4	khop_tu_dien
+枕	U+6795	Chẩm	chẩm×9; chấm×1	khop_tu_dien
+林	U+6797	Lâm	lâm×20; lầm×1	khop_tu_dien
+枚	U+679A	Mai	mai×2	khop_tu_dien
+果	U+679C	Quả	quả×26	khop_tu_dien
+枝	U+679D	Chi	chi×18; kì×2	khop_tu_dien
+枯	U+67AF	Khô	khô×6	khop_tu_dien
+枳	U+67B3	Chỉ	chỉ×1	khop_tu_dien
+柄	U+67C4	Bính	bính×12	khop_tu_dien
+柈	U+67C8	Bàn	bàn×1	khop_tu_dien
+柏	U+67CF	Bách	bách×6	khop_tu_dien
+某	U+67D0	Mỗ	mỗ×1	khop_tu_dien
+柒	U+67D2	Thất		khong_co_trong_tu_dien
+染	U+67D3	Nhiễm	nhiễm×20	khop_tu_dien
+柔	U+67D4	Nhu	nhu×16	khop_tu_dien
+柟	U+67DF	Nam		khong_co_trong_tu_dien
+查	U+67E5	Tra	tra×15	khop_tu_dien
+柯	U+67EF	Kha	kha×4	khop_tu_dien
+柱	U+67F1	Trụ	trụ×10; trú×1	khop_tu_dien
+柳	U+67F3	Liễu	liễu×12	khop_tu_dien
+柴	U+67F4	Sài	sài×7; si×2; tái×1	khop_tu_dien
+柵	U+67F5	Sách		khong_co_trong_tu_dien
+柷	U+67F7	Chúc	chúc×1	khop_tu_dien
+栂	U+6802		mẫu×1	thieu_am
+栖	U+6816	Thê/Tê	tê×1	lech_tu_dien
+栗	U+6817	Lật	lật×4	khop_tu_dien
+校	U+6821	Hiệu/Giáo	hiệu×12; giáo×1; hào×1	khop_tu_dien
+栢	U+6822	Bách	bách×1	khop_tu_dien
+栩	U+6829		hú×1	thieu_am
+株	U+682A	Chu	chu×2	khop_tu_dien
+栴	U+6834	Chiên	chiên×2	khop_tu_dien
+核	U+6838	Hạch	hạch×6	khop_tu_dien
+根	U+6839	Căn	căn×28	khop_tu_dien
+栻	U+683B	Thức		khong_co_trong_tu_dien
+格	U+683C	Cách	cách×35; cánh×1	khop_tu_dien
+栽	U+683D	Tài	tài×4; tải×1	khop_tu_dien
+桀	U+6840	Kiệt	kiệt×1; kiết×1	khop_tu_dien
+桂	U+6842	Quế	quế×22	khop_tu_dien
+桃	U+6843	Đào	đào×10	khop_tu_dien
+桐	U+6850	Đồng	đồng×3; thông×1	khop_tu_dien
+桑	U+6851	Tang	tang×20	khop_tu_dien
+桓	U+6853	Hoàn	hoàn×2	khop_tu_dien
+桴	U+6874	Phù	phu×1; phù×1	khop_tu_dien
+桷	U+6877	Giác		khong_co_trong_tu_dien
+梁	U+6881	Lương	lương×4	khop_tu_dien
+梅	U+6885	Mai	mai×8	khop_tu_dien
+梈	U+6888			thieu_am
+梓	U+6893	Tử	tử×3	khop_tu_dien
+梗	U+6897	Ngạnh	ngạnh×4; cánh×2; cạnh×1	khop_tu_dien
+條	U+689D	Điều	điều×13	khop_tu_dien
+梢	U+68A2	Sao	sao×6	khop_tu_dien
+梧	U+68A7	Ngô	ngô×2	khop_tu_dien
+梨	U+68A8	Lê	lê×1	khop_tu_dien
+梭	U+68AD	Thoa	thoa×3	khop_tu_dien
+梯	U+68AF	Thê	thê×1	khop_tu_dien
+梲	U+68B2		chuyết×1; thoát×1	thieu_am
+梴	U+68B4		siên×1	thieu_am
+梵	U+68B5	Phạm/Phạn	phạn×11	lech_tu_dien
+梶	U+68B6			thieu_am
+棄	U+68C4	Khí	khí×10	khop_tu_dien
+棊	U+68CA	Kỳ	kì×1	khop_tu_dien
+棋	U+68CB	Kỳ	kì×4; ki×1	khop_tu_dien
+棐	U+68D0	Phỉ	phỉ×1	khop_tu_dien
+棖	U+68D6		tranh×1	thieu_am
+棗	U+68D7	Táo/Tảo	tảo×2	lech_tu_dien
+棘	U+68D8	Cức	cức×9	khop_tu_dien
+棟	U+68DF	Đống	đống×4	khop_tu_dien
+棠	U+68E0	Đường	đường×2	khop_tu_dien
+棡	U+68E1		cương×1	thieu_am
+棣	U+68E3	Đệ	đệ×1	khop_tu_dien
+棧	U+68E7	Sạn	sạn×5; trản×1	khop_tu_dien
+棨	U+68E8	Khể	khải×1; khể×1	khop_tu_dien
+棫	U+68EB	Vực		khong_co_trong_tu_dien
+棭	U+68ED			thieu_am
+森	U+68EE	Sâm	sâm×9	khop_tu_dien
+棱	U+68F1	Lăng	lăng×4	khop_tu_dien
+棲	U+68F2	Thê	thê×4	khop_tu_dien
+棹	U+68F9	Trạo	trác×1; trạo×1	khop_tu_dien
+棺	U+68FA	Quan	quan×6	khop_tu_dien
+棻	U+68FB	Phân	phân×1	khop_tu_dien
+棼	U+68FC	Phần	phần×1	khop_tu_dien
+椅	U+6905	Ỷ	ỷ×3; y×1	khop_tu_dien
+椇	U+6907		củ×1	thieu_am
+椉	U+6909	Thừa		khong_co_trong_tu_dien
+植	U+690D	Thực	thực×6; trị×1	khop_tu_dien
+椎	U+690E	Chùy/Trùy	chuỳ×4; chùy×1	khop_tu_dien
+椑	U+6911		bế×1; tích×1	thieu_am
+椒	U+6912	Tiêu	tiêu×2	khop_tu_dien
+椽	U+693D		triện×1	thieu_am
+椿	U+693F	Xuân	xuân×4	khop_tu_dien
+楉	U+6949		nhược×1	thieu_am
+楊	U+694A	Dương	dương×7	khop_tu_dien
+楓	U+6953	Phong	phong×2	khop_tu_dien
+楙	U+6959	Mậu	mậu×1	khop_tu_dien
+楚	U+695A	Sở	sở×16	khop_tu_dien
+楞	U+695E	Lăng	lăng×3	khop_tu_dien
+楠	U+6960	Nam	nam×1	khop_tu_dien
+楨	U+6968	Trinh	trinh×1	khop_tu_dien
+楩	U+6969	Biền		khong_co_trong_tu_dien
+楫	U+696B	Tiếp	tiếp×1	khop_tu_dien
+業	U+696D	Nghiệp	nghiệp×67	khop_tu_dien
+楮	U+696E	Chử	chử×1	khop_tu_dien
+楳	U+6973	Mai	mai×1	khop_tu_dien
+極	U+6975	Cực	cực×36	khop_tu_dien
+楷	U+6977	Khải	giai×1; khải×1	khop_tu_dien
+榆	U+6986	Du	du×2	khop_tu_dien
+榎	U+698E			thieu_am
+榔	U+6994	Lang	lang×1; chất×1	khop_tu_dien
+榕	U+6995	Dung	dung×1	khop_tu_dien
+榖	U+6996	Cốc	cốc×3	khop_tu_dien
+榘	U+6998	Củ	củ×1	khop_tu_dien
+榛	U+699B	Trăn/Trân	trân×1	lech_tu_dien
+榜	U+699C	Bảng	bảng×18; báng×1	khop_tu_dien
+榦	U+69A6	Cán	cán×1	khop_tu_dien
+榭	U+69AD	Tạ	tạ×2	khop_tu_dien
+榮	U+69AE	Vinh	vinh×20	khop_tu_dien
+榻	U+69BB	Tháp	tháp×1	khop_tu_dien
+槁	U+69C1	Cảo	cảo×1	khop_tu_dien
+槃	U+69C3	Bàn	bàn×1	khop_tu_dien
+構	U+69CB	Cấu	cấu×5	khop_tu_dien
+槎	U+69CE	Tra	tra×1	khop_tu_dien
+槐	U+69D0	Hòe	hoè×2	khop_tu_dien
+槩	U+69E9	Khái		khong_co_trong_tu_dien
+槫	U+69EB	Đoàn		khong_co_trong_tu_dien
+槿	U+69FF	Cận/Cẩn	cẩn×3	lech_tu_dien
+樂	U+6A02	Nhạc/Lạc	lạc×29; nhạc×21; nhạo×1	khop_tu_dien
+樊	U+6A0A	Phàn/Phiền	phiền×1	lech_tu_dien
+樑	U+6A11	Lương	lương×1	khop_tu_dien
+樓	U+6A13	Lâu	lâu×17	khop_tu_dien
+樗	U+6A17	Xu/Sư	sư×4	lech_tu_dien
+樘	U+6A18	Đường/Sanh	sanh×1	lech_tu_dien
+標	U+6A19	Tiêu	tiêu×14; phiêu×1	khop_tu_dien
+樞	U+6A1E	Xu	xu×9; khu×1	khop_tu_dien
+樟	U+6A1F	Chương	chương×1	khop_tu_dien
+模	U+6A21	Mô	mô×10	khop_tu_dien
+樵	U+6A35	Tiều	tiều×6	khop_tu_dien
+樸	U+6A38	Phác	phác×18	khop_tu_dien
+樹	U+6A39	Thụ	thụ×9	khop_tu_dien
+樺	U+6A3A	Hoa		khong_co_trong_tu_dien
+樻	U+6A3B	Quỹ	quỹ×1	khop_tu_dien
+樾	U+6A3E	Việt	việt×2	khop_tu_dien
+橋	U+6A4B	Kiều	kiều×10; kiểu×2; kiếu×1	khop_tu_dien
+橒	U+6A52			thieu_am
+橖	U+6A56			thieu_am
+橘	U+6A58	Quất	quất×2	khop_tu_dien
+機	U+6A5F	Cơ	cơ×42; ki×1	khop_tu_dien
+橫	U+6A6B	Hoành	hoành×15; hoạnh×5	khop_tu_dien
+檀	U+6A80	Đàn	đàn×4	khop_tu_dien
+檄	U+6A84	Hịch	hịch×5	khop_tu_dien
+檉	U+6A89	Sanh	sanh×2	am_doan_chua_chac
+檖	U+6A96	Toại		khong_co_trong_tu_dien
+檗	U+6A97	Bá/Bách	bách×1	lech_tu_dien
+檜	U+6A9C	Cối	cối×1	khop_tu_dien
+檝	U+6A9D	Tiếp	tiếp×1	khop_tu_dien
+檟	U+6A9F		giả×1	thieu_am
+檢	U+6AA2	Kiểm	kiểm×14	khop_tu_dien
+檮	U+6AAE	Đào	đào×1	khop_tu_dien
+櫂	U+6AC2	Trạo	trạo×2; trạc×1	khop_tu_dien
+櫛	U+6ADB	Trất	trất×2	khop_tu_dien
+櫟	U+6ADF	Lịch	dược×2; lịch×1	khop_tu_dien
+櫱	U+6AF1	Nghiệt	nghiệt×1	khop_tu_dien
+櫸	U+6AF8	Cử	cử×1	khop_tu_dien
+櫺	U+6AFA	Linh	linh×1	khop_tu_dien
+櫻	U+6AFB	Anh	anh×3	khop_tu_dien
+櫾	U+6AFE		dứu×1	thieu_am
+權	U+6B0A	Quyền	quyền×59; quền×1	khop_tu_dien
+欒	U+6B12	Loan	loan×2	khop_tu_dien
+欓	U+6B13		đảng×1	thieu_am
+次	U+6B21	Thứ	thứ×16; tư×1	khop_tu_dien
+欣	U+6B23	Hân	hân×5	khop_tu_dien
+欲	U+6B32	Dục	dục×12	khop_tu_dien
+欹	U+6B39	Y/Khi	khi×1	lech_tu_dien
+欺	U+6B3A	Khi	khi×6	khop_tu_dien
+欽	U+6B3D	Khâm	khâm×8; khấm×1	khop_tu_dien
+歅	U+6B45		nhân×1	thieu_am
+歆	U+6B46	Hâm	hâm×2	khop_tu_dien
+歇	U+6B47	Yết/Hiết	yết×2; hiết×1	khop_tu_dien
+歊	U+6B4A		hiêu×1	thieu_am
+歌	U+6B4C	Ca	ca×54	khop_tu_dien
+歎	U+6B4E	Thán	thán×4	khop_tu_dien
+歐	U+6B50	Âu	âu×16; ẩu×1	khop_tu_dien
+歡	U+6B61	Hoan	hoan×14	khop_tu_dien
+止	U+6B62	Chỉ	chỉ×15	khop_tu_dien
+正	U+6B63	Chính	chính×67; chinh×1	khop_tu_dien
+此	U+6B64	Thử	thử×5	khop_tu_dien
+步	U+6B65	Bộ	bộ×37	khop_tu_dien
+武	U+6B66	Võ	vũ×33; võ×1; võ×1	khop_tu_dien
+歲	U+6B72	Tuế	tuế×18	khop_tu_dien
+歷	U+6B77	Lịch	lịch×6	khop_tu_dien
+歸	U+6B78	Quy	quy×48	khop_tu_dien
+歹	U+6B79	Đãi/Ngạt	ngạt×1	lech_tu_dien
+殃	U+6B83	Ương	ương×4	khop_tu_dien
+殊	U+6B8A	Thù	thù×2	khop_tu_dien
+殑	U+6B91		căng×1	thieu_am
+殘	U+6B98	Tàn	tàn×57	khop_tu_dien
+殳	U+6BB3	Thù	thù×1	khop_tu_dien
+段	U+6BB5	Đoạn	đoạn×4; đoán×1	khop_tu_dien
+殷	U+6BB7	Ân	ân×11; ẩn×3	khop_tu_dien
+殼	U+6BBC	Xác	xác×3	khop_tu_dien
+殿	U+6BBF	Điện	điện×8; đán×1	khop_tu_dien
+毀	U+6BC0	Hủy	huỷ×8; hủy×1	khop_tu_dien
+毅	U+6BC5	Nghị	nghị×7	khop_tu_dien
+母	U+6BCD	Mẫu	mẫu×59	khop_tu_dien
+毒	U+6BD2	Độc	độc×29; đại×1; đốc×1	khop_tu_dien
+毓	U+6BD3	Dục	dục×1	khop_tu_dien
+比	U+6BD4	Tỷ/Bỉ	tỉ×12	khop_tu_dien
+毖	U+6BD6	Bí	bí×1	khop_tu_dien
+毗	U+6BD7	Tỳ	tì×2	khop_tu_dien
+毘	U+6BD8	Tỳ	tì×2	khop_tu_dien
+毛	U+6BDB	Mao	mao×18; mô×1	khop_tu_dien
+毬	U+6BEC	Cầu	cầu×1	khop_tu_dien
+毱	U+6BF1	Cúc		khong_co_trong_tu_dien
+氏	U+6C0F	Thị	thị×5	khop_tu_dien
+民	U+6C11	Dân	dân×84	khop_tu_dien
+氣	U+6C23	Khí	khí×97; khi×1	khop_tu_dien
+氤	U+6C24	Nhân		khong_co_trong_tu_dien
+水	U+6C34	Thủy	thủy×50; thuỷ×25; thuỷ×1	khop_tu_dien
+氵	U+6C35			thieu_am
+氷	U+6C37	Băng	băng×1	khop_tu_dien
+永	U+6C38	Vĩnh	vĩnh×14	khop_tu_dien
+氾	U+6C3E	Phiếm	phiếm×6	khop_tu_dien
+汀	U+6C40	Đinh	đinh×1	khop_tu_dien
+求	U+6C42	Cầu	cầu×41	khop_tu_dien
+汋	U+6C4B		chước×1; thược×1	thieu_am
+汎	U+6C4E	Phiếm	phạp×1; phiếm×1; phùng×1	khop_tu_dien
+汕	U+6C55	Sán/San	san×1	lech_tu_dien
+汗	U+6C57	Hãn	hãn×25	khop_tu_dien
+汘	U+6C58			thieu_am
+汛	U+6C5B	Tấn	tấn×3	khop_tu_dien
+汜	U+6C5C	Tỵ/Tỉ	tỉ×1	lech_tu_dien
+汝	U+6C5D	Nhữ	nhữ×2	khop_tu_dien
+江	U+6C5F	Giang	giang×21	khop_tu_dien
+池	U+6C60	Trì	trì×10	khop_tu_dien
+汧	U+6C67		khiên×1	thieu_am
+汪	U+6C6A	Uông	uông×7	khop_tu_dien
+汭	U+6C6D	Nhuế	nhuế×1	khop_tu_dien
+汯	U+6C6F		hoành×1	thieu_am
+汰	U+6C70	Thải	thải×6	khop_tu_dien
+汲	U+6C72	Cấp	cấp×4	khop_tu_dien
+汴	U+6C74	Biện	biện×1	khop_tu_dien
+汶	U+6C76	Vấn	vấn×1	khop_tu_dien
+汸	U+6C78		bàng×3	thieu_am
+決	U+6C7A	Quyết	quyết×37; khuyết×1; huyết×1	khop_tu_dien
+汾	U+6C7E	Phần	phần×1	khop_tu_dien
+沁	U+6C81	Thấm	sấm×1; thấm×1	khop_tu_dien
+沂	U+6C82	Nghi	ngân×1; nghi×1	khop_tu_dien
+沃	U+6C83	Ốc	ốc×9	khop_tu_dien
+沄	U+6C84	Vân		khong_co_trong_tu_dien
+沅	U+6C85	Nguyên	nguyên×1	khop_tu_dien
+沆	U+6C86	Hạng/Hàng	hàng×1; hãng×1	lech_tu_dien
+沇	U+6C87			thieu_am
+沈	U+6C88	Thẩm/Trầm	trầm×37	lech_tu_dien
+沉	U+6C89	Trầm	trầm×1	khop_tu_dien
+沐	U+6C90	Mộc	mộc×5	khop_tu_dien
+沒	U+6C92	Một	một×8	khop_tu_dien
+沔	U+6C94	Miện/Miễn	miễn×1	lech_tu_dien
+沖	U+6C96	Xung	xung×2	khop_tu_dien
+沙	U+6C99	Sa	sa×28	khop_tu_dien
+沛	U+6C9B	Bái	bái×3	khop_tu_dien
+沢	U+6CA2	Trạch		khong_co_trong_tu_dien
+沮	U+6CAE	Thư/Tư	thư×1; tư×1; tự×1	khop_tu_dien
+河	U+6CB3	Hà	hà×40	khop_tu_dien
+沸	U+6CB8	Phí/Phất	phí×3	khop_tu_dien
+油	U+6CB9	Du	du×10	khop_tu_dien
+沺	U+6CBA		điền×1	thieu_am
+治	U+6CBB	Trị	trị×37	khop_tu_dien
+沼	U+6CBC	Chiểu	chiểu×1	khop_tu_dien
+沾	U+6CBE	Triêm	triêm×8; thiêm×1	khop_tu_dien
+沿	U+6CBF	Duyên	duyên×4	khop_tu_dien
+況	U+6CC1	Huống	huống×2	khop_tu_dien
+泂	U+6CC2		huýnh×1	thieu_am
+泄	U+6CC4	Tiết	tiết×6; duệ×3	khop_tu_dien
+泉	U+6CC9	Tuyền	tuyền×14; toàn×1	khop_tu_dien
+泊	U+6CCA	Bạc	bạc×7	khop_tu_dien
+泌	U+6CCC	Bí	bí×1	khop_tu_dien
+泐	U+6CD0	Lặc	lặc×1	khop_tu_dien
+泓	U+6CD3	Hoằng	hoằng×1	khop_tu_dien
+法	U+6CD5	Pháp	pháp×139; lệ×1	khop_tu_dien
+泗	U+6CD7	Tứ	tứ×1	khop_tu_dien
+泚	U+6CDA	Thử	thử×1	khop_tu_dien
+泛	U+6CDB	Phiếm	phiếm×14; phủng×1	khop_tu_dien
+泝	U+6CDD	Tố	tố×1	khop_tu_dien
+波	U+6CE2	Ba	ba×40	khop_tu_dien
+泥	U+6CE5	Nê	nê×13; nệ×4; nễ×1	khop_tu_dien
+注	U+6CE8	Chú	chú×16	khop_tu_dien
+泩	U+6CE9	Sanh		am_doan_chua_chac
+泮	U+6CEE	Phán	phán×2	khop_tu_dien
+泯	U+6CEF	Mẫn	dân×1; mẫn×1	khop_tu_dien
+泰	U+6CF0	Thái	thái×6	khop_tu_dien
+泲	U+6CF2	Tế	tế×1	khop_tu_dien
+泳	U+6CF3	Vịnh	vịnh×3	khop_tu_dien
+洇	U+6D07	Nhân		khong_co_trong_tu_dien
+洋	U+6D0B	Dương	dương×23	khop_tu_dien
+洎	U+6D0E	Kỵ	kị×1	am_doan_chua_chac
+洗	U+6D17	Tẩy	tẩy×14; tiển×1	khop_tu_dien
+洙	U+6D19	Chu/Thù	thù×1	lech_tu_dien
+洛	U+6D1B	Lạc	lạc×4	khop_tu_dien
+洞	U+6D1E	Động	động×4	khop_tu_dien
+津	U+6D25	Tân	tân×5	khop_tu_dien
+洧	U+6D27		vị×2	thieu_am
+洩	U+6D29	Tiết/Duệ	tiết×4; duệ×1	khop_tu_dien
+洪	U+6D2A	Hồng	hồng×9; hồng×2	khop_tu_dien
+洮	U+6D2E	Thao	thao×1	khop_tu_dien
+洲	U+6D32	Châu	châu×11	khop_tu_dien
+洵	U+6D35	Tuân	tuân×1; tuần×1	khop_tu_dien
+洸	U+6D38	Quang	quang×1; hoảng×1	khop_tu_dien
+洹	U+6D39	Hoàn/Viên	viên×3	lech_tu_dien
+活	U+6D3B	Hoạt	hoạt×23	khop_tu_dien
+洽	U+6D3D	Hiệp	hiệp×1	khop_tu_dien
+派	U+6D3E	Phái	phái×21	khop_tu_dien
+流	U+6D41	Lưu	lưu×53	khop_tu_dien
+浄	U+6D44	Tịnh		khong_co_trong_tu_dien
+浙	U+6D59	Chiết/Triết	triết×2	lech_tu_dien
+浚	U+6D5A	Tuấn	tuấn×5	khop_tu_dien
+浟	U+6D5F	Du	du×3	khop_tu_dien
+浣	U+6D63	Hoán	hoán×1	khop_tu_dien
+浦	U+6D66	Phổ/Phố	phố×3	lech_tu_dien
+浩	U+6D69	Hạo	hạo×4	khop_tu_dien
+浪	U+6D6A	Lãng	lãng×13; lang×1	khop_tu_dien
+浮	U+6D6E	Phù	phù×38	khop_tu_dien
+浴	U+6D74	Dục	dục×5	khop_tu_dien
+海	U+6D77	Hải	hải×77	khop_tu_dien
+浸	U+6D78	Tẩm	tẩm×10	khop_tu_dien
+浹	U+6D79	Hiệp/Tiếp	tiếp×1	lech_tu_dien
+涂	U+6D82	Đồ	đồ×1; đồ×1	khop_tu_dien
+涅	U+6D85	Niết	niết×1	khop_tu_dien
+涇	U+6D87	Kinh	kinh×1	khop_tu_dien
+消	U+6D88	Tiêu	tiêu×20	khop_tu_dien
+涉	U+6D89	Thiệp	thiệp×7	khop_tu_dien
+涌	U+6D8C	Dũng	dũng×2	khop_tu_dien
+涍	U+6D8D			thieu_am
+涑	U+6D91	Tốc	tâu×1; tốc×1	khop_tu_dien
+涓	U+6D93	Quyên	quyên×8	khop_tu_dien
+涔	U+6D94	Sầm	sầm×3	khop_tu_dien
+涗	U+6D97			thieu_am
+涪	U+6DAA	Phù	phù×1	khop_tu_dien
+涫	U+6DAB		quan×1; quản×1	thieu_am
+涯	U+6DAF	Nhai	nhai×9	khop_tu_dien
+液	U+6DB2	Dịch	dịch×14	khop_tu_dien
+涵	U+6DB5	Hàm	hàm×3	khop_tu_dien
+涼	U+6DBC	Lương	lương×6; lượng×1	khop_tu_dien
+涿	U+6DBF	Trác	trác×1	khop_tu_dien
+淅	U+6DC5	Tích	tích×1	khop_tu_dien
+淇	U+6DC7	Kỳ	kì×2	khop_tu_dien
+淉	U+6DC9			thieu_am
+淋	U+6DCB	Lâm	lâm×7	khop_tu_dien
+淏	U+6DCF	Hạo	hạo×1	khop_tu_dien
+淑	U+6DD1	Thục	thục×4	khop_tu_dien
+淓	U+6DD3			thieu_am
+淖	U+6DD6		xước×1; náo×1	thieu_am
+淙	U+6DD9	Tông	tông×1	khop_tu_dien
+淛	U+6DDB	Chiết		khong_co_trong_tu_dien
+淞	U+6DDE	Tùng		khong_co_trong_tu_dien
+淡	U+6DE1	Đạm	đạm×14; đàm×1	khop_tu_dien
+淥	U+6DE5	Lục	lục×1	khop_tu_dien
+淦	U+6DE6	Cám/Cam	cam×1	lech_tu_dien
+淨	U+6DE8	Tịnh	tịnh×2	khop_tu_dien
+淩	U+6DE9	Lăng	lăng×6	khop_tu_dien
+淬	U+6DEC	Thôi/Tuỵ	tuỵ×1	lech_tu_dien
+淮	U+6DEE	Hoài	hoài×2	khop_tu_dien
+深	U+6DF1	Thâm	thâm×23	khop_tu_dien
+淳	U+6DF3	Thuần	thuần×4	khop_tu_dien
+淴	U+6DF4		hốt×1; ốt×1	thieu_am
+淵	U+6DF5	Uyên	uyên×12	khop_tu_dien
+淶	U+6DF6	Lai	lai×1	khop_tu_dien
+混	U+6DF7	Hỗn	hỗn×11; côn×1	khop_tu_dien
+淸	U+6DF8	Thanh		khong_co_trong_tu_dien
+淹	U+6DF9	Yêm	yêm×15; yểm×2	khop_tu_dien
+淺	U+6DFA	Thiển	thiển×10; tiên×1	khop_tu_dien
+添	U+6DFB	Thiêm	thiêm×2	khop_tu_dien
+淼	U+6DFC	Diểu/Miểu	miểu×1	lech_tu_dien
+清	U+6E05	Thanh	thanh×34; sảnh×1	khop_tu_dien
+渙	U+6E19	Hoán	hoán×3	khop_tu_dien
+渚	U+6E1A	Chử	chử×3	khop_tu_dien
+減	U+6E1B	Giảm	giảm×14	khop_tu_dien
+渠	U+6E20	Cừ	cừ×6; cự×1	khop_tu_dien
+渡	U+6E21	Độ	độ×7	khop_tu_dien
+渢	U+6E22		phùng×1	thieu_am
+渣	U+6E23	Tra	tra×2	khop_tu_dien
+渤	U+6E24	Bột	bột×2	khop_tu_dien
+渥	U+6E25	Ốc	ốc×3; ác×3	khop_tu_dien
+渦	U+6E26	Oa	oa×2; qua×1	am_doan_chua_chac
+温	U+6E29	Ôn	ôn×1	khop_tu_dien
+測	U+6E2C	Trắc	trắc×10	khop_tu_dien
+渭	U+6E2D	Vị	vị×1	khop_tu_dien
+港	U+6E2F	Cảng	cảng×10; hống×1	khop_tu_dien
+渲	U+6E32	Huyễn/Tuyển	tuyển×1	lech_tu_dien
+渴	U+6E34	Khát	khát×9; kiệt×1; hạt×1	khop_tu_dien
+渵	U+6E35			thieu_am
+渶	U+6E36			thieu_am
+游	U+6E38	Du	du×19	khop_tu_dien
+渺	U+6E3A	Miễu/Miểu	miểu×4	lech_tu_dien
+渾	U+6E3E	Hồn	hồn×6; hỗn×1	khop_tu_dien
+湄	U+6E44	My	mi×1	khop_tu_dien
+湉	U+6E49	Điềm	điềm×1	khop_tu_dien
+湊	U+6E4A	Thấu	thấu×1	khop_tu_dien
+湋	U+6E4B	Vi	vi×1	khop_tu_dien
+湍	U+6E4D	Thoan	thoan×1	khop_tu_dien
+湑	U+6E51		tư×1	thieu_am
+湖	U+6E56	Hồ	hồ×6	khop_tu_dien
+湘	U+6E58	Tương	tương×2	khop_tu_dien
+湙	U+6E59			thieu_am
+湛	U+6E5B	Trạm	trạm×5; trầm×1; tiêm×1	khop_tu_dien
+湜	U+6E5C	Thực	thực×1	khop_tu_dien
+湝	U+6E5D	Giai	giai×1	khop_tu_dien
+湞	U+6E5E	Trinh	trinh×2; sanh×1	khop_tu_dien
+湟	U+6E5F	Hoàng	hoàng×3	khop_tu_dien
+湡	U+6E61		ngu×1	thieu_am
+湧	U+6E67	Dũng	dũng×1	khop_tu_dien
+湩	U+6E69		đống×1	thieu_am
+湫	U+6E6B	Thu/Tưu	tưu×1; tiểu×1	lech_tu_dien
+湯	U+6E6F	Thang	thang×2	khop_tu_dien
+湻	U+6E7B	Thuần		khong_co_trong_tu_dien
+溈	U+6E88	Quy		khong_co_trong_tu_dien
+溉	U+6E89	Khái	khái×2; cái×1	khop_tu_dien
+溋	U+6E8B			thieu_am
+溍	U+6E8D	Tấn		khong_co_trong_tu_dien
+源	U+6E90	Nguyên	nguyên×15	khop_tu_dien
+準	U+6E96	Chuẩn	chuẩn×16	khop_tu_dien
+溟	U+6E9F	Minh	minh×5	khop_tu_dien
+溢	U+6EA2	Dật	dật×11	khop_tu_dien
+溥	U+6EA5	Phổ	bạc×2; phổ×1; phu×1	khop_tu_dien
+溧	U+6EA7	Lật	lật×1	khop_tu_dien
+溪	U+6EAA	Khê	khê×9	khop_tu_dien
+溫	U+6EAB	Ôn	ôn×31	khop_tu_dien
+溯	U+6EAF	Tố	tố×1	khop_tu_dien
+溱	U+6EB1	Trăn/Trân	trân×1	lech_tu_dien
+溶	U+6EB6	Dong/Dung	dung×5	lech_tu_dien
+滂	U+6EC2	Bàng	bàng×11	khop_tu_dien
+滄	U+6EC4	Thương	thương×2	khop_tu_dien
+滅	U+6EC5	Diệt	diệt×29	khop_tu_dien
+滉	U+6EC9	Hoảng	hoảng×1	khop_tu_dien
+滋	U+6ECB	Tư	tư×2	khop_tu_dien
+滌	U+6ECC	Địch	địch×2	khop_tu_dien
+滑	U+6ED1	Hoạt	hoạt×8; cốt×1	khop_tu_dien
+滔	U+6ED4	Thao	thao×1	khop_tu_dien
+滕	U+6ED5	Đằng	đằng×1	khop_tu_dien
+滬	U+6EEC	Hỗ	hỗ×1	khop_tu_dien
+滯	U+6EEF	Trệ	trệ×9	khop_tu_dien
+滴	U+6EF4	Trích	trích×5	khop_tu_dien
+滽	U+6EFD		dung×1	thieu_am
+滾	U+6EFE	Cổn	cổn×1	khop_tu_dien
+滿	U+6EFF	Mãn	mãn×29; muộn×1	khop_tu_dien
+漁	U+6F01	Ngư	ngư×9	khop_tu_dien
+漋	U+6F0B			thieu_am
+漏	U+6F0F	Lậu	lậu×17; lâu×2	khop_tu_dien
+演	U+6F14	Diễn	diễn×25	khop_tu_dien
+漚	U+6F1A	Âu	ẩu×1; âu×1	khop_tu_dien
+漢	U+6F22	Hán	hán×14	khop_tu_dien
+漣	U+6F23	Liên	liên×1	khop_tu_dien
+漩	U+6F29	Tuyền	tuyền×1	khop_tu_dien
+漪	U+6F2A	Y	y×2	khop_tu_dien
+漫	U+6F2B	Mạn	mạn×6; man×2	khop_tu_dien
+漬	U+6F2C	Tý	tí×1	am_doan_chua_chac
+漱	U+6F31	Thấu	tâu×1; thấu×1	khop_tu_dien
+漳	U+6F33	Chương	chương×1	khop_tu_dien
+漴	U+6F34		sùng×1	thieu_am
+漵	U+6F35		tự×1	thieu_am
+漸	U+6F38	Tiệm	tiệm×6; tiêm×2	khop_tu_dien
+漺	U+6F3A			thieu_am
+漼	U+6F3C	Thôi	thôi×1; tồi×1	khop_tu_dien
+漾	U+6F3E	Dạng	dạng×1	khop_tu_dien
+漿	U+6F3F	Tương	tương×4	khop_tu_dien
+潁	U+6F41	Dĩnh	dĩnh×1	khop_tu_dien
+潓	U+6F53	Huệ		khong_co_trong_tu_dien
+潔	U+6F54	Khiết	khiết×10	khop_tu_dien
+潘	U+6F58	Phan	phan×2; bàn×1	khop_tu_dien
+潙	U+6F59	Quy	quy×3	khop_tu_dien
+潚	U+6F5A		tiêu×2; túc×1	thieu_am
+潛	U+6F5B	Tiềm	tiềm×19	khop_tu_dien
+潜	U+6F5C	Tiềm		khong_co_trong_tu_dien
+潞	U+6F5E	Lộ	lộ×1	khop_tu_dien
+潡	U+6F61			thieu_am
+潢	U+6F62	Hoàng	hoàng×1; hoảng×1	khop_tu_dien
+潤	U+6F64	Nhuận	nhuận×14	khop_tu_dien
+潪	U+6F6A			thieu_am
+潭	U+6F6D	Đàm	đàm×1; tầm×1	khop_tu_dien
+潮	U+6F6E	Triều	triều×10; trào×4	khop_tu_dien
+澁	U+6F81	Sáp	sáp×1	khop_tu_dien
+澂	U+6F82	Trừng	trừng×1	khop_tu_dien
+澄	U+6F84	Trừng	trừng×5	khop_tu_dien
+澈	U+6F88	Triệt	triệt×1	khop_tu_dien
+澍	U+6F8D	Thụ	thụ×1	khop_tu_dien
+澎	U+6F8E	Bành	bành×5	khop_tu_dien
+澐	U+6F90	Vân	vân×1	khop_tu_dien
+澓	U+6F93		phục×1	thieu_am
+澔	U+6F94	Hạo	hạo×1	khop_tu_dien
+澗	U+6F97	Giản	giản×1	khop_tu_dien
+澡	U+6FA1	Tháo	táo×2; tháo×1	khop_tu_dien
+澣	U+6FA3	Hoán	cán×1; hoán×1; hoãn×1	khop_tu_dien
+澤	U+6FA4	Trạch	trạch×15; dịch×1; thích×1	khop_tu_dien
+澥	U+6FA5	Giải		khong_co_trong_tu_dien
+澧	U+6FA7	Lễ	lễ×1	khop_tu_dien
+澯	U+6FAF	Xán		khong_co_trong_tu_dien
+澳	U+6FB3	Úc	áo×2; úc×1	khop_tu_dien
+澹	U+6FB9	Đạm	đạm×3; đàm×1	khop_tu_dien
+激	U+6FC0	Khích	khích×5; kích×2	khop_tu_dien
+濁	U+6FC1	Trọc	trọc×6	khop_tu_dien
+濂	U+6FC2	Liêm	liêm×1	khop_tu_dien
+濃	U+6FC3	Nùng	nùng×5	khop_tu_dien
+濆	U+6FC6		phần×1; phẫn×1	thieu_am
+濊	U+6FCA	Uế	uế×1; khoát×1	khop_tu_dien
+濋	U+6FCB		sở×1	thieu_am
+濌	U+6FCC			thieu_am
+濎	U+6FCE		đỉnh×1	thieu_am
+濓	U+6FD3	Liêm		khong_co_trong_tu_dien
+濕	U+6FD5	Thấp	thấp×3; sấp×1	khop_tu_dien
+濙	U+6FD9			thieu_am
+濛	U+6FDB	Mông	mông×4	khop_tu_dien
+濞	U+6FDE		tị×5	thieu_am
+濟	U+6FDF	Tế	tế×19	khop_tu_dien
+濠	U+6FE0	Hào	hào×1	khop_tu_dien
+濡	U+6FE1	Nhu	nhu×7; nhuyên×1; nhi×1	khop_tu_dien
+濤	U+6FE4	Đào	đào×4	khop_tu_dien
+濬	U+6FEC	Tuấn	tuấn×1	khop_tu_dien
+濮	U+6FEE	Bộc	bộc×4	khop_tu_dien
+濯	U+6FEF	Trạc	trạc×3; trạo×1	khop_tu_dien
+濰	U+6FF0	Duy	duy×1	khop_tu_dien
+濱	U+6FF1	Tân	tân×3	khop_tu_dien
+濵	U+6FF5	Tân		khong_co_trong_tu_dien
+濶	U+6FF6	Khoát	khoát×1	khop_tu_dien
+瀇	U+7007		oảng×1	thieu_am
+瀉	U+7009	Tả	tả×5; tạ×2	khop_tu_dien
+瀍	U+700D	Triền	triền×1	khop_tu_dien
+瀏	U+700F	Lưu	lưu×1	khop_tu_dien
+瀚	U+701A	Hãn	hãn×2	khop_tu_dien
+瀛	U+701B	Doanh	doanh×2	khop_tu_dien
+瀞	U+701E	Tĩnh/Tịnh	tịnh×1	lech_tu_dien
+瀟	U+701F	Tiêu		khong_co_trong_tu_dien
+瀠	U+7020	Oanh	oanh×1	khop_tu_dien
+瀨	U+7028	Lại	lại×1	khop_tu_dien
+瀬	U+702C	Lại		khong_co_trong_tu_dien
+瀹	U+7039	Thược/Dược	dược×1	lech_tu_dien
+瀾	U+703E	Lan	lan×6	khop_tu_dien
+灂	U+7042		trạc×1	thieu_am
+灊	U+704A	Tiềm	tiềm×1	am_doan_chua_chac
+灋	U+704B	Pháp	pháp×1	khop_tu_dien
+灌	U+704C	Quán	quán×4	khop_tu_dien
+灑	U+7051	Sái	sái×7; si×2; tẩy×1	khop_tu_dien
+灝	U+705D	Hạo	hạo×1	khop_tu_dien
+灞	U+705E	Bá	bá×2	khop_tu_dien
+火	U+706B	Hỏa	hoả×30; hỏa×29	khop_tu_dien
+灰	U+7070	Hôi	khôi×7; hôi×4	khop_tu_dien
+灼	U+707C	Chước	chước×5	khop_tu_dien
+災	U+707D	Tai	tai×25; tài×1	khop_tu_dien
+炅	U+7085	Quýnh/Quế	quế×1	lech_tu_dien
+炆	U+7086	Văn		khong_co_trong_tu_dien
+炎	U+708E	Viêm	viêm×15; diễm×1	khop_tu_dien
+炟	U+709F	Đát		khong_co_trong_tu_dien
+炡	U+70A1			thieu_am
+炤	U+70A4	Chiếu	chiêu×1; chiếu×1; chiểu×1	khop_tu_dien
+炫	U+70AB	Huyễn	huyễn×3	khop_tu_dien
+炬	U+70AC	Cự	cự×2	khop_tu_dien
+炯	U+70AF	Quýnh	quýnh×3	khop_tu_dien
+炳	U+70B3	Bính	bính×2; bỉnh×2	khop_tu_dien
+為	U+70BA	Vi/Vị	vi×4	khop_tu_dien
+烈	U+70C8	Liệt	liệt×18	khop_tu_dien
+烋	U+70CB		hao×2; hưu×1	thieu_am
+烏	U+70CF	Ô	ô×21	khop_tu_dien
+烜	U+70DC	Huyên	huyên×1; hủy×1	khop_tu_dien
+烟	U+70DF	Yên	nhân×1; yên×1	khop_tu_dien
+烱	U+70F1	Quýnh	quýnh×1	khop_tu_dien
+烴	U+70F4		kính×1	thieu_am
+烺	U+70FA	Lãng	lãng×1	khop_tu_dien
+焉	U+7109	Yên	yên×3; diên×1	khop_tu_dien
+焜	U+711C	Côn/Hỗn	hỗn×1	lech_tu_dien
+焞	U+711E		đôn×1	thieu_am
+無	U+7121	Vô	vô×105	khop_tu_dien
+焦	U+7126	Tiêu	tiêu×3	khop_tu_dien
+焯	U+712F	Chước	chước×1	khop_tu_dien
+焰	U+7130	Diễm	diệm×1; diễm×1	khop_tu_dien
+焱	U+7131	Diễm	diễm×1	khop_tu_dien
+焲	U+7132			thieu_am
+焴	U+7134			thieu_am
+然	U+7136	Nhiên	nhiên×50	khop_tu_dien
+焸	U+7138		cảnh×1	thieu_am
+煃	U+7143		khuể×1	thieu_am
+煇	U+7147	Huy	huy×2; huân×1; vận×1	khop_tu_dien
+煉	U+7149	Luyện	luyện×3	khop_tu_dien
+煊	U+714A	Huyên	huyên×1	khop_tu_dien
+煌	U+714C	Hoàng	hoàng×2	khop_tu_dien
+煒	U+7152	Vỹ	vĩ×1	khop_tu_dien
+煓	U+7153			thieu_am
+煙	U+7159	Yên	yên×22	khop_tu_dien
+煛	U+715B			thieu_am
+煜	U+715C	Dục	dục×1	khop_tu_dien
+煟	U+715F			thieu_am
+煡	U+7161			thieu_am
+煥	U+7165	Hoán	hoán×1	khop_tu_dien
+煦	U+7166	Húc/Hú	hú×1	lech_tu_dien
+照	U+7167	Chiếu	chiếu×22	khop_tu_dien
+煩	U+7169	Phiền	phiền×21	khop_tu_dien
+煮	U+716E	Chử	chử×4	khop_tu_dien
+熈	U+7188	Hi		khong_co_trong_tu_dien
+熉	U+7189			thieu_am
+熊	U+718A	Hùng	hùng×5	khop_tu_dien
+熏	U+718F	Huân	huân×3	khop_tu_dien
+熒	U+7192	Huỳnh	huỳnh×1	khop_tu_dien
+熙	U+7199	Hi	hi×3	khop_tu_dien
+熜	U+719C	Thông		khong_co_trong_tu_dien
+熟	U+719F	Thục	thục×8	khop_tu_dien
+熠	U+71A0	Dập	tập×2; dập×2	khop_tu_dien
+熱	U+71B1	Nhiệt	nhiệt×27	khop_tu_dien
+熷	U+71B7			thieu_am
+熹	U+71B9	Hi	hi×1	khop_tu_dien
+熺	U+71BA	Hi	hi×1	khop_tu_dien
+熾	U+71BE	Sí	xí×5; sí×1	khop_tu_dien
+燁	U+71C1	Diệp	diệp×1	khop_tu_dien
+燄	U+71C4	Diệm/Diễm	diễm×1	lech_tu_dien
+燈	U+71C8	Đăng	đăng×27	khop_tu_dien
+燊	U+71CA	Thân/Sân	sân×1	lech_tu_dien
+燎	U+71CE	Liệu	liệu×3	khop_tu_dien
+燏	U+71CF		uất×1	thieu_am
+燔	U+71D4	Phiền	phiền×2	khop_tu_dien
+燕	U+71D5	Yến	yến×13; yên×4	khop_tu_dien
+燖	U+71D6	Tầm	tầm×1	khop_tu_dien
+燝	U+71DD			thieu_am
+營	U+71DF	Doanh	doanh×22; dinh×3	khop_tu_dien
+燦	U+71E6	Xán	xán×2	khop_tu_dien
+燧	U+71E7	Toại	toại×2	khop_tu_dien
+燬	U+71EC	Hủy	hủy×1	khop_tu_dien
+燭	U+71ED	Chúc	chúc×8	khop_tu_dien
+燮	U+71EE	Tiếp		am_doan_chua_chac
+燾	U+71FE	Đảo	đảo×1	khop_tu_dien
+燿	U+71FF	Diệu	diệu×3; sảo×1	khop_tu_dien
+爌	U+720C		hoảng×1	thieu_am
+爍	U+720D	Thước	thước×3	khop_tu_dien
+爐	U+7210	Lô	lô×3	khop_tu_dien
+爖	U+7216			thieu_am
+爚	U+721A	Thược/Dược	dược×1	lech_tu_dien
+爝	U+721D	Tước	tước×1	khop_tu_dien
+爰	U+7230	Viên	viên×1	khop_tu_dien
+爵	U+7235	Tước	tước×16	khop_tu_dien
+父	U+7236	Phụ	phụ×36; phủ×2	khop_tu_dien
+爻	U+723B	Hào	hào×1	khop_tu_dien
+爽	U+723D	Sảng	sảng×12	khop_tu_dien
+爾	U+723E	Nhĩ	nhĩ×8; nễ×1	khop_tu_dien
+片	U+7247	Phiến	phiến×12	khop_tu_dien
+牕	U+7255	Song	song×1	khop_tu_dien
+牖	U+7256	Dũ	dũ×1	khop_tu_dien
+牙	U+7259	Nha	nha×19	khop_tu_dien
+牛	U+725B	Ngưu	ngưu×21	khop_tu_dien
+牟	U+725F	Mâu	mâu×2	khop_tu_dien
+牢	U+7262	Lao	lao×11	khop_tu_dien
+牧	U+7267	Mục	mục×14	khop_tu_dien
+物	U+7269	Vật	vật×74	khop_tu_dien
+特	U+7279	Đặc	đặc×21	khop_tu_dien
+犀	U+7280	Tê	tê×5	khop_tu_dien
+犍	U+728D	Kiền	kiền×1	khop_tu_dien
+犖	U+7296	Lạc/Lao	lao×1	lech_tu_dien
+犢	U+72A2	Độc	độc×1	khop_tu_dien
+狀	U+72C0	Trạng	trạng×22	khop_tu_dien
+狂	U+72C2	Cuồng	cuồng×18; cuồng×6	khop_tu_dien
+狃	U+72C3		nữu×1	thieu_am
+狄	U+72C4	Địch	địch×3; thích×1	khop_tu_dien
+狐	U+72D0	Hồ	hồ×5	khop_tu_dien
+狩	U+72E9	Thú	thú×3	khop_tu_dien
+狼	U+72FC	Lang	lang×5	khop_tu_dien
+猊	U+730A	Nghê	nghê×1	khop_tu_dien
+猒	U+7312	Yếm/Yêm	yêm×1	lech_tu_dien
+猗	U+7317	Y	y×4; ả×2; ỷ×2	khop_tu_dien
+猛	U+731B	Mãnh	mãnh×10	khop_tu_dien
+猜	U+731C	Sai	sai×2	khop_tu_dien
+猷	U+7337	Du	du×1	khop_tu_dien
+獃	U+7343	Ngai	ngai×1	khop_tu_dien
+獄	U+7344	Ngục	ngục×21	khop_tu_dien
+獅	U+7345	Sư	sư×4	khop_tu_dien
+獎	U+734E	Tưởng	tưởng×1	khop_tu_dien
+獜	U+735C	Lân		khong_co_trong_tu_dien
+獠	U+7360	Liêu	liêu×1	khop_tu_dien
+獨	U+7368	Độc	độc×25	khop_tu_dien
+獲	U+7372	Hoạch	hoạch×1	khop_tu_dien
+獵	U+7375	Liệp	lạp×6; liệp×1; nạp×1	khop_tu_dien
+獻	U+737B	Hiến	hiến×10; ta×2	khop_tu_dien
+玄	U+7384	Huyền	huyền×15	khop_tu_dien
+玅	U+7385	Diệu	diệu×1	khop_tu_dien
+玆	U+7386	Tư		khong_co_trong_tu_dien
+率	U+7387	Suất/Soát	suất×21	khop_tu_dien
+玉	U+7389	Ngọc	ngọc×62	khop_tu_dien
+王	U+738B	Vương	vương×53; vượng×1	khop_tu_dien
+玎	U+738E	Đinh	đinh×1	khop_tu_dien
+玓	U+7393	Đích	đích×1	khop_tu_dien
+玕	U+7395	Can	can×1	khop_tu_dien
+玖	U+7396	Cửu	cửu×1	khop_tu_dien
+玗	U+7397	Vu	vu×1	khop_tu_dien
+玘	U+7398	Khỉ		am_doan_chua_chac
+玟	U+739F	Mân	mân×1	khop_tu_dien
+玠	U+73A0	Giới	giới×1	khop_tu_dien
+玢	U+73A2	Bân		khong_co_trong_tu_dien
+玥	U+73A5	Nguyệt		khong_co_trong_tu_dien
+玨	U+73A8	Giác	giác×1	khop_tu_dien
+玩	U+73A9	Ngoạn	ngoạn×11	khop_tu_dien
+玫	U+73AB	Mai	mai×1	khop_tu_dien
+玬	U+73AC			thieu_am
+玭	U+73AD	Tần/Biền	biền×1	lech_tu_dien
+玲	U+73B2	Linh	linh×1	khop_tu_dien
+玵	U+73B5			thieu_am
+玸	U+73B8			thieu_am
+玹	U+73B9	Huyền		khong_co_trong_tu_dien
+玻	U+73BB	Pha	pha×2	khop_tu_dien
+玼	U+73BC	Thử	tì×1; thử×1	am_doan_chua_chac
+玿	U+73BF	Thiều		khong_co_trong_tu_dien
+珀	U+73C0	Phách	phách×2	khop_tu_dien
+珂	U+73C2	Kha	kha×1	khop_tu_dien
+珈	U+73C8	Gia	gia×1	khop_tu_dien
+珉	U+73C9	Mân		khong_co_trong_tu_dien
+珊	U+73CA	San	san×5	khop_tu_dien
+珌	U+73CC		tất×1	thieu_am
+珍	U+73CD	Trân	trân×15	khop_tu_dien
+珎	U+73CE	Trân	trân×1	khop_tu_dien
+珏	U+73CF	Giác	giác×1	khop_tu_dien
+珖	U+73D6	Quang		khong_co_trong_tu_dien
+珙	U+73D9	Củng	củng×1	khop_tu_dien
+珞	U+73DE	Lạc	lạc×1	khop_tu_dien
+珠	U+73E0	Châu	châu×28	khop_tu_dien
+珣	U+73E3	Tuân	tuân×1	khop_tu_dien
+珤	U+73E4	Bảo	bảo×1	khop_tu_dien
+珥	U+73E5	Nhị	nhị×1	khop_tu_dien
+珦	U+73E6	Hướng		khong_co_trong_tu_dien
+珩	U+73E9	Hành	hành×1	khop_tu_dien
+珪	U+73EA	Khuê	khuê×1	khop_tu_dien
+珫	U+73EB			thieu_am
+班	U+73ED	Ban	ban×13	khop_tu_dien
+珮	U+73EE	Bội	bội×1	khop_tu_dien
+珵	U+73F5	Trình		khong_co_trong_tu_dien
+珸	U+73F8			thieu_am
+珹	U+73F9			thieu_am
+珽	U+73FD	Đĩnh	đĩnh×1	khop_tu_dien
+現	U+73FE	Hiện	hiện×20	khop_tu_dien
+琀	U+7400	Hàm	hàm×1	khop_tu_dien
+琁	U+7401	Tuyền/Toàn	toàn×1; quỳnh×1	lech_tu_dien
+球	U+7403	Cầu	cầu×24	khop_tu_dien
+琅	U+7405	Lang	lang×2; lãng×1	khop_tu_dien
+理	U+7406	Lý	lí×70	khop_tu_dien
+琇	U+7407	Tú	tú×1	khop_tu_dien
+琈	U+7408	Phù		khong_co_trong_tu_dien
+琉	U+7409	Lưu	lưu×3	khop_tu_dien
+琊	U+740A	Da		khong_co_trong_tu_dien
+琍	U+740D			thieu_am
+琚	U+741A	Cư	cư×1	khop_tu_dien
+琛	U+741B	Sâm	sâm×1	khop_tu_dien
+琝	U+741D			thieu_am
+琡	U+7421			thieu_am
+琢	U+7422	Trác	trác×1	khop_tu_dien
+琥	U+7425	Hổ	hổ×1	khop_tu_dien
+琦	U+7426	Kỳ	kì×1	khop_tu_dien
+琨	U+7428	Côn	côn×1	khop_tu_dien
+琪	U+742A	Kỳ	kì×1	khop_tu_dien
+琬	U+742C	Uyển	uyển×1	khop_tu_dien
+琮	U+742E	Tông	tông×1	khop_tu_dien
+琯	U+742F	Quản	quản×1	khop_tu_dien
+琰	U+7430	Diễm	diễm×1	khop_tu_dien
+琳	U+7433	Lâm	lâm×2	khop_tu_dien
+琴	U+7434	Cầm	cầm×21	khop_tu_dien
+琸	U+7438			thieu_am
+瑀	U+7440	Vũ	vũ×1	khop_tu_dien
+瑃	U+7443			thieu_am
+瑄	U+7444	Tuyên	tuyên×1	khop_tu_dien
+瑊	U+744A	Giam	giam×1	khop_tu_dien
+瑋	U+744B	Vỹ	vĩ×1	khop_tu_dien
+瑍	U+744D			thieu_am
+瑎	U+744E			thieu_am
+瑑	U+7451	Triện	triện×1	khop_tu_dien
+瑒	U+7452	Dương/Sướng	sướng×1; đãng×1	lech_tu_dien
+瑕	U+7455	Hà	hà×3	khop_tu_dien
+瑗	U+7457	Viện	viện×1	khop_tu_dien
+瑘	U+7458			thieu_am
+瑚	U+745A	Hồ	hô×2; hồ×1	khop_tu_dien
+瑛	U+745B	Anh	anh×1	khop_tu_dien
+瑜	U+745C	Du	du×2	khop_tu_dien
+瑝	U+745D	Hoàng		khong_co_trong_tu_dien
+瑞	U+745E	Thụy	thụy×3	khop_tu_dien
+瑟	U+745F	Sắt	sắt×6	khop_tu_dien
+瑠	U+7460	Lưu	lưu×2	khop_tu_dien
+瑡	U+7461			thieu_am
+瑢	U+7462	Dung	dung×2	khop_tu_dien
+瑣	U+7463	Tỏa	toả×2; tỏa×2	khop_tu_dien
+瑤	U+7464	Dao	dao×5	khop_tu_dien
+瑨	U+7468	Tấn		khong_co_trong_tu_dien
+瑩	U+7469	Oánh	oánh×1	khop_tu_dien
+瑪	U+746A	Mã	mã×2	khop_tu_dien
+瑫	U+746B	Thao		khong_co_trong_tu_dien
+瑭	U+746D	Đường		khong_co_trong_tu_dien
+瑮	U+746E	Lật		khong_co_trong_tu_dien
+瑯	U+746F	Lang	lang×1	khop_tu_dien
+瑰	U+7470	Côi	côi×3	khop_tu_dien
+瑱	U+7471	Điền/Trấn	trấn×1	lech_tu_dien
+瑳	U+7473	Thoa/Tha	tha×1	lech_tu_dien
+瑴	U+7474	Cốc/Giác	giác×1	lech_tu_dien
+瑸	U+7478			thieu_am
+瑾	U+747E	Cẩn	cẩn×1	doi_chieu_sua
+璀	U+7480	Thôi/Thối	thối×1	lech_tu_dien
+璁	U+7481	Thông	thông×1	khop_tu_dien
+璂	U+7482		ki×1	thieu_am
+璃	U+7483	Ly	li×2; lê×2	khop_tu_dien
+璆	U+7486	Cầu	cầu×1	khop_tu_dien
+璇	U+7487	Tuyền	tuyền×1	khop_tu_dien
+璉	U+7489	Liên/Liễn	liễn×1	lech_tu_dien
+璋	U+748B	Chương	chương×1	khop_tu_dien
+璐	U+7490	Lộ		khong_co_trong_tu_dien
+璒	U+7492			thieu_am
+璘	U+7498	Lân	lân×2	khop_tu_dien
+璙	U+7499		liêu×1	thieu_am
+璚	U+749A	Quỳnh		khong_co_trong_tu_dien
+璜	U+749C	Hoàng	hoàng×1	khop_tu_dien
+璞	U+749E	Phác	phác×2	khop_tu_dien
+璟	U+749F	Cảnh/Kỉnh	kỉnh×1	lech_tu_dien
+璠	U+74A0	Phan	phan×1	khop_tu_dien
+璡	U+74A1	Tân/Tấn	tấn×1	lech_tu_dien
+璣	U+74A3	Cơ/Ki	ki×1	lech_tu_dien
+璦	U+74A6	Ái	ái×1	khop_tu_dien
+璧	U+74A7	Bích	bích×9	khop_tu_dien
+璨	U+74A8	Xán	xán×1	khop_tu_dien
+璩	U+74A9	Cừ	cừ×1	khop_tu_dien
+璪	U+74AA	Tảo	tảo×1	khop_tu_dien
+璫	U+74AB	Đang	đang×1; đương×1	khop_tu_dien
+環	U+74B0	Hoàn	hoàn×9	khop_tu_dien
+璲	U+74B2	Toại	toại×1	khop_tu_dien
+璵	U+74B5	Dư	dư×1; dữ×1	khop_tu_dien
+璸	U+74B8	Bân/Tân	tân×1	lech_tu_dien
+璹	U+74B9	Thục		khong_co_trong_tu_dien
+璽	U+74BD	Tỷ	tỉ×1	khop_tu_dien
+璿	U+74BF	Tuyền	tuyền×1	khop_tu_dien
+瓈	U+74C8	Ly/Lê	lê×1	lech_tu_dien
+瓊	U+74CA	Quỳnh	quỳnh×10	khop_tu_dien
+瓌	U+74CC	Khôi/Côi	côi×1	lech_tu_dien
+瓏	U+74CF	Lung	lung×1	khop_tu_dien
+瓔	U+74D4	Anh	anh×1	khop_tu_dien
+瓖	U+74D6		tương×1	thieu_am
+瓘	U+74D8	Quán	quán×1	khop_tu_dien
+瓚	U+74DA	Toản	toản×1	khop_tu_dien
+瓛	U+74DB	Hoàn		khong_co_trong_tu_dien
+瓜	U+74DC	Qua	qua×16	khop_tu_dien
+瓞	U+74DE	Điệt	điệt×1	khop_tu_dien
+瓠	U+74E0	Hồ	hồ×2	khop_tu_dien
+瓢	U+74E2	Biều	biều×3	khop_tu_dien
+瓦	U+74E6	Ngõa	ngõa×5; ngoã×1	khop_tu_dien
+瓶	U+74F6	Bình	bình×2	khop_tu_dien
+甄	U+7504	Chân	chân×4	khop_tu_dien
+甎	U+750E	Chuyên	chuyên×1	khop_tu_dien
+甑	U+7511	Tắng/Tặng	tặng×1	lech_tu_dien
+甘	U+7518	Cam	cam×21	khop_tu_dien
+生	U+751F	Sinh	sinh×162; sanh×2	khop_tu_dien
+甡	U+7521		sân×1	thieu_am
+產	U+7522	Sản	sản×53; lản×1	khop_tu_dien
+用	U+7528	Dụng	dụng×63	khop_tu_dien
+甪	U+752A		lộc×1	thieu_am
+甫	U+752B	Phủ	phủ×3	khop_tu_dien
+甬	U+752C	Dũng	dũng×1	khop_tu_dien
+甯	U+752F	Ninh	ninh×1; nịnh×1	khop_tu_dien
+田	U+7530	Điền	điền×53	khop_tu_dien
+由	U+7531	Do	do×13	khop_tu_dien
+甲	U+7532	Giáp	giáp×20	khop_tu_dien
+申	U+7533	Thân	thân×3	khop_tu_dien
+男	U+7537	Nam	nam×18	khop_tu_dien
+甸	U+7538	Điện	điện×2; điền×1	khop_tu_dien
+畊	U+754A	Canh	canh×1	khop_tu_dien
+畋	U+754B	Điền	điền×1	khop_tu_dien
+界	U+754C	Giới	giới×34	khop_tu_dien
+畏	U+754F	Úy	úy×5; uý×2	khop_tu_dien
+留	U+7559	Lưu	lưu×17	khop_tu_dien
+畝	U+755D	Mẫu	mẫu×2	khop_tu_dien
+畟	U+755F		tắc×1	thieu_am
+畢	U+7562	Tất	tất×8	khop_tu_dien
+略	U+7565	Lược	lược×32	khop_tu_dien
+畦	U+7566		huề×1	thieu_am
+畫	U+756B	Họa	hoạ×16; hoạch×8; họa×3	khop_tu_dien
+畬	U+756C		dư×1	thieu_am
+畯	U+756F	Tuấn	tuấn×1	khop_tu_dien
+異	U+7570	Dị	dị×55	khop_tu_dien
+當	U+7576	Đương	đương×30; đáng×10; đang×1	khop_tu_dien
+畹	U+7579	Uyển	uyển×1	khop_tu_dien
+畺	U+757A	Cương	cương×1	khop_tu_dien
+畿	U+757F	Kỳ	kì×1	khop_tu_dien
+疆	U+7586	Cương	cương×10	khop_tu_dien
+疇	U+7587	Trù	trù×2	khop_tu_dien
+疊	U+758A	Điệp	điệp×3	khop_tu_dien
+疎	U+758E	Sơ	sơ×3	khop_tu_dien
+疏	U+758F	Sơ	sơ×20; sớ×8	khop_tu_dien
+疑	U+7591	Nghi	nghi×24; nghĩ×1; ngưng×1	khop_tu_dien
+病	U+75C5	Bệnh	bệnh×57	khop_tu_dien
+痕	U+75D5	Ngân	ngân×1; ngấn×1	khop_tu_dien
+痴	U+75F4	Si	si×1	khop_tu_dien
+瘐	U+7610	Dũ	dũ×2	khop_tu_dien
+瘦	U+7626	Sấu	sấu×6	khop_tu_dien
+癅	U+7645			thieu_am
+癡	U+7661	Si	si×16	khop_tu_dien
+癯	U+766F	Cù	cù×1	khop_tu_dien
+癸	U+7678	Quý	quý×1	khop_tu_dien
+登	U+767B	Đăng	đăng×19	khop_tu_dien
+發	U+767C	Phát	phát×85; bát×3	khop_tu_dien
+白	U+767D	Bạch	bạch×103	khop_tu_dien
+百	U+767E	Bách	bách×54; bá×1; mạch×1	khop_tu_dien
+皁	U+7681	Tạo	tạo×3	khop_tu_dien
+的	U+7684	Đích	đích×13	khop_tu_dien
+皆	U+7686	Giai	giai×1	khop_tu_dien
+皇	U+7687	Hoàng	hoàng×31	khop_tu_dien
+皈	U+7688	Quy	quy×4	khop_tu_dien
+皋	U+768B	Cao	cao×4; hao×1	khop_tu_dien
+皎	U+768E	Hiệu	hạo×1; hiệu×1	khop_tu_dien
+皐	U+7690	Cao	cao×1	khop_tu_dien
+皓	U+7693	Hạo	hạo×3; cáo×1	khop_tu_dien
+皖	U+7696	Hoản/Hoãn	hoãn×1	lech_tu_dien
+皙	U+7699	Tích	tích×1	khop_tu_dien
+皚	U+769A	Ngải/Ngai	ngai×1	lech_tu_dien
+皛	U+769B	Hiểu	hiểu×1	khop_tu_dien
+皜	U+769C	Hạo	hạo×1	khop_tu_dien
+皞	U+769E	Hạo	hạo×1	khop_tu_dien
+皥	U+76A5	Hạo		khong_co_trong_tu_dien
+皪	U+76AA	Lịch	lịch×1	khop_tu_dien
+皮	U+76AE	Bì	bì×22	khop_tu_dien
+盂	U+76C2	Vu	vu×1	khop_tu_dien
+盃	U+76C3	Bôi	bôi×1	khop_tu_dien
+盆	U+76C6	Bồn	bồn×3; bồn×1	khop_tu_dien
+盈	U+76C8	Doanh	doanh×14	khop_tu_dien
+益	U+76CA	Ích	ích×21	khop_tu_dien
+盌	U+76CC	Oản	oản×1	khop_tu_dien
+盎	U+76CE	Áng	áng×4	khop_tu_dien
+盛	U+76DB	Thịnh	thịnh×15; thành×1	khop_tu_dien
+盜	U+76DC	Đạo	đạo×9	khop_tu_dien
+盟	U+76DF	Minh	minh×10	khop_tu_dien
+盡	U+76E1	Tận	tận×32	khop_tu_dien
+監	U+76E3	Giám	giám×13; giam×8	khop_tu_dien
+盤	U+76E4	Bàn	bàn×26	khop_tu_dien
+盥	U+76E5	Quán		khong_co_trong_tu_dien
+盦	U+76E6	Am	am×1	khop_tu_dien
+盧	U+76E7	Lô	lô×1; lư×1	khop_tu_dien
+目	U+76EE	Mục	mục×68	khop_tu_dien
+直	U+76F4	Trực	trực×25; trị×1	khop_tu_dien
+相	U+76F8	Tướng/Tương	tương×33; tướng×31	khop_tu_dien
+盾	U+76FE	Thuẫn	thuẫn×3	khop_tu_dien
+省	U+7701	Tỉnh	tỉnh×20; sảnh×1	khop_tu_dien
+眈	U+7708	Đam	đam×3	khop_tu_dien
+眉	U+7709	Mi	mi×19	khop_tu_dien
+看	U+770B	Khán	khán×11; khan×1	khop_tu_dien
+眘	U+7718	Thận		khong_co_trong_tu_dien
+眞	U+771E	Chân	chân×1	khop_tu_dien
+真	U+771F	Chân	chân×28	khop_tu_dien
+眠	U+7720	Miên	miên×6	khop_tu_dien
+眫	U+772B			thieu_am
+眴	U+7734			thieu_am
+眷	U+7737	Quyến	quyến×9	khop_tu_dien
+眸	U+7738	Mâu	mâu×1	khop_tu_dien
+眺	U+773A	Thiếu	thiếu×3	khop_tu_dien
+眼	U+773C	Nhãn	nhãn×42; nhấn×1; nhẫn×1	khop_tu_dien
+眾	U+773E	Chúng	chúng×12	khop_tu_dien
+睃	U+7743			thieu_am
+睍	U+774D	Hiện	hiện×1	khop_tu_dien
+睎	U+774E	Hy	hi×1	khop_tu_dien
+睔	U+7754			thieu_am
+睛	U+775B	Tình/Tinh	tinh×1	lech_tu_dien
+睡	U+7761	Thụy	thuỵ×6; thụy×1	khop_tu_dien
+督	U+7763	Đốc	đốc×12	khop_tu_dien
+睦	U+7766	Mục	mục×5	khop_tu_dien
+睪	U+776A		cao×2; dịch×1; trạch×1	thieu_am
+睭	U+776D		chửu×1	thieu_am
+睹	U+7779	Đổ	đổ×1	khop_tu_dien
+睺	U+777A	Hầu	hầu×1	khop_tu_dien
+睿	U+777F	Duệ	duệ×2	khop_tu_dien
+瞎	U+778E	Hạt	hạt×3	khop_tu_dien
+瞕	U+7795			thieu_am
+瞬	U+77AC	Thuấn	thuấn×3	khop_tu_dien
+瞮	U+77AE			thieu_am
+瞰	U+77B0	Khám	khám×1	khop_tu_dien
+瞻	U+77BB	Chiêm	chiêm×5	khop_tu_dien
+瞽	U+77BD	Cổ	cổ×3	khop_tu_dien
+瞿	U+77BF	Cù	cù×1	khop_tu_dien
+矛	U+77DB	Mâu	mâu×3	khop_tu_dien
+矢	U+77E2	Thỉ	thỉ×6	khop_tu_dien
+矣	U+77E3	Hĩ	hĩ×1	khop_tu_dien
+知	U+77E5	Tri	tri×36; trí×2	khop_tu_dien
+矩	U+77E9	Củ	củ×4	khop_tu_dien
+短	U+77ED	Đoản	đoản×17	khop_tu_dien
+矯	U+77EF	Kiểu	kiểu×5	khop_tu_dien
+矱	U+77F1		hoạch×1	thieu_am
+石	U+77F3	Thạch	thạch×47	khop_tu_dien
+砂	U+7802	Sa	sa×14	khop_tu_dien
+研	U+7814	Nghiên	nghiên×3; nghiễn×1	khop_tu_dien
+砥	U+7825	Chỉ	chỉ×2	khop_tu_dien
+破	U+7834	Phá	phá×32	khop_tu_dien
+硬	U+786C	Ngạnh	ngạnh×3	khop_tu_dien
+硯	U+786F	Nghiễn	nghiễn×4	khop_tu_dien
+碍	U+788D	Ngại	ngại×1	khop_tu_dien
+碎	U+788E	Toái	toái×7	khop_tu_dien
+碏	U+788F		thước×1	thieu_am
+碑	U+7891	Bi	bi×14	khop_tu_dien
+碓	U+7893	Đối	đối×1	khop_tu_dien
+碣	U+78A3	Kiệt	kệ×2; kiệt×2	khop_tu_dien
+碧	U+78A7	Bích	bích×12	khop_tu_dien
+碩	U+78A9	Thạc	thạc×4	khop_tu_dien
+確	U+78BA	Xác	xác×9	khop_tu_dien
+磉	U+78C9		tảng×1	thieu_am
+磊	U+78CA	Lỗi	lỗi×3	khop_tu_dien
+磋	U+78CB	Tha	tha×2	khop_tu_dien
+磌	U+78CC		điền×1	thieu_am
+磐	U+78D0	Bàn	bàn×3	khop_tu_dien
+磨	U+78E8	Ma	ma×4	khop_tu_dien
+磯	U+78EF	Cơ/Ki	ki×1	lech_tu_dien
+磵	U+78F5	Giản		khong_co_trong_tu_dien
+磷	U+78F7	Lân	lân×1	khop_tu_dien
+磾	U+78FE	Đê	đạn×1; đê×1	khop_tu_dien
+礎	U+790E	Sở	sở×3	khop_tu_dien
+礙	U+7919	Ngại	ngại×5	khop_tu_dien
+礪	U+792A	Lệ	lệ×2	khop_tu_dien
+礭	U+792D	Xác		khong_co_trong_tu_dien
+礱	U+7931	Lung	lung×1	khop_tu_dien
+示	U+793A	Thị	thị×11	khop_tu_dien
+礻	U+793B			thieu_am
+礽	U+793D		nhưng×1	thieu_am
+社	U+793E	Xã	xã×19	khop_tu_dien
+祁	U+7941	Kỳ	kì×1	khop_tu_dien
+祇	U+7947	Kỳ/Chi	kì×1	khop_tu_dien
+祈	U+7948	Kỳ	kì×4; kỳ×1	khop_tu_dien
+祉	U+7949	Chỉ	chỉ×1	khop_tu_dien
+祐	U+7950	Hựu/Hữu	hữu×1	lech_tu_dien
+祕	U+7955	Bí	bí×16	khop_tu_dien
+祖	U+7956	Tổ	tổ×26	khop_tu_dien
+祗	U+7957	Chi	chi×1; kì×1	khop_tu_dien
+祚	U+795A	Tộ	tộ×3	khop_tu_dien
+祜	U+795C	Hỗ	hỗ×1	khop_tu_dien
+祝	U+795D	Chúc	chúc×3; chú×1	khop_tu_dien
+神	U+795E	Thần	thần×64	khop_tu_dien
+祥	U+7965	Tường	tường×9	khop_tu_dien
+祹	U+7979			thieu_am
+祺	U+797A	Kỳ	kì×1	khop_tu_dien
+祿	U+797F	Lộc	lộc×11; lục×1	khop_tu_dien
+禇	U+7987	Trử		khong_co_trong_tu_dien
+禋	U+798B	Nhân	nhân×1	khop_tu_dien
+禎	U+798E	Trinh	trinh×2	khop_tu_dien
+福	U+798F	Phúc	phúc×35; phú×1	khop_tu_dien
+禔	U+7994	Chi/Đề	đề×1	lech_tu_dien
+禕	U+7995	Y	y×1	khop_tu_dien
+禛	U+799B	Chân		khong_co_trong_tu_dien
+禥	U+79A5	Kỳ		khong_co_trong_tu_dien
+禦	U+79A6	Ngự	ngự×6	khop_tu_dien
+禧	U+79A7	Hi	hi×2	khop_tu_dien
+禩	U+79A9	Tự	tự×1	khop_tu_dien
+禪	U+79AA	Thiền	thiền×13; thiện×3	khop_tu_dien
+禮	U+79AE	Lễ	lễ×47	khop_tu_dien
+禰	U+79B0	Nễ	nễ×1	khop_tu_dien
+禱	U+79B1	Đảo	đảo×3	khop_tu_dien
+禹	U+79B9	Vũ	vũ×2	khop_tu_dien
+禺	U+79BA	Ngu	ngu×1; ngụ×1; ngung×1	khop_tu_dien
+禽	U+79BD	Cầm	cầm×11	khop_tu_dien
+禾	U+79BE	Hòa	hoà×1; hòa×1	khop_tu_dien
+禿	U+79BF	Ngốc	ngốc×3	khop_tu_dien
+秀	U+79C0	Tú	tú×11	khop_tu_dien
+私	U+79C1	Tư	tư×28	khop_tu_dien
+秉	U+79C9	Bỉnh	bỉnh×3	khop_tu_dien
+秋	U+79CB	Thu	thu×19	khop_tu_dien
+种	U+79CD	Chủng/Trùng	trùng×1	khop_tu_dien
+科	U+79D1	Khoa	khoa×46	khop_tu_dien
+秘	U+79D8	Bí	bí×5	khop_tu_dien
+秦	U+79E6	Tần	tần×3	khop_tu_dien
+秧	U+79E7	Ương	ương×2; ưởng×2	khop_tu_dien
+秩	U+79E9	Trật	trật×7	khop_tu_dien
+稀	U+7A00	Hy	hi×3	khop_tu_dien
+稅	U+7A05	Thuế	thuế×22	khop_tu_dien
+程	U+7A0B	Trình	trình×32; trình×5	khop_tu_dien
+稔	U+7A14	Nhẫm	nẫm×3; nhẫm×1	khop_tu_dien
+稚	U+7A1A	Trĩ	trĩ×6	khop_tu_dien
+稜	U+7A1C	Lăng	lăng×5; lắng×1	khop_tu_dien
+稟	U+7A1F	Bẩm	bẩm×12; lẫm×1	khop_tu_dien
+稠	U+7A20	Trù	trù×3	khop_tu_dien
+種	U+7A2E	Chủng	chủng×24; chúng×1	khop_tu_dien
+稱	U+7A31	Xưng	xưng×25; xứng×9	khop_tu_dien
+稷	U+7A37	Tắc	tắc×4	khop_tu_dien
+稹	U+7A39	Chẩn/Chân	chân×1	lech_tu_dien
+稺	U+7A3A	Trĩ	trĩ×1	khop_tu_dien
+稼	U+7A3C	Giá	giá×3	khop_tu_dien
+稽	U+7A3D	Kê	kê×5; khể×2	khop_tu_dien
+穀	U+7A40	Cốc	cốc×10	khop_tu_dien
+穆	U+7A46	Mục	mục×1	khop_tu_dien
+穊	U+7A4A		kí×1	thieu_am
+穌	U+7A4C	Tô	tô×1	khop_tu_dien
+積	U+7A4D	Tích	tích×19	khop_tu_dien
+穎	U+7A4E	Dĩnh	dĩnh×3	khop_tu_dien
+穗	U+7A57	Tuệ	tuệ×1	khop_tu_dien
+穟	U+7A5F	Toại	toại×1	khop_tu_dien
+穡	U+7A61	Sắc	sắc×4	khop_tu_dien
+穩	U+7A69	Ổn	ổn×11	khop_tu_dien
+穴	U+7A74	Huyệt	huyệt×11	khop_tu_dien
+究	U+7A76	Cứu	cứu×14	khop_tu_dien
+穹	U+7A79	Khung	khung×3	khop_tu_dien
+空	U+7A7A	Không	không×31	khop_tu_dien
+突	U+7A81	Đột	đột×15; gia×1	khop_tu_dien
+窄	U+7A84	Trách	trách×2	khop_tu_dien
+窓	U+7A93	Song	song×1	khop_tu_dien
+窗	U+7A97	Song	song×6	khop_tu_dien
+窟	U+7A9F	Quật	quật×2	khop_tu_dien
+窩	U+7AA9	Oa	oa×6	khop_tu_dien
+窪	U+7AAA	Oa		khong_co_trong_tu_dien
+窮	U+7AAE	Cùng	cùng×41	khop_tu_dien
+窴	U+7AB4	Điền	điền×1	khop_tu_dien
+窺	U+7ABA	Khuy	khuy×4	khop_tu_dien
+窻	U+7ABB	Song	song×3	khop_tu_dien
+竅	U+7AC5	Khiếu	khiếu×1	khop_tu_dien
+竇	U+7AC7	Đậu	đậu×1	khop_tu_dien
+竈	U+7AC8	Táo	táo×4	khop_tu_dien
+立	U+7ACB	Lập	lập×65	khop_tu_dien
+竑	U+7AD1	Hoằng/Hoành	hoành×1	lech_tu_dien
+竟	U+7ADF	Cánh	cánh×4; cảnh×1	khop_tu_dien
+章	U+7AE0	Chương	chương×26	khop_tu_dien
+竣	U+7AE3	Thuân	thuân×1	khop_tu_dien
+竤	U+7AE4			thieu_am
+童	U+7AE5	Đồng	đồng×12; đồng×9	khop_tu_dien
+竦	U+7AE6	Tủng	tủng×1	khop_tu_dien
+竫	U+7AEB	Tĩnh	tĩnh×1	khop_tu_dien
+竭	U+7AED	Kiệt	kiệt×6	khop_tu_dien
+端	U+7AEF	Đoan	đoan×24	khop_tu_dien
+競	U+7AF6	Cạnh	cạnh×11	khop_tu_dien
+竹	U+7AF9	Trúc	trúc×18	khop_tu_dien
+竺	U+7AFA	Trúc	trúc×2; đốc×1	khop_tu_dien
+笄	U+7B04	Kê	kê×4	khop_tu_dien
+笈	U+7B08	Cấp	cấp×1	khop_tu_dien
+笋	U+7B0B	Duẫn	duẫn×1; tuân×1	khop_tu_dien
+笏	U+7B0F	Hốt	hốt×1	khop_tu_dien
+笑	U+7B11	Tiếu	tiếu×25	khop_tu_dien
+笙	U+7B19	Sanh	sanh×1	khop_tu_dien
+笛	U+7B1B	Địch	địch×4	khop_tu_dien
+笠	U+7B20	Lạp	lạp×1	khop_tu_dien
+符	U+7B26	Phù	phù×14	khop_tu_dien
+笪	U+7B2A	Đát	đát×1	khop_tu_dien
+第	U+7B2C	Đệ	đệ×21	khop_tu_dien
+笯	U+7B2F	Nô	nô×1	khop_tu_dien
+笳	U+7B33	Già/Gia	gia×1	lech_tu_dien
+笻	U+7B3B			thieu_am
+筆	U+7B46	Bút	bút×52	khop_tu_dien
+筈	U+7B48	Quát	quát×1	khop_tu_dien
+等	U+7B49	Đẳng	đẳng×13; đẳng×10	khop_tu_dien
+筌	U+7B4C	Thuyên	thuyên×1	khop_tu_dien
+筍	U+7B4D	Duẫn	duẫn×2; duẩn×1; tuân×1	khop_tu_dien
+筏	U+7B4F	Phiệt	phiệt×1; phạt×1	khop_tu_dien
+筑	U+7B51	Trúc	trúc×1	khop_tu_dien
+答	U+7B54	Đáp	đáp×15	khop_tu_dien
+策	U+7B56	Sách	sách×22	khop_tu_dien
+筠	U+7B60	Quân	quân×2	khop_tu_dien
+筱	U+7B71	Tiểu	tiểu×1	khop_tu_dien
+筵	U+7B75	Diên	diên×5	khop_tu_dien
+箇	U+7B87	Cá	cá×2	khop_tu_dien
+箕	U+7B95	Ky	ki×2; ky×1	khop_tu_dien
+算	U+7B97	Toán	toán×19	khop_tu_dien
+管	U+7BA1	Quản	quản×38	khop_tu_dien
+箬	U+7BAC	Nhược	nhược×1	khop_tu_dien
+箭	U+7BAD	Tiễn	tiễn×8; tiền×1	khop_tu_dien
+箴	U+7BB4	Châm	châm×4	khop_tu_dien
+節	U+7BC0	Tiết	tiết×58; tiệt×1	khop_tu_dien
+篁	U+7BC1	Hoàng	hoàng×1	khop_tu_dien
+範	U+7BC4	Phạm	phạm×13	khop_tu_dien
+篆	U+7BC6	Triện	triện×2	khop_tu_dien
+篈	U+7BC8			thieu_am
+築	U+7BC9	Trúc	trúc×4	khop_tu_dien
+篔	U+7BD4			thieu_am
+篠	U+7BE0	Tiểu	tiểu×1	khop_tu_dien
+篤	U+7BE4	Đốc	đốc×6	khop_tu_dien
+篷	U+7BF7	Bồng	bồng×1	khop_tu_dien
+篽	U+7BFD			thieu_am
+簇	U+7C07	Thốc	tộc×1; thốc×1	khop_tu_dien
+簋	U+7C0B	Quỹ		khong_co_trong_tu_dien
+簠	U+7C20	Phủ	phủ×1	khop_tu_dien
+簡	U+7C21	Giản	giản×18	khop_tu_dien
+簪	U+7C2A	Trâm	trâm×2	khop_tu_dien
+簫	U+7C2B	Tiêu	tiêu×4; tiểu×1	khop_tu_dien
+簾	U+7C3E	Liêm	liêm×4	khop_tu_dien
+簿	U+7C3F	Bạ	bạ×12; bạc×2; bộ×2	khop_tu_dien
+籀	U+7C40	Trứu	trứu×1	khop_tu_dien
+籃	U+7C43	Lam	lam×2	khop_tu_dien
+籌	U+7C4C	Trù	trù×8	khop_tu_dien
+籍	U+7C4D	Tịch	tịch×20; tạ×3	khop_tu_dien
+籜	U+7C5C	Thác	thác×1	khop_tu_dien
+籟	U+7C5F	Lại	lại×1	khop_tu_dien
+籥	U+7C65	Thược/Dược	dược×1	lech_tu_dien
+籲	U+7C72	Dụ	dụ×3	khop_tu_dien
+米	U+7C73	Mễ	mễ×6	khop_tu_dien
+粉	U+7C89	Phấn	phấn×12	khop_tu_dien
+粟	U+7C9F	Túc	túc×2	khop_tu_dien
+粥	U+7CA5	Chúc	chúc×2; dục×1	khop_tu_dien
+粱	U+7CB1	Lương	lương×3	khop_tu_dien
+粲	U+7CB2	Xán	xán×4	khop_tu_dien
+粵	U+7CB5	Việt	việt×1	khop_tu_dien
+粹	U+7CB9	Túy	tuý×3; toái×1; túy×1	khop_tu_dien
+精	U+7CBE	Tinh	tinh×33	khop_tu_dien
+糜	U+7CDC	Mi	mi×3	khop_tu_dien
+糠	U+7CE0	Khang	khang×3	khop_tu_dien
+系	U+7CFB	Hệ	hệ×11	khop_tu_dien
+紀	U+7D00	Kỷ	kỉ×19; kỷ×1	khop_tu_dien
+約	U+7D04	Ước	ước×47	khop_tu_dien
+紅	U+7D05	Hồng	hồng×13; hồng×2	khop_tu_dien
+紇	U+7D07	Hột/Ngột		khong_co_trong_tu_dien
+紋	U+7D0B	Văn	văn×2	khop_tu_dien
+納	U+7D0D	Nạp	nạp×21	khop_tu_dien
+紐	U+7D10	Nữu	nữu×3	khop_tu_dien
+紓	U+7D13	Thư	thư×1	khop_tu_dien
+純	U+7D14	Thuần	thuần×7; đồn×1; chuẩn×1	khop_tu_dien
+紘	U+7D18	Hoành	hoành×1	khop_tu_dien
+紙	U+7D19	Chỉ	chỉ×23	khop_tu_dien
+級	U+7D1A	Cấp	cấp×15	khop_tu_dien
+紞	U+7D1E		đảm×1	thieu_am
+素	U+7D20	Tố	tố×29	khop_tu_dien
+索	U+7D22	Sách	sách×9; tác×1	khop_tu_dien
+紫	U+7D2B	Tử	tử×4	khop_tu_dien
+細	U+7D30	Tế	tế×15	khop_tu_dien
+紱	U+7D31	Phất	phất×1	khop_tu_dien
+紳	U+7D33	Thân	thân×6	khop_tu_dien
+紹	U+7D39	Thiệu	thiệu×3	khop_tu_dien
+終	U+7D42	Chung	chung×25	khop_tu_dien
+絃	U+7D43	Huyền	huyền×6	khop_tu_dien
+絅	U+7D45	Quýnh	quynh×1; quýnh×1	khop_tu_dien
+絆	U+7D46	Bán/Bạn	bạn×1	lech_tu_dien
+結	U+7D50	Kết	kết×40; kế×1	khop_tu_dien
+絕	U+7D55	Tuyệt	tuyệt×11	khop_tu_dien
+絜	U+7D5C	Khiết	khiết×2	khop_tu_dien
+絡	U+7D61	Lạc	lạc×5	khop_tu_dien
+絢	U+7D62	Huyến	huyến×1	khop_tu_dien
+給	U+7D66	Cấp	cấp×21; cấp×1	khop_tu_dien
+絪	U+7D6A	Nhân	nhân×1	khop_tu_dien
+絮	U+7D6E	Nhứ	nhứ×2; trữ×1	khop_tu_dien
+統	U+7D71	Thống	thống×23	khop_tu_dien
+絲	U+7D72	Ty	ti×5; ty×3	khop_tu_dien
+絳	U+7D73	Giáng/Ráng	ráng×4	lech_tu_dien
+綃	U+7D83	Tiêu	tiêu×1	khop_tu_dien
+綍	U+7D8D	Phất	phất×1	khop_tu_dien
+經	U+7D93	Kinh	kinh×66	khop_tu_dien
+綜	U+7D9C	Tống	tống×1	khop_tu_dien
+綠	U+7DA0	Lục	lục×5	khop_tu_dien
+綣	U+7DA3	Khuyển/Quyển	quyển×1	lech_tu_dien
+綦	U+7DA6	Kỳ	kì×2	khop_tu_dien
+綬	U+7DAC	Thụ	thụ×2	khop_tu_dien
+維	U+7DAD	Duy	duy×9	khop_tu_dien
+綮	U+7DAE	Khể	khể×1	khop_tu_dien
+綯	U+7DAF		đào×1	thieu_am
+綰	U+7DB0	Oản	oản×1	khop_tu_dien
+綱	U+7DB1	Cương	cương×13	khop_tu_dien
+網	U+7DB2	Võng	võng×6	khop_tu_dien
+綴	U+7DB4	Xuyết	xuyết×7; chuyết×1	khop_tu_dien
+綵	U+7DB5	Thải	thải×1; thể×1	khop_tu_dien
+綸	U+7DB8	Luân	luân×3; quan×2	khop_tu_dien
+綺	U+7DBA	Khỉ	ỷ×11; khỉ×1	khop_tu_dien
+綻	U+7DBB	Trán	điện×1; trán×1	khop_tu_dien
+綽	U+7DBD	Xước	xước×2	khop_tu_dien
+綾	U+7DBE	Lăng	lăng×2	khop_tu_dien
+綿	U+7DBF	Miên	miên×8	khop_tu_dien
+緄	U+7DC4	Cổn	cổn×1	khop_tu_dien
+緇	U+7DC7	Truy/Chuy	chuy×6	lech_tu_dien
+緊	U+7DCA	Khẩn	khẩn×5	khop_tu_dien
+緒	U+7DD2	Tự	tự×4	khop_tu_dien
+緗	U+7DD7	Tương	tương×1	khop_tu_dien
+緘	U+7DD8	Giam	giam×2	khop_tu_dien
+線	U+7DDA	Tuyến	tuyến×19	khop_tu_dien
+緝	U+7DDD	Tập	tập×2	khop_tu_dien
+緞	U+7DDE	Đoạn	đoạn×2	khop_tu_dien
+締	U+7DE0	Đế/Đề	đề×1	lech_tu_dien
+緣	U+7DE3	Duyên	duyên×28; duyến×3	khop_tu_dien
+緬	U+7DEC	Miến	miến×3; diến×1	khop_tu_dien
+緯	U+7DEF	Vĩ	vĩ×8; vị×1	khop_tu_dien
+練	U+7DF4	Luyện	luyện×12	khop_tu_dien
+緻	U+7DFB	Trí	trí×1	khop_tu_dien
+縉	U+7E09	Tấn	tấn×1	khop_tu_dien
+縚	U+7E1A	Thao	thao×1	khop_tu_dien
+縛	U+7E1B	Phược/Phọc	phọc×2	lech_tu_dien
+縝	U+7E1D	Chẩn		khong_co_trong_tu_dien
+縠	U+7E20	Hộc	hộc×1	khop_tu_dien
+縡	U+7E21	Tái/Tể	tể×1	lech_tu_dien
+縣	U+7E23	Huyện	huyện×10; huyền×1	khop_tu_dien
+縫	U+7E2B	Phùng	phùng×3; phúng×1	khop_tu_dien
+縱	U+7E31	Túng	túng×7; tung×2	khop_tu_dien
+總	U+7E3D	Tổng	tổng×28; tông×1	khop_tu_dien
+績	U+7E3E	Tích	tích×4	khop_tu_dien
+繁	U+7E41	Phồn/Phiền	phiền×12; bà×1; bàn×1	lech_tu_dien
+繄	U+7E44	Ê	ê×1; ế×1	khop_tu_dien
+繆	U+7E46	Mậu	mâu×2; cù×1; mục×1	khop_tu_dien
+繇	U+7E47	Do/Dao	dao×2; do×1	khop_tu_dien
+繒	U+7E52	Tăng	tăng×2	khop_tu_dien
+織	U+7E54	Chức	chức×10; chí×1	khop_tu_dien
+繕	U+7E55	Thiện	thiện×2	khop_tu_dien
+繡	U+7E61	Tú	tú×5	khop_tu_dien
+繢	U+7E62		hối×1; hội×1	thieu_am
+繩	U+7E69	Thằng	thằng×4; mẫn×1	khop_tu_dien
+繪	U+7E6A	Hội	hội×3	khop_tu_dien
+繫	U+7E6B	Hệ	hệ×3	khop_tu_dien
+繹	U+7E79	Dịch	dịch×3	khop_tu_dien
+繼	U+7E7C	Kế	kế×19	khop_tu_dien
+纂	U+7E82	Toản	toản×1	khop_tu_dien
+纉	U+7E89	Toản		khong_co_trong_tu_dien
+續	U+7E8C	Tục	tục×18	khop_tu_dien
+纓	U+7E93	Anh	anh×2	khop_tu_dien
+纖	U+7E96	Tiêm	tiêm×5	khop_tu_dien
+纘	U+7E98	Toản	toản×1	khop_tu_dien
+罔	U+7F54	Võng	võng×1	khop_tu_dien
+罕	U+7F55	Hãn	hãn×3	khop_tu_dien
+罦	U+7F66		phù×1	thieu_am
+置	U+7F6E	Trí	trí×11	khop_tu_dien
+署	U+7F72	Thự	thự×4	khop_tu_dien
+罷	U+7F77	Bãi	bãi×12; bái×1; bãi×1	khop_tu_dien
+罽	U+7F7D	Kế	kế×1	khop_tu_dien
+羅	U+7F85	La	la×29	khop_tu_dien
+羊	U+7F8A	Dương	dương×7	khop_tu_dien
+羋	U+7F8B	Mị/Nhị	nhị×1	lech_tu_dien
+羌	U+7F8C	Khương	khương×1	khop_tu_dien
+美	U+7F8E	Mỹ	mĩ×36	khop_tu_dien
+羔	U+7F94	Cao	cao×2	khop_tu_dien
+羙	U+7F99	Mỹ	mĩ×1	khop_tu_dien
+羞	U+7F9E	Tu	tu×5	khop_tu_dien
+羡	U+7FA1	Tiện		khong_co_trong_tu_dien
+羣	U+7FA3	Quần	quần×35	khop_tu_dien
+群	U+7FA4	Quần	quần×6	khop_tu_dien
+羨	U+7FA8	Tiện	tiện×2	khop_tu_dien
+義	U+7FA9	Nghĩa	nghĩa×64; ngãi×1	khop_tu_dien
+羯	U+7FAF	Yết/Kiết	kiết×1	lech_tu_dien
+羲	U+7FB2	Hi	hi×1	khop_tu_dien
+羼	U+7FBC	Sạn/Sàn	sạn×1	khop_tu_dien
+羽	U+7FBD	Vũ	vũ×15	khop_tu_dien
+羾	U+7FBE		hồng×1	thieu_am
+翀	U+7FC0	Xung	xung×1	khop_tu_dien
+翁	U+7FC1	Ông	ông×19	khop_tu_dien
+翃	U+7FC3	Hoành		khong_co_trong_tu_dien
+翅	U+7FC5	Sí	sí×2	khop_tu_dien
+翊	U+7FCA	Dực	dực×1; lạp×1	khop_tu_dien
+翌	U+7FCC	Dực	dực×2	khop_tu_dien
+翎	U+7FCE	Linh	linh×1	khop_tu_dien
+習	U+7FD2	Tập	tập×18	khop_tu_dien
+翓	U+7FD3			thieu_am
+翔	U+7FD4	Tường	tường×1	khop_tu_dien
+翕	U+7FD5	Hấp	hấp×1	khop_tu_dien
+翛	U+7FDB	Tiêu	tiêu×1	khop_tu_dien
+翜	U+7FDC		sáp×1	thieu_am
+翟	U+7FDF	Địch	địch×1	khop_tu_dien
+翠	U+7FE0	Thúy	thuý×2; thúy×2	khop_tu_dien
+翥	U+7FE5	Chử/Trứ	trứ×1	lech_tu_dien
+翦	U+7FE6	Tiễn	tiễn×1	khop_tu_dien
+翫	U+7FEB	Ngoạn	ngoạn×1	khop_tu_dien
+翬	U+7FEC	Huy	huy×1	khop_tu_dien
+翮	U+7FEE	Cách	cách×1	khop_tu_dien
+翰	U+7FF0	Hàn	hàn×6	khop_tu_dien
+翱	U+7FF1	Ngao	ngao×1	khop_tu_dien
+翹	U+7FF9	Kiều	kiều×7	khop_tu_dien
+翺	U+7FFA	Ngao		khong_co_trong_tu_dien
+翻	U+7FFB	Phiên	phiên×8	khop_tu_dien
+翼	U+7FFC	Dực	dực×11	khop_tu_dien
+翾	U+7FFE	Huyên	huyên×1	khop_tu_dien
+耀	U+8000	Diệu	diệu×4	khop_tu_dien
+老	U+8001	Lão	lão×54	khop_tu_dien
+考	U+8003	Khảo	khảo×27	khop_tu_dien
+者	U+8005	Giả	giả×27	khop_tu_dien
+耆	U+8006	Kỳ	kì×2	khop_tu_dien
+耋	U+800B	Điệt	điệt×1	khop_tu_dien
+而	U+800C	Nhi	nhi×13	khop_tu_dien
+耐	U+8010	Nại	nại×5; năng×1	khop_tu_dien
+耑	U+8011	Đoan	chuyên×1; đoan×1	khop_tu_dien
+耒	U+8012	Lỗi	lỗi×1	khop_tu_dien
+耕	U+8015	Canh	canh×18	khop_tu_dien
+耘	U+8018	Vân	vân×2	khop_tu_dien
+耜	U+801C	Tự/Tỉ	tỉ×1; cử×1	lech_tu_dien
+耨	U+8028	Nậu	nậu×1	khop_tu_dien
+耳	U+8033	Nhĩ	nhĩ×24	khop_tu_dien
+耶	U+8036	Da/Gia	gia×2; tà×1	lech_tu_dien
+耷	U+8037		đáp×1	thieu_am
+耽	U+803D	Đam	đam×1	khop_tu_dien
+耿	U+803F	Cảnh	cảnh×2	khop_tu_dien
+聃	U+8043	Đam/Tham	tham×1	lech_tu_dien
+聆	U+8046	Linh	linh×1	khop_tu_dien
+聊	U+804A	Liêu	liêu×2	khop_tu_dien
+聖	U+8056	Thánh	thánh×27	khop_tu_dien
+聘	U+8058	Sính	sính×11	khop_tu_dien
+聚	U+805A	Tụ	tụ×16	khop_tu_dien
+聞	U+805E	Văn	văn×15	khop_tu_dien
+聦	U+8066	Thông	thông×1	khop_tu_dien
+聯	U+806F	Liên	liên×15; liễn×1	khop_tu_dien
+聰	U+8070	Thông	thông×4	khop_tu_dien
+聲	U+8072	Thanh	thanh×36	khop_tu_dien
+聳	U+8073	Tủng	tủng×1	khop_tu_dien
+聵	U+8075		hội×1	thieu_am
+聶	U+8076	Nhiếp	nhiếp×1; triệp×1	khop_tu_dien
+職	U+8077	Chức	chức×54; dặc×1; xí×1	khop_tu_dien
+聽	U+807D	Thính	thính×9	khop_tu_dien
+聾	U+807E	Lung	lung×3	khop_tu_dien
+聿	U+807F	Duật	duật×1	khop_tu_dien
+肄	U+8084	Dị	dị×2	khop_tu_dien
+肅	U+8085	Túc	túc×5	khop_tu_dien
+肇	U+8087	Triệu	triệu×1	khop_tu_dien
+肈	U+8088	Triệu	triệu×1	khop_tu_dien
+肓	U+8093	Hoang	hoang×3	khop_tu_dien
+肖	U+8096	Tiếu	tiếu×2; tiêu×1	khop_tu_dien
+肜	U+809C	Dung		khong_co_trong_tu_dien
+肩	U+80A9	Kiên	kiên×10	khop_tu_dien
+肯	U+80AF	Khẳng	khẳng×3	khop_tu_dien
+肰	U+80B0	Nhiên		khong_co_trong_tu_dien
+肱	U+80B1	Quăng	quăng×3	khop_tu_dien
+育	U+80B2	Dục	dục×15	khop_tu_dien
+肸	U+80B8		hất×1	thieu_am
+胃	U+80C3	Vị	vị×15	khop_tu_dien
+胄	U+80C4	Trụ	trụ×3	khop_tu_dien
+胎	U+80CE	Thai	thai×20	khop_tu_dien
+胖	U+80D6		bàn×1; phán×1	thieu_am
+胙	U+80D9	Tộ	tộ×1	khop_tu_dien
+胝	U+80DD	Chi	chi×3	khop_tu_dien
+胡	U+80E1	Hồ	hồ×9	khop_tu_dien
+胤	U+80E4	Dận	dận×4	khop_tu_dien
+胥	U+80E5	Tư	tư×2	khop_tu_dien
+胳	U+80F3	Các	các×1	khop_tu_dien
+能	U+80FD	Năng	năng×21; nại×1	khop_tu_dien
+脂	U+8102	Chi	chi×10	khop_tu_dien
+脇	U+8107	Hiếp	hiếp×1	khop_tu_dien
+脈	U+8108	Mạch	mạch×14	khop_tu_dien
+脗	U+8117		vẫn×1	thieu_am
+脤	U+8124	Thận	thận×1	khop_tu_dien
+脩	U+8129	Tu	tu×1	khop_tu_dien
+脫	U+812B	Thoát	thoát×16; đoái×1	khop_tu_dien
+脱	U+8131	Thoát	thoát×1	khop_tu_dien
+腋	U+814B	Dịch	dịch×3	khop_tu_dien
+腑	U+8151	Phủ	phủ×4	khop_tu_dien
+腳	U+8173	Cước	cước×9	khop_tu_dien
+腴	U+8174	Du	du×4	khop_tu_dien
+腹	U+8179	Phúc	phúc×16	khop_tu_dien
+膏	U+818F	Cao	cao×15; cáo×1	khop_tu_dien
+膩	U+81A9	Nị/Nhị	nhị×1	lech_tu_dien
+膳	U+81B3	Thiện	thiện×1	khop_tu_dien
+膺	U+81BA	Ưng	ưng×1	khop_tu_dien
+膽	U+81BD	Đảm	đảm×15; đởm×1	khop_tu_dien
+臂	U+81C2	Tý	tí×3	khop_tu_dien
+臏	U+81CF	Tẫn	tẫn×1	khop_tu_dien
+臘	U+81D8	Lạp	lạp×7	khop_tu_dien
+臣	U+81E3	Thần	thần×44	khop_tu_dien
+臥	U+81E5	Ngọa	ngoạ×1; ngọa×1	khop_tu_dien
+臧	U+81E7	Tang	tang×1; tàng×1	khop_tu_dien
+臨	U+81E8	Lâm	lâm×15; lấm×1	khop_tu_dien
+自	U+81EA	Tự	tự×41	khop_tu_dien
+臬	U+81EC	Niết	niết×3	khop_tu_dien
+臭	U+81ED	Xú	xú×9; khứu×1	khop_tu_dien
+臯	U+81EF	Cao	cao×1	khop_tu_dien
+至	U+81F3	Chí	chí×28	khop_tu_dien
+致	U+81F4	Trí	trí×14	khop_tu_dien
+臹	U+81F9			thieu_am
+臺	U+81FA	Đài	đài×27	khop_tu_dien
+臻	U+81FB	Trăn/Trân	trân×1	lech_tu_dien
+臼	U+81FC	Cữu	cữu×2	khop_tu_dien
+臾	U+81FE	Du	du×2	khop_tu_dien
+舂	U+8202	Thung	thung×1	khop_tu_dien
+舅	U+8205	Cữu	cữu×9	khop_tu_dien
+與	U+8207	Dữ	dữ×5; dư×2; dự×1	khop_tu_dien
+興	U+8208	Hưng	hưng×17; hứng×10	khop_tu_dien
+舉	U+8209	Cử	cử×60	khop_tu_dien
+舊	U+820A	Cựu	cựu×35	khop_tu_dien
+舌	U+820C	Thiệt	thiệt×17	khop_tu_dien
+舍	U+820D	Xá	xá×26; xả×1	khop_tu_dien
+舒	U+8212	Thư	thư×6	khop_tu_dien
+舘	U+8218	Quán	quán×12	khop_tu_dien
+舛	U+821B	Suyễn	xuyễn×4; suyễn×1	khop_tu_dien
+舜	U+821C	Thuấn	thuấn×3	khop_tu_dien
+舟	U+821F	Chu	châu×7; chu×4	khop_tu_dien
+舡	U+8221		hang×1	thieu_am
+航	U+822A	Hàng	hàng×7	khop_tu_dien
+舫	U+822B	Phảng	phảng×1	khop_tu_dien
+般	U+822C	Bát/Ban	ban×6; bát×2; bàn×1	khop_tu_dien
+舲	U+8232	Linh	linh×2	khop_tu_dien
+舶	U+8236	Bạc	bạc×3	khop_tu_dien
+舷	U+8237	Huyền		khong_co_trong_tu_dien
+舸	U+8238	Khả	khả×1	khop_tu_dien
+船	U+8239	Thuyền	thuyền×13	khop_tu_dien
+艇	U+8247	Đĩnh	đĩnh×5	khop_tu_dien
+艮	U+826E	Cấn	cấn×3	khop_tu_dien
+良	U+826F	Lương	lương×36	khop_tu_dien
+色	U+8272	Sắc	sắc×77	khop_tu_dien
+艷	U+8277	Diễm	diễm×6	khop_tu_dien
+艹	U+8279			thieu_am
+艾	U+827E	Ngải	ngải×4; ngãi×1	khop_tu_dien
+芃	U+8283		bồng×1	thieu_am
+芍	U+828D	Thược	thược×2	khop_tu_dien
+芙	U+8299	Phù	phù×4	khop_tu_dien
+芝	U+829D	Chi	chi×6	khop_tu_dien
+芥	U+82A5	Giới	giới×3	khop_tu_dien
+芩	U+82A9		cầm×2	thieu_am
+芬	U+82AC	Phân	phân×6	khop_tu_dien
+芭	U+82AD	Ba	ba×3	khop_tu_dien
+芮	U+82AE	Nhuế	nhuế×1	khop_tu_dien
+芯	U+82AF	Tâm	tâm×2	khop_tu_dien
+花	U+82B1	Hoa	hoa×67	khop_tu_dien
+芳	U+82B3	Phương	phương×20	khop_tu_dien
+芷	U+82B7	Chỉ	chỉ×2	khop_tu_dien
+芸	U+82B8	Vân	vân×1	khop_tu_dien
+芹	U+82B9	Cần	cần×1	khop_tu_dien
+芻	U+82BB	Sô	sô×10	khop_tu_dien
+芽	U+82BD	Nha	nha×8	khop_tu_dien
+芾	U+82BE	Phất	phất×1; phí×1	khop_tu_dien
+芿	U+82BF		nhứng×1	thieu_am
+苑	U+82D1	Uyển	uyển×8; uân×1	khop_tu_dien
+苓	U+82D3	Linh	linh×1	khop_tu_dien
+苔	U+82D4	Đài	đài×3	khop_tu_dien
+苕	U+82D5	Điều/Thiều	thiều×1	lech_tu_dien
+苗	U+82D7	Miêu	miêu×3	khop_tu_dien
+苞	U+82DE	Bao	bao×3	khop_tu_dien
+苟	U+82DF	Cẩu	cẩu×10	khop_tu_dien
+若	U+82E5	Nhược/Nhã	nhược×8; nhã×1	khop_tu_dien
+苦	U+82E6	Khổ	khổ×40	khop_tu_dien
+苪	U+82EA			thieu_am
+英	U+82F1	Anh	anh×26	khop_tu_dien
+苻	U+82FB	Phù	phù×1	khop_tu_dien
+茂	U+8302	Mậu	mậu×7	khop_tu_dien
+范	U+8303	Phạm	phạm×1	khop_tu_dien
+茅	U+8305	Mao	mao×7	khop_tu_dien
+茗	U+8317	Mính	mính×3	khop_tu_dien
+茙	U+8319	Nhung		khong_co_trong_tu_dien
+茜	U+831C	Thiến/Trệ	trệ×1	lech_tu_dien
+茞	U+831E		chỉ×1	thieu_am
+茨	U+8328	Từ		khong_co_trong_tu_dien
+茫	U+832B	Mang	mang×5	khop_tu_dien
+茱	U+8331	Chu/Thù	thù×2	lech_tu_dien
+茲	U+8332	Tư		khong_co_trong_tu_dien
+茶	U+8336	Trà	trà×12	khop_tu_dien
+茹	U+8339	Như	như×6; nhự×1	khop_tu_dien
+荀	U+8340	Tuân	tuân×1	khop_tu_dien
+荃	U+8343	Thuyên	thuyên×1	khop_tu_dien
+草	U+8349	Thảo	thảo×24; tạo×1	khop_tu_dien
+荊	U+834A	Kinh	kinh×5	khop_tu_dien
+荐	U+8350	Tiến	tiến×1	khop_tu_dien
+荒	U+8352	Hoang	hoang×23	khop_tu_dien
+荔	U+8354	Lệ	lệ×1	khop_tu_dien
+荳	U+8373	Đậu	đậu×1	khop_tu_dien
+荷	U+8377	Hà	hà×8; hạ×1	khop_tu_dien
+荻	U+837B	Địch	địch×1	khop_tu_dien
+荼	U+837C	Đồ	đồ×1; đồ×1	khop_tu_dien
+莉	U+8389	Lỵ	lê×2; lị×1	khop_tu_dien
+莊	U+838A	Trang	trang×17	khop_tu_dien
+莎	U+838E	Sa	sa×2; ta×1	khop_tu_dien
+莒	U+8392	Cử	cử×1	khop_tu_dien
+莖	U+8396	Hành	hành×4	khop_tu_dien
+莘	U+8398		sân×1; tân×1	thieu_am
+莞	U+839E	Quan/Hoản/Hoán	hoán×1	lech_tu_dien
+莪	U+83AA	Nga		khong_co_trong_tu_dien
+莫	U+83AB	Mạc	mạc×1; mạch×1; mộ×1	khop_tu_dien
+莽	U+83BD	Mãng	mãng×3	khop_tu_dien
+菁	U+83C1	Tinh/Thiến	thiến×1	lech_tu_dien
+菅	U+83C5	Gian		am_doan_chua_chac
+菊	U+83CA	Cúc	cúc×5	khop_tu_dien
+菖	U+83D6	Xương	xương×1	khop_tu_dien
+菩	U+83E9	Bồ	bồ×5; bồ×1; bội×1	khop_tu_dien
+華	U+83EF	Hoa	hoa×26	khop_tu_dien
+菱	U+83F1	Lăng	lăng×1	khop_tu_dien
+菲	U+83F2	Phỉ	phi×5; phỉ×2	khop_tu_dien
+菴	U+83F4	Am	ám×2; am×1	khop_tu_dien
+萃	U+8403	Tụy	thúy×2; tụy×2; tuỵ×1	khop_tu_dien
+萇	U+8407	Trường	trường×2; trành×1	khop_tu_dien
+萊	U+840A	Lai	lai×5	khop_tu_dien
+萌	U+840C	Manh	manh×4	khop_tu_dien
+萍	U+840D	Bình	bình×7	khop_tu_dien
+萎	U+840E	Ủy	nuy×1; ủy×1	khop_tu_dien
+萬	U+842C	Vạn	vạn×35	khop_tu_dien
+萱	U+8431	Huyên	huyên×2	khop_tu_dien
+萸	U+8438	Du	du×2	khop_tu_dien
+萼	U+843C	Ngạc	ngạc×1	khop_tu_dien
+落	U+843D	Lạc	lạc×41	khop_tu_dien
+葆	U+8446	Bảo	bảo×2	khop_tu_dien
+葉	U+8449	Diệp	diệp×15	khop_tu_dien
+葑	U+8451	Phong	phong×2; phúng×1	khop_tu_dien
+著	U+8457	Trước/Trứ	trước×5; trứ×5	lech_quy_uoc
+葛	U+845B	Cát	cát×4	khop_tu_dien
+董	U+8463	Đổng	đổng×5; đồng×1	khop_tu_dien
+葦	U+8466	Vĩ/Vi	vi×2	lech_tu_dien
+葩	U+8469	Ba	ba×4	khop_tu_dien
+葱	U+8471	Thông	song×2; thông×1	khop_tu_dien
+葵	U+8475	Quỳ	quỳ×4	khop_tu_dien
+蒂	U+8482	Đế	đế×3	khop_tu_dien
+蒙	U+8499	Mông	mông×12; bàng×1	khop_tu_dien
+蒜	U+849C	Toán	toán×1	khop_tu_dien
+蒨	U+84A8	Thiến		khong_co_trong_tu_dien
+蒭	U+84AD	Sô	sô×2	khop_tu_dien
+蒯	U+84AF	Khoái		khong_co_trong_tu_dien
+蒲	U+84B2	Bồ	bồ×9; bồ×2; bạc×1	khop_tu_dien
+蒸	U+84B8	Chưng	chưng×6	khop_tu_dien
+蒼	U+84BC	Thương	thương×7	khop_tu_dien
+蒿	U+84BF	Hao	hao×2	khop_tu_dien
+蓀	U+84C0	Tôn	tôn×1	khop_tu_dien
+蓁	U+84C1	Trăn/Trân	trân×1	lech_tu_dien
+蓂	U+84C2	Minh	minh×1	khop_tu_dien
+蓉	U+84C9	Dung	dung×4	khop_tu_dien
+蓋	U+84CB	Cái	cái×10; hạp×1	khop_tu_dien
+蓓	U+84D3	Bội		khong_co_trong_tu_dien
+蓬	U+84EC	Bồng	bồng×16; bồng×3	khop_tu_dien
+蓮	U+84EE	Liên	liên×9	khop_tu_dien
+蓴	U+84F4	Thuần		khong_co_trong_tu_dien
+蓽	U+84FD	Tất	tất×2	khop_tu_dien
+蔓	U+8513	Mạn	man×7; mạn×2	khop_tu_dien
+蔚	U+851A	Úy	uất×3; uý×2	khop_tu_dien
+蔡	U+8521	Thái	thái×2; tát×1	khop_tu_dien
+蔣	U+8523	Tưởng		khong_co_trong_tu_dien
+蔭	U+852D	Ấm	ấm×8	khop_tu_dien
+蔻	U+853B	Khấu	khấu×1	khop_tu_dien
+蕃	U+8543	Phiên	phiên×1; phiền×1	khop_tu_dien
+蕆	U+8546		xiển×2	thieu_am
+蕉	U+8549	Tiêu	tiêu×2	khop_tu_dien
+蕊	U+854A	Nhụy	nhuỵ×1; nhụy×1	khop_tu_dien
+蕋	U+854B	Nhụy		khong_co_trong_tu_dien
+蕖	U+8556	Cừ	cừ×1	khop_tu_dien
+蕙	U+8559	Huệ	huệ×2	khop_tu_dien
+蕚	U+855A	Ngạc	ngạc×1	khop_tu_dien
+蕡	U+8561		phần×1	thieu_am
+蕤	U+8564	Nhuy	nhuy×1	khop_tu_dien
+蕩	U+8569	Đãng	đãng×15	khop_tu_dien
+蕭	U+856D	Tiêu	tiêu×6	khop_tu_dien
+蕰	U+8570	Uẩn		khong_co_trong_tu_dien
+蕳	U+8573	Gian		khong_co_trong_tu_dien
+蕺	U+857A			thieu_am
+薀	U+8580	Uẩn	uẩn×1	khop_tu_dien
+薄	U+8584	Bạc	bạc×53	khop_tu_dien
+薇	U+8587	Vi	vi×1	khop_tu_dien
+薈	U+8588	Cối/Oái	oái×1	lech_tu_dien
+薊	U+858A	Kế	kế×1	khop_tu_dien
+薌	U+858C	Hương	hương×1	khop_tu_dien
+薔	U+8594	Tường	tường×2; sắc×1	khop_tu_dien
+薖	U+8596		khoa×1	thieu_am
+薛	U+859B	Tiết	tiết×1	khop_tu_dien
+薜	U+859C	Bệ	bệ×2; bách×1	khop_tu_dien
+薦	U+85A6	Tiến	tiến×4	khop_tu_dien
+薩	U+85A9	Tát	tát×3	khop_tu_dien
+薪	U+85AA	Tân	tân×11	khop_tu_dien
+薯	U+85AF	Thự		khong_co_trong_tu_dien
+薰	U+85B0	Huân	huân×3	khop_tu_dien
+藇	U+85C7		tự×1	thieu_am
+藉	U+85C9	Tạ	tạ×9; tịch×1	khop_tu_dien
+藍	U+85CD	Lam	lam×9	khop_tu_dien
+藎	U+85CE		tẫn×2	thieu_am
+藏	U+85CF	Tạng/Tàng	tàng×27; tạng×6	khop_tu_dien
+藕	U+85D5	Ngẫu	ngẫu×2	khop_tu_dien
+藝	U+85DD	Nghệ	nghệ×16	khop_tu_dien
+藤	U+85E4	Đằng	đằng×4	khop_tu_dien
+藥	U+85E5	Dược	dược×34	khop_tu_dien
+藩	U+85E9	Phiên	phiên×16	khop_tu_dien
+藪	U+85EA	Tẩu	tẩu×3	khop_tu_dien
+藴	U+85F4	Uẩn		khong_co_trong_tu_dien
+藹	U+85F9	Ái	ái×4	khop_tu_dien
+藺	U+85FA	Lận	lận×1	khop_tu_dien
+藻	U+85FB	Tảo	tảo×4	khop_tu_dien
+蘂	U+8602	Nhị/Nhuỵ	nhuỵ×2	lech_tu_dien
+蘅	U+8605		hành×1	thieu_am
+蘆	U+8606	Lô	lô×3	khop_tu_dien
+蘇	U+8607	Tô	tô×4; tố×1	khop_tu_dien
+蘊	U+860A	Uẩn	uẩn×6	khop_tu_dien
+蘋	U+860B	Tần	tần×3; bình×1	khop_tu_dien
+蘓	U+8613	Tô		khong_co_trong_tu_dien
+蘗	U+8617	Bá/Nghiệt	nghiệt×4; bách×1	lech_tu_dien
+蘟	U+861F			thieu_am
+蘤	U+8624		hoa×1; vị×1	thieu_am
+蘧	U+8627	Cừ	cừ×1	khop_tu_dien
+蘭	U+862D	Lan	lan×16	khop_tu_dien
+蘷	U+8637	Quỳ		khong_co_trong_tu_dien
+蘿	U+863F	La	la×4	khop_tu_dien
+虎	U+864E	Hổ	hổ×27	khop_tu_dien
+虔	U+8654	Kiền	kiền×2	khop_tu_dien
+處	U+8655	Xứ	xử×22; xứ×10	khop_tu_dien
+虗	U+8657	Hư		khong_co_trong_tu_dien
+虙	U+8659	Phục	phục×1	khop_tu_dien
+虛	U+865B	Hư	hư×24; khư×1	khop_tu_dien
+虜	U+865C	Lỗ	lỗ×3	khop_tu_dien
+虞	U+865E	Ngu	ngu×5	khop_tu_dien
+號	U+865F	Hiệu	hiệu×30; hào×1	khop_tu_dien
+虢	U+8662	Quắc/Quách	quách×1	lech_tu_dien
+虬	U+866C	Cầu	cầu×1	khop_tu_dien
+虯	U+866F	Cầu	cầu×1	khop_tu_dien
+虹	U+8679	Hồng	hồng×2; hống×1	khop_tu_dien
+蚝	U+869D			thieu_am
+蛇	U+86C7	Xà	xà×16; di×1	khop_tu_dien
+蛟	U+86DF	Giao	giao×2	khop_tu_dien
+蛻	U+86FB	Thuế		khong_co_trong_tu_dien
+蜀	U+8700	Thục	thục×5	khop_tu_dien
+蜆	U+8706		hiện×1	thieu_am
+蜜	U+871C	Mật	mật×7	khop_tu_dien
+蜞	U+871E	Kỳ	kì×4	khop_tu_dien
+蜱	U+8731	Tỳ/Bi	bi×2	lech_tu_dien
+蜻	U+873B	Thanh	tinh×4; thanh×1	khop_tu_dien
+蝶	U+8776	Điệp	điệp×4	khop_tu_dien
+融	U+878D	Dung	dung×1	khop_tu_dien
+螺	U+87BA	Loa	loa×7	khop_tu_dien
+蟠	U+87E0	Bàn	bàn×8; phiền×1	khop_tu_dien
+蟲	U+87F2	Trùng	trùng×14	khop_tu_dien
+蟻	U+87FB	Nghĩ/Nghị	nghị×4	lech_tu_dien
+蟾	U+87FE	Thiềm	thiềm×5	khop_tu_dien
+蠒	U+8812		kiển×2	thieu_am
+蠙	U+8819	Tần	tần×2	am_doan_chua_chac
+蠡	U+8821	Lễ	lễ×2; lãi×1	khop_tu_dien
+蠲	U+8832	Quyên	quyên×4	khop_tu_dien
+蠻	U+883B	Man	man×9	khop_tu_dien
+衄	U+8844	Nục	nục×2	khop_tu_dien
+衆	U+8846	Chúng	chúng×10	khop_tu_dien
+行	U+884C	Hạnh/Hành	hành×103; hạnh×19; hàng×13	khop_tu_dien
+衍	U+884D	Diễn	diễn×9	khop_tu_dien
+衎	U+884E	Khản		khong_co_trong_tu_dien
+衒	U+8852	Huyễn	huyễn×1	khop_tu_dien
+術	U+8853	Thuật	thuật×31; toại×1	khop_tu_dien
+衛	U+885B	Vệ	vệ×15	khop_tu_dien
+衝	U+885D	Xung	xung×9	khop_tu_dien
+衞	U+885E	Vệ	vệ×2	khop_tu_dien
+衟	U+885F	Đạo	đạo×1	khop_tu_dien
+衡	U+8861	Hành/Hoành	hoành×9	lech_tu_dien
+衢	U+8862	Cù	cù×3	khop_tu_dien
+衣	U+8863	Y	y×54; ý×4	khop_tu_dien
+表	U+8868	Biểu	biểu×52	khop_tu_dien
+衮	U+886E	Cổn	cổn×7	khop_tu_dien
+衰	U+8870	Suy	suy×21; thôi×2; suý×1	khop_tu_dien
+衲	U+8872	Nạp	nạp×4	khop_tu_dien
+衷	U+8877	Trung	trung×2; trúng×1	khop_tu_dien
+衿	U+887F		câm×2; khâm×2	thieu_am
+袁	U+8881	Viên	viên×1	khop_tu_dien
+袞	U+889E	Cổn	cổn×3	khop_tu_dien
+袠	U+88A0		trật×1	thieu_am
+袤	U+88A4	Mậu	mậu×1	khop_tu_dien
+被	U+88AB	Bị	bị×14; phi×1	khop_tu_dien
+袾	U+88BE	Châu/Chu	chu×1	lech_tu_dien
+裁	U+88C1	Tài	tài×19	khop_tu_dien
+裔	U+88D4	Duệ	duệ×10	khop_tu_dien
+裕	U+88D5	Dụ	dụ×3	khop_tu_dien
+裘	U+88D8	Cừu	cừu×6	khop_tu_dien
+補	U+88DC	Bổ	bổ×32	khop_tu_dien
+裳	U+88F3	Thường	thường×4	khop_tu_dien
+裴	U+88F4	Bùi	bùi×1	khop_tu_dien
+裹	U+88F9	Khỏa	khỏa×2	khop_tu_dien
+褐	U+8910	Hạt	cát×4; hạt×2	khop_tu_dien
+褒	U+8912	Bao	bao×13; bầu×1	khop_tu_dien
+褔	U+8914	Phúc	phúc×1	khop_tu_dien
+褘	U+8918	Huy	y×1; huy×1	khop_tu_dien
+褚	U+891A	Trử/Trữ	trữ×1	lech_tu_dien
+褧	U+8927	Quýnh	quýnh×1	khop_tu_dien
+褫	U+892B			thieu_am
+襃	U+8943	Bao	bao×1; bậu×1	khop_tu_dien
+襄	U+8944	Tương	tương×2	khop_tu_dien
+襟	U+895F	Khâm	khâm×7	khop_tu_dien
+襦	U+8966	Nhu	nhu×4	khop_tu_dien
+襲	U+8972	Tập	tập×15	khop_tu_dien
+西	U+897F	Tây	tây×38	khop_tu_dien
+要	U+8981	Yếu	yếu×47; yêu×8	khop_tu_dien
+覃	U+8983	Đàm	đàm×3; diễm×1	khop_tu_dien
+覆	U+8986	Phúc	phúc×11; phú×2	khop_tu_dien
+覊	U+898A	Ky	ki×1	khop_tu_dien
+見	U+898B	Kiến	kiến×48; vũ×1; hiện×1	khop_tu_dien
+規	U+898F	Quy	quy×25	khop_tu_dien
+覐	U+8990			thieu_am
+覓	U+8993	Mịch	mịch×3	khop_tu_dien
+視	U+8996	Thị	thị×21	khop_tu_dien
+覞	U+899E			thieu_am
+覩	U+89A9	Đổ	đổ×1	khop_tu_dien
+親	U+89AA	Thân	thân×53	khop_tu_dien
+覬	U+89AC	Ký	kí×1	khop_tu_dien
+覯	U+89AF	Cấu	cấu×1	khop_tu_dien
+覲	U+89B2	Cận	cận×2	khop_tu_dien
+覺	U+89BA	Giác	giác×28; giáo×1	khop_tu_dien
+覽	U+89BD	Lãm	lãm×16; lãm×1	khop_tu_dien
+覿	U+89BF	Địch	địch×1	khop_tu_dien
+觀	U+89C0	Quán	quan×33; quán×1	khop_tu_dien
+角	U+89D2	Giác	giác×24; cốc×3	khop_tu_dien
+觜	U+89DC	Tuy	tư×1; tuy×1; chủy×1	khop_tu_dien
+解	U+89E3	Giải	giải×55; giả×1	khop_tu_dien
+言	U+8A00	Ngôn	ngôn×98; ngân×1	khop_tu_dien
+計	U+8A08	Kế	kế×29; kê×3	khop_tu_dien
+訊	U+8A0A	Tấn	tấn×8	khop_tu_dien
+訓	U+8A13	Huấn	huấn×16	khop_tu_dien
+訔	U+8A14	Ngân	ngân×1	am_doan_chua_chac
+訖	U+8A16	Cật	cật×1; ngật×1	khop_tu_dien
+託	U+8A17	Thác	thác×14	khop_tu_dien
+記	U+8A18	Ký	kí×44	khop_tu_dien
+訛	U+8A1B	Ngoa	ngoa×7	khop_tu_dien
+訢	U+8A22	Hân	hân×1	khop_tu_dien
+訣	U+8A23	Quyết	quyết×7	khop_tu_dien
+訥	U+8A25	Nột	nột×2	khop_tu_dien
+訦	U+8A26	Thầm	thầm×1	khop_tu_dien
+訪	U+8A2A	Phỏng	phỏng×11; phóng×5	khop_tu_dien
+設	U+8A2D	Thiết	thiết×9	khop_tu_dien
+許	U+8A31	Hứa	hứa×11	khop_tu_dien
+訴	U+8A34	Tố	tố×16; tố×1	khop_tu_dien
+訶	U+8A36	Ha	ha×2	khop_tu_dien
+註	U+8A3B	Chú	chú×8	khop_tu_dien
+証	U+8A3C	Chứng	chứng×1	khop_tu_dien
+詒	U+8A52	Di	đãi×2; di×2	khop_tu_dien
+詔	U+8A54	Chiếu	chiếu×17	khop_tu_dien
+評	U+8A55	Bình	bình×12	khop_tu_dien
+詗	U+8A57		huýnh×1	thieu_am
+詝	U+8A5D	Chú		khong_co_trong_tu_dien
+詞	U+8A5E	Từ	từ×21	khop_tu_dien
+詠	U+8A60	Vịnh	vịnh×12	khop_tu_dien
+詡	U+8A61	Hủ	hủ×1	khop_tu_dien
+詢	U+8A62	Tuân	tuân×1	khop_tu_dien
+詣	U+8A63	Nghệ	nghệ×1	khop_tu_dien
+詥	U+8A65		cáp×1	thieu_am
+詧	U+8A67	Sát	sát×1	khop_tu_dien
+詩	U+8A69	Thi	thi×62	khop_tu_dien
+詮	U+8A6E	Thuyên	thuyên×1	khop_tu_dien
+詰	U+8A70	Cật	cật×7	khop_tu_dien
+話	U+8A71	Thoại	thoại×15	khop_tu_dien
+該	U+8A72	Cai	cai×8	khop_tu_dien
+詳	U+8A73	Tường	tường×7	khop_tu_dien
+詵	U+8A75	Sân	sân×3	am_doan_chua_chac
+詹	U+8A79	Chiêm	chiêm×1; đạm×1	khop_tu_dien
+誇	U+8A87	Khoa	khoa×3	khop_tu_dien
+誌	U+8A8C	Chí	chí×8	khop_tu_dien
+認	U+8A8D	Nhận	nhận×18	khop_tu_dien
+誓	U+8A93	Thệ	thệ×7	khop_tu_dien
+誕	U+8A95	Đản	đản×11	khop_tu_dien
+誗	U+8A97			thieu_am
+誘	U+8A98	Dụ	dụ×7	khop_tu_dien
+語	U+8A9E	Ngữ	ngữ×41; ngự×1; ngử×1	khop_tu_dien
+誠	U+8AA0	Thành	thành×12	khop_tu_dien
+誡	U+8AA1	Giới	giới×1	khop_tu_dien
+誥	U+8AA5	Cáo	cáo×6	khop_tu_dien
+誦	U+8AA6	Tụng	tụng×5	khop_tu_dien
+誧	U+8AA7			thieu_am
+誨	U+8AA8	Hối	hối×2	khop_tu_dien
+說	U+8AAA	Thuyết	thuyết×31; thư×1; duyệt×1	khop_tu_dien
+誰	U+8AB0	Thùy	thùy×1	khop_tu_dien
+課	U+8AB2	Khóa	khóa×9; khoá×5	khop_tu_dien
+誼	U+8ABC	Nghị	nghị×6	khop_tu_dien
+誾	U+8ABE	Ngân	ngân×1	khop_tu_dien
+調	U+8ABF	Điều	điệu×12; điều×12	khop_tu_dien
+諂	U+8AC2	Siểm	siểm×7	khop_tu_dien
+諄	U+8AC4	Truân	truân×1	khop_tu_dien
+談	U+8AC7	Đàm	đàm×17	khop_tu_dien
+請	U+8ACB	Thỉnh	thỉnh×12; tình×1	khop_tu_dien
+諍	U+8ACD	Tránh	tránh×2	khop_tu_dien
+諏	U+8ACF		tưu×1	thieu_am
+諒	U+8AD2	Lượng	lượng×2	khop_tu_dien
+論	U+8AD6	Luận	luận×46	khop_tu_dien
+諗	U+8AD7	Thẩm	thẩm×1	khop_tu_dien
+諝	U+8ADD	Tư	tư×1	khop_tu_dien
+諟	U+8ADF	Thị	thị×1	khop_tu_dien
+諤	U+8AE4	Ngạc	ngạc×1	khop_tu_dien
+諦	U+8AE6	Đế	đế×1; đề×1	khop_tu_dien
+諧	U+8AE7	Hài	hài×10	khop_tu_dien
+諫	U+8AEB	Gián	gián×7	khop_tu_dien
+諭	U+8AED	Dụ	dụ×6	khop_tu_dien
+諱	U+8AF1	Húy	húy×5; huý×2	khop_tu_dien
+諲	U+8AF2	Nhân	nhân×1	khop_tu_dien
+諴	U+8AF4	Hàm	hàm×1	khop_tu_dien
+諶	U+8AF6	Thầm	thầm×1	khop_tu_dien
+諷	U+8AF7	Phúng	phúng×6	khop_tu_dien
+諸	U+8AF8	Chư	chư×11; gia×1	khop_tu_dien
+諺	U+8AFA	Ngạn	ngạn×5	khop_tu_dien
+諼	U+8AFC		huyên×1	thieu_am
+諾	U+8AFE	Nặc	nặc×4	khop_tu_dien
+諿	U+8AFF			thieu_am
+謀	U+8B00	Mưu	mưu×29	khop_tu_dien
+謁	U+8B01	Yết	yết×6	khop_tu_dien
+謂	U+8B02	Vị	vị×2	khop_tu_dien
+謇	U+8B07	Kiển	kiển×1	khop_tu_dien
+謐	U+8B10	Mật	mật×1	khop_tu_dien
+謙	U+8B19	Khiêm	khiêm×8; khiểm×1	khop_tu_dien
+講	U+8B1B	Giảng	giảng×13	khop_tu_dien
+謜	U+8B1C			thieu_am
+謝	U+8B1D	Tạ	tạ×26; ta×1	khop_tu_dien
+謠	U+8B20	Dao	dao×7	khop_tu_dien
+謨	U+8B28	Mô	mô×2	khop_tu_dien
+謹	U+8B39	Cẩn	cẩn×7	khop_tu_dien
+證	U+8B49	Chứng	chứng×32; chước×1	khop_tu_dien
+譓	U+8B53	Huệ	huệ×1	khop_tu_dien
+識	U+8B58	Thức	thức×21; chí×1	khop_tu_dien
+譙	U+8B59	Tiều	tiếu×1; tiều×1	khop_tu_dien
+譚	U+8B5A	Đàm	đàm×1	khop_tu_dien
+譜	U+8B5C	Phổ	phả×6; phổ×6	khop_tu_dien
+譞	U+8B5E			thieu_am
+警	U+8B66	Cảnh	cảnh×14	khop_tu_dien
+譯	U+8B6F	Dịch	dịch×8	khop_tu_dien
+議	U+8B70	Nghị	nghị×36; sát×1	khop_tu_dien
+護	U+8B77	Hộ	hộ×28	khop_tu_dien
+譸	U+8B78		trù×1	thieu_am
+譽	U+8B7D	Dự	dự×8	khop_tu_dien
+讀	U+8B80	Độc	độc×12; đậu×1	khop_tu_dien
+讃	U+8B83	Tán		khong_co_trong_tu_dien
+變	U+8B8A	Biến	biến×34	khop_tu_dien
+讓	U+8B93	Nhượng	nhượng×11	khop_tu_dien
+讖	U+8B96	Sấm	sấm×8; sám×1	khop_tu_dien
+讚	U+8B9A	Tán	tán×13	khop_tu_dien
+讜	U+8B9C	Đảng	đảng×1	khop_tu_dien
+讞	U+8B9E		nghiễn×1	thieu_am
+谷	U+8C37	Cốc	cốc×9; lộc×2	khop_tu_dien
+谿	U+8C3F	Khê	khê×1	khop_tu_dien
+豁	U+8C41	Hoát	khoát×1; hoát×1	khop_tu_dien
+豆	U+8C46	Đậu	đậu×10	khop_tu_dien
+豎	U+8C4E	Thụ	thụ×1	khop_tu_dien
+豐	U+8C50	Phong	phong×10	khop_tu_dien
+豔	U+8C54	Diễm	diễm×12	khop_tu_dien
+豚	U+8C5A	Đồn	đồn×1; đồn×1	khop_tu_dien
+象	U+8C61	Tượng	tượng×23	khop_tu_dien
+豢	U+8C62	Hoạn	hoạn×1	khop_tu_dien
+豪	U+8C6A	Hào	hào×21	khop_tu_dien
+豫	U+8C6B	Dự	dự×11; tạ×1	khop_tu_dien
+豳	U+8C73	Bân	bân×1	khop_tu_dien
+豹	U+8C79	Báo	báo×6	khop_tu_dien
+貌	U+8C8C	Mạo	mạo×14; mạc×1	khop_tu_dien
+貝	U+8C9D	Bối	bối×8	khop_tu_dien
+貞	U+8C9E	Trinh	trinh×13	khop_tu_dien
+財	U+8CA1	Tài	tài×26	khop_tu_dien
+貢	U+8CA2	Cống	cống×15; cống×1	khop_tu_dien
+貧	U+8CA7	Bần	bần×23	khop_tu_dien
+販	U+8CA9	Phán/Bản	bản×1; phiến×1	lech_tu_dien
+貫	U+8CAB	Quán	quán×15; oan×1	khop_tu_dien
+貲	U+8CB2	Tư/Tí	tí×1	lech_tu_dien
+貳	U+8CB3	Nhị	nhị×1	khop_tu_dien
+貴	U+8CB4	Quý	quý×45	khop_tu_dien
+買	U+8CB7	Mãi	mãi×14; mãi×1	khop_tu_dien
+貺	U+8CBA	Huống	huống×1	khop_tu_dien
+費	U+8CBB	Phí	phí×37; phỉ×1; phất×1	khop_tu_dien
+貼	U+8CBC	Thiếp	thiếp×5	khop_tu_dien
+貽	U+8CBD	Di	di×2	khop_tu_dien
+賀	U+8CC0	Hạ	hạ×7	khop_tu_dien
+賁	U+8CC1	Bí/Bôn	bôn×1; phần×1; phẫn×1	khop_tu_dien
+資	U+8CC7	Tư	tư×13	khop_tu_dien
+賈	U+8CC8	Giả/Cổ	cổ×3; giả×1; giá×1	khop_tu_dien
+賑	U+8CD1	Chẩn	chẩn×9	khop_tu_dien
+賓	U+8CD3	Tân	tân×12	khop_tu_dien
+賔	U+8CD4	Tân	tân×1	khop_tu_dien
+賜	U+8CDC	Tứ	tứ×6	khop_tu_dien
+賝	U+8CDD			thieu_am
+賞	U+8CDE	Thưởng	thưởng×20	khop_tu_dien
+賡	U+8CE1	Canh	canh×1	khop_tu_dien
+賢	U+8CE2	Hiền	hiền×29; mệnh×1; hiện×1	khop_tu_dien
+賦	U+8CE6	Phú	phú×20	khop_tu_dien
+質	U+8CEA	Chất	chất×24; chí×2	khop_tu_dien
+賴	U+8CF4	Lại	lại×5	khop_tu_dien
+賽	U+8CFD	Tái	trại×5; tái×1	khop_tu_dien
+賾	U+8CFE	Trách	trách×1	khop_tu_dien
+贄	U+8D04	Chí	chí×1	khop_tu_dien
+贇	U+8D07	Vân/Uân	uân×1	lech_tu_dien
+贊	U+8D0A	Tán	tán×4	khop_tu_dien
+贍	U+8D0D	Thiệm	thiệm×4	khop_tu_dien
+赤	U+8D64	Xích	xích×21	khop_tu_dien
+赫	U+8D6B	Hách	hách×6	khop_tu_dien
+起	U+8D77	Khởi	khởi×30; khỉ×1	khop_tu_dien
+超	U+8D85	Siêu	siêu×32	khop_tu_dien
+越	U+8D8A	Việt	việt×51; hoạt×1	khop_tu_dien
+趙	U+8D99	Triệu	triệu×3	khop_tu_dien
+趣	U+8DA3	Thú	thú×12; xúc×1	khop_tu_dien
+足	U+8DB3	Túc	túc×31	khop_tu_dien
+趾	U+8DBE	Chỉ	chỉ×4	khop_tu_dien
+跂	U+8DC2	Kỳ	xí×4; kì×1	khop_tu_dien
+跇	U+8DC7		sế×1	thieu_am
+跋	U+8DCB	Bạt	bạt×5	khop_tu_dien
+跖	U+8DD6	Chích	chích×2; thác×1	khop_tu_dien
+跡	U+8DE1	Tích	tích×10	khop_tu_dien
+路	U+8DEF	Lộ	lộ×42; lạc×1	khop_tu_dien
+跳	U+8DF3	Khiêu	khiêu×2; đào×1	khop_tu_dien
+踏	U+8E0F	Đạp	đạp×7	khop_tu_dien
+踐	U+8E10	Tiễn	tiễn×3	khop_tu_dien
+踞	U+8E1E	Cứ	cứ×3	khop_tu_dien
+踪	U+8E2A	Tung	tung×2	khop_tu_dien
+蹈	U+8E48	Đạo	đạo×2	khop_tu_dien
+蹉	U+8E49	Sa	sa×3; tha×1	khop_tu_dien
+蹊	U+8E4A	Hề	hề×2	khop_tu_dien
+蹣	U+8E63		bàn×2; man×1	thieu_am
+蹤	U+8E64	Tung	tung×4	khop_tu_dien
+躍	U+8E8D	Dược	dược×3	khop_tu_dien
+身	U+8EAB	Thân	thân×68; quyên×2	khop_tu_dien
+躬	U+8EAC	Cung	cung×3	khop_tu_dien
+軆	U+8EC6	Thể		khong_co_trong_tu_dien
+車	U+8ECA	Xa	xa×50	khop_tu_dien
+軌	U+8ECC	Quỹ	quỹ×9; quỷ×1	khop_tu_dien
+軍	U+8ECD	Quân	quân×99	khop_tu_dien
+軒	U+8ED2	Hiên	hiên×9; hiến×1	khop_tu_dien
+軟	U+8EDF	Nhuyễn	nhuyễn×2	khop_tu_dien
+軫	U+8EEB	Chẩn	chẩn×5	khop_tu_dien
+軻	U+8EFB	Kha	kha×1	khop_tu_dien
+軼	U+8EFC	Điệt/Dật	dật×5	lech_tu_dien
+軾	U+8EFE	Thức	thức×1	khop_tu_dien
+輅	U+8F05	Lộ	lộ×2; nhạ×1	khop_tu_dien
+輈	U+8F08	Chu	chu×1	khop_tu_dien
+載	U+8F09	Tải/Tái	tải×8; tái×5; tại×1	khop_tu_dien
+輔	U+8F14	Phụ	phụ×8	khop_tu_dien
+輕	U+8F15	Khinh	khinh×29; khánh×1	khop_tu_dien
+輗	U+8F17	Nghê	nghê×1	khop_tu_dien
+輝	U+8F1D	Huy	huy×2	khop_tu_dien
+輦	U+8F26	Liễn	liễn×2	khop_tu_dien
+輩	U+8F29	Bối	bối×12	khop_tu_dien
+輪	U+8F2A	Luân	luân×19	khop_tu_dien
+輯	U+8F2F	Tập	tập×6	khop_tu_dien
+輸	U+8F38	Thâu	thâu×3; du×3	khop_tu_dien
+輿	U+8F3F	Dư	dư×14	khop_tu_dien
+轂	U+8F42	Cốc	cốc×3	khop_tu_dien
+轉	U+8F49	Chuyển	chuyển×31	khop_tu_dien
+轍	U+8F4D	Triệt	triệt×3	khop_tu_dien
+轟	U+8F5F	Oanh	oanh×9	khop_tu_dien
+轢	U+8F62	Lịch	lịch×1	khop_tu_dien
+辛	U+8F9B	Tân	tân×8	khop_tu_dien
+辜	U+8F9C	Cô	cô×6	khop_tu_dien
+辟	U+8F9F	Tích/Bích	tịch×3; tích×1; tị×1	khop_tu_dien
+辣	U+8FA3	Lạt	lạt×2	khop_tu_dien
+辨	U+8FA8	Biện	biện×14; ban×2; biếm×2	khop_tu_dien
+辭	U+8FAD	Từ	từ×35	khop_tu_dien
+辯	U+8FAF	Biện	biện×19; biến×1; biếm×1	khop_tu_dien
+辰	U+8FB0	Thìn	thần×6; thìn×1	khop_tu_dien
+辱	U+8FB1	Nhục	nhục×12	khop_tu_dien
+農	U+8FB2	Nông	nông×27	khop_tu_dien
+辻	U+8FBB			thieu_am
+迂	U+8FC2	Vu	vu×3	khop_tu_dien
+迅	U+8FC5	Tấn	tấn×6	khop_tu_dien
+迎	U+8FCE	Nghênh	nghênh×22; nghịnh×1	khop_tu_dien
+近	U+8FD1	Cận	cận×33; kí×1	khop_tu_dien
+迢	U+8FE2	Điều	điều×1	khop_tu_dien
+迥	U+8FE5	Huýnh	huýnh×1	khop_tu_dien
+迦	U+8FE6	Ca	già×3; ca×1	khop_tu_dien
+迨	U+8FE8	Đãi	đãi×1	khop_tu_dien
+迪	U+8FEA	Địch	địch×1	khop_tu_dien
+迭	U+8FED	Điệt	điệt×1	khop_tu_dien
+述	U+8FF0	Thuật	thuật×9	khop_tu_dien
+迴	U+8FF4	Hồi	hồi×2; hồi×2	khop_tu_dien
+迷	U+8FF7	Mê	mê×20	khop_tu_dien
+迹	U+8FF9	Tích	tích×13; tich×1	khop_tu_dien
+迺	U+8FFA	Nãi	nãi×1	khop_tu_dien
+迻	U+8FFB	Di	di×2	khop_tu_dien
+退	U+9000	Thoái	thoái×14; thối×1	khop_tu_dien
+送	U+9001	Tống	tống×21	khop_tu_dien
+适	U+9002	Quát/Thích	quát×1	khop_tu_dien
+逆	U+9006	Nghịch	nghịch×28; ngịch×1	khop_tu_dien
+逈	U+9008	Huýnh		khong_co_trong_tu_dien
+逋	U+900B	Bô	bô×7	khop_tu_dien
+逌	U+900C		du×1	thieu_am
+逍	U+900D	Tiêu	tiêu×1	khop_tu_dien
+透	U+900F	Thấu	thấu×4	khop_tu_dien
+逐	U+9010	Trục	trục×7	khop_tu_dien
+逕	U+9015	Kính	kính×1	khop_tu_dien
+通	U+901A	Thông	thông×49	khop_tu_dien
+逝	U+901D	Thệ	thệ×5	khop_tu_dien
+逞	U+901E	Sính	sính×9	khop_tu_dien
+速	U+901F	Tốc	tốc×13	khop_tu_dien
+造	U+9020	Tạo	tạo×27; tháo×2	khop_tu_dien
+逢	U+9022	Phùng	phùng×9; bồng×2; bồng×1	khop_tu_dien
+連	U+9023	Liên	liên×27; liễn×1	khop_tu_dien
+逭	U+902D	Hoán	hoán×1	khop_tu_dien
+逮	U+902E	Đãi	đãi×1	khop_tu_dien
+週	U+9031	Chu	chu×2	khop_tu_dien
+進	U+9032	Tiến	tiến×33; tấn×1	khop_tu_dien
+逵	U+9035	Quỳ	quỳ×1	khop_tu_dien
+逸	U+9038	Dật	dật×22	khop_tu_dien
+逹	U+9039	Đạt		khong_co_trong_tu_dien
+逺	U+903A	Viễn		khong_co_trong_tu_dien
+遁	U+9041	Độn	độn×2; tuần×1	khop_tu_dien
+遂	U+9042	Toại	toại×6	khop_tu_dien
+遇	U+9047	Ngộ	ngộ×17	khop_tu_dien
+遊	U+904A	Du	du×45	khop_tu_dien
+運	U+904B	Vận	vận×33	khop_tu_dien
+遍	U+904D	Biến	biến×1	khop_tu_dien
+過	U+904E	Quá	quá×52; qua×1	khop_tu_dien
+遐	U+9050	Hà	hà×8	khop_tu_dien
+道	U+9053	Đạo	đạo×93	khop_tu_dien
+達	U+9054	Đạt	đạt×23	khop_tu_dien
+違	U+9055	Vi	vi×20	khop_tu_dien
+遘	U+9058	Cấu	cấu×1	khop_tu_dien
+遙	U+9059	Dao	dao×3	khop_tu_dien
+遜	U+905C	Tốn	tốn×5	khop_tu_dien
+遠	U+9060	Viễn	viễn×61	khop_tu_dien
+遡	U+9061	Tố	tố×1	khop_tu_dien
+遣	U+9063	Khiển	khiển×8; khán×1	khop_tu_dien
+適	U+9069	Thích	thích×13; đích×1; địch×1	khop_tu_dien
+遮	U+906E	Già	già×3	khop_tu_dien
+遯	U+906F	Độn	độn×6	khop_tu_dien
+遲	U+9072	Trì	trì×12; trĩ×1	khop_tu_dien
+遴	U+9074	Lân	lân×1; lấn×1	khop_tu_dien
+遵	U+9075	Tuân	tuân×7	khop_tu_dien
+遶	U+9076	Nhiễu	nhiễu×1	khop_tu_dien
+遷	U+9077	Thiên	thiên×8	khop_tu_dien
+選	U+9078	Tuyển	tuyển×22; toán×1; soát×1	khop_tu_dien
+遺	U+907A	Di	di×43; dị×1	khop_tu_dien
+遼	U+907C	Liêu	liêu×4	khop_tu_dien
+邁	U+9081	Mại	mại×1	khop_tu_dien
+邃	U+9083	Thúy	thuý×2; thúy×1	khop_tu_dien
+還	U+9084	Hoàn	hoàn×16; toàn×1	khop_tu_dien
+邇	U+9087	Nhĩ	nhĩ×2	khop_tu_dien
+邈	U+9088	Mạc	mạc×1	khop_tu_dien
+邊	U+908A	Biên	biên×27	khop_tu_dien
+邏	U+908F	La	la×4	khop_tu_dien
+邑	U+9091	Ấp	ấp×13	khop_tu_dien
+邕	U+9095	Ung	ung×1	khop_tu_dien
+邢	U+90A2	Hình	hình×1	khop_tu_dien
+那	U+90A3	Na	na×7; nả×1	khop_tu_dien
+邦	U+90A6	Bang	bang×19	khop_tu_dien
+邪	U+90AA	Tà	tà×31	khop_tu_dien
+邯	U+90AF	Hàm	hàm×1	khop_tu_dien
+邰	U+90B0	Thai		khong_co_trong_tu_dien
+邱	U+90B1	Khâu	khâu×1	khop_tu_dien
+邴	U+90B4	Bính	bính×1	khop_tu_dien
+邵	U+90B5	Thiệu	thiệu×1	khop_tu_dien
+邽	U+90BD	Khuê	khuê×1	khop_tu_dien
+郁	U+90C1	Úc	úc×1	khop_tu_dien
+郃	U+90C3	Hợp/Cáp	cáp×1	lech_tu_dien
+郅	U+90C5	Chí/Chất	chất×1	lech_tu_dien
+郊	U+90CA	Giao	giao×4	khop_tu_dien
+郎	U+90CE	Lang	lang×11	khop_tu_dien
+郗	U+90D7	Hy/Si	si×1	lech_tu_dien
+郙	U+90D9	Phủ	phu×1; phủ×1	khop_tu_dien
+郝	U+90DD	Hác/Hách	hác×1	doi_chieu_sua
+郞	U+90DE	Lang		khong_co_trong_tu_dien
+郡	U+90E1	Quận	quận×12	khop_tu_dien
+郢	U+90E2	Dĩnh	dĩnh×1	khop_tu_dien
+部	U+90E8	Bộ	bộ×39; bẫu×2	khop_tu_dien
+郭	U+90ED	Quách	quách×2	khop_tu_dien
+郯	U+90EF	Đàm	đàm×1	khop_tu_dien
+都	U+90FD	Đô	đô×21	khop_tu_dien
+鄂	U+9102	Ngạc	ngạc×1	khop_tu_dien
+鄉	U+9109	Hương	hương×37; hướng×1; hưởng×1	khop_tu_dien
+鄒	U+9112	Trâu	trâu×1	khop_tu_dien
+鄔	U+9114	Ổ	ổ×1	khop_tu_dien
+鄘	U+9118	Dung	dung×1	khop_tu_dien
+鄞	U+911E	Ngân	ngân×1	khop_tu_dien
+鄠	U+9120	Hộ	hộ×1	khop_tu_dien
+鄤	U+9124	Mạn	mạn×1	khop_tu_dien
+鄧	U+9127	Đặng	đặng×1	khop_tu_dien
+鄭	U+912D	Trịnh	trịnh×2	khop_tu_dien
+鄮	U+912E	Mậu		khong_co_trong_tu_dien
+鄯	U+912F	Thiện	thiện×1	khop_tu_dien
+鄰	U+9130	Lân	lân×13	khop_tu_dien
+鄲	U+9132	Đan	đan×1	khop_tu_dien
+鄴	U+9134	Nghiệp	nghiệp×1	khop_tu_dien
+鄺	U+913A	Khoáng/Quảng	quảng×1	lech_tu_dien
+酆	U+9146	Phong	phong×1	khop_tu_dien
+酇	U+9147		toản×1; tán×1; ta×1	thieu_am
+酈	U+9148	Lịch	li×1; lịch×1	khop_tu_dien
+酉	U+9149	Dậu	dậu×1	khop_tu_dien
+配	U+914D	Phối	phối×17	khop_tu_dien
+酒	U+9152	Tửu	tửu×49	khop_tu_dien
+酡	U+9161	Đà	đà×1	khop_tu_dien
+酢	U+9162	Tạc	tạc×2; thố×1	khop_tu_dien
+酣	U+9163	Hàm	hàm×6	khop_tu_dien
+酪	U+916A	Lạc	lạc×3	khop_tu_dien
+酬	U+916C	Thù	thù×9	khop_tu_dien
+酳	U+9173		dận×1	thieu_am
+酸	U+9178	Toan	toan×11	khop_tu_dien
+醇	U+9187	Thuần	thuần×1	khop_tu_dien
+醉	U+9189	Túy	túy×14; tuý×2	khop_tu_dien
+醍	U+918D	Đề	đề×2; thể×1	khop_tu_dien
+醐	U+9190	Hồ	hồ×1; hồ×1	khop_tu_dien
+醒	U+9192	Tỉnh	tỉnh×6; tinh×1	khop_tu_dien
+醜	U+919C	Xú	xú×9	khop_tu_dien
+醯	U+91AF	Hê/Hề	hề×1	lech_tu_dien
+醴	U+91B4	Lễ	lễ×1	khop_tu_dien
+釆	U+91C6		biện×1	thieu_am
+采	U+91C7	Thải/Thái	thái×4; thể×1	lech_tu_dien
+釉	U+91C9			thieu_am
+釋	U+91CB	Thích	thích×8; dịch×1	khop_tu_dien
+里	U+91CC	Lý	lí×25	khop_tu_dien
+重	U+91CD	Trọng/Trùng	trọng×52; trùng×15	khop_tu_dien
+野	U+91CE	Dã	dã×38; dã×1	khop_tu_dien
+量	U+91CF	Lượng	lượng×22; lương×1	khop_tu_dien
+金	U+91D1	Kim	kim×82	khop_tu_dien
+釗	U+91D7	Chiêu	chiêu×1	khop_tu_dien
+釘	U+91D8	Đinh	đinh×2; đính×1	khop_tu_dien
+釚	U+91DA			thieu_am
+釣	U+91E3	Điếu	điếu×5	khop_tu_dien
+釭	U+91ED		công×1	thieu_am
+釴	U+91F4		dặc×1	thieu_am
+釵	U+91F5	Thoa	thoa×4	khop_tu_dien
+鈃	U+9203		hình×1	thieu_am
+鈇	U+9207	Phu	phu×1	khop_tu_dien
+鈍	U+920D	Độn	độn×7	khop_tu_dien
+鈎	U+920E	Câu		khong_co_trong_tu_dien
+鈐	U+9210	Kiềm	kiềm×1	khop_tu_dien
+鈕	U+9215	Nữu	nữu×1	khop_tu_dien
+鈞	U+921E	Quân		khong_co_trong_tu_dien
+鈯	U+922F			thieu_am
+鈱	U+9231			thieu_am
+鈴	U+9234	Linh	linh×2	khop_tu_dien
+鈺	U+923A	Dục/Ngọc	ngọc×1	lech_tu_dien
+鉁	U+9241	Trân		khong_co_trong_tu_dien
+鉄	U+9244	Thiết	thiết×1	khop_tu_dien
+鉅	U+9245	Cự	cự×3	khop_tu_dien
+鉉	U+9249	Huyền	huyền×1; huyễn×1	khop_tu_dien
+鉌	U+924C			thieu_am
+鉗	U+9257	Kiềm	kiềm×3	khop_tu_dien
+鉞	U+925E	Việt	việt×3; hối×1	khop_tu_dien
+鉢	U+9262	Bát	bát×3	khop_tu_dien
+鉤	U+9264	Câu	câu×7	khop_tu_dien
+鉸	U+9278	Giảo	giảo×1	khop_tu_dien
+鉽	U+927D			thieu_am
+銀	U+9280	Ngân	ngân×19	khop_tu_dien
+銅	U+9285	Đồng	đồng×2; đồng×2	khop_tu_dien
+銍	U+928D		trất×1	thieu_am
+銑	U+9291	Tiển	tiển×1	khop_tu_dien
+銓	U+9293	Thuyên	thuyên×2	khop_tu_dien
+銕	U+9295	Thiết	thiết×1	khop_tu_dien
+銖	U+9296	Thù	thù×3	khop_tu_dien
+銘	U+9298	Minh	minh×5	khop_tu_dien
+銛	U+929B	Tiêm/Quát	quát×1	lech_tu_dien
+銳	U+92B3	Nhuệ	nhuệ×3; đoái×1	doi_chieu_sua
+鋆	U+92C6	Quân		khong_co_trong_tu_dien
+鋐	U+92D0	Hoành		khong_co_trong_tu_dien
+鋒	U+92D2	Phong	phong×12	khop_tu_dien
+鋕	U+92D5			thieu_am
+鋗	U+92D7		quyên×2; huyên×1	thieu_am
+鋙	U+92D9			thieu_am
+鋧	U+92E7		hiện×1	thieu_am
+鋹	U+92F9			thieu_am
+錄	U+9304	Lục	lục×33	khop_tu_dien
+錐	U+9310	Chùy	truỳ×2; chùy×2; chuỳ×1	khop_tu_dien
+錕	U+9315	Côn	côn×1	khop_tu_dien
+錚	U+931A	Tranh	tranh×1	khop_tu_dien
+錞	U+931E		đội×1	thieu_am
+錠	U+9320	Đĩnh	đĩnh×2	khop_tu_dien
+錡	U+9321	Kỳ/Kĩ	kĩ×1	lech_tu_dien
+錢	U+9322	Tiền	tiền×23; tiễn×1	khop_tu_dien
+錤	U+9324		ki×1	thieu_am
+錦	U+9326	Cẩm	cẩm×18	khop_tu_dien
+錨	U+9328	Miêu	miêu×1	khop_tu_dien
+錩	U+9329			thieu_am
+錫	U+932B	Tích	tích×1	khop_tu_dien
+錯	U+932F	Thác/Thố	thác×6	khop_tu_dien
+錱	U+9331			thieu_am
+鍇	U+9347	Khải/Hài	hài×1	lech_tu_dien
+鍊	U+934A	Luyện	luyện×6	khop_tu_dien
+鍐	U+9350			thieu_am
+鍔	U+9354	Ngạc	ngạc×1	khop_tu_dien
+鍙	U+9359			thieu_am
+鍚	U+935A			thieu_am
+鍠	U+9360			thieu_am
+鍪	U+936A	Mâu	mâu×2	khop_tu_dien
+鍭	U+936D		hầu×1	thieu_am
+鍵	U+9375	Kiện	kiện×2	khop_tu_dien
+鍼	U+937C	Châm	châm×1; kiềm×1	khop_tu_dien
+鍾	U+937E	Chung	chung×6	khop_tu_dien
+鎌	U+938C	Liêm	liêm×1	khop_tu_dien
+鎔	U+9394	Dung	dung×1	khop_tu_dien
+鎖	U+9396	Tỏa	tỏa×4; toả×2	khop_tu_dien
+鎚	U+939A	Chùy	chùy×1; trùy×1; đôi×1	khop_tu_dien
+鎛	U+939B	Bác	bác×2	khop_tu_dien
+鎡	U+93A1	Tư	tư×1	khop_tu_dien
+鎧	U+93A7	Khải	khải×1	khop_tu_dien
+鎬	U+93AC	Hạo	hạo×1	khop_tu_dien
+鎭	U+93AD	Trấn	trấn×3	khop_tu_dien
+鎮	U+93AE	Trấn	trấn×16	khop_tu_dien
+鎰	U+93B0	Dật	dật×1	khop_tu_dien
+鏊	U+93CA		ngao×1	thieu_am
+鏐	U+93D0	Lưu	lưu×1	khop_tu_dien
+鏔	U+93D4			thieu_am
+鏗	U+93D7	Khanh	khanh×1	khop_tu_dien
+鏘	U+93D8	Thương	thương×1	khop_tu_dien
+鏜	U+93DC	Thang	thang×1	khop_tu_dien
+鏞	U+93DE	Dong/Dung	dung×1	lech_tu_dien
+鏡	U+93E1	Kính	kính×17	khop_tu_dien
+鏢	U+93E2	Tiêu	phiêu×4; tiêu×1	khop_tu_dien
+鏵	U+93F5	Hoa		khong_co_trong_tu_dien
+鏽	U+93FD	Tú	tú×1	khop_tu_dien
+鏿	U+93FF			thieu_am
+鐈	U+9408			thieu_am
+鐔	U+9414	Đàm		khong_co_trong_tu_dien
+鐘	U+9418	Chung	chung×18	khop_tu_dien
+鐙	U+9419	Đăng	đăng×1; đặng×1	khop_tu_dien
+鐱	U+9431			thieu_am
+鐵	U+9435	Thiết	thiết×7	khop_tu_dien
+鐸	U+9438	Đạc	đạc×2	khop_tu_dien
+鑄	U+9444	Chú	chú×5	khop_tu_dien
+鑅	U+9445			thieu_am
+鑌	U+944C	Tân	tân×1	khop_tu_dien
+鑑	U+9451	Giám	giám×8	khop_tu_dien
+鑒	U+9452	Giám	giám×3	khop_tu_dien
+鑛	U+945B	Khoáng	khoáng×6	khop_tu_dien
+鑠	U+9460	Thước	thược×3; thước×2	khop_tu_dien
+鑨	U+9468			thieu_am
+鑫	U+946B	Hâm	hâm×1	khop_tu_dien
+鑰	U+9470	Thược	dược×3; thược×1	khop_tu_dien
+鑾	U+947E	Loan	loan×2	khop_tu_dien
+鑿	U+947F	Tạc	tạc×9; tao×1	khop_tu_dien
+長	U+9577	Trường/Trưởng	trưởng×44; trường×26; tràng×1	khop_tu_dien
+門	U+9580	Môn	môn×96	khop_tu_dien
+閃	U+9583	Thiểm	thiểm×1	khop_tu_dien
+開	U+958B	Khai	khai×48	khop_tu_dien
+閎	U+958E	Hoằng/Hoành	hoành×1	lech_tu_dien
+閏	U+958F	Nhuận	nhuận×6	khop_tu_dien
+閑	U+9591	Nhàn	nhàn×4	khop_tu_dien
+閒	U+9592	Nhàn	nhàn×29; gian×1	khop_tu_dien
+間	U+9593	Gian	gian×14; gián×12	khop_tu_dien
+閔	U+9594	Mẫn	mẫn×1	khop_tu_dien
+閣	U+95A3	Các	các×14	khop_tu_dien
+閦	U+95A6	Súc/Sóc	sóc×1	lech_tu_dien
+閩	U+95A9	Mân	mân×1	khop_tu_dien
+閫	U+95AB	Khổn	khổn×4	khop_tu_dien
+閬	U+95AC	Lãng		khong_co_trong_tu_dien
+閭	U+95AD	Lư	lư×6	khop_tu_dien
+閱	U+95B1	Duyệt	duyệt×6	khop_tu_dien
+閴	U+95B4			thieu_am
+閶	U+95B6	Xương	xương×2	am_doan_chua_chac
+閻	U+95BB	Diêm	diêm×3; diễm×1	khop_tu_dien
+闇	U+95C7	Ám	ám×4; am×1	khop_tu_dien
+闉	U+95C9		nhân×1	thieu_am
+闊	U+95CA	Khoát	khoát×5	khop_tu_dien
+闍	U+95CD	Xà	xà×3; đồ×1	khop_tu_dien
+闐	U+95D0	Điền	điền×1	khop_tu_dien
+闓	U+95D3	Khải	khải×1	khop_tu_dien
+闔	U+95D4	Hạp	hạp×1	khop_tu_dien
+闕	U+95D5	Khuyết	khuyết×4; quyết×1	khop_tu_dien
+關	U+95DC	Quan	quan×34	khop_tu_dien
+闞	U+95DE	Hám	hám×1; khám×1	khop_tu_dien
+闡	U+95E1	Xiển	xiển×8	khop_tu_dien
+闢	U+95E2	Tích/Tịch	tịch×4; phách×2	lech_tu_dien
+闥	U+95E5	Thát	thát×1	khop_tu_dien
+阜	U+961C	Phụ	phụ×1	khop_tu_dien
+阡	U+9621	Thiên	thiên×1	khop_tu_dien
+阤	U+9624		đà×1; dĩ×1; trĩ×1	thieu_am
+阪	U+962A	Phản	phản×1	khop_tu_dien
+阮	U+962E	Nguyễn	nguyễn×2	khop_tu_dien
+防	U+9632	Phòng	phòng×26	khop_tu_dien
+阾	U+963E			thieu_am
+阿	U+963F	A	a×51; ốc×1	khop_tu_dien
+陀	U+9640	Đà	đà×8	khop_tu_dien
+陁	U+9641	Đà/Di	di×1; trĩ×1	lech_tu_dien
+附	U+9644	Phụ	phụ×21	khop_tu_dien
+陌	U+964C	Mạch	mạch×1	khop_tu_dien
+降	U+964D	Giáng	giáng×11; hàng×9	khop_tu_dien
+陛	U+965B	Bệ	bệ×10	khop_tu_dien
+陜	U+965C	Thiểm/Hiệp	hiệp×1	lech_tu_dien
+陝	U+965D	Thiểm	thiểm×1	khop_tu_dien
+陞	U+965E	Thăng	thăng×2	khop_tu_dien
+陟	U+965F	Trắc	trắc×3	khop_tu_dien
+陡	U+9661	Đẩu	đẩu×1	khop_tu_dien
+院	U+9662	Viện	viện×20	khop_tu_dien
+除	U+9664	Trừ	trừ×26	khop_tu_dien
+陰	U+9670	Âm	âm×77; ấm×2	khop_tu_dien
+陳	U+9673	Trần	trần×19; trận×5	khop_tu_dien
+陵	U+9675	Lăng	lăng×12	khop_tu_dien
+陶	U+9676	Đào	đào×6	khop_tu_dien
+陸	U+9678	Lục	lục×12	khop_tu_dien
+陽	U+967D	Dương	dương×40	khop_tu_dien
+隄	U+9684	Đê	đê×2	khop_tu_dien
+隅	U+9685	Ngung	ngung×2	khop_tu_dien
+隆	U+9686	Long	long×9	khop_tu_dien
+隍	U+968D	Hoàng	hoàng×3	khop_tu_dien
+階	U+968E	Giai	giai×10	khop_tu_dien
+隗	U+9697	Ngỗi/Ngôi	ngôi×1	lech_tu_dien
+際	U+969B	Tế	tế×11	khop_tu_dien
+障	U+969C	Chướng	chướng×7	khop_tu_dien
+隣	U+96A3	Lân	lân×4	khop_tu_dien
+隨	U+96A8	Tùy	tùy×16; tuỳ×1	khop_tu_dien
+險	U+96AA	Hiểm	hiểm×21	khop_tu_dien
+隰	U+96B0	Thấp	thấp×1	khop_tu_dien
+隱	U+96B1	Ẩn	ẩn×54; ấn×1	khop_tu_dien
+隲	U+96B2	Chất		khong_co_trong_tu_dien
+隸	U+96B8	Lệ	lệ×6	khop_tu_dien
+隹	U+96B9	Chuy	chuy×1	khop_tu_dien
+隺	U+96BA	Hạc	hạc×1; hộc×1	khop_tu_dien
+隼	U+96BC	Chuẩn	chuẩn×2	khop_tu_dien
+雀	U+96C0	Tước	tước×6	khop_tu_dien
+雄	U+96C4	Hùng	hùng×25	khop_tu_dien
+雅	U+96C5	Nhã	nhã×34; nha×1	khop_tu_dien
+集	U+96C6	Tập	tập×98	khop_tu_dien
+雉	U+96C9	Trĩ	trĩ×3	khop_tu_dien
+雋	U+96CB	Tuấn	tuấn×1; tuyển×1	khop_tu_dien
+雍	U+96CD	Ung	ung×3; ủng×1	khop_tu_dien
+雎	U+96CE	Thư	thư×2; sư×1	khop_tu_dien
+雒	U+96D2	Lạc	lạc×1	khop_tu_dien
+雙	U+96D9	Song	song×29	khop_tu_dien
+雝	U+96DD	Ung	ủng×1; ung×1	khop_tu_dien
+雞	U+96DE	Kê	kê×23	khop_tu_dien
+離	U+96E2	Ly	li×32; lệ×1	khop_tu_dien
+難	U+96E3	Nan	nan×20; nạn×18; na×1	khop_tu_dien
+雨	U+96E8	Vũ	vũ×31; vụ×1	khop_tu_dien
+雪	U+96EA	Tuyết	tuyết×17	khop_tu_dien
+雯	U+96EF	Văn	văn×2	khop_tu_dien
+雲	U+96F2	Vân	vân×49	khop_tu_dien
+零	U+96F6	Linh	linh×5	khop_tu_dien
+雷	U+96F7	Lôi	lôi×15; lỗi×1	khop_tu_dien
+電	U+96FB	Điện	điện×29	khop_tu_dien
+需	U+9700	Nhu	nhu×10; nhuyễn×1; tu×1	khop_tu_dien
+霄	U+9704	Tiêu	tiêu×6	khop_tu_dien
+霆	U+9706	Đình	đình×3	khop_tu_dien
+震	U+9707	Chấn	chấn×14	khop_tu_dien
+霈	U+9708	Bái	bái×3	khop_tu_dien
+霌	U+970C			thieu_am
+霍	U+970D	Hoắc	hoắc×3	khop_tu_dien
+霑	U+9711	Triêm	triêm×1	khop_tu_dien
+霓	U+9713	Nghê	nghê×2	khop_tu_dien
+霔	U+9714			thieu_am
+霖	U+9716	Lâm	lâm×2	khop_tu_dien
+霙	U+9719	Anh	anh×3	khop_tu_dien
+霜	U+971C	Sương	sương×19	khop_tu_dien
+霞	U+971E	Hà	hà×4	khop_tu_dien
+霤	U+9724		lựu×1	thieu_am
+霦	U+9726	Lân		khong_co_trong_tu_dien
+霧	U+9727	Vụ	vụ×4	khop_tu_dien
+霨	U+9728			thieu_am
+霰	U+9730	Tản	tản×1	am_doan_chua_chac
+霱	U+9731		duật×1	thieu_am
+露	U+9732	Lộ	lộ×30	khop_tu_dien
+霸	U+9738	Bá	bá×10; phách×1	khop_tu_dien
+霽	U+973D	Tễ	tễ×1	khop_tu_dien
+靄	U+9744	Ái	ái×3	khop_tu_dien
+靈	U+9748	Linh	linh×36	khop_tu_dien
+靉	U+9749	Ái	ái×4	khop_tu_dien
+靑	U+9751	Thanh		khong_co_trong_tu_dien
+青	U+9752	Thanh	thanh×21	khop_tu_dien
+靖	U+9756	Tĩnh	tĩnh×3	khop_tu_dien
+靘	U+9758		sảnh×1	thieu_am
+静	U+9759	Tĩnh		khong_co_trong_tu_dien
+靚	U+975A	Tĩnh/Tịnh	tịnh×1	lech_tu_dien
+靜	U+975C	Tĩnh	tĩnh×16	khop_tu_dien
+非	U+975E	Phi	phi×29; phỉ×1	khop_tu_dien
+面	U+9762	Diện	diện×67	khop_tu_dien
+革	U+9769	Cách	cách×15; cức×1	khop_tu_dien
+靳	U+9773	Cận	cận×1	khop_tu_dien
+靺	U+977A	Mạt	mạt×2	khop_tu_dien
+鞅	U+9785	Ương/Ưởng	ưởng×1	lech_tu_dien
+鞍	U+978D	An	an×3; yên×1	khop_tu_dien
+鞏	U+978F	Củng	củng×2	khop_tu_dien
+鞞	U+979E	Bễ/Bỉ	bỉ×1	lech_tu_dien
+鞠	U+97A0	Cúc	cúc×7	khop_tu_dien
+鞭	U+97AD	Tiên	tiên×6	khop_tu_dien
+韋	U+97CB	Vi	vi×3	khop_tu_dien
+韓	U+97D3	Hàn	hàn×3	khop_tu_dien
+韙	U+97D9	Vĩ	vĩ×1	khop_tu_dien
+韜	U+97DC	Thao	thao×3; sáo×1	khop_tu_dien
+韞	U+97DE	Uẩn	uẩn×2; ôn×1	khop_tu_dien
+音	U+97F3	Âm	âm×62; ấm×1	khop_tu_dien
+韶	U+97F6	Thiều	thiều×4	khop_tu_dien
+韻	U+97FB	Vận	vận×12	khop_tu_dien
+響	U+97FF	Hưởng	hưởng×6	khop_tu_dien
+頁	U+9801	Hiệt	hiệt×1	khop_tu_dien
+頂	U+9802	Đảnh/Đỉnh	đỉnh×4; đính×3	lech_tu_dien
+頃	U+9803	Khoảnh	khoảnh×2; khuynh×1; khuể×1	khop_tu_dien
+項	U+9805	Hạng	hạng×11	khop_tu_dien
+順	U+9806	Thuận	thuận×16	khop_tu_dien
+須	U+9808	Tu	tu×3	khop_tu_dien
+頊	U+980A	Húc	húc×1	khop_tu_dien
+頌	U+980C	Tụng	tụng×5; dung×1	khop_tu_dien
+頎	U+980E	Kỳ	khẩn×1; kì×1	khop_tu_dien
+預	U+9810	Dự	dự×16	khop_tu_dien
+頑	U+9811	Ngoan	ngoan×13; ngoạn×1	khop_tu_dien
+頒	U+9812	Ban	ban×12; phần×1	khop_tu_dien
+頓	U+9813	Đốn	đốn×12	khop_tu_dien
+頔	U+9814	Địch		khong_co_trong_tu_dien
+頖	U+9816		phán×1	thieu_am
+頗	U+9817	Pha	pha×1	khop_tu_dien
+領	U+9818	Lĩnh	lĩnh×24; lãnh×1	khop_tu_dien
+頙	U+9819			thieu_am
+頠	U+9820		ngỗi×1	thieu_am
+頤	U+9824	Di	di×2	khop_tu_dien
+頥	U+9825	Di		khong_co_trong_tu_dien
+頫	U+982B	Phủ	phủ×2; thiếu×1	khop_tu_dien
+頭	U+982D	Đầu	đầu×78	khop_tu_dien
+頮	U+982E		hối×1	thieu_am
+頲	U+9832	Đĩnh/Thính	thính×1	lech_tu_dien
+頴	U+9834	Dĩnh		khong_co_trong_tu_dien
+頵	U+9835	Quân/Quần	quần×1	lech_tu_dien
+頻	U+983B	Tần	tần×2	khop_tu_dien
+顆	U+9846	Khỏa	khỏa×1	khop_tu_dien
+題	U+984C	Đề	đề×15; đệ×1	khop_tu_dien
+額	U+984D	Ngạch	ngạch×5	khop_tu_dien
+顏	U+984F	Nhan	nhan×18	khop_tu_dien
+顒	U+9852	Ngung	ngung×1	khop_tu_dien
+顓	U+9853	Chuyên	chuyên×3	khop_tu_dien
+顗	U+9857	Nghĩ	nghĩ×1	khop_tu_dien
+願	U+9858	Nguyện	nguyện×18	khop_tu_dien
+顛	U+985B	Điên	điên×4	khop_tu_dien
+類	U+985E	Loại	loại×31; loài×1	khop_tu_dien
+顥	U+9865	Hạo	hạo×1	khop_tu_dien
+顧	U+9867	Cố	cố×17	khop_tu_dien
+顯	U+986F	Hiển	hiển×15	khop_tu_dien
+風	U+98A8	Phong	phong×137; phúng×1	khop_tu_dien
+颺	U+98BA	Dương	dương×1	khop_tu_dien
+颿	U+98BF	Phàm/Phiếm	phiếm×1	lech_tu_dien
+飛	U+98DB	Phi	phi×40	khop_tu_dien
+食	U+98DF	Thực	thực×46; tự×3	khop_tu_dien
+飧	U+98E7	Tôn	tôn×1	khop_tu_dien
+飯	U+98EF	Phạn	phạn×13	khop_tu_dien
+飲	U+98F2	Ẩm	ẩm×35; ấm×1	khop_tu_dien
+飼	U+98FC	Tự	tự×1	khop_tu_dien
+飾	U+98FE	Sức	sức×13	khop_tu_dien
+養	U+990A	Dưỡng	dưỡng×35; dạng×1	khop_tu_dien
+餐	U+9910	Xan	xan×3	khop_tu_dien
+餗	U+9917	Tốc		khong_co_trong_tu_dien
+餘	U+9918	Dư	dư×18	khop_tu_dien
+館	U+9928	Quán	quán×13	khop_tu_dien
+饒	U+9952	Nhiêu	nhiêu×9	khop_tu_dien
+首	U+9996	Thủ	thủ×25; thú×6	khop_tu_dien
+馗	U+9997	Quỳ	quỳ×1	khop_tu_dien
+香	U+9999	Hương	hương×37	khop_tu_dien
+馝	U+999D		tất×1	thieu_am
+馥	U+99A5	Phức	phức×1; phục×1	khop_tu_dien
+馨	U+99A8	Hinh	hinh×2	khop_tu_dien
+馬	U+99AC	Mã	mã×55	khop_tu_dien
+馭	U+99AD	Ngự	ngự×1	khop_tu_dien
+馮	U+99AE	Phùng	bằng×8; phùng×2	khop_tu_dien
+馱	U+99B1	Đà	đà×1	khop_tu_dien
+馳	U+99B3	Trì	trì×5	khop_tu_dien
+馴	U+99B4	Tuần	tuần×2; huấn×1	khop_tu_dien
+駄	U+99C4	Đà		khong_co_trong_tu_dien
+駒	U+99D2	Câu	câu×5	khop_tu_dien
+駕	U+99D5	Giá	giá×8	khop_tu_dien
+駘	U+99D8		đãi×2; đài×1	thieu_am
+駢	U+99E2	Biền	biền×9	khop_tu_dien
+駰	U+99F0		nhân×1	thieu_am
+駱	U+99F1	Lạc	lạc×2	khop_tu_dien
+駿	U+99FF	Tuấn	tuấn×3	khop_tu_dien
+騊	U+9A0A			thieu_am
+騎	U+9A0E	Kỵ	kị×17; kỵ×2	khop_tu_dien
+騑	U+9A11		phi×1	thieu_am
+騫	U+9A2B	Khiên	khiên×1; kiển×1	khop_tu_dien
+騮	U+9A2E	Lưu	lưu×1	khop_tu_dien
+騰	U+9A30	Đằng	đằng×9	khop_tu_dien
+驀	U+9A40	Mạch	mạch×1	khop_tu_dien
+驁	U+9A41	Ngạo/Ngao	ngao×1	lech_tu_dien
+驃	U+9A43	Phiếu	phiêu×2; phiếu×1	khop_tu_dien
+驄	U+9A44	Thông	thông×1	khop_tu_dien
+驊	U+9A4A	Hoa		khong_co_trong_tu_dien
+驎	U+9A4E	Lân	lân×2	khop_tu_dien
+驗	U+9A57	Nghiệm	nghiệm×17	khop_tu_dien
+驛	U+9A5B	Dịch	dịch×9	khop_tu_dien
+驢	U+9A62	Lư	lư×1	khop_tu_dien
+驤	U+9A64	Tương	tương×1	khop_tu_dien
+驥	U+9A65	Ký	kí×1	khop_tu_dien
+驩	U+9A69	Hoan	hoan×1	khop_tu_dien
+驪	U+9A6A	Ly	li×1	khop_tu_dien
+骨	U+9AA8	Cốt	cốt×49	khop_tu_dien
+髓	U+9AD3	Tủy	tủy×2; tuỷ×1	khop_tu_dien
+體	U+9AD4	Thể	thể×52	khop_tu_dien
+高	U+9AD8	Cao	cao×55	khop_tu_dien
+髙	U+9AD9	Cao	cao×2	khop_tu_dien
+髡	U+9AE1	Khôn	khôn×1	khop_tu_dien
+髦	U+9AE6	Mao	mao×2	khop_tu_dien
+髮	U+9AEE	Phát	phát×10	khop_tu_dien
+髻	U+9AFB	Kế/Kê	kê×1; kết×1	lech_tu_dien
+鬘	U+9B18	Man	man×1	khop_tu_dien
+鬢	U+9B22	Mấn	mấn×2	khop_tu_dien
+鬪	U+9B2A	Đấu	đấu×1	khop_tu_dien
+鬯	U+9B2F	Sướng/Sưởng	sưởng×3	lech_tu_dien
+鬱	U+9B31	Uất	uất×1	khop_tu_dien
+鬼	U+9B3C	Quỷ	quỷ×24	khop_tu_dien
+魁	U+9B41	Khôi	khôi×8	khop_tu_dien
+魂	U+9B42	Hồn	hồn×15; hồn×4	khop_tu_dien
+魏	U+9B4F	Ngụy	nguy×2; ngụy×1; ngùy×1	khop_tu_dien
+魔	U+9B54	Ma	ma×14	khop_tu_dien
+魚	U+9B5A	Ngư	ngư×28	khop_tu_dien
+魯	U+9B6F	Lỗ	lỗ×4; lữ×1	khop_tu_dien
+魴	U+9B74	Phưởng/Phường	phường×1	lech_tu_dien
+鮑	U+9B91	Bào	bào×1	khop_tu_dien
+鮮	U+9BAE	Tiên	tiên×4; tiển×1	khop_tu_dien
+鯀	U+9BC0	Cổn	cổn×1	khop_tu_dien
+鯉	U+9BC9	Lý	lí×1	khop_tu_dien
+鯤	U+9BE4	Côn	côn×2	khop_tu_dien
+鯨	U+9BE8	Kình	kình×4; canh×1	khop_tu_dien
+鰲	U+9C32	Ngao	ngao×1	khop_tu_dien
+鱗	U+9C57	Lân	lân×2	khop_tu_dien
+鲁	U+9C81	Lỗ		khong_co_trong_tu_dien
+鳥	U+9CE5	Điểu	điểu×16	khop_tu_dien
+鳧	U+9CE7	Phù	phù×2	khop_tu_dien
+鳩	U+9CE9	Cưu	cưu×12	khop_tu_dien
+鳯	U+9CEF	Phụng		khong_co_trong_tu_dien
+鳳	U+9CF3	Phụng	phượng×19; phụng×3	khop_tu_dien
+鳴	U+9CF4	Minh	minh×7	khop_tu_dien
+鴒	U+9D12	Linh		khong_co_trong_tu_dien
+鴦	U+9D26	Ương	ương×3	khop_tu_dien
+鴻	U+9D3B	Hồng	hồng×6; hồng×4	khop_tu_dien
+鴿	U+9D3F	Cáp	cáp×2	khop_tu_dien
+鵑	U+9D51	Quyên	quyên×2	khop_tu_dien
+鵜	U+9D5C	Đề		khong_co_trong_tu_dien
+鵝	U+9D5D	Nga	nga×2	khop_tu_dien
+鵠	U+9D60	Hộc	hộc×6; cốc×2	khop_tu_dien
+鵡	U+9D61	Vũ	vũ×2	khop_tu_dien
+鵬	U+9D6C	Bằng	bằng×7	khop_tu_dien
+鵰	U+9D70	Điêu		khong_co_trong_tu_dien
+鵲	U+9D72	Thước	thước×4	khop_tu_dien
+鶖	U+9D96	Thu		khong_co_trong_tu_dien
+鶚	U+9D9A	Ngạc		khong_co_trong_tu_dien
+鶴	U+9DB4	Hạc	hạc×8	khop_tu_dien
+鷗	U+9DD7	Âu	âu×4	khop_tu_dien
+鷟	U+9DDF	Trác/Thốc	thốc×1	lech_tu_dien
+鷲	U+9DF2	Thứu/Tựu	tựu×1	lech_tu_dien
+鷳	U+9DF3	Nhàn		khong_co_trong_tu_dien
+鷹	U+9DF9	Ưng	ưng×8	khop_tu_dien
+鷺	U+9DFA	Lộ	lộ×5	khop_tu_dien
+鸖	U+9E16	Hạc		khong_co_trong_tu_dien
+鸚	U+9E1A	Anh	anh×2	khop_tu_dien
+鸞	U+9E1E	Loan	loan×9	khop_tu_dien
+鹄	U+9E44	Hộc		khong_co_trong_tu_dien
+鹽	U+9E7D	Diêm	diêm×10; diễm×1	khop_tu_dien
+鹿	U+9E7F	Lộc	lộc×3	khop_tu_dien
+麐	U+9E90	Lân		khong_co_trong_tu_dien
+麒	U+9E92	Kỳ		khong_co_trong_tu_dien
+麓	U+9E93	Lộc	lộc×2	khop_tu_dien
+麗	U+9E97	Lệ	lệ×12; li×2	khop_tu_dien
+麟	U+9E9F	Lân	lân×2	khop_tu_dien
+麥	U+9EA5	Mạch	mạch×5	khop_tu_dien
+麴	U+9EB4	Khúc	khúc×1	khop_tu_dien
+麻	U+9EBB	Ma	ma×9	khop_tu_dien
+麼	U+9EBC	Ma	ma×2	khop_tu_dien
+黁	U+9EC1		nuyên×1	thieu_am
+黃	U+9EC3	Hoàng	hoàng×24; huỳnh×1	khop_tu_dien
+黄	U+9EC4	Hoàng	hoàng×4	khop_tu_dien
+黌	U+9ECC	Hoành		khong_co_trong_tu_dien
+黎	U+9ECE	Lê	lê×13	khop_tu_dien
+黑	U+9ED1	Hắc	hắc×14	khop_tu_dien
+默	U+9ED8	Mặc	mặc×5	khop_tu_dien
+黙	U+9ED9	Mặc		khong_co_trong_tu_dien
+黛	U+9EDB	Đại	đại×2	khop_tu_dien
+點	U+9EDE	Điểm	điểm×37	khop_tu_dien
+黠	U+9EE0	Hiệt	hiệt×1	khop_tu_dien
+黨	U+9EE8	Đảng	đảng×24; chưởng×1	khop_tu_dien
+黴	U+9EF4	Mi	mi×1	khop_tu_dien
+黻	U+9EFB	Phất	phất×1	khop_tu_dien
+黼	U+9EFC	Phủ	phủ×1	khop_tu_dien
+鼇	U+9F07	Ngao	ngao×2	khop_tu_dien
+鼎	U+9F0E	Đỉnh	đỉnh×11	khop_tu_dien
+鼐	U+9F10	Nãi	nãi×1	khop_tu_dien
+鼒	U+9F12	Tư/Tài	tài×1	lech_tu_dien
+鼓	U+9F13	Cổ	cổ×23	khop_tu_dien
+鼻	U+9F3B	Tỵ	tị×7	khop_tu_dien
+齊	U+9F4A	Tề	tề×18; tư×1; tễ×1	khop_tu_dien
+齋	U+9F4B	Trai	trai×20	khop_tu_dien
+齎	U+9F4E		tê×1	thieu_am
+齒	U+9F52	Xỉ	xỉ×26	khop_tu_dien
+齡	U+9F61	Linh	linh×6	khop_tu_dien
+龍	U+9F8D	Long	long×40	khop_tu_dien
+龐	U+9F90	Bàng	bàng×7	khop_tu_dien
+龑	U+9F91	Nghiễm/Yểm	yểm×1	lech_tu_dien
+龔	U+9F94	Cung	cung×1	khop_tu_dien
+龕	U+9F95	Khám		khong_co_trong_tu_dien
+龜	U+9F9C	Quy	quy×15; cưu×1	khop_tu_dien
+龢	U+9FA2	Hòa		khong_co_trong_tu_dien
+羅	U+F90F	La		khong_co_trong_tu_dien
+𠁼	U+2007C		hạ×1	thieu_am
+𠕂	U+20542		tái×1	thieu_am
+𠙶	U+20676			thieu_am
+𡏬	U+213EC			thieu_am
+𡧎	U+219CE			thieu_am
+𡨢	U+21A22			thieu_am
+𡵫	U+21D6B			thieu_am
+𣹟	U+23E5F			thieu_am
+𣻢	U+23EE2			thieu_am
+𣽘	U+23F58			thieu_am
+𣽡	U+23F61			thieu_am
+𤅙	U+24159			thieu_am
+𤊹	U+242B9			thieu_am
+𤤯	U+2492F			thieu_am
+𤥨	U+24968			thieu_am
+𤨄	U+24A04			thieu_am
+𤩄	U+24A44			thieu_am
+𤩔	U+24A54			thieu_am
+𤪙	U+24A99			thieu_am
+𤪳	U+24AB3			thieu_am
+𥌓	U+25313			thieu_am
+𥳑	U+25CD1			thieu_am
+𦶜	U+26D9C			thieu_am
+𧆼	U+271BC			thieu_am
+𧦪	U+279AA			thieu_am
+𧦬	U+279AC			thieu_am
+𧧌	U+279CC	Tịch		am_doan_chua_chac
+𨍏	U+2834F		đạc×2	thieu_am
+𨛱	U+286F1			thieu_am
+𨧨	U+289E8			thieu_am
+𨭉	U+28B49			thieu_am
+𨮁	U+28B81			thieu_am
+𩄍	U+2910D			thieu_am
+𩆓	U+29193			thieu_am
+𩇕	U+291D5			thieu_am
+𩈣	U+29223			thieu_am
+𩒺	U+294BA			thieu_am
+𪓔	U+2A4D4			thieu_am
+屮	U+2F878			thieu_am
