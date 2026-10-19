@@ -1,0 +1,306 @@
+﻿dila_id	loai	tier	name_zh	name_vi_hien_tai	can_duyet	name_vi_da_duyet
+PLA000035	country	3	比利時	Tỷ Lợi Thời	Tỷ/Bỉ	
+PLB000011		3	浙江省	Chiết Giang Tỉnh	Chiết/Triết	
+PLB000033		3	香港特別行政區	Hương Cảng Đặc Biệt Hành Chính Khu	Hành/Hạnh	
+PLB000034		3	澳門特別行政區	Áo Môn Đặc Biệt Hành Chính Khu	Hành/Hạnh	
+PLB000050		3	卡比薩省(Kapisa)	Sá Tỷ Tát Tỉnh(Kapisa)	Tỷ/Bỉ	
+PLB000104		3	比哈爾邦(Bihar)	Tỷ Cáp Nhĩ Bang(Bihar)	Tỷ/Bỉ	
+PLB000120		3	馬哈拉施特拉邦(Maharashtra)	Mã Cáp Lạp Thi Đặc Lạp Bang(Maharashtra)	Thi/Thí	
+PLB000181		3	甘丹省(乾拉省)(KandalProvince)	Cam Đan Tỉnh(Càn Lạp Tỉnh)(KandalProvince)	Càn/Kiền	
+PLB000222		3	蔚山廣域市(UlsanMetropolitanCity)	Uất Sơn Quảng Vực Thị(UlsanMetropolitanCity)	Uất/Úy	
+PLB000229		3	比什凱克(Bishkek)	Tỷ Thập Khải Khắc(Bishkek)	Tỷ/Bỉ	
+PLB000234		3	伊塞克湖州(IssykKulProvince)	Y Tái Khắc Hồ Châu(IssykKulProvince)	Tái/Tắc	
+PLB000238		3	占巴塞省(Champassack(Champasak))	Chiêm Ba Tái Tỉnh(Champassack(Champasak))	Tái/Tắc	
+PLB000252		3	賽宋本行政特區(Xaisomboun)	Tái Tống Bổn Hành Chính Đặc Khu(Xaisomboun)	Hành/Hạnh	
+PLB000258		3	彭亨(Pahang)	Bành Hanh(Pahang)	LỆCH-không-sửa:từ-điển-ghi Bàng Hanh(NQH)	
+PLB000260		3	霹靂(Perak)	Tích Lịch(Perak)	Phích/Tích	
+PLB000303		3	若開邦(Rakhine)	Nhược Khai Bang(Rakhine)	Nhược/Nhã	
+PLB000304		3	撣邦(Shan)	Thiện Bang(Shan)	Thiện/Đàn	
+PLB000325		3	比科爾區（米骨區/美骨區）(Bicol)	Tỷ Khoa Nhĩ Khu（Mễ Cốt Khu/Mỹ Cốt Khu）(Bicol)	Tỷ/Bỉ	
+PLB000335		3	山脈區（山頂區）(CordilleraAdministrativeRegion(CAR))	Sơn Mạch Khu（Sơn Đảnh Khu）(CordilleraAdministrativeRegion(CAR))	Đảnh/Đỉnh	
+PLB000441		3	麻薩諸塞州(Massachusetts)	Ma Tát Chư Tái Châu(Massachusetts)	Tái/Tắc	
+PLB000444		3	密西西比州(Mississippi)	Mật Tây Tây Tỷ Châu(Mississippi)	Tỷ/Bỉ	
+PLC000051		3	朝陽市	Triều Dương Thị	Triều/Triêu	
+PLC000061		3	延邊朝鮮族自治州	Diên Biên Triều Tiên Tộc Tự Trị Châu	Triều/Triêu	
+PLC000140		3	淄博市	Truy Bác Thị	Truy/Chuy	
+PLC000141		3	棗莊市	Táo Trang Thị	Táo/Tảo	
+PLC000158		3	平頂山市	Bình Đảnh Sơn Thị	Đảnh/Đỉnh	
+PLC000172		3	省直轄縣級行政區劃	Tỉnh Trực Hạt Huyện Cấp Hành Chính Khu Hoạch	Hành/Hạnh	
+PLC000185		3	恩施土家族苗族自治州	Ân Thi Thổ Gia Tộc Miêu Tộc Tự Trị Châu	Thi/Thí	
+PLC000186		3	省直轄縣級行政區劃(**)	Tỉnh Trực Hạt Huyện Cấp Hành Chính Khu Hoạch(**)	Hành/Hạnh	
+PLC000203		3	深圳市	Thâm Chấn Thị	Chấn/Quyến	
+PLC000205		3	汕頭市	Sán Đầu Thị	Sán/San	
+PLC000213		3	汕尾市	Sán Vĩ Thị	Sán/San	
+PLC000217		3	東莞市	Đông Quan Thị	Quan/Hoản/Hoán	
+PLC000238		3	省直轄縣級行政區劃	Tỉnh Trực Hạt Huyện Cấp Hành Chính Khu Hoạch	Hành/Hạnh	
+PLC000285		4	怒江傈僳族自治州	Nộ Giang 傈 僳 Tộc Tự Trị Châu	chưa có âm (giữ chữ Hán): 傈僳	
+PLC000305		3	嘉峪關市	Gia Dục Quan Thị	Dục/Cốc	
+PLC000333		3	吐魯番地區	Thổ Lỗ Phiên Địa Khu	Phiên/Phan	
+PLC000345		3	自治區直轄縣級行政區劃(**)	Tự Trị Khu Trực Hạt Huyện Cấp Hành Chính Khu Hoạch(**)	Hành/Hạnh	
+PLC001978		4	(栃木県)	(栃 Mộc Huyện)	chưa có âm (giữ chữ Hán): 栃	
+PLC001993		3	(三重県)	(Tam Trùng Huyện)	Trùng/Trọng	
+PLC002210		3	고풍군;古豊郡(Kop’ung-kun)	고풍군;Cổ Phong Quận(Kop’ung-kun)	Phong/Lễ	
+PLC002254		3	락원군;樂園郡(Ragwŏn-kun)	락원군;Lạc Viên Quận(Ragwŏn-kun)	Lạc/Nhạc	
+PLC002283		3	재령군;載寧郡(Chaeryŏng-kun)	재령군;Tải Ninh Quận(Chaeryŏng-kun)	Tải/Tái	
+PLC002349		3	증산군;甑山郡(Chungsan-kun)	증산군;Tắng Sơn Quận(Chungsan-kun)	Tắng/Tặng	
+PLC002386		3	락랑구역;樂浪區域(Rakrang-guyŏk)	락랑구역;Lạc Lãng Khu Vực(Rakrang-guyŏk)	Lạc/Nhạc	
+PLC002406		3	풍서군;豊西郡(P’ungsŏ)	풍서군;Phong Tây Quận(P’ungsŏ)	Phong/Lễ	
+PLC002609		3	완도군;莞島郡(Wando-gun)	완도군;Quan Đảo Quận(Wando-gun)	Quan/Hoản/Hoán	
+PLC002657		3	합천군;陜川郡(Hapcheon-gun)	합천군;Thiểm Xuyên Quận(Hapcheon-gun)	Thiểm/Hiệp	
+PLC002685		3	울진군;蔚珍郡(Uljin-gun)	울진군;Uất Trân Quận(Uljin-gun)	Uất/Úy	
+PLC003468		3	乾達其地區(Gandaki)	Càn Đạt Kỳ Địa Khu(Gandaki)	Càn/Kiền	
+PLC003469		3	魯比尼地區(Lumbini)	Lỗ Tỷ Ni Địa Khu(Lumbini)	Tỷ/Bỉ	
+PLC003714		3	北奧塞梯共和國(Alania)(СевернаяОсетия)(NorthOssetia)	Bắc Áo Tái Thê Cộng Hòa Quốc(Alania)(СевернаяОсетия)(NorthOssetia)	Tái/Tắc	
+PLC004262		3	多樂省(DakLak)	Đa Lạc Tỉnh(DakLak)	Lạc/Nhạc	
+PLC004280		4	檳椥省(BenTre)	Tân 椥 Tỉnh(BenTre)	chưa có âm (giữ chữ Hán): 椥	
+PLC004282		3	蓄臻省(SocTrang)	Súc Trăn Tỉnh(SocTrang)	Trăn/Trân	
+PLD000005		3	朝陽區	Triều Dương Khu	Triều/Triêu	
+PLD000008		3	海淀區	Hải Điến Khu	Điến/Điện	
+PLD000047		3	行唐縣	Hành Đường Huyện	Hành/Hạnh	
+PLD000059		3	新樂市	Tân Lạc Thị	Lạc/Nhạc	
+PLD000070		3	樂亭縣	Lạc Đình Huyện	Lạc/Nhạc	
+PLD000160		3	蔚縣	Uất Huyện	Uất/Úy	
+PLD000210		3	棗強縣	Táo Cường Huyện	Táo/Tảo	
+PLD000254		3	屯留縣	Đồn Lưu Huyện	Đồn/Truân	
+PLD000295		3	新絳縣	Tân Giáng Huyện	Giáng/Ráng	
+PLD000296		3	絳縣	Giáng Huyện	Giáng/Ráng	
+PLD000310		3	靜樂縣	Tĩnh Lạc Huyện	Lạc/Nhạc	
+PLD000416		3	紮蘭屯市	Trát Lan Đồn Thị	Đồn/Truân	
+PLD000443		3	紮賚特旗	Trát Lại Đặc Kỳ	Lại/Lãi	
+PLD000466		3	蘇家屯區	Tô Gia Đồn Khu	Đồn/Truân	
+PLD000469		3	於洪區	Ư Hồng Khu	Ư/Ô	
+PLD000526		4	鮁魚圈區	鮁 Ngư Quyển Khu	chưa có âm (giữ chữ Hán): 鮁	
+PLD000562		3	朝陽縣	Triều Dương Huyện	Triều/Triêu	
+PLD000577		3	朝陽區	Triều Dương Khu	Triều/Triêu	
+PLD000620		3	長白朝鮮族自治縣	Trường Bạch Triều Tiên Tộc Tự Trị Huyện	Triều/Triêu	
+PLD000626		3	乾安縣	Càn An Huyện	Càn/Kiền	
+PLD000630		3	鎮賚縣	Trấn Lại Huyện	Lại/Lãi	
+PLD000667		3	碾子山區	Niễn Tử Sơn Khu	Niễn/Triển	
+PLD000718		3	南岔區	Nam Xá Khu	Xá/Sá	
+PLD000724		3	金山屯區	Kim Sơn Đồn Khu	Đồn/Truân	
+PLD000795		3	閔行區	Mẫn Hành Khu	Hành/Hạnh	
+PLD000854		3	相城區	Tương Thành Khu	Tương/Tướng	
+PLD000884		3	盱眙縣	Hu Di Huyện	Di/Sỉ	
+PLD000892		3	射陽縣	Xạ Dương Huyện	Xạ/Dạ	
+PLD000961		3	樂清市	Lạc Thanh Thị	Lạc/Nhạc	
+PLD001063		3	相山區	Tương Sơn Khu	Tương/Tướng	
+PLD001076		3	樅陽縣	Tùng Dương Huyện	Tùng/Túng	
+PLD001084		3	屯溪區	Đồn Khê Khu	Đồn/Truân	
+PLD001087		3	歙縣	Thiệp Huyện	Thiệp/Hấp	
+PLD001160		3	長樂市	Trường Lạc Thị	Lạc/Nhạc	
+PLD001183		3	將樂縣	Tương Lạc Huyện	Lạc/Nhạc	
+PLD001255		3	樂平市	Lạc Bình Thị	Lạc/Nhạc	
+PLD001318		3	萬載縣	Vạn Tải Huyện	Tải/Tái	
+PLD001332		3	樂安縣	Lạc An Huyện	Lạc/Nhạc	
+PLD001376		3	淄川區	Truy Xuyên Khu	Truy/Chuy	
+PLD001379		3	臨淄區	Lâm Truy Khu	Truy/Chuy	
+PLD001416		3	昌樂縣	Xương Lạc Huyện	Lạc/Nhạc	
+PLD001479		3	樂陵市	Lạc Lăng Thị	Lạc/Nhạc	
+PLD001505		3	鄄城縣	Quyên Thành Huyện	Quyên/Quyến	
+PLD001529		3	尉氏縣	Úy Thị Huyện	Úy/Uất	
+PLD001603		3	南樂縣	Nam Lạc Huyện	Lạc/Nhạc	
+PLD001610		3	鄢陵縣	Yên Lăng Huyện	Yên/Yển	
+PLD001696		3	黃陂區	Hoàng Pha Khu	Pha/Bi	
+PLD001700		3	西塞山區	Tây Tái Sơn Khu	Tái/Tắc	
+PLD001718		3	猇亭區	Hiêu Đình Khu	Hiêu/Hổ	
+PLD001730		3	樊城區	Phàn Thành Khu	Phàn/Phiền	
+PLD001736		3	棗陽市	Táo Dương Thị	Táo/Tảo	
+PLD001744		3	掇刀區	Chuyết Đao Khu	Chuyết/Xuyết	
+PLD001786		3	恩施市	Ân Thi Thị	Thi/Thí	
+PLD001955		3	樂昌市	Lạc Xương Thị	Lạc/Nhạc	
+PLD001975		3	南澳縣	Nam Áo Huyện	Áo/Úc	
+PLD002099		3	疊彩區	Điệp Thải Khu	Thải/Thái	
+PLD002112		3	平樂縣	Bình Lạc Huyện	Lạc/Nhạc	
+PLD002160		3	樂業縣	Lạc Nghiệp Huyện	Lạc/Nhạc	
+PLD002175		4	羅城仫佬族自治縣	La Thành 仫 Lão Tộc Tự Trị Huyện	chưa có âm (giữ chữ Hán): 仫	
+PLD002209		3	屯昌縣(**)	Đồn Xương Huyện(**)	Đồn/Truân	
+PLD002214		3	樂東黎族自治縣(**)	Lạc Đông Lê Tộc Tự Trị Huyện(**)	Lạc/Nhạc	
+PLD002229		4	北碚區	Bắc 碚 Khu	chưa có âm (giữ chữ Hán): 碚	
+PLD002273		3	郫縣	Tỳ Huyện	Tỳ/Bì	
+PLD002322		3	朝天區	Triều Thiên Khu	Triều/Triêu	
+PLD002331		3	射洪縣	Xạ Hồng Huyện	Xạ/Dạ	
+PLD002384		3	華鎣市	Hoa Oanh Thị	Oanh/Oánh	
+PLD002410		3	樂至縣	Lạc Chí Huyện	Lạc/Nhạc	
+PLD002423		3	若爾蓋縣	Nhược Nhĩ Cái Huyện	Nhược/Nhã	
+PLD002525		3	施秉縣	Thi Bỉnh Huyện	Thi/Thí	
+PLD002588		3	施甸縣	Thi Điện Huyện	Thi/Thí	
+PLD002618		4	孟連傣族拉祜族佤族自治縣	Mạnh Liên Thái Tộc Lạp Hỗ Tộc 佤 Tộc Tự Trị Huyện	chưa có âm (giữ chữ Hán): 佤	
+PLD002620		4	西盟佤族自治縣	Tây Minh 佤 Tộc Tự Trị Huyện	chưa có âm (giữ chữ Hán): 佤	
+PLD002627		4	雙江拉祜族佤族布朗族傣族自治縣	Song Giang Lạp Hỗ Tộc 佤 Tộc Bố Lãng Tộc Thái Tộc Tự Trị Huyện	chưa có âm (giữ chữ Hán): 佤	
+PLD002628		4	耿馬傣族佤族自治縣	Cảnh Mã Thái Tộc 佤 Tộc Tự Trị Huyện	chưa có âm (giữ chữ Hán): 佤	
+PLD002629		4	滄源佤族自治縣	Thương Nguyên 佤 Tộc Tự Trị Huyện	chưa có âm (giữ chữ Hán): 佤	
+PLD002687		4	維西傈僳族自治縣	Duy Tây 傈 僳 Tộc Tự Trị Huyện	chưa có âm (giữ chữ Hán): 傈僳	
+PLD002718		3	錯那縣	Thác Na Huyện	Thác/Thố	
+PLD002740		3	比如縣	Tỷ Như Huyện	Tỷ/Bỉ	
+PLD002800		3	乾縣	Càn Huyện	Càn/Kiền	
+PLD002826		3	安塞縣	An Tái Huyện	Tái/Tắc	
+PLD002914		3	民樂縣	Dân Lạc Huyện	Lạc/Nhạc	
+PLD002919		3	崆峒區	Không Động Khu	Động/Đồng	
+PLD002931		3	阿克塞哈薩克族自治縣	A Khắc Tái Cáp Tát Khắc Tộc Tự Trị Huyện	Tái/Tắc	
+PLD002963		3	康樂縣	Khang Lạc Huyện	Lạc/Nhạc	
+PLD002987		3	樂都區	Lạc Đô Khu	Lạc/Nhạc	
+PLD003017		3	德令哈市	Đức Linh Cáp Thị	Linh/Lệnh	
+PLD003052		3	頭屯河區	Đầu Đồn Hà Khu	Đồn/Truân	
+PLD003061		3	吐魯番市	Thổ Lỗ Phiên Thị	Phiên/Phan	
+PLD003074		3	博樂市	Bác Lạc Thị	Lạc/Nhạc	
+PLD003079		3	尉犁縣	Úy Lê Huyện	Úy/Uất	
+PLD003080		3	若羌縣	Nhược Khương Huyện	Nhược/Nhã	
+PLD003120		3	奎屯市	Khuê Đồn Thị	Đồn/Truân	
+PLD003152		3	さっぽろしとよひらく(札幌市豊平区)	さっぽろしとよひらく(Trát Hoảng Thị Phong Bình Khu)	Phong/Lễ	
+PLD003171		3	びばいし(美唄市)	びばいし(Mỹ Bối Thị)	Bối/Bại	
+PLD003244		3	たかすちょう(鷹栖町)	たかすちょう(Ưng Thê Đinh)	Thê/Tê	
+PLD003247		3	ぴっぷちょう(比布町)	ぴっぷちょう(Tỷ Bố Đinh)	Tỷ/Bỉ	
+PLD003271		3	はまとんべつちょう(浜頓別町)	はまとんべつちょう(Tân Đốn Biệt Đinh)	Tân/Binh	
+PLD003274		3	とよとみちょう(豊富町)	とよとみちょう(Phong Phú Đinh)	Phong/Lễ	
+PLD003294		3	とようらちょう(豊浦町)	とようらちょう(Phong Phổ Đinh)	Phong/Lễ	
+PLD003295		3	そうべつちょう(壮瞥町)	そうべつちょう(Tráng Miết Đinh)	Tráng/Trang	
+PLD003308		3	おとふけちょう(音更町)	おとふけちょう(Âm Canh Đinh)	Canh/Cánh	
+PLD003316		3	さらべつむら(更別村)	さらべつむら(Canh Biệt Thôn)	Canh/Cánh	
+PLD003321		3	とよころちょう(豊頃町)	とよころちょう(Phong Khoảnh Đinh)	Phong/Lễ	
+PLD003328		3	はまなかちょう(浜中町)	はまなかちょう(Tân Trung Đinh)	Tân/Binh	
+PLD003350		3	そとがはままち(外ヶ浜町)	そとがはままち(NgoạiヶTân Đinh)	Tân/Binh	
+PLD003351		4	あじがさわまち(鰺ヶ沢町)	あじがさわまち(鰺ヶTrạch Đinh)	chưa có âm (giữ chữ Hán): 鰺	
+PLD003363		3	よこはままち(横浜町)	よこはままち(Hoành Tân Đinh)	Tân/Binh	
+PLD003390		4	しずくいしちょう(雫石町)	しずくいしちょう(雫 Thạch Đinh)	chưa có âm (giữ chữ Hán): 雫	
+PLD003404		4	たのはたむら(田野畑村)	たのはたむら(Điền Dã 畑 Thôn)	chưa có âm (giữ chữ Hán): 畑	
+PLD003415		3	せんだいしわかばやしく(仙台市若林区)	せんだいしわかばやしく(Tiên Đài Thị Nhược Lâm Khu)	Nhược/Nhã	
+PLD003440		3	しちがはままち(七ヶ浜町)	しちがはままち(ThấtヶTân Đinh)	Tân/Binh	
+PLD003495		3	あさひまち(朝日町)	あさひまち(Triều Nhật Đinh)	Triều/Triêu	
+PLD003503		3	さけがわむら(鮭川村)	さけがわむら(Khuê Xuyên Thôn)	Khuê/Hài	
+PLD003505		4	たかはたまち(高畠町)	たかはたまち(Cao 畠 Đinh)	chưa có âm (giữ chữ Hán): 畠	
+PLD003509		3	いいでまち(飯豊町)	いいでまち(Phạn Phong Đinh)	Phong/Lễ	
+PLD003514		3	あいづわかまつし(会津若松市)	あいづわかまつし(Hội Tân Nhược Tùng Thị)	Nhược/Nhã	
+PLD003520		3	そうまし(相馬市)	そうまし(Tương Mã Thị)	Tương/Tướng	
+PLD003523		3	みなみそうまし(南相馬市)	みなみそうまし(Nam Tương Mã Thị)	Tương/Tướng	
+PLD003528		4	かわまたまち(川俣町)	かわまたまち(Xuyên 俣 Đinh)	chưa có âm (giữ chữ Hán): 俣	
+PLD003599		3	かみすし(神栖市)	かみすし(Thần Thê Thị)	Thê/Tê	
+PLD003600		3	なめがたし(行方市)	なめがたし(Hành Phương Thị)	Hành/Hạnh	
+PLD003618		4	とちぎし(栃木市)	とちぎし(栃 Mộc Thị)	chưa có âm (giữ chữ Hán): 栃	
+PLD003660		3	しんとうむら(榛東村)	しんとうむら(Trăn Đông Thôn)	Trăn/Trân	
+PLD003699		3	ぎょうだし(行田市)	ぎょうだし(Hành Điền Thị)	Hành/Hạnh	
+PLD003718		3	あさかし(朝霞市)	あさかし(Triều Hà Thị)	Triều/Triêu	
+PLD003748		3	ながとろまち(長瀞町)	ながとろまち(Trường Tĩnh Đinh)	Tĩnh/Tịnh	
+PLD003769		3	ちばしわかばく(千葉市若葉区)	ちばしわかばく(Thiên Diệp Thị Nhược Diệp Khu)	Nhược/Nhã	
+PLD003771		3	ちばしみはまく(千葉市美浜区)	ちばしみはまく(Thiên Diệp Thị Mỹ Tân Khu)	Tân/Binh	
+PLD003772		3	ちょうしし(銚子市)	ちょうしし(Điêu Tử Thị)	Điêu/Dao	
+PLD003776		3	きさらづし(木更津市)	きさらづし(Mộc Canh Tân Thị)	Canh/Cánh	
+PLD003803		3	そうさし(匝瑳市)	そうさし(Táp Thoa Thị)	Thoa/Tha	
+PLD003842		3	としまく(豊島区)	としまく(Phong Đảo Khu)	Phong/Lễ	
+PLD003866		4	こまえし(狛江市)	こまえし(狛 Giang Thị)	chưa có âm (giữ chữ Hán): 狛	
+PLD003889		3	よこはまし(横浜市)	よこはまし(Hoành Tân Thị)	Tân/Binh	
+PLD003890		3	よこはましつるみく(横浜市鶴見区)	よこはましつるみく(Hoành Tân Thị Hạc Kiến Khu)	Tân/Binh	
+PLD003891		3	よこはましかながわく(横浜市神奈川区)	よこはましかながわく(Hoành Tân Thị Thần Nại Xuyên Khu)	Tân/Binh	
+PLD003892		3	よこはましにしく(横浜市西区)	よこはましにしく(Hoành Tân Thị Tây Khu)	Tân/Binh	
+PLD003893		3	よこはましなかく(横浜市中区)	よこはましなかく(Hoành Tân Thị Trung Khu)	Tân/Binh	
+PLD003894		3	よこはましみなみく(横浜市南区)	よこはましみなみく(Hoành Tân Thị Nam Khu)	Tân/Binh	
+PLD003895		3	よこはましほどがやく(横浜市保土ケ谷区)	よこはましほどがやく(Hoành Tân Thị Bảo ThổケCốc Khu)	Tân/Binh	
+PLD003896		3	よこはましいそごく(横浜市磯子区)	よこはましいそごく(Hoành Tân Thị Cơ Tử Khu)	Tân/Binh; Cơ/Ki	
+PLD003897		3	よこはましかなざわく(横浜市金沢区)	よこはましかなざわく(Hoành Tân Thị Kim Trạch Khu)	Tân/Binh	
+PLD003898		3	よこはましこうほくく(横浜市港北区)	よこはましこうほくく(Hoành Tân Thị Cảng Bắc Khu)	Tân/Binh	
+PLD003899		3	よこはましとつかく(横浜市戸塚区)	よこはましとつかく(Hoành Tân Thị Hộ Trủng Khu)	Tân/Binh	
+PLD003900		3	よこはましこうなんく(横浜市港南区)	よこはましこうなんく(Hoành Tân Thị Cảng Nam Khu)	Tân/Binh	
+PLD003901		3	よこはましあさひく(横浜市旭区)	よこはましあさひく(Hoành Tân Thị Húc Khu)	Tân/Binh	
+PLD003902		3	よこはましみどりく(横浜市緑区)	よこはましみどりく(Hoành Tân Thị Lục Khu)	Tân/Binh	
+PLD003903		3	よこはましせやく(横浜市瀬谷区)	よこはましせやく(Hoành Tân Thị Lại Cốc Khu)	Tân/Binh	
+PLD003904		3	よこはましさかえく(横浜市栄区)	よこはましさかえく(Hoành Tân Thị Vinh Khu)	Tân/Binh	
+PLD003905		3	よこはましいずみく(横浜市泉区)	よこはましいずみく(Hoành Tân Thị Tuyền Khu)	Tân/Binh	
+PLD003906		3	よこはましあおばく(横浜市青葉区)	よこはましあおばく(Hoành Tân Thị Thanh Diệp Khu)	Tân/Binh	
+PLD003907		3	よこはましつづきく(横浜市都筑区)	よこはましつづきく(Hoành Tân Thị Đô Trúc Khu)	Tân/Binh	
+PLD003923		3	さがみはらし(相模原市)	さがみはらし(Tương Mô Nguyên Thị)	Tương/Tướng	
+PLD003935		3	おおいそまち(大磯町)	おおいそまち(Đại Cơ Đinh)	Cơ/Ki	
+PLD003966		3	いといがわし(糸魚川市)	いといがわし(Ty Ngư Xuyên Thị)	Ty/Mịch	
+PLD003995		3	いみずし(射水市)	いみずし(Xạ Thủy Thị)	Xạ/Dạ	
+PLD004000		3	あさひまち(朝日町)	あさひまち(Triều Nhật Đinh)	Triều/Triêu	
+PLD004022		3	おばまし(小浜市)	おばまし(Tiểu Tân Thị)	Tân/Binh	
+PLD004033		3	みはまちょう(美浜町)	みはまちょう(Mỹ Tân Đinh)	Tân/Binh	
+PLD004034		3	たかはまちょう(高浜町)	たかはまちょう(Cao Tân Đinh)	Tân/Binh	
+PLD004036		3	わかさちょう(若狭町)	わかさちょう(Nhược Hiệp Đinh)	Nhược/Nhã	
+PLD004063		4	こすげむら(小菅村)	こすげむら(Tiểu Gian Thôn)		
+PLD004087		3	みなみあいきむら(南相木村)	みなみあいきむら(Nam Tương Mộc Thôn)	Tương/Tướng	
+PLD004088		3	きたあいきむら(北相木村)	きたあいきむら(Bắc Tương Mộc Thôn)	Tương/Tướng	
+PLD004116		3	とよおかむら(豊丘村)	とよおかむら(Phong Khâu Thôn)	Phong/Lễ	
+PLD004128		3	あさひむら(朝日村)	あさひむら(Triều Nhật Thôn)	Triều/Triêu	
+PLD004135		3	おぶせまち(小布施町)	おぶせまち(Tiểu Bố Thi Đinh)	Thi/Thí	
+PLD004162		4	ひだし(飛騨市)	ひだし(Phi 騨 Thị)	chưa có âm (giữ chữ Hán): 騨	
+PLD004175		3	いびがわちょう(揖斐川町)	いびがわちょう(Ấp Phỉ Xuyên Đinh)	Ấp/Tập	
+PLD004192		3	はままつし(浜松市)	はままつし(Tân Tùng Thị)	Tân/Binh	
+PLD004193		3	はままつしなかく(浜松市中区)	はままつしなかく(Tân Tùng Thị Trung Khu)	Tân/Binh	
+PLD004194		3	はままつしひがしく(浜松市東区)	はままつしひがしく(Tân Tùng Thị Đông Khu)	Tân/Binh	
+PLD004195		3	はままつしにしく(浜松市西区)	はままつしにしく(Tân Tùng Thị Tây Khu)	Tân/Binh	
+PLD004196		3	はままつしみなみく(浜松市南区)	はままつしみなみく(Tân Tùng Thị Nam Khu)	Tân/Binh	
+PLD004197		3	はままつしきたく(浜松市北区)	はままつしきたく(Tân Tùng Thị Bắc Khu)	Tân/Binh	
+PLD004198		3	はままつしはまきたく(浜松市浜北区)	はままつしはまきたく(Tân Tùng Thị Tân Bắc Khu)	Tân/Binh; Tân/Binh	
+PLD004199		3	はままつしてんりゅうく(浜松市天竜区)	はままつしてんりゅうく(Tân Tùng Thị Thiên Long Khu)	Tân/Binh	
+PLD004232		3	ゆいちょう(由比町)	ゆいちょう(Do Tỷ Đinh)	Tỷ/Bỉ	
+PLD004256		3	とよはしし(豊橋市)	とよはしし(Phong Kiều Thị)	Phong/Lễ	
+PLD004262		3	とよかわし(豊川市)	とよかわし(Phong Xuyên Thị)	Phong/Lễ	
+PLD004266		3	とよたし(豊田市)	とよたし(Phong Điền Thị)	Phong/Lễ	
+PLD004281		3	たかはまし(高浜市)	たかはまし(Cao Tân Thị)	Tân/Binh	
+PLD004283		3	とよあけし(豊明市)	とよあけし(Phong Minh Thị)	Phong/Lễ	
+PLD004292		3	とよやまちょう(豊山町)	とよやまちょう(Phong Sơn Đinh)	Phong/Lễ	
+PLD004302		3	あぐいちょう(阿久比町)	あぐいちょう(A Cửu Tỷ Đinh)	Tỷ/Bỉ	
+PLD004305		3	みはまちょう(美浜町)	みはまちょう(Mỹ Tân Đinh)	Tân/Binh	
+PLD004306		3	たけとよちょう(武豊町)	たけとよちょう(Võ Phong Đinh)	Phong/Lễ	
+PLD004314		3	とよねむら(豊根村)	とよねむら(Phong Căn Thôn)	Phong/Lễ	
+PLD004333		3	あさひちょう(朝日町)	あさひちょう(Triều Nhật Đinh)	Triều/Triêu	
+PLD004343		3	みはまちょう(御浜町)	みはまちょう(Ngự Tân Đinh)	Tân/Binh	
+PLD004347		3	ながはまし(長浜市)	ながはまし(Trường Tân Thị)	Tân/Binh	
+PLD004362		3	とよさとちょう(豊郷町)	とよさとちょう(Phong Hương Đinh)	Phong/Lễ	
+PLD004417		3	おおさかしにしよどがわく(大阪市西淀川区)	おおさかしにしよどがわく(Đại Phản Thị Tây Điến Xuyên Khu)	Điến/Điện	
+PLD004418		3	おおさかしひがしよどがわく(大阪市東淀川区)	おおさかしひがしよどがわく(Đại Phản Thị Đông Điến Xuyên Khu)	Điến/Điện	
+PLD004427		3	おおさかしよどがわく(大阪市淀川区)	おおさかしよどがわく(Đại Phản Thị Điến Xuyên Khu)	Điến/Điện	
+PLD004442		3	とよなかし(豊中市)	とよなかし(Phong Trung Thị)	Phong/Lễ	
+PLD004473		3	とよのちょう(豊能町)	とよのちょう(Phong Năng Đinh)	Phong/Lễ	
+PLD004499		3	あいおいし(相生市)	あいおいし(Tương Sanh Thị)	Tương/Tướng	
+PLD004500		3	とよおかし(豊岡市)	とよおかし(Phong Cương Thị)	Phong/Lễ	
+PLD004515		3	あさごし(朝来市)	あさごし(Triều Lai Thị)	Triều/Triêu	
+PLD004561		3	おおよどちょう(大淀町)	おおよどちょう(Đại Điến Đinh)	Điến/Điện	
+PLD004587		3	みはまちょう(美浜町)	みはまちょう(Mỹ Tân Đinh)	Tân/Binh	
+PLD004593		3	しらはまちょう(白浜町)	しらはまちょう(Bạch Tân Đinh)	Tân/Binh	
+PLD004606		3	わかさちょう(若桜町)	わかさちょう(Nhược Anh Đinh)	Nhược/Nhã	
+PLD004609		3	みささちょう(三朝町)	みささちょう(Tam Triều Đinh)	Triều/Triêu	
+PLD004610		3	ゆりはまちょう(湯梨浜町)	ゆりはまちょう(Thang Lê Tân Đinh)	Tân/Binh	
+PLD004621		3	はまだし(浜田市)	はまだし(Tân Điền Thị)	Tân/Binh	
+PLD004715		3	たぶせちょう(田布施町)	たぶせちょう(Điền Bố Thi Đinh)	Thi/Thí	
+PLD004750		3	みとよし(三豊市)	みとよし(Tam Phong Thị)	Phong/Lễ	
+PLD004763		3	やわたはまし(八幡浜市)	やわたはまし(Bát Phan Tân Thị)	Tân/Binh	
+PLD004764		3	にいはまし(新居浜市)	にいはまし(Tân Cư Tân Thị)	Tân/Binh	
+PLD004799		3	おおとよちょう(大豊町)	おおとよちょう(Đại Phong Đinh)	Phong/Lễ	
+PLD004803		3	によどがわちょう(仁淀川町)	によどがわちょう(Nhơn Điến Xuyên Đinh)	Điến/Điện	
+PLD004807		4	ゆすはらちょう(梼原町)	ゆすはらちょう(梼 Nguyên Đinh)	chưa có âm (giữ chữ Hán): 梼	
+PLD004816		3	きたきゅうしゅうしわかまつく(北九州市若松区)	きたきゅうしゅうしわかまつく(Bắc Cửu Châu Thị Nhược Tùng Khu)	Nhược/Nhã	
+PLD004817		4	きたきゅうしゅうしとばたく(北九州市戸畑区)	きたきゅうしゅうしとばたく(Bắc Cửu Châu Thị Hộ 畑 Khu)	chưa có âm (giữ chữ Hán): 畑	
+PLD004839		3	ゆくはしし(行橋市)	ゆくはしし(Hành Kiều Thị)	Hành/Hạnh	
+PLD004840		3	ぶぜんし(豊前市)	ぶぜんし(Phong Tiền Thị)	Phong/Lễ	
+PLD004852		3	みやわかし(宮若市)	みやわかし(Cung Nhược Thị)	Nhược/Nhã	
+PLD004854		3	あさくらし(朝倉市)	あさくらし(Triều Thương Thị)	Triều/Triêu	
+PLD004884		3	いとだまち(糸田町)	いとだまち(Ty Điền Đinh)	Ty/Mịch	
+PLD004889		4	かんだまち(苅田町)	かんだまち(苅 Điền Đinh)	chưa có âm (giữ chữ Hán): 苅	
+PLD004896		3	とすし(鳥栖市)	とすし(Điểu Thê Thị)	Thê/Tê	
+PLD004941		4	みなまたし(水俣市)	みなまたし(Thủy 俣 Thị)	chưa có âm (giữ chữ Hán): 俣	
+PLD004978		3	さがらむら(相良村)	さがらむら(Tương Lương Thôn)	Tương/Tướng	
+PLD004992		3	ぶんごたかだし(豊後高田市)	ぶんごたかだし(Phong Hậu Cao Điền Thị)	Phong/Lễ	
+PLD004995		3	ぶんごおおのし(豊後大野市)	ぶんごおおのし(Phong Hậu Đại Dã Thị)	Phong/Lễ	
+PLD005000		3	ここのえまち(九重町)	ここのえまち(Cửu Trùng Đinh)	Trùng/Trọng	
+PLD005027		3	しいばそん(椎葉村)	しいばそん(Chùy Diệp Thôn)	Chùy/Trùy	
+PLD005043		3	そおし(曽於市)	そおし(Tằng Ư Thị)	Ư/Ô	
+PLD005056		4	あいらちょう(姶良町)	あいらちょう(姶 Lương Đinh)	chưa có âm (giữ chữ Hán): 姶	
+PLD005083		3	いとまんし(糸満市)	いとまんし(Ty Mãn Thị)	Ty/Mịch	
+PLD005085		3	とみぐすくし(豊見城市)	とみぐすくし(Phong Kiến Thành Thị)	Phong/Lễ	
+PLD005115		3	やえせちょう(八重瀬町)	やえせちょう(Bát Trùng Lại Đinh)	Trùng/Trọng	
+PLD011406		3	三重	Tam Trùng	Trùng/Trọng	
+PLD011420		3	安樂區	An Lạc Khu	Lạc/Nhạc	
+PLD011433		3	蘇澳	Tô Áo	Áo/Úc	
+PLD011434		3	南澳	Nam Áo	Áo/Úc	
+PLD011472		3	草屯	Thảo Đồn	Đồn/Truân	
+PLD011488		3	北屯區	Bắc Đồn Khu	Đồn/Truân	
+PLD011489		3	西屯區	Tây Đồn Khu	Đồn/Truân	
+PLD011490		3	南屯區	Nam Đồn Khu	Đồn/Truân	
+PLD011539		3	頭份	Đầu Phận	Phận/Phần	
+PLD011563		3	崙背	Côn Bối	Côn/Luân	
+PLD011570		3	二崙	Nhị Côn	Côn/Luân	
+PLD011597		3	將軍	Tương Quân	LỆCH-không-sửa:từ-điển-ghi Tướng Quân(NQH)	
+PLD011616		3	番路	Phiên Lộ	Phiên/Phan	
+PLD011651		3	崁頂	Khảm Đảnh	Đảnh/Đỉnh	
+PLD011664		3	牡丹	Mẫu Đan	LỆCH-không-sửa:từ-điển-ghi Mẫu Đơn(NQH)	
+PLD011718		4	茄萣	Già 萣	chưa có âm (giữ chữ Hán): 萣	
