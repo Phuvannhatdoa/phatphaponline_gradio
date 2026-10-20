@@ -7,7 +7,8 @@
 
 | Date | Task | Backup | Revert |
 |------|------|--------|--------|
-| 2026-10-20 | **T428 Part 1 — Import Claude XML Places (59K) + Districts (16K)** | `data/backups/T428_20261020_111026/lineage.db` (quick_check=ok) | Khôi phục backup hoặc: `DELETE FROM namevi_map_places WHERE source='claude_xml_import'; DROP TABLE codex_district_name` |
+| 2026-10-20 | **T432 — Import Claude XML Places (59K) + Districts (16K)** | `data/backups/T428_20261020_111026/lineage.db` (quick_check=ok) | `DELETE FROM namevi_map_places WHERE source='claude_xml_import'; DROP TABLE codex_district_name;` (208 dòng insert + 16.907 district; không UPDATE bảng gốc) |
+| 2026-10-20 | **T434 — Gemini batch places/districts (PAUSED, 16.555/59.150 + 5/16.907)** | Không cần restore DB | `DELETE FROM ai_place_name; DELETE FROM ai_district_name; DROP TABLE ai_place_name; DROP TABLE ai_district_name;` — snapshot TSV: `docs/sessions/2026-10-20/T428/ai_place_name_snapshot.tsv` |
 | 2026-10-20 | **T425 — Thêm cột + 4 VIEW cây (DILA/Marcus/TTL/chồng cây)** | `data/backups/T425_20261020_092438/lineage.db` (quick_check=ok) | `python -X utf8 scripts/t425_add_columns_and_views.py --revert --backup data/backups/T425_20261020_092438/lineage.db` (VIEW tự mất, cột additive giữ nguyên) |
 | 2026-10-20 | **T424 — Nạp 1062 cạnh TTL vào `lineage_edge_assertions` (source_code=TTL)** | `data/backups/T424_20261020_073511/lineage.db` (quick_check=ok) | `python -X utf8 scripts/t424_load_ttl_edges.py --revert --backup data/backups/T424_20261020_073511/lineage.db` (hoặc `DELETE FROM lineage_edge_assertions WHERE source_code='TTL'`) |
 | 2026-10-20 | **T423 — Đăng ký TTL_LOCAL + 204 entity ptda: + 1054 mapping** | `data/backups/T423_20261020_071129/lineage.db` (quick_check=ok) | `python -X utf8 scripts/t423_register_ttl_source_mapping.py --revert --backup data/backups/T423_20261020_071129/lineage.db` |
