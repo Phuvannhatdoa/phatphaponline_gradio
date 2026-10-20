@@ -11965,8 +11965,26 @@ def api_places_vi_map_list():
             """, place_ids):
                 ttl_map[tr['place_id']] = tr['place_label_vi']
 
+        # T427 round 3 follow-up (lỗi 4 — không hiển thị editor): editor + thời gian duyệt
+        # đã được _persist_canonical_decision() ghi vào canonical_decision.editor/updated_at
+        # (1 dòng/entity_ref, luôn là quyết định mới nhất) khi Pass/Sửa. Chỉ tra cho đúng
+        # place_ids của TRANG hiện tại (≤200 dòng) — không quét toàn bảng, không thêm cột
+        # mới, không đổi schema.
+        editor_map = {}
+        if place_ids:
+            qmarks = ','.join('?' * len(place_ids))
+            try:
+                for er in conn.execute(f"""
+                    SELECT entity_ref, editor, updated_at FROM canonical_decision
+                    WHERE entity_ref IN ({qmarks})
+                """, place_ids):
+                    editor_map[er['entity_ref']] = {'editor': er['editor'], 'updated_at': er['updated_at']}
+            except Exception:
+                pass  # Bảng có thể thiếu trên môi trường khác -> vẫn render trang bình thường.
+
         items = []
         for r in rows:
+            ed = editor_map.get(r['place_id'])
             items.append({
                 'place_id': r['place_id'],
                 'name_zh': r['name_zh'],
@@ -11980,6 +11998,8 @@ def api_places_vi_map_list():
                 'gemini_name_vi': None,   # Giai đoạn 2 — chưa có bảng codex_place_name
                 'ttl_name_vi': ttl_map.get(r['place_id']),
                 'dictionary_definition': lex_map.get(r['name_zh']),
+                'editor': ed['editor'] if ed else None,
+                'editor_at': ed['updated_at'] if ed else None,
             })
 
         filters = _t427_filter_counts(conn)
@@ -12026,18 +12046,25 @@ def api_places_vi_map_approve(place_id):
         # QA vòng 3 (fix 2): audit của Pass phải theo dõi THAY ĐỔI TÊN (field_name='name_vi'),
         # không phải trạng thái (field_name='vn_name_status') — Pass không đổi name_vi nên
         # old_value == new_value == name_vi hiện tại (ghi nhận: tên này vừa được xác nhận/duyệt).
+        # T427 round 3 follow-up (lỗi 4): lấy editor + thời gian NGAY tại đây (cùng giá trị
+        # _persist_canonical_decision() ghi vào canonical_decision.editor/updated_at) để trả
+        # thẳng cho client hiển thị cạnh badge, không cần gọi lại API khác.
+        import datetime as _dt427
+        editor_email = _t427_session_email(token)
+        decided_at = _dt427.datetime.now().isoformat(timespec='seconds')
         _persist_canonical_decision(
             conn, long_id, action='approve', field_name='name_vi',
             old_value=(name_vi or ''), new_value=(name_vi or ''),
             authority_rank='admin_approved', verification_status='verified',
             decision_note='T427: Pass tab Place (namevimap.html)',
-            editor=_t427_session_email(token),
+            editor=editor_email,
             mark_verified=True,
         )
         conn.commit()
         conn.close()
         _t427_invalidate_filter_cache()
-        return jsonify({'ok': True, 'place_id': long_id, 'name_vi': name_vi, 'vn_name_status': 'reviewed'})
+        return jsonify({'ok': True, 'place_id': long_id, 'name_vi': name_vi, 'vn_name_status': 'reviewed',
+                         'editor': editor_email, 'editor_at': decided_at})
     except Exception as e:
         return jsonify({'ok': False, 'error': str(e)}), 500
 
@@ -12067,18 +12094,23 @@ def api_places_vi_map_edit(place_id):
             "UPDATE namevi_map_places SET name_vi = ?, source = 'manual', vn_name_status = 'reviewed', needs_review = 0 WHERE dila_id = ?",
             (name_vi, long_id)
         )
+        # T427 round 3 follow-up (lỗi 4): xem chú thích ở route /approve phía trên.
+        import datetime as _dt427e
+        editor_email = _t427_session_email(token)
+        decided_at = _dt427e.datetime.now().isoformat(timespec='seconds')
         _persist_canonical_decision(
             conn, long_id, action='edit', field_name='name_vi',
             old_value=old_value, new_value=name_vi,
             authority_rank='admin_edit', verification_status='verified',
             decision_note='T427: Sửa tab Place (namevimap.html)',
-            editor=_t427_session_email(token),
+            editor=editor_email,
             mark_verified=True,
         )
         conn.commit()
         conn.close()
         _t427_invalidate_filter_cache()
-        return jsonify({'ok': True, 'place_id': long_id, 'name_vi': name_vi, 'source': 'manual', 'vn_name_status': 'reviewed'})
+        return jsonify({'ok': True, 'place_id': long_id, 'name_vi': name_vi, 'source': 'manual', 'vn_name_status': 'reviewed',
+                         'editor': editor_email, 'editor_at': decided_at})
     except Exception as e:
         return jsonify({'ok': False, 'error': str(e)}), 500
 

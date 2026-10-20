@@ -1,0 +1,79 @@
+T427 round 3 follow-up — network log (2026-10-20, local E:\...\daoanh, 127.0.0.1:8080)
+Đo bằng Claude Browser tools (performance.getEntriesByType('resource')), server app.py/server.py/
+local_gateway.py chạy local, DB thật data/lineage.db.
+
+===========================================================================
+LỖI 2 — Tab Place loading 24-43s
+===========================================================================
+
+--- TRƯỚC KHI SỬA (đo thật, trước khi edit admin/namevimap.html) ---
+Kịch bản: load trang (tab ETL mặc định tự load), click tab "Place" ngay sau đó.
+init() cũ gọi KHÔNG ĐIỀU KIỆN 15 request nặng của tab ETL ngay khi trang load:
+  12x GET /api/admin/namevi-queue/<id>      (mỗi cái 3.4s - 21s)
+  1x  GET /api/admin/namevi/flag-list       (21.3s)
+  1x  GET /api/admin/ai-transliterate/status (21.2s)
+  1x  GET /api/admin/codex-transliterate/status (21.4s)
+  1x  GET /daoanh/api/admin/ttl-local-names  (0.25s)
+  1x  GET /api/dashboard/stats               (11.9s)
+Request GET /daoanh/api/places/vi-map (Place tab) phải xếp hàng SAU — start=11204ms
+(11.2s mới được gửi đi vì browser hết connection pool 6/origin), kết thúc tại 22847ms
+=> THỜI GIAN TAB PLACE HIỆN DỮ LIỆU: ~22.8s kể từ lúc click (khớp dải 24-43s QA báo,
+   dao động theo tải máy — lần đo khác ghi nhận flag-list riêng lẻ tới 93.7s khi máy
+   đang chạy nhiều process song song, kéo vi-map tới 18.3s/lần riêng).
+
+--- SAU KHI SỬA ---
+Kịch bản A — click Place sớm (trong vòng ~1s sau khi trang load, giống cách QA test):
+  setTimeout 800ms + kiểm tra "tab ETL còn active không" trước khi bắn request ETL.
+  Click Place lúc performance.now()=1006ms (< 800ms mốc kiểm tra của trang, tab-etl đã
+  mất class 'active' trước khi hết giờ) => TOÀN BỘ 15 request ETL bị bỏ qua hẳn, không
+  bắn request nào.
+  performance.getEntriesByType('resource') lọc theo vi-map/namevi-queue/flag-list/status:
+    [{"name":"/daoanh/api/places/vi-map?page=1&size=50&filter=all","start":1007,"dur":690}]
+  => THỜI GIAN TAB PLACE HIỆN DỮ LIỆU: ~0.69s (dưới 1s) kể từ khi request được gửi,
+     ~1.7s kể từ lúc trang bắt đầu load. Giảm từ 22.8s (và tới 24-43s theo QA) xuống
+     dưới 2s — đạt mục tiêu "không còn phụ thuộc hàng đợi TTL/queue trước vi-map".
+
+Kịch bản B — Admin ở lại tab ETL (không chuyển tab): xác nhận ETL vẫn tự tải dữ liệu
+  như cũ sau khi hết 800ms (không bị "mất tính năng" vì lazy-load) — console log debug
+  (đã xoá sau khi verify) ghi "etl deferred check fired at 1549ms" + "etl still active,
+  loading now"; performance entries sau đó ghi nhận 6 request ETL cho tab này
+  (namevi-queue x? + flag-list + ai/codex-status) đã bắn đúng như thiết kế gốc.
+
+===========================================================================
+LỖI 3 — Race condition (kết quả cũ đè kết quả mới)
+===========================================================================
+
+Kịch bản test: gõ "K" trong ô tìm Place, đợi hết debounce 350ms (bắn 1 request q=K —
+match RẤT RỘNG, dự kiến tải lâu), rồi gõ nhanh tiếp "Kh"→"Kho"→"Khoa"→"Khoat"→"Khoát"
+(mỗi ký tự cách nhau 40ms, debounce coalesce thành 1 request cuối q=Khoát).
+
+Network log thực tế (Claude Browser read_network_requests):
+  GET /daoanh/api/places/vi-map?page=1&size=50&filter=all             -> 200 OK (tải ban đầu)
+  GET /daoanh/api/places/vi-map?page=1&size=50&filter=all&q=Khoát     -> 200 OK
+  GET /daoanh/api/places/vi-map?page=1&size=50&filter=all&q=K         -> [FAILED: net::ERR_ABORTED]  <-- bị huỷ bởi AbortController khi có request mới
+  GET /daoanh/api/places/vi-map?page=1&size=50&filter=all&q=Khoát     -> 200 OK (request mới nhất thắng)
+
+Kết quả hiển thị cuối cùng: "11 địa danh" — toàn bộ đều chứa 闊/Khoát (PL000000006954,
+PL000000017587, PL000000037813, PL000000038122, PL000000041804, PL000000047564, ...).
+KHÔNG bị đè bởi kết quả rộng của q=K (nếu bị đè sẽ thấy hàng ngàn dòng không khớp
+"Khoát"). Ảnh chụp: loi3_race_after_khoat.jpg.
+=> Sequence number + AbortController hoạt động đúng: request q=K bị abort, request
+   q=Khoát (mới nhất) được render.
+
+===========================================================================
+LỖI 4 — Không hiển thị editor
+===========================================================================
+
+Test: tìm PL000000017587, bấm "✓ Pass". Response POST .../approve trả thêm
+editor/editor_at (trước đây không có field này):
+  {"ok":true,"place_id":"PL000000017587","name_vi":"Khoát Khẩu","vn_name_status":"reviewed",
+   "editor":"namthien@gmail.com","editor_at":"2026-10-20T14:39:xx"}
+
+UI hiển thị NGAY sau khi Pass (không cần reload):
+  Badge "Đã duyệt" + "— namthien@gmail.com, 2026-10-20 14:39"
+
+Reload lại trang + tìm lại PL000000017587: GET /daoanh/api/places/vi-map trả thêm
+field editor/editor_at cho dòng đã duyệt (đọc từ canonical_decision.editor/updated_at,
+JOIN theo place_id của trang hiện tại, không quét toàn bảng). UI hiển thị giống hệt
+sau reload — xác nhận dữ liệu đến từ DB (canonical_decision), không phải state tạm
+trong JS. Ảnh chụp: loi4_editor_after_pass.jpg.

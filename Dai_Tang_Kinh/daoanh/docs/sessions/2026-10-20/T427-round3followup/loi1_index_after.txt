@@ -1,0 +1,54 @@
+=== LOI 1 - Do lai thoi gian search SAU KHI CREATE INDEX idx_namevi_places_dila_id ===
+Thoi diem: Tue Oct 20 18:12:30 SEAST 2026
+
+--- q=Khoát (name_vi/name_zh LIKE) x8 ---
+run1: time_total=1.454924s http_code=200
+run2: time_total=1.058352s http_code=200
+run3: time_total=0.995920s http_code=200
+run4: time_total=1.100769s http_code=200
+run5: time_total=1.492710s http_code=200
+run6: time_total=1.292058s http_code=200
+run7: time_total=1.532683s http_code=200
+run8: time_total=4.347221s http_code=200
+
+--- q=寺 (name_zh LIKE) x8 ---
+run1: time_total=1.058259s http_code=200
+run2: time_total=0.883209s http_code=200
+run3: time_total=1.246233s http_code=200
+run4: time_total=2.666623s http_code=200
+run5: time_total=0.783159s http_code=200
+run6: time_total=0.755472s http_code=200
+run7: time_total=0.803347s http_code=200
+run8: time_total=0.934839s http_code=200
+
+--- q=PL000000000001 (exact id, PK) x5 ---
+run1: time_total=0.115786s http_code=200
+run2: time_total=0.081126s http_code=200
+run3: time_total=0.042344s http_code=200
+run4: time_total=0.024908s http_code=200
+run5: time_total=0.037609s http_code=200
+
+=== GHI CHU QUAN TRONG (phat hien khi dieu tra EXPLAIN QUERY PLAN) ===
+namevi_map_places.dila_id da co UNIQUE constraint trong schema goc:
+  CREATE TABLE namevi_map_places (... dila_id TEXT UNIQUE ...)
+=> SQLite tu tao sqlite_autoindex_namevi_map_places_1 tren dila_id TU TRUOC.
+EXPLAIN QUERY PLAN cho query that cua route (JOIN + LIKE) cho thay JOIN DA DUNG
+SEARCH m USING INDEX sqlite_autoindex_namevi_map_places_1 (dila_id=?) LEFT-JOIN
+TU TRUOC KHI tao idx_namevi_places_dila_id — tuc la index moi KHONG doi query plan
+cho nhanh JOIN (da toi uu san). Phan cham thuc su la 'SCAN pd' (full scan 59.167 dong
+places_dila de kiem tra LIKE tren name_zh/name_vi — LIKE co % dau cau khong dung duoc
+index B-tree thong thuong, index moi khong giup duoc phan nay).
+
+KET LUAN TRUNG THUC: idx_namevi_places_dila_id la ADDITIVE va KHONG GAY LOI (chay OK,
+khong deadlock/lock khi app dang doc), dung Admin da duyet, nhung ve mat ky thuat no
+TRUNG LAP voi sqlite_autoindex_namevi_map_places_1 da co san nen KHONG phai nguyen nhan
+chinh lam giam thoi gian do duoc trong phien nay. Muc giam thuc te tu ~2.6-5.87s (QA
+Round 3 baseline) xuong con ~0.4-2.2s (ngoai 2 outlier 4.3s/2.67s do I/O dao dong moi
+truong local, da duoc Round 3 ghi nhan truoc do) co the chu yeu do OS file cache am len
+sau khi server da chay mot thoi gian, khong hoan toan do index moi. Neu Admin muon toi
+uu triet de cho nhanh LIKE, huong dung la FTS5/trigram index tren name_zh/name_vi —
+ngoai pham vi 1 CREATE INDEX duoc duyet lan nay.
+
+EXPLAIN QUERY PLAN that (chay tren DB sau khi tao index):
+(5, 0, 174, 'SCAN pd')
+(7, 0, 44, 'SEARCH m USING INDEX sqlite_autoindex_namevi_map_places_1 (dila_id=?) LEFT-JOIN')

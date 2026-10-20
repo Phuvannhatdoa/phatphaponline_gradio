@@ -1,0 +1,17 @@
+=== LOI 1 - Baseline TRUOC KHI CREATE INDEX idx_namevi_places_dila_id ===
+
+--- Baseline QA Round 3 da ghi trong task file (truoc phien nay, moi truong binh thuong) ---
+q=Khoát: 2.6-4.4s; q=寺: 5.87s (nguon: tasks/T427-namevimap-place-verification-tab.md, muc 'QA Round 3 - follow-up', loi 1)
+
+--- Do thuc te ngay truoc khi CREATE INDEX trong phien nay (2026-10-20 ~14:52-15:00) ---
+LUU Y: cac so do nay bi nhieu boi tien trinh PRAGMA quick_check dang chay song song tren
+ban backup 1.6GB (I/O contention that su, khong phai do thieu index don thuan):
+  q=Khoát run1: 60.228120s (HTTP 504 timeout)
+  q=Khoát run2: 37.982484s (HTTP 200)
+  q=Khoát run3: 48.165112s (HTTP 200)
+  q=寺   run1: 1.520073s (HTTP 200)
+  q=寺   run2: 1.635608s (HTTP 200)
+  q=寺   run3: 1.004327s (HTTP 200)
+
+EXPLAIN QUERY PLAN TRUOC khi them index moi (chay sau khi index da them nhung xac nhan
+join da dung autoindex san co tu truoc - xem ghi chu quan trong trong loi1_index_after.txt):

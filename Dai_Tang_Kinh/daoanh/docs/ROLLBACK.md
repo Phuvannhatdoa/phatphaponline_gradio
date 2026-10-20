@@ -576,3 +576,64 @@ cho 1 dòng (`dila_id='PL000000000001'`) + 2 dòng audit mới trong `en_audit_l
    Hoặc khôi phục toàn bộ DB từ backup ở trên nếu cần an toàn tuyệt đối.
 3. Route mới (`GET/POST /daoanh/api/places/vi-map...`) là additive — xoá đoạn code tương ứng trong `app.py`
    (đánh dấu bằng comment `# T427 — Tab "🗺️ Place"...`) không ảnh hưởng route nào khác.
+
+## T427 Round 3 follow-up — 2026-10-20 — Lỗi 1 (CREATE INDEX idx_namevi_places_dila_id)
+
+**Thay đổi schema (đã Admin duyệt qua Coordinator, xem ghi chú "Xác nhận điều phối" cuối
+`tasks/T427-namevimap-place-verification-tab.md`):**
+```sql
+CREATE INDEX IF NOT EXISTS idx_namevi_places_dila_id ON namevi_map_places(dila_id);
+```
+Chạy trực tiếp trên `data/lineage.db` qua `sqlite3`/Python (app đang chạy local, đọc đồng thời —
+không gặp lỗi lock). Thời gian tạo index: 1.19s.
+
+**Backup trước khi chạy DDL (đã tạo, `PRAGMA quick_check` = ok):**
+`data/backups/T427-20261020-145225-round3followup-index/lineage.db` (1.616.777.216 B, kiểm tra bằng
+`sqlite3.connect(...).execute('PRAGMA quick_check')` → `[('ok',)]`).
+
+**Lưu ý quan trọng (trung thực, phát hiện khi điều tra EXPLAIN QUERY PLAN):**
+`namevi_map_places.dila_id` đã có ràng buộc `UNIQUE` trong schema gốc, nên SQLite đã tự tạo
+`sqlite_autoindex_namevi_map_places_1` trên cột này từ trước. `EXPLAIN QUERY PLAN` cho query thật
+của route `GET /daoanh/api/places/vi-map` cho thấy JOIN đã dùng autoindex này từ trước khi có
+`idx_namevi_places_dila_id` — index mới KHÔNG đổi query plan cho phần JOIN (đã tối ưu sẵn). Phần
+chậm thực sự là `SCAN pd` (full scan 59.167 dòng `places_dila` để so khớp `LIKE` trên `name_zh`/
+`name_vi` — `LIKE '%...%'` không dùng được B-tree index thông thường). Mức giảm thời gian đo được
+trong phiên này (xem số liệu dưới) có thể chủ yếu do OS file cache ấm lên sau khi server chạy một
+lúc, không hoàn toàn do index mới. Index mới là **additive, không gây lỗi**, đúng như Admin đã
+duyệt, nhưng về mặt kỹ thuật không phải nguyên nhân chính của mức tăng tốc đo được. Chi tiết đầy đủ:
+`docs/sessions/2026-10-20/T427-round3followup/loi1_index_after.txt`.
+
+**Đo thời gian search (curl, trước/sau — chi tiết đầy đủ trong
+`docs/sessions/2026-10-20/T427-round3followup/loi1_index_before.txt` và `loi1_index_after.txt`):**
+- Baseline QA Round 3 (trước phiên này): `q=Khoát` 2.6–4.4s; `q=寺` 5.87s.
+- Sau khi có index + cache ấm (8 lần đo mỗi query): `q=Khoát` 0.996–1.533s (1 outlier 4.347s);
+  `q=寺` 0.755–1.246s (1 outlier 2.667s); `q=PL000000000001` (exact ID) 0.025–0.116s.
+- Đa số lần đo đạt mục tiêu ≤2.5s; vẫn còn outlier hiếm gặp do biến động I/O môi trường local
+  (đã được Round 3 ghi nhận trước đó) — chưa đạt tuyệt đối 100% dưới ngưỡng ở mọi lần gọi.
+
+**Cách revert (additive, không mất dữ liệu):**
+```sql
+DROP INDEX IF EXISTS idx_namevi_places_dila_id;
+```
+Hoặc khôi phục nguyên `data/lineage.db` từ `data/backups/T427-20261020-145225-round3followup-index/lineage.db`
+nếu cần an toàn tuyệt đối. Không ảnh hưởng dữ liệu `namevi_map_places` (chỉ xoá index, không đổi dòng nào).
+
+## T427 Round 3 follow-up — 2026-10-20 — Lỗi 5 (PL000000000001.name_vi)
+
+**Thay đổi dữ liệu (1 dòng, qua UI/API thật, có audit log — không UPDATE SQL tay):**
+`namevi_map_places.name_vi` cho `dila_id='PL000000000001'`: `'Khoảng Tất Đạ Quốc'` → `'Khoát Tất Đa Quốc'`
+(Admin chốt tên đúng qua Coordinator). Gọi qua `POST /daoanh/api/places/vi-map/PL000000000001/edit`
+rồi `POST .../approve`, dùng session token thật lấy từ `POST /daoanh/api/login/verify`
+(email `namthien@gmail.com`). `source` đổi thành `'manual'`, `vn_name_status='reviewed'`.
+Audit: `canonical_decision`/`en_audit_log` có 2 dòng mới (`action=edit` rồi `action=approve`),
+`old_value='Khoảng Tất Đạ Quốc'`, `new_value='Khoát Tất Đa Quốc'` (edit) và
+`old_value=new_value='Khoát Tất Đa Quốc'` (approve, không đổi tên), `editor='namthien@gmail.com'`
+(lấy từ session, không tin giá trị client gửi), `editor_at='2026-10-20T15:01:42'` (approve).
+
+**Backup:** dùng chung backup `data/backups/T427-20261020-145225-round3followup-index/lineage.db`
+ở trên (tạo trước cả 2 thay đổi lỗi 1 và lỗi 5 trong cùng phiên).
+
+**Cách revert:** gọi lại `POST /daoanh/api/places/vi-map/PL000000000001/edit` với
+`name_vi='Khoảng Tất Đạ Quốc'` rồi `POST .../approve` (tạo thêm 2 dòng audit mới, giữ lịch sử đầy
+đủ — khuyến nghị thay vì sửa tay), hoặc khôi phục `data/lineage.db` từ backup ở trên nếu cần an
+toàn tuyệt đối (sẽ mất toàn bộ thay đổi khác ghi sau thời điểm backup 2026-10-20 14:52).

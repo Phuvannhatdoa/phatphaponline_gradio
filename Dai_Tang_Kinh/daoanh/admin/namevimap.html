@@ -205,7 +205,6 @@
         .etl-flag-pass.ok { border-color:var(--success); color:var(--success); pointer-events:none; }
         .etl-flag-pass.err { border-color:var(--danger); color:#f87171; pointer-events:none; }
     </style>
-<link rel="stylesheet" href="codex-namevi.css">
 </head>
 <body>
     <a href="index.html" class="back-link">← Quay lại Dashboard</a>
@@ -1006,6 +1005,13 @@
     // ════════════════════════════════════
     let queueLoaded = false;
     function switchTab(name, btn) {
+        // T427 round 3 follow-up (lỗi 2, bản sửa tiếp theo): rời tab ETL thì huỷ ngay
+        // các request nặng còn treo (namevi-queue/<id> x N, flag-list, ai/codex status)
+        // để nhường connection pool cho tab vừa mở, thay vì chờ chúng tự chạy xong.
+        if (name !== 'etl' && _etlAbortCtrl) {
+            _etlAbortCtrl.abort();
+            _etlAbortCtrl = null;
+        }
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.da-tab').forEach(b => b.classList.remove('active'));
         document.getElementById('tab-' + name).classList.add('active');
@@ -1022,11 +1028,25 @@
         }
         if (name === 'etl') {
             if (!etlTabLoaded) {
-                etlTabLoaded = true;
-                loadEtlStats();   // stats + FLAG live data (lần đầu)
+                // QA round 3 follow-up (sửa tiếp, phát hiện thêm lúc verify): trước đây
+                // nhánh này gần như không bao giờ chạy vì init() luôn set etlTabLoaded=true
+                // ngay lập tức. Sau khi sửa init() để etlTabLoaded chỉ true đúng lúc bắn
+                // request, nhánh này TRỞ NÊN có thể chạy (ví dụ: Admin rời tab ETL trước
+                // 800ms rồi quay lại tab ETL trước khi setTimeout của init() kịp chạy).
+                // Nếu chỉ gọi loadEtlStats()+etlSelectStep(0) như bản cũ thì sẽ tái hiện
+                // đúng triệu chứng QA báo (mất FLAG/AI progress) qua một đường khác — nên
+                // gộp chung với _etlFullLoad() dùng trong init() để luôn tải đủ 5 phần.
                 etlSelectStep(0);
+                _etlFullLoad();
             } else {
-                loadEtlFlagLiveData(); // re-sync FLAG table mỗi lần switch lại
+                // T435/BUG-048 vòng 2 (2026-10-20): bản cũ chỉ gọi loadEtlFlagLiveData() ở
+                // đây. Nếu lượt vào tab TRƯỚC đó chưa kịp xong etlFlagQueueLoad/
+                // loadAiColStatus/loadCodexColStatus thì _etlNewAbortSignal() abort() 3
+                // request đó vĩnh viễn mà không ai gọi lại — header CLAUDE/GEMINI + bảng
+                // "Bulk FLAG Queue" kẹt rỗng/"Đang tải…" mãi. Dùng chung _etlFullLoad() để
+                // luôn tải lại đủ cả 5 phần. KHÔNG gọi etlSelectStep(0) ở đây (khác nhánh if)
+                // để không reset step UI nếu Admin đang xem dở một bước khác.
+                _etlFullLoad();
             }
         }
         if (name === 'xcm') {
@@ -1063,15 +1083,44 @@
     }
 
     async function init() {
-        loadTtlLocalNames(); // không await — chạy song song
-        etlTabLoaded = true;
+        loadTtlLocalNames(); // không await — chạy song song (nhẹ, 1 query)
         etlFlagHidePassed();   // ① ẩn ngay từ localStorage (0ms, không cần server)
-        loadEtlStats();        // ② cập nhật stats
-        loadEtlFlagLiveData(); // ③ xác nhận tĩnh table với server
-        etlFlagQueueLoad(1);   // ④ tự động load FLAG queue
-        loadAiColStatus();     // ⑤ hiển thị tiến độ AI ở header cột Claude
-        loadCodexColStatus();  // ⑥ hiển thị tiến độ Claude ở header cột Claude (T435/BUG-048)
         etlSelectStep(0);
+        // T427 round 3 follow-up (lỗi 2 — tab loading 24-43s): các gọi API nặng của tab
+        // ETL (loadEtlFlagLiveData = N request /api/admin/namevi-queue/<id> chạy song
+        // song, etlFlagQueueLoad = flag-list, loadAiColStatus/loadCodexColStatus = status)
+        // từng chạy NGAY và ĐỒNG THỜI lúc page load, chiếm hết connection pool của browser
+        // (6/origin) + CPU server (đo mỗi request có lúc 7-27s, flag-list đo được tới ~94s
+        // khi máy đang tải nặng) → request vi-map của tab Place (chỉ gọi khi click, nhưng
+        // phải xếp hàng SAU các request này) phải chờ rất lâu mới được gửi đi và chờ thêm
+        // nhiều giây mới có phản hồi — khớp đúng triệu chứng QA đo 24-43s.
+        // Sửa: trì hoãn các request nặng này ~800ms (đủ để Admin/QA bấm sang tab khác
+        // ngay sau khi trang load mà vẫn còn kịp "thắng" trước khi ETL bắn request) và
+        // CHỈ chạy nếu tab ETL vẫn còn đang mở lúc hết giờ — nếu đã rời tab ETL (Place,
+        // Xác Minh, ...) thì bỏ qua hẳn, không tải nền âm thầm, đúng yêu cầu "chỉ gọi API
+        // của tab đang active". (Đã thử requestIdleCallback trước — ĐO THẤY không đáng tin:
+        // khi trang vừa load không có việc gì khác chạy, idle callback bắn ngay trong
+        // 1 nhịp ~100ms, SỚM HƠN cả lúc người dùng kịp bấm tab khác trong môi trường test —
+        // không đạt mục tiêu "nhường cho tab đang mở", nên đổi lại dùng mốc thời gian
+        // cố định đủ dài.)
+        //
+        // QA round 3 follow-up — bug mới (fix tiếp): bản sửa trước đặt etlTabLoaded=true
+        // NGAY ở đây (trước setTimeout), nên nếu Admin rời tab ETL trước 800ms, khối dưới
+        // bị return sớm (KHÔNG gọi 5 hàm nặng) nhưng cờ etlTabLoaded đã là true — khi quay
+        // lại tab ETL, switchTab() thấy etlTabLoaded===true nên không gọi lại loadEtlStats/
+        // etlFlagQueueLoad/loadAiColStatus/loadCodexColStatus nữa (chỉ gọi
+        // loadEtlFlagLiveData), làm tab ETL mất hẳn stats/FLAG queue/AI progress tới khi F5.
+        // Sửa: etlTabLoaded chỉ được set true BÊN TRONG setTimeout, đúng lúc request thực
+        // sự được gửi (qua _etlFullLoad(), dùng chung với switchTab() để tránh lệch nhau
+        // nếu Admin quay lại tab ETL trước khi setTimeout này kịp chạy) — nếu khối này bị
+        // return sớm (do rời tab trước 800ms) thì etlTabLoaded vẫn là false, lần quay lại
+        // tab ETL sau đó sẽ tải đầy đủ lại.
+        setTimeout(() => {
+            const etlPanel = document.getElementById('tab-etl');
+            if (!etlPanel || !etlPanel.classList.contains('active')) return;
+            if (etlTabLoaded) return; // đã tải đủ qua switchTab() trong lúc chờ 800ms — khỏi gọi lại
+            _etlFullLoad();
+        }, 800);
     }
 
     async function loadStats() {
@@ -1481,6 +1530,49 @@
     // ════════════════════════════════════
     let etlTabLoaded = false;
 
+    // T427 round 3 follow-up (lỗi 2, phần hướng (a) AbortController): huỷ các request
+    // namevi-queue/<id> x N + flag-list + ai/codex status còn đang treo khi Admin rời
+    // tab ETL, để giải phóng connection pool (6/origin) ngay cho tab vừa mở (ví dụ Place),
+    // thay vì bắt tab mới phải chờ 12+ request cũ tự chạy xong.
+    let _etlAbortCtrl = null;
+    function _etlNewAbortSignal() {
+        if (_etlAbortCtrl) _etlAbortCtrl.abort();
+        _etlAbortCtrl = new AbortController();
+        const ctrl = _etlAbortCtrl;
+        // BUG-050 fix (2026-10-20): khi backend quá tải (nhiều request cùng origin
+        // xếp hàng sau connection pool 6/origin, hoặc server xử lý chậm bất thường),
+        // fetch có thể không bao giờ resolve/reject — bảng FLAG queue kẹt mãi ở
+        // "Đang tải…" (BUG-050), không có cách nào cho Admin biết là lỗi hay vẫn
+        // đang chạy. Đặt deadline cứng 45s cho MỖI lượt tải tab ETL: hết giờ → abort
+        // toàn bộ fetch đang treo. Một số hàm (vd etlFlagQueueLoad) coi AbortError là
+        // "Admin rời tab", im lặng không ghi đè UI — nên phải tự ghi thông báo lỗi rõ
+        // ràng ở đây cho các bảng vẫn còn hiện "Đang tải…" sau khi hết giờ.
+        setTimeout(() => {
+            if (_etlAbortCtrl !== ctrl) return; // đã có lượt tải mới hơn, hoặc đã rời tab — bỏ qua
+            ctrl.abort();
+            const timeoutMsg = 'Lỗi: quá thời gian chờ (45s) — server đang quá tải, thử lại';
+            const flagBody = document.getElementById('etl-flag-queue-body');
+            if (flagBody && flagBody.textContent.includes('Đang tải')) {
+                flagBody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--danger);padding:16px">' + timeoutMsg + '</td></tr>';
+            }
+        }, 45000);
+        return ctrl.signal;
+    }
+
+    // Tải đầy đủ tab ETL (stats + FLAG live data + FLAG queue + AI/Codex progress).
+    // Dùng chung cho cả 2 điểm vào: init() (sau 800ms, nếu tab ETL còn active) và
+    // switchTab() khi Admin bấm lại vào tab ETL lúc etlTabLoaded vẫn còn false (trường
+    // hợp rời tab rồi quay lại trước khi setTimeout của init() kịp chạy).
+    function _etlFullLoad() {
+        etlTabLoaded = true;
+        const sig = _etlNewAbortSignal();
+        loadEtlStats(sig);
+        loadEtlFlagLiveData(sig);
+        etlFlagQueueLoad(1, sig);
+        loadAiColStatus(sig);
+        loadCodexColStatus(sig);
+    }
+
     const ETL_STEP_DESCS = [
         'Bước 1 — Glob tất cả *.ttl trong data/ttl/ (2,163 files). Mỗi file là tiểu sử 1 thiền sư theo chuẩn RDF Turtle.',
         'Bước 2 — parse_ttl_name_pair() trích cặp (name_zh, name_vi). _clean_vi_label() strip prefix "TS ", thay _ → space.',
@@ -1497,9 +1589,9 @@
         document.getElementById('etl-step-desc').textContent = ETL_STEP_DESCS[n];
     }
 
-    async function loadEtlStats() {
+    async function loadEtlStats(signal) {
         try {
-            const r = await fetch(API + '/api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1');
+            const r = await fetch(API + '/api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1', signal ? {signal} : undefined);
             if (r.ok) {
                 const d = await r.json();
                 if (d.ok) {
@@ -1508,10 +1600,10 @@
                     document.getElementById('etl-pending-nvm').textContent = (d.no_ttl    || 0).toLocaleString();
                 }
             }
-        } catch(e) { console.warn('loadEtlStats error:', e); }
+        } catch(e) { if (e.name !== 'AbortError') console.warn('loadEtlStats error:', e); }
         // approved count from queue stats
         try {
-            const r2 = await fetch(API + '/api/dashboard/stats');
+            const r2 = await fetch(API + '/api/dashboard/stats', signal ? {signal} : undefined);
             if (r2.ok) {
                 const s = await r2.json();
                 if (s.namevi_total) document.getElementById('etl-approved-count').textContent = s.namevi_total.toLocaleString();
@@ -1520,13 +1612,13 @@
         // loadEtlFlagLiveData gọi riêng từ init() — không gọi ở đây nữa
     }
 
-    async function loadEtlFlagLiveData() {
+    async function loadEtlFlagLiveData(signal) {
         const rows = document.querySelectorAll('#tab-etl .etl-ba-table tbody tr[data-dila-id]');
         await Promise.all([...rows].map(async tr => {
             const dilaId = tr.dataset.dilaId;
             if (!dilaId) return;
             try {
-                const r = await fetch(API + '/api/admin/namevi-queue/' + dilaId);
+                const r = await fetch(API + '/api/admin/namevi-queue/' + dilaId, signal ? {signal} : undefined);
                 if (!r.ok) return;
                 const d = await r.json();
                 // Ưu tiên people.name_vi (edit từ DILA Index) > name_vi_final (queue) > fallback
@@ -1562,7 +1654,8 @@
                 const ttlVi  = ttlCell ? ttlCell.textContent.trim() : '';
                 const dilaVi = (tr.querySelector('.etl-dila-cell') || {}).textContent || '';
                 const rl = await fetch(API + '/api/admin/namevi/lex-lookup?name=' +
-                    encodeURIComponent(ttlVi) + '&fallback=' + encodeURIComponent(dilaVi));
+                    encodeURIComponent(ttlVi) + '&fallback=' + encodeURIComponent(dilaVi),
+                    signal ? {signal} : undefined);
                 if (!rl.ok) return;
                 const dl = await rl.json();
                 if (dl.source) {
@@ -1713,7 +1806,7 @@
         }
     }
 
-    async function etlFlagQueueLoad(page) {
+    async function etlFlagQueueLoad(page, signal) {
         _etlFlagPage = page || 1;
         const q        = (document.getElementById('etl-flag-search')?.value || '').trim();
         const hideDone = document.getElementById('etl-flag-hide-done')?.checked !== false;
@@ -1734,7 +1827,8 @@
             if (_etlFlagSortBy) { params.set('sort_by', _etlFlagSortBy); params.set('sort_dir', _etlFlagSortDir); }
 
             const r = await fetch(API + '/api/admin/namevi/flag-list?' + params, {
-                headers: { 'X-Session-Token': getToken() }
+                headers: { 'X-Session-Token': getToken() },
+                ...(signal ? {signal} : {})
             });
             const d = await r.json();
             if (!d.ok) throw new Error(d.error || 'API lỗi');
@@ -1800,6 +1894,8 @@
             }
 
         } catch(e) {
+            // Bị huỷ chủ động (Admin rời tab ETL) — không phải lỗi thật, không ghi đè UI
+            if (e.name === 'AbortError') return;
             tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--danger);padding:16px">Lỗi: ${e.message}</td></tr>`;
         }
     }
@@ -2161,6 +2257,13 @@
     // TAB 5 — PLACE (T427, giai đoạn 1)
     // ════════════════════════════════════
     let _placeLoaded = false, _placePage = 1, _placeQ = '', _placeFilter = 'all', _placeSearchTimer = null;
+    // T427 round 3 follow-up (lỗi 3 — race condition): gõ nhanh nhiều ký tự liên tiếp có
+    // thể tạo nhiều request chồng lấn; request cũ trả về SAU request mới sẽ đè nhầm kết
+    // quả đúng. _placeReqSeq tăng mỗi lần gọi placeLoad(); chỉ response có seq khớp seq
+    // mới nhất mới được render. _placeAbortCtrl hủy network request cũ (đỡ tốn connection/
+    // CPU server) khi có request mới — không đổi API, chỉ đổi phía client.
+    let _placeReqSeq = 0;
+    let _placeAbortCtrl = null;
 
     function placeSearchDebounce() {
         clearTimeout(_placeSearchTimer);
@@ -2178,10 +2281,25 @@
         placeLoad(1);
     }
 
-    function _placeConfBadge(status, source) {
+    // T427 round 3 follow-up (lỗi 4): "2026-10-20T09:38:45" -> "2026-10-20 09:38" cho gọn,
+    // không cần thư viện ngoài.
+    function _placeFmtTs(iso) {
+        if (!iso) return '';
+        const m = String(iso).match(/^(\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2})/);
+        return m ? `${m[1]} ${m[2]}` : String(iso);
+    }
+
+    // T427 round 3 follow-up (lỗi 4 — không hiển thị editor): badge "Đã duyệt" trước đây
+    // không cho biết AI nào duyệt lúc nào. API vi-map nay trả thêm editor/editor_at (đọc
+    // từ canonical_decision — ghi bởi _persist_canonical_decision() khi Pass/Sửa) -> hiện
+    // cạnh badge, không đổi ý nghĩa badge, không đổi schema.
+    function _placeConfBadge(status, source, editor, editorAt) {
         // Giai đoạn 1: chưa có Claude/Gemini -> không bao giờ "Pass 100%" thật.
         if (status === 'reviewed') {
-            return '<span title="Admin đã duyệt" style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;background:#22c55e;color:#052e16">Đã duyệt</span>';
+            const who = editor
+                ? `<br><span class="place-editor-info" style="display:inline-block;margin-top:3px;font-size:10px;color:var(--text-muted)">— ${_esc(editor)}${editorAt ? ', ' + _esc(_placeFmtTs(editorAt)) : ''}</span>`
+                : '';
+            return '<span title="Admin đã duyệt" style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;background:#22c55e;color:#052e16">Đã duyệt</span>' + who;
         }
         return '<span title="Chưa đủ nguồn khớp chéo (chờ Claude/Gemini giai đoạn 2)" style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;background:#6b7280;color:#1a1a1a">Cần duyệt</span>';
     }
@@ -2214,14 +2332,23 @@
         if (tbody) tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:16px">Đang tải…</td></tr>';
         if (pagEl) pagEl.innerHTML = '';
 
+        // T427 round 3 follow-up (lỗi 3): huỷ request cũ còn treo + đánh số request này.
+        const mySeq = ++_placeReqSeq;
+        if (_placeAbortCtrl) { try { _placeAbortCtrl.abort(); } catch(e) {} }
+        _placeAbortCtrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+
         const params = new URLSearchParams({ page, size: 50, filter: _placeFilter });
         if (_placeQ) params.set('q', _placeQ);
 
         try {
             const r = await fetch(API + '/daoanh/api/places/vi-map?' + params, {
-                headers: {'X-Session-Token': getToken()}
+                headers: {'X-Session-Token': getToken()},
+                signal: _placeAbortCtrl ? _placeAbortCtrl.signal : undefined
             });
             const d = await r.json();
+            // Request này không còn là request mới nhất (đã có placeLoad khác gọi sau) ->
+            // bỏ kết quả, không render đè lên dữ liệu của request mới hơn.
+            if (mySeq !== _placeReqSeq) return;
             if (!d.ok) throw new Error(d.error || 'API lỗi');
 
             placeLoadFilterCounts(d);
@@ -2248,7 +2375,7 @@
                     <td style="font-size:12px;color:${item.ttl_name_vi ? 'var(--success)' : 'var(--text-faint)'}">${_esc(item.ttl_name_vi || '—')}</td>
                     <td style="font-size:11px;color:${item.dictionary_definition ? '#7ab8d4' : 'var(--text-faint)'}" title="${_esc(item.dictionary_definition || '')}">${item.dictionary_definition ? '✓' : '—'}</td>
                     <td style="font-size:11px;color:var(--text-muted)">${item.confidence != null ? Math.round(item.confidence * 100) + '%' : '—'}</td>
-                    <td>${_placeConfBadge(item.vn_name_status, item.source)}</td>
+                    <td>${_placeConfBadge(item.vn_name_status, item.source, item.editor, item.editor_at)}</td>
                     <td style="white-space:nowrap;display:flex;gap:4px">
                         <button class="etl-flag-pass${item.vn_name_status === 'reviewed' ? ' ok' : ''}" onclick="placePassRow(this)"
                             ${item.vn_name_status === 'reviewed' ? 'disabled' : ''}
@@ -2276,6 +2403,9 @@
                 pagEl.appendChild(info);
             }
         } catch(e) {
+            // Request bị abort (có request mới hơn) hoặc đã không còn mới nhất -> im lặng,
+            // không ghi đè bảng bằng lỗi của request cũ.
+            if (e.name === 'AbortError' || mySeq !== _placeReqSeq) return;
             if (tbody) tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--danger);padding:16px">Lỗi: ${e.message}</td></tr>`;
         }
     }
@@ -2294,7 +2424,7 @@
             if (d.ok) {
                 btn.textContent = '✓ Đã Pass'; btn.classList.add('ok');
                 const badgeCell = tr.children[8];
-                if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', null);
+                if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', null, d.editor, d.editor_at);
             } else {
                 btn.textContent = '✓ Pass'; btn.disabled = false;
                 alert('Lỗi: ' + (d.error || 'Không thể lưu'));
@@ -2347,7 +2477,7 @@
             if (d.ok) {
                 cell.innerHTML = `<span class="place-namevi-text">${_esc(d.name_vi)}</span><br>${_placeSourceBadge('Admin sửa tay')}`;
                 const badgeCell = tr.children[8];
-                if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', 'manual');
+                if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', 'manual', d.editor, d.editor_at);
                 const passBtn = tr.querySelector('.etl-flag-pass');
                 if (passBtn) { passBtn.textContent = '✓ Đã Pass'; passBtn.classList.add('ok'); passBtn.disabled = true; }
             } else {
@@ -2377,10 +2507,11 @@
     // ── AI Transliterate — chạy batch và theo dõi progress ──
     let _aiPollTimer = null;
 
-    async function loadAiColStatus() {
+    async function loadAiColStatus(signal) {
         try {
             const r = await fetch(API + '/api/admin/ai-transliterate/status', {
-                headers: {'X-Session-Token': getToken()}
+                headers: {'X-Session-Token': getToken()},
+                ...(signal ? {signal} : {})
             });
             if (!r.ok) return;
             const d = await r.json();
@@ -2390,10 +2521,11 @@
         } catch(e) { return null; }
     }
 
-    async function loadCodexColStatus() {
+    async function loadCodexColStatus(signal) {
         try {
             const r = await fetch(API + '/api/admin/codex-transliterate/status', {
-                headers: {'X-Session-Token': getToken()}
+                headers: {'X-Session-Token': getToken()},
+                ...(signal ? {signal} : {})
             });
             if (!r.ok) return;
             const d = await r.json();
@@ -2471,6 +2603,5 @@
     // ── boot ──
     init();
     </script>
-<script src="codex-namevi.js"></script>
 </body>
 </html>

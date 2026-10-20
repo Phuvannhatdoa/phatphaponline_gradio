@@ -1,0 +1,90 @@
+T427 QA Round 3 follow-up — vòng sửa tiếp theo (2026-10-20), lỗi 2 (tab loading) + bug mới
+do lần sửa trước gây ra (etlTabLoaded set sớm). Bằng chứng network log thật từ browser pane
+(mcp__Claude_Browser), KHÔNG phải console.log tự chèn.
+
+========================================================================
+GHI CHÚ MÔI TRƯỜNG ĐO
+========================================================================
+Trong phiên này, Browser pane bị throttle timer/render khá nặng ở một số lượt (log tool báo
+"Claude's window is minimized or hidden, which can stop the page from drawing"), khiến số liệu
+mili-giây tuyệt đối từ vài lượt đo qua click chuột KHÔNG đáng tin (performance.now() của trang
+có lúc nhảy vọt bất thường, không phản ánh thời gian thực). Vì vậy báo cáo này ưu tiên bằng
+chứng CHỨC NĂNG (request có được bắn hay không / có bị huỷ hay không, qua Network log thật
+của Chrome DevTools Protocol — không phụ thuộc đồng hồ JS của trang) thay vì số ms tuyệt đối.
+Số ms ở vòng trước (VÒNG 3 FOLLOW-UP, file network_log.txt cũ) được đo trong một phiên browser
+ổn định hơn và vẫn là số liệu tham chiếu chính cho "tab Place tải dưới 2s" khi rời tab ETL
+ngay từ đầu.
+
+========================================================================
+1) BUG MỚI (etlTabLoaded set sớm trong init()) — ĐÃ XÁC NHẬN HẾT
+========================================================================
+Cách verify: gọi document.getElementById('place-tab-btn').click() ngay sau navigate (trước
+hoặc ngay sau khi init()'s setTimeout(800ms) có cơ hội chạy), sau đó đọc biến etlTabLoaded
+trực tiếp trong trang qua javascript_tool (không phải suy đoán qua UI).
+
+Kết quả đo (nhiều lượt):
+- Lượt click SỚM (trước khi setTimeout kịp chạy): etlTabLoaded ngay sau click = false.
+  → Khi quay lại tab ETL sau đó (qua switchTab 'etl'), nhánh if(!etlTabLoaded) được chạy,
+  gọi _etlFullLoad() (tải đủ 5 phần: stats, FLAG live data, FLAG queue, AI status, Codex
+  status) — xác nhận qua DOM: etl-flag-total = "319 FLAG (chưa duyệt)", ai-col-status =
+  "(48,673/48,673)", codex-col-status = "(48,646/48,673)", etl-approved-count = "46,719",
+  etl-dila-linked = "811", bảng etl-flag-queue-body có 12 dòng dữ liệu thật (không còn trống).
+  TRƯỚC khi sửa bug mới này: cùng kịch bản sẽ cho tab ETL trống rỗng (các giá trị trên vẫn
+  là "—"/rỗng) cho tới khi F5 lại trang — ĐÃ KHÔNG còn tái hiện sau bản sửa.
+- Lượt click qua switchTab() trực tiếp (không qua init()) khi etlTabLoaded còn false (đường
+  mới phát hiện lúc verify vòng này): trước đây nhánh if(!etlTabLoaded) trong switchTab() chỉ
+  gọi loadEtlStats()+etlSelectStep(0), THIẾU loadEtlFlagLiveData/etlFlagQueueLoad/
+  loadAiColStatus/loadCodexColStatus — tái hiện đúng lỗi QA báo qua 1 đường khác. Đã gộp
+  thành hàm dùng chung _etlFullLoad(), dùng cả ở init() và switchTab() — xác nhận lại bằng
+  DOM y như trên, không còn thiếu phần nào.
+
+========================================================================
+2) LỖI 2 — Hướng (a) AbortController khi rời tab ETL giữa chừng
+========================================================================
+Case A (rời tab ETL trước 800ms, trước khi 15 request ETL kịp bắn):
+  javascript_exec ngay sau navigate:
+    window.__caseA = {clickAt: performance.now()};
+    document.getElementById('place-tab-btn').click();
+    etlTabLoadedRightAfter = false
+  Sau 10s: performance entries cho thấy etlQueueFired = 0/12 (KHÔNG request namevi-queue nào
+  được bắn), vi-map GET /daoanh/api/places/vi-map?page=1&size=50&filter=all → 200 OK,
+  dur ~1.7s (lượt đo ổn định) hoặc tới ~17.9s (lượt đo trùng lúc server đang xử lý câu
+  LIKE chưa có index idx_namevi_places_dila_id — vấn đề lỗi 1, NGOÀI phạm vi phiên này).
+  → Kết luận: tab Place không bị 15 request ETL cạnh tranh pool nữa khi Admin rời tab sớm.
+
+Case B (ở lại tab ETL đủ lâu để 15 request đã bắn, rồi mới chuyển sang Place):
+  Xác nhận qua Network log thật (Chrome DevTools, không phải console.log):
+    GET /api/admin/namevi-queue/A036842           → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A008793            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A008800            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A008789            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A008801            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A008799            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A001547            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A033489            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A038686            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A004146            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A046539            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi-queue/A001003            → FAILED: net::ERR_ABORTED
+    GET /api/admin/namevi/flag-list?...            → FAILED: net::ERR_ABORTED
+    GET /api/admin/ai-transliterate/status         → FAILED: net::ERR_ABORTED
+    GET /api/admin/codex-transliterate/status      → FAILED: net::ERR_ABORTED
+  → Toàn bộ 15/15 request ETL còn đang treo lúc Admin bấm sang tab Place đều bị huỷ NGAY
+  (net::ERR_ABORTED ở tầng network thật, không phải chỉ Promise bị reject phía JS) — giải
+  phóng connection pool 6/origin ngay lập tức cho request vi-map của tab Place, thay vì phải
+  đợi 15 request cũ tự chạy xong. Sau đó: GET /daoanh/api/places/vi-map?...&q=Khoát → 200 OK,
+  GET .../vi-map?...&q=寺 → 200 OK (2 request này là do ô tìm kiếm còn giữ giá trị "Khoát" từ
+  phiên trước — lỗi 3 (race-condition abort, round trước) cũng chạy đúng: request filter=all
+  không q bị tự huỷ bởi request q=Khoát mới hơn, không bị kết quả cũ đè kết quả mới).
+  Ảnh chụp: loi2_followup2_caseB_place_loaded_search.jpg (bảng Place đã tải xong,
+  PL000000000001 hiển thị "Khoát Tất Đa Quốc — Đã duyệt").
+
+========================================================================
+3) Ảnh chụp bổ sung
+========================================================================
+- loi2_followup2_etl_default_stay.jpg: tab ETL khi Admin KHÔNG chuyển tab (hành vi mặc định
+  giữ nguyên) — vẫn tự tải đủ stats/FLAG/pipeline như trước khi sửa, không bị ảnh hưởng.
+- loi2_followup2_caseB_place_after.jpg: tab Place đã tải xong dữ liệu sau khi rời tab ETL lúc
+  15 request đã bắn (Case B).
+- loi2_followup2_caseB_place_loaded_search.jpg: tab Place đã tải xong kèm network log xác
+  nhận abort (Case B, lượt đo sạch trong tab browser mới).
