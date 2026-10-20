@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Phát Pháp — Toàn cảnh Truyền Thừa Tông Phái</title>
+
+<!-- vis-network standalone -->
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+<style>
+    :root{
+        --bg:#f6f7f9;
+        --panel:#ffffff;
+        --accent:#2c3e50;
+        --muted:#666;
+        --yellow:#ffeb99;
+        --yellow-border:#f1c40f;
+    }
+    html,body{height:100%;margin:0;font-family: "Helvetica Neue", Arial, sans-serif;background:var(--bg);color:var(--accent);}
+    header{
+        padding:16px 20px;
+        background:linear-gradient(90deg,#0f1724,#1f2a44);
+        color:white;
+        display:flex;
+        align-items:center;
+        gap:16px;
+    }
+    header h1{margin:0;font-size:18px;font-weight:600;}
+    header p{margin:0;color:#cbd5e1;font-size:13px;}
+
+    #layout{
+        display:flex;
+        height:calc(100% - 68px);
+        gap:0;
+    }
+
+    #canvas {
+        flex:1 1 70%;
+        min-width: 0;
+        background:linear-gradient(180deg, #fafbfc, #f2f4f6);
+        padding:16px;
+        box-sizing:border-box;
+        overflow:hidden;
+    }
+    #controls {
+        padding:10px 12px;
+        background:var(--panel);
+        border-bottom:1px solid #e6e9ef;
+        display:flex;
+        gap:8px;
+        align-items:center;
+    }
+    #controls select, #controls button {
+        padding:6px 10px;
+        border-radius:6px;
+        border:1px solid #d1d5db;
+        background:white;
+        font-size:14px;
+    }
+    #status {
+        margin-left:12px;
+        color:var(--muted);
+        font-size:13px;
+    }
+
+    #network {
+        width:100%;
+        height: calc(100% - 56px);
+        border-radius:8px;
+        border:1px solid #e3e6ea;
+        background:white;
+    }
+
+    /* Sidebar info */
+    #sidebar {
+        width:360px;
+        max-width:40%;
+        background:var(--panel);
+        border-left:1px solid #e6e9ef;
+        box-sizing:border-box;
+        padding:12px;
+        overflow-y:auto;
+    }
+    .side-header { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px;}
+    .side-header h2{margin:0;font-size:16px;}
+    .close-btn {
+        border: none;
+        background: #ef4444;
+        color: white;
+        padding:6px 10px;
+        border-radius:6px;
+        cursor:pointer;
+    }
+    .lineage-title { font-weight:700; font-size:16px; margin:6px 0; color:var(--accent); }
+    .meta { color:var(--muted); font-size:13px; margin-bottom:8px; }
+    .subs { margin-top:8px; }
+    .subs li{ margin:6px 0; font-size:14px; }
+
+    /* tooltip style (vis uses title html) */
+    .tt {
+        font-size:13px;
+        line-height:1.3;
+    }
+
+    /* responsive */
+    @media (max-width:1000px){
+        #sidebar { display:none; }
+        #network { height: calc(100% - 56px); }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>Phát Pháp — Toàn cảnh Truyền Thừa Tông Phái</h1>
+        <p>Home hiển thị Tông Phái (DharmaLineage). Click node để xem chi tiết tông phái.</p>
+    </div>
+</header>
+
+<div id="layout">
+    <div id="canvas">
+        <div id="controls">
+            <label for="lineageSelect"><strong>Chọn tông phái:</strong></label>
+            <select id="lineageSelect">
+                <option value="">-- Hiển thị toàn bộ (Toàn cảnh) --</option>
+            </select>
+            <button id="btnFit">Fit</button>
+            <div id="status" aria-live="polite">Đang sẵn sàng.</div>
+        </div>
+
+        <div id="network"></div>
+    </div>
+
+    <aside id="sidebar" aria-hidden="true">
+        <div class="side-header">
+            <h2>Thông tin Tông Phái</h2>
+            <button class="close-btn" id="closeSide">Đóng</button>
+        </div>
+
+        <div id="sideContent">
+            <div class="lineage-title" id="sideTitle">(Chưa chọn)</div>
+            <div class="meta" id="sideMeta"></div>
+            <div id="sideDesc" style="white-space:pre-line;color:#222;"></div>
+
+            <h4 style="margin-top:12px;">Khai tổ</h4>
+            <div id="sideFounder" style="font-size:14px;color:#1f2937"></div>
+
+            <h4 style="margin-top:12px;">Các nhánh con</h4>
+            <ul id="sideSubs" class="subs"></ul>
+        </div>
+    </aside>
+</div>
+
+<script>
+/*
+  Home (A): Only DharmaLineage nodes from lineage_graph.jsonld
+  - LINEAGE_FILE: path to JSON-LD file (must be accessible)
+  - Behavior: auto-load on DOMContentLoaded, populate select, show full tree
+*/
+
+const LINEAGE_FILE = "lineage_graph.jsonld"; // <-- adjust if path differs
+const NETWORK_CONTAINER_ID = "network";
+
+let container = document.getElementById(NETWORK_CONTAINER_ID);
+let nodes = new vis.DataSet();
+let edges = new vis.DataSet();
+let network = null;
+let rawGraph = null; // JSON-LD graph array
+let nodeMap = {};    // map @id -> node object (from JSON-LD)
+let childrenMap = {}; // parentId -> [childId,...]
+let parentMap = {};   // childId -> parentId (single parent assumed if exist)
+let depthMap = {};    // computed depth per lineage
+
+const select = document.getElementById("lineageSelect");
+const status = document.getElementById("status");
+const btnFit = document.getElementById("btnFit");
+const sidebar = document.getElementById("sidebar");
+const closeSide = document.getElementById("closeSide");
+
+function safeText(v){
+    if(!v) return "";
+    return String(v).replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function getProp(obj, key){
+    // handles when property may be an object, array or missing
+    if(!obj) return undefined;
+    return obj[key];
+}
+
+function labelOf(node){
+    const lab = getProp(node, "rdfs:label");
+    if(!lab) return node["@id"];
+    if(typeof lab === "object" && lab.value) return lab.value;
+    if(typeof lab === "string") return lab;
+    return node["@id"];
+}
+
+function descriptionOf(node){
+    const d = getProp(node, "bkg:description");
+    if(!d) return "";
+    if(d.value) return d.value;
+    if(typeof d === "string") return d;
+    return "";
+}
+
+function founderOf(node){
+    const f = getProp(node, "bkg:hasFounder");
+    if(!f) return null;
+    // f may be object with @id or an array
+    if(Array.isArray(f)) return f.map(x=>x["@id"]||x).join(", ");
+    if(typeof f === "object") return f["@id"]||null;
+    return f;
+}
+
+// Build nodes + edges from JSON-LD
+function buildGraphFromJSONLD(graphArray){
+    nodeMap = {};
+    childrenMap = {};
+    parentMap = {};
+    depthMap = {};
+
+    // index by @id
+    graphArray.forEach(item => {
+        if(!item["@id"]) return;
+        nodeMap[item["@id"]] = item;
+    });
+
+    // Build parent-child via bkg:hasSubLineage OR isSubLineageOf
+    Object.values(nodeMap).forEach(item=>{
+        const id = item["@id"];
+        // hasSubLineage may be array of {"@id":...}
+        const subs = getProp(item, "bkg:hasSubLineage");
+        if(subs){
+            const arr = Array.isArray(subs) ? subs : [subs];
+            arr.forEach(s=>{
+                const cid = s["@id"] || s;
+                if(!childrenMap[id]) childrenMap[id]=[];
+                childrenMap[id].push(cid);
+                parentMap[cid] = id; // if multiple parents exist, last wins (rare)
+            });
+        }
+        // also handle isSubLineageOf (reverse)
+        const isSub = getProp(item, "bkg:isSubLineageOf");
+        if(isSub){
+            const arr = Array.isArray(isSub) ? isSub : [isSub];
+            arr.forEach(p=>{
+                const pid = p["@id"] || p;
+                if(!childrenMap[pid]) childrenMap[pid]=[];
+                childrenMap[pid].push(id);
+                parentMap[id] = pid;
+            });
+        }
+    });
+
+    // Find roots (no parent)
+    const roots = Object.keys(nodeMap).filter(id => !parentMap[id]);
+    // compute depths by BFS from each root (if multiple)
+    let queue = [];
+    roots.forEach(r=>{ depthMap[r]=0; queue.push(r); });
+
+    while(queue.length){
+        const cur = queue.shift();
+        const children = childrenMap[cur] || [];
+        children.forEach(c=>{
+            const newDepth = (depthMap[cur] ?? 0) + 1;
+            if(depthMap[c] === undefined || newDepth < depthMap[c]){
+                depthMap[c] = newDepth;
+                queue.push(c);
+            }
+        });
+    }
+
+    // Prepare vis nodes + edges
+    nodes.clear(); edges.clear();
+
+    // Determine main tree root: pick root with largest subtree size
+    const subtreeSize = {};
+    function calcSize(id){
+        if(subtreeSize[id] !== undefined) return subtreeSize[id];
+        const ch = childrenMap[id] || [];
+        let s=1;
+        for(const c of ch) s += calcSize(c);
+        subtreeSize[id]=s;
+        return s;
+    }
+    Object.keys(nodeMap).forEach(id => { if(depthMap[id] !== undefined) calcSize(id); });
+
+    let mainRoot = null;
+    if(Object.keys(subtreeSize).length){
+        mainRoot = Object.keys(subtreeSize).reduce((a,b)=> subtreeSize[a] > subtreeSize[b] ? a : b);
+    }
+
+    // Add nodes with level = depthMap
+    Object.values(nodeMap).forEach(item=>{
+        const id = item["@id"];
+        if(depthMap[id] === undefined) {
+            // isolated node (no relation) — place at bottom large level
+            depthMap[id] = Math.max(0, ...Object.values(depthMap)) + 1;
+        }
+        const level = Number(depthMap[id] || 0);
+        const hasFounder = !!getProp(item, "bkg:hasFounder");
+        const label = labelOf(item);
+        const desc = descriptionOf(item);
+        const founder = founderOf(item);
+
+        const title = `<div class="tt"><strong>${safeText(label)}</strong><br/><small>${safeText(desc || "")}</small><hr style="margin:6px 0"/><div style="font-size:13px;color:#222">Khai tổ: ${safeText(founder || "(chưa)")} </div></div>`;
+
+        nodes.add({
+            id: id,
+            label: label,
+            title: title,
+            shape: "box",
+            margin: 12,
+            font: { size: 14, multi: true },
+            widthConstraint: { maximum: 300 },
+            color: hasFounder ? { background: "#fff7d6", border: "#f1c40f" } : { background: "#ffffff", border: "#cfd8df" },
+            borderWidth: hasFounder ? 2 : 1,
+            level: level,
+            physics: false
+        });
+    });
+
+    // Add edges (parent -> child)
+    Object.keys(childrenMap).forEach(parent=>{
+        childrenMap[parent].forEach(child=>{
+            // only add if both exist
+            if(nodeMap[parent] && nodeMap[child]){
+                edges.add({
+                    id: parent + "->" + child,
+                    from: parent,
+                    to: child,
+                    arrows: { to: { enabled: true, scaleFactor: 0.6 } },
+                    color: { color: "#9aa6b2" }
+                });
+            }
+        });
+    });
+
+    return { roots, mainRoot };
+}
+
+// Render vis network with hierarchical layout and center main tree
+function renderNetwork({roots, mainRoot}){
+    const data = { nodes, edges };
+
+    // Options: hierarchical layout; center mainRoot by using physics + clustering prevention
+    const options = {
+        layout: {
+            hierarchical: {
+                enabled: true,
+                levelSeparation: 160,
+                nodeSpacing: 180,
+                treeSpacing: 240,
+                direction: "UD",
+                sortMethod: "directed"
+            }
+        },
+        nodes: {
+            shape: "box",
+            margin: 10,
+            font: { face: "Arial", size: 14 }
+        },
+        edges: {
+            smooth: { type: "cubicBezier" },
+            arrows: { to: { enabled: true } }
+        },
+        interaction: {
+            hover: true,
+            navigationButtons: true,
+            keyboard: { enabled: true, bindToWindow: true }
+        },
+        physics: {
+            enabled: false
+        }
+    };
+
+    if(network) network.destroy();
+    network = new vis.Network(container, data, options);
+
+    // Center and fit view around mainRoot if present
+    if(mainRoot && nodes.get(mainRoot)){
+        setTimeout(()=> {
+            network.focus(mainRoot, { scale: 1.0, animation: { duration: 800 } });
+            network.moveTo({ position: { x:0, y:0 }, scale: 0.9 });
+        }, 300);
+    } else {
+        network.fit({ animation: { duration: 400 } });
+    }
+
+    // events
+    network.on("click", params=>{
+        if(params.nodes && params.nodes.length){
+            const id = params.nodes[0];
+            onNodeSelect(id);
+        }
+    });
+
+    network.on("doubleClick", params=>{
+        if(params.nodes && params.nodes.length){
+            const id = params.nodes[0];
+            // focus + expand: fit children
+            network.focus(id, { scale: 1.0, animation: { duration: 500 }});
+        }
+    });
+
+    // update status
+    status.innerText = `Load OK: ${nodes.length} nodes • ${edges.length} edges`;
+}
+
+// When user selects node: open sidebar with data and zoom to node (position sidebar at upper right)
+function onNodeSelect(nodeId){
+    const item = nodeMap[nodeId];
+    if(!item) return;
+    const name = labelOf(item);
+    const desc = descriptionOf(item);
+    const founder = founderOf(item);
+
+    // sublineages
+    const subs = (childrenMap[nodeId] || []).map(id => {
+        const lbl = nodeMap[id] ? labelOf(nodeMap[id]) : id;
+        return { id, label: lbl };
+    });
+
+    // fill sidebar
+    document.getElementById("sideTitle").innerText = name;
+    document.getElementById("sideMeta").innerText = `@id: ${nodeId} • level: ${depthMap[nodeId] ?? "?"}`;
+    document.getElementById("sideDesc").innerText = desc || "(Không có mô tả)";
+    document.getElementById("sideFounder").innerText = founder || "(Chưa khai tổ được xác định trong JSON-LD)";
+
+    const ul = document.getElementById("sideSubs");
+    ul.innerHTML = "";
+    subs.forEach(s=>{
+        const li = document.createElement("li");
+        li.textContent = s.label;
+        li.style.cursor = "pointer";
+        li.onclick = ()=> {
+            // focus child when clicked in sidebar
+            network.focus(s.id, { scale: 1.0, animation: { duration: 400 }});
+            onNodeSelect(s.id);
+        };
+        ul.appendChild(li);
+    });
+
+    // show sidebar (positioned top-right by CSS)
+    sidebar.style.display = "block";
+    sidebar.setAttribute("aria-hidden","false");
+
+    // zoom & center node: make node root-ish by focusing and then fitting its subtree
+    network.focus(nodeId, { scale: 1.0, animation: { duration: 400 }});
+
+    // optionally: fit subtree: gather nodes in subtree and call network.fit with nodes
+    const subtreeIds = collectSubtree(nodeId);
+    if(subtreeIds.length > 1){
+        setTimeout(()=> {
+            try{
+                network.fit({ nodes: subtreeIds, animation: { duration: 400 }});
+            }catch(e){}
+        }, 350);
+    }
+}
+
+function collectSubtree(root){
+    const out = [];
+    const q=[root];
+    const seen={};
+    while(q.length){
+        const cur = q.shift();
+        if(seen[cur]) continue;
+        seen[cur]=1;
+        out.push(cur);
+        const ch=childrenMap[cur]||[];
+        ch.forEach(c=>{ if(!seen[c]) q.push(c); });
+    }
+    return out;
+}
+
+// populate select box with list of lineage nodes (labels)
+function populateSelect(){
+    // Order: depth asc then subtree size desc
+    const list = Object.values(nodeMap).map(n => ({ id: n["@id"], label: labelOf(n), depth: depthMap[n["@id"]] ?? 0, size: (childrenMap[n["@id"]]||[]).length }));
+    list.sort((a,b)=> (a.depth - b.depth) || (b.size - a.size) || a.label.localeCompare(b.label));
+    select.innerHTML = `<option value="">-- Hiển thị toàn bộ (Toàn cảnh) --</option>`;
+    list.forEach(x=>{
+        select.innerHTML += `<option value="${x.id}">${safeText(x.label)}</option>`;
+    });
+
+    select.onchange = async ()=>{
+        const val = select.value;
+        if(!val){
+            // show entire graph
+            renderNetwork({ roots: Object.keys(nodeMap).filter(id=> !parentMap[id]), mainRoot: findMainRoot() });
+            return;
+        }
+        // find the lineage node by id and focus: show only subtree under this lineage (and also include one parent level if exists)
+        nodes.clear(); edges.clear();
+
+        // collect subtree nodes
+        const subtree = collectSubtree(val);
+        // include one parent level (if present)
+        const parent = parentMap[val];
+        if(parent) subtree.push(parent);
+
+        // add nodes and edges that are in subtree
+        subtree.forEach(id=>{
+            const item = nodeMap[id];
+            if(!item) return;
+            const level = depthMap[id] ?? 0;
+            const hasFounder = !!getProp(item, "bkg:hasFounder");
+            const label = labelOf(item);
+            const desc = descriptionOf(item);
+            const founder = founderOf(item);
+            const title = `<div class="tt"><strong>${safeText(label)}</strong><br/><small>${safeText(desc || "")}</small><hr style="margin:6px 0"/><div style="font-size:13px;color:#222">Khai tổ: ${safeText(founder || "(chưa)")} </div></div>`;
+
+            nodes.add({
+                id: id,
+                label: label,
+                title: title,
+                shape: "box",
+                margin: 12,
+                font: { size: 14, multi: true },
+                color: hasFounder ? { background: "#fff7d6", border: "#f1c40f" } : { background: "#ffffff", border: "#cfd8df" },
+                borderWidth: hasFounder ? 2 : 1,
+                level: level,
+                physics: false
+            });
+        });
+
+        // edges inside subtree
+        Object.keys(childrenMap).forEach(p=>{
+            (childrenMap[p]||[]).forEach(c=>{
+                if(subtree.includes(p) && subtree.includes(c)){
+                    edges.add({ id: p+"->"+c, from: p, to: c, arrows: { to: { enabled: true, scaleFactor: 0.6 } }, color: { color: "#8ea1ad" } });
+                }
+            });
+        });
+
+        // render network with the current nodes/edges
+        renderNetwork({ roots: [val], mainRoot: val });
+    };
+}
+
+function findMainRoot(){
+    // pick root with largest subtree
+    const roots = Object.keys(nodeMap).filter(id=> !parentMap[id]);
+    if(roots.length==0) return null;
+    let best = roots[0], bestSize = 0;
+    roots.forEach(r=>{
+        const s = collectSubtree(r).length;
+        if(s > bestSize){ best = r; bestSize = s; }
+    });
+    return best;
+}
+
+// Load JSON-LD and initialize
+async function init(){
+    status.innerText = "Đang tải cấu trúc tông phái...";
+    try {
+        const res = await fetch(LINEAGE_FILE, {cache: "no-cache"});
+        if(!res.ok) throw new Error("Không thể load lineage_graph.jsonld: " + res.status);
+        const json = await res.json();
+        // JSON-LD structure: { "@graph": [...] }
+        rawGraph = json["@graph"] || json;
+        // normalize: ensure array
+        if(!Array.isArray(rawGraph)) rawGraph = [rawGraph];
+
+        // filter items of type bkg:DharmaLineage (if present)
+        rawGraph = rawGraph.filter(x => {
+            const t = x["@type"];
+            if(!t) return false;
+            if(Array.isArray(t)) return t.includes("bkg:DharmaLineage") || t.includes("http://buddhist-kg.org/ontology/DharmaLineage");
+            return t === "bkg:DharmaLineage" || t === "http://buddhist-kg.org/ontology/DharmaLineage" || String(t).includes("DharmaLineage");
+        });
+
+        const { roots, mainRoot } = buildGraphFromJSONLD(rawGraph);
+        populateSelect();
+        renderNetwork({ roots, mainRoot });
+        status.innerText = `Load OK: ${nodes.length} nodes • ${edges.length} edges`;
+
+    } catch (err){
+        console.error(err);
+        status.innerText = "Lỗi khi tải tệp lineage_graph.jsonld. Kiểm tra console.";
+    }
+}
+
+btnFit.addEventListener("click", ()=> {
+    if(network) network.fit({ animation: { duration: 500 }});
+});
+
+closeSide.addEventListener("click", ()=>{
+    sidebar.style.display = "none";
+    sidebar.setAttribute("aria-hidden","true");
+});
+
+// auto init
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+warning: in the working copy of 'Dai_Tang_Kinh/daoanh/docs/ROLLBACK.md', LF will be replaced by CRLF the next time Git touches it
+The following paths are ignored by one of your .gitignore files:
+Dai_Tang_Kinh/daoanh/data
+hint: Use -f if you really want to add them.
+hint: Disable this message with "git config set advice.addIgnoredFile false"
+warning: in the working copy of 'Dai_Tang_Kinh/daoanh/docs/sessions/2026-09-28_t188-t171-spec-logic-fixes.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Dai_Tang_Kinh/daoanh/tasks/T188-t171-spec-logic-fixes.md', LF will be replaced by CRLF the next time Git touches it
+fatal: unable to write new index file

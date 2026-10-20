@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Person Import (DILA) — Đạo Ảnh Admin</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { ink:'#020617', panel:'#0f172a', edge:'#334155',
+            gold:'#d97706', golddim:'#78350f', muted:'#94a3b8' } } } };
+</script>
+<style>
+body{background:#020617;color:#e2e8f0;font-family:'Inter',sans-serif}
+.zname{font-family:'Noto Serif TC',serif}
+.mono{font-family:'Consolas',monospace;font-size:12px}
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- Header -->
+<div class="flex items-center gap-3 border-b border-edge px-5 py-4">
+  <a href="index.html" class="text-xs text-muted hover:text-slate-200"><i class="fa-solid fa-arrow-left"></i>Admin</a>
+  <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.36-1.86M17 20H7m10 0v-2c0-.7-.14-1.36-.39-1.97M7 20H2v-2a3 3 0 015.36-1.86M7 20v-2c0-.7.14-1.36.39-1.97M7 4V2m4 2v2m4-2v2M7 16h10"/></svg>
+  <div>
+    <h1 class="text-lg font-bold text-gold">Person Import (DILA Authority)</h1>
+    <div class="text-xs text-muted">Nhập 48,803 nhân vật từ XML CBSE/DILA vào <span class="mono">vn_person_authority</span> — additive, revert được</div>
+  </div>
+  <div class="ml-auto">
+    <button onclick="runValidate()" class="btn-amber"><i class="fa-solid fa-magnifying-glass-chart"></i> Kiểm tra (validate)</button>
+    <button onclick="runCommit()" id="btn-commit" class="btn-outline"><i class="fa-solid fa-download"></i> Nhập vào DB</button>
+  </div>
+</div>
+
+<!-- Alert banner -->
+<div id="alert" class="hidden mx-5 mt-4 flex items-center gap-2 rounded-md border border-yellow-500/40 bg-yellow-500/10 px-4 py-2 text-sm text-yellow-400">
+  <i class="fa-solid fa-triangle-exclamation"></i><span id="alert-msg"></span>
+</div>
+
+<!-- Summary cards -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 px-5 pt-5">
+  <div class="rounded-lg border border-edge bg-panel p-4">
+    <div class="text-[11px] uppercase tracking-wider text-muted">XML nguồn</div>
+    <div class="mt-1 text-xl font-bold text-gold" id="c-xml">–</div>
+    <div class="text-xs text-muted" id="c-xmlsize">chưa quét</div>
+  </div>
+  <div class="rounded-lg border border-edge bg-panel p-4">
+    <div class="text-[11px] uppercase tracking-wider text-muted">Tổng nhân vật</div>
+    <div class="mt-1 text-xl font-bold text-blue-400" id="c-total">–</div>
+    <div class="text-xs text-muted">trong XML</div>
+  </div>
+  <div class="rounded-lg border border-edge bg-panel p-4">
+    <div class="text-[11px] uppercase tracking-wider text-muted">Sẽ thêm mới</div>
+    <div class="mt-1 text-xl font-bold text-green-400" id="c-insert">–</div>
+    <div class="text-xs text-muted">dila_id chưa có trong DB</div>
+  </div>
+  <div class="rounded-lg border border-edge bg-panel p-4">
+    <div class="text-[11px] uppercase tracking-wider text-muted">Bỏ qua (đã có)</div>
+    <div class="mt-1 text-xl font-bold text-yellow-400" id="c-skip">–</div>
+    <div class="text-xs text-muted">merge là phạm vi T223</div>
+  </div>
+</div>
+
+<!-- Gender + hash strip -->
+<div class="px-5 pt-3 flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted">
+  <span>Giới tính: <b class="text-slate-300" id="c-sex">–</b></span>
+  <span>Trùng trong XML: <b class="text-slate-300" id="c-dupxml">–</b></span>
+  <span class="mono" id="c-sha">–</span>
+</div>
+
+<!-- Skip preview table -->
+<div class="px-5 pt-5">
+  <div class="mb-2 flex items-center justify-between">
+    <h2 class="text-sm font-semibold text-slate-200">dila_id bị bỏ qua (đã có trong DB — T223 sẽ gộp alias)</h2>
+    <span class="text-xs text-muted" id="skip-count"></span>
+  </div>
+  <div class="overflow-x-auto rounded-lg border border-edge">
+    <table class="w-full text-sm">
+      <thead class="bg-panel text-[11px] uppercase tracking-wider text-muted">
+        <tr>
+          <th class="px-3 py-2 text-left">dila_id</th>
+          <th class="px-3 py-2 text-left">id (DB)</th>
+          <th class="px-3 py-2 text-left">status</th>
+          <th class="px-3 py-2 text-left">name_zh</th>
+        </tr>
+      </thead>
+      <tbody id="skip-body"><tr><td colspan="4" class="px-3 py-4 text-center text-muted">Chưa quét — bấm "Kiểm tra"</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Runs history -->
+<div class="px-5 pt-6 pb-10">
+  <h2 class="mb-2 text-sm font-semibold text-slate-200">Lịch sử import (runs) — Revert khôi phục đúng hàng đã thêm</h2>
+  <div class="overflow-x-auto rounded-lg border border-edge">
+    <table class="w-full text-sm">
+      <thead class="bg-panel text-[11px] uppercase tracking-wider text-muted">
+        <tr>
+          <th class="px-3 py-2 text-left">run_id</th>
+          <th class="px-3 py-2 text-left">Thời điểm</th>
+          <th class="px-3 py-2 text-right">Số hàng đã thêm</th>
+          <th class="px-3 py-2 text-right">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody id="runs-body"><tr><td colspan="4" class="px-3 py-4 text-center text-muted">Đang tải...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="hidden fixed bottom-5 right-5 z-50 max-w-md rounded-lg border border-edge bg-panel px-4 py-3 text-sm shadow-xl"></div>
+
+<script>
+const _BASE = location.protocol === 'file:' ? 'http://localhost:8080' : '';
+const API = _BASE + '/daoanh/api/admin/person/import-xml';
+function getToken(){ try{ return localStorage.getItem('admin_session') || ''; }catch(e){ return ''; } }
+function H(){ return {'Content-Type':'application/json', 'X-Session-Token': getToken()}; }
+function toast(msg, ok=false, dur=5000){
+  const t=document.getElementById('toast');
+  t.textContent=''; t.className='fixed bottom-5 right-5 z-50 max-w-md rounded-lg border px-4 py-3 text-sm shadow-xl '+(ok?'border-green-500/40 text-green-400':'border-red-500/40 text-red-400')+' bg-panel';
+  t.classList.remove('hidden'); t.textContent=msg;
+  clearTimeout(t._tm); t._tm=setTimeout(()=>t.classList.add('hidden'), dur);
+}
+function showAlert(msg){
+  const a=document.getElementById('alert');
+  document.getElementById('alert-msg').textContent=msg;
+  a.classList.remove('hidden');
+}
+function hideAlert(){ document.getElementById('alert').classList.add('hidden'); }
+
+function fmt(n){ return (n==null?'–':Number(n).toLocaleString('en-US')); }
+
+async function runValidate(){
+  hideAlert();
+  toast('Đang quét XML 51MB + DB... (~15s)');
+  try{
+    const r=await fetch(API,{method:'POST',headers:H(),body:JSON.stringify({action:'validate'})});
+    const d=await r.json();
+    if(!d.ok){ if(d.error) showAlert(d.error); toast('Lỗi validate: '+(d.error||''),false); return; }
+    document.getElementById('c-xml').textContent = d.xml || '–';
+    document.getElementById('c-xmlsize').textContent = fmt(d.xml_size) + ' bytes';
+    document.getElementById('c-total').textContent = fmt(d.persons_total);
+    document.getElementById('c-insert').textContent = fmt(d.will_insert);
+    document.getElementById('c-skip').textContent = fmt(d.skipped_existing);
+    const s=d.sex||{};
+    document.getElementById('c-sex').textContent =
+      'Nam '+fmt(s['1'])+' · Nữ '+fmt(s['2'])+' · KHÔNG-XÁC-ĐỊNH '+fmt((s['9']||0)+(s['0']||0));
+    document.getElementById('c-dupxml').textContent = fmt(d.skipped_dup);
+    document.getElementById('c-sha').textContent = 'sha256 ' + (d.xml_sha256||'').slice(0,16) + '…';
+    renderSkip(d.skipped_existing_sample||[], d.skipped_existing);
+    document.getElementById('btn-commit').disabled = (d.will_insert||0)===0;
+    toast('Validate xong: sẽ thêm '+fmt(d.will_insert)+' người mới.', true);
+  }catch(e){ showAlert('Không kết nối được API (server cần restart): '+e.message); toast('Lỗi mạng', false); }
+}
+
+function renderSkip(items, total){
+  const tbody=document.getElementById('skip-body');
+  const rows=items;
+  document.getElementById('skip-count').textContent = 'hiển thị '+rows.length+'/'+fmt(total);
+  if(!rows.length){ tbody.innerHTML='<tr><td colspan="4" class="px-3 py-4 text-center text-muted">Không có dila_id trùng — tất cả sẽ được thêm mới.</td></tr>'; return; }
+  tbody.innerHTML=rows.map(x=>`<tr>
+    <td class="px-3 py-1.5 mono text-gold">${x.dila_id||''}</td>
+    <td class="px-3 py-1.5 mono">${x.id||''}</td>
+    <td class="px-3 py-1.5"><span class="rounded-full bg-slate-700/50 px-2 py-0.5 text-[11px]">${x.status||''}</span></td>
+    <td class="px-3 py-1.5 zname">${x.name_zh||'—'}</td></tr>`).join('');
+}
+
+async function runCommit(){
+  hideAlert();
+  if(!confirm('Nhập toàn bộ người mới vào DB?\n\n- Chỉ thêm hàng dila_id chưa có (additive)\n- Tạo backup DB + manifest để revert\n- Mất vài chục giây (48k bản ghi)')) return;
+  const b=document.getElementById('btn-commit');
+  b.disabled=true; b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Đang nhập...';
+  toast('Đang import (có thể mất 30-60s)...');
+  try{
+    const r=await fetch(API,{method:'POST',headers:H(),body:JSON.stringify({action:'commit'})});
+    const d=await r.json();
+    if(!d.ok){ if(d.error) showAlert(d.error); toast('Lỗi commit: '+(d.error||''),false); }
+    else{
+      toast('✅ '+d.message, true, 8000);
+      renderRuns(d.runs);
+      runValidate();
+    }
+  }catch(e){
+    toast('Lỗi mạng: '+e.message, false);
+  } finally {
+    b.disabled=false; b.innerHTML='<i class="fa-solid fa-download"></i> Nhập vào DB';
+  }
+}
+
+async function renderRuns(){
+  try{
+    const r=await fetch(API+'?action=runs', {headers:H()});
+    const d=await r.json();
+    const tbody=document.getElementById('runs-body');
+    if(!d.ok || !d.runs || !d.runs.length){ tbody.innerHTML='<tr><td colspan="4" class="px-3 py-4 text-center text-muted">Chưa có lần import nào.</td></tr>'; return; }
+    tbody.innerHTML=d.runs.map(x=>`<tr>
+      <td class="px-3 py-1.5 mono text-gold">${x.run_id||''}</td>
+      <td class="px-3 py-1.5">${x.imported_at||''}</td>
+      <td class="px-3 py-1.5 text-right">${fmt(x.rows_imported)}</td>
+      <td class="px-3 py-1.5 text-right"><button class="rounded border border-edge px-2 py-1 text-xs text-red-400 hover:bg-red-500/10" onclick="runRevert('${x.run_id}')">Revert</button></td></tr>`).join('');
+  }catch(e){ /* silent */ }
+}
+
+async function runRevert(runId){
+  if(!confirm('REVERT '+runId+'?\n\nXoá đúng các hàng do run này thêm (additive — dữ liệu cũ giữ nguyên). Backup DB đầy đủ nằm trong data/backups/person-import-'+runId+'/.')) return;
+  try{
+    const r=await fetch(API,{method:'POST',headers:H(),body:JSON.stringify({action:'revert', run_id:runId})});
+    const d=await r.json();
+    if(!d.ok){ toast('Lỗi revert: '+(d.error||''), false); return; }
+    toast('✅ '+d.message, true, 8000);
+    renderRuns();
+    runValidate();
+  }catch(e){ toast('Lỗi mạng: '+e.message, false); }
+}
+
+// Khởi động
+renderRuns();
+runValidate();
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</body>
+</html>

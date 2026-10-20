@@ -1,0 +1,20 @@
+.book-summary {
+  background: #020617;
+}
+.book-summary ul.summary li a,
+.book-summary ul.summary li span {
+  color: #e2e8f0;
+}
+.book-summary ul.summary li.active > a {
+  color: #d97706;
+}
+.book-summary ul.summary li.header {
+  color: #d97706;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.markdown-section h1,
+.markdown-section h2 {
+  border-bottom: 1px solid rgba(217, 119, 6, 0.25);
+  padding-bottom: 0.3em;
+}

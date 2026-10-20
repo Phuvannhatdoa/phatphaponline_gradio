@@ -1,0 +1,15 @@
+count=14
+A014545 | Quy Sơn Hiểu Tân
+A023322 | Quy Sơn Linh Hựu
+A009144 | Quy Sơn Trí Chân
+A019930 | Tân La Ca Trí
+A002290 | Tân La Pháp Lãng
+A022964 | Tân La Thuận Chi
+A002908 | Tân La Pháp Lãng
+A004376 | Tân La Pháp Lãng
+A006836 | Tân La Pháp Lãng
+A007736 | Tân La Pháp Lãng
+A044062 | Tân La Pháp Lãng
+A001984 | Quy Sơn Linh Hựu
+A024886 | Quy Sơn Trí Chân
+A015558 | Tân La Đại Chứng

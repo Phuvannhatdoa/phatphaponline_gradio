@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file:; style-src 'self' file:; connect-src 'none'; img-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Phase4 — Đối chiếu nguồn tại máy</title>
+  <link rel="stylesheet" href="preview.css">
+  <script src="model.js" defer></script>
+  <script src="preview-data.js" defer></script>
+  <script src="preview.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Đến nội dung</a>
+  <header><p class="eyebrow">PHẬT TỔ ĐẠO ẢNH · PHASE4</p><h1>Đọc nguồn, giữ ranh giới.</h1>
+    <p>Preview cô lập tại máy. Nguồn gốc, ánh xạ và tình huống giả lập được đặt riêng.</p>
+    <p class="warning">Chỉ đọc nội bộ · Chưa duyệt định danh · Không suy số đời · Quyền tái sử dụng chưa giải quyết · Không công bố.</p>
+  </header>
+  <div id="guardMessage" role="alert"></div>
+  <main id="main" tabindex="-1">
+    <div id="summary" class="summary" aria-label="Phạm vi dữ liệu"></div>
+    <nav aria-label="Chế độ xem" id="modes">
+      <button type="button" data-mode="source" aria-pressed="true">1. Chỉ nguồn</button>
+      <button type="button" data-mode="compare" aria-pressed="false">2. Đối chiếu tác phẩm</button>
+      <button type="button" data-mode="evidence" aria-pressed="false">3. Chi tiết chứng cứ</button>
+    </nav>
+    <p id="modeStatus" role="status" aria-live="polite"></p>
+    <section id="sourcePanel" aria-labelledby="sourceTitle">
+      <h2 id="sourceTitle">15 nhân vật nguồn · một cụm tác phẩm</h2>
+      <p>CSV/GEXF/TEI/XLSX là các biểu diễn trong cùng cụm Tổ Đường Tập. Hai locator không tự thành hai nguồn độc lập. Mẫu con không chứa một cạnh không có nghĩa nguồn phủ định cạnh đó.</p>
+      <div class="controls"><label>Biểu diễn quan hệ <select id="format"><option value="all">Cả GEXF và CSV</option><option value="GEXF">GEXF</option><option value="CSV">CSV</option></select></label>
+        <label>Tìm nhân vật <input id="search" type="search" maxlength="120" placeholder="ID hoặc nhãn nguồn"></label></div>
+      <div id="graph" class="surface" aria-label="Sơ đồ quan sát nguồn"></div>
+      <h3>Định danh và lớp ánh xạ riêng</h3><p>ID nguồn có dạng Axxxxxx chưa chứng minh đồng nhất PTDA. Mọi ứng viên đều proposed / unreviewed; nhãn Việt chỉ thuộc mapping_candidates.</p>
+      <div class="table-wrap" role="region" aria-label="Nhân vật và ứng viên ánh xạ; cuộn ngang" tabindex="0"><table>
+        <caption>Nhãn nguồn bất biến; không có thao tác phê duyệt</caption>
+        <thead><tr><th>Nút nguồn / ID ngoài</th><th>Nhãn nguyên văn</th><th>Nhãn Việt đề xuất</th><th>Ứng viên PTDA</th><th>Trạng thái</th><th>Số đời nguyên văn</th></tr></thead><tbody id="persons"></tbody>
+      </table></div>
+      <h3>Quan sát quan hệ được giữ riêng</h3><p id="observationSummary"></p>
+      <div class="table-wrap" role="region" aria-label="Quan sát, biểu diễn và locator" tabindex="0"><table>
+        <thead><tr><th>Observation / biểu diễn</th><th>Endpoint nguồn</th><th>Loại / chiều</th><th>Locator / cảnh báo</th><th>Chứng cứ</th></tr></thead><tbody id="observations"></tbody>
+      </table></div>
+    </section>
+    <section id="comparePanel" aria-labelledby="compareTitle" hidden>
+      <h2 id="compareTitle">Đối chiếu theo tác phẩm và ngữ nghĩa</h2>
+      <p>Chỉ gom để trình bày khi cùng định danh nguồn (hoặc đồng nhất được khai báo rõ trong fixture), cùng loại quan hệ và cùng chiều. Không phê duyệt hoặc sửa bản ghi nguồn. Không lấy số đời làm khóa nhân vật.</p>
+      <label>Ca đối chiếu <select id="scenario"><option value="real">Dữ liệu thực P3 — cùng cụm Tổ Đường Tập</option></select></label>
+      <p id="simulationWarning" class="warning"></p>
+      <p id="comparisonSummary" role="status"></p>
+      <div id="comparisonGraph" class="surface"></div>
+      <div id="comparisonRows" class="cards"></div>
+      <h3>Số đời là annotation có hệ đếm</h3><div id="generationAnnotations" class="cards"></div>
+    </section>
+    <section id="evidencePanel" aria-labelledby="evidenceTitle" hidden>
+      <h2 id="evidenceTitle">Chứng cứ và giới hạn</h2>
+      <p class="warning">Không có cạnh ở một biểu diễn không phải phủ định lịch sử. Thiếu cert không có nghĩa chắc chắn. Nhãn authority được dẫn lại không là accepted identity.</p>
+      <h3>Hai witness A004166–A000587 và UUID / locator</h3><div id="witnesses" class="cards"></div>
+      <h3>Ba trường hợp CSV “0” / workbook “?”</h3><div id="unknownGenerations" class="cards"></div>
+      <details><summary id="uncertaintyTitle">41 linkGrp cert=low và toàn bộ inventory bất định</summary><div id="uncertainties" class="cards"></div></details>
+      <details><summary id="rightsTitle">Quyền: bốn TEI có khai báo mâu thuẫn, chưa clearance</summary><div id="rightsRows" class="cards"></div></details>
+      <h3>Đọc bản ghi chứng cứ nguồn</h3><label>Chứng cứ <select id="evidenceSelect"></select></label><pre id="evidenceDetail" tabindex="0" aria-label="Bản ghi chứng cứ nguyên văn"></pre>
+    </section>
+    <footer>Không HOME, API, public, import, export hoặc lưu thay đổi. DILA/Marcus chưa được cung cấp thành bộ quan hệ độc lập cho Phase4; tình huống bổ sung là SIMULATED. License package không cấp quyền cho PTDA/DILA/CBETA.</footer>
+  </main>
+</body>
+</html>

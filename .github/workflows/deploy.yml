@@ -1,0 +1,225 @@
+﻿name: Test and Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    outputs:
+      app_sha: ${{ steps.meta.outputs.app_sha }}
+      app_sha_long: ${{ steps.meta.outputs.app_sha_long }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Capture commit SHA
+        id: meta
+        run: |
+          echo "app_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "app_sha_long=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        working-directory: Dai_Tang_Kinh/daoanh
+        run: npm install
+
+      - name: Run guard checks
+        working-directory: Dai_Tang_Kinh/daoanh
+        run: npm run guard
+
+      - name: Run lint checks
+        working-directory: Dai_Tang_Kinh/daoanh
+        run: npm run lint
+
+      - name: Check Python syntax
+        working-directory: Dai_Tang_Kinh/daoanh
+        run: |
+          python -m py_compile app.py
+          python -m py_compile server.py
+
+      - name: Check duplicate IDs
+        working-directory: Dai_Tang_Kinh/daoanh
+        run: npm run dup:ids
+
+      - name: Run npm test
+        working-directory: Dai_Tang_Kinh/daoanh
+        run: npm test
+
+      - name: Test summary
+        run: echo "All checks passed"
+
+  deploy:
+    name: Deploy to ${{ github.event.inputs.environment || 'staging' }}
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      # NOTE: This workflow requires these GitHub secrets to be configured:
+      # - VPS_SSH_KEY: private SSH key for deployment user
+      # - VPS_KNOWN_HOSTS: output of `ssh-keyscan <host>` (base64 encoded) or raw
+      # - DEPLOY_USER: SSH username (e.g., 'daoanh-deploy')
+      # - DEPLOY_HOST: VPS hostname/IP (e.g., '158.220.106.183')
+      # - DEPLOY_PATH: deployment directory (e.g., '/opt/phatphaponline_gradio/...' or leave empty for default)
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare SSH key
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          if [ -z "$VPS_KNOWN_HOSTS" ]; then
+            echo "ERROR: VPS_KNOWN_HOSTS secret is empty"
+            echo "Generate with: ssh-keyscan -p 22 <host> >> ~/.ssh/known_hosts"
+            exit 1
+          fi
+          # Decode base64 if provided
+          echo "$VPS_KNOWN_HOSTS" | base64 -d > ~/.ssh/known_hosts 2>/dev/null || echo "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          echo "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Capture current VPS SHA
+        id: current_sha
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/opt/phatphaponline_gradio/truyenthua/visjs-app' }}
+        run: |
+          PREV_SHA=$(ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes \
+            $DEPLOY_USER@$DEPLOY_HOST \
+            "cd $DEPLOY_PATH && git rev-parse HEAD 2>/dev/null || echo 'unknown'")
+          echo "prev_sha=$PREV_SHA" >> $GITHUB_OUTPUT
+          echo "Previous SHA on VPS: $PREV_SHA"
+
+      - name: Deploy application
+        id: deploy
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/opt/phatphaponline_gradio/truyenthua/visjs-app' }}
+        run: |
+          COMMIT_SHA="${{ needs.build.outputs.app_sha }}"
+
+          # Pull latest code
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes \
+            $DEPLOY_USER@$DEPLOY_HOST \
+            "cd $DEPLOY_PATH && git fetch origin && git checkout $COMMIT_SHA"
+
+          echo "app_url=http://$DEPLOY_HOST" >> $GITHUB_OUTPUT
+
+      - name: Restart Flask service on VPS
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/opt/phatphaponline_gradio/truyenthua/visjs-app' }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes \
+            $DEPLOY_USER@$DEPLOY_HOST \
+            "cd $DEPLOY_PATH/Dai_Tang_Kinh/daoanh && \
+            find . -name '*.pyc' -delete 2>/dev/null && \
+            rm -rf __pycache__ 2>/dev/null && \
+            systemctl restart daoanh-api.service 2>/dev/null && \
+            sleep 2"
+
+      - name: Record deployment commit
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/opt/phatphaponline_gradio/truyenthua/visjs-app' }}
+        run: |
+          COMMIT="${{ needs.build.outputs.app_sha_long }}"
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes \
+            $DEPLOY_USER@$DEPLOY_HOST \
+            "echo '$COMMIT' > $DEPLOY_PATH/DEPLOYED_COMMIT"
+
+      - name: Health check
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          echo "Checking API health on VPS..."
+          for i in {1..30}; do
+            if ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes \
+               $DEPLOY_USER@$DEPLOY_HOST \
+               "curl -sf http://127.0.0.1:5000/daoanh/api/dila/stats >/dev/null"; then
+              echo "Health check passed"
+              exit 0
+            fi
+            echo "Attempt $i/30..."
+            sleep 2
+          done
+          echo "Health check timeout after 60s"
+          exit 1
+
+      - name: Create deployment record
+        if: success()
+        run: |
+          echo "Deployment successful"
+          echo "Commit: ${{ needs.build.outputs.app_sha }}"
+          echo "Environment: ${{ github.event.inputs.environment || 'staging' }}"
+          echo ""
+          echo "Rollback command (if needed):"
+          echo "  git revert ${{ needs.build.outputs.app_sha_long }}"
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH || '/opt/phatphaponline_gradio/truyenthua/visjs-app' }}
+        run: |
+          echo "Deployment failed"
+          PREV_SHA="${{ steps.current_sha.outputs.prev_sha }}"
+          echo "To rollback on VPS:"
+          echo "  ssh $DEPLOY_USER@$DEPLOY_HOST 'cd $DEPLOY_PATH && git checkout $PREV_SHA'"

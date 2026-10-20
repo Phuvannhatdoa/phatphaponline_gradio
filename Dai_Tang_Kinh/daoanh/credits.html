@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghi nguồn dữ liệu — Phật Tổ Đạo Ảnh</title>
+<link rel="stylesheet" href="/daoanh/admin/admin.css">
+<style>
+body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+h1 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+.subtitle { color: #666; margin-bottom: 2rem; font-size: 0.9rem; }
+.source-card { border: 1px solid #ddd; border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 1.2rem; }
+.source-card h2 { font-size: 1.05rem; margin: 0 0 0.3rem; }
+.source-card .org { color: #555; font-size: 0.9rem; margin-bottom: 0.6rem; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.78rem;
+         font-weight: 600; background: #e8f0fe; color: #1a56db; margin-right: 6px; }
+.badge.nc { background: #fef3c7; color: #92400e; }
+.badge.sa { background: #dcfce7; color: #166534; }
+.meta { font-size: 0.85rem; color: #666; margin-top: 0.6rem; }
+.meta a { color: #1a56db; }
+.warning { background: #fff7ed; border: 1px solid #fdba74; border-radius: 6px;
+           padding: 0.8rem 1rem; font-size: 0.85rem; color: #7c2d12; margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+<h1>Ghi nguồn dữ liệu</h1>
+<p class="subtitle">Phật Tổ Đạo Ảnh sử dụng dữ liệu từ các tổ chức sau. Ghi nguồn theo điều khoản của từng nguồn.</p>
+
+<div class="warning">
+  ⚠ Một số nguồn dữ liệu đang ở trạng thái AUDITING — giấy phép chưa được xác minh đầy đủ.
+  Xem trạng thái chi tiết tại <a href="/daoanh/admin/source_check.html">Legal Check</a>.
+</div>
+
+<div class="source-card">
+  <h2>DILA Buddhist Authority Database</h2>
+  <div class="org">Dharma Drum Institute of Liberal Arts (法鼓文理學院)</div>
+  <span class="badge sa">CC BY-SA 3.0</span>
+  <div class="meta">
+    Dữ liệu nhân vật, địa danh và quan hệ thầy trò trong hệ thống.<br>
+    Nguồn gốc: <a href="https://authority.dila.edu.tw" target="_blank">authority.dila.edu.tw</a><br>
+    Dữ liệu DILA được giữ tách biệt. Bản phái sinh phân phối ra ngoài phải cùng giấy phép CC BY-SA 3.0.
+  </div>
+</div>
+
+<div class="source-card">
+  <h2>CBETA Chinese Buddhist Electronic Text Association</h2>
+  <div class="org">中華電子佛典協會 (CBETA)</div>
+  <span class="badge nc">BY-NC-SA 4.0</span>
+  <div class="meta">
+    Văn bản Đại Tạng Kinh, chỉ dùng phi thương mại.<br>
+    Nguồn gốc: <a href="https://cbeta.org" target="_blank">cbeta.org</a><br>
+    Không sao chép văn bản CBETA vào đầu ra thương mại.
+    Điều khoản đang được xác minh — áp dụng điều khoản chặt nhất cho đến khi có văn bản xác nhận.
+  </div>
+</div>
+
+<div class="source-card">
+  <h2>Marcus SNA — Chinese Buddhism Social Network Analysis</h2>
+  <div class="org">Marcus Bingenheimer</div>
+  <span class="badge sa">BY-SA (theo README)</span>
+  <div class="meta">
+    Dữ liệu quan hệ thầy trò trong <code>lineage_edge_consensus</code>.<br>
+    Nguồn gốc: <a href="https://github.com/mbingenheimer/ChineseBuddhism_SNA" target="_blank">github.com/mbingenheimer/ChineseBuddhism_SNA</a>
+  </div>
+</div>
+
+<div class="source-card">
+  <h2>Wikidata</h2>
+  <div class="org">Wikimedia Foundation</div>
+  <span class="badge">CC0 1.0</span>
+  <div class="meta">
+    ID liên kết (P1187 DILA, P1188 DILA place, P2477 BDRC).<br>
+    Nguồn gốc: <a href="https://wikidata.org" target="_blank">wikidata.org</a>
+  </div>
+</div>
+
+<div class="source-card">
+  <h2>ZQLOCAL — ZenQi Local</h2>
+  <div class="org">ZenQi</div>
+  <span class="badge">Nội bộ</span>
+  <div class="meta">
+    Tên tiếng Việt (phiên âm tự động, độ tin cậy 0.5), biên tập nội bộ.<br>
+    Không gán tên Việt của ZQLOCAL cho nguồn DILA hay nguồn khác.
+  </div>
+</div>
+
+<hr style="margin:2rem 0; border-color:#eee">
+<p style="font-size:0.8rem;color:#888">
+  Trang này được tạo theo yêu cầu M5 của kế hoạch tích hợp.
+  Dữ liệu nguồn lấy từ bảng <code>data_sources</code> trong <code>lineage.db</code>.
+  Cập nhật lần cuối: 2026-10-04.
+</p>
+</body>
+</html>

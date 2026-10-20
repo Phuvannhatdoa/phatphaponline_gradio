@@ -1,0 +1,48 @@
+﻿nhom,uu_tien,ten_file,note,ghi_cu,ghi_dung
+A_mat,1,TS-Chuong-Hiep-Chanh-Tri.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Duong-Ki-Phuong-Hoi.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Phap-Kiem-Minh-Giac.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Phap-Mon-Phat-Da.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Thiet-Bao-Cam-Ung.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Thiet-Dam-Chanh-Luan.ttl,DB còn 3 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Thiet-Dang-Bao-Quang.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Thiet-Dinh-An-Triem.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Thiet-The-Triem-An.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+A_mat,1,TS-Toan-Y-Pho-Hue.ttl,DB còn 1 row trỏ tới; KHÔNG có trên đĩa,,
+C_uri_chu_so_hu,2,TS-Bach-Truong-Hoai-Hai.ttl,chủ sở hữu đúng của slug 'bach_truong_hoai_hai' (bị 1 file khác áp cảo),bach_truong_hoai_hai,bach_truong_hoai_hai
+C_uri_chu_so_hu,2,TS-Bach-Van-Khong-Do.ttl,chủ sở hữu đúng của slug 'bach_van_khong_do' (bị 2 file khác áp cảo),bach_van_khong_do,bach_van_khong_do
+C_uri_chu_so_hu,2,TS-Dao-Ninh-Dao-Khoan.ttl,chủ sở hữu đúng của slug 'dao_ninh_dao_khoan' (bị 1 file khác áp cảo),dao_ninh_dao_khoan,dao_ninh_dao_khoan
+C_uri_chu_so_hu,2,TS-Phong-Huyet-Dien-Chieu.ttl,chủ sở hữu đúng của slug 'phong_huyet_dien_chieu' (bị 3 file khác áp cảo),phong_huyet_dien_chieu,phong_huyet_dien_chieu
+C_uri_chu_so_hu,2,TS-Thach-Cuu.ttl,chủ sở hữu đúng của slug 'thach_cuu' (bị 1 file khác áp cảo),thach_cuu,thach_cuu
+C_uri_sai,2,TS-Dai-Ninh-Dao-Khoan.ttl,người khác chiếm URI 'dao_ninh_dao_khoan'; NHÃN trong file không khớp tên file = 'Đại Ninh Đạo Khoan',dao_ninh_dao_khoan,dai_ninh_dao_khoan
+C_uri_sai,2,TS-Dai-Xa-Nhu-Truong.ttl,người khác chiếm URI 'phong_huyet_dien_chieu'; NHÃN trong file không khớp tên file = 'Nam Viện Huệ Ngung',phong_huyet_dien_chieu,dai_xa_nhu_truong
+C_uri_sai,2,TS-Di-Phong-Kinh-Ninh.ttl,người khác chiếm URI 'bach_van_khong_do'; NHÃN trong file không khớp tên file = 'Nguyệt Khê Diệu Trừng',bach_van_khong_do,di_phong_kinh_ninh
+C_uri_sai,2,TS-Dot-Khong-Tri-Ban.ttl,người khác chiếm URI 'bach_van_khong_do'; NHÃN trong file không khớp tên file = 'Đột Không Trí Bản',bach_van_khong_do,dot_khong_tri_ban
+C_uri_sai,2,TS-Linh-Cuu.ttl,người khác chiếm URI 'thach_cuu'; NHÃN trong file không khớp tên file = 'Thạch Cữu',thach_cuu,linh_cuu
+C_uri_sai,2,TS-Minh-Hoang-Tu-Dung.ttl,người khác chiếm URI 'phong_huyet_dien_chieu'; NHÃN trong file không khớp tên file = 'Nam Viện Huệ Ngung',phong_huyet_dien_chieu,minh_hoang_tu_dung
+C_uri_sai,2,TS-Phuoc-Chau-Dai-An.ttl,người khác chiếm URI 'bach_truong_hoai_hai'; NHÃN trong file không khớp tên file = 'Bách_Trượng_Hoài_Hải',bach_truong_hoai_hai,phuoc_chau_dai_an
+C_uri_sai,2,TS-Tuyet-Giau-Chon-Phac.ttl,người khác chiếm URI 'phong_huyet_dien_chieu'; NHÃN trong file không khớp tên file = 'Nam Viện Huệ Ngung',phong_huyet_dien_chieu,tuyet_giau_chon_phac
+D_L1,3,TS-An-Hoa-Van-Nhat.ttl,nhãn trùng tên 1 người KHÁC trong file,Long Khánh Khánh Nhàn,An Hóa Văn Nhất
+D_L1,3,TS-Dam-Chau-Bao-Cai-Uoc.ttl,nhãn trùng tên 1 người KHÁC trong file,Nam Nhạc Huyền Thái,Đàm Châu Bảo Cái Ước
+D_L1,3,TS-Dam-Chau-Van-Cai-Canh.ttl,nhãn trùng tên 1 người KHÁC trong file,Đàm Châu Trung Vân Cái,Đàm Châu Vân Cái Cảnh
+D_L1,3,TS-Di-Phong-Kinh-Ninh.ttl,nhãn trùng tên 1 người KHÁC trong file,Nguyệt Khê Diệu Trừng,Di Phong Kính Ninh
+D_L1,3,TS-Khanh-Thien-Thu-Long.ttl,nhãn trùng tên 1 người KHÁC trong file,Thiện Khánh Thủ Long,Khánh Thiện Thủ Long
+D_L1,3,TS-Minh-Hai-Phap-Bao.ttl,nhãn trùng tên 1 người KHÁC trong file,Nguyên Thiều Siêu Bạch,Minh Hải Pháp Bảo
+D_L1,3,TS-Nam-Nhac-Minh-Toan.ttl,nhãn trùng tên 1 người KHÁC trong file,Đạo Tuyên,Nam Nhạc Minh Toản
+D_L1,3,TS-Tay-Kinh-Nghia-Phuoc.ttl,nhãn trùng tên 1 người KHÁC trong file,Tung Sơn Phổ Tịch,Tây Kinh Nghĩa Phước
+D_L1,3,TS-Thai-Tu-Dong-Quang.ttl,nhãn trùng tên 1 người KHÁC trong file,Thái Tử Đạo Nhất,Thái Tử Đồng Quảng
+D_L1,3,TS-The-Nham-Ton-Tho.ttl,nhãn trùng tên 1 người KHÁC trong file,Nam Nhạc Huyền Thái,Thê Nham Tồn Thọ
+D_L1,3,TS-Tue-Nhat-Minh.ttl,nhãn trùng tên 1 người KHÁC trong file,Hoàng Bá Vĩnh Thái,Tuệ Nhật Minh
+D_L2,3,TS-Bao-An-Thanh.ttl,không liên quan tới nhãn đúng,Báo Ân Thành,Thanh Nguyên Như
+D_L2,3,TS-Bao-Phuoc-Ban-Quyen.ttl,không liên quan tới nhãn đúng,Bảo Phước Bản Quyền,Tuệ An Tuệ Uyên
+D_L2,3,TS-Bien-Dam-Hieu-Lieu.ttl,không liên quan tới nhãn đúng,Tây Vực Quật Đa Tam Tạng,Biển Đam Hiểu Liễu
+D_L2,3,TS-Chieu-Hien-Hoi-Thong.ttl,không liên quan tới nhãn đúng,Chùa Linh Ẩn,Chiêu Hiền Hội Thông
+D_L2,3,TS-Cuu-Danh-To.ttl,không liên quan tới nhãn đúng,Long Hoa Đạo Sơ,Cửu Đảnh Tố
+D_L2,3,TS-Dang-Van-Sieu-Cap.ttl,không liên quan tới nhãn đúng,Am Chủ Tích Thúy Vĩnh,Đăng Vân Siêu Cập
+D_L2,3,TS-Dong-Son-Te-Vi.ttl,không liên quan tới nhãn đúng,Giác A,Đông Sơn Tề Vĩ
+D_L2,3,TS-Kinh-Trieu-Thi-Loi.ttl,không liên quan tới nhãn đúng,Đàm Châu Hoa Lâm,Kinh Triệu Thi Lợi
+D_L2,3,TS-Phung-Tuong-Thach-Tru.ttl,không liên quan tới nhãn đúng,Vân Môn Hải Yến,Phụng Tường Thạch Trụ
+D_L2,3,TS-Thach-Cung-Hue-Tang.ttl,không liên quan tới nhãn đúng,Ngũ Đài Ẩn Phong,Thạch Củng Huệ Tạng
+D_L2,3,TS-Thien-Dong-Pho-Giao.ttl,không liên quan tới nhãn đúng,Long Nha Tông Mật,Thiên Đồng Phổ Giao
+D_L2,3,TS-Tho-Thanh-So-Van.ttl,không liên quan tới nhãn đúng,Nguyệt Chưởng Trí Uyên,Thọ Thánh Sở Văn
+D_L2,3,TS-Tri-Chau-Lo-To-Giao.ttl,không liên quan tới nhãn đúng,Trì Châu Lỗ Tổ Giáo,Am Chủ Phúc Bồn

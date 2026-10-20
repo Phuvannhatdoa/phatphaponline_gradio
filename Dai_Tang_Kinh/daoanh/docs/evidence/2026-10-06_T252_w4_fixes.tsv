@@ -1,0 +1,15 @@
+rowid	dila_id	cu_moi	ly_do	bang_chung
+2004	PL000000000353	label_zh: '延壽 ~元末明初' -> '延壽 ~元末明初 (1271–1368年間)'	midpoint khong hien khoang (W4a)	year=1368 = cuoi trieu Nguyen; DYNASTY_TABLE['元']=(1271,1368)
+2045	PL000000005412	label_zh: '萬緣庵 ~明末清初' -> '萬緣庵 ~明末清初 (1368–1644年間)'	midpoint khong hien khoang (W4a)	year=1644 = cuoi trieu Minh; DYNASTY_TABLE['明']=(1368,1644)
+2229	PL000000018578	label_zh: '大梵寺 ~明末清初' -> '大梵寺 ~明末清初 (1368–1644年間)'	midpoint khong hien khoang (W4a)	year=1644 = cuoi trieu Minh; DYNASTY_TABLE['明']=(1368,1644)
+2334	PL000000034323	label_zh: '金帶寺 ~明末清初' -> '金帶寺 ~明末清初 (1368–1644年間)'	midpoint khong hien khoang (W4a)	year=1644 = cuoi trieu Minh; DYNASTY_TABLE['明']=(1368,1644)
+2985	PL000000036172	label_zh: '息心所 ~明末清初' -> '息心所 ~明末清初 (1368–1644年間)'	midpoint khong hien khoang (W4a)	year=1644 = cuoi trieu Minh; DYNASTY_TABLE['明']=(1368,1644)
+2461	PL000000056538	label_zh: '天城寺 ~明末清初' -> '天城寺 ~明末清初 (1368–1644年間)'	midpoint khong hien khoang (W4a)	year=1644 = cuoi trieu Minh; DYNASTY_TABLE['明']=(1368,1644)
+2737	PL000000000286	source_ref: 'PL000000000286·dynasty·唐' -> 'PL000000000286·唐·midpoint' | label_zh: '始建於唐朝，稱聚瑟寺' -> '始建於唐朝，稱聚瑟寺 (618–907年間)'	source_ref dung 'dynasty' thay vi 'midpoint' + label thieu khoang (W4b)	source='dila_dynasty', year=762 = trung diem 唐 (618,907); 838 dong cung nguon dung format <dila_id>·<trieu>·midpoint
+2738	PL000000005410	source_ref: 'PL000000005410·dynasty·明' -> 'PL000000005410·明·midpoint' | label_zh: '寺周山巒起伏，明初創建' -> '寺周山巒起伏，明初創建 (1368–1644年間)'	source_ref dung 'dynasty' thay vi 'midpoint' + label thieu khoang (W4b)	source='dila_dynasty', year=1506 = trung diem 明 (1368,1644)
+2740	PL000000055761	source_ref: 'PL000000055761·dynasty·元' -> 'PL000000055761·元·midpoint' | label_zh: '始建于元代' -> '始建于元代 (1271–1368年間)'	source_ref dung 'dynasty' thay vi 'midpoint' + label thieu khoang (W4b)	source='dila_dynasty', year=1319 = trung diem 元 (1271,1368)
+2743	PL000000056280	year: 762 -> 766 | year_end: None -> 779	year=762 (trung diem 唐) mâu thuân voi khoang note ghi (W4c)	note: '創建於唐代大曆（766-779）年間' -> 762 ngoai khoang 766-779; year=766, year_end=779 (quy uoc era_name_midpoint trong bang)
+2635	PL000000023803	year: 902 -> 911	year=902 khong phai ket qua cua '天復十一年' (W4c)	note: '建於周天復十一年'; 唐天復 901-904 -> 901+11-1 = 911 (vuot khoang, nguon ghi vay — W1a rule(b) trung year)
+2849	PL000000057764	year: 1372 -> 1399	year=1372 khong phai ket qua cua '洪武三十二年' (W4c)	note: '國朝洪武三十二年'; 洪武 1368-1398 -> 1368+32-1 = 1399 (vuot khoang, nguon ghi vay — W1a rule(b) trung year)
+2696	PL000000058034	year: 691 -> 324	year=691 la suy ra tu 唐永昌 trong khi note ghi 晉 (W4c)	note: '晋永昌三年建'; 東晉永昌 322-323 -> 322+3-1 = 324. 691 = 689+2 (唐永昌 689-690) nhung note KHONG ghi 唐
+2660	PL000000054389	year: 1922 -> 1967	year=1922 khong khop note (W4c)	note: '民國五十六年（1967），由星霈大師開山創建' -> 1912+56-1 = 1967; note tu ghi 1967

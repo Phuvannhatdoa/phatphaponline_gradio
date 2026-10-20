@@ -1,0 +1,2476 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Vi Map - Quản lý tên tiếng Việt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-page: #020617;
+            --bg-sidebar: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --cyan: #06b6d4;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-page); color: var(--text-main); padding: 20px; }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-bottom: 12px; color: var(--text-muted); }
+        h1 { color: var(--primary); margin-bottom: 0; }
+
+        /* ── TABBAR ── */
+        .da-tabbar {
+            display: flex; gap: 0; border-bottom: 2px solid var(--border);
+            margin: 14px 0 0; background: var(--bg-sidebar);
+            border-radius: 8px 8px 0 0; overflow: hidden;
+        }
+        .da-tab {
+            font-size: 13px; font-weight: 600; padding: 10px 22px;
+            text-decoration: none; color: var(--text-muted);
+            border-bottom: 2px solid transparent; margin-bottom: -2px;
+            cursor: pointer; background: none; border-top: none; border-left: none; border-right: none;
+            transition: color .15s, border-color .15s;
+        }
+        .da-tab:hover { color: var(--text-main); }
+        .da-tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+        /* ── tab panels ── */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── stats ── */
+        .stats-bar { display: flex; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+        .stat-box { background: var(--bg-sidebar); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--border); min-width: 130px; }
+        .stat-box .value { font-size: 22px; font-weight: bold; color: var(--primary); }
+        .stat-box .label { color: var(--text-muted); font-size: 11px; margin-top: 2px; }
+        .stat-box.highlight { border-color: var(--primary); }
+        .stat-box.cyan { border-color: var(--cyan); }
+        .stat-box.cyan .value { color: var(--cyan); }
+        .stat-box.green { border-color: var(--success); }
+        .stat-box.green .value { color: var(--success); }
+        .stat-box.red { border-color: var(--danger); }
+        .stat-box.red .value { color: var(--danger); }
+
+        /* ── search ── */
+        .search-bar { margin-bottom: 14px; }
+        .search-bar input {
+            background: var(--bg-sidebar); border: 1px solid var(--border);
+            color: var(--text-main); padding: 9px 14px; border-radius: 6px;
+            width: 100%; max-width: 400px; font-size: 13px;
+        }
+
+        /* ── table ── */
+        .queue-section { margin-bottom: 30px; }
+        .queue-section h2 { color: var(--primary); margin-bottom: 8px; font-size: 16px; }
+        .queue-info { color: var(--text-muted); margin-bottom: 12px; font-size: 12px; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; }
+        th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-sidebar); color: var(--text-muted); font-weight: 600; }
+        tr:hover td { background: rgba(217, 119, 6, 0.07); }
+
+        /* ── buttons ── */
+        .btn {
+            background: var(--primary); color: white; border: none;
+            padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px;
+        }
+        .btn:hover { background: var(--primary-hover); }
+        .btn-sm { padding: 4px 10px; font-size: 12px; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-cyan { background: var(--cyan); }
+        .btn-cyan:hover { background: #0891b2; }
+        .dila-link { color: var(--cyan) !important; text-decoration: none; font-family: monospace; }
+        .dila-link:hover { text-decoration: underline; }
+        .btn-green { background: var(--success); }
+
+        /* ── modal ── */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.show { display: flex; }
+        .modal-content {
+            background: var(--bg-sidebar); padding: 30px; border-radius: 16px;
+            width: 98vw; max-width: 98vw; border: 1px solid var(--border);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal h3 { color: var(--primary); margin-bottom: 20px; font-size: 22px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; color: var(--text-muted); margin-bottom: 6px; font-size: 13px; font-weight: 600; }
+        .form-group input, .form-group textarea {
+            width: 100%; background: var(--bg-page); border: 1px solid var(--border);
+            color: var(--text-main); padding: 10px 12px; border-radius: 7px; font-size: 14px;
+        }
+        .form-group textarea { min-height: 90px; resize: vertical; font-family: monospace; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 18px; }
+
+        /* ── misc ── */
+        .empty { text-align: center; padding: 40px; color: var(--text-muted); }
+        .success-message {
+            background: var(--success); color: white; padding: 9px 14px;
+            border-radius: 6px; margin-bottom: 12px; display: none;
+        }
+        .pagination { display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 16px; }
+        .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pagination span { color: var(--text-muted); font-size: 12px; }
+
+        /* ── priority badges ── */
+        .badge-high   { background: #ef444420; color: #f87171; border: 1px solid #ef4444; border-radius: 4px; padding: 1px 7px; font-size: 10px; font-weight: 700; }
+        .badge-medium { background: #f59e0b20; color: #fbbf24; border: 1px solid #f59e0b; border-radius: 4px; padding: 1px 7px; font-size: 10px; font-weight: 700; }
+        .badge-low    { background: #33415520; color: #94a3b8; border: 1px solid #475569; border-radius: 4px; padding: 1px 7px; font-size: 10px; }
+
+        /* ── TTL filter row ── */
+        .ttl-filter-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+        .ttl-filter-row .seg { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+        .ttl-filter-row .seg button {
+            background: transparent; border: none; color: var(--text-muted);
+            padding: 6px 14px; font-size: 12px; cursor: pointer; transition: background .15s, color .15s;
+        }
+        .ttl-filter-row .seg button.active,
+        .ttl-filter-row .seg button:hover { background: var(--primary); color: #fff; }
+        .coverage-bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+        .coverage-fill { height: 100%; background: var(--success); border-radius: 3px; transition: width .4s; }
+        .ttl-local-yes { color: #22c55e; font-size: 12px; }
+        .ttl-local-no  { color: #475569; font-size: 11px; }
+        .ttll-btn { background: transparent; color: #94a3b8; border: 1px solid #334155; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: all .2s; }
+        .ttll-btn:hover { border-color: #d97706; color: #d97706; }
+        .ttll-btn.active { background: #d97706; color: #020617; border-color: #d97706; font-weight: 600; }
+
+        /* ── ETL Tab ── */
+        .etl-pipeline { display:flex; gap:0; margin-bottom:20px; overflow-x:auto; padding-bottom:4px; }
+        .etl-step { flex:1; min-width:90px; display:flex; flex-direction:column; align-items:center; position:relative; cursor:pointer; }
+        .etl-step:not(:last-child)::after {
+            content:''; position:absolute; top:22px; right:-1px; width:18px; height:2px;
+            background:var(--border); z-index:1;
+        }
+        .etl-step.active::after { background:var(--primary); }
+        .etl-step.done::after { background:var(--success); }
+        .etl-icon {
+            width:44px; height:44px; border-radius:50%; border:2px solid var(--border);
+            background:var(--bg-sidebar); display:flex; align-items:center; justify-content:center;
+            font-size:18px; margin-bottom:7px; position:relative; z-index:2;
+            transition:border-color .2s, box-shadow .2s;
+        }
+        .etl-step.active .etl-icon { border-color:var(--primary); box-shadow:0 0 0 3px rgba(217,119,6,.18); }
+        .etl-step.done   .etl-icon { border-color:var(--success); }
+        .etl-step-name { font-size:11px; font-weight:600; color:var(--text-muted); text-align:center; }
+        .etl-step.active .etl-step-name { color:var(--primary); }
+        .etl-step.done   .etl-step-name { color:var(--success); }
+        .etl-output {
+            background:#070d18; border:1px solid var(--border); border-radius:6px;
+            padding:14px 16px; font-family:monospace; font-size:12px; line-height:1.7;
+            color:#8fba7a; max-height:340px; overflow-y:auto; white-space:pre-wrap;
+            margin-top:12px; display:none;
+        }
+        .etl-run-btn {
+            background:var(--primary); color:#fff; border:none; padding:8px 18px;
+            border-radius:6px; cursor:pointer; font-size:13px; font-weight:700;
+            transition:opacity .15s; margin-right:8px;
+        }
+        .etl-run-btn:hover { opacity:.85; }
+        .etl-run-btn:disabled { opacity:.4; cursor:default; }
+        .etl-apply-btn { background:var(--success); }
+
+        /* ── ETL FLAG report table ── */
+        .etl-ba-table { width:100%; border-collapse:separate; border-spacing:0; font-size:13px; }
+        .etl-ba-table th { background:var(--bg-sidebar); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:7px 10px; text-align:left; font-size:10px; letter-spacing:.07em; text-transform:uppercase; color:var(--text-muted); font-weight:600; }
+        .etl-ba-table th:first-child { border-left:1px solid var(--border); border-radius:5px 0 0 0; }
+        .etl-ba-table th:last-child  { border-right:1px solid var(--border); border-radius:0 5px 0 0; }
+        .etl-ba-table td { padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+        .etl-ba-table td:first-child { border-left:1px solid var(--border); }
+        .etl-ba-table td:last-child  { border-right:1px solid var(--border); }
+        .etl-ba-table tr:last-child td:first-child { border-radius:0 0 0 5px; }
+        .etl-ba-table tr:last-child td:last-child  { border-radius:0 0 5px 0; }
+        .etl-ba-table tr:hover td { background:rgba(217,119,6,.05); }
+
+        /* ── Inline edit FLAG ── */
+        .etl-dila-cell[contenteditable] { border-radius:3px; padding:2px 5px; cursor:text; outline:none; transition:background .15s; }
+        .etl-dila-cell[contenteditable]:hover { background:#1a150a; outline:1px dashed var(--border); }
+        .etl-dila-cell[contenteditable]:focus { background:#1f1a0f; outline:1px solid var(--primary); }
+        .etl-dila-cell.dirty { color:var(--primary) !important; }
+        .etl-flag-save { background:transparent; border:1px solid var(--border); color:var(--text-muted); border-radius:4px; padding:3px 8px; font-size:11px; cursor:default; pointer-events:none; opacity:.35; white-space:nowrap; }
+        .etl-flag-save.ready { border-color:var(--primary); color:var(--primary); cursor:pointer; pointer-events:auto; opacity:1; }
+        .etl-flag-save.ready:hover { background:rgba(217,119,6,.1); }
+        .etl-flag-save.ok  { border-color:var(--success); color:var(--success); opacity:1; pointer-events:none; }
+        .etl-flag-save.err { border-color:var(--danger);  color:#f87171;        opacity:1; pointer-events:none; }
+        .etl-flag-pass { background:transparent; border:1px solid #3a5a3a; color:#6a9a6a; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer; white-space:nowrap; }
+        .etl-flag-pass:hover { background:rgba(100,180,100,.1); border-color:var(--success); color:var(--success); }
+        .etl-flag-pass.ok { border-color:var(--success); color:var(--success); pointer-events:none; }
+        .etl-flag-pass.err { border-color:var(--danger); color:#f87171; pointer-events:none; }
+    </style>
+<link rel="stylesheet" href="codex-namevi.css">
+</head>
+<body>
+    <a href="index.html" class="back-link">← Quay lại Dashboard</a>
+    <h1>📖 Name Vi Map - Quản lý tên tiếng Việt</h1>
+
+    <!-- ── TABBAR ── -->
+    <div class="da-tabbar">
+        <button class="da-tab"        onclick="switchTab('queue', this)">📋 Danh sách chờ mapping</button>
+        <button class="da-tab"        onclick="switchTab('ttl',   this)">📊 Thống kê TTL</button>
+        <button class="da-tab active" onclick="switchTab('etl',   this)">🔧 TTL ETL</button>
+        <button class="da-tab"        onclick="switchTab('xcm',   this)" id="xcm-tab-btn">🔍 Xác Minh <span id="xcm-tab-count" style="background:#d97706;color:#020617;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;margin-left:4px;display:none"></span></button>
+        <button class="da-tab"        onclick="switchTab('place', this)" id="place-tab-btn">🗺️ Place</button>
+    </div>
+
+    <div class="success-message" id="success-msg"></div>
+
+    <!-- ════════════════════════════════════════
+         TAB 1: QUEUE (nội dung cũ giữ nguyên)
+         ════════════════════════════════════════ -->
+    <div id="tab-queue" class="tab-panel">
+
+        <div class="stats-bar">
+            <div class="stat-box highlight">
+                <div class="value" id="total-mapped">—</div>
+                <div class="label">Đã có tên tiếng Việt</div>
+            </div>
+            <div class="stat-box">
+                <div class="value" id="pending-count">—</div>
+                <div class="label">Chờ mapping (DILA)</div>
+            </div>
+            <div class="stat-box">
+                <div class="value" id="dila-match">—</div>
+                <div class="label">DILA matches</div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="🔍 Tìm kiếm theo tên Hán, tên Việt, hoặc DILA ID..." onkeyup="handleSearch(event)">
+        </div>
+
+        <div class="queue-section">
+            <h2>📋 Danh sách chờ mapping</h2>
+            <div class="queue-info">Click "Edit" để thêm tên tiếng Việt → Cập nhật vào name_vi_map</div>
+
+            <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+                <button class="btn btn-sm filter-btn" data-filter="all"          onclick="setFilter('all')"          style="background:#d97706;">📋 Tất cả</button>
+                <button class="btn btn-sm filter-btn" data-filter="no_auto"      onclick="setFilter('no_auto')"      style="background:transparent;">🔴 Chưa có gợi ý</button>
+                <button class="btn btn-sm filter-btn" data-filter="auto_pending" onclick="setFilter('auto_pending')" style="background:transparent;">🟡 Có gợi ý, chưa duyệt</button>
+                <button class="btn btn-sm filter-btn" data-filter="approved"     onclick="setFilter('approved')"     style="background:transparent;">🟢 Đã duyệt</button>
+                <span id="filter-counts" style="color:#94a3b8;font-size:12px;padding:4px 8px;"></span>
+            </div>
+
+            <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+                <span style="color:#94a3b8;font-size:12px;margin-right:4px;">TTLLocal:</span>
+                <button class="btn btn-sm ttll-btn active" data-ttl="all"
+                        onclick="setTtlLocalFilter('all', this)">🗂 Tất cả</button>
+                <button class="btn btn-sm ttll-btn" data-ttl="has"
+                        onclick="setTtlLocalFilter('has', this)">✅ Có TTL (<span id="ttl-has-count">…</span>)</button>
+                <button class="btn btn-sm ttll-btn" data-ttl="no"
+                        onclick="setTtlLocalFilter('no', this)">○ Chưa TTL (<span id="ttl-no-count">…</span>)</button>
+            </div>
+
+            <table id="queue-table">
+                <thead>
+                    <tr>
+                        <th>DILA ID</th>
+                        <th>Tên Hán</th>
+                        <th>Tên tiếng Việt</th>
+                        <th>TTLLocal</th>
+                        <th>Trạng thái</th>
+                        <th>Năm sinh</th>
+                        <th>Năm mất</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="queue-tbody">
+                    <tr><td colspan="8" class="empty">Đang tải...</td></tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="btn btn-outline" onclick="loadQueue(page - 1)" id="prev-btn">← Trước</button>
+                <span style="padding: 8px 15px;">Trang <span id="page-num">1</span></span>
+                <button class="btn btn-outline" onclick="loadQueue(page + 1)" id="next-btn">Sau →</button>
+            </div>
+        </div>
+    </div><!-- /tab-queue -->
+
+    <!-- ════════════════════════════════════════
+         TAB 2: THỐNG KÊ TTL
+         ════════════════════════════════════════ -->
+    <div id="tab-ttl" class="tab-panel">
+
+        <!-- stats top -->
+        <div class="stats-bar" id="ttl-stats-bar">
+            <div class="stat-box cyan">
+                <div class="value" id="ttl-total-nvm">—</div>
+                <div class="label">Tổng DILA IDs trong DB</div>
+            </div>
+            <div class="stat-box green">
+                <div class="value" id="ttl-has">—</div>
+                <div class="label">Đã có TTL trong DB</div>
+            </div>
+            <div class="stat-box red">
+                <div class="value" id="ttl-no">—</div>
+                <div class="label">Chưa có TTL — cần làm</div>
+            </div>
+            <div class="stat-box">
+                <div class="value" id="ttl-disk">—</div>
+                <div class="label">File TTL trên disk</div>
+            </div>
+            <div class="stat-box highlight" style="flex:1;min-width:160px;">
+                <div class="value" id="ttl-pct" style="font-size:28px;">—%</div>
+                <div class="label">Coverage</div>
+                <div class="coverage-bar"><div class="coverage-fill" id="ttl-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+
+        <!-- filter + search -->
+        <div class="ttl-filter-row">
+            <div class="seg">
+                <button id="btn-no-ttl"               onclick="ttlSetStatus('no_ttl')">🔴 Chưa có TTL</button>
+                <button id="btn-has-ttl" class="active" onclick="ttlSetStatus('has_ttl')">🟢 Đã có TTL</button>
+            </div>
+            <input type="text" id="ttl-search"
+                style="background:var(--bg-sidebar);border:1px solid var(--border);color:var(--text-main);
+                       padding:7px 12px;border-radius:6px;font-size:12px;flex:1;max-width:320px;"
+                placeholder="🔍 Tìm DILA ID, tên Hán, tên Việt..."
+                oninput="ttlSearchDebounce()">
+            <span id="ttl-list-count" style="color:var(--text-muted);font-size:12px;"></span>
+        </div>
+
+        <!-- table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>DILA ID</th>
+                    <th>Tên Hán</th>
+                    <th>Tên tiếng Việt</th>
+                    <th>TTLLocal</th>
+                    <th>Năm sinh</th>
+                    <th>Năm mất</th>
+                    <th>Ưu tiên TTL</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="ttl-tbody">
+                <tr><td colspan="9" class="empty">Nhấn vào tab để tải...</td></tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button class="btn btn-outline" onclick="ttlGoPage(-1)" id="ttl-prev">← Trước</button>
+            <span id="ttl-page-info" style="padding:0 10px;color:var(--text-muted);font-size:12px;"></span>
+            <button class="btn btn-outline" onclick="ttlGoPage(1)"  id="ttl-next">Sau →</button>
+        </div>
+
+        <div style="margin-top:14px;padding:12px 16px;background:var(--bg-sidebar);border-radius:8px;border:1px solid var(--border);font-size:12px;color:var(--text-muted);">
+            <strong style="color:var(--text-main);">Ý nghĩa ưu tiên TTL:</strong>
+            <span class="badge-high"  style="margin:0 6px;">HIGH</span> Đã có tên Việt đã duyệt &nbsp;|&nbsp;
+            <span class="badge-medium" style="margin:0 6px;">MEDIUM</span> Có năm sinh/mất hoặc gợi ý AI &nbsp;|&nbsp;
+            <span class="badge-low"   style="margin:0 6px;">LOW</span> Chưa đủ thông tin
+        </div>
+    </div><!-- /tab-ttl -->
+
+    <!-- ════════════════════════════════════════
+         TAB 3: TTL ETL
+         ════════════════════════════════════════ -->
+    <div id="tab-etl" class="tab-panel active">
+<section id="codex-name-panel" style="margin:16px 0;padding:16px;border:1px solid var(--border);border-radius:8px">
+</section>
+
+        <!-- DB Validation Stats (live) -->
+        <div class="stats-bar">
+            <div class="stat-box cyan">
+                <div class="value" id="etl-ttl-disk">—</div>
+                <div class="label">TTL files on disk</div>
+            </div>
+            <div class="stat-box green">
+                <div class="value" id="etl-dila-linked">—</div>
+                <div class="label">Đã link DILA ID</div>
+            </div>
+            <div class="stat-box highlight">
+                <div class="value" id="etl-flag-count" style="color:#d97706">1,220</div>
+                <div class="label">FLAG cần xác thực</div>
+            </div>
+            <div class="stat-box green">
+                <div class="value" id="etl-approved-count">—</div>
+                <div class="label">Name_vi đã duyệt</div>
+            </div>
+            <div class="stat-box red">
+                <div class="value" id="etl-pending-nvm">—</div>
+                <div class="label">Chờ admin duyệt</div>
+            </div>
+        </div>
+
+        <!-- Pipeline diagram -->
+        <div style="color:var(--text-muted);font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:12px;">Pipeline — 5 bước</div>
+        <div class="etl-pipeline" id="etl-pipeline">
+            <div class="etl-step active" data-step="0" onclick="etlSelectStep(0)">
+                <div class="etl-icon">📄</div>
+                <div class="etl-step-name">TTL File</div>
+            </div>
+            <div class="etl-step" data-step="1" onclick="etlSelectStep(1)">
+                <div class="etl-icon">🔍</div>
+                <div class="etl-step-name">Parse</div>
+            </div>
+            <div class="etl-step" data-step="2" onclick="etlSelectStep(2)">
+                <div class="etl-icon">🔗</div>
+                <div class="etl-step-name">Match DB</div>
+            </div>
+            <div class="etl-step" data-step="3" onclick="etlSelectStep(3)">
+                <div class="etl-icon">✅</div>
+                <div class="etl-step-name">MARCUS</div>
+            </div>
+            <div class="etl-step" data-step="4" onclick="etlSelectStep(4)">
+                <div class="etl-icon">💾</div>
+                <div class="etl-step-name">Cập nhật</div>
+            </div>
+        </div>
+        <div id="etl-step-desc" style="background:var(--bg-sidebar);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--text-muted);min-height:52px;line-height:1.6;"></div>
+
+        <!-- Run controls -->
+        <div style="margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+            <button class="etl-run-btn" id="etl-dry-btn" onclick="etlRun(false)">▶ Dry Run</button>
+            <button class="etl-run-btn etl-apply-btn" id="etl-apply-btn" onclick="etlRun(true)">⚡ Apply</button>
+            <span id="etl-run-status" style="color:var(--text-muted);font-size:12px;"></span>
+        </div>
+        <div id="etl-output" class="etl-output"></div>
+
+        <!-- ── Match Report + FLAG Analysis ── -->
+        <div style="color:var(--text-muted);font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin:32px 0 10px">Match Report + FLAG Analysis — 12 DILA IDs confirmed via TTL</div>
+
+        <div style="background:var(--bg-sidebar);border:1px solid var(--border);border-left:3px solid var(--primary);border-radius:6px;padding:12px 16px;font-size:13px;color:var(--text-muted);margin-bottom:14px">
+            <strong style="color:var(--text-main)">Nguyên tắc:</strong>
+            FLAG = <strong style="color:var(--primary)">phiên âm DILA có thể sai</strong> — không phải "dùng tên TTL dài hơn".
+            TTL chỉ <em>xác nhận link mapping</em>. Tên hiển thị dài/ngắn là quyết định của từng page.
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;font-size:11px">
+            <span style="background:#0a1a0a;border:1px solid var(--success);color:var(--success);padding:3px 9px;border-radius:4px">A: Tiền tố thêm — phiên âm DILA đúng, giữ nguyên</span>
+            <span style="background:#1a0a0a;border:1px solid var(--danger);color:#f87171;padding:3px 9px;border-radius:4px">B: Nghi phiên âm sai — cần verify số âm tiết</span>
+            <span style="background:#1a1000;border:1px solid var(--primary);color:var(--primary);padding:3px 9px;border-radius:4px">C: Nghi nhầm DILA ID — tên Hán không khớp</span>
+        </div>
+
+        <div style="overflow-x:auto;margin-bottom:12px">
+        <table class="etl-ba-table" id="etl-match-flag-table">
+            <thead>
+                <tr>
+                    <th style="cursor:pointer;user-select:none;white-space:nowrap" onclick="etlSortByLoai()">Loại <span id="etl-sort-arrow" style="font-size:10px;color:var(--primary)">⇅</span></th>
+                    <th>DILA ID</th>
+                    <th>Hán tự</th>
+                    <th>DILA name_vi <span style="font-size:9px;color:var(--primary);font-weight:400">(click để sửa)</span></th>
+                    <th class="codex-name-header" title="Tên Việt dịch chính từ Claude (codex_person_name)">Claude</th>
+                    <th>TTL name_vi</th>
+                    <th style="color:#7ab8d4">Từ điển</th>
+                    <th>MARCUS</th>
+                    <th>Kết luận</th>
+                    <th>Sửa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-dila-id="A036842" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A036842" target="_blank" class="dila-link">A036842</a></td>
+                    <td style="font-size:15px">法演</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Pháp Diễn" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Pháp Diễn</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Ngũ Tổ Pháp Diễn</td>
+                    <td style="color:#7ab8d4;font-size:12px">Pháp Diễn <span style="font-size:10px;color:var(--text-faint)">(PH Tinh Tuyển)</span></td>
+                    <td style="font-size:12px">—</td>
+                    <td style="font-size:11px;color:var(--success)">Đã thống nhất tên về Pháp Diễn ✓. TTL = DILA = Từ điển. Resolved.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận phiên âm đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A008793" data-loai="B">
+                    <td style="font-weight:700;color:#f87171;font-size:11px">B</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A008793" target="_blank" class="dila-link">A008793</a></td>
+                    <td style="font-size:15px">闍夜多</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Đồ Dạ Đa" style="color:var(--primary)" oninput="onEtlFlagEdit(this)">Đồ Dạ Đa</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Xà Dạ Đa</td>
+                    <td style="color:#7ab8d4;font-size:12px">Xà Dạ Đa <span style="font-size:10px;color:var(--text-muted)">(PGĐTĐ)</span></td>
+                    <td style="font-size:12px"><span style="background:#0a1a18;border:1px solid #3a8876;border-radius:3px;padding:1px 6px;font-size:10px;color:#3a8876">✓</span></td>
+                    <td style="font-size:11px;color:#f87171">闍→Đồ sai, đúng là Xà. Từ điển + MARCUS confirm Xà Dạ Đa.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A008800" data-loai="B">
+                    <td style="font-weight:700;color:#f87171;font-size:11px">B</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A008800" target="_blank" class="dila-link">A008800</a></td>
+                    <td style="font-size:15px">婆須蜜</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Bà Tua Mật" style="color:var(--primary)" oninput="onEtlFlagEdit(this)">Bà Tua Mật</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Bà Tu Mật</td>
+                    <td style="color:#7ab8d4;font-size:12px">Bà Tu Mật <span style="font-size:10px;color:var(--text-muted)">(PGĐTĐ)</span></td>
+                    <td style="font-size:12px">—</td>
+                    <td style="font-size:11px;color:#f87171">Tua→Tu — phiên âm sai 1 âm tiết. Từ điển confirm Bà Tu Mật.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A008789" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A008789" target="_blank" class="dila-link">A008789</a></td>
+                    <td style="font-size:15px">婆舍斯多</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Bà Xá Tư Đa" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Bà Xá Tư Đa</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Bà Xá Tư Đa</td>
+                    <td style="color:#7ab8d4;font-size:12px">Bà Xá Tư Đa <span style="font-size:10px;color:var(--text-muted)">(PGĐTĐ)</span></td>
+                    <td style="font-size:12px"><span style="background:#0a1a18;border:1px solid #3a8876;border-radius:3px;padding:1px 6px;font-size:10px;color:#3a8876">✓</span></td>
+                    <td style="font-size:11px;color:var(--text-muted)">Phiên âm đúng — TTL = DILA = Từ điển. MARCUS xác nhận.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A008801" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A008801" target="_blank" class="dila-link">A008801</a></td>
+                    <td style="font-size:15px">彌遮迦</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Di Già Ca" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Di Già Ca</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Di Già Ca</td>
+                    <td style="color:#7ab8d4;font-size:12px">Di Già Ca <span style="font-size:10px;color:var(--text-faint)">(PQ Từ Điển)</span></td>
+                    <td style="font-size:12px"><span style="background:#0a1a18;border:1px solid #3a8876;border-radius:3px;padding:1px 6px;font-size:10px;color:#3a8876">✓</span></td>
+                    <td style="font-size:11px;color:var(--text-muted)">Phiên âm đúng. MARCUS xác nhận danh tính.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A008799" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A008799" target="_blank" class="dila-link">A008799</a></td>
+                    <td style="font-size:15px">佛陀難提</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Phật Đà Nan Đề" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Phật Đà Nan Đề</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Phật Đà Nan Đề</td>
+                    <td style="color:#7ab8d4;font-size:12px">Phật Đà Nan Đề <span style="font-size:10px;color:var(--text-muted)">(PGĐTĐ)</span></td>
+                    <td style="font-size:12px"><span style="background:#0a1a18;border:1px solid #3a8876;border-radius:3px;padding:1px 6px;font-size:10px;color:#3a8876">✓</span></td>
+                    <td style="font-size:11px;color:var(--text-muted)">Phiên âm đúng — TTL = DILA = Từ điển.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A001547" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A001547" target="_blank" class="dila-link">A001547</a></td>
+                    <td style="font-size:15px">道綽</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Đạo Xước" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Đạo Xước</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Đạo Xước</td>
+                    <td style="color:#7ab8d4;font-size:12px">Đạo Xước <span style="font-size:10px;color:var(--text-muted)">(PGĐTĐ · TĐPT)</span></td>
+                    <td style="font-size:12px"><span style="background:#0a1a18;border:1px solid #3a8876;border-radius:3px;padding:1px 6px;font-size:10px;color:#3a8876">✓</span></td>
+                    <td style="font-size:11px;color:var(--text-muted)">Phiên âm đúng. Bug fix — clean_vi_label() đã xử lý "TS Đạo_Xước".</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A033489" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A033489" target="_blank" class="dila-link">A033489</a></td>
+                    <td style="font-size:15px">守端</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Thủ Đoan" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Thủ Đoan</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Bạch Vân Thủ Đoan</td>
+                    <td style="color:#7ab8d4;font-size:12px">Thủ Đoan <span style="font-size:10px;color:var(--text-faint)">(TĐ Thiền Tông)</span></td>
+                    <td style="font-size:12px">—</td>
+                    <td style="font-size:11px;color:var(--text-muted)">守=Thủ, 端=Đoan — đúng. TTL thêm tông phái "Bạch Vân". Giữ DILA.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A038686" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A038686" target="_blank" class="dila-link">A038686</a></td>
+                    <td style="font-size:15px">宗杲</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Tông Cảo" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Tông Cảo</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Đại Huệ Tông Cảo</td>
+                    <td style="color:#7ab8d4;font-size:12px">Tông Cảo <span style="font-size:10px;color:var(--text-faint)">(TĐ Thiền Tông)</span></td>
+                    <td style="font-size:12px">—</td>
+                    <td style="font-size:11px;color:var(--text-muted)">宗=Tông, 杲=Cảo — đúng. TTL thêm pháp hiệu "Đại Huệ". Giữ DILA.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A004146" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A004146" target="_blank" class="dila-link">A004146</a></td>
+                    <td style="font-size:15px">方會</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Phương Hội" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Phương Hội</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Dương Kì Phương Hội</td>
+                    <td style="color:#7ab8d4;font-size:12px">Phương Hội <span style="font-size:10px;color:var(--text-faint)">(TĐ Đa Ngôn Ngữ)</span></td>
+                    <td style="font-size:12px">—</td>
+                    <td style="font-size:11px;color:var(--text-muted)">方=Phương, 會=Hội — đúng. TTL thêm trú xứ "Dương Kì". Giữ DILA.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A046539" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A046539" target="_blank" class="dila-link">A046539</a></td>
+                    <td style="font-size:15px">隆壽</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Long Thọ" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Long Thọ</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Bồ Tát Long Thọ</td>
+                    <td style="color:#7ab8d4;font-size:12px">Long Thọ <span style="font-size:10px;color:var(--text-faint)">(PH Tinh Tuyển)</span></td>
+                    <td style="font-size:12px">—</td>
+                    <td style="font-size:11px;color:var(--text-muted)">隆=Long, 壽=Thọ — đúng. TTL thêm tôn xưng "Bồ Tát". Giữ DILA.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+                <tr data-dila-id="A001003" data-loai="A">
+                    <td style="font-weight:700;color:var(--success);font-size:11px">A</td>
+                    <td style="font-family:monospace;font-size:11px;"><a href="/daoanh/admin/person.html?id=A001003" target="_blank" class="dila-link">A001003</a></td>
+                    <td style="font-size:15px">馬鳴</td>
+                    <td class="etl-dila-cell" contenteditable="true" data-original="Mã Minh" style="color:var(--success)" oninput="onEtlFlagEdit(this)">Mã Minh</td>
+                    <td class="codex-name-cell" style="color:#67e8f9">—</td>
+                    <td style="color:var(--text-muted);font-size:12px">Bồ Tát Mã Minh</td>
+                    <td style="color:#7ab8d4;font-size:12px">Mã Minh <span style="font-size:10px;color:var(--text-faint)">(PQ Từ Điển)</span></td>
+                    <td style="font-size:12px">—</td>
+                    <td style="font-size:11px;color:var(--text-muted)">馬=Mã, 鳴=Minh — đúng. TTL thêm tôn xưng "Bồ Tát". Giữ DILA.</td>
+                    <td style="display:flex;gap:4px">
+                        <button class="etl-flag-pass" onclick="passEtlFlag(this)" title="Xác nhận đúng — lưu vào DB và ẩn row">✓ Pass</button>
+                        <button class="etl-flag-save" onclick="saveEtlFlag(this)">Lưu</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div style="background:var(--bg-sidebar);border:1px solid var(--border);border-left:3px solid var(--success);border-radius:6px;padding:12px 16px;font-size:13px;color:var(--text-muted);margin-bottom:28px">
+            <strong style="color:var(--text-main)">Kết luận (v3):</strong>
+            Trong 1,220 FLAG, phần lớn là <strong style="color:var(--success)">Loại A</strong> (tiền tố thêm — phiên âm DILA đúng, không cần sửa).
+            Tập trung vào <strong style="color:var(--primary)">Loại C</strong> (tên Hán không khớp) và
+            <strong style="color:#f87171">Loại B</strong> (phiên âm sai âm tiết). Click header Loại để sort. Click ô name_vi để sửa trực tiếp.
+        </div>
+
+        <!-- ── Bulk FLAG Queue ── -->
+        <div style="color:var(--text-muted);font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:10px">
+            Bulk FLAG Queue — Load tất cả 1,220 ID từ DB
+        </div>
+
+        <!-- ── Bulk Pass Panel ── -->
+        <div id="bulk-pass-panel" style="background:#0c1a12;border:1px solid #1e4030;border-radius:8px;padding:12px 16px;margin-bottom:14px">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <span style="font-size:13px;font-weight:600;color:#4ade80">⚡ Bulk Pass</span>
+                <span style="font-size:12px;color:var(--text-muted)">Duyệt hàng loạt theo độ tin cậy:</span>
+                <select id="bulk-pass-conf" style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:4px 8px;color:var(--text-main);font-size:12px">
+                    <option value="99">≥ 99% — name_zh exact match (an toàn nhất)</option>
+                    <option value="90">≥ 90% — + alias_zh match</option>
+                </select>
+                <button onclick="bulkPassPreview()"
+                        style="background:#1e4030;color:#4ade80;border:1px solid #2d6048;border-radius:5px;padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer">
+                    🔍 Preview
+                </button>
+                <span id="bulk-pass-preview" style="font-size:12px;color:var(--text-muted)">— chưa preview</span>
+            </div>
+            <div id="bulk-pass-confirm-area" style="display:none;margin-top:10px;border-top:1px solid #1e4030;padding-top:10px">
+                <div id="bulk-pass-sample" style="font-size:11px;color:var(--text-muted);margin-bottom:8px"></div>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <button onclick="bulkPassExecute()"
+                            style="background:#15803d;color:#fff;border:none;border-radius:5px;padding:6px 18px;font-size:13px;font-weight:700;cursor:pointer">
+                        ✅ Xác nhận Bulk Pass
+                    </button>
+                    <button onclick="document.getElementById('bulk-pass-confirm-area').style.display='none'"
+                            style="background:transparent;color:var(--text-muted);border:1px solid var(--border);border-radius:5px;padding:6px 12px;font-size:12px;cursor:pointer">
+                        Huỷ
+                    </button>
+                    <span id="bulk-pass-progress" style="font-size:12px;color:var(--text-muted)"></span>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+            <input id="etl-flag-search" type="text" placeholder="Tìm DILA ID, Hán tự, tên Việt…"
+                   style="flex:1;min-width:180px;background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:7px 11px;color:var(--text-main);font-size:13px"
+                   oninput="etlFlagQueueSearch()" />
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);cursor:pointer">
+                <input type="checkbox" id="etl-flag-hide-done" checked onchange="etlFlagQueueLoad(1)"
+                       style="accent-color:var(--primary)">
+                Ẩn đã duyệt
+            </label>
+            <button onclick="etlFlagQueueLoad(1)"
+                    style="background:var(--primary);color:#fff;border:none;border-radius:5px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer">
+                Load
+            </button>
+            <button id="ai-run-btn" onclick="runAiBatch(null)"
+                    title="Phiên âm Hán-Việt chuẩn Phật học bằng Gemini 3.8 Flash (Free) cho toàn bộ 48.6K thiền sư (~45-60 phút)"
+                    style="background:#7c3aed;color:#fff;border:none;border-radius:5px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer">
+                ⚡ Gemini AI
+            </button>
+            <span id="etl-flag-total" style="font-size:12px;color:var(--text-muted)"></span>
+        </div>
+
+        <div style="overflow-x:auto;margin-bottom:8px">
+        <table class="etl-ba-table" id="etl-flag-queue-table">
+            <thead>
+                <tr>
+                    <th>DILA ID</th>
+                    <th>Hán tự</th>
+                    <th>DILA name_vi <span style="font-size:9px;color:var(--primary);font-weight:400">(click để sửa)</span></th>
+                    <th class="codex-name-header" title="Tên Việt dịch chính từ Claude (codex_person_name)">Claude <span id="codex-col-status" style="font-size:9px;color:var(--text-muted);font-weight:400"></span></th>
+                    <th title="AI phiên âm Hán-Việt chuẩn Phật học (Gemini 3.8 Flash)">Gemini <span id="ai-col-status" style="font-size:9px;color:var(--text-muted);font-weight:400"></span></th>
+                    <th>TTL name_vi</th>
+                    <th title="Tra từ điển Phật học (lexicon DB)">Từ Điển</th>
+                    <th id="th-confidence"
+                        title="% cột (Claude/Gemini/TTL/Từ Điển) chứa đầy đủ tên DILA name_vi — click để sắp xếp"
+                        style="cursor:pointer;white-space:nowrap;user-select:none"
+                        onclick="etlFlagSortConfidence()">
+                        Tin cậy <span id="conf-sort-arrow" style="font-size:10px;opacity:.6">↕</span>
+                    </th>
+                    <th>Sửa</th>
+                </tr>
+            </thead>
+            <tbody id="etl-flag-queue-body">
+                <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px">
+                    Click "Load" để tải danh sách FLAG từ DB
+                </td></tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div id="etl-flag-pagination" style="display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
+
+    </div><!-- /tab-etl -->
+
+    <!-- ════════════════════════════════════════
+         TAB 4: XÁC MINH — danh sách chưa Pass
+         ════════════════════════════════════════ -->
+    <div id="tab-xcm" class="tab-panel">
+
+        <div style="background:var(--bg-sidebar);border:1px solid var(--border);border-left:3px solid #3b82f6;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.6">
+            <strong style="color:var(--text-main)">Xác Minh danh tính TTL → DILA.</strong>
+            Danh sách dưới đây gồm tất cả vị trong <code>vn_person_authority</code> <em>chưa được admin Pass</em>
+            (bao gồm cả đã Reject bằng nút "—"). Kiểm tra thủ công từ nguồn khác rồi:
+            <br>• <strong style="color:var(--success)">✓ Pass</strong> — xác nhận TTL và DILA là cùng một người → tên TTL hiện trên Tree.
+            <br>• <strong style="color:#ef4444">—</strong> — xác nhận là hai người khác nhau → Tree dùng tên DILA.
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-bar" style="margin-bottom:14px">
+            <div class="stat-box highlight">
+                <div class="value" id="xcm-stat-pending" style="color:#d97706">—</div>
+                <div class="label">Chưa xác nhận</div>
+            </div>
+            <div class="stat-box red" id="xcm-rejected-box"
+                 onclick="xcmToggleRejectedFilter()"
+                 style="cursor:pointer;transition:outline .15s"
+                 title="Click để xem danh sách đã từ chối — admin có thể xác nhận lại là cùng người">
+                <div class="value" id="xcm-stat-rejected">—</div>
+                <div class="label">Đã từ chối (—) <span style="font-size:9px;opacity:.6">↗ click</span></div>
+            </div>
+            <div class="stat-box green">
+                <div class="value" id="xcm-stat-approved">—</div>
+                <div class="label">Đã Pass</div>
+            </div>
+        </div>
+
+        <!-- Filter indicator (hiện khi đang filter 'rejected') -->
+        <div id="xcm-filter-bar" style="display:none;align-items:center;gap:8px;background:#2d0a0a;border:1px solid #ef4444;border-radius:6px;padding:6px 14px;margin-bottom:8px;font-size:12px">
+            <span style="color:#f87171;font-weight:600">🔍 Đang xem: Đã từ chối (—)</span>
+            <button onclick="xcmClearFilter()" style="background:transparent;border:1px solid #ef4444;color:#f87171;border-radius:4px;padding:2px 8px;cursor:pointer;font-size:11px">✕ Xem tất cả</button>
+        </div>
+
+        <!-- Toolbar -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
+            <input type="search" id="xcm-search" placeholder="🔍 DILA ID, Hán tự, tên Việt…"
+                   style="flex:1;min-width:220px;padding:7px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg-sidebar);color:var(--text-main);font-size:13px"
+                   oninput="xcmSearchDebounce()">
+            <label id="xcm-hide-rej-wrap" style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);cursor:pointer">
+                <input type="checkbox" id="xcm-show-rejected" onchange="xcmLoad(1)" style="accent-color:#ef4444">
+                Ẩn đã từ chối
+            </label>
+            <span id="xcm-total-label" style="font-size:12px;color:var(--text-muted)"></span>
+        </div>
+
+        <!-- Table -->
+        <div style="overflow-x:auto;margin-bottom:8px">
+        <table class="etl-ba-table" id="xcm-table">
+            <thead>
+                <tr>
+                    <th>DILA ID</th>
+                    <th>Hán tự</th>
+                    <th>DILA name_vi <span style="font-size:9px;color:var(--primary);font-weight:400">(click để sửa)</span></th>
+                    <th class="codex-name-header" title="Tên Việt dịch chính từ Claude (codex_person_name)">Claude</th>
+                    <th title="AI phiên âm (Gemini)">Gemini</th>
+                    <th>TTL name_vi</th>
+                    <th title="Tra từ điển Phật học">Từ Điển</th>
+                    <th title="Độ tin cậy khớp chéo (Claude/Gemini/TTL/Từ Điển)">Tin cậy</th>
+                    <th>Xác nhận</th>
+                </tr>
+            </thead>
+            <tbody id="xcm-body">
+                <tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:20px">Đang tải…</td></tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div id="xcm-pagination" style="display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
+
+    </div><!-- /tab-xcm -->
+
+    <!-- ════════════════════════════════════════
+         TAB 5: PLACE (T427 — giai đoạn 1)
+         ════════════════════════════════════════ -->
+    <div id="tab-place" class="tab-panel">
+
+        <div style="background:var(--bg-sidebar);border:1px solid var(--border);border-left:3px solid #d97706;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.6">
+            <strong style="color:var(--text-main)">Kiểm &amp; duyệt tên tiếng Việt của địa danh DILA.</strong>
+            Danh sách gốc là <code>places_dila</code> (59.167 địa danh). DILA chỉ có tên Hán —
+            <strong style="color:var(--primary)">không có tên Việt</strong>; cột "name_vi hiện tại" là tên do
+            ZQ phiên âm tự động / Admin sửa tay / TTL xác nhận (badge nguồn ở mỗi dòng, quy tắc ZQ).
+            Cột Claude/Gemini đang trống (giai đoạn 2, chưa triển khai).
+        </div>
+
+        <div class="search-bar">
+            <input type="search" id="place-search" placeholder="🔍 Tìm theo Place ID (PL...), Hán tự, hoặc tên Việt…" oninput="placeSearchDebounce()">
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+            <button class="btn btn-sm place-filter-btn" data-filter="all"          onclick="placeSetFilter('all')">📋 Tất cả <span id="place-cnt-all"></span></button>
+            <button class="btn btn-sm place-filter-btn" data-filter="pass100"      onclick="placeSetFilter('pass100')" style="background:transparent;">✅ Pass 100% <span id="place-cnt-pass100"></span></button>
+            <button class="btn btn-sm place-filter-btn" data-filter="needs_review" onclick="placeSetFilter('needs_review')" style="background:transparent;">🟡 Cần duyệt <span id="place-cnt-needs_review"></span></button>
+            <button class="btn btn-sm place-filter-btn" data-filter="no_claude"    onclick="placeSetFilter('no_claude')" style="background:transparent;">⬜ Thiếu Claude <span id="place-cnt-no_claude"></span></button>
+            <button class="btn btn-sm place-filter-btn" data-filter="no_gemini"    onclick="placeSetFilter('no_gemini')" style="background:transparent;">⬜ Thiếu Gemini <span id="place-cnt-no_gemini"></span></button>
+            <button class="btn btn-sm place-filter-btn" data-filter="no_ttl"       onclick="placeSetFilter('no_ttl')" style="background:transparent;">⬜ Thiếu TTL <span id="place-cnt-no_ttl"></span></button>
+            <span id="place-total-label" style="color:#94a3b8;font-size:12px;padding:4px 8px;"></span>
+        </div>
+
+        <div style="overflow-x:auto;margin-bottom:8px">
+        <table class="etl-ba-table" id="place-table">
+            <thead>
+                <tr>
+                    <th>Place ID</th>
+                    <th>Hán tự</th>
+                    <th>name_vi hiện tại</th>
+                    <th title="Giai đoạn 2 — chưa triển khai">Claude</th>
+                    <th title="Giai đoạn 2 — chưa triển khai">Gemini</th>
+                    <th>TTL</th>
+                    <th>Từ điển</th>
+                    <th>Tin cậy</th>
+                    <th>Kết luận</th>
+                    <th>Sửa</th>
+                </tr>
+            </thead>
+            <tbody id="place-body">
+                <tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:20px">Đang tải…</td></tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div id="place-pagination" style="display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
+
+    </div><!-- /tab-place -->
+
+    <!-- ── Edit Modal ── -->
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <h3>✏️ Cập nhật tên tiếng Việt</h3>
+            <div class="form-group">
+                <label>DILA ID:</label>
+                <input type="text" id="edit-dila-id" readonly style="opacity:0.7;">
+            </div>
+            <div class="form-group">
+                <label>Tên Hán:</label>
+                <input type="text" id="edit-name-zh" readonly style="opacity:0.7;">
+            </div>
+            <div class="form-group">
+                <label>Tên tiếng Việt *:</label>
+                <input type="text" id="edit-name-vi" placeholder="Nhập tên tiếng Việt">
+            </div>
+            <div class="form-group">
+                <label>Năm sinh:</label>
+                <input type="number" id="edit-birth" placeholder="Ví dụ: 1900">
+            </div>
+            <div class="form-group">
+                <label>Năm mất:</label>
+                <input type="number" id="edit-death" placeholder="Ví dụ: 1985">
+            </div>
+
+            <!-- Translation Section -->
+            <div class="form-group" style="background:#0f172a;padding:15px;border-radius:8px;margin:10px 0;">
+                <label style="color:#fbbf24;font-size:12px;margin-bottom:10px;display:block;">🌐 DỊCH HÁN-VIỆT</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+                    <div style="background:#1e293b;padding:10px;border-radius:6px;">
+                        <div style="color:#22c55e;font-size:11px;margin-bottom:5px;">🇻🇳 HVDic</div>
+                        <div id="trans-hvdic" style="color:#fff;font-size:13px;min-height:24px;">⏳ đang tải...</div>
+                        <button class="btn btn-sm" style="margin-top:5px;padding:3px 8px;font-size:11px;" onclick="selectTrans('hvdic')">📋 Chọn</button>
+                    </div>
+                    <div style="background:#1e293b;padding:10px;border-radius:6px;">
+                        <div style="color:#3b82f6;font-size:11px;margin-bottom:5px;">🇻🇳 MyMemory</div>
+                        <div id="trans-google" style="color:#fff;font-size:13px;min-height:24px;">⏳ đang tải...</div>
+                        <button class="btn btn-sm" style="margin-top:5px;padding:3px 8px;font-size:11px;" onclick="selectTrans('google')">📋 Chọn</button>
+                    </div>
+                    <div style="background:#1e293b;padding:10px;border-radius:6px;border:1px solid #8b5cf6;">
+                        <div style="color:#a78bfa;font-size:11px;margin-bottom:5px;">🤖 AI (Gemini)</div>
+                        <div id="trans-ai" style="color:#fff;font-size:13px;min-height:24px;">Nhấn "Gợi ý"</div>
+                        <button class="btn btn-sm" style="margin-top:5px;padding:3px 8px;font-size:11px;background:#8b5cf6;" onclick="suggestNameAI()">✨ Gợi ý</button>
+                        <button class="btn btn-sm" style="margin-top:5px;padding:3px 8px;font-size:11px;display:none;" id="ai-chose-btn" onclick="selectTrans('ai')">📋 Chọn</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="max-height:200px;overflow-y:auto;background:#0f172a;padding:10px;border-radius:6px;">
+                <label style="color:#fbbf24;font-size:11px;">📋 THÔNG TIN TỪ DILA XML:</label>
+                <div id="edit-full-info" style="font-size:11px;line-height:1.6;color:#94a3b8;"></div>
+            </div>
+            <div class="form-group">
+                <label>Bio snippet (tiểu sử):</label>
+                <textarea id="edit-bio" placeholder="Tiểu sử ngắn..." style="min-height:60px;"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn" onclick="saveMapping()">💾 Lưu + Remove</button>
+                <button class="btn btn-outline" onclick="closeModal()">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Nếu không phải http/https (vd: file://, data:) → dùng absolute URL về gateway
+    const API = (window.location.protocol === 'http:' || window.location.protocol === 'https:')
+        ? '' : 'http://localhost:8080';
+
+    // ── Auth ──
+    (function() {
+        var s; try { s = localStorage.getItem('admin_session'); } catch(e) { s = null; }
+        if (!s) { location.href = '/daoanh/login.html'; return; }
+        fetch(API + '/daoanh/api/login/check', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({session_token: s})
+        }).then(r => r.json()).then(d => {
+            if (!d.valid) { try { localStorage.removeItem('admin_session'); } catch(e) {} location.href = '/daoanh/login.html'; }
+        }).catch(() => {});
+    })();
+    function getToken() { try { return localStorage.getItem('admin_session') || ''; } catch(e) { return ''; } }
+
+    // ── Tab 1 state ──
+    let page = 1;
+    const perPage = 30;
+    let currentEditId = null;
+    let currentFilter = 'all';
+
+    // ── Tab 2 state ──
+    let ttlPage = 1;
+    const ttlPerPage = 50;
+    let ttlStatus = 'has_ttl';
+    let ttlQ = '';
+    let ttlTotal = 0;
+    let ttlStatsLoaded = false;
+    let ttlSearchTimer = null;
+
+    // ── TTLLocal filter (Tab 1) ──
+    let ttlLocalFilter = 'all'; // 'all' | 'has' | 'no'
+
+    function setTtlLocalFilter(f, btn) {
+        ttlLocalFilter = f;
+        document.querySelectorAll('.ttll-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        loadQueue(1);
+    }
+
+    // ── TTLLocal map: dila_id → name_vi từ TTL trong DB ──
+    var _ttlLocalMap = {};
+    async function loadTtlLocalNames() {
+        try {
+            const r = await fetch('/daoanh/api/admin/ttl-local-names');
+            if (!r.ok) return;
+            const d = await r.json();
+            if (d.ok && d.map) _ttlLocalMap = d.map;
+        } catch(e) { console.warn('Không load được TTL local names:', e); }
+    }
+    function ttlLocalCell(dilaId) {
+        const n = _ttlLocalMap[dilaId];
+        return n
+            ? '<span class="ttl-local-yes" title="Tên trong TTL">✅ ' + n + '</span>'
+            : '<span class="ttl-local-no">—</span>';
+    }
+
+    // ════════════════════════════════════
+    // TAB SWITCHING
+    // ════════════════════════════════════
+    let queueLoaded = false;
+    function switchTab(name, btn) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.da-tab').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + name).classList.add('active');
+        btn.classList.add('active');
+        if (name === 'queue' && !queueLoaded) {
+            queueLoaded = true;
+            loadStats();
+            loadQueue(1);
+        }
+        if (name === 'ttl' && !ttlStatsLoaded) {
+            ttlStatsLoaded = true;
+            loadTtlStats();
+            loadTtlList();
+        }
+        if (name === 'etl') {
+            if (!etlTabLoaded) {
+                etlTabLoaded = true;
+                loadEtlStats();   // stats + FLAG live data (lần đầu)
+                etlSelectStep(0);
+            } else {
+                loadEtlFlagLiveData(); // re-sync FLAG table mỗi lần switch lại
+            }
+        }
+        if (name === 'xcm') {
+            if (!_xcmLoaded) { _xcmLoaded = true; xcmLoad(1); xcmLoadStats(); }
+        }
+        if (name === 'place') {
+            if (!_placeLoaded) { _placeLoaded = true; placeLoad(1); }
+        }
+    }
+
+    // ════════════════════════════════════
+    // TAB 1 — QUEUE (code gốc giữ nguyên)
+    // ════════════════════════════════════
+    // localStorage key lưu list dila_id đã Pass trong static table
+    const ETL_PASSED_KEY = 'etlFlagPassed_v1';
+    function getEtlPassedSet() {
+        try { return new Set(JSON.parse(localStorage.getItem(ETL_PASSED_KEY) || '[]')); }
+        catch(e) { return new Set(); }
+    }
+    function addEtlPassed(dilaId) {
+        try {
+            const s = getEtlPassedSet(); s.add(dilaId);
+            localStorage.setItem(ETL_PASSED_KEY, JSON.stringify([...s]));
+        } catch(e) {}
+    }
+
+    // Ẩn ngay (sync) các row đã Pass trong localStorage — không cần chờ API
+    function etlFlagHidePassed() {
+        const passed = getEtlPassedSet();
+        if (!passed.size) return;
+        document.querySelectorAll('#etl-match-flag-table tbody tr[data-dila-id]').forEach(tr => {
+            if (passed.has(tr.dataset.dilaId)) tr.style.display = 'none';
+        });
+    }
+
+    async function init() {
+        loadTtlLocalNames(); // không await — chạy song song
+        etlTabLoaded = true;
+        etlFlagHidePassed();   // ① ẩn ngay từ localStorage (0ms, không cần server)
+        loadEtlStats();        // ② cập nhật stats
+        loadEtlFlagLiveData(); // ③ xác nhận tĩnh table với server
+        etlFlagQueueLoad(1);   // ④ tự động load FLAG queue
+        loadAiColStatus();     // ⑤ hiển thị tiến độ AI ở header cột Claude
+        loadCodexColStatus();  // ⑥ hiển thị tiến độ Claude ở header cột Claude (T435/BUG-048)
+        etlSelectStep(0);
+    }
+
+    async function loadStats() {
+        try {
+            const res = await fetch(API + '/api/dashboard/stats');
+            const stats = await res.json();
+            document.getElementById('total-mapped').textContent  = stats.namevi_total.toLocaleString();
+            document.getElementById('pending-count').textContent = (stats.dila_total - stats.namevi_total).toLocaleString();
+            document.getElementById('dila-match').textContent    = stats.namevi_with_dila;
+        } catch(e) { console.error('Load stats error:', e); }
+    }
+
+    function setFilter(f) {
+        currentFilter = f;
+        document.querySelectorAll('.filter-btn').forEach(b =>
+            b.style.background = b.dataset.filter === f ? '#d97706' : 'transparent');
+        loadQueue(1);
+    }
+
+    function statusHtml(n) {
+        if (n.name_vi_final) return '<span style="color:#22c55e;">🟢 Đã duyệt</span>';
+        if (n.name_vi_auto)  return '<span style="color:#fbbf24;">🟡 Có gợi ý, chưa duyệt</span>';
+        return '<span style="color:#94a3b8;">⚪ Chưa có gợi ý</span>';
+    }
+
+    async function dichTho(dilaId, hanName) {
+        const btns = document.querySelectorAll('button');
+        let btn = null;
+        for (const b of btns) {
+            if (b.textContent.includes('DỊCH THÔ') && b.closest('tr')?.innerHTML.includes(dilaId)) {
+                btn = b; break;
+            }
+        }
+        if (!btn) return;
+        btn.disabled = true; btn.textContent = '⏳...';
+        try {
+            const res = await fetch(API + '/daoanh/api/admin/namevi/translate-local', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({han_name: hanName, dila_id: dilaId})
+            });
+            const data = await res.json();
+            if (data.ok && data.name_vi_draft) {
+                document.getElementById('vn-' + dilaId).textContent = data.name_vi_draft;
+                document.getElementById('vn-' + dilaId).style.color = '#fbbf24';
+                btn.textContent = '🔤 DỊCH THÔ'; btn.disabled = false;
+                setTimeout(() => loadQueue(page), 500);
+            } else {
+                alert('Lỗi: ' + (data.error || 'Không xác định'));
+                btn.textContent = '🔤 DỊCH THÔ'; btn.disabled = false;
+            }
+        } catch(e) {
+            alert('Lỗi: ' + e.message);
+            btn.textContent = '🔤 DỊCH THÔ'; btn.disabled = false;
+        }
+    }
+
+    async function loadQueue(pageNum) {
+        page = pageNum;
+        try {
+            const res = await fetch(API + '/api/admin/namevi-queue?page=' + pageNum +
+                '&per_page=' + perPage + '&filter=' + currentFilter +
+                '&ttl_local=' + ttlLocalFilter);
+            const data = await res.json();
+            const tbody = document.getElementById('queue-tbody');
+            if (data.names && data.names.length > 0) {
+                tbody.innerHTML = data.names.map(n => {
+                    const canTranslate = n.name_zh && !n.name_vi_final;
+                    return '<tr>' +
+                        '<td style="font-family:monospace;">' + dilaLink(n.dila_id) + '</td>' +
+                        '<td style="color:#fbbf24;">' + (n.name_zh || '-') + '</td>' +
+                        '<td id="vn-' + n.dila_id + '">' + (n.name_vi || '<span style="color:#ef4444;">(chưa có)</span>') + '</td>' +
+                        '<td>' + ttlLocalCell(n.dila_id) + '</td>' +
+                        '<td>' + statusHtml(n) + '</td>' +
+                        '<td>' + (n.birth_year || '-') + '</td>' +
+                        '<td>' + (n.death_year || '-') + '</td>' +
+                        '<td><button class="btn btn-sm" onclick="editName(\'' + n.dila_id + '\')">✏️ Edit</button>' +
+                        (canTranslate ? ' <button class="btn btn-sm" onclick="dichTho(\'' + n.dila_id + '\', \'' + n.name_zh.replace(/'/g,"\\'") + '\')" style="background:#7c3aed;">🔤 DỊCH THÔ</button>' : '') +
+                        ' <button onclick="deleteEntry(\'' + n.dila_id + '\')" style="background:#ef4444;color:white;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:10px">Xóa</button></td>' +
+                        '</tr>';
+                }).join('');
+            } else {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty">Không có dữ liệu</td></tr>';
+            }
+            document.getElementById('page-num').textContent = page;
+            document.getElementById('prev-btn').disabled = page <= 1;
+            document.getElementById('next-btn').disabled = !data.names || data.names.length < perPage;
+            if (data.stats) {
+                document.getElementById('filter-counts').textContent =
+                    'Chưa gợi ý: ' + data.stats.no_auto +
+                    ' | Gợi ý chờ duyệt: ' + data.stats.auto_pending +
+                    ' | Đã duyệt: ' + data.stats.approved;
+            }
+            if (data.ttl_has_count !== undefined) {
+                document.getElementById('ttl-has-count').textContent = data.ttl_has_count;
+                document.getElementById('ttl-no-count').textContent  = data.ttl_no_count;
+            }
+        } catch(e) {
+            console.error('Load queue error:', e);
+            document.getElementById('queue-tbody').innerHTML =
+                '<tr><td colspan="8" class="empty">Lỗi: ' + e.message + '</td></tr>';
+        }
+    }
+
+    async function editName(dilaId) {
+        currentEditId = dilaId;
+        try {
+            const res  = await fetch(API + '/api/admin/namevi-queue/' + dilaId);
+            const data = await res.json();
+            document.getElementById('edit-dila-id').value  = data.dila_id || '';
+            document.getElementById('edit-name-zh').value  = data.name_zh || '';
+            document.getElementById('edit-name-vi').value  = data.name_vi_final || data.people_name_vi || data.name_vi_auto || data.name_vi || '';
+            document.getElementById('edit-birth').value    = data.birth_year || '';
+            document.getElementById('edit-death').value    = data.death_year || '';
+            document.getElementById('edit-bio').value      = data.bio_snippet || '';
+
+            let fullInfo = '';
+            fullInfo += '<div><span style="color:#fbbf24;">Tên chính:</span> ' + (data.name_zh || '-') + '</div>';
+            if (data.alternative_names) fullInfo += '<div><span style="color:#fbbf24;">Tên khác:</span> ' + data.alternative_names + '</div>';
+            if (data.dynasty)           fullInfo += '<div><span style="color:#fbbf24;">Triều đại:</span> ' + data.dynasty + '</div>';
+            if (data.birth_year || data.death_year)
+                fullInfo += '<div><span style="color:#fbbf24;">Năm sinh-mất:</span> ' + (data.birth_year||'?') + ' - ' + (data.death_year||'?') + '</div>';
+            if (data.is_monk)    fullInfo += '<div><span style="color:#fbbf24;">Tăng:</span> ' + data.is_monk + '</div>';
+            if (data.teacher)    fullInfo += '<div><span style="color:#fbbf24;">Thầy:</span> ' + data.teacher + '</div>';
+            if (data.students)   fullInfo += '<div><span style="color:#fbbf24;">Trò:</span> ' + data.students + '</div>';
+            if (data.bio_snippet)   fullInfo += '<div><span style="color:#fbbf24;">Tiểu sử:</span> ' + data.bio_snippet + '</div>';
+            if (data.extensive_bio) fullInfo += '<div><span style="color:#fbbf24;">Bio đầy đủ:</span> ' + data.extensive_bio + '</div>';
+            if (data.works)  fullInfo += '<div><span style="color:#fbbf24;">Tác phẩm:</span> ' + data.works + '</div>';
+            if (data.bibl)   fullInfo += '<div><span style="color:#fbbf24;">Tham khảo:</span> ' + data.bibl + '</div>';
+            if (data.name_vi_auto && !data.name_vi_final) {
+                fullInfo += '<div style="margin-top:8px;padding:8px;background:#1e293b;border-radius:6px;border:1px solid #fbbf24;">' +
+                    '<span style="color:#fbbf24;font-size:11px;">🤖 Gợi ý AI:</span> ' +
+                    '<span style="color:#fff;font-size:13px;">' + data.name_vi_auto + '</span>' +
+                    ' <button class="btn btn-sm" style="margin-top:4px;" onclick="acceptAuto(\'' + dilaId + '\', \'' + data.name_vi_auto.replace(/'/g,"\\'") + '\')">✅ Chấp nhận</button></div>';
+            }
+            if (data.approved_at)
+                fullInfo += '<div style="margin-top:4px;"><span style="color:#22c55e;font-size:11px;">✅ Đã duyệt: ' + data.approved_at + '</span></div>';
+
+            document.getElementById('edit-full-info').innerHTML = fullInfo || '<div style="color:#ef4444;">Chưa có dữ liệu XML</div>';
+
+            const searchName = encodeURIComponent(data.alternative_names || data.name_zh || '');
+            document.getElementById('trans-hvdic').textContent = '⏳ đang tải...';
+            document.getElementById('trans-google').textContent = '⏳ đang tải...';
+            document.getElementById('trans-ai').textContent = (data.name_vi_auto && !data.name_vi_final) ? data.name_vi_auto : 'Nhấn "Gợi ý"';
+            try {
+                const transRes = await fetch(API + '/api/translate/all?text=' + searchName);
+                const trans = await transRes.json();
+                document.getElementById('trans-hvdic').textContent  = trans.hvdic  || '-';
+                document.getElementById('trans-google').textContent = trans.google || '-';
+            } catch(e) {
+                document.getElementById('trans-hvdic').textContent  = 'Lỗi';
+                document.getElementById('trans-google').textContent = 'Lỗi';
+            }
+
+            document.getElementById('edit-modal').classList.add('show');
+            document.getElementById('edit-name-vi').focus();
+        } catch(e) { alert('Lỗi: ' + e.message); }
+    }
+
+    async function acceptAuto(dilaId, nameVi) {
+        if (!confirm('Chấp nhận "' + nameVi + '" làm tên tiếng Việt chính thức?')) return;
+        try {
+            const res = await fetch(API + '/api/admin/namevi-map/approve', {
+                method: 'POST', headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({dila_id: dilaId})
+            });
+            const data = await res.json();
+            if (data.success) {
+                showSuccess('✅ Đã duyệt: ' + nameVi);
+                document.getElementById('edit-name-vi').value = nameVi;
+                document.getElementById('edit-name-vi').focus();
+            } else { alert('Lỗi: ' + (data.error || 'Không xác định')); }
+        } catch(e) { alert('Lỗi: ' + e.message); }
+    }
+
+    function selectTrans(type) {
+        const srcId = type === 'hvdic' ? 'trans-hvdic' : type === 'google' ? 'trans-google' : 'trans-ai';
+        const text = document.getElementById(srcId).textContent;
+        const bad = ['⏳ đang tải...', '-', 'Lỗi', 'Nhấn "Gợi ý"', '⏳ AI đang suy nghĩ...'];
+        if (text && !bad.includes(text))
+            document.getElementById('edit-name-vi').value = text;
+    }
+
+    async function suggestNameAI() {
+        const main_name_han = document.getElementById('edit-name-zh').value.trim();
+        const dilaId = document.getElementById('edit-dila-id').value.trim();
+        if (!main_name_han) { document.getElementById('trans-ai').textContent = '⚠️ Không có tên Hán'; return; }
+        const transAi = document.getElementById('trans-ai');
+        const btn = document.querySelector('[onclick="suggestNameAI()"]');
+        transAi.textContent = '⏳ AI đang suy nghĩ...';
+        btn.disabled = true; btn.textContent = '⏳...';
+        const aka_raw = document.querySelector('#edit-full-info')?.innerText || '';
+        const bio = document.getElementById('edit-bio')?.value || '';
+        const refs_match = aka_raw.match(/Tham khảo:\s*(.+)/);
+        const refs = refs_match ? refs_match[1] : '';
+        try {
+            const res = await fetch('/api/admin/namevi/suggest', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({main_name_han, aka_names_raw: aka_raw, bio, refs, dila_id: dilaId})
+            });
+            const data = await res.json();
+            if (data.success && data.vietnamese_name) {
+                transAi.textContent = data.vietnamese_name;
+                document.getElementById('edit-name-vi').value = data.vietnamese_name;
+                document.getElementById('ai-chose-btn').style.display = 'inline-block';
+            } else if (data.vietnamese_name && data.validation_failed) {
+                transAi.textContent = data.vietnamese_name + ' ⚠️';
+                document.getElementById('edit-name-vi').value = data.vietnamese_name;
+                document.getElementById('ai-chose-btn').style.display = 'inline-block';
+                console.warn('AI suggest validation:', data.error);
+            } else { transAi.textContent = '❌ ' + (data.error || 'Lỗi không xác định'); }
+        } catch(e) { transAi.textContent = '❌ Lỗi: ' + e.message; }
+        finally { btn.disabled = false; btn.textContent = '✨ Gợi ý'; }
+    }
+
+    async function deleteEntry(dila_id) {
+        if (!confirm('Bạn có chắc muốn xóa entry này?')) return;
+        try {
+            const res = await fetch(API + '/api/admin/namevi-map/delete', {
+                method: 'POST', headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({dila_id})
+            });
+            const result = await res.json();
+            if (result.success) { showSuccess('✅ Đã xóa: ' + dila_id); loadStats(); loadQueue(page); }
+            else { alert('Lỗi: ' + result.error); }
+        } catch(e) { alert('Lỗi: ' + e.message); }
+    }
+
+    async function saveMapping() {
+        const name_vi = document.getElementById('edit-name-vi').value.trim();
+        if (!name_vi) { alert('Vui lòng nhập tên tiếng Việt!'); return; }
+        try {
+            const res = await fetch(API + '/api/admin/namevi-map/update', {
+                method: 'POST', headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({
+                    dila_id:    currentEditId,
+                    name_vi,
+                    name_zh:    document.getElementById('edit-name-zh').value,
+                    birth_year: document.getElementById('edit-birth').value  || null,
+                    death_year: document.getElementById('edit-death').value  || null,
+                    bio_snippet: document.getElementById('edit-bio').value
+                })
+            });
+            const result = await res.json();
+            if (result.success) {
+                showSuccess('✅ Đã lưu! Đã xóa khỏi hàng đợi: ' + currentEditId);
+                closeModal(); loadStats(); loadQueue(page);
+            } else { alert('Lỗi: ' + result.error); }
+        } catch(e) { alert('Lỗi: ' + e.message); }
+    }
+
+    function closeModal() {
+        document.getElementById('edit-modal').classList.remove('show');
+        currentEditId = null;
+    }
+
+    function showSuccess(msg) {
+        const el = document.getElementById('success-msg');
+        el.textContent = msg; el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 3000);
+    }
+
+    let searchTimeout = null;
+    function handleSearch(e) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const q = e.target.value.trim();
+            q ? searchNames(q) : loadQueue(1);
+        }, 500);
+    }
+
+    async function searchNames(q) {
+        try {
+            const res  = await fetch(API + '/api/name_vi/search?q=' + encodeURIComponent(q));
+            const data = await res.json();
+            const tbody = document.getElementById('queue-tbody');
+            if (data.results && data.results.length > 0) {
+                tbody.innerHTML = data.results.map(n => {
+                    return '<tr>' +
+                        '<td style="font-family:monospace;">' + dilaLink(n.dila_id || '-') + '</td>' +
+                        '<td style="color:#fbbf24;">' + (n.name_zh || '-') + '</td>' +
+                        '<td>' + (n.name_vi_final || n.name_vi_auto || n.name_vi || '<span style="color:#ef4444;">(chưa có)</span>') + '</td>' +
+                        '<td>' + ttlLocalCell(n.dila_id) + '</td>' +
+                        '<td>' + (n.name_vi_final ? '🟢 Đã duyệt' : n.name_vi_auto ? '🟡 Đề xuất: ' + n.name_vi_auto : '🔴 (chưa có)') + '</td>' +
+                        '<td>' + (n.birth_year || '-') + '</td>' +
+                        '<td>' + (n.death_year || '-') + '</td>' +
+                        '<td><button class="btn btn-sm" onclick="editName(\'' + n.dila_id + '\')">✏️ Edit</button>' +
+                        ' <button onclick="deleteEntry(\'' + n.dila_id + '\')" style="background:#ef4444;color:white;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:10px">Xóa</button></td>' +
+                        '</tr>';
+                }).join('');
+            } else {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty">Không tìm thấy</td></tr>';
+            }
+        } catch(e) { console.error('Search error:', e); }
+    }
+
+    // ════════════════════════════════════
+    // TAB 2 — TTL STATS
+    // ════════════════════════════════════
+    async function loadTtlStats() {
+        try {
+            const res  = await fetch(API + '/api/admin/namevi/ttl-stats?status=' + ttlStatus + '&page=1&per_page=1');
+            const data = await res.json();
+            if (!data.ok) { console.error('TTL stats error:', data.error); return; }
+            document.getElementById('ttl-total-nvm').textContent = (data.total_nvm || 0).toLocaleString();
+            document.getElementById('ttl-has').textContent       = (data.has_ttl   || 0).toLocaleString();
+            document.getElementById('ttl-no').textContent        = (data.no_ttl    || 0).toLocaleString();
+            document.getElementById('ttl-disk').textContent      = (data.ttl_disk  || 0).toLocaleString();
+            document.getElementById('ttl-pct').textContent       = (data.coverage_pct || 0) + '%';
+            document.getElementById('ttl-bar').style.width       = (data.coverage_pct || 0) + '%';
+        } catch(e) { console.error('loadTtlStats error:', e); }
+    }
+
+    async function loadTtlList() {
+        document.getElementById('ttl-tbody').innerHTML =
+            '<tr><td colspan="9" class="empty">Đang tải...</td></tr>';
+        try {
+            const url = API + '/api/admin/namevi/ttl-stats?status=' + ttlStatus +
+                '&page=' + ttlPage + '&per_page=' + ttlPerPage +
+                (ttlQ ? '&q=' + encodeURIComponent(ttlQ) : '');
+            const res  = await fetch(url);
+            const data = await res.json();
+            if (!data.ok) {
+                document.getElementById('ttl-tbody').innerHTML =
+                    '<tr><td colspan="9" class="empty">Lỗi: ' + (data.error || 'unknown') + '</td></tr>';
+                return;
+            }
+            ttlTotal = data.total_list || 0;
+            document.getElementById('ttl-list-count').textContent =
+                (ttlStatus === 'no_ttl' ? '🔴 Chưa có TTL: ' : '🟢 Đã có TTL: ') +
+                ttlTotal.toLocaleString() + ' IDs';
+
+            const startIdx = (ttlPage - 1) * ttlPerPage;
+            if (!data.items || data.items.length === 0) {
+                document.getElementById('ttl-tbody').innerHTML =
+                    '<tr><td colspan="9" class="empty">Không có dữ liệu</td></tr>';
+            } else {
+                document.getElementById('ttl-tbody').innerHTML = data.items.map((r, i) => {
+                    const pBadge = r.priority === 'HIGH'
+                        ? '<span class="badge-high">HIGH</span>'
+                        : r.priority === 'MEDIUM'
+                            ? '<span class="badge-medium">MEDIUM</span>'
+                            : '<span class="badge-low">LOW</span>';
+                    const nameVi = r.name_vi_final
+                        ? '<span style="color:#22c55e;">' + r.name_vi_final + '</span>'
+                        : r.name_vi_auto
+                            ? '<span style="color:#fbbf24;">' + r.name_vi_auto + ' <small>⚡auto</small></span>'
+                            : r.name_vi || '<span style="color:#64748b;">(chưa có)</span>';
+                    // link sang monk_ttl_add nếu chưa có TTL
+                    const actionBtn = ttlStatus === 'no_ttl'
+                        ? '<a href="/daoanh/admin/monk_ttl_add.html?id=' + encodeURIComponent(r.dila_id) + '" class="btn btn-sm btn-cyan" style="text-decoration:none;">✍️ Tạo TTL</a>'
+                        : '<a href="/daoanh/admin/monk_ttl_view.html?id=' + encodeURIComponent(r.dila_id) + '" class="btn btn-sm btn-green" style="text-decoration:none;">📄 Xem TTL</a>';
+                    return '<tr>' +
+                        '<td style="color:var(--text-muted);font-size:11px;">' + (startIdx + i + 1) + '</td>' +
+                        '<td style="font-family:monospace;font-size:11px;">' + dilaLink(r.dila_id) + '</td>' +
+                        '<td style="color:#fbbf24;">' + (r.name_zh || '—') + '</td>' +
+                        '<td>' + nameVi + '</td>' +
+                        '<td>' + ttlLocalCell(r.dila_id) + '</td>' +
+                        '<td>' + (r.birth_year || '—') + '</td>' +
+                        '<td>' + (r.death_year || '—') + '</td>' +
+                        '<td>' + pBadge + '</td>' +
+                        '<td style="display:flex;gap:6px;">' + actionBtn +
+                            ' <button class="btn btn-sm btn-outline" onclick="editName(\'' + r.dila_id + '\')">✏️ Tên</button>' +
+                        '</td>' +
+                        '</tr>';
+                }).join('');
+            }
+
+            // pager
+            const totalPages = Math.ceil(ttlTotal / ttlPerPage);
+            document.getElementById('ttl-page-info').textContent =
+                `Trang ${ttlPage}/${totalPages || 1} — ${ttlTotal.toLocaleString()} kết quả`;
+            document.getElementById('ttl-prev').disabled = ttlPage <= 1;
+            document.getElementById('ttl-next').disabled = ttlPage >= totalPages;
+        } catch(e) {
+            document.getElementById('ttl-tbody').innerHTML =
+                '<tr><td colspan="9" class="empty">Lỗi: ' + e.message + '</td></tr>';
+        }
+    }
+
+    function ttlSetStatus(s) {
+        ttlStatus = s;
+        ttlPage   = 1;
+        document.getElementById('btn-no-ttl').classList.toggle('active',  s === 'no_ttl');
+        document.getElementById('btn-has-ttl').classList.toggle('active', s === 'has_ttl');
+        loadTtlStats();
+        loadTtlList();
+    }
+
+    function ttlSearchDebounce() {
+        clearTimeout(ttlSearchTimer);
+        ttlSearchTimer = setTimeout(() => {
+            ttlQ    = document.getElementById('ttl-search').value.trim();
+            ttlPage = 1;
+            loadTtlList();
+        }, 400);
+    }
+
+    function ttlGoPage(dir) {
+        const totalPages = Math.ceil(ttlTotal / ttlPerPage);
+        ttlPage = Math.max(1, Math.min(totalPages, ttlPage + dir));
+        loadTtlList();
+    }
+
+    // ════════════════════════════════════
+    // TAB 3 — TTL ETL
+    // ════════════════════════════════════
+    let etlTabLoaded = false;
+
+    const ETL_STEP_DESCS = [
+        'Bước 1 — Glob tất cả *.ttl trong data/ttl/ (2,163 files). Mỗi file là tiểu sử 1 thiền sư theo chuẩn RDF Turtle.',
+        'Bước 2 — parse_ttl_name_pair() trích cặp (name_zh, name_vi). _clean_vi_label() strip prefix "TS ", thay _ → space.',
+        'Bước 3 — Tra name_zh trong people table (DILA 48,673 persons). Nếu DILA name_vi ≠ TTL core → thêm vào update list.',
+        'Bước 4 — load_marcus_index(): tra marcus_reference.label với name_zh. Tìm thấy → [MARCUS ✓], confidence cao hơn.',
+        'Bước 5 — Chạy UPDATE people.name_vi. Điều kiện: số âm tiết = số Hán tự, không tiền tố danh hiệu, MARCUS xác nhận.'
+    ];
+
+    function etlSelectStep(n) {
+        document.querySelectorAll('.etl-step').forEach((el, i) => {
+            el.classList.toggle('active', i === n);
+            el.classList.toggle('done', i < n);
+        });
+        document.getElementById('etl-step-desc').textContent = ETL_STEP_DESCS[n];
+    }
+
+    async function loadEtlStats() {
+        try {
+            const r = await fetch(API + '/api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1');
+            if (r.ok) {
+                const d = await r.json();
+                if (d.ok) {
+                    document.getElementById('etl-ttl-disk').textContent    = (d.ttl_disk  || 0).toLocaleString();
+                    document.getElementById('etl-dila-linked').textContent = (d.has_ttl   || 0).toLocaleString();
+                    document.getElementById('etl-pending-nvm').textContent = (d.no_ttl    || 0).toLocaleString();
+                }
+            }
+        } catch(e) { console.warn('loadEtlStats error:', e); }
+        // approved count from queue stats
+        try {
+            const r2 = await fetch(API + '/api/dashboard/stats');
+            if (r2.ok) {
+                const s = await r2.json();
+                if (s.namevi_total) document.getElementById('etl-approved-count').textContent = s.namevi_total.toLocaleString();
+            }
+        } catch(e) {}
+        // loadEtlFlagLiveData gọi riêng từ init() — không gọi ở đây nữa
+    }
+
+    async function loadEtlFlagLiveData() {
+        const rows = document.querySelectorAll('#tab-etl .etl-ba-table tbody tr[data-dila-id]');
+        await Promise.all([...rows].map(async tr => {
+            const dilaId = tr.dataset.dilaId;
+            if (!dilaId) return;
+            try {
+                const r = await fetch(API + '/api/admin/namevi-queue/' + dilaId);
+                if (!r.ok) return;
+                const d = await r.json();
+                // Ưu tiên people.name_vi (edit từ DILA Index) > name_vi_final (queue) > fallback
+                // Nếu đã được Pass (có name_vi_final) → ẩn row khỏi static table
+                if (d.name_vi_final) {
+                    addEtlPassed(dilaId); // seed localStorage để F5 tiếp theo hide ngay
+                    tr.style.display = 'none'; // ẩn ngay, không cần animation
+                    return;
+                }
+                const nameVi = d.people_name_vi || d.name_vi_final || d.name_vi || '';
+                if (nameVi) {
+                    const cell = tr.querySelector('.etl-dila-cell');
+                    if (cell) {
+                        cell.textContent = nameVi;
+                        cell.dataset.original = nameVi;
+                        cell.classList.remove('dirty');
+                    }
+                    const btn = tr.querySelector('.etl-flag-save');
+                    if (btn) btn.classList.remove('ready');
+                }
+            } catch(e) { /* silent */ }
+
+            // Cập nhật cột Từ Điển cho match-report table (chỉ khi cell hiện = "—")
+            const tds = tr.querySelectorAll('td');
+            // Match report có 9 cols, FLAG queue có 7 cols — detect by table
+            const inMatchReport = !!tr.closest('#etl-match-flag-table');
+            if (!inMatchReport) return;
+            const columns=Array.from(tr.closest('table').querySelectorAll('thead th'));
+            const lexCell = tds[columns.findIndex(x=>x.textContent.trim()==='Từ điển')]; // cột Từ điển trong match-report
+            if (!lexCell || lexCell.textContent.trim() !== '—') return;
+            try {
+                const ttlCell=tds[columns.findIndex(x=>x.textContent.trim()==='TTL name_vi')];
+                const ttlVi  = ttlCell ? ttlCell.textContent.trim() : '';
+                const dilaVi = (tr.querySelector('.etl-dila-cell') || {}).textContent || '';
+                const rl = await fetch(API + '/api/admin/namevi/lex-lookup?name=' +
+                    encodeURIComponent(ttlVi) + '&fallback=' + encodeURIComponent(dilaVi));
+                if (!rl.ok) return;
+                const dl = await rl.json();
+                if (dl.source) {
+                    lexCell.style.color = '#7ab8d4';
+                    lexCell.style.fontSize = '12px';
+                    lexCell.textContent = dl.source;
+                }
+            } catch(e) { /* silent */ }
+        }));
+    }
+
+    async function etlRun(apply) {
+        const dryBtn   = document.getElementById('etl-dry-btn');
+        const appBtn   = document.getElementById('etl-apply-btn');
+        const statusEl = document.getElementById('etl-run-status');
+        const outEl    = document.getElementById('etl-output');
+        dryBtn.disabled = appBtn.disabled = true;
+        statusEl.textContent = apply ? 'Đang apply vào DB...' : 'Đang scan TTL files...';
+        outEl.style.display = 'block';
+        outEl.textContent = '...';
+        try {
+            const r = await fetch(API + '/api/admin/ttl-etl/run', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({apply})
+            });
+            const txt = await r.text();
+            let d;
+            try { d = JSON.parse(txt); }
+            catch(e) {
+                outEl.textContent = '[Lỗi: server trả về HTML — endpoint chưa load]\nCần restart app.py rồi thử lại.\n\n' + txt.slice(0, 300);
+                statusEl.textContent = '❌ Restart app.py đi';
+                dryBtn.disabled = appBtn.disabled = false;
+                return;
+            }
+            if (d.ok) {
+                outEl.textContent = d.output + (d.stderr ? '\n--- STDERR ---\n' + d.stderr : '');
+                statusEl.textContent = apply ? '✅ Apply hoàn thành!' : '✅ Dry run hoàn thành';
+                if (apply) loadEtlStats();
+            } else {
+                outEl.textContent = 'Lỗi: ' + (d.error || 'unknown');
+                statusEl.textContent = '❌ Lỗi!';
+            }
+        } catch(e) {
+            outEl.textContent = 'Lỗi kết nối: ' + e.message;
+            statusEl.textContent = '❌ Lỗi kết nối';
+        }
+        dryBtn.disabled = appBtn.disabled = false;
+    }
+
+    // ── ETL sort Match+FLAG table by Loại (C→B→A) ──
+    let _etlSortAsc = true;
+    function etlSortByLoai() {
+        const tbody = document.querySelector('#etl-match-flag-table tbody');
+        if (!tbody) return;
+        const order = _etlSortAsc ? {C:0,B:1,A:2} : {A:0,B:1,C:2};
+        const rows = [...tbody.querySelectorAll('tr[data-loai]')];
+        rows.sort((a, b) => (order[a.dataset.loai]||9) - (order[b.dataset.loai]||9));
+        rows.forEach(r => tbody.appendChild(r));
+        const arrow = document.getElementById('etl-sort-arrow');
+        if (arrow) arrow.textContent = _etlSortAsc ? '↑' : '↓';
+        _etlSortAsc = !_etlSortAsc;
+    }
+
+    // ── Bulk FLAG Queue ──
+    let _etlFlagPage = 1;
+    const _ETL_FLAG_PER_PAGE = 50;
+    let _etlFlagSearchTimer = null;
+    let _etlFlagSortBy  = '';      // '' = mặc định (p.id), 'confidence_cross' = sort theo Tin cậy
+    let _etlFlagSortDir = 'desc';  // 'desc' | 'asc'
+
+    function etlFlagQueueSearch() {
+        clearTimeout(_etlFlagSearchTimer);
+        _etlFlagSearchTimer = setTimeout(() => etlFlagQueueLoad(1), 400);
+    }
+
+    function etlFlagSortConfidence() {
+        if (_etlFlagSortBy === 'confidence_cross') {
+            _etlFlagSortDir = _etlFlagSortDir === 'desc' ? 'asc' : 'desc';
+        } else {
+            _etlFlagSortBy  = 'confidence_cross';
+            _etlFlagSortDir = 'desc';
+        }
+        // Cập nhật mũi tên header
+        const arrow = document.getElementById('conf-sort-arrow');
+        if (arrow) arrow.textContent = _etlFlagSortDir === 'desc' ? '↓' : '↑';
+        const th = document.getElementById('th-confidence');
+        if (th) th.style.color = 'var(--primary)';
+        etlFlagQueueLoad(1);
+    }
+
+    // ── Bulk Pass ──
+    let _bulkPassCount = 0;
+
+    async function bulkPassPreview() {
+        const conf    = parseInt(document.getElementById('bulk-pass-conf').value) || 99;
+        const prevEl  = document.getElementById('bulk-pass-preview');
+        const confArea = document.getElementById('bulk-pass-confirm-area');
+        prevEl.textContent = '⏳ đang kiểm tra...';
+        confArea.style.display = 'none';
+        try {
+            const r = await fetch(API + '/api/admin/namevi/bulk-pass', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({min_confidence: conf, dry_run: true})
+            });
+            const d = await r.json();
+            if (!d.ok) { prevEl.textContent = '❌ ' + (d.error || 'Lỗi'); return; }
+            _bulkPassCount = d.count;
+            prevEl.textContent = `→ ${d.count.toLocaleString()} entries sẽ được approve`;
+            // Hiện sample
+            const sampleEl = document.getElementById('bulk-pass-sample');
+            if (d.sample && d.sample.length) {
+                sampleEl.innerHTML = '<b>Sample 5 đầu:</b> ' +
+                    d.sample.map(s => `${s.dila_id} <span style="color:#4ade80">${s.name_vi}</span> (${s.confidence}%)`).join(' · ');
+            } else {
+                sampleEl.textContent = '(Không có entry nào thỏa điều kiện)';
+            }
+            document.getElementById('bulk-pass-progress').textContent = '';
+            confArea.style.display = d.count > 0 ? 'block' : 'none';
+        } catch(e) {
+            prevEl.textContent = '❌ ' + e.message;
+        }
+    }
+
+    async function bulkPassExecute() {
+        const conf    = parseInt(document.getElementById('bulk-pass-conf').value) || 99;
+        const progEl  = document.getElementById('bulk-pass-progress');
+        const confBtn = document.querySelector('#bulk-pass-confirm-area button');
+        confBtn.disabled = true;
+        progEl.textContent = '⏳ đang xử lý...';
+        try {
+            const r = await fetch(API + '/api/admin/namevi/bulk-pass', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({min_confidence: conf, dry_run: false})
+            });
+            const d = await r.json();
+            if (!d.ok) { progEl.textContent = '❌ ' + (d.error || 'Lỗi'); confBtn.disabled = false; return; }
+            progEl.textContent = `✅ Đã approve ${d.count.toLocaleString()} entries`;
+            document.getElementById('bulk-pass-preview').textContent = `✅ Đã xong: ${d.count.toLocaleString()} entries`;
+            document.getElementById('bulk-pass-confirm-area').style.display = 'none';
+            // Reload queue để cập nhật
+            setTimeout(() => etlFlagQueueLoad(1), 800);
+        } catch(e) {
+            progEl.textContent = '❌ ' + e.message;
+            confBtn.disabled = false;
+        }
+    }
+
+    async function etlFlagQueueLoad(page) {
+        _etlFlagPage = page || 1;
+        const q        = (document.getElementById('etl-flag-search')?.value || '').trim();
+        const hideDone = document.getElementById('etl-flag-hide-done')?.checked !== false;
+        const tbody    = document.getElementById('etl-flag-queue-body');
+        const totalEl  = document.getElementById('etl-flag-total');
+        const pagEl    = document.getElementById('etl-flag-pagination');
+
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">Đang tải…</td></tr>`;
+        if (pagEl) pagEl.innerHTML = '';
+        if (totalEl) totalEl.textContent = '';
+
+        try {
+            const params = new URLSearchParams({
+                page: _etlFlagPage, per_page: _ETL_FLAG_PER_PAGE,
+                hide_done: hideDone ? 'true' : 'false',
+            });
+            if (q) params.set('q', q);
+            if (_etlFlagSortBy) { params.set('sort_by', _etlFlagSortBy); params.set('sort_dir', _etlFlagSortDir); }
+
+            const r = await fetch(API + '/api/admin/namevi/flag-list?' + params, {
+                headers: { 'X-Session-Token': getToken() }
+            });
+            const d = await r.json();
+            if (!d.ok) throw new Error(d.error || 'API lỗi');
+
+            if (totalEl) totalEl.textContent = `${d.total.toLocaleString()} FLAG${hideDone ? ' (chưa duyệt)' : ''}`;
+
+            if (!d.items.length) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">${q ? 'Không tìm thấy kết quả' : 'Không còn FLAG cần xử lý'}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            d.items.forEach(item => {
+                // T238: isRejected khi admin đánh dấu TTL ≠ DILA (name_vi_final='—')
+                const isRejected = item.name_vi_final === '—';
+                const isDone    = !!item.name_vi_final && !isRejected;
+                const dilaVal   = isDone ? item.name_vi_final : (item.dila_name_vi || '');
+                const confCross = item.confidence_cross ?? 0;
+                const tr = document.createElement('tr');
+                tr.dataset.dilaId     = item.dila_id;
+                tr.dataset.confidence = confCross;
+                // TTL name cell: nếu đã reject → show "✗ Không cùng người", còn lại show tên + nút "—"
+                const ttlNameCell = isRejected
+                    ? `<td style="font-size:12px;white-space:nowrap"><span style="color:#ef4444;font-weight:600" title="Admin đã xác nhận: TTL này và DILA là 2 vị khác nhau">✗ Không cùng người</span></td>`
+                    : `<td style="color:var(--text-muted);font-size:12px;white-space:nowrap">${_esc(item.ttl_name_vi)}${item.ttl_name_vi ? ` <button onclick="rejectEtlFlag(this)" title="Đánh dấu: TTL '${_esc(item.ttl_name_vi)}' và DILA '${_esc(item.dila_name_vi||'')}' là 2 vị KHÁC NHAU — tree sẽ dùng tên DILA" style="margin-left:3px;background:transparent;border:1px solid #475569;color:#94a3b8;border-radius:3px;padding:1px 6px;cursor:pointer;font-size:10px;line-height:1.4">—</button>` : ''}</td>`;
+                tr.innerHTML = `
+                    <td style="font-family:monospace;font-size:11px;">${dilaLink(item.dila_id)}</td>
+                    <td style="font-size:15px">${item.name_zh || '—'}</td>
+                    <td class="etl-dila-cell" contenteditable="${isRejected ? 'false' : 'true'}"
+                        data-original="${_esc(dilaVal)}"
+                        style="color:${isDone ? 'var(--success)' : isRejected ? 'var(--text-muted)' : 'var(--text-main)'}"
+                        oninput="onEtlFlagEdit(this)">${_esc(dilaVal)}</td>
+                    <td class="codex-name-cell" style="color:#67e8f9;font-size:12px">${_esc(item.codex_name_vi || '—')}</td>
+                    <td class="ai-name-cell" style="font-size:12px;color:${item.ai_name_vi ? '#a78bfa' : 'var(--text-faint)'};cursor:${item.ai_name_vi ? 'copy' : 'default'}" title="${item.ai_name_vi ? 'Click để copy vào ô tên' : 'Chưa có AI — chạy batch trước'}" onclick="${item.ai_name_vi ? `applyAiName(this,'${_esc(item.ai_name_vi)}')` : ''}">${item.ai_name_vi || '—'}</td>
+                    ${ttlNameCell}
+                    <td style="font-size:11px;color:${item.lexicon_source ? '#7ab8d4' : 'var(--text-faint)'}">${item.lexicon_source || '—'}</td>
+                    <td style="text-align:center">${_confBadge(confCross)}</td>
+                    <td style="white-space:nowrap;display:flex;gap:4px">
+                        <button class="etl-flag-pass${isDone ? ' ok' : ''}" onclick="passEtlFlag(this)" title="Xác nhận phiên âm đúng — lưu tên hiện tại" ${isRejected ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>${isDone ? '✓' : '✓ Pass'}</button>
+                        <button class="etl-flag-save${isDone ? ' ok' : ''}" onclick="saveEtlFlag(this)" ${isRejected ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>${isDone ? 'Done' : 'Lưu'}</button>
+                    </td>`;
+                tbody.appendChild(tr);
+            });
+
+            // Pagination
+            if (pagEl && d.pages > 1) {
+                const makeBtn = (label, p, active) => {
+                    const b = document.createElement('button');
+                    b.textContent = label;
+                    b.style.cssText = `padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${active ? 'var(--primary)' : 'var(--bg-card)'};color:${active ? '#fff' : 'var(--text-muted)'};cursor:${p === null ? 'default' : 'pointer'};font-size:12px`;
+                    if (p !== null) b.onclick = () => etlFlagQueueLoad(p);
+                    return b;
+                };
+                if (_etlFlagPage > 1)  pagEl.appendChild(makeBtn('‹ Trước', _etlFlagPage - 1, false));
+                const start = Math.max(1, _etlFlagPage - 2);
+                const end   = Math.min(d.pages, _etlFlagPage + 2);
+                for (let i = start; i <= end; i++) pagEl.appendChild(makeBtn(i, i, i === _etlFlagPage));
+                if (_etlFlagPage < d.pages) pagEl.appendChild(makeBtn('Sau ›', _etlFlagPage + 1, false));
+                const info = document.createElement('span');
+                info.style.cssText = 'font-size:11px;color:var(--text-muted)';
+                info.textContent = `Trang ${_etlFlagPage}/${d.pages}`;
+                pagEl.appendChild(info);
+            }
+
+        } catch(e) {
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--danger);padding:16px">Lỗi: ${e.message}</td></tr>`;
+        }
+    }
+
+    function dilaLink(id) {
+        if (!id || id === '-') return id || '-';
+        return '<a href="/daoanh/admin/person.html?id=' + id + '" target="_blank" class="dila-link">' + id + '</a>';
+    }
+
+    function _esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function _confBadge(pct) {
+        const n = parseInt(pct) || 0;
+        const [bg, fg] = n >= 99 ? ['#22c55e','#052e16']
+                       : n >= 90 ? ['#3b82f6','#0f1f3d']
+                       : n >= 75 ? ['#f59e0b','#1c1205']
+                       :           ['#6b7280','#1a1a1a'];
+        const tip = n >= 99 ? 'name_zh khớp chính xác' : n >= 90 ? 'alias_zh_match' : n >= 75 ? 'auto_ttl / alias_vi' : 'pending — cần kiểm tra thủ công';
+        return `<span title="${tip}" style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;background:${bg};color:${fg};white-space:nowrap">${n}%</span>`;
+    }
+
+    // ── ETL FLAG Pass (xác nhận phiên âm đúng, không cần edit) ──
+    async function passEtlFlag(btn) {
+        const tr      = btn.closest('tr');
+        const dila_id = tr.dataset.dilaId;
+        const cell    = tr.querySelector('.etl-dila-cell');
+        const name_vi = cell.textContent.trim();
+        if (!name_vi || !dila_id) return;
+        btn.textContent = '...';
+        try {
+            const r = await fetch(API + '/api/admin/namevi-map/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({dila_id, name_vi})
+            });
+            const txt = await r.text();
+            let d; try { d = JSON.parse(txt); } catch(e) { throw new Error('non-JSON'); }
+            if (d.success) {
+                btn.textContent = '✓'; btn.classList.add('ok');
+                cell.style.color = 'var(--success)';
+                cell.dataset.original = name_vi; cell.classList.remove('dirty');
+                const saveBtn = tr.querySelector('.etl-flag-save');
+                if (saveBtn) { saveBtn.textContent = 'Done'; saveBtn.classList.add('ok'); }
+                addEtlPassed(dila_id); // ghi nhớ để F5 ẩn ngay
+                // Ẩn row sau 1.5s (đã duyệt)
+                if (document.getElementById('etl-flag-hide-done')?.checked !== false) {
+                    setTimeout(() => { tr.style.transition = 'opacity .4s'; tr.style.opacity = '0'; setTimeout(() => tr.remove(), 400); }, 1500);
+                }
+            } else { throw new Error(d.error || 'unknown'); }
+        } catch(e) {
+            btn.textContent = '✗'; btn.classList.add('err');
+            setTimeout(() => { btn.textContent = '✓ Pass'; btn.classList.remove('err'); }, 3000);
+        }
+    }
+
+    // ── XCM Pass: xác nhận cùng 1 người (endpoint riêng — không thay name_vi, tránh UNIQUE conflict) ──
+    async function xcmPassFlag(btn) {
+        const tr = btn.closest('tr');
+        const dila_id  = tr.dataset.dilaId;
+        const ttl_name = tr.dataset.ttlName;
+        if (!dila_id || !ttl_name) {
+            alert('Thiếu TTL name — hàng này không có tên TTL để xác nhận.\nDùng Tab ETL để nhập tên thủ công.');
+            return;
+        }
+        btn.textContent = '...'; btn.disabled = true;
+        try {
+            const r = await fetch(API + '/api/admin/namevi-map/xcm-confirm', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({dila_id, ttl_name_vi: ttl_name})
+            });
+            const d = await r.json();
+            if (d.success) {
+                btn.textContent = '✓ Đã xác nhận'; btn.classList.add('ok');
+                addEtlPassed(dila_id);
+                setTimeout(() => {
+                    tr.style.transition = 'opacity .4s'; tr.style.opacity = '0';
+                    setTimeout(() => { tr.remove(); xcmLoadStats(); }, 400);
+                }, 1200);
+            } else {
+                btn.textContent = '✓ Cùng người'; btn.disabled = false;
+                alert('Lỗi: ' + (d.error || 'Không thể lưu'));
+            }
+        } catch(e) {
+            btn.textContent = '✓ Cùng người'; btn.disabled = false;
+            alert('Lỗi kết nối: ' + e.message);
+        }
+    }
+
+    // ── T238: Reject TTL match — đánh dấu TTL ≠ DILA (2 vị khác nhau) ──
+    async function rejectEtlFlag(btn) {
+        const tr = btn.closest('tr');
+        const dila_id = tr.dataset.dilaId;
+        if (!dila_id) return;
+        btn.textContent = '...'; btn.disabled = true;
+        try {
+            const r = await fetch(API + '/api/admin/namevi-map/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({dila_id, name_vi: '—'})
+            });
+            const d = await r.json();
+            if (d.success) {
+                // Cập nhật UI: ẩn tên TTL, hiện "✗ Không cùng người"
+                const ttlTd = btn.closest('td');
+                ttlTd.innerHTML = '<span style="color:#ef4444;font-weight:600" title="Admin đã xác nhận: TTL và DILA là 2 vị khác nhau">✗ Không cùng người</span>';
+                // Disable Pass + Lưu
+                tr.querySelectorAll('.etl-flag-pass,.etl-flag-save').forEach(b => {
+                    b.disabled = true; b.style.opacity = '0.35'; b.style.cursor = 'not-allowed';
+                });
+                // Dim dila cell
+                const dilaCell = tr.querySelector('.etl-dila-cell');
+                if (dilaCell) { dilaCell.contentEditable = 'false'; dilaCell.style.color = 'var(--text-muted)'; }
+                // Ẩn row sau 1.5s nếu đang ở chế độ hide-done
+                if (document.getElementById('etl-flag-hide-done')?.checked !== false) {
+                    setTimeout(() => { tr.style.transition = 'opacity .4s'; tr.style.opacity = '0'; setTimeout(() => tr.remove(), 400); }, 1500);
+                }
+            } else {
+                btn.textContent = '—'; btn.disabled = false;
+                alert('Lỗi: ' + (d.error || 'Không thể lưu'));
+            }
+        } catch(e) {
+            btn.textContent = '—'; btn.disabled = false;
+            alert('Lỗi: ' + e.message);
+        }
+    }
+
+    // ── T240: Unrejct — admin xác nhận lại: 2 vị là cùng 1 người → dùng TTL name trên Tree ──
+    async function unrejectEtlFlag(btn) {
+        const tr = btn.closest('tr');
+        const dila_id  = tr.dataset.dilaId;
+        const ttl_name = tr.dataset.ttlName;
+        const dila_name = tr.querySelector('.etl-dila-cell')?.textContent.trim();
+        if (!dila_id || !ttl_name) {
+            alert('Thiếu thông tin: không có TTL name để xác nhận. Vui lòng kiểm tra lại dữ liệu.');
+            return;
+        }
+        const confirmed = confirm(
+            `Xác nhận: "${ttl_name}" và "${dila_name}" là CÙNG MỘT NGƯỜI?\n\n` +
+            `Tree sẽ hiển thị tên TTL: "${ttl_name}"\n\n` +
+            `(Hành động này sẽ ghi đè từ chối trước đó)`
+        );
+        if (!confirmed) return;
+        btn.textContent = '...'; btn.disabled = true;
+        try {
+            const r = await fetch(API + '/api/admin/namevi-map/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({dila_id, name_vi: ttl_name})
+            });
+            const d = await r.json();
+            if (d.success) {
+                btn.textContent = '✓ Đã xác nhận';
+                btn.style.borderColor = 'var(--success)';
+                btn.style.color = 'var(--success)';
+                // Ẩn row sau 1.5s (đã chuyển sang approved → không còn trong danh sách rejected)
+                setTimeout(() => {
+                    tr.style.transition = 'opacity .4s';
+                    tr.style.opacity = '0';
+                    setTimeout(() => tr.remove(), 400);
+                }, 1500);
+                xcmLoadStats(); // Cập nhật stats bar
+            } else {
+                btn.textContent = '✓ Cùng người'; btn.disabled = false;
+                alert('Lỗi: ' + (d.error || 'Không thể lưu'));
+            }
+        } catch(e) {
+            btn.textContent = '✓ Cùng người'; btn.disabled = false;
+            alert('Lỗi: ' + e.message);
+        }
+    }
+
+    // ════════════════════════════════════
+    // TAB 4 — XÁC MINH
+    // ════════════════════════════════════
+    let _xcmLoaded = false, _xcmPage = 1, _xcmQ = '', _xcmSearchTimer = null;
+    let _xcmFilter = '';   // '' = tất cả chưa pass | 'rejected' = chỉ đã từ chối
+
+    function xcmSearchDebounce() {
+        clearTimeout(_xcmSearchTimer);
+        _xcmSearchTimer = setTimeout(() => {
+            _xcmQ = (document.getElementById('xcm-search')?.value || '').trim();
+            xcmLoad(1);
+        }, 350);
+    }
+
+    function xcmToggleRejectedFilter() {
+        _xcmFilter = _xcmFilter === 'rejected' ? '' : 'rejected';
+        // Highlight stat box
+        const box = document.getElementById('xcm-rejected-box');
+        if (box) box.style.outline = _xcmFilter === 'rejected' ? '2px solid #ef4444' : '';
+        // Toggle filter bar + hide ẩn/hiện checkbox khi filter rejected
+        const bar = document.getElementById('xcm-filter-bar');
+        const hideWrap = document.getElementById('xcm-hide-rej-wrap');
+        if (bar) bar.style.display = _xcmFilter === 'rejected' ? 'flex' : 'none';
+        if (hideWrap) hideWrap.style.display = _xcmFilter === 'rejected' ? 'none' : '';
+        xcmLoad(1);
+    }
+
+    function xcmClearFilter() {
+        _xcmFilter = '';
+        const box = document.getElementById('xcm-rejected-box');
+        if (box) box.style.outline = '';
+        const bar = document.getElementById('xcm-filter-bar');
+        const hideWrap = document.getElementById('xcm-hide-rej-wrap');
+        if (bar) bar.style.display = 'none';
+        if (hideWrap) hideWrap.style.display = '';
+        xcmLoad(1);
+    }
+
+    async function xcmLoadStats() {
+        try {
+            // pending = chưa có admin action
+            const rPend = await fetch(API + '/api/admin/namevi/flag-list?hide_done=true&mode=xcm&per_page=1&page=1', {
+                headers: {'X-Session-Token': getToken()}
+            });
+            const dPend = await rPend.json();
+            const pending = dPend.ok ? dPend.total : '?';
+            document.getElementById('xcm-stat-pending').textContent = typeof pending === 'number' ? pending.toLocaleString() : pending;
+            // Cập nhật badge trên tab button
+            const badge = document.getElementById('xcm-tab-count');
+            if (badge && typeof pending === 'number' && pending > 0) {
+                badge.textContent = pending.toLocaleString();
+                badge.style.display = '';
+            }
+
+            // rejected = có name_vi_final='—' (đã từ chối)
+            const rRej = await fetch(API + '/api/admin/namevi-map/xcm-stats', {
+                headers: {'X-Session-Token': getToken()}
+            });
+            if (rRej.ok) {
+                const dRej = await rRej.json();
+                if (dRej.ok) {
+                    document.getElementById('xcm-stat-rejected').textContent = (dRej.rejected || 0).toLocaleString();
+                    document.getElementById('xcm-stat-approved').textContent = (dRej.approved || 0).toLocaleString();
+                }
+            }
+        } catch(e) { console.warn('xcmLoadStats error:', e); }
+    }
+
+    async function xcmLoad(page) {
+        _xcmPage = page;
+        const tbody  = document.getElementById('xcm-body');
+        const pagEl  = document.getElementById('xcm-pagination');
+        const totEl  = document.getElementById('xcm-total-label');
+        const showRej = document.getElementById('xcm-show-rejected')?.checked;
+        if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">Đang tải…</td></tr>';
+        if (pagEl) pagEl.innerHTML = '';
+
+        const params = new URLSearchParams({ page, per_page: 50, sort_by: 'confidence_cross', sort_dir: 'desc' });
+        if (_xcmQ) params.set('q', _xcmQ);
+
+        if (_xcmFilter === 'rejected') {
+            // Filter đã từ chối: backend trả chỉ rows có name_vi_final='—'
+            params.set('filter', 'rejected');
+        } else {
+            // Normal: ẩn đã Pass, vẫn hiện rejected (mode=xcm) hoặc ẩn cả (showRej checked)
+            params.set('hide_done', 'true');
+            if (!showRej) params.set('mode', 'xcm');
+        }
+
+        try {
+            const r = await fetch(API + '/api/admin/namevi/flag-list?' + params, {
+                headers: {'X-Session-Token': getToken()}
+            });
+            const d = await r.json();
+            if (!d.ok) throw new Error(d.error || 'API lỗi');
+
+            if (totEl) totEl.textContent = `${d.total.toLocaleString()} mục`;
+
+            if (!d.items.length) {
+                const emptyMsg = _xcmFilter === 'rejected'
+                    ? '✅ Không có mục nào đã từ chối'
+                    : (_xcmQ ? 'Không tìm thấy' : '✅ Tất cả đã được xác nhận!');
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">${emptyMsg}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            d.items.forEach(item => {
+                const isRejected = item.name_vi_final === '—';
+                const isDone     = !!item.name_vi_final && !isRejected;
+                const dilaVal    = isDone ? item.name_vi_final : (item.dila_name_vi || '');
+                const confCross  = item.confidence_cross ?? 0;
+                const tr = document.createElement('tr');
+                tr.dataset.dilaId  = item.dila_id;
+                tr.dataset.ttlName = item.ttl_name_vi || '';   // cần cho unrejectEtlFlag
+
+                // TTL cell: rejected → hiện "✗ Không cùng người";
+                // filter=rejected → nút "✓ Cùng người" thay vì [—]
+                let ttlCell;
+                if (_xcmFilter === 'rejected') {
+                    // Chế độ xem lại rejected: hiện TTL name + nút "Cùng người"
+                    ttlCell = `<td style="color:#f87171;font-size:12px;white-space:nowrap">
+                        <span title="Trước đây admin đã từ chối">✗</span> ${_esc(item.ttl_name_vi)}
+                    </td>`;
+                } else if (isRejected) {
+                    ttlCell = `<td style="font-size:12px"><span style="color:#ef4444;font-weight:600" title="Admin đã từ chối — 2 vị này khác nhau">✗ Không cùng người</span></td>`;
+                } else {
+                    ttlCell = `<td style="color:var(--text-muted);font-size:12px;white-space:nowrap">${_esc(item.ttl_name_vi)}${item.ttl_name_vi ? ` <button onclick="rejectEtlFlag(this)" title="Đánh dấu: TTL '${_esc(item.ttl_name_vi)}' và DILA '${_esc(item.dila_name_vi||'')}' là 2 vị KHÁC NHAU — tree dùng tên DILA" style="margin-left:3px;background:transparent;border:1px solid #475569;color:#94a3b8;border-radius:3px;padding:1px 6px;cursor:pointer;font-size:10px;line-height:1.4">—</button>` : ''}</td>`;
+                }
+
+                // Nút hành động — XCM tab chỉ Cùng/Khác người, không sửa tên
+                const _ttlTitle = item.ttl_name_vi ? `→ Tree dùng "${_esc(item.ttl_name_vi)}"` : '';
+                const actBtns = _xcmFilter === 'rejected'
+                    ? `<button class="etl-flag-pass" onclick="unrejectEtlFlag(this)"
+                           title="Xác nhận lại: hai vị này là CÙNG MỘT NGƯỜI ${_ttlTitle}"
+                           style="border-color:#22c55e;color:#22c55e">✓ Cùng người</button>`
+                    : `<button class="etl-flag-pass${isDone ? ' ok' : ''}" onclick="xcmPassFlag(this)"
+                           title="Xác nhận CÙNG MỘT NGƯỜI ${_ttlTitle}"
+                           ${isRejected ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>${isDone ? '✓ Đã xác nhận' : '✓ Cùng người'}</button>
+                       ${!isDone && !isRejected ? `<button onclick="rejectEtlFlag(this)"
+                           title="Hai vị này KHÁC NHAU — tree dùng tên DILA"
+                           style="background:transparent;border:1px solid #ef4444;color:#ef4444;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">✗ Khác người</button>` : ''}`;
+
+                tr.innerHTML = `
+                    <td style="font-family:monospace;font-size:11px">${dilaLink(item.dila_id)}</td>
+                    <td style="font-size:15px">${item.name_zh || '—'}</td>
+                    <td class="etl-dila-cell" contenteditable="false"
+                        data-original="${_esc(dilaVal)}"
+                        style="color:${isDone ? 'var(--success)' : isRejected ? 'var(--text-muted)' : 'var(--text-main)'}"
+                        title="Tên phiên âm DILA (chỉ xem — sửa tên ở Tab ETL)">${_esc(dilaVal)}</td>
+                    <td style="color:#67e8f9;font-size:12px">${_esc(item.codex_name_vi || '—')}</td>
+                    <td style="font-size:12px;color:${item.ai_name_vi ? '#a78bfa' : 'var(--text-faint)'};cursor:${item.ai_name_vi ? 'copy' : 'default'}"
+                        title="${item.ai_name_vi ? 'Click để copy' : 'Chưa có AI'}"
+                        onclick="${item.ai_name_vi ? `applyAiName(this,'${_esc(item.ai_name_vi)}')` : ''}">${item.ai_name_vi || '—'}</td>
+                    ${ttlCell}
+                    <td style="font-size:11px;color:${item.lexicon_source ? '#7ab8d4' : 'var(--text-faint)'}">${item.lexicon_source || '—'}</td>
+                    <td style="text-align:center">${_confBadge(confCross)}</td>
+                    <td style="white-space:nowrap;display:flex;gap:4px">${actBtns}</td>`;
+                tbody.appendChild(tr);
+            });
+
+            // Pagination
+            if (pagEl && d.pages > 1) {
+                const mkBtn = (label, p, active) => {
+                    const b = document.createElement('button');
+                    b.textContent = label;
+                    b.style.cssText = `padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${active?'var(--primary)':'var(--bg-card)'};color:${active?'#fff':'var(--text-muted)'};cursor:${p===null?'default':'pointer'};font-size:12px`;
+                    if (p !== null) b.onclick = () => xcmLoad(p);
+                    return b;
+                };
+                if (_xcmPage > 1) pagEl.appendChild(mkBtn('‹ Trước', _xcmPage - 1, false));
+                const s = Math.max(1, _xcmPage - 2), e = Math.min(d.pages, _xcmPage + 2);
+                for (let i = s; i <= e; i++) pagEl.appendChild(mkBtn(i, i, i === _xcmPage));
+                if (_xcmPage < d.pages) pagEl.appendChild(mkBtn('Sau ›', _xcmPage + 1, false));
+                const info = document.createElement('span');
+                info.style.cssText = 'font-size:11px;color:var(--text-muted)';
+                info.textContent = ` Trang ${_xcmPage}/${d.pages}`;
+                pagEl.appendChild(info);
+            }
+
+        } catch(e) {
+            if (tbody) tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--danger);padding:16px">Lỗi: ${e.message}</td></tr>`;
+        }
+    }
+
+    // ════════════════════════════════════
+    // TAB 5 — PLACE (T427, giai đoạn 1)
+    // ════════════════════════════════════
+    let _placeLoaded = false, _placePage = 1, _placeQ = '', _placeFilter = 'all', _placeSearchTimer = null;
+
+    function placeSearchDebounce() {
+        clearTimeout(_placeSearchTimer);
+        _placeSearchTimer = setTimeout(() => {
+            _placeQ = (document.getElementById('place-search')?.value || '').trim();
+            placeLoad(1);
+        }, 350);
+    }
+
+    function placeSetFilter(f) {
+        _placeFilter = f;
+        document.querySelectorAll('.place-filter-btn').forEach(b => {
+            b.style.background = (b.dataset.filter === f) ? '#d97706' : 'transparent';
+        });
+        placeLoad(1);
+    }
+
+    function _placeConfBadge(status, source) {
+        // Giai đoạn 1: chưa có Claude/Gemini -> không bao giờ "Pass 100%" thật.
+        if (status === 'reviewed') {
+            return '<span title="Admin đã duyệt" style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;background:#22c55e;color:#052e16">Đã duyệt</span>';
+        }
+        return '<span title="Chưa đủ nguồn khớp chéo (chờ Claude/Gemini giai đoạn 2)" style="display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:700;background:#6b7280;color:#1a1a1a">Cần duyệt</span>';
+    }
+
+    function _placeSourceBadge(badge) {
+        if (!badge) return '<span style="color:var(--text-muted);font-size:11px">—</span>';
+        const colors = {
+            'phiên âm tự động': ['#33415520', '#94a3b8', '#475569'],
+            'Admin sửa tay':     ['#22c55e20', '#4ade80', '#22c55e'],
+            'TTL xác nhận':      ['#06b6d420', '#67e8f9', '#06b6d4'],
+        };
+        const [bg, fg, bd] = colors[badge] || colors['phiên âm tự động'];
+        return `<span style="display:inline-block;margin-top:3px;background:${bg};color:${fg};border:1px solid ${bd};border-radius:4px;padding:1px 6px;font-size:10px;font-weight:600">${_esc(badge)}</span>`;
+    }
+
+    async function placeLoadFilterCounts(d) {
+        if (!d || !d.filters) return;
+        const f = d.filters;
+        ['all','pass100','needs_review','no_claude','no_gemini','no_ttl'].forEach(k => {
+            const el = document.getElementById('place-cnt-' + k);
+            if (el && typeof f[k] === 'number') el.textContent = '(' + f[k].toLocaleString() + ')';
+        });
+    }
+
+    async function placeLoad(page) {
+        _placePage = page;
+        const tbody = document.getElementById('place-body');
+        const pagEl = document.getElementById('place-pagination');
+        const totEl = document.getElementById('place-total-label');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:16px">Đang tải…</td></tr>';
+        if (pagEl) pagEl.innerHTML = '';
+
+        const params = new URLSearchParams({ page, size: 50, filter: _placeFilter });
+        if (_placeQ) params.set('q', _placeQ);
+
+        try {
+            const r = await fetch(API + '/daoanh/api/places/vi-map?' + params, {
+                headers: {'X-Session-Token': getToken()}
+            });
+            const d = await r.json();
+            if (!d.ok) throw new Error(d.error || 'API lỗi');
+
+            placeLoadFilterCounts(d);
+            if (totEl) totEl.textContent = `${d.total.toLocaleString()} địa danh`;
+
+            if (!d.items.length) {
+                tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:16px">${_placeQ ? 'Không tìm thấy' : 'Không có dòng nào khớp bộ lọc này'}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            d.items.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.dataset.placeId = item.place_id;
+                tr.innerHTML = `
+                    <td style="font-family:monospace;font-size:11px">${dilaLink(item.place_id)}</td>
+                    <td style="font-size:15px">${_esc(item.name_zh || '—')}</td>
+                    <td class="place-namevi-cell">
+                        <span class="place-namevi-text">${_esc(item.name_vi || '—')}</span><br>
+                        ${_placeSourceBadge(item.source_badge)}
+                    </td>
+                    <td style="color:var(--text-faint);font-size:12px">—</td>
+                    <td style="color:var(--text-faint);font-size:12px">—</td>
+                    <td style="font-size:12px;color:${item.ttl_name_vi ? 'var(--success)' : 'var(--text-faint)'}">${_esc(item.ttl_name_vi || '—')}</td>
+                    <td style="font-size:11px;color:${item.dictionary_definition ? '#7ab8d4' : 'var(--text-faint)'}" title="${_esc(item.dictionary_definition || '')}">${item.dictionary_definition ? '✓' : '—'}</td>
+                    <td style="font-size:11px;color:var(--text-muted)">${item.confidence != null ? Math.round(item.confidence * 100) + '%' : '—'}</td>
+                    <td>${_placeConfBadge(item.vn_name_status, item.source)}</td>
+                    <td style="white-space:nowrap;display:flex;gap:4px">
+                        <button class="etl-flag-pass${item.vn_name_status === 'reviewed' ? ' ok' : ''}" onclick="placePassRow(this)"
+                            ${item.vn_name_status === 'reviewed' ? 'disabled' : ''}
+                            title="Xác nhận name_vi hiện tại đúng">${item.vn_name_status === 'reviewed' ? '✓ Đã Pass' : '✓ Pass'}</button>
+                        <button class="ttll-btn" onclick="placeEditRow(this)" title="Sửa name_vi tại chỗ">✎ Sửa</button>
+                    </td>`;
+                tbody.appendChild(tr);
+            });
+
+            if (pagEl && d.pages > 1) {
+                const mkBtn = (label, p, active) => {
+                    const b = document.createElement('button');
+                    b.textContent = label;
+                    b.style.cssText = `padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${active?'var(--primary)':'var(--bg-card)'};color:${active?'#fff':'var(--text-muted)'};cursor:${p===null?'default':'pointer'};font-size:12px`;
+                    if (p !== null) b.onclick = () => placeLoad(p);
+                    return b;
+                };
+                if (_placePage > 1) pagEl.appendChild(mkBtn('‹ Trước', _placePage - 1, false));
+                const s = Math.max(1, _placePage - 2), e = Math.min(d.pages, _placePage + 2);
+                for (let i = s; i <= e; i++) pagEl.appendChild(mkBtn(i, i, i === _placePage));
+                if (_placePage < d.pages) pagEl.appendChild(mkBtn('Sau ›', _placePage + 1, false));
+                const info = document.createElement('span');
+                info.style.cssText = 'font-size:11px;color:var(--text-muted)';
+                info.textContent = ` Trang ${_placePage}/${d.pages}`;
+                pagEl.appendChild(info);
+            }
+        } catch(e) {
+            if (tbody) tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--danger);padding:16px">Lỗi: ${e.message}</td></tr>`;
+        }
+    }
+
+    async function placePassRow(btn) {
+        const tr = btn.closest('tr');
+        const placeId = tr.dataset.placeId;
+        btn.textContent = '...'; btn.disabled = true;
+        try {
+            const r = await fetch(API + `/daoanh/api/places/vi-map/${placeId}/approve`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({})
+            });
+            const d = await r.json();
+            if (d.ok) {
+                btn.textContent = '✓ Đã Pass'; btn.classList.add('ok');
+                const badgeCell = tr.children[8];
+                if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', null);
+            } else {
+                btn.textContent = '✓ Pass'; btn.disabled = false;
+                alert('Lỗi: ' + (d.error || 'Không thể lưu'));
+            }
+        } catch(e) {
+            btn.textContent = '✓ Pass'; btn.disabled = false;
+            alert('Lỗi kết nối: ' + e.message);
+        }
+    }
+
+    async function placeEditRow(btn) {
+        const tr = btn.closest('tr');
+        const placeId = tr.dataset.placeId;
+        const cell = tr.querySelector('.place-namevi-cell');
+        const textEl = tr.querySelector('.place-namevi-text');
+        if (cell.querySelector('input')) return; // đang sửa rồi
+        const current = textEl.textContent.trim();
+        const oldHtml = cell.innerHTML;
+        cell.innerHTML = `
+            <input type="text" class="place-edit-input" value="${_esc(current === '—' ? '' : current)}"
+                   style="width:100%;background:var(--bg-page);border:1px solid var(--primary);color:var(--text-main);padding:5px 8px;border-radius:5px;font-size:13px">
+            <div style="margin-top:4px;display:flex;gap:4px">
+                <button class="btn btn-sm" onclick="placeSaveEdit(this)">Lưu</button>
+                <button class="btn btn-sm btn-outline" onclick="placeCancelEdit(this)">Huỷ</button>
+            </div>`;
+        cell.dataset.oldHtml = oldHtml;
+        cell.querySelector('.place-edit-input').focus();
+    }
+
+    function placeCancelEdit(btn) {
+        const cell = btn.closest('.place-namevi-cell');
+        cell.innerHTML = cell.dataset.oldHtml;
+    }
+
+    async function placeSaveEdit(btn) {
+        const cell = btn.closest('.place-namevi-cell');
+        const tr = btn.closest('tr');
+        const placeId = tr.dataset.placeId;
+        const input = cell.querySelector('.place-edit-input');
+        const nameVi = input.value.trim(); // KHÔNG title-case — giữ nguyên Admin gõ
+        if (!nameVi) { alert('Chưa nhập tên tiếng Việt'); return; }
+        btn.textContent = '...'; btn.disabled = true;
+        try {
+            const r = await fetch(API + `/daoanh/api/places/vi-map/${placeId}/edit`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({ name_vi: nameVi })
+            });
+            const d = await r.json();
+            if (d.ok) {
+                cell.innerHTML = `<span class="place-namevi-text">${_esc(d.name_vi)}</span><br>${_placeSourceBadge('Admin sửa tay')}`;
+                const badgeCell = tr.children[8];
+                if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', 'manual');
+                const passBtn = tr.querySelector('.etl-flag-pass');
+                if (passBtn) { passBtn.textContent = '✓ Đã Pass'; passBtn.classList.add('ok'); passBtn.disabled = true; }
+            } else {
+                alert('Lỗi: ' + (d.error || 'Không thể lưu'));
+                btn.textContent = 'Lưu'; btn.disabled = false;
+            }
+        } catch(e) {
+            alert('Lỗi kết nối: ' + e.message);
+            btn.textContent = 'Lưu'; btn.disabled = false;
+        }
+    }
+
+    // ── AI Name — click để copy vào ô DILA name_vi ──
+    function applyAiName(aiCell, aiName) {
+        const tr     = aiCell.closest('tr');
+        const editCell = tr.querySelector('.etl-dila-cell');
+        if (!editCell || !aiName) return;
+        editCell.textContent = aiName;
+        editCell.classList.add('dirty');
+        const saveBtn = tr.querySelector('.etl-flag-save');
+        if (saveBtn) { saveBtn.classList.add('ready'); saveBtn.textContent = 'Lưu'; }
+        // Flash màu để báo hiệu
+        aiCell.style.background = 'rgba(167,139,250,0.18)';
+        setTimeout(() => { aiCell.style.background = ''; }, 800);
+    }
+
+    // ── AI Transliterate — chạy batch và theo dõi progress ──
+    let _aiPollTimer = null;
+
+    async function loadAiColStatus() {
+        try {
+            const r = await fetch(API + '/api/admin/ai-transliterate/status', {
+                headers: {'X-Session-Token': getToken()}
+            });
+            if (!r.ok) return;
+            const d = await r.json();
+            const el = document.getElementById('ai-col-status');
+            if (el) el.textContent = d.done ? `(${d.done.toLocaleString()}/${d.total.toLocaleString()})` : '';
+            return d;
+        } catch(e) { return null; }
+    }
+
+    async function loadCodexColStatus() {
+        try {
+            const r = await fetch(API + '/api/admin/codex-transliterate/status', {
+                headers: {'X-Session-Token': getToken()}
+            });
+            if (!r.ok) return;
+            const d = await r.json();
+            const el = document.getElementById('codex-col-status');
+            if (el) el.textContent = d.done ? `(${d.done.toLocaleString()}/${d.total.toLocaleString()})` : '';
+            return d;
+        } catch(e) { return null; }
+    }
+
+    async function runAiBatch(limit) {
+        const btn = document.getElementById('ai-run-btn');
+        if (btn) { btn.textContent = '⏳ Đang chạy...'; btn.disabled = true; }
+        try {
+            const r = await fetch(API + '/api/admin/ai-transliterate/run', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({limit: limit || null})
+            });
+            const d = await r.json();
+            if (!d.ok) throw new Error(d.error || 'unknown');
+            alert('AI batch đã bắt đầu chạy trong background.\nKiểm tra tiến trình ở cột Claude header.');
+            // Poll status mỗi 10s
+            clearInterval(_aiPollTimer);
+            _aiPollTimer = setInterval(async () => {
+                const s = await loadAiColStatus();
+                if (s && s.done >= s.total) {
+                    clearInterval(_aiPollTimer);
+                    if (btn) { btn.textContent = '✓ Đã xong'; btn.disabled = false; }
+                    etlFlagQueueLoad(_etlFlagPage || 1); // reload để hiện AI names
+                }
+            }, 10000);
+        } catch(e) {
+            alert('Lỗi: ' + e.message);
+            if (btn) { btn.textContent = '⚡ Chạy AI'; btn.disabled = false; }
+        }
+    }
+
+    // ── ETL FLAG inline edit ──
+    function onEtlFlagEdit(cell) {
+        const tr  = cell.closest('tr');
+        const btn = tr.querySelector('.etl-flag-save');
+        const dirty = cell.textContent.trim() !== (cell.dataset.original || '');
+        cell.classList.toggle('dirty', dirty);
+        btn.classList.toggle('ready', dirty);
+    }
+
+    async function saveEtlFlag(btn) {
+        if (!btn.classList.contains('ready')) return;
+        const tr     = btn.closest('tr');
+        const dila_id = tr.dataset.dilaId;
+        const cell   = tr.querySelector('.etl-dila-cell');
+        const name_vi = cell.textContent.trim();
+        if (!name_vi || !dila_id) return;
+        btn.textContent = '...'; btn.classList.remove('ready');
+        try {
+            const r = await fetch(API + '/api/admin/namevi-map/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({dila_id, name_vi})
+            });
+            const txt = await r.text();
+            let d;
+            try { d = JSON.parse(txt); } catch(e) { throw new Error('non-JSON'); }
+            if (d.success) {
+                btn.textContent = 'OK'; btn.classList.add('ok');
+                cell.dataset.original = name_vi; cell.classList.remove('dirty');
+                setTimeout(() => { btn.textContent = 'Lưu'; btn.classList.remove('ok'); }, 2500);
+            } else { throw new Error(d.error || 'unknown'); }
+        } catch(e) {
+            btn.textContent = 'Lỗi'; btn.classList.add('err');
+            setTimeout(() => { btn.textContent = 'Lưu'; btn.classList.remove('err'); btn.classList.add('ready'); }, 3000);
+        }
+    }
+
+    // ── boot ──
+    init();
+    </script>
+<script src="codex-namevi.js"></script>
+</body>
+</html>

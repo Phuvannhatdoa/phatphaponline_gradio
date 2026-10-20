@@ -1,0 +1,47 @@
+[2026-10-13T19:11:55.844781] 
+============================================================
+[2026-10-13T19:11:55.844842]   T380 RESTORE — Mode: DRY-RUN
+[2026-10-13T19:11:55.844860] ============================================================
+
+[2026-10-13T19:11:55.844873] ℹ️  Copying DB for dry-run...
+[2026-10-13T19:12:22.874689] ✓ Dry-run copy created: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\lineage_dryrun.db
+[2026-10-13T19:12:22.913859] ✓ Database connections opened
+[2026-10-13T19:12:22.913894] ℹ️  Starting transaction...
+[2026-10-13T19:12:22.914018] ℹ️  Adding entity_type column...
+[2026-10-13T19:12:23.187906] ℹ️  Creating TEMP snapshots...
+[2026-10-13T19:12:25.212543] ✓ TEMP snapshots created
+[2026-10-13T19:12:25.212577] ℹ️  Clearing tables...
+[2026-10-13T19:12:25.275265] ✓ 4 tables cleared
+[2026-10-13T19:12:25.275303] ℹ️  Attaching backup DB...
+[2026-10-13T19:12:25.433953] ℹ️  Inserting ai_person_name...
+[2026-10-13T19:12:25.981821] ✓ ai_person_name: 39269 rows
+[2026-10-13T19:12:25.981862] ℹ️  Inserting passage...
+[2026-10-13T19:12:29.244408] ✓ passage: 44820 rows
+[2026-10-13T19:12:29.244446] ℹ️  Inserting vn_person_authority...
+[2026-10-13T19:12:29.374990] ✓ vn_person_authority: 1507 rows (before TEMP merge)
+[2026-10-13T19:12:29.375020] ℹ️  Inserting vn_person_relations...
+[2026-10-13T19:12:29.403738] ✓ vn_person_relations: 2013 rows
+[2026-10-13T19:12:29.403774] ℹ️  Updating 'keep current' fields from TEMP...
+[2026-10-13T19:13:49.537906] ✓ 'Keep current' fields updated from TEMP
+[2026-10-13T19:13:49.537953] ℹ️  Re-inserting 4 alias_* rows...
+[2026-10-13T19:13:49.583238] ✓ 4 alias_* rows re-inserted (total alias: 457)
+[2026-10-13T19:13:49.583270] 
+============================================================
+[2026-10-13T19:13:49.583280]   VERIFICATION
+[2026-10-13T19:13:49.583286] ============================================================
+
+[2026-10-13T19:13:49.583293] ℹ️  Running PRAGMA quick_check...
+[2026-10-13T19:34:18.632550] ✓ PRAGMA quick_check: OK
+[2026-10-13T19:34:18.632582] ℹ️  Verifying row counts...
+[2026-10-13T19:34:18.817439] ✓ ai_person_name: 39269 rows
+[2026-10-13T19:34:18.872884] ✓ passage: 44820 rows
+[2026-10-13T19:34:18.874055] ✓ vn_person_authority: 1511 rows
+[2026-10-13T19:34:18.874563] ✓ vn_person_relations: 2013 rows
+[2026-10-13T19:34:18.874580] ℹ️  Dry-run mode: ROLLBACK
+[2026-10-13T19:34:19.043355] ✓ Dry-run copy deleted
+[2026-10-13T19:34:19.043404] 
+============================================================
+[2026-10-13T19:34:19.043455]   SUCCESS
+[2026-10-13T19:34:19.043474] ============================================================
+
+[2026-10-13T19:34:19.043490] ✓ Restore completed successfully!

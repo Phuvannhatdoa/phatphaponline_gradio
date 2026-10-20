@@ -1,0 +1,124 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>T215 — Hồ sơ 9 cạnh tự nối</title><style>body{margin:0;background:#020617;color:#e2e8f0;font-family:Inter,system-ui,sans-serif;line-height:1.6}main{max-width:1100px;margin:auto;padding:24px}a{color:#fbbf24}h1,h2,h3{color:#fbbf24}article,.notice{background:#0f172a;border:1px solid #334155;border-radius:12px;padding:20px;margin:18px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#020617;padding:12px;font-family:monospace}code{overflow-wrap:anywhere}.state{color:#fbbf24}.muted{color:#94a3b8}summary{cursor:pointer}p{margin:10px 0}</style></head><body><main><a href="./">← Dashboard Process Tracker</a><h1>T215 — Hồ sơ 9 cạnh tự nối</h1><p>2026-10-02 · Kế hoạch được Admin phê chuẩn · Đang xác minh</p><section class="notice"><strong>Đã sửa và sync phần có chứng cứ: 9 case có định danh/thầy xác minh; Trí Tài đã sync theo XML DILA2026-09. RDF12/12 đạt, không còn tự nối trong9case.</strong><p>DILA ID là chuẩn. TTL tham chiếu bản Việt dịch. Không sửa số đời nếu thiếu ít nhất 3 dữ liệu xác minh độc lập; không xác nhận được thì bỏ qua.</p><p>Danh tính và quan hệ được đề xuất theo từng hồ sơ. Cạnh đúng không chứng minh số đời đúng. Các ID local khác DILA chính thức cần kiểm tác động trước khi áp dụng.</p><p><a href="t215-other-ttl-bugs.html">Audit mới và lỗi TTL còn lại</a> · <a href="t215-plan.md">Kế hoạch chi tiết</a> · <a href="t215-cases.json">Hồ sơ JSON</a></p></section><article><h2>1. Diên Phúc Tuệ Thăng</h2><p><code>TS-Dien-Phuc-Tue-Thang.ttl</code></p><p class="state">ĐÃ ĐỒNG BỘ metadata/thầy đã xác minh</p><p>Tuệ Thăng đã sync trước; giữ đời50 và thầy A007993.</p><p>Không thay số đời trong TTL. Quan hệ đệ tử chưa xác minh giữ nguồn, không tự thêm assertion quốc tế.</p><details><summary>Các dòng hiện tại</summary><pre>Dòng 6: &lt;ex:monk/dien_phuc_tue_thang&gt; a &lt;bkg:Monk&gt; ;
+Dòng 7: rdfs:label &quot;Diên Phúc Tuệ Thăng&quot;@vi ;
+Dòng 8: crm:P1_is_identified_by &lt;ex:monk/dien_phuc_tue_thang&gt; ;
+Dòng 21: bkg:birthEvent &lt;ex:monk/dien_phuc_tue_thang_birthEvent&gt; ;
+Dòng 22: bkg:deathEvent &lt;ex:monk/dien_phuc_tue_thang_deathEvent&gt; ;
+Dòng 25: bkg:generationOrder 50;
+Dòng 26: bkg:hasTeacher &lt;ex:monk/duc_vuong_doan_du&gt;;
+Dòng 29: &lt;ex:monk/duc_vuong_doan_du&gt; rdfs:label &quot;Dục Vương Đoan Dụ&quot;@vi .
+Dòng 30: &lt;ex:monk/tinh_tu_su_nhat&gt; rdfs:label &quot;Tịnh Từ Sư Nhất&quot;@vi .
+Dòng 31: &lt;ex:monk/dao_trang_phap_toan&gt; rdfs:label &quot;Đạo Tràng Pháp Toàn&quot;@vi .
+Dòng 32: &lt;ex:monk/thanh_luong_than&gt; rdfs:label &quot;Thanh Lương Thản&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A008431">DILA A008431</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A007993">DILA A007993</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A008424">DILA A008424</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A008429">DILA A008429</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A008421">DILA A008421</a></p></article>
+<article><h2>2. Động Sơn Trạch Ngôn</h2><p><code>TS-Dong-Son-Trach-Ngon.ttl</code></p><p class="state">ĐÃ ĐỒNG BỘ metadata/thầy đã xác minh</p><p>Đã bỏ nhãn phụ không được dùng nhưng gán sai người; ánh xạ trò A020683, thầy A020673; metadata và thầy sync, đời48.</p><p>Không thay số đời trong TTL. Quan hệ đệ tử chưa xác minh giữ nguồn, không tự thêm assertion quốc tế.</p><details><summary>Các dòng hiện tại</summary><pre>Dòng 6: &lt;ex:monk/dong_son_trach_ngon&gt; a &lt;bkg:Monk&gt; ;
+Dòng 7: rdfs:label &quot;Động Sơn Trạch Ngôn&quot;@vi ;
+Dòng 8: crm:P1_is_identified_by &lt;ex:monk/dong_son_trach_ngon&gt; ;
+Dòng 19: bkg:birthEvent &lt;ex:monk/dong_son_trach_ngon_birthEvent&gt; ;
+Dòng 20: bkg:deathEvent &lt;ex:monk/dong_son_trach_ngon_deathEvent&gt; ;
+Dòng 23: bkg:generationOrder 48;
+Dòng 24: bkg:hasTeacher &lt;ex:monk/dong_son_pham_ngon&gt; ;
+Dòng 27: &lt;ex:monk/hoang_long_hue_nam&gt; rdfs:label &quot;Hoàng Long Huệ Nam&quot;@vi .
+Dòng 28: &lt;ex:monk/lac_dam_khac_van&gt; rdfs:label &quot;Lặc Đàm Khắc Văn&quot;@vi .
+Dòng 29: &lt;ex:monk/dong_son_pham_ngon&gt; rdfs:label &quot;Đông Sơn Phạm Ngôn&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A020673">DILA A020673</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A020683">DILA A020683</a></p></article>
+<article><h2>3. Tiến Phước Trạch Sùng</h2><p><code>TS-Tien-Phuoc-Trach-Sung.ttl</code></p><p class="state">ĐÃ ĐỒNG BỘ metadata/thầy đã xác minh</p><p>Đã đóng quote nhãn chính; A020706 và thầy A014665 sync; đời50.</p><p>Không thay số đời trong TTL. Quan hệ đệ tử chưa xác minh giữ nguồn, không tự thêm assertion quốc tế.</p><details><summary>Các dòng hiện tại</summary><pre>Dòng 6: &lt;ex:monk/tien_phuoc_trach_sung&gt; a &lt;bkg:Monk&gt; ;
+Dòng 7: rdfs:label &quot;Tiến Phước Trạch Sùng&quot;@vi ;
+Dòng 8: crm:P1_is_identified_by &lt;ex:monk/tien_phuoc_trach_sung&gt; ;
+Dòng 41: bkg:birthEvent &lt;ex:monk/tien_phuoc_trach_sung_birthEvent&gt; ;
+Dòng 42: bkg:deathEvent &lt;ex:monk/tien_phuoc_trach_sung_deathEvent&gt; ;
+Dòng 45: bkg:generationOrder 50;
+Dòng 46: bkg:hasTeacher &lt;ex:monk/hoang_long_duc_phung&gt; ;
+Dòng 49: &lt;ex:monk/hoang_long_ngo_tan&gt; rdfs:label &quot;Hoàng Long Ngộ Tân&quot;@vi .
+Dòng 50: &lt;ex:monk/tien_phuoc_trach_sung&gt; rdfs:label &quot;Tiến Phước Trạch Sùng&quot;@vi .
+Dòng 51: &lt;ex:monk/co_son_tang_tuan&gt; rdfs:label &quot;Cổ Sơn Tăng Tuân&quot;@vi .
+Dòng 52: &lt;ex:monk/pho_hien_nguyen_to&gt; rdfs:label &quot;Phổ Hiền Nguyên Tố&quot;@vi .
+Dòng 53: &lt;ex:monk/duy_thanh_linh_nguyen&gt; rdfs:label &quot;Duy Thanh Linh Nguyên&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A020706">DILA A020706</a></p></article>
+<article><h2>4. Hưng Hóa Nhân Nhạc</h2><p><code>TS-Hung-Hoa-Nhan-Nhac.ttl</code></p><p class="state">ĐÃ ĐỒNG BỘ metadata/thầy đã xác minh</p><p>Đã tách khỏi hồ sơ Cảnh Phương; Nhân Nhạc A014436 đời45, thầy A004017. File Cảnh Phương được sửa subject/P1, tên Cảnh Phương và thầy Nhân Nhạc theo DILA A026988; giữ đời46.</p><p>Không thay số đời trong TTL. Quan hệ đệ tử chưa xác minh giữ nguồn, không tự thêm assertion quốc tế.</p><details><summary>Các dòng hiện tại</summary><pre>Dòng 6: &lt;ex:monk/hung_hoa_nhan_nhac&gt; a &lt;bkg:Monk&gt; ;
+Dòng 7: rdfs:label &quot;Hưng Hóa Nhân Nhạc&quot;@vi ;
+Dòng 8: crm:P1_is_identified_by &lt;ex:monk/hung_hoa_nhan_nhac&gt; ;
+Dòng 43: bkg:birthEvent &lt;ex:monk/hung_hoa_nhan_nhac_birthEvent&gt; ;
+Dòng 44: bkg:deathEvent &lt;ex:monk/hung_hoa_nhan_nhac_deathEvent&gt; ;
+Dòng 47: bkg:generationOrder 45;
+Dòng 48: bkg:hasTeacher &lt;ex:monk/phu_son_phap_vien&gt; ;
+Dòng 49: bkg:hasDisciple &lt;ex:monk/hung_hoa_thieu_thanh&gt; ,
+Dòng 53: &lt;ex:monk/huong_nghiem_dong_phu&gt; rdfs:label &quot;Hương Nghiêm Động Phu&quot;@vi .
+Dòng 54: &lt;ex:monk/the_thang_ke_sieu&gt; rdfs:label &quot;Thê Thắng Kế Siêu&quot;@vi .
+Dòng 55: &lt;ex:monk/truong_khanh_tue_xiem&gt; rdfs:label &quot;Trường Khánh Tuệ Xiêm&quot;@vi .
+Dòng 56: &lt;ex:monk/ban_giac_nha_chau&gt; rdfs:label &quot;Bản Giác Nhã Châu&quot;@vi .
+Dòng 57: &lt;ex:monk/dinh_lam_tue_sam&gt; rdfs:label &quot;Định Lâm Tuệ Sâm&quot;@vi .
+Dòng 58: &lt;ex:monk/thu_son_xu_khe&gt; rdfs:label &quot;Thủ Sơn Xử Khuê&quot;@vi .
+Dòng 59: &lt;ex:monk/hung_hoa_thieu_thanh&gt; rdfs:label &quot;Hưng Hóa Thiệu Thanh&quot;@vi .
+Dòng 60: &lt;ex:monk/hung_hoa_nhan_nhac&gt; rdfs:label &quot;Hưng Hóa Nhân Nhạc&quot;@vi .
+Dòng 61: &lt;ex:monk/diep_huyen_quy_tinh&gt; rdfs:label &quot;Diệp Huyện Quy Tỉnh&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A014436">DILA A014436</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A004017">DILA A004017</a></p></article>
+<article><h2>5. Phần Dương Thiện Chiêu</h2><p><code>TS-Phan-Duong-Thien-Chieu.ttl</code></p><p class="state">ĐÃ ĐỒNG BỘ metadata/thầy đã xác minh</p><p>Metadata + thầy đã sync trước; giữ đời43. Ánh xạ đệ tử cần kiểm riêng.</p><p>Không thay số đời trong TTL. Quan hệ đệ tử chưa xác minh giữ nguồn, không tự thêm assertion quốc tế.</p><details><summary>Các dòng hiện tại</summary><pre>Dòng 6: &lt;ex:monk/phan_duong_thien_chieu&gt; a &lt;bkg:Monk&gt; ;
+Dòng 7: rdfs:label &quot;Phần Dương Thiện Chiêu&quot;@vi ;
+Dòng 8: crm:P1_is_identified_by &lt;ex:monk/phan_duong_thien_chieu&gt; ;
+Dòng 326: bkg:birthEvent &lt;ex:monk/phan_duong_thien_chieu_birthEvent&gt; ;
+Dòng 327: bkg:deathEvent &lt;ex:monk/phan_duong_thien_chieu_deathEvent&gt; ;
+Dòng 330: bkg:generationOrder 43;
+Dòng 331: bkg:hasTeacher &lt;ex:monk/thu_son_tinh_niem&gt; ;
+Dòng 332: bkg:hasDisciple &lt;ex:monk/thach_suong_so_vien&gt; ,
+Dòng 344: &lt;ex:monk/thach_suong_so_vien&gt; rdfs:label &quot;Thạch Sương Sở Viên&quot;@vi .
+Dòng 345: &lt;ex:monk/nam_vien_hue_ngung&gt; rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi .
+Dòng 346: &lt;ex:monk/thai_tu_dao_nhat&gt; rdfs:label &quot;Thái Tử Đạo Nhất&quot;@vi .
+Dòng 347: &lt;ex:monk/thien_thanh_hao_thai&gt; rdfs:label &quot;Thiên Thánh Hạo Thái&quot;@vi .
+Dòng 348: &lt;ex:monk/long_dam_tri_vien&gt; rdfs:label &quot;Long Đàm Trí Viên&quot;@vi .
+Dòng 349: &lt;ex:monk/long_mon_chieu&gt; rdfs:label &quot;Long Môn Chiếu&quot;@vi .
+Dòng 350: &lt;ex:monk/long_hoa_hieu_ngu&gt; rdfs:label &quot;Long Hoa Hiểu Ngu&quot;@vi .
+Dòng 351: &lt;ex:monk/phap_hoa_toan_cu&gt; rdfs:label &quot;Pháp Hoa Toàn Cử&quot;@vi .
+Dòng 352: &lt;ex:monk/ba_tieu_coc_tuyen&gt; rdfs:label &quot;Ba Tiêu Cốc Tuyền&quot;@vi .
+Dòng 353: &lt;ex:monk/lang_nha_tue_giac&gt; rdfs:label &quot;Lang Nha Tuệ Giác&quot;@vi .
+Dòng 354: &lt;ex:monk/dai_ngu_thu_chi&gt; rdfs:label &quot;Đại Ngu Thủ Chi&quot;@vi .
+Dòng 355: &lt;ex:monk/thach_suong_phap_vinh&gt; rdfs:label &quot;Thạch Sương Pháp Vĩnh&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A004984">DILA A004984</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A004983">DILA A004983</a></p></article>
+<article><h2>6. Quảng Tuệ Nguyên Liên</h2><p><code>TS-Quang-Tue-Nguyen-Lien.ttl</code></p><p class="state">ĐÃ ĐỒNG BỘ metadata/thầy đã xác minh</p><p>Đã thay tự làm thầy bằng Thủ Sơn Tỉnh Niệm A004983; Nguyên Liên A014349 đời43.</p><p>Không thay số đời trong TTL. Quan hệ đệ tử chưa xác minh giữ nguồn, không tự thêm assertion quốc tế.</p><details><summary>Các dòng hiện tại</summary><pre>Dòng 6: &lt;ex:monk/quang_tue_nguyen_lien&gt; a &lt;bkg:Monk&gt; ;
+Dòng 7: rdfs:label &quot;Quảng Tuệ Nguyên Liên&quot;@vi ;
+Dòng 8: crm:P1_is_identified_by &lt;ex:monk/quang_tue_nguyen_lien&gt; ;
+Dòng 101: bkg:birthEvent &lt;ex:monk/quang_tue_nguyen_lien_birthEvent&gt; ;
+Dòng 102: bkg:deathEvent &lt;ex:monk/quang_tue_nguyen_lien_deathEvent&gt; ;
+Dòng 105: bkg:generationOrder 43;
+Dòng 106: bkg:hasTeacher &lt;ex:monk/thu_son_tinh_niem&gt; ;
+Dòng 107: bkg:hasDisciple &lt;ex:monk/hoa_nghiem_dao_long&gt; ,
+Dòng 113: &lt;ex:monk/hoa_nghiem_dao_long&gt; rdfs:label &quot;Hoa Nghiêm Đạo Long&quot;@vi .
+Dòng 114: &lt;ex:monk/tue_luc_tue_nam&gt; rdfs:label &quot;Tuệ Lực Tuệ Nam&quot;@vi .
+Dòng 115: &lt;ex:monk/quang_tue_duc_tuyen&gt; rdfs:label &quot;Quảng Tuệ Đức Tuyên&quot;@vi .
+Dòng 116: &lt;ex:monk/van_cong_duong_uc&gt; rdfs:label &quot;Cư Sĩ Văn Công Dương Ức&quot;@vi .
+Dòng 117: &lt;ex:monk/nhuan_vuong_xu_binh&gt; rdfs:label &quot;Nhuận Vương Xứ Bình&quot;@vi .
+Dòng 118: &lt;ex:monk/loc_mon_tue_chieu&gt; rdfs:label &quot;Sơn Chủ Lộc Môn Tuệ Chiêu&quot;@vi .
+Dòng 119: &lt;ex:monk/thu_son_hoai_chi&gt; rdfs:label &quot;Thủ Sơn Hoài Chí&quot;@vi .
+Dòng 120: &lt;ex:monk/tam_giao_tri_tung&gt; rdfs:label &quot;Tam Giao Trí Tung&quot;@vi .
+Dòng 121: &lt;ex:monk/quang_tue_nguyen_lien&gt; rdfs:label &quot;Quảng Tuệ Nguyên Liên&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A014349">DILA A014349</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A004983">DILA A004983</a></p></article>
+<article><h2>7. Thụy Nham Trí Tài</h2><p><code>TS-Thuy-Nham-Tri-Tai.ttl</code></p><p class="state">ĐÃ XÁC MINH DILA2026-09 VÀ ĐỒNG BỘ DB/API</p><p>TTL hiện tại thầy Thạch Môn Thủ Tấn đúng. DB hasTeacher đổi Diệp Huyện sang Thạch Môn A013875; A026976 tên đầy đủ瑞巖智才, tiểu sử Việt khớp TTL, giữ đời44. Sửa subject rỗng và deathEvent thiếu slug trong TTL thầy; tạo mapping A013875. Năm1556/693 là số kinh/trang, đã xóa khỏi birth/death processed DB vì XML không ghi ngày sinh/mất.</p><p>DILA: <strong>A026976 — 瑞巖智才</strong>; thầy <strong>A013875 — 石門守進</strong>.</p><p>Đời44 giữ nguyên; thầy43 lấy TTL, không tự suy số mới. DILA2026-09 xác minh cả hai chiều; API200, tiểu sử Việt đúngTTL.</p><details><summary>Các dòng đã kiểm</summary><pre>Dòng 6: &lt;ex:monk/thuy_nham_tri_tai&gt; a &lt;bkg:Monk&gt; ;
+Dòng 7: rdfs:label &quot;Thụy Nham Trí Tài&quot;@vi ;
+Dòng 8: crm:P1_is_identified_by &lt;ex:monk/thuy_nham_tri_tai&gt; ;
+Dòng 52: bkg:generationOrder 44;
+Dòng 53: bkg:hasTeacher &lt;ex:monk/thach_mon_thu_tan&gt; ;
+Dòng 56: &lt;ex:monk/than_danh_hong_nhan&gt; rdfs:label &quot;Thần Đảnh Hồng Nhân&quot;@vi .
+Dòng 57: &lt;ex:monk/quang_van_dieu_tri&gt; rdfs:label &quot;Quang Vân Diệu Trí&quot;@vi .
+Dòng 58: &lt;ex:monk/quang_tue_duc_tuyen&gt; rdfs:label &quot;Quảng Tuệ Đức Tuyên&quot;@vi .
+Dòng 59: &lt;ex:monk/khai_thanh_bao_tinh&gt; rdfs:label &quot;Sơn Chủ Khai Thánh Bảo Tình&quot;@vi .
+Dòng 60: &lt;ex:monk/nhuan_vuong_xu_binh&gt; rdfs:label &quot;Nhuận Vương Xứ Bình&quot;@vi .
+Dòng 61: &lt;ex:monk/loc_mon_tue_chieu&gt; rdfs:label &quot;Sơn Chủ Lộc Môn Tuệ Chiêu&quot;@vi .
+Dòng 62: &lt;ex:monk/thach_mon_thu_tan&gt; rdfs:label &quot;Thạch Môn Thủ Tấn&quot;@vi .
+Dòng 63: &lt;ex:monk/thuy_nham_tri_tai&gt; rdfs:label &quot;Thụy Nham Trí Tài&quot;@vi .
+Dòng 64: &lt;ex:monk/diep_huyen_quy_tinh&gt; rdfs:label &quot;Diệp Huyện Quy Tỉnh&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/downloads/authority_person.2026-09.zip">DILA2026-09</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A026976">A026976</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A013875">A013875</a> · <a href="https://cbetaonline.dila.edu.tw/X78n1556_p0693a06">X78n1556_p0693a06</a></p></article>
+<article><h2>8. Tịnh Nhân Kế Thành</h2><p><code>TS-Tinh-Nhan-Ke-Thanh.ttl</code></p><p class="state">ĐÃ ĐỒNG BỘ metadata/thầy đã xác minh</p><p>Kế Thành A026926 đời48 đã sync; khôi phục metadata thầy Đạo Bình A014617 từ TTL riêng (đời47); gỡ ID A014617 gán sai cho Tạng Chủ Phổ Dung, để pending chưa đoán ID mới. Đệ tử Dã Phụ Đạo Xuyên chưa xác minh, giữ nguồn TTL.</p><p>Không thay số đời trong TTL. Quan hệ đệ tử chưa xác minh giữ nguồn, không tự thêm assertion quốc tế.</p><details><summary>Các dòng hiện tại</summary><pre>Dòng 7: &lt;ex:monk/tinh_nhan_ke_thanh&gt; a &lt;bkg:Monk&gt; ;
+Dòng 8: rdfs:label &quot;Tịnh Nhân Kế Thành&quot;@vi ;
+Dòng 9: crm:P1_is_identified_by &lt;ex:monk/tinh_nhan_ke_thanh&gt; ;
+Dòng 106: bkg:birthEvent &lt;ex:monk/tinh_nhan_ke_thanh_birthEvent&gt; ;
+Dòng 107: bkg:deathEvent &lt;ex:monk/tinh_nhan_ke_thanh_deathEvent&gt; ;
+Dòng 110: bkg:generationOrder 48;
+Dòng 111: bkg:hasTeacher &lt;ex:monk/tri_hai_dao_binh&gt;  ;
+Dòng 112: bkg:hasDisciple &lt;ex:monk/thuy_nham_nhu_thang&gt; ,
+Dòng 117: &lt;ex:monk/tri_hai_dao_binh&gt; rdfs:label &quot;Trí Hải Đạo Bình&quot;@vi .
+Dòng 118: &lt;ex:monk/tinh_nhan_ke_thanh&gt; rdfs:label &quot;Tịnh Nhân Kế Thành&quot;@vi .
+Dòng 119: &lt;ex:monk/da_phu_dao_xuyen&gt; rdfs:label &quot;Dã Phụ Đạo Xuyên&quot;@vi .
+Dòng 120: &lt;ex:monk/thuy_nham_nhu_thang&gt; rdfs:label &quot;Thụy Nham Như Thắng&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A026926">DILA A026926</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A014617">DILA A014617</a></p></article>
+<article><h2>9. Vô Chuẩn Sư Phạm</h2><p><code>TS-Vo-Chuan-Su-Pham.ttl</code></p><p class="state">ĐÃ ĐỒNG BỘ metadata/thầy đã xác minh</p><p>Đã sửa URI sinh/mất thành vo_chuan_su_pham_*; A004697 và thầy A004696 sync, giữ đời53. Tiểu sử TTL đang rỗng, không tự bổ sung.</p><p>Không thay số đời trong TTL. Quan hệ đệ tử chưa xác minh giữ nguồn, không tự thêm assertion quốc tế.</p><details><summary>Các dòng hiện tại</summary><pre>Dòng 6: &lt;ex:monk/vo_chuan_su_pham&gt; a &lt;bkg:Monk&gt; ;
+Dòng 7: rdfs:label &quot;Vô Chuẩn Sư Phạm&quot;@vi ;
+Dòng 8: crm:P1_is_identified_by &lt;ex:monk/vo_chuan_su_pham&gt; ;
+Dòng 11: bkg:birthEvent &lt;ex:monk/vo_chuan_su_pham_birthEvent&gt; ;
+Dòng 12: bkg:deathEvent &lt;ex:monk/vo_chuan_su_pham_deathEvent&gt; ;
+Dòng 15: bkg:generationOrder 53;
+Dòng 16: bkg:hasTeacher &lt;ex:monk/pha_am_to_tien&gt; ;
+Dòng 17: bkg:hasDisciple &lt;ex:monk/tuyet_nham_to_kham&gt; ,
+Dòng 21: &lt;ex:monk/tuyet_nham_to_kham&gt; rdfs:label &quot;Tuyết Nham Tổ Khâm&quot;@vi .
+Dòng 22: &lt;ex:monk/doan_kieu_dieu_luan&gt; rdfs:label &quot;Đoạn Kiều Diệu Luân&quot;@vi .
+Dòng 23: &lt;ex:monk/pha_am_to_tien&gt; rdfs:label &quot;Phá Am Tổ Tiên&quot;@vi .</pre></details><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A004697">DILA A004697</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A004696">DILA A004696</a></p></article></main></body></html>

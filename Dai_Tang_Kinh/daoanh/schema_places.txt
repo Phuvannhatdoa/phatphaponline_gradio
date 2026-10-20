@@ -1,0 +1,45 @@
+=== places ===
+id                        TEXT       pk=1
+name_zh                   TEXT       pk=0
+name_vi                   TEXT       pk=0
+name_en                   TEXT       pk=0
+location                  TEXT       pk=0
+gps_lat                   REAL       pk=0
+gps_long                  REAL       pk=0
+address                   TEXT       pk=0
+province                  TEXT       pk=0
+country                   TEXT       pk=0
+place_type                TEXT       pk=0
+source_origin             TEXT       pk=0
+confidence                REAL       pk=0
+created_at                TEXT       pk=0
+updated_at                TEXT       pk=0
+
+=== namevi_map_places ===
+id                        INTEGER    pk=1
+name_vi                   TEXT       pk=0
+name_zh                   TEXT       pk=0
+dila_id                   TEXT       pk=0
+confidence                REAL       pk=0
+source                    TEXT       pk=0
+created_at                TIMESTAMP  pk=0
+needs_review              INTEGER    pk=0
+note_vi                   TEXT       pk=0
+gps_lat                   TEXT       pk=0
+gps_long                  TEXT       pk=0
+source_id                 INTEGER    pk=0
+district_vi               TEXT       pk=0
+country_vi                TEXT       pk=0
+vn_name_status            TEXT       pk=0
+
+=== places PL000000023255 ===
+NOT FOUND
+
+=== namevi_map_places PL000000023255 ===
+dila_id=PL000000023255, name_vi=Thiếu Lâm Tự, name_zh=少林寺
+
+=== places cols with dila/bdrc/source ===
+  source_origin
+
+=== namevi_map_places cols with dila/bdrc ===
+  dila_id

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đạo Ảnh – Thêm TTL Thiền Sư</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #020617; --bg2: #0f172a; --bg3: #1e293b;
+  --primary: #d97706; --primary-dim: #92400e;
+  --text: #e2e8f0; --muted: #64748b; --border: #1e293b;
+  --success: #22c55e; --error: #ef4444; --warn: #f59e0b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+/* Layout */
+.shell { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); flex-shrink: 0; padding: 20px 0; }
+.sidebar-logo { padding: 0 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.sidebar-logo i { color: var(--primary); font-size: 20px; }
+.sidebar-logo span { font-weight: 700; font-size: 14px; color: var(--text); }
+.nav-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; padding: 16px 16px 6px; }
+.nav-btn { display: flex; align-items: center; justify-content: space-between; padding: 9px 16px; margin: 2px 8px; border-radius: 6px; color: var(--muted); text-decoration: none; font-size: 13px; transition: background .15s, color .15s; }
+.nav-btn:hover, .nav-btn.active { background: var(--bg3); color: var(--text); }
+.nav-btn.active { border-left: 2px solid var(--primary); margin-left: 6px; }
+
+/* Main */
+.main { flex: 1; padding: 32px; overflow-x: hidden; }
+.page-title { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+.page-title i { color: var(--primary); }
+.page-sub { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media(max-width:900px) { .grid2 { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+/* Card */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.card-title { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 7px; }
+
+/* Form */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .05em; }
+.field label span.req { color: var(--error); margin-left: 3px; }
+.field label span.note { color: #7c3aed; margin-left: 6px; font-weight: 400; text-transform: none; }
+input, textarea, select {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); padding: 8px 10px; border-radius: 6px; font-size: 13px;
+  font-family: 'Inter', sans-serif; transition: border-color .15s;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
+textarea { resize: vertical; min-height: 80px; }
+.hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Checkbox row */
+.check-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+.check-row input[type=checkbox] { width: auto; accent-color: var(--primary); width: 16px; height: 16px; cursor: pointer; }
+.check-row label { font-size: 13px; color: var(--text); font-weight: 500; cursor: pointer; text-transform: none; letter-spacing: 0; }
+
+/* Tag badge for lineage founder */
+.badge-founder { display: inline-flex; align-items: center; gap: 5px; background: rgba(217,119,6,.15); color: var(--warn); border: 1px solid rgba(217,119,6,.3); border-radius: 20px; font-size: 11px; padding: 2px 9px; font-weight: 600; }
+
+/* TTL Preview */
+.ttl-preview {
+  background: #000d1a; border: 1px solid #1d4ed8; border-radius: 8px;
+  padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  color: #93c5fd; white-space: pre-wrap; word-break: break-all;
+  min-height: 340px; max-height: 520px; overflow-y: auto; line-height: 1.6;
+}
+.ttl-preview .kw { color: #c084fc; }
+.ttl-preview .str { color: #86efac; }
+.ttl-preview .uri { color: #67e8f9; }
+.ttl-preview .num { color: #fbbf24; }
+.ttl-preview .cmt { color: #475569; }
+
+/* Actions */
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all .15s; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #b45309; }
+.btn-secondary { background: var(--bg3); color: var(--text); }
+.btn-secondary:hover { background: #334155; }
+.btn-etl { background: #1d4ed8; color: white; }
+.btn-etl:hover { background: #1e40af; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.action-bar { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+/* Status */
+.status-box { margin-top: 16px; padding: 12px 14px; border-radius: 7px; font-size: 13px; display: none; }
+.status-ok  { background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.3); color: #86efac; }
+.status-err { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: #fca5a5; }
+.status-info{ background: rgba(99,102,241,.1); border: 1px solid rgba(99,102,241,.3); color: #a5b4fc; }
+
+/* Slug chip */
+.slug-chip { font-family: 'JetBrains Mono', monospace; background: var(--bg3); color: #67e8f9; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+
+/* Lineage dropdown với màu */
+.lineage-info { margin-top: 6px; font-size: 11px; color: #7c3aed; display: none; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="fa-solid fa-dharmachakra"></i>
+      <span>Đạo Ảnh Admin</span>
+    </div>
+    <p class="nav-label">Điều hướng</p>
+    <a href="index.html" class="nav-btn">
+      <span><i class="fa-solid fa-gauge" style="margin-right:7px"></i>Dashboard</span>
+    </a>
+    <p class="nav-label">Place VN</p>
+    <a href="placevn.html" class="nav-btn">
+      <span><i class="fa-solid fa-map-location-dot" style="margin-right:7px"></i>+ Thêm Place VN</span>
+    </a>
+    <a href="monk_ttl_add.html" class="nav-btn active">
+      <span><i class="fa-solid fa-person-praying" style="color:#f59e0b;margin-right:7px"></i>+ Thêm TTL Thiền Sư</span>
+    </a>
+    <a href="place_update.html" class="nav-btn">
+      <span><i class="fa-solid fa-pen-to-square" style="margin-right:7px"></i>Update Place Info</span>
+    </a>
+    <p class="nav-label">Khác</p>
+    <a href="namevimap.html" class="nav-btn">
+      <span><i class="fa-solid fa-language" style="margin-right:7px"></i>Name Vi Map</span>
+    </a>
+    <a href="/daoanh/admin/dila_person_index.html" class="nav-btn">
+      <span><i class="fa-solid fa-user" style="margin-right:7px"></i>DILA Person Index</span>
+    </a>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="page-title"><i class="fa-solid fa-person-praying"></i> Thêm TTL Thiền Sư</div>
+    <p class="page-sub">Tạo file TTL chuẩn cho thiền sư mới · File lưu vào <code style="color:#f59e0b;font-size:12px">data/ttl/TS-[Tên].ttl</code></p>
+
+    <div id="draft-notice" class="status-box status-info" role="status" style="margin-bottom:16px"></div>
+    <div class="grid2">
+      <!-- CỘT TRÁI: Form nhập -->
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title"><i class="fa-solid fa-circle-info"></i> Thông tin cơ bản</div>
+
+          <div class="field">
+            <label>Tên tiếng Việt <span class="req">*</span></label>
+            <input id="name_vi" type="text" placeholder="VD: Thiệt Duyệt Liễu Quán" oninput="autoSlug(); livePreview()">
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Slug ID <span class="req">*</span> <span class="note">(tự động, có thể sửa)</span></label>
+              <input id="slug" type="text" placeholder="thiet_duyet_lieu_quan" oninput="livePreview()">
+              <div class="hint">Chữ thường, không dấu, gạch dưới. Dùng làm URI: <code class="slug-chip">ex:monk/...</code></div>
+            </div>
+            <div class="field">
+              <label>Tên Hán tự</label>
+              <input id="name_zh" type="text" placeholder="VD: 實悅了觀" oninput="livePreview()">
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Năm sinh</label>
+              <input id="birth_year" type="number" placeholder="1667" oninput="livePreview()">
+            </div>
+            <div class="field">
+              <label>Năm mất</label>
+              <input id="death_year" type="number" placeholder="1742" oninput="livePreview()">
+            </div>
+          </div>
+          <div class="field">
+            <label>Tiểu sử ngắn (tiếng Việt)</label>
+            <textarea id="bio_vi" placeholder="Tổ sư ... sinh năm ... tại ..." rows="4" oninput="livePreview()"></textarea>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title"><i class="fa-solid fa-sitemap"></i> Truyền thừa</div>
+
+          <div class="field">
+            <label>Tên thầy (tiếng Việt) <span class="req">*</span></label>
+            <input id="teacher_vi" type="text" placeholder="VD: Tử Dung Minh Hoằng"
+                   list="monk-names-list" autocomplete="off"
+                   oninput="autoTeacherSlug(); livePreview()">
+            <datalist id="monk-names-list"></datalist>
+            <div class="hint" id="teacher-hint" style="display:none">
+              <i class="fa-solid fa-circle-check" style="color:#22c55e"></i>
+              Đã nạp <span id="monk-count">0</span> tên thiền sư — gõ để lọc
+            </div>
+          </div>
+          <div class="field">
+            <label>Slug thầy</label>
+            <input id="teacher_slug" type="text" placeholder="tu_dung_minh_hoang" oninput="livePreview()">
+            <div class="hint">Tự động sinh từ tên thầy, hoặc nhập tay nếu đã có trong hệ thống</div>
+          </div>
+          <div class="field">
+            <label>Đệ tử (cách nhau bằng dấu phẩy, mỗi cái = <code style="font-size:11px">tên | slug</code>)</label>
+            <textarea id="disciples" placeholder="Tế Hiển Thuần Nhất | te_hien_thuan_nhat, Đại Cơ Thiện Trí | dai_co_thien_tri" rows="3" oninput="livePreview()"></textarea>
+            <div class="hint">Format: <code>Tên VI | slug</code>. Để trống nếu chưa biết đệ tử.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-layer-group"></i> Số đời & Tông phái</div>
+
+          <div class="field">
+            <label>Dòng phái (dharmaLineageName) <span class="req">*</span></label>
+            <select id="lineage_name" onchange="onLineageChange(); livePreview()">
+              <option value="">— Chọn tông phái —</option>
+            </select>
+            <div id="lineage-info" class="lineage-info"></div>
+          </div>
+          <div class="field">
+            <label>Tên tông phái mới <span class="note">(nếu không có trong danh sách)</span></label>
+            <input id="lineage_custom" type="text" placeholder='VD: Tông Tào Động Nhật Bản' oninput="livePreview()">
+            <div class="hint">Điền vào đây nếu tông phái chưa có → sẽ tạo Khai Tổ mới</div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Số đời Lâm Tế (generationOrder) <span class="req">*</span>
+                <span class="note">= gen_lamte</span>
+              </label>
+              <input id="gen_order" type="number" placeholder="72" min="1" max="200" oninput="calcGen(); livePreview()">
+              <div class="hint">Lâm Tế Nghĩa Huyền = 1 · Nguyên Thiều = 70 · Liễu Quán = 72</div>
+            </div>
+            <div class="field" style="display:flex;flex-direction:column;justify-content:flex-start;padding-top:4px">
+              <label>&nbsp;</label>
+              <div id="gen-display" style="background:var(--bg3);border-radius:6px;padding:10px;font-size:12px;color:#94a3b8;min-height:60px">
+                Nhập số đời để xem kết quả
+              </div>
+            </div>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" id="is_founder" onchange="livePreview()">
+            <label for="is_founder">
+              <span class="badge-founder"><i class="fa-solid fa-crown"></i> Khai Tổ tông phái này</span>
+              — Đánh dấu nếu đây là vị sáng lập dòng thiền mới
+            </label>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">Dữ liệu DILA chuyển sang</div>
+          <div class="field"><label>DILA ID</label><input id="source_dila_id" placeholder="A000885" oninput="livePreview()"></div>
+          <div class="field"><label>Giới tính</label><select id="source_gender" onchange="livePreview()"><option value="Male">Nam</option><option value="Female">Nữ</option><option value="">Chưa xác định</option></select></div>
+          <div class="field"><label>Thầy khác (Tên | slug, cách nhau bằng dấu phẩy)</label><textarea id="other_teachers" oninput="livePreview()"></textarea></div>
+          <div class="field"><label>Tiểu sử nguyên bản Hán</label><textarea id="source_bio_zh" rows="6" oninput="livePreview()"></textarea></div>
+          <div class="field"><label>Thông tin bổ sung và nguồn tham khảo</label><textarea id="source_notes" rows="12" oninput="livePreview()"></textarea><div class="hint">Tên khác, triều đại, xuất xứ, tác phẩm, trích dẫn, ngày và quan hệ DILA. Kiểm tra trước khi lưu.</div></div>
+        </div>
+      </div>
+
+      <!-- CỘT PHẢI: Preview TTL -->
+      <div>
+        <div class="card" style="position:sticky;top:24px">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+            <span><i class="fa-solid fa-code"></i> Preview TTL</span>
+            <button class="btn btn-secondary" style="font-size:11px;padding:5px 10px" onclick="copyTTL()">
+              <i class="fa-solid fa-copy"></i> Copy
+            </button>
+          </div>
+          <div id="ttl-preview" class="ttl-preview">
+<span class="cmt"># Điền thông tin bên trái để xem TTL</span>
+          </div>
+
+          <div class="action-bar">
+            <button class="btn btn-primary" onclick="saveTTL()">
+              <i class="fa-solid fa-save"></i> Lưu file TTL
+            </button>
+            <button class="btn btn-etl" onclick="runETL()">
+              <i class="fa-solid fa-gears"></i> Chạy ETL (tính đời)
+            </button>
+            <label class="btn btn-secondary" style="cursor:pointer" title="Chọn file .ttl từ máy → trích xuất vào form để xem/sửa trước khi lưu">
+              <i class="fa-solid fa-file-import"></i> Import TTL
+              <input type="file" id="ttl-import-input" accept=".ttl" style="display:none" onchange="importTTLFile(this)">
+            </label>
+            <button class="btn btn-secondary" onclick="resetForm()">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+          </div>
+
+          <div id="status-box" class="status-box"></div>
+
+          <!-- Bảng tham khảo -->
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+            <div class="card-title"><i class="fa-solid fa-bookmark"></i> Mốc gen_lamte tham chiếu</div>
+            <table style="width:100%;font-size:11px;color:var(--muted);border-collapse:collapse">
+              <tr style="color:#7c3aed"><td style="padding:3px 6px;font-weight:700">Thiền sư</td><td style="padding:3px 6px;text-align:right;font-weight:700">gen_lamte</td><td style="padding:3px 6px;text-align:right;font-weight:700">gen_TT</td></tr>
+              <tr><td style="padding:3px 6px">Lâm Tế Nghĩa Huyền (Khai Tổ LT)</td><td style="padding:3px 6px;text-align:right;color:var(--warn)">1</td><td style="padding:3px 6px;text-align:right">38</td></tr>
+              <tr><td style="padding:3px 6px">Nguyên Thiều Siêu Bạch (Gia Phổ VN)</td><td style="padding:3px 6px;text-align:right;color:var(--warn)">70</td><td style="padding:3px 6px;text-align:right">107</td></tr>
+              <tr><td style="padding:3px 6px">Minh Hải Pháp Bảo (Chúc Thánh VN)</td><td style="padding:3px 6px;text-align:right;color:var(--warn)">71</td><td style="padding:3px 6px;text-align:right">108</td></tr>
+              <tr><td style="padding:3px 6px">Thiệt Duyệt Liễu Quán (Liễu Quán VN)</td><td style="padding:3px 6px;text-align:right;color:var(--warn)">72</td><td style="padding:3px 6px;text-align:right">109</td></tr>
+              <tr><td style="padding:3px 6px">Phật Ý Linh Nhạc (Gia Phổ đời 3)</td><td style="padding:3px 6px;text-align:right;color:var(--warn)">72</td><td style="padding:3px 6px;text-align:right">109</td></tr>
+            </table>
+            <div style="margin-top:8px;font-size:11px;color:var(--muted)">
+              Công thức: <code style="color:#67e8f9">gen_thientong = gen_lamte + 37</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ── Slugify ──────────────────────────────────────────────────────────────
+function slugify(s) {
+  const map = {
+    'à':'a','á':'a','ả':'a','ã':'a','ạ':'a','ă':'a','ắ':'a','ằ':'a','ẵ':'a','ặ':'a','ẳ':'a','â':'a','ấ':'a','ầ':'a','ẫ':'a','ậ':'a','ẩ':'a',
+    'đ':'d','è':'e','é':'e','ẻ':'e','ẽ':'e','ẹ':'e','ê':'e','ế':'e','ề':'e','ể':'e','ễ':'e','ệ':'e',
+    'ì':'i','í':'i','ỉ':'i','ĩ':'i','ị':'i',
+    'ò':'o','ó':'o','ỏ':'o','õ':'o','ọ':'o','ô':'o','ố':'o','ồ':'o','ổ':'o','ỗ':'o','ộ':'o','ơ':'o','ớ':'o','ờ':'o','ở':'o','ỡ':'o','ợ':'o',
+    'ù':'u','ú':'u','ủ':'u','ũ':'u','ụ':'u','ư':'u','ứ':'u','ừ':'u','ử':'u','ữ':'u','ự':'u',
+    'ỳ':'y','ý':'y','ỷ':'y','ỹ':'y','ỵ':'y',
+  };
+  return s.toLowerCase().split('').map(c => map[c] || c).replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+}
+
+function autoSlug() {
+  const v = document.getElementById('name_vi').value;
+  document.getElementById('slug').value = slugify(v);
+}
+function autoTeacherSlug() {
+  const v = document.getElementById('teacher_vi').value.trim();
+  // Slug chính xác từ TTL nếu đã có; slugify() nếu là tên hoàn toàn mới
+  document.getElementById('teacher_slug').value = _monkSlugMap[v] || slugify(v);
+}
+
+// ── Gen display ───────────────────────────────────────────────────────────
+function calcGen() {
+  const g = parseInt(document.getElementById('gen_order').value) || 0;
+  const el = document.getElementById('gen-display');
+  if (!g) { el.innerHTML = 'Nhập số đời để xem kết quả'; el.style.color='#475569'; return; }
+  const gt = g + 37;
+  el.style.color = '#e2e8f0';
+  el.innerHTML = `<div style="color:#f59e0b;font-weight:700;font-size:14px">Lâm Tế đời ${g}</div>
+<div style="font-size:11px;margin-top:4px;color:#94a3b8">Thiền Tông đời <b style="color:#67e8f9">${gt}</b></div>
+<div style="font-size:11px;color:#94a3b8">gen_sect = đời tính từ Khai Tổ</div>`;
+}
+
+// ── Monk names autocomplete (teacher_vi) ─────────────────────────────────
+// Map tên → slug chính xác từ TTL (tránh slugify lại sinh slug mới / orphan link)
+var _monkSlugMap = {};
+
+async function loadMonkNames() {
+  try {
+    const r = await fetch('/daoanh/api/admin/monk_names_slugs');
+    if (!r.ok) return;
+    const data = await r.json();
+    if (!data.ok || !data.monks) return;
+    const dl = document.getElementById('monk-names-list');
+    data.monks.forEach(m => {
+      _monkSlugMap[m.name_vi] = m.slug;   // lưu mapping để autoTeacherSlug dùng
+      const opt = document.createElement('option');
+      opt.value = m.name_vi;
+      dl.appendChild(opt);
+    });
+    document.getElementById('monk-count').textContent = data.total;
+    document.getElementById('teacher-hint').style.display = 'block';
+  } catch(e) { console.warn('Không load được monk names:', e); }
+}
+
+// ── Lineage dropdown ──────────────────────────────────────────────────────
+async function loadLineages() {
+  try {
+    const r = await fetch('/daoanh/api/admin/lineages');
+    if (!r.ok) return;
+    const data = await r.json();
+    const sel = document.getElementById('lineage_name');
+    (data.lineages || []).forEach(l => {
+      const opt = document.createElement('option');
+      opt.value = l.lineage_name;
+      opt.textContent = `${l.lineage_name} (Khai Tổ đời ${l.khai_to_gen})`;
+      opt.dataset.gen = l.khai_to_gen;
+      sel.appendChild(opt);
+    });
+  } catch(e) { console.warn('Không load được lineages:', e); }
+}
+
+function onLineageChange() {
+  const sel = document.getElementById('lineage_name');
+  const opt = sel.options[sel.selectedIndex];
+  const info = document.getElementById('lineage-info');
+  if (opt && opt.dataset.gen) {
+    info.style.display = 'block';
+    info.textContent = `Khai Tổ tông này ở đời ${opt.dataset.gen} · Điền generationOrder bên dưới để tính đời trong tông`;
+  } else {
+    info.style.display = 'none';
+  }
+}
+
+// ── TTL generator ─────────────────────────────────────────────────────────
+function buildTTL() {
+  const slug      = document.getElementById('slug').value.trim();
+  const name_vi   = document.getElementById('name_vi').value.trim();
+  const name_zh   = document.getElementById('name_zh').value.trim();
+  const bio       = document.getElementById('bio_vi').value.trim();
+  const birth     = document.getElementById('birth_year').value.trim();
+  const death     = document.getElementById('death_year').value.trim();
+  const teacher_v = document.getElementById('teacher_vi').value.trim();
+  const teacher_s = document.getElementById('teacher_slug').value.trim();
+  const discRaw   = document.getElementById('disciples').value.trim();
+  const lineage   = document.getElementById('lineage_custom').value.trim()
+                    || document.getElementById('lineage_name').value;
+  const gen       = document.getElementById('gen_order').value.trim();
+  const isFounder = document.getElementById('is_founder').checked;
+
+  if (!slug || !name_vi) return '# ← Cần nhập Tên tiếng Việt';
+
+  let lines = [];
+  lines.push(`@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .`);
+  lines.push(`@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .`);
+  lines.push(`@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .`);
+  lines.push(`@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .`);
+  lines.push(``);
+  lines.push(`<ex:monk/${slug}> a <bkg:Monk> ;`);
+  lines.push(`    rdfs:label "${name_vi}"@vi ;`);
+  if (name_zh) lines.push(`    rdfs:label "${name_zh}"@zh ;`);
+  lines.push(`    crm:P1_is_identified_by <ex:monk/${slug}> ;`);
+
+  // Bio
+  const bioText = bio || `${name_vi}` + (birth ? ` (${birth}` + (death ? ` - ${death}` : '') + `)` : '');
+  lines.push(`    bkg:biographicalNote """`);
+  lines.push(`${bioText}`);
+  lines.push(`    """@vi ;`);
+
+  if (birth || death) {
+    lines.push(`    bkg:birthEvent <ex:monk/${slug}_birthEvent> ;`);
+    lines.push(`    bkg:deathEvent <ex:monk/${slug}_deathEvent> ;`);
+  }
+  if (lineage) lines.push(`    bkg:dharmaLineageName "${lineage}"@vi ;`);
+  lines.push(`    bkg:gender <bkg:Male> ;`);
+  if (gen)  lines.push(`    bkg:generationOrder ${gen} ;`);
+  if (teacher_s) lines.push(`    bkg:hasTeacher <ex:monk/${teacher_s}> ;`);
+
+  // Disciples
+  const discs = discRaw ? discRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+  if (discs.length) {
+    const discParts = discs.map(d => {
+      const parts = d.split('|').map(x => x.trim());
+      return `<ex:monk/${parts[1] || slugify(parts[0])}>`;
+    });
+    if (discParts.length === 1) {
+      lines.push(`    bkg:hasDisciple ${discParts[0]} ;`);
+    } else {
+      lines.push(`    bkg:hasDisciple ${discParts[0]} ,`);
+      discParts.slice(1, -1).forEach(d => lines.push(`        ${d} ,`));
+      lines.push(`        ${discParts[discParts.length-1]} ;`);
+    }
+  }
+
+  lines.push(`    bkg:isLineageFounder ${isFounder ? 'true' : 'false'} .`);
+  lines.push(``);
+
+  // Label stubs
+  if (teacher_s && teacher_v) lines.push(`<ex:monk/${teacher_s}> rdfs:label "${teacher_v}"@vi .`);
+  discs.forEach(d => {
+    const parts = d.split('|').map(x => x.trim());
+    const dslug = parts[1] || slugify(parts[0]);
+    const dname = parts[0];
+    lines.push(`<ex:monk/${dslug}> rdfs:label "${dname}"@vi .`);
+  });
+
+  return lines.join('\n');
+}
+
+function livePreview() {
+  const raw = buildTTL();
+  // Syntax highlight đơn giản
+  const hl = raw
+    .replace(/^(@prefix.*)$/gm, '<span class="kw">$1</span>')
+    .replace(/"([^"]*)"(@\w+)/g, '<span class="str">"$1"</span><span class="kw">$2</span>')
+    .replace(/<([^>]+)>/g, '<span class="uri">&lt;$1&gt;</span>')
+    .replace(/\b(true|false)\b/g, '<span class="num">$1</span>')
+    .replace(/\b(\d+)\b(?!\s*[>\.])/g, '<span class="num">$1</span>')
+    .replace(/^(#.*)$/gm, '<span class="cmt">$1</span>');
+  document.getElementById('ttl-preview').innerHTML = hl;
+}
+
+function copyTTL() {
+  navigator.clipboard.writeText(buildTTL()).then(() => showStatus('Đã copy TTL vào clipboard!', 'info'));
+}
+
+// ── Save TTL ──────────────────────────────────────────────────────────────
+async function saveTTL() {
+  const name_vi = document.getElementById('name_vi').value.trim();
+  const slug    = document.getElementById('slug').value.trim();
+  if (!name_vi || !slug) { showStatus('Cần nhập Tên tiếng Việt và Slug!', 'err'); return; }
+
+  const lineage = document.getElementById('lineage_custom').value.trim()
+                  || document.getElementById('lineage_name').value;
+  const gen     = document.getElementById('gen_order').value.trim();
+  if (!lineage) { showStatus('Cần chọn hoặc nhập tên tông phái!', 'err'); return; }
+  if (!gen)     { showStatus('Cần nhập số đời Lâm Tế (generationOrder)!', 'err'); return; }
+
+  const ttlContent = buildTTL();
+  const filename = 'TS-' + document.getElementById('name_vi').value.trim()
+                        .split(' ').map(w => {
+                          // Dùng slug nhưng capitalize theo từ Việt
+                          return w.split('').map(c => c === c.toUpperCase() ? c : c.toUpperCase()).join('').slice(0,1) + w.slice(1);
+                        }).join('-')
+                        .replace(/[^\w-]/g, '');
+
+  try {
+    showStatus('Đang lưu file TTL...', 'info');
+    const r = await fetch('/daoanh/api/admin/monk_ttl', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ filename, slug, ttl_content: ttlContent })
+    });
+    const d = await r.json();
+    if (d.ok) {
+      showStatus(`✓ Đã lưu: ${d.filepath}\nSlug: ${slug}\nSau khi lưu → nhấn "Chạy ETL" để cập nhật số đời`, 'ok');
+    } else {
+      showStatus('Lỗi: ' + (d.error || 'Không rõ'), 'err');
+    }
+  } catch(e) {
+    showStatus('Lỗi kết nối: ' + e.message, 'err');
+  }
+}
+
+// ── Run ETL ───────────────────────────────────────────────────────────────
+async function runETL() {
+  showStatus('Đang chạy ETL tính số đời... (30-60 giây)', 'info');
+  try {
+    const r = await fetch('/daoanh/api/admin/run_etl_gen', { method: 'POST' });
+    const d = await r.json();
+    if (d.ok) {
+      showStatus(`✓ ETL hoàn tất!\n${d.summary || ''}`, 'ok');
+    } else {
+      showStatus('ETL lỗi: ' + (d.error || ''), 'err');
+    }
+  } catch(e) {
+    showStatus('Lỗi kết nối ETL: ' + e.message, 'err');
+  }
+}
+
+function resetForm() {
+  ['name_vi','slug','name_zh','bio_vi','birth_year','death_year',
+   'teacher_vi','teacher_slug','disciples','lineage_custom','gen_order'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('lineage_name').selectedIndex = 0;
+  document.getElementById('is_founder').checked = false;
+  document.getElementById('gen-display').innerHTML = 'Nhập số đời để xem kết quả';
+  document.getElementById('lineage-info').style.display = 'none';
+  livePreview();
+}
+
+function showStatus(msg, type) {
+  const box = document.getElementById('status-box');
+  box.className = 'status-box status-' + type;
+  box.style.display = 'block';
+  box.innerHTML = msg.replace(/\n/g, '<br>');
+}
+
+// ── Import TTL Template ───────────────────────────────────────────────────
+function importTTLFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      parseTTLIntoForm(e.target.result);
+    } catch(err) {
+      showStatus('Lỗi parse TTL: ' + err.message, 'err');
+    }
+    // Reset input để cho phép chọn lại cùng file
+    input.value = '';
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+function parseTTLIntoForm(ttl) {
+  // ── Slug ────────────────────────────────────────────────────────────────
+  const mSlug = ttl.match(/<ex:monk\/([^>]+)>\s+a\s+<bkg:Monk>/);
+  const slug = mSlug ? mSlug[1].trim() : '';
+
+  // ── Tên Việt (label @vi đầu tiên sau bkg:Monk) ─────────────────────────
+  let name_vi = '';
+  if (mSlug) {
+    const chunk = ttl.slice(mSlug.index, mSlug.index + 400);
+    const lm = chunk.match(/rdfs:label "([^"]+)"@vi/);
+    if (lm) name_vi = lm[1];
+  }
+
+  // ── Tên Hán (@zh) ───────────────────────────────────────────────────────
+  const mZh = ttl.match(/rdfs:label "([^"]+)"@zh/);
+  const name_zh = mZh ? mZh[1] : '';
+
+  // ── Tiểu sử @vi (biographicalNote) ─────────────────────────────────────
+  // Hỗ trợ cả """ ... """ và string đơn
+  let bio_vi = '';
+  const mBio = ttl.match(/bkg:biographicalNote\s+"""([\s\S]*?)"""\s*@vi/);
+  if (mBio) {
+    bio_vi = mBio[1].trim();
+    // Bỏ tag HTML nếu có (bio thường bọc <p>)
+    bio_vi = bio_vi.replace(/<[^>]+>/g, '').trim();
+  } else {
+    const mBio2 = ttl.match(/bkg:biographicalNote\s+"([^"]+)"@vi/);
+    if (mBio2) bio_vi = mBio2[1];
+  }
+
+  // ── Năm sinh / mất: lấy từ birthEvent / deathEvent URI (slug_birthEvent) ─
+  // hoặc từ crm:P82a_begin_of_the_begin nếu có
+  const mBirth = ttl.match(/bkg:birthYear\s+"?(\d{3,4})"?\b|crm:P82a_begin[^"]*"(\d{3,4})"/);
+  const birth_year = mBirth ? (mBirth[1] || mBirth[2] || '') : '';
+  const mDeath = ttl.match(/bkg:deathYear\s+"?(\d{3,4})"?\b|crm:P82b_end[^"]*"(\d{3,4})"/);
+  const death_year = mDeath ? (mDeath[1] || mDeath[2] || '') : '';
+
+  // ── Thầy (hasTeacher) ───────────────────────────────────────────────────
+  const mTeacher = ttl.match(/bkg:hasTeacher\s+<ex:monk\/([^>]+)>/);
+  const teacher_slug = mTeacher ? mTeacher[1].trim() : '';
+  // Tìm label @vi của stub thầy
+  let teacher_vi = '';
+  if (teacher_slug) {
+    // Tìm trong map trước (TTL đang load)
+    const fromMap = Object.entries(_monkSlugMap).find(([n, s]) => s === teacher_slug);
+    if (fromMap) {
+      teacher_vi = fromMap[0];
+    } else {
+      // Fallback: tìm stub label trong chính file TTL này
+      const stubRe = new RegExp('<ex:monk\\/' + teacher_slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '>\\s+rdfs:label\\s+"([^"]+)"@vi');
+      const mStub = ttl.match(stubRe);
+      if (mStub) teacher_vi = mStub[1];
+    }
+  }
+
+  // ── Đệ tử (hasDisciple) ─────────────────────────────────────────────────
+  const discLines = [];
+  const discRe = /bkg:hasDisciple\s+((?:<ex:monk\/[^>]+>\s*[,;]\s*)+<ex:monk\/[^>]+>)/gs;
+  const mDiscBlock = ttl.match(/bkg:hasDisciple([\s\S]+?)(?=\n\s+bkg:|\.)/);
+  if (mDiscBlock) {
+    const discSlugs = [...mDiscBlock[1].matchAll(/<ex:monk\/([^>]+)>/g)].map(m => m[1].trim());
+    discSlugs.forEach(ds => {
+      // Tìm tên từ map hoặc stub
+      let dn = Object.entries(_monkSlugMap).find(([n, s]) => s === ds)?.[0] || '';
+      if (!dn) {
+        const sRe = new RegExp('<ex:monk\\/' + ds.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '>\\s+rdfs:label\\s+"([^"]+)"@vi');
+        const sm = ttl.match(sRe);
+        if (sm) dn = sm[1];
+      }
+      discLines.push(dn ? `${dn} | ${ds}` : ds);
+    });
+  }
+
+  // ── Tông phái (dharmaLineageName) ───────────────────────────────────────
+  // Lấy cái đầu tiên
+  const mLineage = ttl.match(/bkg:dharmaLineageName\s+"([^"]+)"@vi/);
+  const lineage = mLineage ? mLineage[1] : '';
+
+  // ── Số đời (generationOrder) ─────────────────────────────────────────────
+  const mGen = ttl.match(/bkg:generationOrder\s+(\d+)/);
+  const gen = mGen ? mGen[1] : '';
+
+  // ── isLineageFounder ─────────────────────────────────────────────────────
+  const mFounder = ttl.match(/bkg:isLineageFounder\s+(true|false)/);
+  const isFounder = mFounder ? mFounder[1] === 'true' : false;
+
+  // ── Fill vào form ────────────────────────────────────────────────────────
+  document.getElementById('name_vi').value      = name_vi;
+  document.getElementById('slug').value          = slug;
+  document.getElementById('name_zh').value       = name_zh;
+  document.getElementById('bio_vi').value        = bio_vi;
+  document.getElementById('birth_year').value    = birth_year;
+  document.getElementById('death_year').value    = death_year;
+  document.getElementById('teacher_vi').value    = teacher_vi;
+  document.getElementById('teacher_slug').value  = teacher_slug;
+  document.getElementById('disciples').value     = discLines.join(', ');
+  document.getElementById('gen_order').value     = gen;
+  document.getElementById('is_founder').checked  = isFounder;
+
+  // Tông phái: thử match dropdown trước, nếu không có thì dùng custom
+  const sel = document.getElementById('lineage_name');
+  let matchedLineage = false;
+  for (let i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].value === lineage) {
+      sel.selectedIndex = i;
+      matchedLineage = true;
+      onLineageChange();
+      break;
+    }
+  }
+  if (!matchedLineage) {
+    sel.selectedIndex = 0;
+    document.getElementById('lineage_custom').value = lineage;
+  }
+
+  calcGen();
+  livePreview();
+  showStatus(
+    `✓ Đã nạp từ TTL: <b>${name_vi || slug}</b>${teacher_vi ? ' · Thầy: ' + teacher_vi : ''}` +
+    `${discLines.length ? ' · ' + discLines.length + ' đệ tử' : ''}` +
+    `<br><span style="color:#94a3b8;font-size:11px">Kiểm tra lại preview → nhấn Lưu nếu đúng</span>`,
+    'info'
+  );
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+loadLineages();
+loadMonkNames();
+livePreview();
+</script>
+<script src="person-ttl-draft.js"></script>
+</body>
+</html>

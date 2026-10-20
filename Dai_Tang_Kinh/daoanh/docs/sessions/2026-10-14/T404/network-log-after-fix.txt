@@ -1,0 +1,37 @@
+T404 — Network log sau khi sửa places.html (gõ "Lâm Tế" từng ký tự, route
+http://127.0.0.1:8080/daoanh/places?mode=lineage&focus=A032162&lm=tree)
+
+Quan sát:
+- KHÔNG có request /daoanh/api/places/search?q=Lâm... nào được gửi khi gõ (chỉ còn các
+  request q= (rỗng) cố định lúc tải trang ban đầu, không liên quan ô search).
+- Mỗi ký tự gõ sinh ra 1 cặp request /daoanh/api/public/autocomplete?q=... và
+  /daoanh/api/monk-resolve?name=... (debounce 120ms); request của ký tự trước bị huỷ
+  (net::ERR_ABORTED) khi ký tự mới được gõ — đúng theo yêu cầu AbortController + seq.
+- Request cuối cùng ứng với giá trị "Lâm Tế" trả 200 OK và nội dung khớp đúng chuỗi đang
+  gõ (không bị kết quả cũ đè lên).
+
+Log (rút gọn, các dòng liên quan đến search/autocomplete):
+[...] GET /daoanh/api/public/autocomplete?q=L%C3%A2 [FAILED: net::ERR_ABORTED]
+[...] GET /daoanh/api/monk-resolve?name=L%C3%A2 [FAILED: net::ERR_ABORTED]
+[...] GET /daoanh/api/public/autocomplete?q=L%C3%A2m → 200 OK
+[...] GET /daoanh/api/monk-resolve?name=L%C3%A2m → 200 OK
+[...] GET /daoanh/api/public/autocomplete?q=L%C3%A2m%20T → 200 OK
+[...] GET /daoanh/api/monk-resolve?name=L%C3%A2m%20T → 200 OK
+[...] GET /daoanh/api/public/autocomplete?q=L%C3%A2m%20T%E1%BA%BF → 200 OK
+[...] GET /daoanh/api/monk-resolve?name=L%C3%A2m%20T%E1%BA%BF → 200 OK
+
+Kết quả trả về cuối (q=Lâm Tế):
+- /daoanh/api/public/autocomplete: 10 địa danh (Lâm Tế Tự, Lâm Tế, Lâm Tế Thành, Lâm Tế
+  Đình, ...), đều chứa đúng chuỗi "Lâm Tế".
+- /daoanh/api/monk-resolve: person A033811 "Lâm Tế Tông" — chứa đúng chuỗi "Lâm Tế" nên
+  được hiển thị; trước khi sửa, lỗi chẩn đoán #5 ghi nhận trường hợp "Lâm Tế" từng trả về
+  sai thành người tên "Lâm" (không chứa "Lâm Tế") — nay bị lọc bỏ bởi điều kiện containment
+  (normalizeVi(name_vi/name_zh).includes(normalizeVi(q))).
+
+Ghi chú vận hành (không thuộc phạm vi T404, không sửa):
+- /daoanh/api/monk-resolve đã có lúc phải đợi monk-resolve xếp hàng 8-60s do backend
+  (app.py, cổng 8080/local_gateway) đơn luồng bận xử lý các API khác của trang (lineage-tree,
+  persons, evidence trả 500 khi server quá tải). Vì lý do này, runAutocomplete không còn
+  dùng Promise.allSettled chờ cả 2 API cùng lúc — gợi ý địa danh (autocomplete, luôn nhanh)
+  hiển thị ngay cả khi monk-resolve chưa về, và được bổ sung dòng "Tăng nhân" khi monk-resolve
+  về sau đó (nếu vẫn còn khớp truy vấn hiện tại).

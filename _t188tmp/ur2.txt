@@ -1,0 +1,7 @@
+﻿git : fatal: update_ref failed for ref 'HEAD': couldn't set 'HEAD'
+At line:8 char:1
++ git update-ref --no-deref HEAD $sha 3991c28dc42c290c0848603c4d3ee9d9f ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: update_r...dn't set 'HEAD':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

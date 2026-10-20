@@ -1,0 +1,65 @@
+    [T130+T131] routes additive da dang ky
+{
+ "/daoanh/api/admin/zenlineage/candidates?limit=2&q=mazu": [
+  200,
+  {
+   "filter": "all",
+   "items": [
+    {
+     "birth_year": null,
+     "confidence": null,
+     "death_year": null,
+     "dila_person_id": null,
+     "editor": null,
+     "name": "Mazu Daoyi",
+     "note": null,
+     "school": "nanyue-line",
+     "slug": "mazu-daoyi",
+     "status": "pending",
+     "suggestions": []
+    }
+   ],
+   "limit": 2,
+   "ok": true,
+   "page": 1,
+   "total": 1
+  }
+ ],
+ "/daoanh/api/admin/zenlineage/candidates?limit=3&filter=approved": [
+  200,
+  {
+   "filter": "approved",
+   "items": [],
+   "limit": 3,
+   "ok": true,
+   "page": 1,
+   "total": 0
+  }
+ ],
+ "/daoanh/api/admin/zenlineage/stats": [
+  200,
+  {
+   "approved": 0,
+   "by_status": {
+    "pending": 556
+   },
+   "by_tier": {
+    "A": 194,
+    "B": 342,
+    "C": 25,
+    "D": 17
+   },
+   "ok": true,
+   "total": 556,
+   "transmissions": 578
+  }
+ ],
+ "_rule_count": 363,
+ "_zen_endpoints": [
+  "zenlineage_candidate_approve",
+  "zenlineage_candidate_reject",
+  "zenlineage_candidate_unset",
+  "zenlineage_candidates",
+  "zenlineage_stats"
+ ]
+}

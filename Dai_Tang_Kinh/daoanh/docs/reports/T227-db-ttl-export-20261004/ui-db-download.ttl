@@ -1,0 +1,837 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix pth: <https://www.phatphaponline.org/ontology/daoanh#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.phatphaponline.org/resource/dossier/7d29610f-0cf4-5ed5-aba8-813c9434956b> a dcat:Dataset,
+        prov:Entity ;
+    dcterms:conformsTo <https://www.phatphaponline.org/ontology/ttl-profile/2.0.0> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/legacy/7d29610f-0cf4-5ed5-aba8-813c9434956b>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_cbeta>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_computed_generations>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_DILA>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_MARCUS>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_TTL>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_identity>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_marcus>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people_vi>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vn_person_relations_e517ad48c1>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vpa_e517ad48c13ce005>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/relation_1> ;
+    foaf:primaryTopic <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    pth:accessLevel "internal_draft" ;
+    pth:hasAssertion <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_21>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_22>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_23>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_24>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_25>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_26>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_27>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_28>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_29>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_30>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_31>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_32>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_33>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_34>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_44>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_45>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_46>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_47>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_48>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_49>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_50>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_51>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_35>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_36>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_37>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_38>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_39>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_40>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_41>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_43>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_1>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_10>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_11>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_12>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_13>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_14>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_15>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_16>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_17>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_18>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_19>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_2>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_20>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_3>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_4>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_5>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_6>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_7>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_8>,
+        <https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_9> ;
+    pth:profilePayload "{\"assertions\": [{\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_1\", \"object\": {\"kind\": \"literal\", \"value\": \"A008431\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#dilaId\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_2\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"慧升\"}, \"predicate\": \"http://www.w3.org/2000/01/rdf-schema#label\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_3\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"寒巖慧升\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_4\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"延福慧升\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_5\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"支提道升\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_6\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"鼓山道升\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_7\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"卒於：南宋, 孝宗, 淳熙, 三年，79歲\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#sourceNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_8\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"南宋\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#dynasty\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_9\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"建安\\n      PL000000018314\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#placeOfOrigin\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_10\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"臨濟宗 楊岐派\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#sourceNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_11\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"是\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#sourceNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_12\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"泉州延福寒巖慧升禪師，亦作道升禪師，吳氏子。佛智端裕（1085-1150）禪師法嗣，大鑑下第十七世。母歿，至長樂出家，侍佛智移靈隱，居元座，後還里結菴曰「寒巖」。李敦帥閔，延住支提山，遷承天、黃龍、泐潭。後歸建安，史丞相帥福，請住鼓山。 （T51n2077_p0680c25；X82n1571_p0123c13；X84n1583_p0433a19；佛名：800）\"}, \"predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#biographicalNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_13\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"增修雲林寺志‧卷3‧寒巖升禪師\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#mentionedIn\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_14\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"+1098-01-01 ~ +1098-12-31\\n    依記錄推算。\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#birthDateExpression\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_15\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"+1176-02-19 ~ +1177-02-07\\n    一說年七十九，一說壽六十九。（疑年錄：266；X84n1583_p0433a19）\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#deathDateExpression\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_16\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"( CBETA X77n1524_p0450b15 ) 補續高僧傳: 道升傳\\n    ( CBETA X82n1571_p0123c13 )\\n    g010p0420(明州阿育王山志) { 慧升 } \\n    g010p0478(明州阿育王山志) { 寒巖慧升 }\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#mentionedIn\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_17\", \"object\": {\"kind\": \"literal\", \"value\": \"Male\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#gender\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_18\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/ontology/daoanh#Monastic\"}, \"predicate\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_19\", \"object\": {\"kind\": \"iri\", \"value\": \"http://www.cidoc-crm.org/cidoc-crm/E21_Person\"}, \"predicate\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_1\"], \"id\": \"dila_20\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：050）\", \"relation_scope\": \"DILA raw type=teacher; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_people\"], \"id\": \"db_21\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"慧升\"}, \"predicate\": \"http://www.w3.org/2000/01/rdf-schema#label\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_people\"], \"id\": \"db_22\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"泉州延福寒巖慧升禪師，亦作道升禪師，吳氏子。佛智端裕（1085-1150）禪師法嗣，大鑑下第十七世。母歿，至長樂出家，侍佛智移靈隱，居元座，後還里結菴曰「寒巖」。李敦帥閔，延住支提山，遷承天、黃龍、泐潭。後歸建安，史丞相帥福，請住鼓山。 （T51n2077_p0680c25；X82n1571_p0123c13；X84n1583_p0433a19；佛名：800）\"}, \"predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#biographicalNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_people\"], \"id\": \"db_23\", \"object\": {\"kind\": \"literal\", \"value\": \"南宋\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#dynasty\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_people\"], \"id\": \"db_24\", \"object\": {\"kind\": \"literal\", \"value\": \"1085\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#birthYear\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_people\"], \"id\": \"db_25\", \"object\": {\"kind\": \"literal\", \"value\": \"1150\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#deathYear\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_people\"], \"id\": \"db_26\", \"object\": {\"kind\": \"literal\", \"value\": \"Thiền Tông\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#lineageMembership\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_people_vi\"], \"id\": \"db_27\", \"object\": {\"kind\": \"literal\", \"language\": \"vi\", \"value\": \"Tuệ Thăng\"}, \"predicate\": \"http://www.w3.org/2000/01/rdf-schema#label\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_identity\", \"dila_record\"], \"id\": \"db_28\", \"object\": {\"kind\": \"literal\", \"value\": \"A008431\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#dilaId\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_vpa_e517ad48c13ce005\"], \"id\": \"db_29\", \"object\": {\"kind\": \"literal\", \"language\": \"vi\", \"value\": \"Diên Phúc Tuệ Thăng\"}, \"predicate\": \"http://www.w3.org/2000/01/rdf-schema#label\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"counting_scheme\": \"\", \"derivation\": \"system_DB_export\", \"evidence\": [\"db_vpa_e517ad48c13ce005\"], \"id\": \"db_30\", \"object\": {\"kind\": \"literal\", \"language\": \"vi\", \"value\": \"Thiền sư Tuệ Thăng ở Diên Phước\\nThiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\\n\\nCó lúc lên giảng đường, Sư hét một tiếng rồi bảo:\\n\\n“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\\n\\nSư lại hét một tiếng và tiếp bảo:\\n\\n– Rất kỵ chuyển hơi xúc phạm húy.\"}, \"predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#biographicalNote\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"counting_scheme\": \"\", \"derivation\": \"system_DB_export\", \"evidence\": [\"db_vpa_e517ad48c13ce005\"], \"id\": \"db_31\", \"object\": {\"kind\": \"literal\", \"language\": \"vi\", \"value\": \"Dòng Lâm Tế Dương Kỳ\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#lineageMembership\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"counting_scheme\": \"legacy_unspecified\", \"derivation\": \"system_DB_export\", \"evidence\": [\"db_vpa_e517ad48c13ce005\"], \"id\": \"db_32\", \"object\": {\"datatype\": \"http://www.w3.org/2001/XMLSchema#integer\", \"kind\": \"literal\", \"value\": \"50\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#generationNumber\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"counting_scheme\": \"\", \"derivation\": \"system_DB_export\", \"evidence\": [\"db_vpa_e517ad48c13ce005\"], \"id\": \"db_33\", \"object\": {\"kind\": \"literal\", \"value\": \"Male\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#gender\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"counting_scheme\": \"\", \"derivation\": \"system_DB_export\", \"evidence\": [\"db_vpa_e517ad48c13ce005\"], \"id\": \"db_34\", \"object\": {\"datatype\": \"http://www.w3.org/2001/XMLSchema#boolean\", \"kind\": \"literal\", \"value\": \"false\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#isLineageFounder\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"legacy_migration\", \"evidence\": [\"db_ttl_49629\"], \"id\": \"db_ttl_claim_35\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, \"original_predicate\": \"http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by\", \"predicate\": \"http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"legacy_migration\", \"evidence\": [\"db_ttl_49629\"], \"id\": \"db_ttl_claim_36\", \"object\": {\"kind\": \"literal\", \"language\": \"vi\", \"value\": \" \\r\\n\\tThiền sư Tuệ Thăng ở Diên Phước\\r\\nThiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\\r\\n\\r\\nCó lúc lên giảng đường, Sư hét một tiếng rồi bảo:\\r\\n\\r\\n“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\\r\\n\\r\\nSư lại hét một tiếng và tiếp bảo:\\r\\n\\r\\n– Rất kỵ chuyển hơi xúc phạm húy.\\r\\n\"}, \"original_predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#biographicalNote\", \"predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#biographicalNote\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"legacy_migration\", \"evidence\": [\"db_ttl_49629\"], \"id\": \"db_ttl_claim_37\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/legacy-resource/67d32a2f-bbd2-5186-984f-dbae1bca67d6\"}, \"original_predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#birthEvent\", \"predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#birthEvent\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"legacy_migration\", \"evidence\": [\"db_ttl_49629\"], \"id\": \"db_ttl_claim_38\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/legacy-resource/92c039c4-4588-54a0-8ab0-fa2ca7bf4160\"}, \"original_predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#deathEvent\", \"predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#deathEvent\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"legacy_migration\", \"evidence\": [\"db_ttl_49629\"], \"id\": \"db_ttl_claim_39\", \"object\": {\"kind\": \"literal\", \"language\": \"vi\", \"value\": \"Dòng Lâm Tế Dương Kỳ\"}, \"original_predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#dharmaLineageName\", \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#lineageMembership\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"legacy_migration\", \"evidence\": [\"db_ttl_49629\"], \"id\": \"db_ttl_claim_40\", \"object\": {\"kind\": \"literal\", \"value\": \"Male\"}, \"original_predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#gender\", \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#gender\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"counting_scheme\": \"legacy_unspecified\", \"derivation\": \"legacy_migration\", \"evidence\": [\"db_ttl_49629\"], \"id\": \"db_ttl_claim_41\", \"object\": {\"datatype\": \"http://www.w3.org/2001/XMLSchema#integer\", \"kind\": \"literal\", \"value\": \"50\"}, \"original_predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#generationOrder\", \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#generationNumber\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"legacy_migration\", \"evidence\": [\"db_ttl_49629\"], \"id\": \"db_ttl_claim_43\", \"object\": {\"datatype\": \"http://www.w3.org/2001/XMLSchema#boolean\", \"kind\": \"literal\", \"value\": \"false\"}, \"original_predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#isLineageFounder\", \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#isLineageFounder\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"counting_scheme\": \"computed:dila_global:gen_lamte\", \"derivation\": \"system_DB_export\", \"evidence\": [\"db_computed_generations\"], \"id\": \"db_44\", \"object\": {\"datatype\": \"http://www.w3.org/2001/XMLSchema#integer\", \"kind\": \"literal\", \"value\": \"13\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#generationNumber\", \"rationale\": \"Giữ nguyên số trong DB; chưa xác minh theo ba nguồn độc lập.\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"counting_scheme\": \"computed:dila_global:gen_thientong\", \"derivation\": \"system_DB_export\", \"evidence\": [\"db_computed_generations\"], \"id\": \"db_45\", \"object\": {\"datatype\": \"http://www.w3.org/2001/XMLSchema#integer\", \"kind\": \"literal\", \"value\": \"49\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#generationNumber\", \"rationale\": \"Giữ nguyên số trong DB; chưa xác minh theo ba nguồn độc lập.\", \"status\": \"legacy_unverified\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_edges_DILA\"], \"id\": \"db_46\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, \"original_predicate\": \"dila:teacher_of\", \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"\", \"relation_scope\": \"DB da:isTeacherOf; không tự nâng thành truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_edges_DILA\"], \"id\": \"db_47\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, \"original_predicate\": \"dila:teacher_of\", \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"\", \"relation_scope\": \"DB da:isTeacherOf; không tự nâng thành truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_edges_MARCUS\"], \"id\": \"db_48\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, \"original_predicate\": \"da:isTeacherOf\", \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：050）; \", \"relation_scope\": \"DB da:isTeacherOf; không tự nâng thành truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_edges_TTL\"], \"id\": \"db_49\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, \"original_predicate\": \"hasTeacher\", \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"TS-Dien-Phuc-Tue-Thang\", \"relation_scope\": \"DB da:isTeacherOf; không tự nâng thành truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_cbeta\"], \"id\": \"db_50\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"{\\\"id\\\": 58495, \\\"cbeta_text_sigla\\\": \\\"X77n1524\\\", \\\"dila_person_id\\\": \\\"A008431\\\", \\\"person_name_zh\\\": \\\"鼓山道升\\\", \\\"juan\\\": \\\"\\\", \\\"page\\\": \\\"0365a\\\", \\\"context_snippet\\\": \\\"卷第一 　序 　　譯經篇第一 宋天息灾法天施護三師　法護惟淨二師 金蘇陀室利附寶公慧洪　元帝師󳱑思八 　金剛上師　佛智三藏 　必蘭納識理　雪磵法禎 明西天國師附桑渴巴辣　具生吉祥大師附底哇答思 卷第二 　　義解篇第二 宋四明知禮法師附尚賢　慈雲懺主遵式  　長水子璿法師　從雅少康二師 　本如子琳二公　思悟慧舟二公 　霅川仁岳　亞休惟巳 　無象元淨　繼忠左伸二師 　從諫希最二師　超果靈炤 　介然能師\\\"}\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#mentionedIn\", \"status\": \"draft\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, {\"derivation\": \"system_DB_export\", \"evidence\": [\"db_marcus\"], \"id\": \"db_51\", \"object\": {\"kind\": \"literal\", \"value\": \"MARCUS:A008431\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#externalIdentifier\", \"status\": \"draft\", \"subject\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}], \"created_at\": \"2026-10-04T04:08:44.403447+00:00\", \"legacy_turtle\": \"\\t@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .\\r\\n@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .\\r\\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\\r\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\r\\n\\r\\n<ex:monk/dien_phuc_tue_thang> a <bkg:Monk> ;\\r\\n    rdfs:label \\\"Diên Phúc Tuệ Thăng\\\"@vi ;\\r\\n    crm:P1_is_identified_by <ex:monk/dien_phuc_tue_thang> ;        \\r\\n    bkg:biographicalNote \\\"\\\"\\\" \\r\\n\\tThiền sư Tuệ Thăng ở Diên Phước\\r\\nThiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\\r\\n\\r\\nCó lúc lên giảng đường, Sư hét một tiếng rồi bảo:\\r\\n\\r\\n“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\\r\\n\\r\\nSư lại hét một tiếng và tiếp bảo:\\r\\n\\r\\n– Rất kỵ chuyển hơi xúc phạm húy.\\r\\n\\\"\\\"\\\"@vi ;\\r\\n    bkg:birthEvent <ex:monk/dien_phuc_tue_thang_birthEvent> ;\\r\\n    bkg:deathEvent <ex:monk/dien_phuc_tue_thang_deathEvent> ;\\r\\n    bkg:dharmaLineageName \\\"Dòng Lâm Tế Dương Kỳ\\\"@vi ;\\r\\n    bkg:gender <bkg:Male> ;\\r\\n    bkg:generationOrder 50;    \\t\\r\\n    bkg:hasTeacher <ex:monk/dien_phuc_tue_thang>;  \\r\\n\\tbkg:isLineageFounder false .\\r\\n\\r\\n<ex:monk/dien_phuc_tue_thang> rdfs:label \\\"Dục Vương Đoan Dụ\\\"@vi .   \\r\\n<ex:monk/tinh_tu_su_nhat> rdfs:label \\\"Tịnh Từ Sư Nhất\\\"@vi .   \\r\\n<ex:monk/dao_trang_phap_toan> rdfs:label \\\"Đạo Tràng Pháp Toàn\\\"@vi .   \\r\\n<ex:monk/thanh_luong_than> rdfs:label \\\"Thanh Lương Thản\\\"@vi .   \\r\\n\\r\\n\\r\\n\", \"person\": {\"dila_id\": \"A008431\", \"entity_type\": \"Monastic\", \"key\": \"7d29610f-0cf4-5ed5-aba8-813c9434956b\", \"legacy_slug\": \"\", \"name_vi\": \"Diên Phúc Tuệ Thăng\", \"name_zh\": \"慧升\", \"uri\": \"https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b\"}, \"profile_version\": \"2.0.0\", \"sources\": [{\"citation\": \"DILA TEI person xml:id=A008431\", \"code\": \"DILA\", \"dataset_url\": \"https://github.com/DILA-edu/Authority-Databases\", \"id\": \"dila_record\", \"record_id\": \"A008431\", \"record_url\": \"https://authority.dila.edu.tw/person/search.php?aid=A008431\", \"retrieved_at\": \"2026-10-04T04:16:03.551879+00:00\", \"rights_status\": \"pending_registry_review\", \"sha256\": \"7f600cdf48045750ed9572e0484b072a7efcaec9253eebe0b00429e139f122c6\", \"snapshot\": {\"db_source_metadata\": {\"archive_sha256\": \"2f61ffafb98523b119b1fdfb84fd2fc2ab84d1617cb48e2f09bce6fd6f34f103\", \"record_serialization\": \"ElementTree TEI element; original archive retained\"}, \"names\": [{\"language\": \"zho-Hant\", \"text\": \"慧升\", \"type\": \"primary\"}, {\"language\": \"zho-Hant\", \"text\": \"寒巖慧升\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"延福慧升\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"支提道升\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"鼓山道升\", \"type\": \"alternative\"}], \"storage\": \"ttl_v2_source_records\", \"xml\": \"<ns0:person xmlns:ns0=\\\"http://www.tei-c.org/ns/1.0\\\" xml:id=\\\"A008431\\\" ana=\\\"historical\\\">\\n  <ns0:persName xml:lang=\\\"zho-Hant\\\">慧升</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">寒巖慧升</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">延福慧升</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">支提道升</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">鼓山道升</ns0:persName>\\n  <ns0:sex value=\\\"1\\\" />\\n  <ns0:birth>\\n    +1098-01-01 ~ +1098-12-31\\n    <ns0:note>依記錄推算。</ns0:note>\\n  </ns0:birth>\\n  <ns0:death>\\n    +1176-02-19 ~ +1177-02-07\\n    <ns0:note>一說年七十九，一說壽六十九。（疑年錄：266；X84n1583_p0433a19）</ns0:note>\\n  </ns0:death>\\n  <ns0:note type=\\\"birthDeathDateQuote\\\">卒於：南宋, 孝宗, 淳熙, 三年，79歲</ns0:note>\\n  <ns0:note type=\\\"dynasty\\\">\\n    南宋\\n  </ns0:note>\\n  <ns0:note type=\\\"placeOfOrigin\\\">\\n    <ns0:placeName>建安\\n      <ns0:ref target=\\\"http://authority.dila.edu.tw/place/\\\">PL000000018314</ns0:ref>\\n    </ns0:placeName>\\n  </ns0:note>\\n  <ns0:note type=\\\"sect\\\">臨濟宗 楊岐派 </ns0:note>\\n  <ns0:note type=\\\"monk\\\">是</ns0:note>\\n  <ns0:note type=\\\"concise\\\">泉州延福寒巖慧升禪師，亦作道升禪師，吳氏子。佛智端裕（1085-1150）禪師法嗣，大鑑下第十七世。母歿，至長樂出家，侍佛智移靈隱，居元座，後還里結菴曰「寒巖」。李敦帥閔，延住支提山，遷承天、黃龍、泐潭。後歸建安，史丞相帥福，請住鼓山。 （T51n2077_p0680c25；X82n1571_p0123c13；X84n1583_p0433a19；佛名：800）</ns0:note>\\n\\n  <ns0:listRelation>\\n    <ns0:relation type=\\\"teacher\\\" active=\\\"A007993\\\" n=\\\"端裕\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：050）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n  </ns0:listRelation>\\n  <ns0:listBibl>\\n    <ns0:bibl>( CBETA X77n1524_p0450b15 ) 補續高僧傳: 道升傳</ns0:bibl>\\n    <ns0:bibl>( CBETA X82n1571_p0123c13 )</ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g010%26cpage=0420%26target=A008431\\\">g010p0420(明州阿育王山志) { 慧升 } </ns0:ref></ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g010%26cpage=0478%26target=A008431\\\">g010p0478(明州阿育王山志) { 寒巖慧升 } </ns0:ref></ns0:bibl>\\n  </ns0:listBibl>\\n  <ns0:note type=\\\"mentionedIn\\\">\\n    <ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g022%26cpage=0034\\\">增修雲林寺志‧卷3‧寒巖升禪師</ns0:ref>\\n  </ns0:note>\\n</ns0:person>\\n\"}, \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：050）\", \"code\": \"DILA\", \"id\": \"relation_1\", \"record_id\": \"A008431:A007993\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"DB people; normalized import; Vietnamese fields are editorial\", \"code\": \"DILA\", \"id\": \"db_people\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"f8a30ddfdbd11f5a81ba5d63265db609924103f8d6b7621a4e5de4f81a4dc0b1\", \"snapshot\": {\"bio\": \"泉州延福寒巖慧升禪師，亦作道升禪師，吳氏子。佛智端裕（1085-1150）禪師法嗣，大鑑下第十七世。母歿，至長樂出家，侍佛智移靈隱，居元座，後還里結菴曰「寒巖」。李敦帥閔，延住支提山，遷承天、黃龍、泐潭。後歸建安，史丞相帥福，請住鼓山。 （T51n2077_p0680c25；X82n1571_p0123c13；X84n1583_p0433a19；佛名：800）\", \"bio_vi\": null, \"birth_year\": 1085, \"created_at\": \"2026-04-24 09:04:17\", \"death_year\": 1150, \"dynasty\": \"南宋\", \"id\": \"A008431\", \"latin_source\": null, \"name_en\": \"\", \"name_ja\": \"\", \"name_vi\": \"Tuệ Thăng\", \"name_zh\": \"慧升\", \"sect\": \"Thiền Tông\", \"source_id\": 1, \"source_origin\": \"DILA\"}, \"version\": \"db-snapshot:f8a30ddfdbd11f5a81ba5d63265db609924103f8d6b7621a4e5de4f81a4dc0b1\"}, {\"citation\": \"DB people: bản Việt hóa của hệ thống, không phải tên Việt do DILA cấp\", \"code\": \"LOCAL\", \"id\": \"db_people_vi\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"2a2b0d39e01caeedd481cee7d0a7cf61f842d65207a5dee53f873a86bc463a28\", \"snapshot\": {\"bio_vi\": null, \"id\": \"A008431\", \"latin_source\": null, \"name_vi\": \"Tuệ Thăng\", \"source_origin\": \"DILA\"}, \"version\": \"db-snapshot:2a2b0d39e01caeedd481cee7d0a7cf61f842d65207a5dee53f873a86bc463a28\"}, {\"citation\": \"Khóa DILA ID chính xác trong DB\", \"code\": \"DILA\", \"id\": \"db_identity\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"02a38c27ff738d754773159de82b8e55d2b6b9bd87b2ba0ca151ba191874736c\", \"snapshot\": {\"id\": \"A008431\", \"storage\": \"exact DB primary key\"}, \"version\": \"db-snapshot:02a38c27ff738d754773159de82b8e55d2b6b9bd87b2ba0ca151ba191874736c\"}, {\"citation\": \"DB vn_person_authority; giữ status/mapping gốc\", \"code\": \"LEGACY_TTL\", \"id\": \"db_vpa_e517ad48c13ce005\", \"record_id\": \"dien_phuc_tue_thang\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"af933e51f83d2aff9db7260af950add5fcc9ed2ee1b720b404057d47146a3262\", \"snapshot\": {\"appellations\": null, \"biographical_note_vi\": \"Thiền sư Tuệ Thăng ở Diên Phước\\nThiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\\n\\nCó lúc lên giảng đường, Sư hét một tiếng rồi bảo:\\n\\n“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\\n\\nSư lại hét một tiếng và tiếp bảo:\\n\\n– Rất kỵ chuyển hơi xúc phạm húy.\", \"birth_year\": null, \"created_at\": \"2026-10-02 10:45:33\", \"death_year\": null, \"dharma_lineage\": \"Dòng Lâm Tế Dương Kỳ\", \"dharma_title\": null, \"dila_id\": \"A008431\", \"gender\": \"Male\", \"generation_order\": 50, \"id\": \"dien_phuc_tue_thang\", \"is_lineage_founder\": 0, \"name_vi\": \"Diên Phúc Tuệ Thăng\", \"name_zh\": \"延福慧升\", \"status\": \"verified\", \"ttl_filename\": \"TS-Dien-Phuc-Tue-Thang\"}, \"version\": \"db-snapshot:af933e51f83d2aff9db7260af950add5fcc9ed2ee1b720b404057d47146a3262\"}, {\"citation\": \"DB vn_person_relations; dữ liệu nguyên bản theo slug\", \"code\": \"LEGACY_TTL\", \"id\": \"db_vn_person_relations_e517ad48c1\", \"record_id\": \"dien_phuc_tue_thang\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"5e3c2cced718c199586cb2a7cd9ad0cd28692e82abd8e37bb4b7dee47b791226\", \"snapshot\": [{\"id\": 2393, \"person_id\": \"dien_phuc_tue_thang\", \"relation_type\": \"hasTeacher\", \"target_id\": \"duc_vuong_doan_du\", \"target_label_vi\": \"Dục Vương Đoan Dụ\", \"ttl_filename\": \"TS-Dien-Phuc-Tue-Thang\"}], \"version\": \"db-snapshot:5e3c2cced718c199586cb2a7cd9ad0cd28692e82abd8e37bb4b7dee47b791226\"}, {\"citation\": \"TTL nguyên văn đã nhập DB: TS-Dien-Phuc-Tue-Thang.ttl\", \"code\": \"LEGACY_TTL\", \"id\": \"db_ttl_49629\", \"record_id\": \"TS-Dien-Phuc-Tue-Thang.ttl\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"5c8dd88d2422eac1b764c0157fd92271a86e1766e927322cd2e5c63ac61f1e13\", \"snapshot\": {\"filename\": \"TS-Dien-Phuc-Tue-Thang.ttl\", \"metadata\": {\"person\": {\"dila_id\": \"\", \"entity_type\": \"Monastic\", \"key\": \"38350245-d799-5d83-bafe-003c89e7c705\", \"legacy_slug\": \"dien_phuc_tue_thang\", \"name_vi\": \"Diên Phúc Tuệ Thăng\", \"name_zh\": \"\", \"uri\": \"https://www.phatphaponline.org/resource/person/38350245-d799-5d83-bafe-003c89e7c705\"}, \"source_rdf_triples\": 15, \"validation\": {\"conforms\": false, \"errors\": [\"Không được tự làm thầy/trò/đồng môn: legacy_8\"], \"warnings\": [\"Nhận định legacy_1 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_2 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_3 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_4 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_5 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_6 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_7 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_8 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_9 được giữ làm tham chiếu, chưa chiếu thành fact.\"]}}, \"raw_text\": \"\\t@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .\\r\\n@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .\\r\\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\\r\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\r\\n\\r\\n<ex:monk/dien_phuc_tue_thang> a <bkg:Monk> ;\\r\\n    rdfs:label \\\"Diên Phúc Tuệ Thăng\\\"@vi ;\\r\\n    crm:P1_is_identified_by <ex:monk/dien_phuc_tue_thang> ;        \\r\\n    bkg:biographicalNote \\\"\\\"\\\" \\r\\n\\tThiền sư Tuệ Thăng ở Diên Phước\\r\\nThiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\\r\\n\\r\\nCó lúc lên giảng đường, Sư hét một tiếng rồi bảo:\\r\\n\\r\\n“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\\r\\n\\r\\nSư lại hét một tiếng và tiếp bảo:\\r\\n\\r\\n– Rất kỵ chuyển hơi xúc phạm húy.\\r\\n\\\"\\\"\\\"@vi ;\\r\\n    bkg:birthEvent <ex:monk/dien_phuc_tue_thang_birthEvent> ;\\r\\n    bkg:deathEvent <ex:monk/dien_phuc_tue_thang_deathEvent> ;\\r\\n    bkg:dharmaLineageName \\\"Dòng Lâm Tế Dương Kỳ\\\"@vi ;\\r\\n    bkg:gender <bkg:Male> ;\\r\\n    bkg:generationOrder 50;    \\t\\r\\n    bkg:hasTeacher <ex:monk/dien_phuc_tue_thang>;  \\r\\n\\tbkg:isLineageFounder false .\\r\\n\\r\\n<ex:monk/dien_phuc_tue_thang> rdfs:label \\\"Dục Vương Đoan Dụ\\\"@vi .   \\r\\n<ex:monk/tinh_tu_su_nhat> rdfs:label \\\"Tịnh Từ Sư Nhất\\\"@vi .   \\r\\n<ex:monk/dao_trang_phap_toan> rdfs:label \\\"Đạo Tràng Pháp Toàn\\\"@vi .   \\r\\n<ex:monk/thanh_luong_than> rdfs:label \\\"Thanh Lương Thản\\\"@vi .   \\r\\n\\r\\n\\r\\n\", \"sha256\": \"689166e60508765713b1957f250fea63f991ff918472ec2dabb8ceda103714d1\"}, \"version\": \"db-snapshot:5c8dd88d2422eac1b764c0157fd92271a86e1766e927322cd2e5c63ac61f1e13\"}, {\"citation\": \"DB person_gen_computed; kết quả tính cũ, không phải chứng cứ xác minh\", \"code\": \"LOCAL\", \"id\": \"db_computed_generations\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"f279fdd8a6030f654477b892aaf0eb73905f6b5cd1bde31632bd9edb027faa92\", \"snapshot\": [{\"gen_lamte\": 13, \"gen_sect\": null, \"gen_thientong\": 49, \"lineage_key\": \"dila_global\", \"lineage_name\": \"Thiền Tông (DILA)\", \"person_id\": \"A008431\"}], \"version\": \"db-snapshot:f279fdd8a6030f654477b892aaf0eb73905f6b5cd1bde31632bd9edb027faa92\"}, {\"citation\": \"DB lineage_edge_assertions; giữ nguồn, status, trust, raw_relation_type\", \"code\": \"DILA\", \"id\": \"db_edges_DILA\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"dca807e2b1a4c68eb72cb184431f267ecea08e2fc73bfcf2b345d92865598d79\", \"snapshot\": [{\"citation_tier\": null, \"created_at\": \"2026-09-17T13:57:25\", \"edge_key\": \"D|A007993|A008431\", \"id\": 17953, \"mapping_verified\": 1, \"object_person_id\": \"A008431\", \"raw_relation_type\": \"dila:teacher_of\", \"ref\": null, \"relation_type\": \"da:isTeacherOf\", \"source_code\": \"DILA\", \"status\": \"active\", \"subject_person_id\": \"A007993\", \"trust_level\": \"L2\"}, {\"citation_tier\": null, \"created_at\": \"2026-09-17T13:57:25\", \"edge_key\": \"D|A007993|A008431\", \"id\": 18448, \"mapping_verified\": 1, \"object_person_id\": \"A008431\", \"raw_relation_type\": \"dila:teacher_of\", \"ref\": null, \"relation_type\": \"da:isTeacherOf\", \"source_code\": \"DILA\", \"status\": \"active\", \"subject_person_id\": \"A007993\", \"trust_level\": \"L2\"}], \"version\": \"db-snapshot:dca807e2b1a4c68eb72cb184431f267ecea08e2fc73bfcf2b345d92865598d79\"}, {\"citation\": \"DB lineage_edge_assertions; giữ nguồn, status, trust, raw_relation_type\", \"code\": \"MARCUS\", \"id\": \"db_edges_MARCUS\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"374763ace2520e098a1132cf6ac5f4f25bb4612fc4f823abc046c41740c87dec\", \"snapshot\": [{\"citation_tier\": null, \"created_at\": \"2026-09-14T19:37:11\", \"edge_key\": \"M|A007993|A008431\", \"id\": 3925, \"mapping_verified\": 1, \"object_person_id\": \"A008431\", \"raw_relation_type\": \"da:isTeacherOf\", \"ref\": \"（望月‧卷六‧附錄：050）; \", \"relation_type\": \"da:isTeacherOf\", \"source_code\": \"MARCUS\", \"status\": \"active\", \"subject_person_id\": \"A007993\", \"trust_level\": \"L1\"}], \"version\": \"db-snapshot:374763ace2520e098a1132cf6ac5f4f25bb4612fc4f823abc046c41740c87dec\"}, {\"citation\": \"DB lineage_edge_assertions; giữ nguồn, status, trust, raw_relation_type\", \"code\": \"LEGACY_TTL\", \"id\": \"db_edges_TTL\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"2fe064a8d61a5ee7f003b9262b84fb66fc21465cafaa74171b20c67f8ab5f0c0\", \"snapshot\": [{\"citation_tier\": null, \"created_at\": \"2026-10-02T17:45:33\", \"edge_key\": \"TTL|A007993|A008431\", \"id\": 58977, \"mapping_verified\": 1, \"object_person_id\": \"A008431\", \"raw_relation_type\": \"hasTeacher\", \"ref\": \"TS-Dien-Phuc-Tue-Thang\", \"relation_type\": \"da:isTeacherOf\", \"source_code\": \"TTL\", \"status\": \"active\", \"subject_person_id\": \"A007993\", \"trust_level\": \"L2\"}], \"version\": \"db-snapshot:2fe064a8d61a5ee7f003b9262b84fb66fc21465cafaa74171b20c67f8ab5f0c0\"}, {\"citation\": \"DB cbeta_person_mentions; giữ sigla, juan, page, context\", \"code\": \"CBETA\", \"id\": \"db_cbeta\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"c0c531ee21e30e8f6ca3bb61993c27b66f7271a3ef653b1274a3e3bec4b83a9f\", \"snapshot\": [{\"cbeta_text_sigla\": \"X77n1524\", \"context_snippet\": \"卷第一 　序 　　譯經篇第一 宋天息灾法天施護三師　法護惟淨二師 金蘇陀室利附寶公慧洪　元帝師󳱑思八 　金剛上師　佛智三藏 　必蘭納識理　雪磵法禎 明西天國師附桑渴巴辣　具生吉祥大師附底哇答思 卷第二 　　義解篇第二 宋四明知禮法師附尚賢　慈雲懺主遵式  　長水子璿法師　從雅少康二師 　本如子琳二公　思悟慧舟二公 　霅川仁岳　亞休惟巳 　無象元淨　繼忠左伸二師 　從諫希最二師　超果靈炤 　介然能師\", \"dila_person_id\": \"A008431\", \"id\": 58495, \"juan\": \"\", \"page\": \"0365a\", \"person_name_zh\": \"鼓山道升\"}], \"version\": \"db-snapshot:c0c531ee21e30e8f6ca3bb61993c27b66f7271a3ef653b1274a3e3bec4b83a9f\"}, {\"citation\": \"DB Marcus; giữ loại cạnh nguyên bản, không chuyển mạng thành truyền pháp\", \"code\": \"MARCUS\", \"id\": \"db_marcus\", \"record_id\": \"A008431\", \"rights_status\": \"pending_artifact_review\", \"sha256\": \"33e853e20d7689ce66ac44467a90acaa7f8c16c95b043b4c179ab10994b1419c\", \"snapshot\": {\"edges\": [{\"created_at\": \"2026-04-23 04:34:32\", \"id\": 3925, \"ref\": \"（望月‧卷六‧附錄：050）; \", \"relation_type\": \"da:isTeacherOf\", \"source_data\": \"MARCUS\", \"student_id\": \"A008431\", \"student_label\": \"慧升\", \"teacher_id\": \"A007993\", \"teacher_label\": \"端裕\"}], \"mapping\": [{\"created_at\": \"2026-08-18 12:46:41\", \"marcus_node_id\": \"A008431\", \"match_confidence\": 1.0, \"match_method\": \"exact_id\", \"person_id\": \"A008431\"}], \"people\": [{\"birth_year\": null, \"created_at\": \"2026-07-29 08:31:50\", \"death_year\": null, \"label\": \"慧升\", \"label_vi\": \"Huệ Thăng\", \"label_vi_confidence\": 0.5, \"label_vi_source\": \"auto_hanviet_T51f\", \"node_id\": \"A008431\"}]}, \"version\": \"db-snapshot:33e853e20d7689ce66ac44467a90acaa7f8c16c95b043b4c179ab10994b1419c\"}]}"^^rdf:JSON ;
+    pth:profileVersion "2.0.0" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_21> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "慧升"@zh-Hant ;
+    rdf:predicate rdfs:label ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_22> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "泉州延福寒巖慧升禪師，亦作道升禪師，吳氏子。佛智端裕（1085-1150）禪師法嗣，大鑑下第十七世。母歿，至長樂出家，侍佛智移靈隱，居元座，後還里結菴曰「寒巖」。李敦帥閔，延住支提山，遷承天、黃龍、泐潭。後歸建安，史丞相帥福，請住鼓山。 （T51n2077_p0680c25；X82n1571_p0123c13；X84n1583_p0433a19；佛名：800）"@zh-Hant ;
+    rdf:predicate bkg:biographicalNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_23> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "南宋" ;
+    rdf:predicate pth:dynasty ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_24> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "1085" ;
+    rdf:predicate pth:birthYear ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_25> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "1150" ;
+    rdf:predicate pth:deathYear ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_26> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Thiền Tông" ;
+    rdf:predicate pth:lineageMembership ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_27> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Tuệ Thăng"@vi ;
+    rdf:predicate rdfs:label ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people_vi> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_28> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "A008431" ;
+    rdf:predicate pth:dilaId ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_identity>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_29> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Diên Phúc Tuệ Thăng"@vi ;
+    rdf:predicate rdfs:label ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vpa_e517ad48c13ce005> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_30> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """Thiền sư Tuệ Thăng ở Diên Phước
+Thiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.
+
+Có lúc lên giảng đường, Sư hét một tiếng rồi bảo:
+
+“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”
+
+Sư lại hét một tiếng và tiếp bảo:
+
+– Rất kỵ chuyển hơi xúc phạm húy."""@vi ;
+    rdf:predicate bkg:biographicalNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vpa_e517ad48c13ce005> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_31> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Dòng Lâm Tế Dương Kỳ"@vi ;
+    rdf:predicate pth:lineageMembership ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vpa_e517ad48c13ce005> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_32> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object 50 ;
+    rdf:predicate pth:generationNumber ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vpa_e517ad48c13ce005> ;
+    pth:countingScheme "legacy_unspecified" ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_33> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Male" ;
+    rdf:predicate pth:gender ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vpa_e517ad48c13ce005> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_34> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object false ;
+    rdf:predicate pth:isLineageFounder ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vpa_e517ad48c13ce005> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_44> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object 13 ;
+    rdf:predicate pth:generationNumber ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_computed_generations> ;
+    pth:countingScheme "computed:dila_global:gen_lamte" ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:rationale "Giữ nguyên số trong DB; chưa xác minh theo ba nguồn độc lập." ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_45> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object 49 ;
+    rdf:predicate pth:generationNumber ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_computed_generations> ;
+    pth:countingScheme "computed:dila_global:gen_thientong" ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:rationale "Giữ nguyên số trong DB; chưa xác minh theo ba nguồn độc lập." ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_46> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_DILA> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:originalPredicate "dila:teacher_of" ;
+    pth:relationScope "DB da:isTeacherOf; không tự nâng thành truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_47> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_DILA> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:originalPredicate "dila:teacher_of" ;
+    pth:relationScope "DB da:isTeacherOf; không tự nâng thành truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_48> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_MARCUS> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:originalPredicate "da:isTeacherOf" ;
+    pth:rationale "（望月‧卷六‧附錄：050）; " ;
+    pth:relationScope "DB da:isTeacherOf; không tự nâng thành truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_49> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_TTL> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:originalPredicate "hasTeacher" ;
+    pth:rationale "TS-Dien-Phuc-Tue-Thang" ;
+    pth:relationScope "DB da:isTeacherOf; không tự nâng thành truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_50> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "{\"id\": 58495, \"cbeta_text_sigla\": \"X77n1524\", \"dila_person_id\": \"A008431\", \"person_name_zh\": \"鼓山道升\", \"juan\": \"\", \"page\": \"0365a\", \"context_snippet\": \"卷第一 　序 　　譯經篇第一 宋天息灾法天施護三師　法護惟淨二師 金蘇陀室利附寶公慧洪　元帝師󳱑思八 　金剛上師　佛智三藏 　必蘭納識理　雪磵法禎 明西天國師附桑渴巴辣　具生吉祥大師附底哇答思 卷第二 　　義解篇第二 宋四明知禮法師附尚賢　慈雲懺主遵式  　長水子璿法師　從雅少康二師 　本如子琳二公　思悟慧舟二公 　霅川仁岳　亞休惟巳 　無象元淨　繼忠左伸二師 　從諫希最二師　超果靈炤 　介然能師\"}"@zh-Hant ;
+    rdf:predicate pth:mentionedIn ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_cbeta> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "draft" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_51> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "MARCUS:A008431" ;
+    rdf:predicate pth:externalIdentifier ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_marcus> ;
+    pth:derivationMethod "system_DB_export" ;
+    pth:status "draft" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_35> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    rdf:predicate crm:P1_is_identified_by ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> ;
+    pth:derivationMethod "legacy_migration" ;
+    pth:originalPredicate "http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_36> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """ \r
+	Thiền sư Tuệ Thăng ở Diên Phước\r
+Thiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\r
+\r
+Có lúc lên giảng đường, Sư hét một tiếng rồi bảo:\r
+\r
+“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\r
+\r
+Sư lại hét một tiếng và tiếp bảo:\r
+\r
+– Rất kỵ chuyển hơi xúc phạm húy.\r
+"""@vi ;
+    rdf:predicate bkg:biographicalNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> ;
+    pth:derivationMethod "legacy_migration" ;
+    pth:originalPredicate "http://www.phatphaponline.org/ontology/buddhist-kg#biographicalNote" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_37> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/legacy-resource/67d32a2f-bbd2-5186-984f-dbae1bca67d6> ;
+    rdf:predicate bkg:birthEvent ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> ;
+    pth:derivationMethod "legacy_migration" ;
+    pth:originalPredicate "http://www.phatphaponline.org/ontology/buddhist-kg#birthEvent" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_38> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/legacy-resource/92c039c4-4588-54a0-8ab0-fa2ca7bf4160> ;
+    rdf:predicate bkg:deathEvent ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> ;
+    pth:derivationMethod "legacy_migration" ;
+    pth:originalPredicate "http://www.phatphaponline.org/ontology/buddhist-kg#deathEvent" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_39> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Dòng Lâm Tế Dương Kỳ"@vi ;
+    rdf:predicate pth:lineageMembership ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> ;
+    pth:derivationMethod "legacy_migration" ;
+    pth:originalPredicate "http://www.phatphaponline.org/ontology/buddhist-kg#dharmaLineageName" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_40> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Male" ;
+    rdf:predicate pth:gender ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> ;
+    pth:derivationMethod "legacy_migration" ;
+    pth:originalPredicate "http://www.phatphaponline.org/ontology/buddhist-kg#gender" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_41> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object 50 ;
+    rdf:predicate pth:generationNumber ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> ;
+    pth:countingScheme "legacy_unspecified" ;
+    pth:derivationMethod "legacy_migration" ;
+    pth:originalPredicate "http://www.phatphaponline.org/ontology/buddhist-kg#generationOrder" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_claim_43> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object false ;
+    rdf:predicate pth:isLineageFounder ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> ;
+    pth:derivationMethod "legacy_migration" ;
+    pth:originalPredicate "http://www.phatphaponline.org/ontology/buddhist-kg#isLineageFounder" ;
+    pth:status "legacy_unverified" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_1> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "A008431" ;
+    rdf:predicate pth:dilaId ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_10> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "臨濟宗 楊岐派"@zh-Hant ;
+    rdf:predicate pth:sourceNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_11> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "是"@zh-Hant ;
+    rdf:predicate pth:sourceNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_12> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "泉州延福寒巖慧升禪師，亦作道升禪師，吳氏子。佛智端裕（1085-1150）禪師法嗣，大鑑下第十七世。母歿，至長樂出家，侍佛智移靈隱，居元座，後還里結菴曰「寒巖」。李敦帥閔，延住支提山，遷承天、黃龍、泐潭。後歸建安，史丞相帥福，請住鼓山。 （T51n2077_p0680c25；X82n1571_p0123c13；X84n1583_p0433a19；佛名：800）"@zh-Hant ;
+    rdf:predicate bkg:biographicalNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_13> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "增修雲林寺志‧卷3‧寒巖升禪師"@zh-Hant ;
+    rdf:predicate pth:mentionedIn ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_14> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """+1098-01-01 ~ +1098-12-31
+    依記錄推算。"""@zh-Hant ;
+    rdf:predicate pth:birthDateExpression ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_15> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """+1176-02-19 ~ +1177-02-07
+    一說年七十九，一說壽六十九。（疑年錄：266；X84n1583_p0433a19）"""@zh-Hant ;
+    rdf:predicate pth:deathDateExpression ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_16> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """( CBETA X77n1524_p0450b15 ) 補續高僧傳: 道升傳
+    ( CBETA X82n1571_p0123c13 )
+    g010p0420(明州阿育王山志) { 慧升 } 
+    g010p0478(明州阿育王山志) { 寒巖慧升 }"""@zh-Hant ;
+    rdf:predicate pth:mentionedIn ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_17> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Male" ;
+    rdf:predicate pth:gender ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_18> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object pth:Monastic ;
+    rdf:predicate rdf:type ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_19> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object crm:E21_Person ;
+    rdf:predicate rdf:type ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_2> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "慧升"@zh-Hant ;
+    rdf:predicate rdfs:label ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_20> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/31f79e9a-3ad4-5b42-9a75-19603045f02e> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/relation_1> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：050）" ;
+    pth:relationScope "DILA raw type=teacher; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_3> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "寒巖慧升"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_4> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "延福慧升"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_5> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "支提道升"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_6> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "鼓山道升"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_7> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "卒於：南宋, 孝宗, 淳熙, 三年，79歲"@zh-Hant ;
+    rdf:predicate pth:sourceNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_8> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "南宋"@zh-Hant ;
+    rdf:predicate pth:dynasty ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_9> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """建安
+      PL000000018314"""@zh-Hant ;
+    rdf:predicate pth:placeOfOrigin ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/legacy/7d29610f-0cf4-5ed5-aba8-813c9434956b> a prov:Entity ;
+    pth:originalTurtle """	@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .\r
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .\r
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\r
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\r
+\r
+<ex:monk/dien_phuc_tue_thang> a <bkg:Monk> ;\r
+    rdfs:label "Diên Phúc Tuệ Thăng"@vi ;\r
+    crm:P1_is_identified_by <ex:monk/dien_phuc_tue_thang> ;        \r
+    bkg:biographicalNote \"\"\" \r
+	Thiền sư Tuệ Thăng ở Diên Phước\r
+Thiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\r
+\r
+Có lúc lên giảng đường, Sư hét một tiếng rồi bảo:\r
+\r
+“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\r
+\r
+Sư lại hét một tiếng và tiếp bảo:\r
+\r
+– Rất kỵ chuyển hơi xúc phạm húy.\r
+\"\"\"@vi ;\r
+    bkg:birthEvent <ex:monk/dien_phuc_tue_thang_birthEvent> ;\r
+    bkg:deathEvent <ex:monk/dien_phuc_tue_thang_deathEvent> ;\r
+    bkg:dharmaLineageName "Dòng Lâm Tế Dương Kỳ"@vi ;\r
+    bkg:gender <bkg:Male> ;\r
+    bkg:generationOrder 50;    	\r
+    bkg:hasTeacher <ex:monk/dien_phuc_tue_thang>;  \r
+	bkg:isLineageFounder false .\r
+\r
+<ex:monk/dien_phuc_tue_thang> rdfs:label "Dục Vương Đoan Dụ"@vi .   \r
+<ex:monk/tinh_tu_su_nhat> rdfs:label "Tịnh Từ Sư Nhất"@vi .   \r
+<ex:monk/dao_trang_phap_toan> rdfs:label "Đạo Tràng Pháp Toàn"@vi .   \r
+<ex:monk/thanh_luong_than> rdfs:label "Thanh Lương Thản"@vi .   \r
+\r
+\r
+""" ;
+    pth:sha256 "689166e60508765713b1957f250fea63f991ff918472ec2dabb8ceda103714d1" .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vn_person_relations_e517ad48c1> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB vn_person_relations; dữ liệu nguyên bản theo slug" ;
+    dcterms:hasVersion "db-snapshot:5e3c2cced718c199586cb2a7cd9ad0cd28692e82abd8e37bb4b7dee47b791226" ;
+    dcterms:identifier "db_vn_person_relations_e517ad48c1" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "5e3c2cced718c199586cb2a7cd9ad0cd28692e82abd8e37bb4b7dee47b791226" ;
+    pth:sourceCode "LEGACY_TTL" ;
+    pth:sourceRecordId "dien_phuc_tue_thang" ;
+    pth:sourceSnapshot "[{\"id\": 2393, \"person_id\": \"dien_phuc_tue_thang\", \"relation_type\": \"hasTeacher\", \"target_id\": \"duc_vuong_doan_du\", \"target_label_vi\": \"Dục Vương Đoan Dụ\", \"ttl_filename\": \"TS-Dien-Phuc-Tue-Thang\"}]"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_cbeta> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB cbeta_person_mentions; giữ sigla, juan, page, context" ;
+    dcterms:hasVersion "db-snapshot:c0c531ee21e30e8f6ca3bb61993c27b66f7271a3ef653b1274a3e3bec4b83a9f" ;
+    dcterms:identifier "db_cbeta" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "c0c531ee21e30e8f6ca3bb61993c27b66f7271a3ef653b1274a3e3bec4b83a9f" ;
+    pth:sourceCode "CBETA" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "[{\"cbeta_text_sigla\": \"X77n1524\", \"context_snippet\": \"卷第一 　序 　　譯經篇第一 宋天息灾法天施護三師　法護惟淨二師 金蘇陀室利附寶公慧洪　元帝師󳱑思八 　金剛上師　佛智三藏 　必蘭納識理　雪磵法禎 明西天國師附桑渴巴辣　具生吉祥大師附底哇答思 卷第二 　　義解篇第二 宋四明知禮法師附尚賢　慈雲懺主遵式  　長水子璿法師　從雅少康二師 　本如子琳二公　思悟慧舟二公 　霅川仁岳　亞休惟巳 　無象元淨　繼忠左伸二師 　從諫希最二師　超果靈炤 　介然能師\", \"dila_person_id\": \"A008431\", \"id\": 58495, \"juan\": \"\", \"page\": \"0365a\", \"person_name_zh\": \"鼓山道升\"}]"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_MARCUS> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB lineage_edge_assertions; giữ nguồn, status, trust, raw_relation_type" ;
+    dcterms:hasVersion "db-snapshot:374763ace2520e098a1132cf6ac5f4f25bb4612fc4f823abc046c41740c87dec" ;
+    dcterms:identifier "db_edges_MARCUS" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "374763ace2520e098a1132cf6ac5f4f25bb4612fc4f823abc046c41740c87dec" ;
+    pth:sourceCode "MARCUS" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "[{\"citation_tier\": null, \"created_at\": \"2026-09-14T19:37:11\", \"edge_key\": \"M|A007993|A008431\", \"id\": 3925, \"mapping_verified\": 1, \"object_person_id\": \"A008431\", \"raw_relation_type\": \"da:isTeacherOf\", \"ref\": \"（望月‧卷六‧附錄：050）; \", \"relation_type\": \"da:isTeacherOf\", \"source_code\": \"MARCUS\", \"status\": \"active\", \"subject_person_id\": \"A007993\", \"trust_level\": \"L1\"}]"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_TTL> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB lineage_edge_assertions; giữ nguồn, status, trust, raw_relation_type" ;
+    dcterms:hasVersion "db-snapshot:2fe064a8d61a5ee7f003b9262b84fb66fc21465cafaa74171b20c67f8ab5f0c0" ;
+    dcterms:identifier "db_edges_TTL" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "2fe064a8d61a5ee7f003b9262b84fb66fc21465cafaa74171b20c67f8ab5f0c0" ;
+    pth:sourceCode "LEGACY_TTL" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "[{\"citation_tier\": null, \"created_at\": \"2026-10-02T17:45:33\", \"edge_key\": \"TTL|A007993|A008431\", \"id\": 58977, \"mapping_verified\": 1, \"object_person_id\": \"A008431\", \"raw_relation_type\": \"hasTeacher\", \"ref\": \"TS-Dien-Phuc-Tue-Thang\", \"relation_type\": \"da:isTeacherOf\", \"source_code\": \"TTL\", \"status\": \"active\", \"subject_person_id\": \"A007993\", \"trust_level\": \"L2\"}]"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_identity> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "Khóa DILA ID chính xác trong DB" ;
+    dcterms:hasVersion "db-snapshot:02a38c27ff738d754773159de82b8e55d2b6b9bd87b2ba0ca151ba191874736c" ;
+    dcterms:identifier "db_identity" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "02a38c27ff738d754773159de82b8e55d2b6b9bd87b2ba0ca151ba191874736c" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "{\"id\": \"A008431\", \"storage\": \"exact DB primary key\"}"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_marcus> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB Marcus; giữ loại cạnh nguyên bản, không chuyển mạng thành truyền pháp" ;
+    dcterms:hasVersion "db-snapshot:33e853e20d7689ce66ac44467a90acaa7f8c16c95b043b4c179ab10994b1419c" ;
+    dcterms:identifier "db_marcus" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "33e853e20d7689ce66ac44467a90acaa7f8c16c95b043b4c179ab10994b1419c" ;
+    pth:sourceCode "MARCUS" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "{\"edges\": [{\"created_at\": \"2026-04-23 04:34:32\", \"id\": 3925, \"ref\": \"（望月‧卷六‧附錄：050）; \", \"relation_type\": \"da:isTeacherOf\", \"source_data\": \"MARCUS\", \"student_id\": \"A008431\", \"student_label\": \"慧升\", \"teacher_id\": \"A007993\", \"teacher_label\": \"端裕\"}], \"mapping\": [{\"created_at\": \"2026-08-18 12:46:41\", \"marcus_node_id\": \"A008431\", \"match_confidence\": 1.0, \"match_method\": \"exact_id\", \"person_id\": \"A008431\"}], \"people\": [{\"birth_year\": null, \"created_at\": \"2026-07-29 08:31:50\", \"death_year\": null, \"label\": \"慧升\", \"label_vi\": \"Huệ Thăng\", \"label_vi_confidence\": 0.5, \"label_vi_source\": \"auto_hanviet_T51f\", \"node_id\": \"A008431\"}]}"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people_vi> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB people: bản Việt hóa của hệ thống, không phải tên Việt do DILA cấp" ;
+    dcterms:hasVersion "db-snapshot:2a2b0d39e01caeedd481cee7d0a7cf61f842d65207a5dee53f873a86bc463a28" ;
+    dcterms:identifier "db_people_vi" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "2a2b0d39e01caeedd481cee7d0a7cf61f842d65207a5dee53f873a86bc463a28" ;
+    pth:sourceCode "LOCAL" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "{\"bio_vi\": null, \"id\": \"A008431\", \"latin_source\": null, \"name_vi\": \"Tuệ Thăng\", \"source_origin\": \"DILA\"}"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/relation_1> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：050）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_1" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A008431:A007993" .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_computed_generations> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB person_gen_computed; kết quả tính cũ, không phải chứng cứ xác minh" ;
+    dcterms:hasVersion "db-snapshot:f279fdd8a6030f654477b892aaf0eb73905f6b5cd1bde31632bd9edb027faa92" ;
+    dcterms:identifier "db_computed_generations" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "f279fdd8a6030f654477b892aaf0eb73905f6b5cd1bde31632bd9edb027faa92" ;
+    pth:sourceCode "LOCAL" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "[{\"gen_lamte\": 13, \"gen_sect\": null, \"gen_thientong\": 49, \"lineage_key\": \"dila_global\", \"lineage_name\": \"Thiền Tông (DILA)\", \"person_id\": \"A008431\"}]"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_edges_DILA> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB lineage_edge_assertions; giữ nguồn, status, trust, raw_relation_type" ;
+    dcterms:hasVersion "db-snapshot:dca807e2b1a4c68eb72cb184431f267ecea08e2fc73bfcf2b345d92865598d79" ;
+    dcterms:identifier "db_edges_DILA" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "dca807e2b1a4c68eb72cb184431f267ecea08e2fc73bfcf2b345d92865598d79" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "[{\"citation_tier\": null, \"created_at\": \"2026-09-17T13:57:25\", \"edge_key\": \"D|A007993|A008431\", \"id\": 17953, \"mapping_verified\": 1, \"object_person_id\": \"A008431\", \"raw_relation_type\": \"dila:teacher_of\", \"ref\": null, \"relation_type\": \"da:isTeacherOf\", \"source_code\": \"DILA\", \"status\": \"active\", \"subject_person_id\": \"A007993\", \"trust_level\": \"L2\"}, {\"citation_tier\": null, \"created_at\": \"2026-09-17T13:57:25\", \"edge_key\": \"D|A007993|A008431\", \"id\": 18448, \"mapping_verified\": 1, \"object_person_id\": \"A008431\", \"raw_relation_type\": \"dila:teacher_of\", \"ref\": null, \"relation_type\": \"da:isTeacherOf\", \"source_code\": \"DILA\", \"status\": \"active\", \"subject_person_id\": \"A007993\", \"trust_level\": \"L2\"}]"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_people> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB people; normalized import; Vietnamese fields are editorial" ;
+    dcterms:hasVersion "db-snapshot:f8a30ddfdbd11f5a81ba5d63265db609924103f8d6b7621a4e5de4f81a4dc0b1" ;
+    dcterms:identifier "db_people" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "f8a30ddfdbd11f5a81ba5d63265db609924103f8d6b7621a4e5de4f81a4dc0b1" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "{\"bio\": \"泉州延福寒巖慧升禪師，亦作道升禪師，吳氏子。佛智端裕（1085-1150）禪師法嗣，大鑑下第十七世。母歿，至長樂出家，侍佛智移靈隱，居元座，後還里結菴曰「寒巖」。李敦帥閔，延住支提山，遷承天、黃龍、泐潭。後歸建安，史丞相帥福，請住鼓山。 （T51n2077_p0680c25；X82n1571_p0123c13；X84n1583_p0433a19；佛名：800）\", \"bio_vi\": null, \"birth_year\": 1085, \"created_at\": \"2026-04-24 09:04:17\", \"death_year\": 1150, \"dynasty\": \"南宋\", \"id\": \"A008431\", \"latin_source\": null, \"name_en\": \"\", \"name_ja\": \"\", \"name_vi\": \"Tuệ Thăng\", \"name_zh\": \"慧升\", \"sect\": \"Thiền Tông\", \"source_id\": 1, \"source_origin\": \"DILA\"}"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_vpa_e517ad48c13ce005> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DB vn_person_authority; giữ status/mapping gốc" ;
+    dcterms:hasVersion "db-snapshot:af933e51f83d2aff9db7260af950add5fcc9ed2ee1b720b404057d47146a3262" ;
+    dcterms:identifier "db_vpa_e517ad48c13ce005" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "af933e51f83d2aff9db7260af950add5fcc9ed2ee1b720b404057d47146a3262" ;
+    pth:sourceCode "LEGACY_TTL" ;
+    pth:sourceRecordId "dien_phuc_tue_thang" ;
+    pth:sourceSnapshot "{\"appellations\": null, \"biographical_note_vi\": \"Thiền sư Tuệ Thăng ở Diên Phước\\nThiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\\n\\nCó lúc lên giảng đường, Sư hét một tiếng rồi bảo:\\n\\n“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\\n\\nSư lại hét một tiếng và tiếp bảo:\\n\\n– Rất kỵ chuyển hơi xúc phạm húy.\", \"birth_year\": null, \"created_at\": \"2026-10-02 10:45:33\", \"death_year\": null, \"dharma_lineage\": \"Dòng Lâm Tế Dương Kỳ\", \"dharma_title\": null, \"dila_id\": \"A008431\", \"gender\": \"Male\", \"generation_order\": 50, \"id\": \"dien_phuc_tue_thang\", \"is_lineage_founder\": 0, \"name_vi\": \"Diên Phúc Tuệ Thăng\", \"name_zh\": \"延福慧升\", \"status\": \"verified\", \"ttl_filename\": \"TS-Dien-Phuc-Tue-Thang\"}"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/db_ttl_49629> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "TTL nguyên văn đã nhập DB: TS-Dien-Phuc-Tue-Thang.ttl" ;
+    dcterms:hasVersion "db-snapshot:5c8dd88d2422eac1b764c0157fd92271a86e1766e927322cd2e5c63ac61f1e13" ;
+    dcterms:identifier "db_ttl_49629" ;
+    pth:rightsStatus "pending_artifact_review" ;
+    pth:sha256 "5c8dd88d2422eac1b764c0157fd92271a86e1766e927322cd2e5c63ac61f1e13" ;
+    pth:sourceCode "LEGACY_TTL" ;
+    pth:sourceRecordId "TS-Dien-Phuc-Tue-Thang.ttl" ;
+    pth:sourceSnapshot "{\"filename\": \"TS-Dien-Phuc-Tue-Thang.ttl\", \"metadata\": {\"person\": {\"dila_id\": \"\", \"entity_type\": \"Monastic\", \"key\": \"38350245-d799-5d83-bafe-003c89e7c705\", \"legacy_slug\": \"dien_phuc_tue_thang\", \"name_vi\": \"Diên Phúc Tuệ Thăng\", \"name_zh\": \"\", \"uri\": \"https://www.phatphaponline.org/resource/person/38350245-d799-5d83-bafe-003c89e7c705\"}, \"source_rdf_triples\": 15, \"validation\": {\"conforms\": false, \"errors\": [\"Không được tự làm thầy/trò/đồng môn: legacy_8\"], \"warnings\": [\"Nhận định legacy_1 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_2 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_3 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_4 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_5 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_6 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_7 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_8 được giữ làm tham chiếu, chưa chiếu thành fact.\", \"Nhận định legacy_9 được giữ làm tham chiếu, chưa chiếu thành fact.\"]}}, \"raw_text\": \"\\t@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .\\r\\n@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .\\r\\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\\r\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\r\\n\\r\\n<ex:monk/dien_phuc_tue_thang> a <bkg:Monk> ;\\r\\n    rdfs:label \\\"Diên Phúc Tuệ Thăng\\\"@vi ;\\r\\n    crm:P1_is_identified_by <ex:monk/dien_phuc_tue_thang> ;        \\r\\n    bkg:biographicalNote \\\"\\\"\\\" \\r\\n\\tThiền sư Tuệ Thăng ở Diên Phước\\r\\nThiền sư Tuệ Thăng ở Hàng Nham – Diên Phước tại Tuyền Châu, vốn người xứ Kiến Ninh.\\r\\n\\r\\nCó lúc lên giảng đường, Sư hét một tiếng rồi bảo:\\r\\n\\r\\n“Khắp mười phương thế giới hợp mười đời xưa nay thành đô nhà cửa, ở trong đó bức bức bít bít rồi vậy. Nếu buông mở một kim châm bén nhọn, thì biển lớn chảy ngược dòng về phía Tây, núi lớn đổ ngã, các loài cá rồng ngoan đà tôm cua giun dế đều lên đất bằng vọt ra sóng cả bơi lội nhảy múa. Tuy là như vậy, phải đến trên đầu sào trăm thước tiến thêm một bước, thì bước bước đạp chuyển vô tận tạng luân, mới biết nói lỗ mũi treo tại trên môi, lông mày không ở dưới mắt. Lại có cùng ủy thác chăng?”\\r\\n\\r\\nSư lại hét một tiếng và tiếp bảo:\\r\\n\\r\\n– Rất kỵ chuyển hơi xúc phạm húy.\\r\\n\\\"\\\"\\\"@vi ;\\r\\n    bkg:birthEvent <ex:monk/dien_phuc_tue_thang_birthEvent> ;\\r\\n    bkg:deathEvent <ex:monk/dien_phuc_tue_thang_deathEvent> ;\\r\\n    bkg:dharmaLineageName \\\"Dòng Lâm Tế Dương Kỳ\\\"@vi ;\\r\\n    bkg:gender <bkg:Male> ;\\r\\n    bkg:generationOrder 50;    \\t\\r\\n    bkg:hasTeacher <ex:monk/dien_phuc_tue_thang>;  \\r\\n\\tbkg:isLineageFounder false .\\r\\n\\r\\n<ex:monk/dien_phuc_tue_thang> rdfs:label \\\"Dục Vương Đoan Dụ\\\"@vi .   \\r\\n<ex:monk/tinh_tu_su_nhat> rdfs:label \\\"Tịnh Từ Sư Nhất\\\"@vi .   \\r\\n<ex:monk/dao_trang_phap_toan> rdfs:label \\\"Đạo Tràng Pháp Toàn\\\"@vi .   \\r\\n<ex:monk/thanh_luong_than> rdfs:label \\\"Thanh Lương Thản\\\"@vi .   \\r\\n\\r\\n\\r\\n\", \"sha256\": \"689166e60508765713b1957f250fea63f991ff918472ec2dabb8ceda103714d1\"}"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/source-record/7d29610f-0cf4-5ed5-aba8-813c9434956b/dila_record> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DILA TEI person xml:id=A008431" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "dila_record" ;
+    foaf:page <https://authority.dila.edu.tw/person/search.php?aid=A008431> ;
+    pth:datasetUrl <https://github.com/DILA-edu/Authority-Databases> ;
+    pth:retrievedAt "2026-10-04T04:16:03.551879+00:00" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sha256 "7f600cdf48045750ed9572e0484b072a7efcaec9253eebe0b00429e139f122c6" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A008431" ;
+    pth:sourceSnapshot "{\"db_source_metadata\": {\"archive_sha256\": \"2f61ffafb98523b119b1fdfb84fd2fc2ab84d1617cb48e2f09bce6fd6f34f103\", \"record_serialization\": \"ElementTree TEI element; original archive retained\"}, \"names\": [{\"language\": \"zho-Hant\", \"text\": \"慧升\", \"type\": \"primary\"}, {\"language\": \"zho-Hant\", \"text\": \"寒巖慧升\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"延福慧升\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"支提道升\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"鼓山道升\", \"type\": \"alternative\"}], \"storage\": \"ttl_v2_source_records\", \"xml\": \"<ns0:person xmlns:ns0=\\\"http://www.tei-c.org/ns/1.0\\\" xml:id=\\\"A008431\\\" ana=\\\"historical\\\">\\n  <ns0:persName xml:lang=\\\"zho-Hant\\\">慧升</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">寒巖慧升</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">延福慧升</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">支提道升</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">鼓山道升</ns0:persName>\\n  <ns0:sex value=\\\"1\\\" />\\n  <ns0:birth>\\n    +1098-01-01 ~ +1098-12-31\\n    <ns0:note>依記錄推算。</ns0:note>\\n  </ns0:birth>\\n  <ns0:death>\\n    +1176-02-19 ~ +1177-02-07\\n    <ns0:note>一說年七十九，一說壽六十九。（疑年錄：266；X84n1583_p0433a19）</ns0:note>\\n  </ns0:death>\\n  <ns0:note type=\\\"birthDeathDateQuote\\\">卒於：南宋, 孝宗, 淳熙, 三年，79歲</ns0:note>\\n  <ns0:note type=\\\"dynasty\\\">\\n    南宋\\n  </ns0:note>\\n  <ns0:note type=\\\"placeOfOrigin\\\">\\n    <ns0:placeName>建安\\n      <ns0:ref target=\\\"http://authority.dila.edu.tw/place/\\\">PL000000018314</ns0:ref>\\n    </ns0:placeName>\\n  </ns0:note>\\n  <ns0:note type=\\\"sect\\\">臨濟宗 楊岐派 </ns0:note>\\n  <ns0:note type=\\\"monk\\\">是</ns0:note>\\n  <ns0:note type=\\\"concise\\\">泉州延福寒巖慧升禪師，亦作道升禪師，吳氏子。佛智端裕（1085-1150）禪師法嗣，大鑑下第十七世。母歿，至長樂出家，侍佛智移靈隱，居元座，後還里結菴曰「寒巖」。李敦帥閔，延住支提山，遷承天、黃龍、泐潭。後歸建安，史丞相帥福，請住鼓山。 （T51n2077_p0680c25；X82n1571_p0123c13；X84n1583_p0433a19；佛名：800）</ns0:note>\\n\\n  <ns0:listRelation>\\n    <ns0:relation type=\\\"teacher\\\" active=\\\"A007993\\\" n=\\\"端裕\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：050）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n  </ns0:listRelation>\\n  <ns0:listBibl>\\n    <ns0:bibl>( CBETA X77n1524_p0450b15 ) 補續高僧傳: 道升傳</ns0:bibl>\\n    <ns0:bibl>( CBETA X82n1571_p0123c13 )</ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g010%26cpage=0420%26target=A008431\\\">g010p0420(明州阿育王山志) { 慧升 } </ns0:ref></ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g010%26cpage=0478%26target=A008431\\\">g010p0478(明州阿育王山志) { 寒巖慧升 } </ns0:ref></ns0:bibl>\\n  </ns0:listBibl>\\n  <ns0:note type=\\\"mentionedIn\\\">\\n    <ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g022%26cpage=0034\\\">增修雲林寺志‧卷3‧寒巖升禪師</ns0:ref>\\n  </ns0:note>\\n</ns0:person>\\n\"}"^^rdf:JSON .
+
+<https://www.phatphaponline.org/resource/person/7d29610f-0cf4-5ed5-aba8-813c9434956b> a pth:Person ;
+    pth:displayName "Diên Phúc Tuệ Thăng"@vi,
+        "慧升"@zh-Hant ;
+    pth:editorialEntityType "Monastic" .
+

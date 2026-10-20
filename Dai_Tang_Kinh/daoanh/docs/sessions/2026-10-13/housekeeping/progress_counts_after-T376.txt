@@ -1,0 +1,18 @@
+total_progress 72
+tasks 295 {'blocked': 28, 'done': 157, 'in_progress': 33, 'pending': 77}
+module DILA Authority in_progress 100 None
+module CBETA in_progress 54 None
+module Marcus SNA in_progress 93 None
+module TTL Thiền Sư VN in_progress 45 None
+module CBDB in_progress 100 None
+module Wikipedia in_progress 100 None
+module NameVi Map in_progress 100 None
+module Keywords in_progress 100 None
+module GIS / Places in_progress 75 None
+module DILA Integration Layer in_progress 50 None
+module BDRC Integration in_progress 0 None
+module Translation Pipeline in_progress 65 None
+module Nexus Visualization in_progress 38 None
+module Hạ tầng / Docs in_progress 78 None
+module Timeline / Event Evidence in_progress 75 None
+endpoints_compare 331

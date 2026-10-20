@@ -1,0 +1,13 @@
+============================================================
+Dao Anh Main Server (app.py)
+============================================================
+DB: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\lineage.db
+TTL Old: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\ttl\old
+Admin: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\admin
+============================================================
+[fts] places_search_fts đã sẵn sàng
+[fts] places_pending_fts đã sẵn sàng
+[cate] Đã build cache cate ids trong 9.3s
+[lexicon] Đã nạp 166278 dòng lexicon vào RAM trong 14.9s
+ * Serving Flask app 'app'
+ * Debug mode: off

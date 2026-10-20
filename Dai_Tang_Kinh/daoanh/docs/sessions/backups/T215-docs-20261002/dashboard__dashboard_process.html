@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Ảnh - Dashboard Process Tracker (docs ↔ code)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&display=swap');
+        table.ar-table tbody tr.ar:hover { background: rgba(251,191,36,0.06); }
+        table.ar-table tbody tr.ar td { border-bottom: 1px solid rgba(251,191,36,0.10); vertical-align: top; }
+
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-page: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --info: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            margin: 0;
+            min-height: 100vh;
+            padding: 10px 14px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .title-row { display: flex; align-items: center; gap: 12px; }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--primary); color: black;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .title-text h1 { font-size: 16px; font-weight: 900; }
+        .title-text p { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; }
+
+        .header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .timestamp { font-size: 12px; color: var(--text-muted); }
+        .btn {
+            background: var(--primary); color: #020617;
+            border: none; border-radius: 8px;
+            padding: 10px 18px; font-weight: 700; font-size: 13px;
+            cursor: pointer; font-family: inherit;
+        }
+        .btn:hover { background: var(--primary-hover); }
+        .btn:disabled { opacity: 0.5; cursor: wait; }
+        .btn-secondary {
+            background: transparent; color: var(--text-muted);
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: 9px 16px; font-weight: 600; font-size: 12px;
+            cursor: pointer; font-family: inherit;
+        }
+        .btn-secondary:hover { color: var(--text-main); border-color: var(--text-muted); }
+
+        .summary-bar {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .summary-card {
+            background: var(--bg-card); border: 1px solid #1e293b;
+            border-radius: 8px; padding: 8px 14px; flex: 1; min-width: 110px;
+        }
+        .summary-card .value { font-size: 20px; font-weight: 900; }
+        .summary-card .label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+
+        .section-title {
+            font-size: 12px; font-weight: 900; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1.2px;
+            margin: 12px 0 6px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
+        }
+        .card {
+            background: var(--bg-card); border: 1px solid #1e293b;
+            border-radius: 10px; padding: 10px 14px;
+        }
+        .card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+        .card-header h3 { font-size: 14px; font-weight: 700; font-family: 'Noto Serif TC', serif; }
+        .badge { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge.done { background: rgba(16,185,129,0.15); color: #34d399; }
+        .badge.in_progress { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        .badge.pending { background: rgba(148,163,184,0.15); color: #94a3b8; }
+
+        .progress-track { background: #1e293b; border-radius: 8px; height: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 8px; transition: width 0.4s ease; }
+        .progress-fill.done { background: var(--success); }
+        .progress-fill.in_progress { background: var(--primary); }
+        .progress-fill.pending { background: #475569; }
+
+        .card-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+        .card-meta .pct { font-size: 18px; font-weight: 900; }
+        .card-meta .detail { font-size: 11px; color: var(--text-muted); }
+
+        .warnings { margin-top: 10px; }
+        .warning {
+            font-size: 11px; color: #fca5a5;
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 6px; padding: 6px 8px; margin-top: 6px;
+        }
+        .route-chips { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px; }
+        .chip {
+            font-size: 10px; font-family: monospace;
+            background: #1e293b; border: 1px solid var(--border);
+            border-radius: 4px; padding: 2px 6px; color: #cbd5e1;
+        }
+
+        .table-wrap { overflow-x: auto; border: 1px solid #1e293b; border-radius: 12px; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid #1e293b; }
+        th { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); background: var(--bg-card); }
+        td.mono { font-family: monospace; font-size: 11px; }
+        .ok { color: #34d399; font-weight: 800; }
+        .no { color: #f87171; font-weight: 800; }
+
+        .footer { margin-top: 24px; font-size: 11px; color: var(--text-muted); text-align: center; }
+
+        .spinner { display: none; color: var(--primary); font-size: 14px; }
+        .loading .spinner { display: inline-block; }
+        #errorBox {
+            display: none;
+            background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4);
+            color: #fca5a5; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px;
+        }
+
+        /* ---- Task Board (chuẩn Claude Code: tasks/T*.md) ---- */
+        .task-kpi { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .task-kpi .kpi {
+            flex: 1 1 100px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px;
+        }
+        .task-kpi .kpi .v { font-size: 20px; font-weight: 700; }
+        .task-kpi .kpi .l { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+        .task-kpi .kpi.done .v { color: #22c55e; }
+        .task-kpi .kpi.blocked .v { color: #ef4444; }
+        .task-kpi .kpi.progress .v { color: var(--primary); }
+        .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .board-col {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+            border-radius: 8px; padding: 8px 10px; min-height: 80px;
+        }
+        .board-col h4 {
+            margin: 0 0 7px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .board-col h4 .cnt {
+            background: rgba(255,255,255,0.08); border-radius: 999px; padding: 2px 8px; font-size: 11px;
+        }
+        .board-col.blocked { border-color: rgba(239,68,68,0.5); }
+        .board-col.done h4 .cnt { color: #22c55e; }
+        .task-card {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px 12px; margin-bottom: 10px; font-size: 12px;
+        }
+        .task-card .t-title { font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 8px; }
+        .task-card .t-id { font-family: var(--mono); font-size: 10px; color: var(--primary); white-space: nowrap; }
+        .task-card .t-desc { font-size: 11px; color: var(--text); line-height: 1.5; margin-bottom: 6px; font-style: italic; opacity: .85; }
+        .task-card .t-meta { color: var(--text-muted); font-size: 11px; line-height: 1.6; }
+        .task-card .t-meta b { color: var(--text); font-weight: 600; }
+        .task-card.blocked { border-color: rgba(239,68,68,0.6); }
+        .prio { font-size: 10px; border-radius: 999px; padding: 1px 7px; white-space: nowrap; }
+        .prio.high { background: rgba(239,68,68,0.15); color: #fca5a5; }
+        .prio.medium { background: rgba(217,119,6,0.15); color: #fcd34d; }
+        .prio.low { background: rgba(100,116,139,0.2); color: #94a3b8; }
+        .criteria-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 99px; margin-top: 8px; overflow: hidden; }
+        .criteria-bar .fill { height: 100%; background: #22c55e; }
+        .empty-col { color: var(--text-muted); font-size: 11px; text-align: center; padding: 16px 0; }
+        @media (max-width: 1100px) { .board { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 620px) { .board { grid-template-columns: 1fr; } }
+
+        /* ---- Tasks trong module card ---- */
+        .mod-tasks { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+        .mod-tasks .mod-tasks-title { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 6px; }
+        .mod-task {
+            border: 1px solid var(--border); border-radius: 8px; padding: 7px 9px; margin-bottom: 6px;
+            background: rgba(255,255,255,0.02); font-size: 11px;
+        }
+        .mod-task.blocked { border-color: rgba(239,68,68,0.5); background: rgba(239,68,68,0.06); }
+        .mod-task .mt-id { font-family: var(--mono); color: var(--primary); font-size: 10px; margin-right: 6px; }
+        .mod-task .mt-title { font-weight: 600; }
+        .mod-task .mt-desc { color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+        .mod-task .mt-prio { font-size: 9px; border-radius: 999px; padding: 0 6px; margin-left: 6px; }
+        .mt-prio.high { background: rgba(239,68,68,0.15); color: #fca5a5; }
+        .mt-prio.medium { background: rgba(217,119,6,0.15); color: #fcd34d; }
+        .mt-prio.low { background: rgba(100,116,139,0.2); color: #94a3b8; }
+        .mod-task .mt-none { color: var(--text-muted); font-size: 11px; font-style: italic; }
+
+        /* ---- Places Entity Page Feature Map ---- */
+        .pfm-grid { display: flex; flex-direction: column; gap: 7px; }
+        .pfm-row { display: flex; align-items: flex-start; gap: 10px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+        .pfm-icon { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; line-height: 1.4; }
+        .pfm-body { flex: 1; min-width: 0; }
+        .pfm-label { font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+        .pfm-tasks { display: flex; flex-wrap: wrap; gap: 5px; }
+        .pfm-badge { font-size: 10px; font-family: var(--mono); border-radius: 6px; padding: 2px 8px; border: 1px solid; cursor: default; }
+        .pfm-badge.done { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); color: #34d399; }
+        .pfm-badge.in_progress { background: rgba(217,119,6,0.12); border-color: rgba(217,119,6,0.35); color: #fcd34d; }
+        .pfm-badge.pending { background: rgba(100,116,139,0.08); border-color: var(--border); color: var(--text-muted); }
+        .pfm-badge.blocked { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.35); color: #fca5a5; }
+        .pfm-badge.impl { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); color: #34d399; }
+        .pfm-badge.need-task { background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.25); color: #fca5a5; font-style: italic; }
+        .pfm-status { font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; flex-shrink: 0; padding: 2px 9px; border-radius: 6px; align-self: center; margin-left: 6px; }
+        .pfm-status.s-done { color: #34d399; background: rgba(16,185,129,0.12); }
+        .pfm-status.s-partial { color: #fcd34d; background: rgba(217,119,6,0.12); }
+        .pfm-status.s-pending { color: var(--text-muted); background: rgba(100,116,139,0.08); }
+        .pfm-status.s-blocked { color: #fca5a5; background: rgba(239,68,68,0.1); }
+        .pfm-status.s-need { color: #fca5a5; background: rgba(239,68,68,0.06); border: 1px dashed rgba(239,68,68,0.3); }
+
+        /* ---- Git Timeline ---- */
+        .tl-wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+        @media (max-width: 900px) { .tl-wrap { grid-template-columns: 1fr; } }
+        .tl-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+        .tl-card h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 12px; }
+        .tl-bars { display: flex; align-items: flex-end; gap: 6px; height: 110px; padding: 0 2px; }
+        .tl-bar { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; min-width: 0; }
+        .tl-bar .col { width: 100%; background: var(--primary); border-radius: 4px 4px 0 0; min-height: 2px; opacity: .9; }
+        .tl-bar .col:hover { opacity: 1; }
+        .tl-bar .lbl { font-size: 9px; color: var(--text-muted); margin-top: 4px; white-space: nowrap; transform: rotate(-40deg); transform-origin: top left; }
+        .tl-bar .cnt { font-size: 10px; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
+        .tl-mod { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; font-size: 11px; }
+        .tl-mod .mname { width: 150px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tl-mod .mbar { flex: 1; background: rgba(255,255,255,0.06); border-radius: 99px; height: 8px; overflow: hidden; }
+        .tl-mod .mbar .fill { height: 100%; background: linear-gradient(90deg, var(--primary), #f59e0b); border-radius: 99px; }
+        .tl-mod .mcnt { width: 34px; text-align: right; color: var(--text-muted); font-size: 10px; }
+        .tl-stats { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+        .tl-stat { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 11px; }
+        .tl-stat b { color: var(--primary); }
+
+        /* ---- OpenCode Directive Tracker ---- */
+        .dir-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .dir-pct-big { font-size: 40px; font-weight: 900; color: var(--primary); font-variant-numeric: tabular-nums; }
+        .dir-status { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+        .dir-step-badge {
+            font-size: 11px; font-weight: 700; background: rgba(217,119,6,0.15);
+            color: #fcd34d; border-radius: 8px; padding: 4px 12px;
+        }
+        .dir-step-badge.blocked { background: rgba(239,68,68,0.15); color: #fca5a5; }
+        .dir-step-badge.done { background: rgba(16,185,129,0.15); color: #34d399; }
+        .dir-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+        .dir-group {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            border-radius: 10px; padding: 10px 12px;
+        }
+        .dir-group.active { border-color: var(--primary); background: rgba(217,119,6,0.08); }
+        .dir-group.done-g { border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.05); }
+        .dir-group-num { font-size: 9px; font-weight: 800; letter-spacing: .1em; color: var(--text-muted); text-transform: uppercase; }
+        .dir-group-label { font-size: 11px; font-weight: 600; margin-top: 2px; line-height: 1.4; }
+        .dir-group-range { font-family: monospace; font-size: 9px; color: var(--text-muted); margin-top: 4px; }
+        .dir-group-bar { height: 3px; background: rgba(255,255,255,0.08); border-radius: 99px; margin-top: 7px; overflow: hidden; }
+        .dir-group-fill { height: 100%; background: var(--primary); border-radius: 99px; }
+        .dir-group-fill.done-fill { background: #22c55e; }
+        .dir-note { font-size: 11px; color: var(--text-muted); margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+        .dir-note b { color: var(--text-main); }
+        .dir-link { font-size: 10px; color: var(--primary); text-decoration: none; }
+        .dir-link:hover { text-decoration: underline; }
+
+        /* ---- Task Directive Popup ---- */
+        .dir-btn {
+            margin-top: 10px; width: 100%;
+            background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.3);
+            color: #fcd34d; border-radius: 8px; padding: 7px 10px;
+            font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;
+            display: flex; align-items: center; gap: 6px; justify-content: center;
+            transition: background 0.15s;
+        }
+        .dir-btn:hover { background: rgba(217,119,6,0.22); }
+        .dir-btn.no-directive { background: rgba(255,255,255,0.03); color: var(--text-muted); border-color: var(--border); cursor: default; }
+
+        /* Overlay */
+        #dpOverlay {
+            display: none; position: fixed; inset: 0; z-index: 9000;
+            background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+            align-items: flex-start; justify-content: center; padding: 32px 16px;
+            overflow-y: auto;
+        }
+        #dpOverlay.open { display: flex; }
+
+        /* Modal */
+        #dpModal {
+            background: #0f172a; border: 1px solid #334155;
+            border-radius: 14px; width: 100%; max-width: 820px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; min-height: 0;
+        }
+        #dpModal .dp-head {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            gap: 12px; padding: 20px 22px 16px; border-bottom: 1px solid #1e293b;
+            flex-shrink: 0;
+        }
+        #dpModal .dp-title { font-size: 16px; font-weight: 800; color: #f8fafc; line-height: 1.3; }
+        #dpModal .dp-sub { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+        #dpModal .dp-impact {
+            margin-top: 8px; font-size: 11px; padding: 5px 10px;
+            background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.25);
+            border-radius: 6px; color: #fcd34d; line-height: 1.5;
+        }
+        #dpModal .dp-impact b { color: #f8fafc; }
+        #dpModal .dp-close {
+            width: 30px; height: 30px; flex-shrink: 0; border-radius: 8px;
+            border: 1px solid #334155; background: #1e293b; color: #94a3b8;
+            font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        #dpModal .dp-close:hover { color: #f8fafc; }
+
+        /* Steps list */
+        #dpModal .dp-body { padding: 18px 22px; overflow-y: auto; max-height: 62vh; }
+        .dp-step {
+            margin-bottom: 14px; border-radius: 10px; overflow: hidden;
+            border: 1px solid #1e293b;
+        }
+        .dp-step-head {
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 12px; background: #0c1829; cursor: pointer;
+            user-select: none;
+        }
+        .dp-step-head:hover { background: #111e30; }
+        .dp-type {
+            font-size: 8.5px; font-weight: 800; letter-spacing: .1em;
+            padding: 2px 7px; border-radius: 4px; flex-shrink: 0;
+        }
+        .dp-type.shell  { background: rgba(34,197,94,.12);  color: #4ade80; }
+        .dp-type.edit   { background: rgba(59,130,246,.12);  color: #93c5fd; }
+        .dp-type.done   { background: rgba(16,185,129,.12);  color: #34d399; }
+        .dp-type.shell::before  { content: '$ '; opacity:.6; }
+        .dp-type.edit::before   { content: '✏ '; }
+        .dp-type.done::before   { content: '✓ '; }
+        .dp-step-label { font-size: 12px; font-weight: 600; color: #e2e8f0; flex: 1; }
+        .dp-chevron { font-size: 10px; color: #475569; transition: transform .2s; }
+        .dp-step.open .dp-chevron { transform: rotate(90deg); }
+        .dp-step-body {
+            display: none; background: #020b18;
+            padding: 12px 14px; border-top: 1px solid #1e293b;
+        }
+        .dp-step.open .dp-step-body { display: block; }
+        .dp-code {
+            font-family: 'Cascadia Code','Consolas',monospace; font-size: 11px;
+            color: #93c5fd; white-space: pre-wrap; word-break: break-word;
+            line-height: 1.7; margin: 0;
+        }
+        .dp-copy-line {
+            margin-top: 8px; display: flex; justify-content: flex-end; gap: 6px;
+        }
+        .dp-copy-btn {
+            font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 6px;
+            border: 1px solid #334155; background: #1e293b; color: #94a3b8;
+            cursor: pointer; font-family: inherit; transition: all .15s;
+        }
+        .dp-copy-btn:hover { border-color: var(--primary); color: #fcd34d; }
+        .dp-copy-btn.copied { border-color: #22c55e; color: #4ade80; }
+
+        /* Footer */
+        #dpModal .dp-foot {
+            padding: 14px 22px; border-top: 1px solid #1e293b;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px; flex-shrink: 0; flex-wrap: wrap;
+        }
+        .dp-copy-all {
+            background: var(--primary); color: #020617; border: none;
+            border-radius: 8px; padding: 9px 18px; font-size: 12px; font-weight: 800;
+            cursor: pointer; font-family: inherit; transition: background .15s;
+        }
+        .dp-copy-all:hover { background: var(--primary-hover); }
+        .dp-copy-all.copied { background: #22c55e; color: #fff; }
+        .dp-task-link { font-size: 11px; color: var(--primary); text-decoration: none; }
+        .dp-task-link:hover { text-decoration: underline; }
+
+        /* ── HOME GUI Feature Map ─────────────────────────────── */
+        .hf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .hf-tab-group {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .hf-tab-header {
+            background: #0f2034;
+            padding: 9px 14px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .04em;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .hf-feature-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-bottom: 1px solid #1e293b;
+            font-size: 12px;
+        }
+        .hf-feature-row:last-child { border-bottom: none; }
+        .hf-feature-name {
+            flex: 1;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+        .hf-task-id {
+            font-size: 10px;
+            font-weight: 700;
+            background: #1e293b;
+            color: var(--text-muted);
+            border-radius: 4px;
+            padding: 2px 6px;
+            letter-spacing: .05em;
+        }
+        .hf-status {
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 20px;
+            padding: 2px 10px;
+            white-space: nowrap;
+        }
+        .hf-status.done { background: #052e16; color: #4ade80; border: 1px solid #166534; }
+        .hf-status.partial { background: #1c1003; color: #fbbf24; border: 1px solid #92400e; }
+        .hf-status.pending { background: #1e2435; color: #64748b; border: 1px solid #334155; }
+        .hf-metric {
+            font-size: 10px;
+            color: var(--success);
+            opacity: .75;
+            padding-left: 14px;
+            padding-bottom: 4px;
+            padding-top: 0;
+        }
+        .hf-legend {
+            display: flex; gap: 16px; margin-bottom: 10px; flex-wrap: wrap;
+        }
+        .hf-legend span {
+            font-size: 11px; font-weight: 600; color: var(--text-muted);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .hf-legend-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+        }
+        .hf-legend-dot.done { background: #4ade80; }
+        .hf-legend-dot.partial { background: #fbbf24; }
+        .hf-legend-dot.pending { background: #475569; }
+
+        /* Accordion history */
+        details > summary { outline: none; }
+        details[open] > summary span:first-child { transform: rotate(90deg); display:inline-block; }
+        details > summary::-webkit-details-marker { display:none; }
+        details > summary::marker { display:none; }
+        .grid { gap: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="errorBox"></div>
+
+<!-- Task Directive Popup -->
+<div id="dpOverlay" onclick="if(event.target===this)closeDp()">
+  <div id="dpModal">
+    <div class="dp-head">
+      <div style="flex:1;min-width:0">
+        <div class="dp-title" id="dpTitle">—</div>
+        <div class="dp-sub" id="dpSub">—</div>
+        <div class="dp-impact" id="dpImpact" style="display:none">
+          <b>Ảnh hưởng lên HOME:</b> <span id="dpImpactText"></span>
+        </div>
+      </div>
+      <button class="dp-close" onclick="closeDp()">✕</button>
+    </div>
+    <div class="dp-body" id="dpBody"></div>
+    <div class="dp-foot">
+      <span>
+        <a class="dp-task-link" id="dpTaskLink" href="#" target="_blank">📄 Xem task file</a>
+      </span>
+      <button class="dp-copy-all" id="dpCopyAll" onclick="copyAllDirective()">
+        📋 Copy toàn bộ chỉ thị cho OpenCode
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="header">
+    <div class="title-row">
+        <div class="logo-icon"><i class="fas fa-dharmachakra"></i></div>
+        <div class="title-text">
+            <h1>Dashboard Process Tracker</h1>
+            <p>Đối chiếu docs ↔ code · tính % theo code</p>
+        </div>
+    </div>
+    <div class="header-actions">
+        <span class="timestamp" id="timestamp">—</span>
+        <button class="btn" id="refreshBtn" onclick="refreshData(true)"><i class="fas fa-sync-alt"></i> Refresh</button>
+    </div>
+</div>
+
+<div class="summary-bar">
+    <div class="summary-card">
+        <div class="value" id="totalProgress">—%</div>
+        <div class="label">Tổng tiến độ trung bình</div>
+    </div>
+    <div class="summary-card">
+        <div class="value" id="modCount">—</div>
+        <div class="label">Module đối chiếu</div>
+    </div>
+    <div class="summary-card">
+        <div class="value" id="routeTotal">—</div>
+        <div class="label">Route thật trong code</div>
+    </div>
+    <div class="summary-card">
+        <div class="value" id="scriptTotal">—</div>
+        <div class="label">Script Python thật</div>
+    </div>
+    <div class="summary-card">
+        <div class="value" id="endpointCount">—</div>
+        <div class="label">Endpoint đối chiếu</div>
+    </div>
+</div>
+
+<div style="display:flex;align-items:center;gap:10px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:6px 12px;margin-bottom:8px;flex-wrap:wrap">
+    <span style="font-size:10px;font-weight:800;letter-spacing:.1em;color:#34d399;text-transform:uppercase">OpenCode Directives</span>
+    <span style="font-size:14px;font-weight:900;color:#22c55e" id="dirPct">—</span>
+    <span style="font-size:11px;background:rgba(16,185,129,0.15);color:#4ade80;border-radius:6px;padding:2px 8px;font-weight:700" id="dirStepBadge">—</span>
+    <span style="font-size:11px;color:var(--text-muted)" id="dirStatus"></span>
+    <a href="/daoanh/docs/opencode-directives.md" style="font-size:10px;color:var(--primary);text-decoration:none;margin-left:auto" target="_blank">📋 Chi tiết →</a>
+    <!-- hidden anchors for JS compat -->
+    <div id="dirNote" style="display:none"></div>
+    <div id="dirGroups" style="display:none"></div>
+    <div id="directiveCard" style="display:none"></div>
+</div>
+
+<div style="background:rgba(251,191,36,0.07);border:1px solid rgba(251,191,36,0.55);border-radius:10px;padding:0;margin-bottom:10px;overflow:hidden">
+    <div style="background:linear-gradient(90deg,rgba(251,191,36,0.20),rgba(251,191,36,0.05));padding:8px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:13px;font-weight:800;color:#fbbf24">📋 ADMIN SNAPSHOT XÁC NHẬN — 18 ITEMS CẦN XỬ LÝ · 2 ĐÃ DONE (2026-09-23)</span>
+        <span style="font-size:10px;color:var(--text-muted)">test → nói <b>"DONE: &lt;ID&gt;"</b> → agent đóng task</span>
+    </div>
+    <div style="padding:8px 10px;overflow-x:auto">
+        <table class="ar-table" style="width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed"
+               id="adminSnapshotTable">
+            <colgroup>
+                <col style="width:8%"><col style="width:29%"><col style="width:28%"><col style="width:27%"><col style="width:8%">
+            </colgroup>
+            <thead>
+            <tr style="text-align:left;color:#fbbf24;border-bottom:1px solid rgba(251,191,36,0.35)">
+                <th style="padding:3px 6px">ID</th><th style="padding:3px 6px">Cần xác nhận</th><th style="padding:3px 6px">URL test</th><th style="padding:3px 6px">DONE khi thấy</th><th style="padding:3px 6px">✅</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <!-- A. BUGS — 9 items — fix đã apply, cần admin xác nhận UI   -->
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <tr><td colspan="5" style="padding:6px 6px 4px;color:#fca5a5;font-weight:700;border-top:1px solid rgba(239,68,68,0.35)">A. BUGS — fix đã apply, cần admin xác nhận (9)</td></tr>
+            <tr class="ar" id="ar-BUG025" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">BUG-025</td>
+              <td>Gõ tên "<b>Quy Sơn Linh Hựu</b>" trước đây nhảy sai sang pháp hệ "Kính Đường Giác Viên". Đã sửa trong database (2026-09-22).</td>
+              <td><a href="http://localhost:8080/daoanh/places.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở places.html ↗</a><br><span style="color:var(--text-muted)">→ Gõ "Quy Sơn Linh Hựu" → click kết quả</span></td>
+              <td>Thanh trái hiện <b>"Pháp hệ · Linh Hựu"</b> (không được hiện Kính Đường)</td>
+              <td style="white-space:nowrap"><button id="btn-BUG025" onclick="adminBugDone('BUG-025','ar-BUG025','btn-BUG025')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-BUG026" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">BUG-026</td>
+              <td>Gõ "<b>Thạch Đầu Hy Thiên</b>" ra 2 kết quả cùng tên (có 1 người sai là 慧辯 thời Tống). Đã sửa tên người sai → "Tuệ Biện" (2026-09-23).</td>
+              <td><a href="http://localhost:8080/daoanh/places.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở places.html ↗</a><br><span style="color:var(--text-muted)">→ Gõ "Thạch Đầu Hy Thiên" → xem danh sách</span></td>
+              <td>Chỉ còn <b>đúng 1 kết quả</b>: Thạch Đầu Hy Thiên (希遷) — không có kết quả thứ 2</td>
+              <td style="white-space:nowrap"><button id="btn-BUG026" onclick="adminBugDone('BUG-026','ar-BUG026','btn-BUG026')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-BUG015" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">BUG-015</td>
+              <td>Trang khởi động có lỗi console JavaScript (SyntaxError) và route tìm tăng nhân trả 404.</td>
+              <td><a href="http://localhost:8080/daoanh/places.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở places.html ↗</a><br><span style="color:var(--text-muted)">→ Gõ "Thiếu Lâm Tự" → bấm F12 xem Console</span></td>
+              <td>Console tab <b>không có lỗi đỏ mới</b> nào sau khi trang load và tìm kiếm xong</td>
+              <td style="white-space:nowrap"><button id="btn-BUG015" onclick="adminBugDone('BUG-015','ar-BUG015','btn-BUG015')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-BUG011" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">BUG-011</td>
+              <td>Click vào marker trên bản đồ → panel thông tin bên phải không hiện đủ dữ liệu (thiếu GPS, quận, ghi chú, DILA ID).</td>
+              <td><a href="http://localhost:8080/daoanh/places.html?fly=34.5885,112.9343&amp;select=PL000000023255" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở Thiếu Lâm Tự ↗</a><br><span style="color:var(--text-muted)">→ Click vào marker đỏ trên bản đồ</span></td>
+              <td>Panel bên phải hiện đủ: <b>GPS tọa độ, quận/huyện, ghi chú, DILA ID</b></td>
+              <td style="white-space:nowrap"><button id="btn-BUG011" onclick="adminBugDone('BUG-011','ar-BUG011','btn-BUG011')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-BUG012a" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">BUG-012a</td>
+              <td>Click vào nhóm marker (cluster) → panel thông tin không cập nhật theo địa điểm mới vừa chọn.</td>
+              <td><a href="http://localhost:8080/daoanh/places.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở places.html ↗</a><br><span style="color:var(--text-muted)">→ Bật filter → click vào cluster (nhóm nhiều chấm)</span></td>
+              <td>Panel bên phải <b>hiện đúng thông tin địa điểm vừa click</b>, không giữ thông tin cũ</td>
+              <td style="white-space:nowrap"><button id="btn-BUG012a" onclick="adminBugDone('BUG-012a','ar-BUG012a','btn-BUG012a')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-BUG012b" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">BUG-012b</td>
+              <td>Click marker → xem Vị Trí + RAG → search địa điểm khác → khối Vị Trí/RAG vẫn hiện data cũ, không cập nhật.</td>
+              <td><a href="http://localhost:8080/daoanh/places.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở places.html ↗</a><br><span style="color:var(--text-muted)">→ Click marker → xem block Vị Trí → search tên khác</span></td>
+              <td>Khối <b>"Vị Trí" và "3 Lớp RAG"</b> cập nhật theo địa điểm mới tìm kiếm</td>
+              <td style="white-space:nowrap"><button id="btn-BUG012b" onclick="adminBugDone('BUG-012b','ar-BUG012b','btn-BUG012b')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-BUG014" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">BUG-014</td>
+              <td>Tab Nexus (đồ thị quan hệ): các node rung lắc (jitter) và cạnh kết nối bị chồng lên nhau, khó đọc.</td>
+              <td><a href="http://localhost:8080/daoanh/places.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở places.html ↗</a><br><span style="color:var(--text-muted)">→ Tìm "Thiếu Lâm Tự" → click tab Nexus → click "Hồ Sơ DILA"</span></td>
+              <td>Đồ thị <b>hiện ra mượt, các node không rung</b>, đường nối không chồng chéo lộn xộn</td>
+              <td style="white-space:nowrap"><button id="btn-BUG014" onclick="adminBugDone('BUG-014','ar-BUG014','btn-BUG014')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-BUG008" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">BUG-008</td>
+              <td>Đang xem 1 địa điểm (marker đỏ đang chọn) → bật filter loại "Chùa / Tự viện" → marker đó biến mất khỏi bản đồ.</td>
+              <td><a href="http://localhost:8080/daoanh/places.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở places.html ↗</a><br><span style="color:var(--text-muted)">→ Click 1 marker → rồi bật filter "Chùa / Tự viện"</span></td>
+              <td>Marker đang chọn <b>vẫn hiển thị trên bản đồ</b> dù filter đang bật</td>
+              <td style="white-space:nowrap"><button id="btn-BUG008" onclick="adminBugDone('BUG-008','ar-BUG008','btn-BUG008')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-MAPSEM" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">MAP_SEMANTIC</td>
+              <td>Tất cả marker trên bản đồ đều dùng chung 1 icon giống nhau — chưa phân biệt icon theo loại địa danh (chùa, bảo tháp, núi, thành…).</td>
+              <td><a href="http://localhost:8080/daoanh/places.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở places.html ↗</a><br><span style="color:var(--text-muted)">→ Tìm "Thiếu Lâm Tự" → click marker</span></td>
+              <td>Marker chùa hiện <b>icon cổng chùa (temple gate)</b>; khi click thì sáng lên (glow)</td>
+              <td style="white-space:nowrap"><button id="btn-MAPSEM" onclick="adminBugDone('MAP_SEMANTIC','ar-MAPSEM','btn-MAPSEM')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <!-- B. FEATURES — đã implement, cần admin test hồi quy         -->
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <tr><td colspan="5" style="padding:6px 6px 4px;color:#7dd3fc;font-weight:700;border-top:1px solid rgba(59,130,246,0.35)">B. FEATURES — đã implement, cần admin test hồi quy (5)</td></tr>
+            <tr class="ar" id="ar-T118R1" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">T118-r1</td>
+              <td>API lịch sử chỉnh sửa (Audit Trail) — mỗi lần admin sửa/duyệt dữ liệu đều được ghi lại với ai sửa, lúc nào, sửa gì.</td>
+              <td><span style="color:var(--text-muted);font-size:10px">Chạy trong terminal:</span><br><code style="font-size:10px">curl :5000/daoanh/api/research/entity/PL000000023255/audit-trail</code></td>
+              <td>Kết quả JSON trả về có đủ các trường: <b>action, editor, timestamp</b></td>
+              <td style="white-space:nowrap"><button id="btn-T118R1" onclick="adminBugDone('T118-r1','ar-T118R1','btn-T118R1')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-T118R2" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">T118-r2</td>
+              <td>Trích dẫn học thuật (Citation) xuất ra file có kèm mã xác thực (audit_id + chữ ký SIG) để người khác biết dữ liệu từ đâu.</td>
+              <td><span style="color:var(--text-muted);font-size:10px">Chạy trong terminal:</span><br><code style="font-size:10px">curl ":5000/daoanh/api/public/export/citation?entity_id=PL000000023255&audit_id=en-5&format=csl-json"</code></td>
+              <td>File JSON có trường <b>audit_id</b>; file BibTeX có dòng <b>SIG=</b></td>
+              <td style="white-space:nowrap"><button id="btn-T118R2" onclick="adminBugDone('T118-r2','ar-T118R2','btn-T118R2')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-T119" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">T119</td>
+              <td>Editor Dashboard — trang quản trị dữ liệu cho admin, có 6 tab chức năng (duyệt dữ liệu, xem xung đột, bulk review…).</td>
+              <td><a href="http://127.0.0.1:5000/daoanh/admin/editor-dashboard.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở Editor Dashboard ↗</a><br><span style="color:var(--text-muted)">→ Thử duyệt 1 claim bất kỳ</span></td>
+              <td><b>6 tab đều mở được</b>; sau khi duyệt 1 claim thì số liệu thống kê thay đổi</td>
+              <td style="white-space:nowrap"><button id="btn-T119" onclick="adminBugDone('T119','ar-T119','btn-T119')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-T121" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">T121</td>
+              <td>Geo Enrichment — hệ thống gợi ý tọa độ GPS cho các địa danh chưa có vị trí, admin xem và duyệt từng gợi ý.</td>
+              <td><a href="http://127.0.0.1:5000/daoanh/admin/editor-dashboard.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở Editor Dashboard ↗</a><br><span style="color:var(--text-muted)">→ Click tab "Geo Enrichment"</span></td>
+              <td>Thấy <b>ít nhất 9 gợi ý tọa độ</b>; approve 1 → GPS trên bản đồ thay đổi</td>
+              <td style="white-space:nowrap"><button id="btn-T121" onclick="adminBugDone('T121','ar-T121','btn-T121')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-T73" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">T73</td>
+              <td>Bio Review — admin duyệt bản dịch tiểu sử tăng nhân (AI đã dịch sẵn), approve thì lưu vào database.</td>
+              <td><a href="http://127.0.0.1:5000/daoanh/admin/editor-dashboard.html" target="_blank" style="color:#7dd3fc;text-decoration:underline">Mở Editor Dashboard ↗</a><br><span style="color:var(--text-muted)">→ Click tab "Bio Review" → approve 1 tiểu sử</span></td>
+              <td>Sau approve: trường <b>bio_vi trong database thay đổi</b> (tải lại trang vẫn thấy)</td>
+              <td style="white-space:nowrap"><button id="btn-T73" onclick="adminBugDone('T73','ar-T73','btn-T73')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <!-- C. TASK CLOSURES (1 còn lại — T112 đã done → cuối bảng)   -->
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <tr><td colspan="5" style="padding:6px 6px 4px;color:#e9d5ff;font-weight:700;border-top:1px solid rgba(139,92,246,0.35)">C. TASK CLOSURES — cần xác nhận (1)</td></tr>
+            <tr class="ar" id="ar-T122" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">T122</td>
+              <td>Batch D tổng hợp (T118-r2 + T121 + T73 + docs) — đóng sau khi admin confirm xong toàn bộ mục B ở trên.</td>
+              <td>—</td>
+              <td>Tất cả sub-item trong mục B đã review xong → nói <b>"T122 done"</b></td>
+              <td style="white-space:nowrap"><button id="btn-T122" onclick="adminBugDone('T122','ar-T122','btn-T122')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <!-- D. DECISIONS (1 còn lại — T34 đã done → cuối bảng)        -->
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <tr><td colspan="5" style="padding:6px 6px 4px;color:#fda4af;font-weight:700;border-top:1px solid rgba(244,63,94,0.35)">D. DECISIONS — admin cần chọn (1)</td></tr>
+            <tr class="ar" id="ar-T28" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">T28</td>
+              <td>Cần quyết định kiến trúc server: <b>Route A</b> (1 server duy nhất, đơn giản hơn) hay <b>Route B</b> (2 server riêng biệt, linh hoạt hơn).</td>
+              <td>—</td>
+              <td>Nói rõ <b>"T28 route A"</b> hoặc <b>"T28 route B"</b> để agent triển khai</td>
+              <td style="white-space:nowrap"><button id="btn-T28" onclick="adminBugDone('T28','ar-T28','btn-T28')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <!-- E. DEPLOY · F. BLOCKED API KEYS                            -->
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <tr><td colspan="5" style="padding:6px 6px 4px;color:#6ee7b7;font-weight:700;border-top:1px solid rgba(16,185,129,0.35)">E. DEPLOY (1) · F. BLOCKED — cần cung cấp API key (3)</td></tr>
+            <tr class="ar" id="ar-VPS" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#86efac;font-weight:700">VPS</td>
+              <td>Deploy places.html lên server thật (158.220.106.183) — cần admin quyết định thời điểm.</td>
+              <td>—</td>
+              <td>Nói <b>"deploy"</b> kèm thời điểm muốn deploy → agent sẽ thực hiện</td>
+              <td style="white-space:nowrap"><button id="btn-VPS" onclick="adminBugDone('VPS','ar-VPS','btn-VPS')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <tr class="ar" id="ar-APIKEYS" style="transition:background 0.4s">
+              <td style="padding:4px 6px;color:#fbbf24;font-weight:700">T50/T74/T74b</td>
+              <td>Cần 3 API key để mở khoá tính năng dịch AI: <b>Groq</b> (dịch Đại Tạng), <b>Gemini</b> (dịch tiểu sử), <b>Claude</b> (chat). Hiện tại các tính năng này bị khoá.</td>
+              <td><span style="color:var(--text-muted)">Đặt key vào <code>env</code> hoặc <code>data/llm_config.json</code></span></td>
+              <td>Admin cung cấp key → agent sẽ cài vào đúng chỗ</td>
+              <td style="white-space:nowrap"><button id="btn-APIKEYS" onclick="adminBugDone('API-KEYS','ar-APIKEYS','btn-APIKEYS')" style="background:#166534;color:#bbf7d0;border:1px solid #4ade80;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">✅ DONE</button></td>
+            </tr>
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <!-- ✅ ĐÃ DONE — đã xác nhận, không cần xử lý thêm            -->
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <tr><td colspan="5" style="padding:8px 6px 4px;color:#4ade80;font-weight:700;border-top:2px solid rgba(74,222,128,0.45);background:rgba(34,197,94,0.05)">✅ ĐÃ DONE — đã xác nhận, không cần xử lý thêm (2)</td></tr>
+            <tr class="ar" style="opacity:0.55;text-decoration:line-through">
+              <td style="padding:4px 6px;color:#4ade80;font-weight:700">T112</td>
+              <td>Source Pending Activation — 8 nguồn chờ kích hoạt</td>
+              <td>—</td>
+              <td>✅ Lee đã duyệt §5: 5 BLOCK / 3 DEFER / 1 REFERENCE_ONLY</td>
+              <td style="color:#4ade80;font-size:11px;font-weight:700">✅ PASSED</td>
+            </tr>
+            <tr class="ar" style="opacity:0.55;text-decoration:line-through">
+              <td style="padding:4px 6px;color:#4ade80;font-weight:700">T34</td>
+              <td>Xóa fake data (~80 rows) trong database</td>
+              <td>—</td>
+              <td>✅ commit 76d9914 — DB: eight_four_thousand=0, vri=0, kanripo=101 real</td>
+              <td style="color:#4ade80;font-size:11px;font-weight:700">✅ PASSED</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Báo cáo lịch sử — collapsible -->
+<details style="margin-bottom:10px;border:1px solid #1e293b;border-radius:8px;overflow:hidden">
+<summary style="padding:7px 12px;background:rgba(255,255,255,0.02);cursor:pointer;font-size:11px;font-weight:700;color:var(--text-muted);list-style:none;display:flex;align-items:center;gap:8px;user-select:none">
+    <span>▶</span>
+    <span>📂 Lịch sử báo cáo &amp; blockers (7 mục — click để mở)</span>
+</summary>
+<div style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">
+    <div style="font-size:10px;color:#bbf7d0;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:6px;padding:5px 8px;line-height:1.5">
+        ✅ <b>T95 (2026-09-05)</b> — CBETA Pipeline dịch Hán–Việt: batch Groq + resume + style-lock. Xem <code>tasks/T95-cbeta-translation-pipeline.md</code>
+    </div>
+    <div style="font-size:10px;color:#bbf7d0;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:6px;padding:5px 8px;line-height:1.5">
+        ✅ <b>T76+T77 ĐỒNG Ý BUILD</b> — B2 Real Data Acceptance Test + Source Registry + Adapter. Xem <code>docs/T76_B2_REAL_DATA_ACCEPTANCE_REPORT.md</code>
+    </div>
+    <div style="font-size:10px;color:#bae6fd;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:6px;padding:5px 8px;line-height:1.5">
+        ⚖️ <b>T78 License Firewall</b> — 5 nguồn AUDITING (DILA/CBETA/MARCUS/ZQLOCAL/Wikidata); 8 nguồn UNKNOWN/BLOCKED. <a href="/daoanh/admin/source_check.html" style="color:#7dd3fc">Legal Check Nguồn ↗</a>
+    </div>
+    <div style="font-size:10px;color:#bbf7d0;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:6px;padding:5px 8px;line-height:1.5">
+        ✅ <b>T93 DONE (2026-09-04)</b> — Việt hóa 5 chuỗi "Passage" + Tab GIÁO LÝ 5 labels mới. Rollback: <code>git revert HEAD</code>
+    </div>
+    <div style="font-size:10px;color:#bbf7d0;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:6px;padding:5px 8px;line-height:1.5">
+        ✅ <b>T92 DONE (2026-09-04)</b> — Tab Nexus Phase 0–3: Evidence UI + share/export + URL param. Rollback base <code>5300e0f</code>
+    </div>
+    <div style="font-size:10px;color:#bbf7d0;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:6px;padding:5px 8px;line-height:1.5">
+        ✅ <b>T05 DONE (2026-09-02)</b> — TTL Authority ETL: 46 corrections (13 person + 31 place, confidence 0.9). Revert: <code>scripts/t05_revert_20260901.sql</code>
+    </div>
+    <div style="font-size:10px;color:#e9d5ff;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25);border-radius:6px;padding:5px 8px;line-height:1.5">
+        🔄 <b>T85 IN_PROGRESS</b> — Lazy Translate on-demand. <b style="color:#fca5a5">Blocker: cần Groq API key</b> (env <code>GROQ_KEY</code>). 6/10 criteria done.
+    </div>
+    <div style="font-size:10px;color:#fca5a5;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.30);border-radius:6px;padding:5px 8px;line-height:1.5">
+        🚨 <b>T34 DATA GIẢ</b> — 84000/VRI/Kanripo schema có data fake. CBETA ✅ OK. ẨN khỏi HOME. <b>❌ CHƯA deploy lên production.</b>
+    </div>
+    <div style="font-size:10px;background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.25);border-radius:6px;padding:5px 8px;line-height:1.6;color:#a5b4fc">
+        <b>📋 BLOCKERS:</b>
+        <span style="color:#d1d5db">① Groq API key (env <code>GROQ_KEY</code>) → unblock T85+T74b. </span>
+        <span style="color:#d1d5db">② T22 Layer B/C → CHGIS Harvard Dataverse → <code>data/dila_import/CHGIS/</code>. </span>
+        <span style="color:#86efac">③ Đã unblock: T05 ✅ T82 ✅ T83 ✅ TAB_DAI_TANG ✅</span>
+    </div>
+</div>
+</details>
+<div class="section-title">Task Board — chức năng cần dev</div>
+<div class="task-kpi">
+    <div class="kpi progress"><div class="v" id="taskDonePct">—%</div><div class="l">Task hoàn thành</div></div>
+    <div class="kpi"><div class="v" id="taskTotal">—</div><div class="l">Tổng task</div></div>
+    <div class="kpi progress"><div class="v" id="taskInProgress">—</div><div class="l">Đang làm</div></div>
+    <div class="kpi blocked"><div class="v" id="taskBlocked">—</div><div class="l">Blocked</div></div>
+</div>
+<div class="board" id="taskBoard">
+    <div style="color: var(--text-muted); font-size: 13px;">Đang tải dữ liệu…</div>
+</div>
+
+<div class="section-title">Places Entity Page — Feature Coverage Map</div>
+<div class="card" style="margin-bottom:10px">
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Mỗi dòng = 1 feature block trong sidebar trang <code>places.html</code>. Badge = task cần làm, màu = trạng thái hiện tại.</div>
+    <div class="pfm-grid" id="placesFeatureMap">
+        <div style="color:var(--text-muted);font-size:12px">Đang tải...</div>
+    </div>
+</div>
+
+<div class="section-title">HOME GUI — Chức Năng Theo Kế Hoạch</div>
+<div class="card" style="margin-bottom:10px">
+    <div class="hf-legend">
+        <span><span class="hf-legend-dot done"></span> Đã hoàn thành &amp; hoạt động trên HOME</span>
+        <span><span class="hf-legend-dot partial"></span> Một phần (OpenCode ghi nhận)</span>
+        <span><span class="hf-legend-dot pending"></span> Chưa dev</span>
+    </div>
+    <div class="hf-grid" id="homeFeatureGrid">
+        <div style="color:var(--text-muted);font-size:12px">Đang tải...</div>
+    </div>
+</div>
+
+<div class="section-title">Tiến độ theo module</div>
+<div class="grid" id="moduleGrid">
+    <div style="color: var(--text-muted); font-size: 13px;">Đang tải dữ liệu…</div>
+</div>
+
+<div class="section-title">Git Timeline — hoạt động dev theo thời gian (từ git log)</div>
+<div class="tl-wrap" id="gitTimeline">
+    <div style="color: var(--text-muted); font-size: 13px;">Đang tải dữ liệu…</div>
+</div>
+
+<div class="section-title">Data Quality — Compliance Meter (SCHEMA_DESIGN M7.2)</div>
+<div class="card" style="margin-bottom:10px">
+    <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px">
+        Đọc-ONLY từ <code>lineage.db</code> · <code>scripts/verify_design_compliance.py</code> → <code>data/design_compliance.json</code>. 9 metric · 0 ghi DB.
+    </div>
+    <div id="complianceSummary" style="font-size:12px;margin-bottom:8px;color:var(--text-muted)">Đang tải…</div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Công thức</th>
+                    <th>Passed/Total</th>
+                    <th>%</th>
+                    <th>Goal ≥</th>
+                    <th>Trạng thái</th>
+                    <th>Baseline 08-09</th>
+                </tr>
+            </thead>
+            <tbody id="complianceTable">
+                <tr><td colspan="7" style="color: var(--text-muted);">Đang tải…</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="section-title">Đối chiếu endpoints (docs claim vs code thật)</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Endpoint</th>
+                <th>Docs claim</th>
+                <th>Code thật</th>
+                <th>Kết quả</th>
+            </tr>
+        </thead>
+        <tbody id="endpointTable">
+            <tr><td colspan="4" style="color: var(--text-muted);">Đang tải…</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:center;padding-bottom:8px">
+    Task Board: <code>tasks/T*.md</code> · Data: <code>scripts/build_progress_data.py</code> · <code>data/progress_data.json</code>
+</div>
+
+<script>
+    // Admin bug confirmation buttons
+    function adminBugDone(bugId, rowId, btnId) {
+        if (!confirm('✅ Xác nhận ' + bugId + ' đã PASS?\n\nSau khi click OK, bug sẽ được đánh dấu hoàn thành và lưu lại.')) return;
+        var row = document.getElementById(rowId);
+        var btn = document.getElementById(btnId);
+        var ts = new Date().toLocaleDateString('vi-VN', {day:'2-digit',month:'2-digit',year:'numeric'});
+        if (row) {
+            row.style.background = 'rgba(34,197,94,0.12)';
+            row.style.opacity = '0.75';
+            var cells = row.cells;
+            // Gạch ngang tất cả text
+            for (var i = 0; i < cells.length - 1; i++) {
+                cells[i].style.textDecoration = 'line-through';
+                cells[i].style.color = 'var(--text-muted)';
+            }
+        }
+        if (btn) {
+            btn.disabled = true;
+            btn.style.background = '#14532d';
+            btn.style.borderColor = '#4ade80';
+            btn.style.cursor = 'default';
+            btn.innerHTML = '✅ PASSED ' + ts;
+        }
+        try { localStorage.setItem('adminDone_' + bugId, new Date().toISOString()); } catch(e){}
+        // Toast
+        var toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#14532d;color:#bbf7d0;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;border:1px solid #4ade80;box-shadow:0 4px 12px rgba(0,0,0,0.4)';
+        toast.textContent = '✅ ' + bugId + ' — Admin đã xác nhận PASSED (' + ts + ')';
+        document.body.appendChild(toast);
+        setTimeout(function(){ if(toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
+    }
+    // Khôi phục trạng thái DONE từ localStorage khi load trang
+    (function restoreBugDoneState() {
+        var allItems = [
+            {bugId:'BUG-025', rowId:'ar-BUG025', btnId:'btn-BUG025'},
+            {bugId:'BUG-026', rowId:'ar-BUG026', btnId:'btn-BUG026'},
+            {bugId:'BUG-015', rowId:'ar-BUG015', btnId:'btn-BUG015'},
+            {bugId:'BUG-011', rowId:'ar-BUG011', btnId:'btn-BUG011'},
+            {bugId:'BUG-012a', rowId:'ar-BUG012a', btnId:'btn-BUG012a'},
+            {bugId:'BUG-012b', rowId:'ar-BUG012b', btnId:'btn-BUG012b'},
+            {bugId:'BUG-014', rowId:'ar-BUG014', btnId:'btn-BUG014'},
+            {bugId:'BUG-008', rowId:'ar-BUG008', btnId:'btn-BUG008'},
+            {bugId:'MAP_SEMANTIC', rowId:'ar-MAPSEM', btnId:'btn-MAPSEM'},
+            {bugId:'T118-r1', rowId:'ar-T118R1', btnId:'btn-T118R1'},
+            {bugId:'T118-r2', rowId:'ar-T118R2', btnId:'btn-T118R2'},
+            {bugId:'T119', rowId:'ar-T119', btnId:'btn-T119'},
+            {bugId:'T121', rowId:'ar-T121', btnId:'btn-T121'},
+            {bugId:'T73', rowId:'ar-T73', btnId:'btn-T73'},
+            {bugId:'T122', rowId:'ar-T122', btnId:'btn-T122'},
+            {bugId:'T28', rowId:'ar-T28', btnId:'btn-T28'},
+            {bugId:'VPS', rowId:'ar-VPS', btnId:'btn-VPS'},
+            {bugId:'API-KEYS', rowId:'ar-APIKEYS', btnId:'btn-APIKEYS'}
+        ];
+        allItems.forEach(function(item) {
+            var bugId = item.bugId, rowId = item.rowId, btnId = item.btnId;
+            var saved = null;
+            try { saved = localStorage.getItem('adminDone_' + bugId); } catch(e){}
+            if (!saved) return;
+            /* rowId/btnId already set per-item above */
+            // Chờ DOM sẵn sàng
+            var tryRestore = function() {
+                var row = document.getElementById(rowId);
+                var btn = document.getElementById(btnId);
+                var ts = new Date(saved).toLocaleDateString('vi-VN', {day:'2-digit',month:'2-digit',year:'numeric'});
+                if (row) {
+                    row.style.background = 'rgba(34,197,94,0.12)';
+                    row.style.opacity = '0.75';
+                    for (var i = 0; i < row.cells.length - 1; i++) {
+                        row.cells[i].style.textDecoration = 'line-through';
+                        row.cells[i].style.color = 'var(--text-muted)';
+                    }
+                }
+                if (btn) {
+                    btn.disabled = true;
+                    btn.style.background = '#14532d';
+                    btn.style.cursor = 'default';
+                    btn.innerHTML = '✅ PASSED ' + ts;
+                }
+            };
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', tryRestore);
+            } else {
+                tryRestore();
+            }
+        });
+    })();
+
+    const API_URL = '/daoanh/api/progress/dashboard';
+
+    async function fetchData(regenerate) {
+        showLoading(true);
+        const url = regenerate ? API_URL + '?regenerate=1' : API_URL;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 60000);
+        try {
+            const res = await fetch(url, { signal: controller.signal });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            if (data.success === false) throw new Error(data.error || 'Lỗi API');
+            render(data);
+            hideError();
+        } catch (err) {
+            showError('Không tải được dữ liệu: ' + err.message + (err.name === 'AbortError' ? ' (timeout 60s)' : ''));
+        } finally {
+            clearTimeout(timer);
+            showLoading(false);
+        }
+    }
+
+    function render(data) {
+        document.getElementById('totalProgress').textContent = (data.total_progress ?? 0) + '%';
+        document.getElementById('modCount').textContent = (data.modules || []).length;
+        document.getElementById('routeTotal').textContent = data.meta?.route_total ?? '—';
+        document.getElementById('scriptTotal').textContent = data.meta?.script_total ?? '—';
+        document.getElementById('endpointCount').textContent = (data.endpoints_compare || []).length;
+        document.getElementById('timestamp').textContent = 'Cập nhật: ' + (data.generated_at || '—').replace('T', ' ');
+
+        renderTaskBoard(data);
+        renderPlacesFeatureMap(data);
+        renderGitTimeline(data);
+
+        // Feed task statuses to HOME feature map
+        _homeTaskStatusMap = {};
+        (data.tasks || []).forEach(t => { _homeTaskStatusMap[t.id] = t.status; });
+        tryRenderHome();
+
+        // Module cards
+        const grid = document.getElementById('moduleGrid');
+        grid.innerHTML = '';
+        (data.modules || []).forEach(m => {
+            const statusClass = m.doc_status || 'pending';
+            const fillClass = m.progress >= 100 ? 'done' : (m.progress > 0 ? 'in_progress' : 'pending');
+            const statusLabel = statusClass === 'done' ? 'Hoàn thành' : (statusClass === 'in_progress' ? 'Đang triển khai' : 'Chưa bắt đầu');
+
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const warnings = (m.warnings || []).map(w =>
+                '<div class="warning">⚠ ' + w.replace(/</g, '&lt;') + '</div>'
+            ).join('');
+
+            const chips = (m.routes || []).slice(0, 12).map(r =>
+                '<span class="chip">' + r.replace(/</g, '&lt;') + '</span>'
+            ).join('');
+
+            // Task chưa done thuộc module này (chuẩn tasks/T*.md)
+            const modTasks = (data.tasks || []).filter(t => t.module === m.name && t.status !== 'done');
+            let modTasksHtml = '<div class="mod-tasks"><div class="mod-tasks-title">Tasks chưa Done · ' + modTasks.length + '</div>';
+            if (!modTasks.length) {
+                modTasksHtml += '<div class="mod-task"><span class="mt-none">Không có task đang mở cho module này.</span></div>';
+            } else {
+                modTasks.forEach(t => {
+                    const prioCls = t.priority === 'high' ? 'high' : (t.priority === 'medium' ? 'medium' : 'low');
+                    const prioLabel = t.priority === 'high' ? 'ưu tiên cao' : (t.priority === 'medium' ? 'trung bình' : 'thấp');
+                    const stLabel = t.status === 'blocked' ? ' (blocked!)' : (t.status === 'in_progress' ? ' (đang làm)' : '');
+                    modTasksHtml +=
+                        '<div class="mod-task' + (t.status === 'blocked' ? ' blocked' : '') + '">' +
+                            '<span class="mt-id">' + t.id + '</span>' +
+                            '<span class="mt-title">' + t.title.replace(/</g, '&lt;') + '</span>' +
+                            '<span class="mt-prio ' + prioCls + '">' + prioLabel + '</span>' +
+                            '<span style="font-size:10px;color:var(--text-muted);margin-left:6px;">' + stLabel + '</span>' +
+                            (t.desc ? '<div class="mt-desc">' + t.desc.replace(/</g, '&lt;') + '</div>' : '') +
+                        '</div>';
+                });
+            }
+            modTasksHtml += '</div>';
+
+            card.innerHTML =
+                '<div class="card-header">' +
+                    '<h3>' + m.name + '</h3>' +
+                    '<span class="badge ' + statusClass + '">' + statusLabel + '</span>' +
+                '</div>' +
+                '<div class="progress-track"><div class="progress-fill ' + fillClass + '" style="width:' + m.progress + '%"></div></div>' +
+                '<div class="card-meta">' +
+                    '<span class="pct">' + m.progress + '%</span>' +
+                    '<span class="detail">' + m.code_found + '/' + m.code_claimed + ' claim tìm thấy trong code</span>' +
+                '</div>' +
+                (warnings ? '<div class="warnings">' + warnings + '</div>' : '') +
+                modTasksHtml +
+                (chips ? '<div class="route-chips">' + chips + '</div>' : '');
+            grid.appendChild(card);
+        });
+        if (!(data.modules || []).length) {
+            grid.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">Không có dữ liệu module.</div>';
+        }
+
+        // Endpoint table
+        const tbody = document.getElementById('endpointTable');
+        tbody.innerHTML = '';
+        const eps = data.endpoints_compare || [];
+        if (!eps.length) {
+            tbody.innerHTML = '<tr><td colspan="4" style="color: var(--text-muted);">Không có claim nào.</td></tr>';
+        }
+        eps.forEach(e => {
+            const ok = !!e.code_found;
+            const tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td class="mono">' + e.path.replace(/</g, '&lt;') + '</td>' +
+                '<td>' + (e.docs_claim ? '<span class="ok">có</span>' : '<span class="no">không</span>') + '</td>' +
+                '<td>' + (ok ? '<span class="ok">có</span>' : '<span class="no">không</span>') + '</td>' +
+                '<td>' + (ok ? '<span class="ok">✓ khớp</span>' : '<span class="no">✗ thiếu (docs claim nhưng chưa có code)</span>') + '</td>';
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderGitTimeline(data) {
+        const wrap = document.getElementById('gitTimeline');
+        const g = data.git_history;
+        if (!g || !g.total) {
+            wrap.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">Không có git history (không phải git repo?).</div>';
+            return;
+        }
+        wrap.innerHTML = '';
+
+        // Bar chart theo tháng
+        const months = g.by_month || [];
+        const maxCommits = Math.max(1, ...months.map(m => m.commits));
+        const bars = months.map(m =>
+            '<div class="tl-bar" title="' + m.month + ': ' + m.commits + ' commits">' +
+                '<span class="cnt">' + m.commits + '</span>' +
+                '<div class="col" style="height:' + (Math.max(4, Math.round(m.commits / maxCommits * 100))) + '%"></div>' +
+                '<span class="lbl">' + m.month.replace('2026-', '').replace('2025-', '') + '</span>' +
+            '</div>'
+        ).join('');
+
+        // Commits theo module
+        const byMod = g.by_module || {};
+        const modEntries = Object.entries(byMod).sort((a, b) => b[1] - a[1]);
+        const maxMod = Math.max(1, ...modEntries.map(e => e[1]));
+        const modRows = modEntries.map(([name, count]) =>
+            '<div class="tl-mod">' +
+                '<span class="mname" title="' + name.replace(/</g, '&lt;') + '">' + name.replace(/</g, '&lt;') + '</span>' +
+                '<div class="mbar"><div class="fill" style="width:' + Math.round(count / maxMod * 100) + '%"></div></div>' +
+                '<span class="mcnt">' + count + '</span>' +
+            '</div>'
+        ).join('');
+
+        wrap.innerHTML =
+            '<div class="tl-card">' +
+                '<h4>Commits theo tháng</h4>' +
+                '<div class="tl-bars">' + bars + '</div>' +
+            '</div>' +
+            '<div class="tl-card">' +
+                '<h4>Commits theo module</h4>' +
+                modRows +
+                '<div class="tl-stats">' +
+                    '<span class="tl-stat"><b>' + g.total + '</b> commits</span>' +
+                    '<span class="tl-stat">Từ <b>' + (g.first_date || '—') + '</b></span>' +
+                    '<span class="tl-stat">Đến <b>' + (g.last_date || '—') + '</b></span>' +
+                    (g.unmatched ? '<span class="tl-stat">Không phân loại: <b>' + g.unmatched + '</b></span>' : '') +
+                '</div>' +
+            '</div>';
+    }
+
+    function renderPlacesFeatureMap(data) {
+        const taskMap = {};
+        (data.tasks || []).forEach(t => { taskMap[t.id] = t; });
+
+        const features = [
+            { icon: '📑', label: 'CBETA · Thư tịch đề cập', tasks: [], implNote: 'Implemented · places.html (dila_listbibl)', overallStatus: 'done' },
+            { icon: '📍', label: 'Địa lý 3 lớp RAG (vị trí)', tasks: [], implNote: 'Partial — location layers displayed', overallStatus: 'partial' },
+            { icon: '⏱', label: 'Niên đại (Timeline · triều đại, sự kiện)', tasks: ['T14'] },
+            { icon: '🗺', label: 'Bản đồ GIS (cluster click, zoom-to-bounds)', tasks: ['T06'] },
+            { icon: '📜', label: 'Đại Tạng — CBETA Corpus (Passage_VI + Dịch Mượt)', tasks: ['T02', 'T03', 'T12'] },
+            { icon: '📖', label: 'Mô tả / Lịch sử (Wikipedia, RAG, CBDB)', tasks: ['T07', 'T11', 'T13'] },
+            { icon: '🕸', label: 'Đồ thị quan hệ — người, chùa, triều đại (Nexus + Graph)', tasks: ['T16', 'T17'] },
+            { icon: '🔗', label: 'Linked Data (DILA Place Index, Marcus Glossaries)', tasks: ['T04', 'T10'] },
+            { icon: '🏛', label: 'Kiến trúc / Hình ảnh minh họa', tasks: [], needTask: true },
+            { icon: '🎥', label: 'Đa phương tiện (video, 3D/AR)', tasks: [], needTask: true },
+        ];
+
+        const statusCls = { done: 's-done', in_progress: 's-partial', pending: 's-pending', blocked: 's-blocked' };
+        const statusLabel = { done: '✓ Xong', in_progress: 'Đang làm', pending: 'Pending', blocked: 'Blocked' };
+
+        const el = document.getElementById('placesFeatureMap');
+        el.innerHTML = features.map(f => {
+            let chipCls, chipTxt;
+            let taskBadges = '';
+
+            if (f.overallStatus === 'done') {
+                chipCls = 's-done'; chipTxt = '✓ Xong';
+            } else if (f.overallStatus === 'partial') {
+                chipCls = 's-partial'; chipTxt = '~ Partial';
+            } else if (f.needTask) {
+                chipCls = 's-need'; chipTxt = 'Cần task mới';
+            } else {
+                const statuses = f.tasks.map(tid => taskMap[tid]?.status || 'pending');
+                if (statuses.length && statuses.every(s => s === 'done')) { chipCls = 's-done'; chipTxt = '✓ Xong'; }
+                else if (statuses.some(s => s === 'blocked')) { chipCls = 's-blocked'; chipTxt = 'Blocked'; }
+                else if (statuses.some(s => s === 'in_progress')) { chipCls = 's-partial'; chipTxt = 'Đang làm'; }
+                else { chipCls = 's-pending'; chipTxt = 'Pending'; }
+            }
+
+            if (f.implNote) taskBadges += '<span class="pfm-badge impl" title="' + f.implNote + '">✓ ' + f.implNote + '</span>';
+            if (f.needTask) taskBadges += '<span class="pfm-badge need-task">⊕ Chưa có task — cần tạo mới</span>';
+            f.tasks.forEach(tid => {
+                const t = taskMap[tid];
+                const st = t?.status || 'pending';
+                const shortTitle = t ? (t.title.length > 35 ? t.title.slice(0, 35) + '…' : t.title) : '?';
+                taskBadges += '<span class="pfm-badge ' + st + '" title="' + (t?.title || '') + ' · ' + st + '">' + tid + ' · ' + shortTitle + '</span>';
+            });
+
+            return '<div class="pfm-row">' +
+                '<span class="pfm-icon">' + f.icon + '</span>' +
+                '<div class="pfm-body">' +
+                    '<div class="pfm-label">' + f.label + '</div>' +
+                    '<div class="pfm-tasks">' + taskBadges + '</div>' +
+                '</div>' +
+                '<span class="pfm-status ' + chipCls + '">' + chipTxt + '</span>' +
+                '</div>';
+        }).join('');
+    }
+
+    function renderTaskBoard(data) {
+        const tm = data.task_meta || {};
+        document.getElementById('taskDonePct').textContent = (tm.done_percent ?? 0) + '%';
+        document.getElementById('taskTotal').textContent = tm.total ?? 0;
+        document.getElementById('taskInProgress').textContent = tm.in_progress ?? 0;
+        document.getElementById('taskBlocked').textContent = tm.blocked ?? 0;
+
+        const board = document.getElementById('taskBoard');
+        board.innerHTML = '';
+        const tasks = data.tasks || [];
+        if (!tasks.length) {
+            board.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">Chưa có task nào. Tạo file trong <code>tasks/T&lt;id&gt;-&lt;tên&gt;.md</code> (xem <code>tasks/README.md</code>).</div>';
+            return;
+        }
+
+        const cols = [
+            { key: 'pending', label: 'Pending', cls: '' },
+            { key: 'in_progress', label: 'In-progress', cls: '' },
+            { key: 'blocked', label: 'Blocked', cls: 'blocked' },
+            { key: 'done', label: 'Done', cls: 'done' }
+        ];
+        cols.forEach(col => {
+            const list = tasks.filter(t => t.status === col.key);
+            const colEl = document.createElement('div');
+            colEl.className = 'board-col ' + col.cls;
+            colEl.innerHTML = '<h4>' + col.label + '<span class="cnt">' + list.length + '</span></h4>';
+            if (!list.length) {
+                colEl.innerHTML += '<div class="empty-col">—</div>';
+            }
+            list.forEach(t => {
+                const prioCls = t.priority === 'high' ? 'high' : (t.priority === 'medium' ? 'medium' : 'low');
+                const criteria = t.criteria_total ? (t.criteria_done / t.criteria_total * 100) : 0;
+                const depends = (t.depends_on || '[]').replace(/[[\]"' ]/g, '');
+                let card = document.createElement('div');
+                card.className = 'task-card' + (t.status === 'blocked' ? ' blocked' : '');
+                card.innerHTML =
+                    '<div class="t-title"><span>' + t.title.replace(/</g, '&lt;') + '</span><span class="t-id">' + t.id + '</span></div>' +
+                    (t.desc ? '<div class="t-desc">' + t.desc.replace(/</g, '&lt;') + '</div>' : '') +
+                    '<div class="t-meta">' +
+                        '<b>' + t.module.replace(/</g, '&lt;') + '</b> · ' + t.created +
+                        (t.owner ? '<br>Người phụ trách: <b>' + t.owner.replace(/</g, '&lt;') + '</b>' : '') +
+                        (depends ? '<br>Phụ thuộc: <b>' + depends + '</b>' : '') +
+                        (t.done_when ? '<br>Done khi: <span title="' + t.done_when.replace(/</g, '&lt;') + '">' + t.done_when.replace(/</g, '&lt;') + '</span>' : '') +
+                        (t.blockers ? '<br><span style="color:#fca5a5;">⚠ Có blocker</span>' : '') +
+                    '</div>' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">' +
+                        '<span class="prio ' + prioCls + '">' + t.priority + '</span>' +
+                        (t.criteria_total ? '<span style="font-size:10px;color:var(--text-muted);">' + t.criteria_done + '/' + t.criteria_total + ' tiêu chí</span>' : '') +
+                    '</div>' +
+                    (t.criteria_total ? '<div class="criteria-bar"><div class="fill" style="width:' + criteria + '%"></div></div>' : '');
+
+                // Directive button
+                const hasDir = !!(window._directives && window._directives[t.id]);
+                const dirBtn = document.createElement('button');
+                dirBtn.className = 'dir-btn' + (hasDir ? '' : ' no-directive');
+                dirBtn.innerHTML = hasDir
+                    ? '📋 Xem chỉ thị OpenCode'
+                    : '— Chỉ thị chưa có';
+                if (hasDir) dirBtn.onclick = () => openDp(t.id);
+                card.appendChild(dirBtn);
+
+                colEl.appendChild(card);
+            });
+            board.appendChild(colEl);
+        });
+    }
+
+    function refreshData(regenerate) {
+        fetchData(regenerate);
+    }
+
+    function showLoading(on) {
+        const btn = document.getElementById('refreshBtn');
+        btn.disabled = on;
+        btn.innerHTML = on ? '<span class="spinner"><i class="fas fa-spinner fa-spin"></i></span> Đang refresh…' : '<i class="fas fa-sync-alt"></i> Refresh';
+    }
+
+    function showError(msg) {
+        const box = document.getElementById('errorBox');
+        box.textContent = msg;
+        box.style.display = 'block';
+    }
+
+    function hideError() {
+        document.getElementById('errorBox').style.display = 'none';
+    }
+
+    // ---- Task Directive Popup ----
+    window._directives = {};
+    window._currentDpId = null;
+
+    fetch('../data/task_directives.json?t=' + Date.now())
+        .then(r => r.json())
+        .then(d => {
+            window._directives = d;
+            // Re-render task board buttons if already rendered
+            document.querySelectorAll('.dir-btn.no-directive').forEach(btn => {
+                const card = btn.closest('.task-card');
+                if (!card) return;
+                const idEl = card.querySelector('.t-id');
+                if (!idEl) return;
+                const tid = idEl.textContent.trim();
+                if (d[tid]) {
+                    btn.className = 'dir-btn';
+                    btn.innerHTML = '📋 Xem chỉ thị OpenCode';
+                    btn.onclick = () => openDp(tid);
+                }
+            });
+        })
+        .catch(() => {});
+
+    function openDp(taskId) {
+        const d = window._directives[taskId];
+        if (!d) return;
+        window._currentDpId = taskId;
+
+        document.getElementById('dpTitle').textContent = taskId + ' — ' + d.title;
+        document.getElementById('dpSub').textContent = 'Module: ' + d.module + (d.task_file ? ' · ' + d.task_file : '');
+
+        const impactEl = document.getElementById('dpImpact');
+        const impactTxt = document.getElementById('dpImpactText');
+        if (d.home_impact) {
+            impactTxt.textContent = d.home_impact;
+            impactEl.style.display = 'block';
+        } else {
+            impactEl.style.display = 'none';
+        }
+
+        const taskLink = document.getElementById('dpTaskLink');
+        taskLink.href = d.task_file ? '/daoanh/' + d.task_file : '#';
+
+        const body = document.getElementById('dpBody');
+        body.innerHTML = '';
+        (d.steps || []).forEach((step, i) => {
+            const el = document.createElement('div');
+            el.className = 'dp-step';
+            const typeLabel = {'shell':'SHELL','edit':'EDIT / CODE','done':'MARK DONE'}[step.t] || step.t.toUpperCase();
+            el.innerHTML =
+                '<div class="dp-step-head" onclick="toggleStep(this)">' +
+                    '<span class="dp-type ' + step.t + '">' + typeLabel + '</span>' +
+                    '<span class="dp-step-label">' + (step.l || '').replace(/</g,'&lt;') + '</span>' +
+                    '<span class="dp-chevron">▶</span>' +
+                '</div>' +
+                '<div class="dp-step-body">' +
+                    '<pre class="dp-code">' + (step.c || '').replace(/</g,'&lt;') + '</pre>' +
+                    '<div class="dp-copy-line">' +
+                        '<button class="dp-copy-btn" onclick="copyStep(this, ' + i + ')">Copy bước này</button>' +
+                    '</div>' +
+                '</div>';
+            body.appendChild(el);
+        });
+
+        // Auto-open first step
+        const first = body.querySelector('.dp-step');
+        if (first) first.classList.add('open');
+
+        document.getElementById('dpOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDp() {
+        document.getElementById('dpOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+        window._currentDpId = null;
+    }
+
+    function toggleStep(head) {
+        head.closest('.dp-step').classList.toggle('open');
+    }
+
+    function copyStep(btn, stepIdx) {
+        const d = window._directives[window._currentDpId];
+        if (!d) return;
+        const step = d.steps[stepIdx];
+        const text = '# ' + (step.l || '') + '\n' + (step.c || '');
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = '✓ Đã copy';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = 'Copy bước này'; btn.classList.remove('copied'); }, 2000);
+        });
+    }
+
+    function copyAllDirective() {
+        const d = window._directives[window._currentDpId];
+        if (!d) return;
+        const btn = document.getElementById('dpCopyAll');
+
+        const lines = [
+            '# OPENCODE DIRECTIVE: ' + window._currentDpId + ' — ' + d.title,
+            '# Module: ' + d.module,
+            '# File chính: ' + (d.task_file || ''),
+            '# Ảnh hưởng HOME: ' + (d.home_impact || ''),
+            '',
+            '# === CÁC BƯỚC THỰC HIỆN ===',
+            ''
+        ];
+        (d.steps || []).forEach((step, i) => {
+            const typeMap = {shell:'[SHELL]', edit:'[EDIT]', done:'[DONE]'};
+            lines.push('## Bước ' + (i+1) + ' ' + (typeMap[step.t]||'') + ' — ' + (step.l||''));
+            lines.push(step.c || '');
+            lines.push('');
+        });
+        lines.push('# === KHI XONG: cập nhật ' + (d.task_file||'') + ' → status: done ===');
+        lines.push('# Chạy: python scripts/build_progress_data.py');
+        lines.push('# Cập nhật: data/directives_progress.json');
+
+        navigator.clipboard.writeText(lines.join('\n')).then(() => {
+            btn.textContent = '✓ Đã copy — paste vào OpenCode!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = '📋 Copy toàn bộ chỉ thị cho OpenCode';
+                btn.classList.remove('copied');
+            }, 3000);
+        });
+    }
+
+    // Keyboard: Esc to close popup
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDp(); });
+
+    // ---- Directive progress tracker ----
+    const DIR_GROUPS = [
+        { key: 'SETUP',  range: '001–011', label: 'Nền tảng CSS + Tab bar',     pct: 2  },
+        { key: 'T14',    range: '100–113', label: 'Time Authority · Niên Đại',  pct: 15 },
+        { key: 'T02',    range: '200–210', label: 'CBETA Passages · Đại Tạng',  pct: 28 },
+        { key: 'T12',    range: '250–256', label: 'Dịch Mượt · Cache',          pct: 38 },
+        { key: 'T16',    range: '400–407', label: 'Nexus Points · Nhân Vật',    pct: 55 },
+        { key: 'T17',    range: '500–506', label: 'Knowledge Graph · Đồ Thị',  pct: 70 },
+        { key: 'T06',    range: '600–604', label: 'GIS Cluster Click',          pct: 80 },
+        { key: 'T11',    range: '700–706', label: 'RAG Chat · Hỏi Đáp',        pct: 90 },
+        { key: 'FINAL',  range: '900–909', label: 'Kiểm tra tổng · Báo cáo',   pct: 100}
+    ];
+
+    function loadDirectiveProgress() {
+        fetch('../data/directives_progress.json?t=' + Date.now())
+            .then(r => r.json())
+            .then(d => renderDirectives(d))
+            .catch(() => {
+                document.getElementById('dirNote').innerHTML =
+                    '<b>directives_progress.json</b> chưa có — OpenCode cập nhật sau mỗi bước.';
+            });
+    }
+
+    function renderDirectives(d) {
+        const pct = d.percent_total || 0;
+        const step = d.current_step || 0;
+        const group = d.current_group || 'Chưa bắt đầu';
+        const blocked = !!d.blocked_at;
+        const done = pct >= 100;
+
+        document.getElementById('dirPct').textContent = pct + '%';
+
+        const badge = document.getElementById('dirStepBadge');
+        badge.textContent = 'Bước ' + step + ' / 909';
+        badge.className = 'dir-step-badge' + (blocked ? ' blocked' : (done ? ' done' : ''));
+
+        document.getElementById('dirStatus').textContent =
+            blocked ? '⚠ Blocked tại bước ' + d.blocked_at : (done ? '✓ Hoàn thành' : group);
+
+        // Render group cards
+        const container = document.getElementById('dirGroups');
+        container.innerHTML = DIR_GROUPS.map(g => {
+            const isDone = pct >= g.pct;
+            const isActive = !isDone && group.includes(g.key);
+            const fill = isDone ? 100 : (isActive ? Math.round(((pct - (DIR_GROUPS[DIR_GROUPS.indexOf(g) - 1] || {pct:0}).pct) /
+                Math.max(1, g.pct - (DIR_GROUPS[DIR_GROUPS.indexOf(g) - 1] || {pct:0}).pct)) * 100) : 0);
+            return '<div class="dir-group ' + (isActive ? 'active' : '') + (isDone ? ' done-g' : '') + '">' +
+                '<div class="dir-group-num">' + g.key + '</div>' +
+                '<div class="dir-group-label">' + g.label + '</div>' +
+                '<div class="dir-group-range">Bước ' + g.range + '</div>' +
+                '<div class="dir-group-bar"><div class="dir-group-fill ' + (isDone ? 'done-fill' : '') + '" style="width:' + (isDone ? 100 : (isActive ? 50 : 0)) + '%"></div></div>' +
+            '</div>';
+        }).join('');
+
+        const note = document.getElementById('dirNote');
+        note.innerHTML = d.note ?
+            '<b>Ghi chú OpenCode:</b> ' + d.note.replace(/</g, '&lt;') +
+            (d.last_updated ? ' <span style="opacity:.5">· ' + d.last_updated.substring(0, 16) + '</span>' : '') :
+            'OpenCode chưa ghi chú.';
+    }
+
+    // ── HOME GUI Feature Map ─────────────────────────────────
+    const HOME_FEATURES = [
+        { tab: '地 Thực Thể', task: 'T01', feature: 'Tên & Tiểu Sử Nhân Vật', metric: '94.4% name_vi (45,938/48,673)' },
+        { tab: '地 Thực Thể', task: 'T16', feature: 'Nhân Vật Liên Quan + NEXUS Badge', metric: 'BDRC Adapter' },
+        { tab: '地 Thực Thể', task: 'T18', feature: 'BDRC Identity Resolution + Cross-Reference', metric: 'adm:sameAsDILA chain' },
+        { tab: '⏱ Niên Đại', task: 'T14', feature: 'Time Grid — Triều đại / Niên hiệu / JDN', metric: '117,391 rows' },
+        { tab: '📜 Đại Tạng', task: 'T02', feature: 'Đoạn văn CBETA + Hán-Việt', metric: '' },
+        { tab: '📜 Đại Tạng', task: 'T12', feature: 'Nút Dịch Mượt →', metric: '' },
+        { tab: '🕸 Đồ Thị', task: 'T17', feature: 'Force-Directed Knowledge Graph', metric: '' },
+        { tab: '💬 Hỏi Đáp', task: 'T11', feature: 'RAG Chat (Tiếng Việt + citations)', metric: '' },
+        { tab: 'Bản đồ GIS', task: 'T06', feature: 'Click cluster → zoom-to-bounds', metric: '' },
+    ];
+
+    function renderHomeFeatures(completedTaskIds, taskStatusMap) {
+        const container = document.getElementById('homeFeatureGrid');
+        if (!container) return;
+
+        // Group features by tab
+        const byTab = {};
+        HOME_FEATURES.forEach(f => {
+            if (!byTab[f.tab]) byTab[f.tab] = [];
+            byTab[f.tab].push(f);
+        });
+
+        container.innerHTML = Object.entries(byTab).map(([tab, features]) => {
+            const rows = features.map(f => {
+                const taskDone = taskStatusMap[f.task] === 'done';
+                const partialDone = completedTaskIds.includes(f.task);
+                const status = taskDone ? 'done' : (partialDone ? 'partial' : 'pending');
+                const label = taskDone ? '✓ DONE' : (partialDone ? '◑ Partial' : '○ Pending');
+                const metricHtml = (taskDone && f.metric)
+                    ? `<div class="hf-metric">📊 ${f.metric}</div>` : '';
+                return `<div>
+                    <div class="hf-feature-row">
+                        <span class="hf-feature-name">${f.feature}</span>
+                        <span class="hf-task-id">${f.task}</span>
+                        <span class="hf-status ${status}">${label}</span>
+                    </div>${metricHtml}</div>`;
+            }).join('');
+
+            return `<div class="hf-tab-group">
+                <div class="hf-tab-header">${tab}</div>
+                ${rows}
+            </div>`;
+        }).join('');
+    }
+
+    // Load HOME feature data — needs both directives_progress + progress_data
+    let _homeCompletedIds = [];
+    let _homeTaskStatusMap = {};
+
+    function tryRenderHome() {
+        if (Object.keys(_homeTaskStatusMap).length > 0) {
+            renderHomeFeatures(_homeCompletedIds, _homeTaskStatusMap);
+        }
+    }
+
+    // Hook into directive load
+    const _origLoadDir = loadDirectiveProgress;
+    function loadDirectiveProgress() {
+        fetch('../data/directives_progress.json?t=' + Date.now())
+            .then(r => r.json())
+            .then(d => {
+                renderDirectives(d);
+                _homeCompletedIds = d.completed_task_ids || [];
+                tryRenderHome();
+            })
+            .catch(() => {
+                document.getElementById('dirNote').innerHTML =
+                    '<b>directives_progress.json</b> chưa có — OpenCode cập nhật sau mỗi bước.';
+            });
+    }
+
+    // ── Data Quality — Compliance Meter (SCHEMA_DESIGN M7.2) ───
+    const COMPLIANCE_API = '/daoanh/api/compliance/dashboard';
+    const _cqColor = { pass: '#22c55e', warn: '#f59e0b', fail: '#ef4444' };
+    const _cqLabel = { pass: 'Đạt', warn: 'Bootstrap', fail: 'Chưa đạt' };
+
+    function loadCompliance() {
+        fetch(COMPLIANCE_API + '?t=' + Date.now())
+            .then(r => r.json())
+            .then(d => renderCompliance(d))
+            .catch(() => {
+                const row = document.getElementById('complianceTable');
+                if (row) row.innerHTML = '<tr><td colspan="7" style="color:var(--text-muted)">Không tải được dữ liệu compliance.</td></tr>';
+            });
+    }
+
+    function renderCompliance(d) {
+        const tb = document.getElementById('complianceTable');
+        const sm = document.getElementById('complianceSummary');
+        if (!tb) return;
+        const metrics = d.metrics || [];
+        tb.innerHTML = metrics.map(m => {
+            const color = _cqColor[m.status] || '#94a3b8';
+            return '<tr>' +
+                '<td style="font-weight:600">' + m.label.replace(/</g, '&lt;') + '</td>' +
+                '<td style="font-size:11px;color:var(--text-muted)">' + m.formula.replace(/</g, '&lt;') + '</td>' +
+                '<td>' + m.passed + ' / ' + m.total + '</td>' +
+                '<td style="font-weight:700;color:' + color + '">' + m.percent + '%</td>' +
+                '<td>' + m.goal + '%</td>' +
+                '<td><span style="color:' + color + '"><b>' + (_cqLabel[m.status] || m.status) + '</b></span>' +
+                (m.note ? ' <span style="font-size:10px;color:var(--text-muted)">· ' + m.note.replace(/</g, '&lt;') + '</span>' : '') + '</td>' +
+                '<td style="color:var(--text-muted)">' + m['baseline_2026-09-08'] + '%</td>' +
+                '</tr>';
+        }).join('');
+        const s = d.summary || {};
+        const nPass = s.pass_metrics ?? 0, nWarn = s.warn_metrics ?? 0, nFail = s.fail_metrics ?? 0;
+        if (sm) sm.textContent = 'Pass ' + nPass + ' · Warn ' + nWarn + ' · Fail ' + nFail +
+            ' / ' + (s.total_metrics ?? '—') + ' metric — ' +
+            (d.generated_at ? 'cập nhật ' + d.generated_at.replace('T', ' ') : '') +
+            (d.read_only ? ' · read-only ✓' : '');
+    }
+
+    // Tải lần đầu
+    fetchData(false);
+    loadDirectiveProgress();
+    loadCompliance();
+
+    // Auto-refresh mỗi 60 phút
+    setInterval(() => fetchData(false), 60 * 60 * 1000);
+</script>
+</body>
+</html>

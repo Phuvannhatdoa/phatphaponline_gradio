@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đạo Ảnh – Thêm TTL Thiền Sư</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #020617; --bg2: #0f172a; --bg3: #1e293b;
+  --primary: #d97706; --primary-dim: #92400e;
+  --text: #e2e8f0; --muted: #64748b; --border: #1e293b;
+  --success: #22c55e; --error: #ef4444; --warn: #f59e0b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+/* Layout */
+.shell { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); flex-shrink: 0; padding: 20px 0; }
+.sidebar-logo { padding: 0 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.sidebar-logo i { color: var(--primary); font-size: 20px; }
+.sidebar-logo span { font-weight: 700; font-size: 14px; color: var(--text); }
+.nav-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; padding: 16px 16px 6px; }
+.nav-btn { display: flex; align-items: center; justify-content: space-between; padding: 9px 16px; margin: 2px 8px; border-radius: 6px; color: var(--muted); text-decoration: none; font-size: 13px; transition: background .15s, color .15s; }
+.nav-btn:hover, .nav-btn.active { background: var(--bg3); color: var(--text); }
+.nav-btn.active { border-left: 2px solid var(--primary); margin-left: 6px; }
+
+/* Main */
+.main { flex: 1; padding: 32px; overflow-x: hidden; }
+.page-title { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+.page-title i { color: var(--primary); }
+.page-sub { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media(max-width:900px) { .grid2 { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+/* Card */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.card-title { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 7px; }
+
+/* Form */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .05em; }
+.field label span.req { color: var(--error); margin-left: 3px; }
+.field label span.note { color: #7c3aed; margin-left: 6px; font-weight: 400; text-transform: none; }
+input, textarea, select {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); padding: 8px 10px; border-radius: 6px; font-size: 13px;
+  font-family: 'Inter', sans-serif; transition: border-color .15s;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
+textarea { resize: vertical; min-height: 80px; }
+.hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Checkbox row */
+.check-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+.check-row input[type=checkbox] { width: auto; accent-color: var(--primary); width: 16px; height: 16px; cursor: pointer; }
+.check-row label { font-size: 13px; color: var(--text); font-weight: 500; cursor: pointer; text-transform: none; letter-spacing: 0; }
+
+/* Tag badge for lineage founder */
+.badge-founder { display: inline-flex; align-items: center; gap: 5px; background: rgba(217,119,6,.15); color: var(--warn); border: 1px solid rgba(217,119,6,.3); border-radius: 20px; font-size: 11px; padding: 2px 9px; font-weight: 600; }
+
+/* TTL Preview */
+.ttl-preview {
+  background: #000d1a; border: 1px solid #1d4ed8; border-radius: 8px;
+  padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  color: #93c5fd; white-space: pre-wrap; word-break: break-all;
+  min-height: 340px; max-height: 520px; overflow-y: auto; line-height: 1.6;
+}
+.ttl-preview .kw { color: #c084fc; }
+.ttl-preview .str { color: #86efac; }
+.ttl-preview .uri { color: #67e8f9; }
+.ttl-preview .num { color: #fbbf24; }
+.ttl-preview .cmt { color: #475569; }
+
+/* Actions */
+#download-db-batch[hidden] { display: none; }
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all .15s; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #b45309; }
+.btn-secondary { background: var(--bg3); color: var(--text); }
+.btn-secondary:hover { background: #334155; }
+.btn-etl { background: #1d4ed8; color: white; }
+.btn-etl:hover { background: #1e40af; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.action-bar { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+/* Status */
+.status-box { margin-top: 16px; padding: 12px 14px; border-radius: 7px; font-size: 13px; display: none; }
+.status-ok  { background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.3); color: #86efac; }
+.status-err { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: #fca5a5; }
+.status-info{ background: rgba(99,102,241,.1); border: 1px solid rgba(99,102,241,.3); color: #a5b4fc; }
+
+/* Slug chip */
+.slug-chip { font-family: 'JetBrains Mono', monospace; background: var(--bg3); color: #67e8f9; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+
+/* Lineage dropdown với màu */
+.lineage-info { margin-top: 6px; font-size: 11px; color: #7c3aed; display: none; }
+#name_zh {font-family:"Noto Serif TC",serif} .card {margin-bottom:16px} .field label {font-size:12px} .hint {font-size:12px;line-height:1.6;color:#94a3b8} details {padding:10px 0;border-bottom:1px solid #334155} summary {cursor:pointer;line-height:1.5} .source-card,.assertion-card {margin:12px 0;padding:12px;background:#020617;border:1px solid #334155;border-radius:8px} .evidence-check {display:flex;gap:6px;margin:6px 0;align-items:center;font-size:12px} .evidence-check input {width:auto} </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="fa-solid fa-dharmachakra"></i>
+      <span>Đạo Ảnh Admin</span>
+    </div>
+    <p class="nav-label">Điều hướng</p>
+    <a href="index.html" class="nav-btn">
+      <span><i class="fa-solid fa-gauge" style="margin-right:7px"></i>Dashboard</span>
+    </a>
+    <p class="nav-label">Place VN</p>
+    <a href="placevn.html" class="nav-btn">
+      <span><i class="fa-solid fa-map-location-dot" style="margin-right:7px"></i>+ Thêm Place VN</span>
+    </a>
+    <a href="monk_ttl_add.html" class="nav-btn active">
+      <span><i class="fa-solid fa-person-praying" style="color:#f59e0b;margin-right:7px"></i>+ Thêm TTL Thiền Sư</span>
+    </a>
+    <a href="place_update.html" class="nav-btn">
+      <span><i class="fa-solid fa-pen-to-square" style="margin-right:7px"></i>Update Place Info</span>
+    </a>
+    <p class="nav-label">Khác</p>
+    <a href="namevimap.html" class="nav-btn">
+      <span><i class="fa-solid fa-language" style="margin-right:7px"></i>Name Vi Map</span>
+    </a>
+    <a href="/daoanh/admin/dila_person_index.html" class="nav-btn">
+      <span><i class="fa-solid fa-user" style="margin-right:7px"></i>DILA Person Index</span>
+    </a>
+  </aside>
+
+<main class="main">
+<div class="page-title">Hồ sơ TTL học thuật · v2</div>
+<p class="page-sub">Phật Tổ Đạo Ảnh · DILA là định danh tham chiếu; từng thông tin có nguồn và trạng thái duyệt riêng.</p>
+<section class="card" style="margin-bottom:20px">
+<div class="card-title">Xuất hồ sơ có sẵn trong DB</div>
+<div class="field"><label for="db_record_id">DILA ID hoặc hồ sơ TTL đã nhập</label><input id="db_record_id" placeholder="A000885 hoặc ttl:TS-Dien-Phuc-Tue-Thang.ttl"></div>
+<div class="action-bar">
+<button id="load-db" class="btn btn-primary" type="button">Nạp hồ sơ từ DB</button>
+<button id="export-db-profile" class="btn btn-secondary" type="button">Xuất TTL từ DB</button>
+<button id="export-db-batch" class="btn btn-secondary" type="button">Xuất bộ TTL đã nhập</button>
+<button id="download-db-batch" class="btn btn-secondary" type="button" hidden>Tải ZIP TTL v2</button>
+</div>
+<p class="hint">Không cần nhập lại dữ liệu. Xuất từ DB giữ XML nguồn, bản Việt dịch và trạng thái từng nhận định. Bộ TTL chỉ xuất hồ sơ active; file cách ly và file chưa hợp lệ được ghi riêng trong báo cáo. Xuất hàng loạt cần đăng nhập Admin.</p>
+<p id="db-batch-status" class="hint" role="status"></p>
+</section>
+<div id="draft-notice" class="status-box status-info" role="status"></div>
+<div class="grid2">
+<div>
+<section class="card">
+<div class="card-title">1. Nhân vật và bản Việt dịch</div>
+<div class="field"><label for="name_vi">Tên Việt hiển thị</label><input id="name_vi" placeholder="Tên trong bản Việt dịch"></div>
+<div class="row2">
+<div class="field"><label for="name_zh">Tên Hán đối chiếu</label><input id="name_zh" placeholder="Tên/biệt danh trong chính DILA ID"></div>
+<div class="field"><label for="source_dila_id">DILA ID tham chiếu</label><input id="source_dila_id" placeholder="A000885" pattern="A[0-9]{6}"></div>
+</div>
+<button id="load-dila" class="btn btn-secondary" type="button">Nạp record DILA local</button>
+<button id="load-local-sources" class="btn btn-secondary" type="button">Nạp CBETA / Marcus đã index</button>
+<p class="hint">Nạp bản authority đã khóa phiên bản. Tên, quan hệ và ID được giữ ở trạng thái nguồn ghi nhận, chưa tự duyệt.</p>
+<div class="field"><label for="person_uri">URI ổn định của hồ sơ</label><input id="person_uri" readonly></div>
+<div class="field"><label for="entity_type">Loại nhân vật</label><select id="entity_type"><option value="Person">Nhân vật · chưa xác định là tu sĩ</option><option value="Monastic">Tu sĩ · cần nguồn xác nhận</option></select></div>
+<div class="field"><label for="bio_vi">Tiểu sử Việt dịch</label><textarea id="bio_vi" rows="6"></textarea></div>
+<div class="row2">
+<div class="field"><label for="birth_expression">Ngày sinh nguyên văn</label><input id="birth_expression" placeholder="Giữ nguyên niên hiệu, khoảng ngày hoặc chưa rõ"></div>
+<div class="field"><label for="death_expression">Ngày mất nguyên văn</label><input id="death_expression" placeholder="Không tự quy đổi thành ngày chính xác"></div>
+</div>
+<div class="row2">
+<div class="field"><label for="source_gender">Giới tính theo nguồn</label><select id="source_gender"><option value="">Chưa xác định</option><option value="Male">Nam</option><option value="Female">Nữ</option></select></div>
+<div class="field"><label for="is_founder">Khai tổ</label><select id="is_founder"><option value="">Chưa xác định</option><option value="true">Nguồn ghi là khai tổ</option><option value="false">Nguồn xác nhận không phải khai tổ</option></select></div>
+</div>
+<div class="field"><label for="lineage_name">Tên dòng phái theo nguồn</label><input id="lineage_name"></div>
+<div class="row2">
+<div class="field"><label for="gen_order">Số đời theo nguồn · có thể để trống</label><input id="gen_order" type="number" min="1"></div>
+<div class="field"><label for="counting_scheme">Hệ đếm, gốc và phạm vi</label><input id="counting_scheme" placeholder="Ví dụ: từ vị tổ nào, đời đầu là 1, nhánh nào"></div>
+</div>
+<p class="hint">Không cộng 37, không tính thầy + 1. Duyệt số đời cần ít nhất 3 chứng cứ độc lập, cùng hệ đếm và lập luận cụ thể; không đủ thì giữ tham chiếu.</p>
+</section>
+<section class="card">
+<div class="card-title">2. Hồ sơ nguồn</div>
+<p class="hint">Mỗi record giữ mã nguồn, định vị, phiên bản, nguyên bản và quyền sử dụng riêng. Ba website sao chép một văn bản chỉ là một nguồn chứng cứ.</p>
+<div id="source-list"></div>
+<button id="add-source" class="btn btn-secondary" type="button">+ Thêm nguồn / bộ định danh</button>
+<datalist id="source-codes"></datalist>
+</section>
+<section class="card">
+<div class="card-title">3. Nhận định và chứng cứ</div>
+<p class="hint">Mỗi dòng là một nhận định. Chỉ nhận định đã duyệt mới xuất thành triple thực tế. Quan hệ chung, truyền pháp, thụ giới, tham học và đồng môn là các loại riêng.</p>
+<div class="row2">
+<div class="field"><label for="relation-kind">Loại quan hệ mới</label><select id="relation-kind"><option value="teacher">Thầy · chưa rõ loại</option><option value="dharma_teacher">Thầy truyền pháp</option><option value="ordination_teacher">Thầy thụ giới</option><option value="studied_with">Tham học với</option><option value="fellow_student">Đồng môn với</option></select></div>
+<div class="field"><label for="relation-direction">Hướng quan hệ</label><select id="relation-direction"><option value="teacher">Vị được nhập là thầy của nhân vật này</option><option value="student">Nhân vật này là thầy của vị được nhập</option></select></div>
+</div>
+<div class="field"><label for="relation-id">DILA ID của vị liên quan</label><input id="relation-id" placeholder="A + 6 chữ số"></div>
+<button id="add-relation" class="btn btn-secondary" type="button">+ Đối chiếu ID và thêm quan hệ</button>
+<button id="add-assertion" class="btn btn-secondary" type="button">+ Nhận định khác</button>
+<div id="assertion-list"></div>
+</section>
+</div>
+<div>
+<section class="card" style="position:sticky;top:16px">
+<div class="card-title">4. Kiểm tra và xuất TTL</div>
+<p id="source-summary" class="hint"></p>
+<div id="validation" role="status" style="white-space:pre-wrap;margin:12px 0;font-size:13px"></div>
+<pre id="ttl-preview" class="ttl-preview">Đang tải hợp đồng hồ sơ v2…</pre>
+<div class="action-bar">
+<button id="validate-profile" class="btn btn-etl" type="button">Kiểm tra hồ sơ</button>
+<button id="save-profile" class="btn btn-primary" type="button">Lưu bản nháp v2</button>
+<button id="download-profile" class="btn btn-secondary" type="button">Tải TTL đang biên tập</button>
+<button id="copy-profile" class="btn btn-secondary" type="button">Copy TTL</button>
+<label class="btn btn-secondary">Nhập TTL cũ / v2<input id="ttl-import-input" type="file" accept=".ttl" style="display:none"></label>
+<button id="public-profile" class="btn btn-secondary" type="button">Kiểm tra gói chia sẻ</button>
+<button id="reset-profile" class="btn btn-secondary" type="button">Hồ sơ mới</button>
+</div>
+<p class="hint">Bản nháp lưu tại data/ttl_v2/drafts theo revision. Việc duyệt/import vào DB là bước migration riêng có snapshot và so sánh. Gói chia sẻ cần xác minh quyền cho đúng artifact nguồn.</p>
+<div id="status-box" class="status-box" role="status"></div>
+<details style="margin-top:16px"><summary>Nguyên bản legacy được bảo toàn</summary><pre id="legacy-info" style="white-space:pre-wrap;font-size:12px"></pre></details>
+<a href="/daoanh/docs/reports/T226-academic-ttl-roadmap.md" style="display:block;color:#fbbf24;margin-top:16px">Đọc phân tích và roadmap T226</a>
+</section>
+</div>
+</div>
+</main>
+</div>
+<script src="ttl-profile-v2.js"></script>
+</body>
+</html>

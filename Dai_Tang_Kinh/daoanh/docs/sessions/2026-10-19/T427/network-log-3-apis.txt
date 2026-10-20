@@ -1,0 +1,38 @@
+T427 — Network log bằng chứng 3 API mới (daoanh/app.py)
+Ngày test: 2026-10-19/20, server local http://127.0.0.1:8080 (local_gateway.py -> app.py:5000, server.py:5001)
+
+=== GET /daoanh/api/places/vi-map (qua browser, auto-fetch khi vào tab Place / gõ tìm / đổi lọc) ===
+[20524.191] GET /daoanh/api/places/vi-map?page=1&size=50&filter=all                          -> 200 OK
+[20524.192] GET /daoanh/api/places/vi-map?page=1&size=50&filter=all&q=PL000000000001         -> 200 OK
+[20524.193] GET /daoanh/api/places/vi-map?page=1&size=50&filter=all                          -> 200 OK
+[20524.194] GET /daoanh/api/places/vi-map?page=1&size=50&filter=needs_review                 -> 200 OK
+[20524.195] GET /daoanh/api/places/vi-map?page=1&size=50&filter=needs_review&q=PL000000000001-> 200 OK
+[20524.197] GET /daoanh/api/places/vi-map?page=1&size=50&filter=all&q=PL000000000001         -> 200 OK
+
+=== POST /daoanh/api/places/vi-map/<place_id>/approve (test không token — kỳ vọng 403) ===
+$ curl -s -w CODE:%{http_code} -X POST http://127.0.0.1:8080/daoanh/api/places/vi-map/PL000000000001/approve -d "{}"
+{"error":"unauthorized — thiếu hoặc sai session token","ok":false}
+CODE:403   (đúng kỳ vọng verify_session chặn)
+
+=== POST /daoanh/api/places/vi-map/<place_id>/edit (có X-Session-Token hợp lệ, test case PL000000000001) ===
+$ curl -s -w CODE:%{http_code} -X POST http://127.0.0.1:8080/daoanh/api/places/vi-map/PL000000000001/edit \
+    -H "X-Session-Token: <token>" -d '{"name_vi":"Khoảng Tất Đạ Quốc"}'
+{"name_vi":"Khoảng Tất Đạ Quốc","ok":true,"place_id":"PL000000000001","source":"manual","vn_name_status":"reviewed"}
+CODE:200
+
+=== POST /daoanh/api/places/vi-map/<place_id>/approve (có X-Session-Token hợp lệ) ===
+$ curl -s -w CODE:%{http_code} -X POST http://127.0.0.1:8080/daoanh/api/places/vi-map/PL000000000001/approve \
+    -H "X-Session-Token: <token>" -d "{}"
+{"name_vi":"Khoảng Tất Đạ Quốc","ok":true,"place_id":"PL000000000001","vn_name_status":"reviewed"}
+CODE:200
+
+=== Kết quả: không có 4xx/5xx nào ngoài kỳ vọng (403 do thiếu token là CÓ CHỦ Ý — test bảo vệ verify_session) ===
+
+=== DB sau test (sqlite3) ===
+SELECT name_vi, vn_name_status, source FROM namevi_map_places WHERE dila_id='PL000000000001';
+-> ('Khoảng Tất Đạ Quốc', 'reviewed', 'manual')
+
+SELECT entity_ref, action, field_name, old_value, new_value, editor, verification_status, created_at
+FROM en_audit_log WHERE entity_ref='PL000000000001' ORDER BY log_id DESC LIMIT 2;
+-> ('PL000000000001', 'approve', 'vn_name_status', 'reviewed', 'reviewed', 'admin', 'verified', '2026-10-19T20:44:33')
+-> ('PL000000000001', 'edit',    'name_vi',        'Kho?t T?t ?a Qu?c', 'Khoảng Tất Đạ Quốc', 'admin', 'verified', '2026-10-19T20:44:18')

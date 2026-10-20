@@ -1,0 +1,2 @@
+
+| T226 — TTL profile/editor v2 (2026-10-03, working tree) | Profile/source/assertion form + API staging; không apply DB/TTL | python -X utf8 scripts/t226_rollback.py (dry-run guard16files); thêm --apply sau khi guardPASS | 4 backup gốc +12 file mới; checksum toàn bộ trước mutation; không đè WIP; draft revisions giữ nguyên; main cần Administrator reload nếu đã deploy | docs/reports/T226-ttl-profile-20261003/rollback-manifest.json; Handoff-2026-10-03-T226-ttl-profile-v2.md |

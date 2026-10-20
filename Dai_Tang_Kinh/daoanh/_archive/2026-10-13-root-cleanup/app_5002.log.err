@@ -1,0 +1,222 @@
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [01/Oct/2026 12:01:43] "POST /api/admin/ttl-etl/run HTTP/1.1" 403 -
+127.0.0.1 - - [01/Oct/2026 12:08:44] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:08:44] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:08:45] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:08:48] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:08:48] "GET /api/dashboard/stats HTTP/1.1" 200 -
+Exception in thread Thread-9 (_readerthread):
+Traceback (most recent call last):
+  File "C:\Python314\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Python314\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1613, in _readerthread
+    buffer.append(fh.read())
+                  ~~~~~~~^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x8d in position 262: character maps to <undefined>
+127.0.0.1 - - [01/Oct/2026 12:09:00] "POST /api/admin/ttl-etl/run HTTP/1.1" 200 -
+Exception in thread Thread-12 (_readerthread):
+Traceback (most recent call last):
+  File "C:\Python314\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Python314\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1613, in _readerthread
+    buffer.append(fh.read())
+                  ~~~~~~~^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x8d in position 262: character maps to <undefined>
+127.0.0.1 - - [01/Oct/2026 12:09:08] "POST /api/admin/ttl-etl/run HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:08] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:09] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:13] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:13] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=50 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:43] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:43] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:44] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:46] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:46] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=50 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:54] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:09:55] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:40:47] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:40:49] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:40:50] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:40:51] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:40:51] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:40:51] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:40:51] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:40:56] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:47:16] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:48:41] "GET /api/name_vi/search?q=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:48:45] "GET /api/name_vi/search?q=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:48:46] "GET /api/name_vi/search?q=036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:48:48] "GET /daoanh/api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:48:50] "GET /daoanh/api/dila/persons?q=&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:48:51] "GET /daoanh/api/dila/persons/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:48:51] "GET /daoanh/api/dila/hv/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:07] "GET /daoanh/api/dila/persons?q=A036842&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:19] "GET /daoanh/api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:23] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:23] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:24] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:25] "GET /api/name_vi/search?q=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:28] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:30] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:43] "GET /daoanh/api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:46] "GET /daoanh/api/dila/persons?q=&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:46] "GET /daoanh/api/dila/persons/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:46] "GET /daoanh/api/dila/hv/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:48] "GET /daoanh/api/dila/persons?q=A036842&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:54] "GET /daoanh/api/dila/persons?q=A036842&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:56] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:57] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:57] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:49:58] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:15] "POST /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:44] "GET /daoanh/api/dila/hv/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:45] "GET /daoanh/api/compliance/dashboard?t=1790833845833 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:48] "GET /daoanh/api/compliance/dashboard?t=1790833848880 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:48] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:53] "GET /daoanh/api/compliance/dashboard?t=1790833852963 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:53] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:54] "GET /daoanh/api/compliance/dashboard?t=1790833854632 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:54] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:56] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:56] "GET /daoanh/api/compliance/dashboard?t=1790833856456 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:58] "GET /daoanh/api/compliance/dashboard?t=1790833858287 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:50:58] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:51:00] "GET /daoanh/api/compliance/dashboard?t=1790833860760 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:51:00] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:51:02] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:51:02] "GET /daoanh/api/compliance/dashboard?t=1790833862284 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:02] "GET /daoanh/api/dila/persons/adjacent?id=A036841 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:03] "GET /daoanh/api/persons/A036841 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:03] "GET /daoanh/api/person/A036841/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:04] "GET /daoanh/api/person/A036841/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:06] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:07] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:07] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:07] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:20] "POST /daoanh/api/admin/person/A036842/name_vi HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:22] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:22] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:22] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:23] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:24] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:24] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:24] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:25] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:26] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:26] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:26] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:27] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:28] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:28] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:28] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:29] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:36] "GET /daoanh/api/dila/persons?q=Pháp%20diễn&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:48] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:49] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:49] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:49] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:52:56] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:12] "GET /daoanh/api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:15] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:15] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:16] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:17] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:17] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:22] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:22] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:23] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:25] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:26] "GET /api/dashboard/stats HTTP/1.1" 200 -
+Exception in thread Thread-119 (_readerthread):
+Traceback (most recent call last):
+  File "C:\Python314\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Python314\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1613, in _readerthread
+    buffer.append(fh.read())
+                  ~~~~~~~^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x8d in position 262: character maps to <undefined>
+127.0.0.1 - - [01/Oct/2026 12:53:31] "POST /api/admin/ttl-etl/run HTTP/1.1" 200 -
+Exception in thread Thread-122 (_readerthread):
+Traceback (most recent call last):
+  File "C:\Python314\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Python314\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1613, in _readerthread
+    buffer.append(fh.read())
+                  ~~~~~~~^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x8d in position 262: character maps to <undefined>
+127.0.0.1 - - [01/Oct/2026 12:53:36] "POST /api/admin/ttl-etl/run HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:37] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:37] "GET /api/dashboard/stats HTTP/1.1" 200 -
+Exception in thread Thread-127 (_readerthread):
+Traceback (most recent call last):
+  File "C:\Python314\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Python314\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1613, in _readerthread
+    buffer.append(fh.read())
+                  ~~~~~~~^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x8d in position 262: character maps to <undefined>
+127.0.0.1 - - [01/Oct/2026 12:53:42] "POST /api/admin/ttl-etl/run HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:42] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:42] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:57] "GET /dashboard/ HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:57] "GET /daoanh/api/compliance/dashboard?t=1790834037064 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:53:57] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:54:07] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:54:08] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:54:09] "GET /api/admin/namevi-queue?page=1&per_page=30&filter=all&ttl_local=all HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:54:10] "GET /daoanh/api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:54:13] "GET /daoanh/api/dila/persons?q=&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:54:13] "GET /daoanh/api/dila/persons/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:54:13] "GET /daoanh/api/dila/hv/stats HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:54:24] "GET /daoanh/api/dila/persons?q=A036842&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:35] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:36] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:37] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:37] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:49] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:50] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:50] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:50] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:51] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:52] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:52] "GET /daoanh/api/person/A036842/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:57:52] "GET /daoanh/api/person/A036842/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:58:49] "GET /daoanh/api/dila/persons/adjacent?id=A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [01/Oct/2026 12:58:50] "GET /daoanh/api/persons/A036842 HTTP/1.1" 200 -

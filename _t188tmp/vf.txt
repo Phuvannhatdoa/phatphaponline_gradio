@@ -1,0 +1,4 @@
+warning: in the working copy of 'Dai_Tang_Kinh/daoanh/docs/ROLLBACK.md', LF will be replaced by CRLF the next time Git touches it
+ .../2026-09-28_t188-t171-spec-logic-fixes.md       | 128 ---------------------
+ .../daoanh/tasks/T188-t171-spec-logic-fixes.md     | 127 --------------------
+ 2 files changed, 255 deletions(-)

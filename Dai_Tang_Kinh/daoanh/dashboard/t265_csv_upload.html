@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T265 Lô D — CSV Upload</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+
+        :root {
+            --primary: #d97706;
+            --bg-page: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(217, 119, 6, 0.2);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+        }
+
+        .info-item .label {
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .info-item .value {
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(217, 119, 6, 0.05);
+        }
+
+        .upload-area:hover {
+            background: rgba(217, 119, 6, 0.1);
+            border-color: var(--primary);
+        }
+
+        .upload-area.dragover {
+            background: rgba(217, 119, 6, 0.15);
+            border-color: #fbbf24;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        #csvFile {
+            display: none;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #020617;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .btn:hover {
+            background: #b45309;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: wait;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .status.success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .status.loading {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #93c5fd;
+        }
+
+        .status-icon {
+            margin-right: 8px;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checklist li:before {
+            content: "○";
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .checklist li.done:before {
+            content: "✓";
+            color: var(--success);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 12px;
+        }
+
+        .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-table td:first-child {
+            font-weight: 700;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📤 T265 Lô D — Upload CSV Quyết Định</h1>
+            <p>Gắn 45 quyết định từ CSV vào hệ thống</p>
+            <div class="badge">Phase 1 — Đang chạy</div>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card">
+            <div class="section-title">📊 Thông tin CSV</div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="label">Tổng dòng</div>
+                    <div class="value">45 dòng</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Phân bố</div>
+                    <div class="value">B:5 / C:20 / A:20</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">File mẫu</div>
+                    <div class="value">T265_D_sample...</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Encoding</div>
+                    <div class="value">UTF-8 + BOM</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Card -->
+        <div class="card">
+            <div class="section-title">📁 Tải lên CSV</div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Kéo CSV vào đây hoặc click để chọn</div>
+                <div class="upload-hint">Tệp .csv (UTF-8, 45 dòng dữ liệu)</div>
+                <input type="file" id="csvFile" accept=".csv" />
+            </div>
+
+            <button class="btn" id="uploadBtn" disabled>🚀 Upload & Gắn Quyết Định</button>
+
+            <!-- Status -->
+            <div class="status" id="status"></div>
+
+            <!-- Result Table -->
+            <div id="resultContainer" style="display: none; margin-top: 20px;">
+                <div class="section-title">✅ Kết quả</div>
+                <table class="result-table">
+                    <tr>
+                        <td>Đã áp dụng</td>
+                        <td id="appliedCount">0</td>
+                    </tr>
+                    <tr>
+                        <td>Lỗi</td>
+                        <td id="failedCount">0</td>
+                    </tr>
+                    <tr>
+                        <td>Tổng</td>
+                        <td id="totalCount">0</td>
+                    </tr>
+                </table>
+                <div id="errorList" style="margin-top: 12px; color: #fca5a5;"></div>
+            </div>
+        </div>
+
+        <!-- Instructions Card -->
+        <div class="card">
+            <div class="section-title">📋 Quy trình</div>
+            <ol class="checklist">
+                <li class="done"><b>Điền CSV:</b> 45 dòng cột 'kiem_tra_thu_cong'</li>
+                <li class="done"><b>Save CSV:</b> UTF-8 encoding</li>
+                <li><b>Upload CSV:</b> Chọn file .csv ở trên</li>
+                <li><b>Kiểm kết quả:</b> Xem "Đã áp dụng / Lỗi"</li>
+                <li><b>T265 DONE:</b> Bước vào Phase 2 (bug + 13 task)</li>
+            </ol>
+        </div>
+
+        <!-- Button Group -->
+        <div class="button-group">
+            <button class="btn btn-secondary" onclick="downloadSample()">📥 Tải mẫu CSV</button>
+            <button class="btn btn-secondary" onclick="openDashboard()">🏠 Về Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const csvFile = document.getElementById('csvFile');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const status = document.getElementById('status');
+        const resultContainer = document.getElementById('resultContainer');
+
+        // Drag & drop
+        uploadArea.addEventListener('click', () => csvFile.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            csvFile.files = e.dataTransfer.files;
+            updateUploadBtn();
+        });
+
+        csvFile.addEventListener('change', updateUploadBtn);
+
+        function updateUploadBtn() {
+            uploadBtn.disabled = !csvFile.files.length;
+            uploadArea.textContent = csvFile.files.length ?
+                `✓ ${csvFile.files[0].name}` : '📄 Kéo CSV vào đây';
+        }
+
+        uploadBtn.addEventListener('click', async () => {
+            if (!csvFile.files.length) return;
+
+            const formData = new FormData();
+            formData.append('file', csvFile.files[0]);
+
+            uploadBtn.disabled = true;
+            status.className = 'status loading';
+            status.innerHTML = '<span class="status-icon">⏳</span> Đang upload...';
+            status.style.display = 'block';
+            resultContainer.style.display = 'none';
+
+            try {
+                const res = await fetch('/daoanh/api/admin/import_t265_decisions', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    status.className = 'status success';
+                    status.innerHTML = `<span class="status-icon">✅</span> Thành công! Đã áp dụng ${data.applied}/45 quyết định.`;
+
+                    document.getElementById('appliedCount').textContent = data.applied;
+                    document.getElementById('failedCount').textContent = data.failed;
+                    document.getElementById('totalCount').textContent = data.total;
+
+                    if (data.errors.length > 0) {
+                        const errorHtml = data.errors.map(e => `<div>• ${e}</div>`).join('');
+                        document.getElementById('errorList').innerHTML = errorHtml;
+                    }
+
+                    resultContainer.style.display = 'block';
+                } else {
+                    status.className = 'status error';
+                    status.innerHTML = `<span class="status-icon">❌</span> Lỗi: ${data.error}`;
+                }
+            } catch (err) {
+                status.className = 'status error';
+                status.innerHTML = `<span class="status-icon">❌</span> Lỗi kết nối: ${err.message}`;
+            } finally {
+                uploadBtn.disabled = false;
+            }
+        });
+
+        function downloadSample() {
+            window.open('/daoanh/docs/evidence/T265_D_sample_for_admin_review.csv', '_blank');
+        }
+
+        function openDashboard() {
+            window.location.href = '/daoanh/dashboard/dashboard_process.html';
+        }
+    </script>
+</body>
+</html>

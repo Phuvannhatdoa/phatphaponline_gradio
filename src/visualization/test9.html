@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Cây Truyền Thừa Thiền Tông</title>
+
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+<style>
+    body { font-family: "Segoe UI", Arial; margin: 0; background: #f5f5f5; }
+
+    #header {
+        background: #2c3e50;
+        color: white;
+        padding: 14px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    #controls {
+        background: #ecf0f1;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    #network {
+        width: 75%;
+        height: calc(100vh - 120px);
+        float: left;
+        background: white;
+    }
+
+    #infopanel {
+        width: 25%;
+        height: calc(100vh - 120px);
+        float: right;
+        overflow-y: auto;
+        border-left: 2px solid #ccc;
+        background: #ffffff;
+        padding: 15px;
+    }
+
+    .node-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .status {
+        padding: 8px 10px;
+        background: #27ae60;
+        color: white;
+        border-radius: 4px;
+    }
+</style>
+
+</head>
+<body>
+
+<div id="header">🌿 Cây Truyền Thừa Thiền Tông – Graph Visualization</div>
+
+<div id="controls">
+    <label><b>Chọn Tông phái:</b></label>
+    <select id="lineageSelect"></select>
+    <span id="status" class="status"></span>
+</div>
+
+<div id="network"></div>
+
+<div id="infopanel">
+    <h3>📜 Tiểu sử Thiền sư</h3>
+    <div id="bio"></div>
+</div>
+
+<script>
+// ------------------------------------------------------------
+// 1. CONFIG
+// ------------------------------------------------------------
+const GRAPHDB_ENDPOINT = "http://phatphaponline.org/graphdb-api/repositories/buddhist";
+const TTL_PREFIX = "http://www.phatphaponline.org/ontology/buddhist-kg#";
+
+let nodes = new vis.DataSet();
+let edges = new vis.DataSet();
+let network = null;
+
+let lineageData = null;
+
+
+// ------------------------------------------------------------
+// 2. LOAD lineage_graph.jsonld → danh sách tông
+// ------------------------------------------------------------
+async function loadLineageList() {
+    const res = await fetch("lineage_graph.jsonld");
+    lineageData = await res.json();
+
+    const select = document.getElementById("lineageSelect");
+    select.innerHTML = '<option value="">-- Chọn tông phái --</option>';
+
+    lineageData["@graph"].forEach(l => {
+        if (!l["rdfs:label"]) return;
+        select.innerHTML += `<option value="${l["@id"]}">${l["rdfs:label"].value}</option>`;
+    });
+
+    select.addEventListener("change", () => {
+        if (select.value !== "") loadLineage(select.value);
+    });
+}
+loadLineageList();
+
+
+// ------------------------------------------------------------
+// 3. LOAD CÂY THEO TÔNG PHÁI
+// ------------------------------------------------------------
+async function loadLineage(lineageId) {
+    nodes.clear();
+    edges.clear();
+    document.getElementById("status").innerText = "Đang tải...";
+
+    const lineageObj = lineageData["@graph"].find(x => x["@id"] === lineageId);
+    const founder = lineageObj?.["bkg:hasFounder"]?.["@id"] || null;
+    const lineageLabel = lineageObj?.["rdfs:label"]?.value || "";
+
+    // Truy vấn SPARQL theo tên tông (string match)
+    const query = `
+        PREFIX bkg: <${TTL_PREFIX}>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+        SELECT ?monk ?label ?teacher ?gen WHERE {
+            ?monk bkg:dharmaLineageName ?lname .
+            FILTER(CONTAINS(LCASE(STR(?lname)), LCASE("${lineageLabel}")))
+
+            OPTIONAL { ?monk rdfs:label ?label . }
+            OPTIONAL { ?monk bkg:hasTeacher ?teacher . }
+            OPTIONAL { ?monk bkg:generationOrder ?gen . }
+        }
+        ORDER BY xsd:integer(?gen)
+    `;
+
+    const data = await runQuery(query);
+    renderTree(data, founder);
+}
+
+
+// ------------------------------------------------------------
+// 4. RUN QUERY
+// ------------------------------------------------------------
+async function runQuery(sparql) {
+    const url = `${GRAPHDB_ENDPOINT}?query=${encodeURIComponent(sparql)}`;
+    const res = await fetch(url, {
+        headers: { "Accept": "application/sparql-results+json" }
+    });
+    return res.json();
+}
+
+
+// ------------------------------------------------------------
+// 5. VẼ CÂY
+// ------------------------------------------------------------
+function renderTree(json, founderUri) {
+    const rows = json.results.bindings;
+
+    rows.forEach(r => {
+        const id = r.monk.value;
+        const label = r.label ? r.label.value : id.split("/").pop();
+        const gen = r.gen ? Number(r.gen.value) : 0;
+
+        const isFounder = (id === founderUri);
+
+        nodes.update({
+            id,
+            label,
+            shape: "box",
+            margin: 10,
+            font: { size: isFounder ? 18 : 14, bold: isFounder },
+            color: isFounder
+                ? { background: "#ffe082", border: "#f9a825" }
+                : { background: "#ffffff", border: "#555" },
+            level: gen
+        });
+
+        if (r.teacher)
+            edges.add({
+                from: r.teacher.value,
+                to: id,
+                arrows: "to",
+                color: "#666"
+            });
+    });
+
+    const container = document.getElementById("network");
+
+    const options = {
+        layout: {
+            hierarchical: {
+                enabled: true,
+                direction: "UD",
+                levelSeparation: 160,
+                nodeSpacing: 180
+            }
+        },
+        physics: false,
+        interaction: { hover: true, navigationButtons: true }
+    };
+
+    network = new vis.Network(container, { nodes, edges }, options);
+
+    document.getElementById("status").innerText =
+        `Load OK: ${nodes.length} nodes • ${edges.length} edges`;
+
+    // CLICK LOAD BIO
+    network.on("click", params => {
+        if (params.nodes.length > 0) loadBio(params.nodes[0]);
+    });
+
+    network.fit();
+}
+
+
+// ------------------------------------------------------------
+// 6. LOAD BIO
+// ------------------------------------------------------------
+async function loadBio(uri) {
+    const q = `
+        PREFIX bkg: <${TTL_PREFIX}>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT ?label ?bio WHERE {
+            OPTIONAL { <${uri}> rdfs:label ?label . }
+            OPTIONAL { <${uri}> bkg:biographicalNote ?bio . }
+        }
+    `;
+
+    const data = await runQuery(q);
+    const b = data.results.bindings[0];
+
+    document.getElementById("bio").innerHTML = `
+        <div class="node-title">${b?.label?.value || uri}</div>
+        <hr>
+        <div style="white-space: pre-line; font-size:15px;">
+            ${b?.bio?.value || "(Không có tiểu sử)"}
+        </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>

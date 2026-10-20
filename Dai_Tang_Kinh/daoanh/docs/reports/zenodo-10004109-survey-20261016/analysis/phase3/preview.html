@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Zutang ji — Bản xem nguồn cục bộ</title>
+<link rel="stylesheet" href="preview.css">
+<script src="preview-data.js" defer></script>
+<script src="preview.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#workspace">Đến phần tra cứu</a>
+<div class="shell">
+<header class="masthead"><div><p class="eyebrow">Đạo Ảnh · Phòng đọc dữ liệu nguồn</p><h1>Zutang ji <span lang="zh">祖堂集</span></h1><p class="subtitle">Van Cutsem · Zenodo 10004109 · Snapshot Phase 1/2</p></div><div class="seal"><span class="dot"></span>CỤC BỘ · CHỈ XEM NGUỒN</div></header>
+<section class="notice" aria-label="Giới hạn sử dụng"><strong>Chưa được phép tích hợp hoặc tái sử dụng.</strong><span>Nhãn, số đời và quan hệ dưới đây là dữ kiện của nguồn. Không có mapping accepted, đổi hệ đếm, kết nối production hay xuất dữ liệu.</span></section>
+<section id="kpis" class="kpis" aria-label="Số lượng từ dữ liệu nguồn"></section>
+<section class="attention" aria-labelledby="attention-title"><div><p class="eyebrow">Cần đọc trước</p><h2 id="attention-title">Giữ riêng chứng cứ và kết luận</h2><p>Hai vị trí trong cùng nguồn ZTJ không phải hai chứng cứ lịch sử độc lập.</p></div><div class="attention-actions"><button id="show-parallel" type="button">Xem cặp Đạo Viên — Tông Mật <span>2 cạnh GEXF · 1 hàng CSV</span></button><button id="show-unknown" type="button">Xem 3 số đời chưa rõ <span>CSV “0” · XLSX “?”</span></button><button id="show-rights" type="button">Xem quyền sử dụng <span>4 TEI có khai báo mâu thuẫn</span></button></div></section>
+<main id="workspace" tabindex="-1">
+<div class="section-heading"><div><p class="eyebrow">Khảo sát có nguồn dẫn</p><h2>Tra cứu bản ghi</h2></div><button id="show-cases" class="quiet" type="button">Đọc 10 case TEI</button></div>
+<div class="tabs" role="tablist" aria-label="Loại bản ghi"><button id="tab-relations" role="tab" aria-selected="true" aria-controls="records-panel" tabindex="0" data-mode="relations">Quan hệ nguồn</button><button id="tab-persons" role="tab" aria-selected="false" aria-controls="records-panel" tabindex="-1" data-mode="persons">Nhân vật nguồn</button><button id="tab-evidence" role="tab" aria-selected="false" aria-controls="records-panel" tabindex="-1" data-mode="evidence">Chứng cứ &amp; quyền</button></div>
+<div class="filters"><div class="search-field"><label for="search">Tìm trong bản ghi đang xem</label><input id="search" type="search" autocomplete="off" placeholder="ID, nhãn nguyên văn, UUID, locator…"></div><div id="format-control"><label for="format">Phiên bản quan hệ</label><select id="format"><option value="GEXF">GEXF · 257 bản ghi</option><option value="CSV">CSV · 256 bản ghi</option><option value="ALL">Cả hai · 513 quan sát</option></select></div><div id="kind-control" hidden><label for="kind">Loại chứng cứ</label><select id="kind"><option value="ALL">Tất cả</option><option value="tei-case">10 case TEI</option><option value="tei-uncertainty">Bất định trong TEI</option><option value="rights">Quyền sử dụng</option><option value="identity-review">Đối chiếu nhãn DILA</option></select></div><label class="check"><input id="needs-review" type="checkbox">Chỉ mục cần xem lại</label></div>
+<div class="workspace-grid"><section id="records-panel" class="records-panel" role="tabpanel" aria-labelledby="tab-relations"><div class="list-top"><p id="result-count" role="status" aria-live="polite"></p><span class="caption">Nhãn nguồn giữ nguyên</span></div><div class="table-scroll"><table id="records"><caption class="sr-only">Bản ghi nguồn; dùng nút ID để mở chi tiết</caption><thead></thead><tbody></tbody></table></div><div class="pagination"><button id="previous" class="quiet" type="button">Trang trước</button><span id="page-status"></span><button id="next" class="quiet" type="button">Trang sau</button></div><p class="small-note">GEXF/CSV đều khai báo vô hướng. Thứ tự Source/Target không xác nhận chiều thầy–trò.</p></section><aside id="detail" class="detail" aria-label="Chi tiết bản ghi" aria-live="polite"></aside></div>
+</main>
+<footer><p>Phiên xem độc lập · dữ liệu dẫn xuất từ sáu artifact Phase 2 · không mở API, không gửi dữ liệu, không lưu trạng thái phê duyệt.</p><details><summary>Nguồn dữ liệu và dấu vết kiểm tra</summary><div id="input-provenance"></div></details></footer>
+</div><noscript>Cần JavaScript cục bộ để đọc preview. Ba file JSON nguồn vẫn nằm cạnh file HTML.</noscript>
+</body></html>

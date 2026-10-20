@@ -1,0 +1,106 @@
+==============================================================================
+DANH SÁCH TÊN FILE — BÁO CÁO T209
+==============================================================================
+Sinh tự động từ dữ liệu TTL/DB hiện tại — không hardcode tên file.
+Lệnh:  python -X utf8 scripts/t209_export_file_names.py
+
+Corpus: 1038 file data (1039 file *.ttl tổng cộng)
+Tổng 47 dòng: A 10 · B 0 · C1 8 · C2 5 · D-L1 11 · D-L2 13
+
+A. ĐÃ MẤT — DB còn trỏ, không còn trên đĩa — cần Admin cấp lại
+------------------------------------------------------------------------------
+ 1. TS-Chuong-Hiep-Chanh-Tri.ttl           DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+ 2. TS-Duong-Ki-Phuong-Hoi.ttl             DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+ 3. TS-Phap-Kiem-Minh-Giac.ttl             DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+ 4. TS-Phap-Mon-Phat-Da.ttl                DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+ 5. TS-Thiet-Bao-Cam-Ung.ttl               DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+ 6. TS-Thiet-Dam-Chanh-Luan.ttl            DB còn 3 row trỏ tới; KHÔNG có trên đĩa
+ 7. TS-Thiet-Dang-Bao-Quang.ttl            DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+ 8. TS-Thiet-Dinh-An-Triem.ttl             DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+ 9. TS-Thiet-The-Triem-An.ttl              DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+10. TS-Toan-Y-Pho-Hue.ttl                  DB còn 1 row trỏ tới; KHÔNG có trên đĩa
+
+C1. URI SAI — 8 file kẻ áp cảo, cần Admin duyệt
+------------------------------------------------------------------------------
+ 1. TS-Phuoc-Chau-Dai-An.ttl               người khác chiếm URI 'bach_truong_hoai_hai'; NHÃN trong file không khớp tên file = 'Bách_Trượng_Hoài_Hải'
+      hiện tại: bach_truong_hoai_hai           → nên: phuoc_chau_dai_an
+ 2. TS-Di-Phong-Kinh-Ninh.ttl              người khác chiếm URI 'bach_van_khong_do'; NHÃN trong file không khớp tên file = 'Nguyệt Khê Diệu Trừng'
+      hiện tại: bach_van_khong_do              → nên: di_phong_kinh_ninh
+ 3. TS-Dot-Khong-Tri-Ban.ttl               người khác chiếm URI 'bach_van_khong_do'; NHÃN trong file không khớp tên file = 'Đột Không Trí Bản'
+      hiện tại: bach_van_khong_do              → nên: dot_khong_tri_ban
+ 4. TS-Dai-Ninh-Dao-Khoan.ttl              người khác chiếm URI 'dao_ninh_dao_khoan'; NHÃN trong file không khớp tên file = 'Đại Ninh Đạo Khoan'
+      hiện tại: dao_ninh_dao_khoan             → nên: dai_ninh_dao_khoan
+ 5. TS-Dai-Xa-Nhu-Truong.ttl               người khác chiếm URI 'phong_huyet_dien_chieu'; NHÃN trong file không khớp tên file = 'Nam Viện Huệ Ngung'
+      hiện tại: phong_huyet_dien_chieu         → nên: dai_xa_nhu_truong
+ 6. TS-Minh-Hoang-Tu-Dung.ttl              người khác chiếm URI 'phong_huyet_dien_chieu'; NHÃN trong file không khớp tên file = 'Nam Viện Huệ Ngung'
+      hiện tại: phong_huyet_dien_chieu         → nên: minh_hoang_tu_dung
+ 7. TS-Tuyet-Giau-Chon-Phac.ttl            người khác chiếm URI 'phong_huyet_dien_chieu'; NHÃN trong file không khớp tên file = 'Nam Viện Huệ Ngung'
+      hiện tại: phong_huyet_dien_chieu         → nên: tuyet_giau_chon_phac
+ 8. TS-Linh-Cuu.ttl                        người khác chiếm URI 'thach_cuu'; NHÃN trong file không khớp tên file = 'Thạch Cữu'
+      hiện tại: thach_cuu                      → nên: linh_cuu
+
+C2. Chủ sở hữu đúng — 5 file, đối chiếu với C1
+------------------------------------------------------------------------------
+ 1. TS-Bach-Truong-Hoai-Hai.ttl            chủ sở hữu đúng của slug 'bach_truong_hoai_hai' (bị 1 file khác áp cảo)
+ 2. TS-Bach-Van-Khong-Do.ttl               chủ sở hữu đúng của slug 'bach_van_khong_do' (bị 2 file khác áp cảo)
+ 3. TS-Dao-Ninh-Dao-Khoan.ttl              chủ sở hữu đúng của slug 'dao_ninh_dao_khoan' (bị 1 file khác áp cảo)
+ 4. TS-Phong-Huyet-Dien-Chieu.ttl          chủ sở hữu đúng của slug 'phong_huyet_dien_chieu' (bị 3 file khác áp cảo)
+ 5. TS-Thach-Cuu.ttl                       chủ sở hữu đúng của slug 'thach_cuu' (bị 1 file khác áp cảo)
+
+D1. NHÃN SAI (L1) — 11 file
+------------------------------------------------------------------------------
+ 1. TS-An-Hoa-Van-Nhat.ttl                 nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Long Khánh Khánh Nhàn          → nên: An Hóa Văn Nhất
+ 2. TS-Dam-Chau-Bao-Cai-Uoc.ttl            nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Nam Nhạc Huyền Thái            → nên: Đàm Châu Bảo Cái Ước
+ 3. TS-Dam-Chau-Van-Cai-Canh.ttl           nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Đàm Châu Trung Vân Cái         → nên: Đàm Châu Vân Cái Cảnh
+ 4. TS-Di-Phong-Kinh-Ninh.ttl              nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Nguyệt Khê Diệu Trừng          → nên: Di Phong Kính Ninh
+ 5. TS-Khanh-Thien-Thu-Long.ttl            nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Thiện Khánh Thủ Long           → nên: Khánh Thiện Thủ Long
+ 6. TS-Minh-Hai-Phap-Bao.ttl               nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Nguyên Thiều Siêu Bạch         → nên: Minh Hải Pháp Bảo
+ 7. TS-Nam-Nhac-Minh-Toan.ttl              nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Đạo Tuyên                      → nên: Nam Nhạc Minh Toản
+ 8. TS-Tay-Kinh-Nghia-Phuoc.ttl            nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Tung Sơn Phổ Tịch              → nên: Tây Kinh Nghĩa Phước
+ 9. TS-Thai-Tu-Dong-Quang.ttl              nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Thái Tử Đạo Nhất               → nên: Thái Tử Đồng Quảng
+10. TS-The-Nham-Ton-Tho.ttl                nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Nam Nhạc Huyền Thái            → nên: Thê Nham Tồn Thọ
+11. TS-Tue-Nhat-Minh.ttl                   nhãn trùng tên 1 người KHÁC trong file
+      hiện tại: Hoàng Bá Vĩnh Thái             → nên: Tuệ Nhật Minh
+
+D2. NHÃN SAI (L2) — 13 file
+------------------------------------------------------------------------------
+ 1. TS-Bao-An-Thanh.ttl                    không liên quan tới nhãn đúng
+      hiện tại: Báo Ân Thành                   → nên: Thanh Nguyên Như
+ 2. TS-Bao-Phuoc-Ban-Quyen.ttl             không liên quan tới nhãn đúng
+      hiện tại: Bảo Phước Bản Quyền            → nên: Tuệ An Tuệ Uyên
+ 3. TS-Bien-Dam-Hieu-Lieu.ttl              không liên quan tới nhãn đúng
+      hiện tại: Tây Vực Quật Đa Tam Tạng       → nên: Biển Đam Hiểu Liễu
+ 4. TS-Chieu-Hien-Hoi-Thong.ttl            không liên quan tới nhãn đúng
+      hiện tại: Chùa Linh Ẩn                   → nên: Chiêu Hiền Hội Thông
+ 5. TS-Cuu-Danh-To.ttl                     không liên quan tới nhãn đúng
+      hiện tại: Long Hoa Đạo Sơ                → nên: Cửu Đảnh Tố
+ 6. TS-Dang-Van-Sieu-Cap.ttl               không liên quan tới nhãn đúng
+      hiện tại: Am Chủ Tích Thúy Vĩnh          → nên: Đăng Vân Siêu Cập
+ 7. TS-Dong-Son-Te-Vi.ttl                  không liên quan tới nhãn đúng
+      hiện tại: Giác A                         → nên: Đông Sơn Tề Vĩ
+ 8. TS-Kinh-Trieu-Thi-Loi.ttl              không liên quan tới nhãn đúng
+      hiện tại: Đàm Châu Hoa Lâm               → nên: Kinh Triệu Thi Lợi
+ 9. TS-Phung-Tuong-Thach-Tru.ttl           không liên quan tới nhãn đúng
+      hiện tại: Vân Môn Hải Yến                → nên: Phụng Tường Thạch Trụ
+10. TS-Thach-Cung-Hue-Tang.ttl             không liên quan tới nhãn đúng
+      hiện tại: Ngũ Đài Ẩn Phong               → nên: Thạch Củng Huệ Tạng
+11. TS-Thien-Dong-Pho-Giao.ttl             không liên quan tới nhãn đúng
+      hiện tại: Long Nha Tông Mật              → nên: Thiên Đồng Phổ Giao
+12. TS-Tho-Thanh-So-Van.ttl                không liên quan tới nhãn đúng
+      hiện tại: Nguyệt Chưởng Trí Uyên         → nên: Thọ Thánh Sở Văn
+13. TS-Tri-Chau-Lo-To-Giao.ttl             không liên quan tới nhãn đúng
+      hiện tại: Trì Châu Lỗ Tổ Giáo            → nên: Am Chủ Phúc Bồn
+
+==============================================================================
+TỔNG: 47 dòng
+==============================================================================

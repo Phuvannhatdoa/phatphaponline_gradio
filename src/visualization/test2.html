@@ -1,0 +1,233 @@
+import os
+import requests
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# --- CẤU HÌNH HỆ THỐNG ---
+GRAPHDB_SPARQL = "http://158.220.106.183:7200/repositories/buddhist"
+
+# --- GIAO DIỆN TÍCH HỢP (Gộp bản 22 dòng thiền & Bio Panel chuẩn) ---
+INDEX_HTML = """
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ Thống Phổ Hệ Truyền Thừa Phật Giáo - Final Production</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root { --primary: #8b4513; --secondary: #d35400; --bg: #fdf5e6; --panel-bg: #fffcf5; --text: #3e2723; --border: #bc9b82; --accent: #ff9800; }
+        body { margin: 0; display: flex; font-family: 'Segoe UI', 'Arial', serif; background: var(--bg); height: 100vh; overflow: hidden; color: var(--text); }
+        
+        #left-panel { width: 320px; background: #fff; border-right: 2px solid #ddd; padding: 25px; display: flex; flex-direction: column; z-index: 10; box-shadow: 2px 0 15px rgba(0,0,0,0.1); }
+        .search-container { position: relative; margin-bottom: 20px; }
+        input#monk-input { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; outline: none; font-size: 14px; box-sizing: border-box; }
+        #suggest-box { position: absolute; width: 100%; background: #fff; border: 1px solid #ccc; max-height: 250px; overflow-y: auto; display: none; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .suggest-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 13px; }
+        .suggest-item:hover { background: var(--bg); color: var(--primary); font-weight: bold; }
+
+        #tree-container { flex-grow: 1; position: relative; cursor: grab; background: radial-gradient(circle, #fdf5e6 0%, #f5e6d3 100%); }
+        .node rect { fill: #fff; stroke: var(--primary); stroke-width: 2px; rx: 6; ry: 6; cursor: pointer; }
+        .node text { font-size: 11px; font-weight: bold; text-anchor: middle; pointer-events: none; fill: #4e2b0a; }
+        .node .founder-label { font-size: 9px; fill: var(--secondary); font-style: italic; }
+        .link { fill: none; stroke: var(--border); stroke-width: 1.5px; opacity: 0.5; }
+
+        #bio-panel { position: fixed; top: 20px; right: -550px; width: 520px; max-height: 92vh; background: var(--panel-bg); border: 1px solid var(--primary); border-radius: 12px; box-shadow: -10px 10px 30px rgba(0,0,0,0.2); z-index: 1001; transition: 0.5s; display: flex; flex-direction: column; }
+        #bio-panel.active { right: 20px; }
+        #bio-header { background: var(--primary); color: #fff; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        #bio-content { padding: 25px; overflow-y: auto; line-height: 1.8; font-size: 16px; text-align: justify; }
+        
+        .bio-header-info { background: #f1e4d1; padding: 12px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid var(--secondary); }
+        .section-title { display: block; color: var(--secondary); font-weight: bold; font-size: 19px; margin: 25px 0 10px 0; border-bottom: 2px solid var(--border); text-transform: uppercase; }
+        .zen-dialogue { background: #fff; border-left: 4px solid var(--accent); padding: 12px; margin: 12px 0; font-style: italic; color: #5d4037; border-radius: 4px; }
+        .close-btn { cursor: pointer; font-size: 24px; }
+        #status-msg { position: absolute; bottom: 20px; left: 340px; background: rgba(139, 69, 19, 0.9); color: #fff; padding: 8px 15px; border-radius: 20px; font-size: 12px; display: none; }
+    </style>
+</head>
+<body>
+
+<div id="left-panel">
+    <h2 style="color:var(--primary); font-size: 22px;">PHỔ HỆ TRUYỀN THỪA</h2>
+    <div class="search-container">
+        <input type="text" id="monk-input" placeholder="Tìm tên thiền sư..." autocomplete="off">
+        <div id="suggest-box"></div>
+    </div>
+    <div style="font-size:12px; color:#666; background:#f9f9f9; padding:15px; border-radius:8px; border-left:4px solid var(--primary);">
+        • <b>Dòng phái:</b> 22 dòng khôi phục 100%.<br><br>
+        • <b>Tiểu sử:</b> Tách lời thoại, công án, tiêu đề I, II.<br><br>
+        • <b>Truy cập:</b> Nhấp vào nút trên cây để xem chi tiết.
+    </div>
+</div>
+
+<div id="tree-container"><div id="status-msg"></div></div>
+
+<div id="bio-panel">
+    <div id="bio-header">
+        <span id="bio-title">CHI TIẾT BỬU LỤC</span>
+        <span class="close-btn" onclick="document.getElementById('bio-panel').classList.remove('active')">×</span>
+    </div>
+    <div id="bio-content"></div>
+</div>
+
+<script>
+// Logic Dòng thiền 100%
+const fullLineageData = [
+    { id: "AnDo", label: "Thiền Tông Ấn Độ", parent: "", founderName: "Ma Ha Ca Diếp", founderId: "ma_ha_ca_diep" },
+    { id: "TrungHoa", label: "Thiền Tông Trung Hoa", parent: "AnDo", founderName: "Bồ Đề Đạt Ma", founderId: "bo_de_dat_ma" },
+    { id: "BacTong", label: "Bắc Tông", parent: "TrungHoa", founderName: "Thần Tú", founderId: "ngoc_tuyen_than_tu" },
+    { id: "NguuDau", label: "Tông Ngưu Đầu", parent: "TrungHoa", founderName: "Pháp Dung", founderId: "nguu_dau_phap_dung" },
+    { id: "NamTong", label: "Nam Tông (Huệ Năng)", parent: "TrungHoa", founderName: "Lục Tổ Huệ Năng", founderId: "dai_giam_hue_nang" },
+    { id: "TyNi", label: "Tỳ Ni Đa Lưu Chi (VN)", parent: "TrungHoa", founderName: "Tỳ Ni Đa Lưu Chi", founderId: "ty_ni_da_luu_chi" },
+    { id: "HongChau", label: "Tông Hồng Châu", parent: "NamTong", founderName: "Mã Tổ Đạo Nhất", founderId: "ma_to_dao_nhat" },
+    { id: "ThachDau", label: "Tông Thạch Đầu", parent: "NamTong", founderName: "Thạch Đầu Hy Thiên", founderId: "thach_dau_hy_thien" },
+    { id: "VoNgon", label: "Vô Ngôn Thông (VN)", parent: "NamTong", founderName: "Vô Ngôn Thông", founderId: "vo_ngon_thong" },
+    { id: "QuyNguong", label: "Tông Quy Ngưỡng", parent: "HongChau", founderName: "Quy Sơn Linh Hựu", founderId: "quy_son_linh_huu" },
+    { id: "LamTe", label: "Tông Lâm Tế", parent: "HongChau", founderName: "Lâm Tế Nghĩa Huyền", founderId: "lam_te_nghia_huyen" },
+    { id: "TaoDong", label: "Tông Tào Động", parent: "ThachDau", founderName: "Động Sơn Lương Giới", founderId: "dong_son_luong_gioi" },
+    { id: "VanMon", label: "Tông Vân Môn", parent: "ThachDau", founderName: "Vân Môn Văn Yển", founderId: "van_mon_van_yen" },
+    { id: "PhapNhan", label: "Tông Pháp Nhãn", parent: "ThachDau", founderName: "Pháp Nhãn Văn Ích", founderId: "phan_nhan_van_ich" },
+    { id: "ThaoDuong", label: "Tông Thảo Đường (VN)", parent: "VanMon", founderName: "Thảo Đường", founderId: "thao_duong" },
+    { id: "HoangLong", label: "Dòng Hoàng Long", parent: "LamTe", founderName: "Hoàng Long Huệ Nam", founderId: "hoang_long_hue_nam" },
+    { id: "DuongKy", label: "Dòng Dương Kỳ", parent: "LamTe", founderName: "Dương Kỳ Phương Hội", founderId: "duong_ky_phu_hoi" },
+    { id: "TrucLam", label: "Trúc Lâm Yên Tử (VN)", parent: "VoNgon", founderName: "Trần Nhân Tông", founderId: "truc_lam_dau_da" },
+    { id: "NguyenThieu", label: "Lâm Tế Nguyên Thiều", parent: "DuongKy", founderName: "Nguyên Thiều", founderId: "nguyen_thieu_sieu_bach" },
+    { id: "LieuQuan", label: "Lâm Tế Liễu Quán", parent: "DuongKy", founderName: "Thiệt Diệu Liễu Quán", founderId: "thiet_dieu_lieu_quan" },
+    { id: "ChucThanh", label: "Lâm Tế Chúc Thánh", parent: "DuongKy", founderName: "Minh Hải Pháp Bảo", founderId: "minh_hai_phap_bao" },
+    { id: "GiaPho", label: "Lâm Tế Gia Phổ", parent: "DuongKy", founderName: "Phật Ý Linh Nhạc", founderId: "phat_y_linh_nhac" }
+];
+
+const svg = d3.select("#tree-container").append("svg").attr("width", "100%").attr("height", "100%")
+    .call(d3.zoom().on("zoom", (e) => g.attr("transform", e.transform)));
+const g = svg.append("g");
+const treeLayout = d3.tree().nodeSize([250, 200]);
+
+function drawInitialTree() {
+    const root = d3.stratify().id(d => d.id).parentId(d => d.parent)(fullLineageData);
+    treeLayout(root);
+    g.selectAll(".link").data(root.links()).enter().append("path").attr("class", "link")
+        .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
+    const node = g.selectAll(".node").data(root.descendants()).enter().append("g")
+        .attr("class", "node").attr("transform", d => `translate(${d.x},${d.y})`)
+        .on("click", (e, d) => callGraphDB(d.data.founderId || d.data.id, d.data.label));
+    node.append("rect").attr("width", 210).attr("height", 60).attr("x", -105).attr("y", -30);
+    node.append("text").attr("dy", -3).text(d => d.data.label);
+    node.append("text").attr("class", "founder-label").attr("dy", 15).text(d => d.data.founderName ? `(${d.data.founderName})` : "");
+}
+
+function formatZenText(text) {
+    if (!text) return "Dữ liệu tiểu sử đang được biên tập...";
+    let segments = text.split(/(?=\s[IVX]+\.\s)|(?=\s\d\)\s)|(?=\s\*\s)|(?=Hỏi:)|(?=Đáp:)|(?=Sư bảo:)|(?=NHÂN DUYÊN)|(?=SỰ NGHIỆP)/g);
+    return segments.map(s => {
+        let c = s.trim();
+        if (!c) return "";
+        if (/^[IVX]+\./.test(c) || /NHÂN DUYÊN|SỰ NGHIỆP/.test(c)) return `<span class="section-title">${c}</span>`;
+        if (c.startsWith("*") || c.match(/hỏi:|đáp:|bảo:/i)) return `<div class="zen-dialogue">${c}</div>`;
+        return `<p style="margin-bottom:15px">${c}</p>`;
+    }).join("");
+}
+
+async function callGraphDB(shortId, title) {
+    if (shortId === "AnDo") return;
+    const status = document.getElementById('status-msg');
+    status.style.display = 'block';
+    status.innerText = `Đang kết nối bửu lục ${title}...`;
+
+    try {
+        const response = await fetch(`/sparql?query_id=${shortId}`);
+        const data = await response.json();
+        const results = data.results.bindings;
+
+        let bioNote = "", birth = "Chưa rõ", death = "Chưa rõ";
+        results.forEach(r => {
+            let p = r.p.value.toLowerCase();
+            let o = r.o.value;
+            if (p.includes("biographicalnote")) bioNote = o;
+            if (p.includes("birthdate")) birth = o;
+            if (p.includes("deathdate")) death = o;
+        });
+
+        document.getElementById('bio-title').innerText = title.toUpperCase();
+        document.getElementById('bio-content').innerHTML = `
+            <div class="bio-header-info"><p>Năm sinh: ${birth}</p><p>Năm mất: ${death}</p></div>
+            <div>${formatZenText(bioNote)}</div>
+        `;
+        document.getElementById('bio-panel').classList.add('active');
+        status.style.display = 'none';
+    } catch (err) { status.innerText = "Lỗi kết nối!"; }
+}
+
+// Autocomplete logic
+const input = document.getElementById('monk-input');
+const suggest = document.getElementById('suggest-box');
+input.addEventListener('input', async () => {
+    const val = input.value.trim();
+    if (val.length < 2) { suggest.style.display = 'none'; return; }
+    try {
+        const response = await fetch(`/sparql?search=${encodeURIComponent(val)}`);
+        const data = await response.json();
+        suggest.innerHTML = "";
+        data.results.bindings.forEach(r => {
+            const div = document.createElement('div');
+            div.className = 'suggest-item';
+            div.innerText = r.name.value;
+            div.onclick = () => {
+                input.value = r.name.value;
+                suggest.style.display = 'none';
+                callGraphDB(r.s.value.split('/').pop(), r.name.value);
+            };
+            suggest.appendChild(div);
+        });
+        suggest.style.display = 'block';
+    } catch (e) {}
+});
+
+drawInitialTree();
+svg.call(d3.zoom().transform, d3.zoomIdentity.translate(window.innerWidth/2, 80).scale(0.55));
+</script>
+</body>
+</html>
+"""
+
+# --- LOGIC BACKEND / PROXY ---
+
+@app.route('/')
+def home():
+    return INDEX_HTML
+
+@app.route('/sparql')
+def sparql_proxy():
+    # Phân loại yêu cầu từ Frontend
+    search_val = request.args.get('search')
+    query_id = request.args.get('query_id')
+    
+    if search_val:
+        # Câu lệnh tìm kiếm Autocomplete
+        sparql = f"""
+        SELECT DISTINCT ?s ?name WHERE {{ 
+            ?s <http://www.w3.org/2000/01/rdf-schema#label> ?name . 
+            FILTER(regex(str(?name), "{search_val}", "i")) 
+        }} LIMIT 10
+        """
+    elif query_id:
+        # Câu lệnh lấy chi tiết Hành trạng (Hỗ trợ cả URI hoặc ID ngắn)
+        sparql = f"""
+        SELECT DISTINCT ?p ?o WHERE {{ 
+            ?s ?p ?o . 
+            FILTER(regex(str(?s), "{query_id}", "i")) 
+        }} LIMIT 100
+        """
+    else:
+        return jsonify({"error": "No query provided"}), 400
+
+    try:
+        r = requests.get(GRAPHDB_SPARQL, params={'query': sparql}, 
+                         headers={'Accept': 'application/sparql-results+json'}, timeout=15)
+        return jsonify(r.json())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    # Giải phóng cổng 80 và khởi chạy
+    os.system("fuser -k 80/tcp")
+    print("--- HỆ THỐNG PHẬT GIÁO KNOWLEDGE GRAPH ĐÃ ONLINE ---")
+    app.run(host='0.0.0.0', port=80)

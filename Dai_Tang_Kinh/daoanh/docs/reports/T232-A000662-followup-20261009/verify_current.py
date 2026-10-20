@@ -1,0 +1,7 @@
+import json,sqlite3
+from pathlib import Path
+root=Path(__file__).resolve().parents[3];c=sqlite3.connect((root/'data/lineage.db').resolve().as_uri()+'?mode=ro',uri=True);c.row_factory=sqlite3.Row
+r=c.execute('SELECT * FROM generation_v2_scheme_revisions WHERE scheme_id=? ORDER BY revision DESC LIMIT 1',('linji_chucthanh',)).fetchone();config=json.loads(r['config_json'])
+result={'scheme_id':'linji_chucthanh','revision':r['revision'],'identity_decisions':config.get('identity_decisions',[]),'root_id':config.get('root_id'),'anchors':config.get('anchors',[]),'decision_retained':any(x.get('dila_id')=='A000662' and x.get('resolution')=='distinct_person' for x in config.get('identity_decisions',[])),'incorrect_A000662_root_or_anchor':config.get('root_id')=='A000662' or any(x.get('person_id')=='A000662' for x in config.get('anchors',[])),'dila':dict(c.execute('SELECT id,name_zh,name_vi,dynasty FROM people WHERE id=?',('A000662',)).fetchone()),'codex_names':c.execute('SELECT count(*) FROM codex_person_name').fetchone()[0],'codex_total':c.execute('SELECT count(*) FROM people').fetchone()[0],'codex_latest_job':dict(c.execute('SELECT id,status,error_code FROM codex_name_job ORDER BY created_at DESC LIMIT 1').fetchone())}
+assert result['decision_retained'] and not result['incorrect_A000662_root_or_anchor']
+(Path(__file__).parent/'current-state.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf8');print(json.dumps(result,ensure_ascii=False));c.close()

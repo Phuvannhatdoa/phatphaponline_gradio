@@ -1,0 +1,2 @@
+error: pathspec 'Dai_Tang_Kinh/daoanh/tasks/T188-t171-spec-logic-fixes.md' did not match any file(s) known to git
+error: pathspec 'Dai_Tang_Kinh/daoanh/docs/sessions/2026-09-28_t188-t171-spec-logic-fixes.md' did not match any file(s) known to git

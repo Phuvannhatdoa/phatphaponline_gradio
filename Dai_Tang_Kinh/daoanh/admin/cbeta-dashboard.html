@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBETA Dashboard — Đạo Ảnh Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        :root {
+            --primary: #d97706;
+            --bg-page: #020617;
+            --bg-card: #0f172a;
+            --border: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --purple: #c084fc;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-page); color: var(--text-main); min-height: 100vh; }
+        .header { background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
+        .header h1 { font-size: 18px; font-weight: 700; color: var(--primary); }
+        .header .back { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+        .header .back:hover { color: var(--text-main); }
+        .header .refresh { margin-left: auto; background: var(--border); border: none; color: var(--text-main); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .page { padding: 24px; max-width: 1200px; }
+
+        /* Stat cards */
+        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px; }
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+        .card .label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+        .card .value { font-size: 26px; font-weight: 700; }
+        .card .sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        .card.green .value { color: var(--success); }
+        .card.amber .value { color: var(--primary); }
+        .card.blue .value { color: var(--info); }
+        .card.purple .value { color: var(--purple); }
+
+        /* Sections */
+        .sections { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+        .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .section h3 { font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--text-main); }
+        .section canvas { max-height: 220px; }
+        @media (max-width: 768px) { .sections { grid-template-columns: 1fr; } .cards { grid-template-columns: repeat(2,1fr); } }
+
+        /* Progress bars */
+        .prog-row { margin-bottom: 10px; }
+        .prog-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+        .prog-bar { height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; }
+        .prog-fill { height: 100%; border-radius: 4px; }
+
+        /* Table */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .data-table th { padding: 6px 10px; text-align: left; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+        .data-table td { padding: 6px 10px; border-bottom: 1px solid #0f172a; }
+        .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 10px; background: #1e293b; color: var(--text-muted); }
+        .badge.green { background: #064e3b; color: var(--success); }
+        .badge.blue { background: #1e3a5f; color: var(--info); }
+
+        .loading { color: var(--text-muted); text-align: center; padding: 40px; }
+        .error { color: #f87171; padding: 12px; border: 1px solid #450a0a; border-radius: 6px; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="/daoanh/admin/" class="back"><i class="fas fa-arrow-left"></i></a>
+    <h1>📜 CBETA Dashboard</h1>
+    <span style="font-size:12px;color:var(--text-muted)">Đại Tạng Kinh Analytics</span>
+    <button class="refresh" onclick="load()"><i class="fas fa-sync-alt"></i> Làm mới</button>
+</div>
+
+<div class="page">
+    <div id="root"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Đang tải...</div></div>
+</div>
+
+<script>
+let chartDynasty = null, chartCrossref = null;
+
+async function load() {
+    const root = document.getElementById('root');
+    try {
+        const [dash, agg] = await Promise.all([
+            fetch('/daoanh/api/admin/cbeta/dashboard-data').then(r => r.json()),
+            fetch('/daoanh/api/admin/cbeta/aggregates?limit=10').then(r => r.json())
+        ]);
+        if (!dash.ok) throw new Error(dash.error);
+        render(dash, agg.ok ? agg : null);
+    } catch(e) {
+        root.innerHTML = `<div class="error">Lỗi tải dữ liệu: ${e.message}</div>`;
+    }
+}
+
+function render(d, agg) {
+    const root = document.getElementById('root');
+    const satPct = d.crossref.sat_pct;
+    const tohPct = d.crossref.toh_pct;
+    const transPct = d.import.translation_pct;
+    const importedPct = d.import.passages_total > 0
+        ? Math.round(d.import.passages_total / d.catalog.total * 100 * 10) / 10 : 0;
+
+    root.innerHTML = `
+    <!-- Stat Cards -->
+    <div class="cards">
+        <div class="card amber">
+            <div class="label">Mục Lục CBETA</div>
+            <div class="value">${d.catalog.total.toLocaleString()}</div>
+            <div class="sub">Đại Chính Tạng T-series: ${d.catalog.series.T||0}</div>
+        </div>
+        <div class="card blue">
+            <div class="label">Văn Bản Đã Import</div>
+            <div class="value">${d.import.passages_total.toLocaleString()}</div>
+            <div class="sub">${importedPct}% của ${d.catalog.total.toLocaleString()} texts</div>
+        </div>
+        <div class="card ${transPct > 0 ? 'green' : ''}">
+            <div class="label">Đã Dịch Việt Ngữ</div>
+            <div class="value">${d.import.passages_translated.toLocaleString()}</div>
+            <div class="sub">${transPct}% của ${d.import.passages_total.toLocaleString()} passages</div>
+        </div>
+        <div class="card purple">
+            <div class="label">Entity Links</div>
+            <div class="value">${(d.entity.links_total/1000).toFixed(0)}K</div>
+            <div class="sub">${d.entity.places_with_stats.toLocaleString()} places có mention stats</div>
+        </div>
+        <div class="card green">
+            <div class="label">SAT Cross-ref</div>
+            <div class="value">${d.crossref.sat.toLocaleString()}</div>
+            <div class="sub">${satPct}% texts linked</div>
+        </div>
+        <div class="card">
+            <div class="label">Toh Cross-ref</div>
+            <div class="value">${d.crossref.toh}</div>
+            <div class="sub">${tohPct}% Tạng-Hán linked</div>
+        </div>
+        <div class="card">
+            <div class="label">Fuzzy Matches</div>
+            <div class="value">${d.fuzzy.total.toLocaleString()}</div>
+            <div class="sub">${d.fuzzy.approved.toLocaleString()} approved (${d.fuzzy.approval_pct}%)</div>
+        </div>
+    </div>
+
+    <!-- Progress bars -->
+    <div class="section" style="margin-bottom:20px">
+        <h3>⚡ Tình Trạng Dữ Liệu</h3>
+        <div class="prog-row">
+            <div class="prog-label"><span>Văn bản đã import</span><span style="color:var(--info)">${importedPct}%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:${importedPct}%;background:var(--info)"></div></div>
+        </div>
+        <div class="prog-row">
+            <div class="prog-label"><span>Dịch Việt ngữ</span><span style="color:var(--success)">${transPct}%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:${transPct}%;background:var(--success)"></div></div>
+        </div>
+        <div class="prog-row">
+            <div class="prog-label"><span>SAT cross-ref coverage</span><span style="color:var(--success)">${satPct}%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:${satPct}%;background:var(--success)"></div></div>
+        </div>
+        <div class="prog-row">
+            <div class="prog-label"><span>Toh (Tạng-Hán) coverage</span><span style="color:var(--warning)">${tohPct}%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(tohPct*10,100)}%;background:var(--warning)"></div></div>
+        </div>
+        <div class="prog-row">
+            <div class="prog-label"><span>Fuzzy match approval</span><span style="color:var(--purple)">${d.fuzzy.approval_pct}%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:${d.fuzzy.approval_pct}%;background:var(--purple)"></div></div>
+        </div>
+    </div>
+
+    <!-- Charts + Top places -->
+    <div class="sections">
+        <div class="section">
+            <h3>📊 Phân Bố Theo Triều Đại</h3>
+            <canvas id="chartDynasty"></canvas>
+        </div>
+        <div class="section">
+            <h3>🏆 Top Places — CBETA Mentions</h3>
+            <div id="top-places"></div>
+        </div>
+    </div>
+    `;
+
+    // Dynasty chart
+    const dynasties = d.dynasty_distribution.slice(0, 8);
+    const ctx1 = document.getElementById('chartDynasty');
+    if (chartDynasty) chartDynasty.destroy();
+    chartDynasty = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: dynasties.map(r => r.dynasty || '—'),
+            datasets: [{
+                data: dynasties.map(r => r.count),
+                backgroundColor: '#c084fc99',
+                borderColor: '#c084fc',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: '#1e293b' } },
+                y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: '#1e293b' } }
+            }
+        }
+    });
+
+    // Top places table
+    const topDiv = document.getElementById('top-places');
+    if (agg && agg.data) {
+        let html = '<table class="data-table"><tr><th>#</th><th>Địa danh</th><th>Mentions</th></tr>';
+        agg.data.forEach((r, i) => {
+            html += `<tr>
+                <td style="color:var(--text-muted)">${i+1}</td>
+                <td><a href="/daoanh/places#${r.place_id}" style="color:var(--purple);text-decoration:none">${r.vi_name||r.place_id}</a></td>
+                <td><span class="badge blue">${r.mention_count}</span></td>
+            </tr>`;
+        });
+        html += '</table>';
+        topDiv.innerHTML = html;
+    } else {
+        topDiv.innerHTML = '<span style="color:var(--text-muted);font-size:12px">Chưa có dữ liệu</span>';
+    }
+}
+
+load();
+</script>
+</body>
+</html>

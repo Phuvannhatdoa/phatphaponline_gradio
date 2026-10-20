@@ -1,0 +1,4 @@
+﻿89b9936 HEAD@{0}: commit: docs: T188 t171 spec logic fixes hash-fill (real sha into tasktodo/ROLLBACK/task/session) + docs
+11758a0 HEAD@{1}: 
+3991c28 HEAD@{2}: 
+d6fe7c9 HEAD@{3}: 

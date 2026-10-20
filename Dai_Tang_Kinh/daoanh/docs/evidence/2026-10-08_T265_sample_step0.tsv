@@ -1,0 +1,31 @@
+group	dila_id	year	r_derived	era_name	ghi_chu	event_id	event_type	label_vi	label_zh	source	source_ref	kiem_tra_thu_cong
+B	PL000000034706	792	801	貞元	year 792 nam TRONG khoang cua 貞元 (ten trung, 2 khoang)	2646	founding		貞元十七年（801年），韋皋鎮蜀，擴修大	dila_note	PL000000034706·note·regex	
+B	PL000000008753	425	434	元嘉	year 425 nam TRONG khoang cua 元嘉	2556	founding		（元嘉十一年）冬十二月，扶南訶羅單國遣使貢	dila_note	PL000000008753·note·regex	
+B	PL000000057940	1744	1780	乾隆	year 1744 nam TRONG khoang cua 乾隆	2689	founding		在承德府北，乾隆四十五年，恭逢皇上七旬萬夀。西藏班禪額	dila_note	PL000000057940·note·regex	
+B	PL000000018828	1369	1378	洪武	year 1369 nam TRONG khoang cua 洪武	2817	founding		。舊名龍泉精舍，晉僧慧遠建。明洪武十一年，改今名。（明清序：207；淵	dila_note	PL000000018828·note·regex	
+B	PL000000012714	1669	1705	康熙	year 1669 nam TRONG khoang cua 康熙	2594	founding		在秀水縣北五里。舊名懶石菴，康熙四十四年賜今額。（明清序：277；淵四	dila_note	PL000000012714·note·regex	
+B	PL000000028260	1649	1658	順治	year 1649 nam TRONG khoang cua 順治	2824	founding		在蒲圻縣南荊港，唐建。順治十五年修。（唐寺考：241；	dila_note	PL000000028260·note·regex	
+B	PL000000009845	1666	1684	康熙	year 1666 nam TRONG khoang cua 康熙	2569	founding		結茅於此。長松夾徑，寺門幽絶。康熙二十三年，聖祖南巡賜今額。（淵四．姑蘇	dila_note	PL000000009845·note·regex	
+B	PL000000014874	1208	1217	嘉定	year 1208 nam TRONG khoang cua 嘉定	2811	founding		僧本如建，魏國大長公主請今額。嘉定十年，寧宗書扁以賜。明崇禎五年，僧	dila_note	PL000000014874·note·regex	
+B	PL000000036118	1740	1776	乾隆	year 1740 nam TRONG khoang cua 乾隆	2829	founding		唐宋時名雷神祠，明為雷神殿。清乾隆四十一年，僧聞奇、聞剛，重新之，更名雷	dila_note	PL000000036118·note·regex	
+B	PL000000058351	1672	1690	康熙	year 1672 nam TRONG khoang cua 康熙	2713	founding		在歸化城西北二十五里。康熙二十九年改今名。（淵四．大清一統志．卷	dila_note	PL000000058351·note·regex	
+C	PL000000017208	521	606	大業	year 521 thuoc ERA KHAC (khong phai 大業) — note nhu nhieu su kien	2619	founding		梁太守袁士俊第，以時聞鐘聲，梁普通二年舍為寺，號曰「袁寺」。隋大業二	dila_note	PL000000017208·note·regex	
+C	PL000000009072	713	828	大和	year 713 thuoc ERA KHAC (khong phai 大和) — note nhu nhieu su kien	695	era_mention		崇因寺 唐開元中 (713-741年間)	dila_era_name	PL000000009072·開元·era_name_midpoint	
+C	PL000000057130	1153	836	開成	year 1153 thuoc ERA KHAC (khong phai 開成) — note nhu nhieu su kien	1519	era_mention		大梅山護聖院 金貞元中 (1153-1156年間)	dila_era_name	PL000000057130·貞元·era_name_midpoint	
+C	PL000000021092	581	730	開元	year 581 thuoc ERA KHAC (khong phai 開元) — note nhu nhieu su kien	1133	era_mention		南陽寺 隋開皇中 (581-600年間)	dila_era_name	PL000000021092·開皇·era_name_midpoint	
+C	PL000000000413	1016	1186	大定	year 1016 thuoc ERA KHAC (khong phai 大定) — note nhu nhieu su kien	2896	founding		甘露寺 ~遼 (907–1125年間)	dila_dynasty	PL000000000413·遼·midpoint	
+C	PL000000016858	1506	1933	民國	year 1506 thuoc ERA KHAC (khong phai 民國) — note nhu nhieu su kien	2194	founding		東岩精舍 ~明 (1368–1644年間)	dila_dynasty	PL000000016858·明·midpoint	
+C	PL000000014719	1009	907	開平	year 1009 thuoc ERA KHAC (khong phai 開平) — note nhu nhieu su kien	2806	founding		開平元年建，蓋寒山子棲遁處。宋大中祥符二年改福善院，今為寒巖寺。（g08	dila_note	PL000000014719·note·regex	
+C	PL000000011650	251	1751	乾隆	year 251 thuoc ERA KHAC (khong phai 乾隆) — note nhu nhieu su kien	2939	founding		淨空院 ~吳 (222–280年間)	dila_dynasty	PL000000011650·吳·midpoint	
+C	PL000000011673	1008	1080	元豐	year 1008 thuoc ERA KHAC (khong phai 元豐) — note nhu nhieu su kien	811	era_mention		水心保寜寺 宋大中祥符中 (1008-1016年間)	dila_era_name	PL000000011673·大中祥符·era_name_midpoint	
+C	PL000000012704	860	1068	熙寧	year 860 thuoc ERA KHAC (khong phai 熙寧) — note nhu nhieu su kien	858	era_mention		天安萬壽寺 唐咸通中 (860-873年間)	dila_era_name	PL000000012704·咸通·era_name_midpoint	
+A	PL000000014339	345	1011	大中祥符	year 345 nam NGOAI moi khoang niem hieu da biet (era nhanh: 大中祥符)	959	era_mention		鴻福寺 晉永和中 (345-356年間)	dila_era_name	PL000000014339·永和·era_name_midpoint	
+A	PL000000005140	460	854	大中	year 460 nam NGOAI moi khoang niem hieu da biet (era nhanh: 大中)	2906	founding		繇哉寺 ~北魏 (386–534年間)	dila_dynasty	PL000000005140·北魏·midpoint	
+A	PL000000010232	532	1432	宣德	year 532 nam NGOAI moi khoang niem hieu da biet (era nhanh: 宣德)	762	era_mention		普同院 魏永熙中 (532-534年間)	dila_era_name	PL000000010232·永熙·era_name_midpoint	
+A	PL000000008790	290	1385	洪武	year 290 nam NGOAI moi khoang niem hieu da biet (era nhanh: 洪武)	2918	founding		古雞鳴寺 ~西晉 (265–316年間)	dila_dynasty	PL000000008790·西晉·midpoint	
+A	PL000000019480	300	868	咸通	year 300 nam NGOAI moi khoang niem hieu da biet (era nhanh: 咸通)	3317	founding		灵岩寺	wikidata_p571	Q117690·P571	
+A	PL000000012410	893	1064	治平	year 893 nam NGOAI moi khoang niem hieu da biet (era nhanh: 治平)	2590	founding		里（慈谿縣西南的石門山上）。唐景福二年置，曰石門（寺），舊以石門山得	dila_note	PL000000012410·note·regex	
+A	PL000000055980	762	1456	景泰	year 762 nam NGOAI moi khoang niem hieu da biet (era nhanh: 景泰)	2741	founding		始建於唐代，初名東隱庵	dila_dynasty	PL000000055980·dynasty·唐	
+A	PL000000013123	342	940	天福	year 342 nam NGOAI moi khoang niem hieu da biet (era nhanh: 天福)	2145	founding		寶梵院 ~晉 (265–420年間)	dila_dynasty	PL000000013123·晉·midpoint	
+A	PL000000018511	762	905	天祐	year 762 nam NGOAI moi khoang niem hieu da biet (era nhanh: 天祐)	2228	founding		興福禪院 ~唐 (618–907年間)	dila_dynasty	PL000000018511·唐·midpoint	
+A	PL000000060168	342	826	寶曆	year 342 nam NGOAI moi khoang niem hieu da biet (era nhanh: 寶曆)	2533	founding		世福寺 ~晉 (265–420年間)	dila_dynasty	PL000000060168·晉·midpoint	

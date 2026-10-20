@@ -1,0 +1,831 @@
+dila_id	place_name_zh	year	event_type	clause_zh	source_note	cbeta_ref	era_name	extraction_method	quy_tac_nam	can_xem
+PL000000000243	大興隆	1535	destroyed	嘉靖十四年（1535）毀於火			嘉靖	exact_year	cung_menh_de	false
+PL000000000312	黑塔寺		abandoned	廢圮已久					khong_co_nam_trong_menh_de	true
+PL000000000316	普慶蘭若		abandoned	後來該寺逐漸荒廢					khong_co_nam_trong_menh_de	true
+PL000000000662	聖興寺		abandoned	武宗時例毁廢	淵四．成都文類．卷三十八：5				khong_co_nam_trong_menh_de	true
+PL000000000663	普陀寺		destroyed	寺燬于砲火	歷地史：2214；				khong_co_nam_trong_menh_de	true
+PL000000000758	寶積寺		abandoned	清初頹廢	宋僧索引：408；				khong_co_nam_trong_menh_de	true
+PL000000001451	日光寺		abandoned	元末兵亂寺院毀廢					khong_co_nam_trong_menh_de	true
+PL000000001451	日光寺		abandoned	清代再遭毀廢					khong_co_nam_trong_menh_de	true
+PL000000001505	中興寺	762	destroyed	代宗寶應元年毀於兵燹	唐寺考：111；淵四．文苑英華．卷八百六十三：1；淵四．文苑英華．卷八百六十七：8		寶應	exact_year	cung_menh_de	true
+PL000000002493	正解寺		abandoned	至周被廢	唐寺考：119；淵四．六藝之一錄．卷六十二：35；				khong_co_nam_trong_menh_de	true
+PL000000003739	崇善寺	1864	destroyed	於清代同治三年（公元1864年）的大火中全都化為了灰燼			同治	exact_year	cung_menh_de	true
+PL000000003781	太原寺	845	abandoned	會昌五年（845）廢	唐寺考：98；太原縣志：209；T52n2120_p0837c23；徐文明 2009		會昌	exact_year	cung_menh_de	false
+PL000000003781	太原寺		abandoned	尋廢	唐寺考：98；太原縣志：209；T52n2120_p0837c23；徐文明 2009				khong_co_nam_trong_menh_de	true
+PL000000005140	繇哉寺		destroyed	曾遭兵火焚燬	唐寺考：89；明清序：270；淵四．大清一統志，卷一百一：29 ；				khong_co_nam_trong_menh_de	true
+PL000000005375	竹林聖寺		abandoned	歷代以來不廢修葺	g081p0081；唐寺考：103；				khong_co_nam_trong_menh_de	true
+PL000000005376	王子燒身塔寺		destroyed	菩薩現形火光中	唐寺考：102；g081p0076；淵四．山西通志．卷一百七十一：23 ；				khong_co_nam_trong_menh_de	true
+PL000000005377	懸甕山		abandoned	寺廢	四淵．山西通志．卷一百六十八：17；T36n1736_p0112c25；唐寺考：103				khong_co_nam_trong_menh_de	true
+PL000000005382	廣濟茅蓬		destroyed	今為代王香火	g081p0073；五集錦：131；明清序：229；				khong_co_nam_trong_menh_de	true
+PL000000005404	殊祥寺		destroyed	後毀於大火	g081p0076；五集錦：99；				khong_co_nam_trong_menh_de	true
+PL000000005406	鳳林寺		destroyed	明之鳳林寺已燬	g081p0077；五集錦：188				khong_co_nam_trong_menh_de	true
+PL000000005408	法華院		abandoned	今廢	g081p0191；淵四．山西通志．卷一百七十一：30				khong_co_nam_trong_menh_de	true
+PL000000005415	射虎川		destroyed	焚修火香	g081p0229；				khong_co_nam_trong_menh_de	true
+PL000000005506	公主寺		destroyed	後毀於兵火	g081p0091；淵四．山西通志．卷一百七十一：37；				khong_co_nam_trong_menh_de	true
+PL000000005908	天安寺		abandoned	明末廢	唐寺考：93；				khong_co_nam_trong_menh_de	true
+PL000000007008	青寺		destroyed	善因寺毀於戰火	佛光：5443；				khong_co_nam_trong_menh_de	true
+PL000000008394	大興國萬壽慈華禪寺	1868	destroyed	同治年間又遭兵焚	明清序：207；淵四．大清一統志．卷五十八：30；四部續．嘉慶一統志．松江府二：10；		同治	midpoint	cung_menh_de	false
+PL000000008395	世界佛教居士林		destroyed	林所毀於戰火					khong_co_nam_trong_menh_de	true
+PL000000008471	延慶寺		destroyed	清末太平軍燬之	佛光：2881；明清序：226				khong_co_nam_trong_menh_de	true
+PL000000008472	靈峯精舍		abandoned	後漸廢					khong_co_nam_trong_menh_de	true
+PL000000008478	本一院	1860	destroyed	咸豐10年（1860）毀於兵燹	淵四．江南通志．卷四十五：3；		咸豐	exact_year	cung_menh_de	false
+PL000000008478	本一院		abandoned	後廢	淵四．江南通志．卷四十五：3；				khong_co_nam_trong_menh_de	true
+PL000000008701	新安寺		abandoned	前廢帝殺子鸞					khong_co_nam_trong_menh_de	true
+PL000000008701	新安寺		abandoned	乃毀廢新安寺					khong_co_nam_trong_menh_de	true
+PL000000008743	定林寺		abandoned	後廢	佛光：3177；淵四．景定建康志．卷46：21				khong_co_nam_trong_menh_de	true
+PL000000008748	千佛院		abandoned	寺遂廢	佛光：2248；唐寺考：161；明清序：232；				khong_co_nam_trong_menh_de	true
+PL000000008748	千佛院		abandoned	再度荒廢	佛光：2248；唐寺考：161；明清序：232；				khong_co_nam_trong_menh_de	true
+PL000000008765	明慶寺		abandoned	明慶寺屬上元縣今廢					khong_co_nam_trong_menh_de	true
+PL000000008770	法雲寺		abandoned	唐初輔公祏亂毁廢	淵四．至大金陵新志．卷十一下：20				khong_co_nam_trong_menh_de	true
+PL000000008770	法雲寺		destroyed	建炎兵火廢後	淵四．至大金陵新志．卷十一下：20				loai_nam_xay_dung	true
+PL000000008807	封崇寺		abandoned	寺之廢興始末未詳）	淵四．至大金陵新志．卷十一下：16；				khong_co_nam_trong_menh_de	true
+PL000000008839	廻光寺		abandoned	一遊方和尚在廢墟中掘得一尊石觀音像					khong_co_nam_trong_menh_de	true
+PL000000009026	栖霞		destroyed	棲霞寺毀於戰火	唐僧索引：673；明清序：274；何孝榮 2000：89、147；				khong_co_nam_trong_menh_de	true
+PL000000009033	幕府寺		abandoned	事迹唐㑹昌中廢	淵四．至大金陵新志．卷十一下：22；何孝榮 2000：90、153；				khong_co_nam_trong_menh_de	true
+PL000000009035	清真寺		abandoned	後廢	淵四．至大金陵新志．卷十一下：22；何孝榮 2000：92、153；				khong_co_nam_trong_menh_de	true
+PL000000009040	乾隆行宮	1855	destroyed	咸豐5年（1855）行宮毀於太平天國戰火	g071p0209；		咸豐	exact_year	cung_menh_de	false
+PL000000009041	春雨山房	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	false
+PL000000009042	太古堂	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	true
+PL000000009043	武夷一曲	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	true
+PL000000009044	精廬	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	true
+PL000000009045	話山亭	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	true
+PL000000009046	有凌雲意	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	true
+PL000000009047	白下卷阿	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	true
+PL000000009048	夕佳樓	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	true
+PL000000009049	石梁精舍	1855	destroyed	咸豐五年（1855）燬於洪楊之役	g071p0072		咸豐	exact_year	cung_menh_de	true
+PL000000009061	善世院		destroyed	後被焚燬	明清序：218；何孝榮 2000：97、149；				khong_co_nam_trong_menh_de	true
+PL000000009065	安隱院		abandoned	久廢	淵四．至大金陵新志．卷十一下：27；何孝榮 2000：96、150；				khong_co_nam_trong_menh_de	true
+PL000000009069	均慶院		abandoned	今廢	淵四．至大金陵新志．卷十一下：19；何孝榮 2000：85、150；				khong_co_nam_trong_menh_de	true
+PL000000009072	崇因寺		abandoned	齊廢	淵四．至大金陵新志．卷十一下：26；何孝榮 2000：88、151；				khong_co_nam_trong_menh_de	true
+PL000000009133	白塔寺		destroyed	跋陀羅乃燒香咒願	佛光：2098；佛百：1823.1				khong_co_nam_trong_menh_de	true
+PL000000009146	塔寺		destroyed	陳太建元年（569）焚燬	佛光：4777；何孝榮 2000：84、147；				loai_nam_xay_dung	true
+PL000000009147	祈澤治平寺	843	abandoned	會昌中廢	淵四．江南通志．卷四十三：7；何孝榮 2000：85、147；		會昌	midpoint	cung_menh_de	false
+PL000000009149	方山定林寺		abandoned	後廢	淵四．至大金陵新志．卷十一下：17；				khong_co_nam_trong_menh_de	true
+PL000000009158	靜居寺	843	abandoned	會昌中廢	淵四．至大金陵新志．卷十一下：29；		會昌	midpoint	cung_menh_de	true
+PL000000009188	觀音院	975	abandoned	至開寶八年廢	淵四．至大金陵新志．卷十一下：25		開寶	exact_year	cung_menh_de	true
+PL000000009363	惠山寺	843	abandoned	唐會昌中廢	唐寺考：164；		會昌	midpoint	cung_menh_de	false
+PL000000009363	惠山寺		abandoned	嗣後屢有廢興	唐寺考：164；				khong_co_nam_trong_menh_de	true
+PL000000009406	觀音院		destroyed	元末（1344-1368）毀於兵燹而廢	淵四．江南通志．卷四十五：27；明清序：274；				khong_co_nam_trong_menh_de	true
+PL000000009543	興教寺		abandoned	河决寺廢	唐寺考：82；				khong_co_nam_trong_menh_de	true
+PL000000009711	龍興寺		destroyed	香火極盛					khong_co_nam_trong_menh_de	true
+PL000000009711	龍興寺		destroyed	由於連年戰火					khong_co_nam_trong_menh_de	true
+PL000000009714	國祥寺		abandoned	見寺荒廢	T50n2061_p0822b10；宋僧索引：422				khong_co_nam_trong_menh_de	true
+PL000000009858	梅隱庵		destroyed	今燬	明清序：278				khong_co_nam_trong_menh_de	true
+PL000000009882	臥佛寺		destroyed	後歷經兵火與重建	佛百：4152.1；佛光：4922；明清序：224、276；				khong_co_nam_trong_menh_de	true
+PL000000009903	普光王禪院	1742	abandoned	乾隆七年（1742）申氏義莊因大風壞屋			乾隆	exact_year	cung_menh_de	true
+PL000000009979	水陸院	1711	destroyed	清康熙五十年冬（1711）大殿又火	g043p0021		康熙	exact_year	cung_menh_de	false
+PL000000009979	水陸院		abandoned	今久湮壞	g043p0021				khong_co_nam_trong_menh_de	true
+PL000000009983	大殿		destroyed	大殿火					khong_co_nam_trong_menh_de	true
+PL000000009983	大殿	1711	destroyed	清康熙五十年冬（1711）大殿又火			康熙	exact_year	cung_menh_de	false
+PL000000009985	霜鐘閣		abandoned	後幾經興廢					khong_co_nam_trong_menh_de	true
+PL000000009989	慧慶禪寺	1337	destroyed	至元間兵火廢	淵四．姑蘇志．卷二十九：64、淵四．江南通志．卷四十四：6		至元	midpoint	cung_menh_de	false
+PL000000010024	思益寺		destroyed	元季燬	唐寺考：175；				khong_co_nam_trong_menh_de	true
+PL000000010026	免水院		abandoned	宋時廢	明清序：246、264；淵四．大清一統志．卷五十五：18；四部續．嘉慶一統志．蘇州府三：6				khong_co_nam_trong_menh_de	true
+PL000000010034	支山寺		abandoned	今圮廢	淵四．姑蘇志．卷二十九：67；				khong_co_nam_trong_menh_de	true
+PL000000010035	秀峰禪寺		abandoned	今廢	淵四．姑蘇志．卷二十九：64；				khong_co_nam_trong_menh_de	true
+PL000000010037	文殊菴		abandoned	今廢	淵四．姑蘇志．卷二十九：67				khong_co_nam_trong_menh_de	true
+PL000000010070	白雲寺		destroyed	奏請為范氏功德香火院	唐寺考：175；				khong_co_nam_trong_menh_de	true
+PL000000010085	鄧尉聖恩寺		destroyed	元季寺燬庵存	明清序：228；淵四．大清一統志．卷五十五：19；四部續．嘉慶一統志．蘇州府三：6				khong_co_nam_trong_menh_de	true
+PL000000010113	靈澱寺		abandoned	明時廢	明清序：214				khong_co_nam_trong_menh_de	true
+PL000000010126	勝法寺		destroyed	為離火宅寺	唐寺考：172；明清序：295；				khong_co_nam_trong_menh_de	true
+PL000000010612	香積寺		destroyed	屢燬	唐寺考：79；淵四．江南通志．卷四十八：33；				khong_co_nam_trong_menh_de	true
+PL000000010777	西靈寺	843	destroyed	其寺塔於會昌三年癸亥歲（843）遭大火焚燬	T50n2061_p0833a07、X77n1522_p0248a21；宋僧索引：428		會昌	exact_year	cung_menh_de	false
+PL000000010903	乾明寺		abandoned	後廢	淵四．明一統志．卷十二：14				khong_co_nam_trong_menh_de	true
+PL000000011010	鹿泉寺		abandoned	寺廟幾經興廢	唐寺考：159、162；				khong_co_nam_trong_menh_de	true
+PL000000011010	鹿泉寺		destroyed	太平天國時毀於戰火	唐寺考：159、162；				khong_co_nam_trong_menh_de	true
+PL000000011010	鹿泉寺		abandoned	抗戰期間復遭日軍毀壞	唐寺考：159、162；				khong_co_nam_trong_menh_de	true
+PL000000011013	竹林寺		abandoned	久廢	唐寺考：163；明清序：301；				khong_co_nam_trong_menh_de	true
+PL000000011407	杭州下院		abandoned	後廢	g009p0264				khong_co_nam_trong_menh_de	true
+PL000000011435	天龍院		destroyed	建炎中燬	淵四．浙江通志．卷二百二十六：38；明清序：215；				loai_nam_xay_dung	true
+PL000000011435	天龍院		destroyed	巋然出於火者	淵四．浙江通志．卷二百二十六：38；明清序：215；				khong_co_nam_trong_menh_de	true
+PL000000011440	報國寺		destroyed	延壽庵毀於戰火	淵四．浙江通志．卷二百二十六：8；				khong_co_nam_trong_menh_de	true
+PL000000011465	相國寺		destroyed	唐時燬為鄭景宅園	唐寺考：186；				khong_co_nam_trong_menh_de	true
+PL000000011468	大普福		destroyed	至正末燬重建	淵四．西湖志纂．卷八：4				loai_nam_xay_dung	true
+PL000000011485	釋迦真身舍利塔	958	destroyed	後周顯德五年火	T50n2061_p0810a04、T50n2061_p0810a15；宋元方志．咸淳臨安志．卷76：4044；淵四．十國春秋．卷89：9；淵四．吳越備史．卷2：16		顯德	exact_year	cung_menh_de	false
+PL000000011487	大錢寺		abandoned	錢王於仁王廢院掘地得大錢	宋僧索引：454；西湖遊覽志．卷二十四：17				khong_co_nam_trong_menh_de	true
+PL000000011487	大錢寺		abandoned	入宋寺廢	宋僧索引：454；西湖遊覽志．卷二十四：17				khong_co_nam_trong_menh_de	true
+PL000000011489	西井寺		abandoned	開山顯禪師請鳯凰山已廢安國羅漢寺額為額	淵四．武林梵志．卷1：30；卷11：17；				khong_co_nam_trong_menh_de	true
+PL000000011491	禪宗院		destroyed	《成化杭州府志》：「元末燬	淵四．西湖志纂．卷七：20；淵四．咸淳臨安志．卷七十九：17；淵四．浙江通志．卷二百二十六：22				loai_nam_xay_dung	true
+PL000000011532	興福		destroyed	香積寺被一場大火毀壞	明清序：232；				khong_co_nam_trong_menh_de	true
+PL000000011535	海粟庵		abandoned	寺已廢					khong_co_nam_trong_menh_de	true
+PL000000011603	普門殿		abandoned	後廢	g017p0065				khong_co_nam_trong_menh_de	true
+PL000000011606	天王殿		abandoned	舊已廢	g017p0065				khong_co_nam_trong_menh_de	true
+PL000000011608	千佛閣		destroyed	燬于兵	g017p0065				khong_co_nam_trong_menh_de	true
+PL000000011615	香積		abandoned	明朝廢	g017p0069				khong_co_nam_trong_menh_de	true
+PL000000011620	寶花閣		abandoned	湮圮迨今	g017p0180				khong_co_nam_trong_menh_de	true
+PL000000011624	延恩衍慶寺		abandoned	現寺已廢	淵四．欽定南巡盛典．卷八十六：16；				khong_co_nam_trong_menh_de	true
+PL000000011637	靈芝		abandoned	元末寺院毀廢					khong_co_nam_trong_menh_de	true
+PL000000011646	興元寺		destroyed	民間失火					khong_co_nam_trong_menh_de	true
+PL000000011646	興元寺		destroyed	宮內建築焚燬過半					khong_co_nam_trong_menh_de	true
+PL000000011647	瑪瑙坡		destroyed	元末燬	唐寺考：184；淵四．浙江通志．卷二百二十六：21；淵四．大清一統志．卷二百十七：30；佛光：5839；四部續．嘉慶一統志．杭州府二：24				khong_co_nam_trong_menh_de	true
+PL000000011653	雲栖寺		abandoned	後廢	唐寺考：186；明清序：223；				khong_co_nam_trong_menh_de	true
+PL000000011655	法雨寺	1491	abandoned	明弘治四年廢	唐寺考：184；明清序：228；淵四．大清一統志，卷二百十七：29；四部續．嘉慶一統志．杭州府二：23		弘治	exact_year	cung_menh_de	true
+PL000000011665	惠德塔	1544	abandoned	明嘉靖年間寺廢	明清序：205；		嘉靖	midpoint	cung_menh_de	true
+PL000000011818	廣化禪寺		destroyed	燬于兵重建	g032p1049、g032p0000a、明清序：203				khong_co_nam_trong_menh_de	true
+PL000000011821	安眾寺		abandoned	交卸後廢	明清序：235；g032p1047；				khong_co_nam_trong_menh_de	true
+PL000000011833	永慶寺		destroyed	為元兵燹廢	X				khong_co_nam_trong_menh_de	true
+PL000000011835	西天寺	1356	destroyed	至正十六年壬辰燬扵火	淵四．六藝之一錄．續編卷六：2		至正	exact_year	cung_menh_de	true
+PL000000011837	安衆寺		abandoned	後廢	g032p1048、g032p0000a、g032p0343；淵四．武林梵志．卷六：20				khong_co_nam_trong_menh_de	true
+PL000000011839	順慶禪寺		destroyed	燬于兵重建	g032p1049、g032p0000a				khong_co_nam_trong_menh_de	true
+PL000000011840	實際禪寺		destroyed	燬于兵重建	g032p1049、g032p0000a				khong_co_nam_trong_menh_de	true
+PL000000011841	妙濟禪寺	1354	destroyed	至正末燬于兵	g032p1050、g032p0000a		至正	midpoint	cung_menh_de	true
+PL000000011842	雲福禪院		destroyed	元未兵燬	g032p1050、p032p0000a				khong_co_nam_trong_menh_de	true
+PL000000011854	含暉亭		abandoned	今廢	g032p0072、g032p1010；				khong_co_nam_trong_menh_de	true
+PL000000012098	獅子院		destroyed	後燬	明清序：265；				khong_co_nam_trong_menh_de	true
+PL000000012103	海會寺		destroyed	㑹昌五年燬	淵四．武林梵志．卷六：41				khong_co_nam_trong_menh_de	true
+PL000000012103	海會寺	1021	destroyed	天禧五年燬	淵四．武林梵志．卷六：41		天禧	exact_year	cung_menh_de	true
+PL000000012103	海會寺	1352	destroyed	元至正十二年復燬	淵四．武林梵志．卷六：41		至正	exact_year	cung_menh_de	false
+PL000000012166	天安寺		destroyed	元時燬重建	淵四．浙江通志．卷230：1；唐寺考：195；明清序：216；				khong_co_nam_trong_menh_de	true
+PL000000012166	天安寺	1891	abandoned	可惜左塔已在清光緒年間圮廢	淵四．浙江通志．卷230：1；唐寺考：195；明清序：216；		光緒	midpoint	cung_menh_de	true
+PL000000012171	羅漢律院		abandoned	後能仁法華廢	淵四．延祐四明志．卷十六：19、22；鄞縣通志：1690				khong_co_nam_trong_menh_de	true
+PL000000012171	羅漢律院		abandoned	徙東南隅壽昌寺廢基上	淵四．延祐四明志．卷十六：19、22；鄞縣通志：1690				khong_co_nam_trong_menh_de	true
+PL000000012171	羅漢律院		destroyed	至元十九年火	淵四．延祐四明志．卷十六：19、22；鄞縣通志：1690				khong_co_nam_trong_menh_de	true
+PL000000012171	羅漢律院		abandoned	明洪武六年即其廢址建縣治	淵四．延祐四明志．卷十六：19、22；鄞縣通志：1690				loai_nam_xay_dung	true
+PL000000012184	香山教寺	1868	destroyed	然而在同治年間被焚燬	淵四．延祐四明志．卷十八：17；淵四．寶慶四明志．卷十七：13；		同治	midpoint	cung_menh_de	false
+PL000000012329	惠安寺		abandoned	今廢	g009p0348；				khong_co_nam_trong_menh_de	true
+PL000000012330	東湖書樓		abandoned	今廢	g009p0348；				khong_co_nam_trong_menh_de	true
+PL000000012333	月波		abandoned	余有丁在月波寺廢址四圍劃田百畝					khong_co_nam_trong_menh_de	true
+PL000000012379	赤山寺		abandoned	久廢	明清序：279；				khong_co_nam_trong_menh_de	true
+PL000000012409	九功寺		abandoned	㑹昌廢	淵四．會稽志．卷八：22；宋僧索引：410				khong_co_nam_trong_menh_de	true
+PL000000012462	雪竇寺		destroyed	崇禎年復燬	唐寺考：196；明清序：214；				khong_co_nam_trong_menh_de	true
+PL000000012466	天寶寺		abandoned	㑹昌中廢毁	淵四．寶慶四明志．卷十七：21；宋僧索引：455；T49n2035_p0203b04、T51n2069_p0102c02；				khong_co_nam_trong_menh_de	true
+PL000000012491	溫州下院		abandoned	後廢	g009p0264				khong_co_nam_trong_menh_de	true
+PL000000012628	飛泉		destroyed	香火鼎盛					khong_co_nam_trong_menh_de	true
+PL000000012700	法空王寺	845	abandoned	會昌五年曾廢毀	T50n2061_p0857a05；唐寺考：169		會昌	exact_year	cung_menh_de	true
+PL000000012759	靈光精舍		destroyed	建炎中毀於兵火	宋元方志：4474；明清序：303；唐寺考：172；				loai_nam_xay_dung	true
+PL000000012795	金粟寺匡祖堂		abandoned	已荒圮					khong_co_nam_trong_menh_de	true
+PL000000012834	志願寺		destroyed	唐末毀於兵燹	淵四．浙江通志．卷二百二十七：9；				khong_co_nam_trong_menh_de	true
+PL000000012878	福臻教寺		destroyed	《天啓平湖縣志》：元末燬	淵四．浙江通志．卷二百二十八：29；				khong_co_nam_trong_menh_de	true
+PL000000012878	福臻教寺		abandoned	復廢	淵四．浙江通志．卷二百二十八：29；				khong_co_nam_trong_menh_de	true
+PL000000012913	福嚴寺		destroyed	元末燬	淵四．浙江通志．卷二百二十八：25；明清序：225；				khong_co_nam_trong_menh_de	true
+PL000000012913	福嚴寺	1544	abandoned	明嘉靖中廢	淵四．浙江通志．卷二百二十八：25；明清序：225；		嘉靖	midpoint	cung_menh_de	false
+PL000000012913	福嚴寺		abandoned	百廢俱修	淵四．浙江通志．卷二百二十八：25；明清序：225；				khong_co_nam_trong_menh_de	true
+PL000000012917	大善寺	1544	abandoned	明嘉靖中廢	明清序：250		嘉靖	midpoint	cung_menh_de	true
+PL000000012971	上乘寺		destroyed	宋紹興庚午燬	淵四．浙江通志．卷229：1；唐寺考：179；				khong_co_nam_trong_menh_de	true
+PL000000012986	天安寺		destroyed	崇奉徽宗香火	淵四．浙江通志．卷229：1；淵四．大清一統志，卷222：38；四部續．嘉慶一統志．湖州府一：31 				khong_co_nam_trong_menh_de	true
+PL000000013052	翠峰寺		abandoned	廢於元代	淵四．茶經．卷下：5；				khong_co_nam_trong_menh_de	true
+PL000000013059	天池	1337	destroyed	至元中燬	明清序：217		至元	midpoint	cung_menh_de	true
+PL000000013094	離相院	1356	destroyed	元至正十六年燬	宋元方志：4754；明清序：239；T50n2061_p0876a23；淵四．浙江通志．卷二百二十九：14；長興縣趙志：1275		至正	exact_year	cung_menh_de	true
+PL000000013094	離相院	1544	abandoned	嘉靖間廢	宋元方志：4754；明清序：239；T50n2061_p0876a23；淵四．浙江通志．卷二百二十九：14；長興縣趙志：1275		嘉靖	midpoint	cung_menh_de	true
+PL000000013178	爐峰禪寺		destroyed	香火甚盛					khong_co_nam_trong_menh_de	true
+PL000000013181	大慶尼寺		abandoned	唐會昌時廢寺	847），觀察使李褒重建，改名大慶尼寺。後因顯教院廢，又併其尼入大慶寺，辟西偏房為教院，採用十方規制，選名尼主事。今不存。〈宋元方志．嘉泰會稽志：6838〉				khong_co_nam_trong_menh_de	true
+PL000000013181	大慶尼寺		abandoned	後因顯教院廢	847），觀察使李褒重建，改名大慶尼寺。後因顯教院廢，又併其尼入大慶寺，辟西偏房為教院，採用十方規制，選名尼主事。今不存。〈宋元方志．嘉泰會稽志：6838〉				khong_co_nam_trong_menh_de	true
+PL000000013210	大禹寺		abandoned	㑹昌五年毁廢	淵四．㑹稽志．卷七．27				khong_co_nam_trong_menh_de	true
+PL000000013213	應天山寺		abandoned	明嘉靖前幾經毀廢	明清序：247；唐寺考：187；				khong_co_nam_trong_menh_de	true
+PL000000013213	應天山寺		destroyed	塔內失火	明清序：247；唐寺考：187；				khong_co_nam_trong_menh_de	true
+PL000000013213	應天山寺		destroyed	樓板樓梯焚毀	明清序：247；唐寺考：187；				khong_co_nam_trong_menh_de	true
+PL000000013217	覺智寺_訛	845	abandoned	唐會昌5年例廢	宋元方志：6682；唐寺考：188；		會昌	exact_year	cung_menh_de	false
+PL000000013226	開元寺	845	abandoned	會昌5年詔廢天下寺院	明清序：261；		會昌	exact_year	cung_menh_de	false
+PL000000013235	大中昭福院		abandoned	會昌廢	T50n2061_p0881b25、T50n2061_p0881c10；宋僧索引：496；宋元方志：6831				khong_co_nam_trong_menh_de	true
+PL000000013295	雲間寺		abandoned	㑹昌毁廢	淵四．會稽志．卷7：24；淵四．浙江通志．卷231：15；明清序：204；				khong_co_nam_trong_menh_de	true
+PL000000013298	寶嚴寺		abandoned	後廢	淵四．會稽志．卷7：26；淵四．浙江通志．卷231：16；淵四．大清一統志，卷二百二十六：49；四部續．嘉慶一統志．紹興府一：41				khong_co_nam_trong_menh_de	true
+PL000000013304	天章寺		destroyed	元季火毀	明清序：215；				khong_co_nam_trong_menh_de	true
+PL000000013329	南岩禪寺		abandoned	唐會昌廢					khong_co_nam_trong_menh_de	true
+PL000000013454	大嶽慶福寺		abandoned	明初寺廢	唐寺考：192；明清序：203；				khong_co_nam_trong_menh_de	true
+PL000000013456	光徳院		abandoned	㑹昌廢	淵四．會稽志．卷八：3				khong_co_nam_trong_menh_de	true
+PL000000013667	開元寺		destroyed	明季燬	淵四．浙江通志．卷233：5；唐寺考：200；				khong_co_nam_trong_menh_de	true
+PL000000013680	報恩寺		destroyed	明末燬	唐寺考：200；				khong_co_nam_trong_menh_de	true
+PL000000013782	城隍廟	1804	destroyed	嘉慶九年七月（1804）毀於大火	g009p0371；		嘉慶	exact_year	cung_menh_de	true
+PL000000014062	應制經贊序碑亭		abandoned	今廢	g009p0450				khong_co_nam_trong_menh_de	true
+PL000000014063	御製藏經序碑亭		abandoned	今廢	g009p0450				khong_co_nam_trong_menh_de	true
+PL000000014064	玉音亭		abandoned	今廢	g009p0450				khong_co_nam_trong_menh_de	true
+PL000000014074	陸公祠		abandoned	今廢	g009p0462				khong_co_nam_trong_menh_de	true
+PL000000014076	柏香亭		destroyed	燬於火	g009p0236				khong_co_nam_trong_menh_de	true
+PL000000014088	勑賜護國鎮海禪寺		destroyed	後毀於戰火	g008p0117；明清序：257；				khong_co_nam_trong_menh_de	true
+PL000000014109	上乘庵		abandoned	今廢	g009p0335				khong_co_nam_trong_menh_de	true
+PL000000014110	法雨中興塔院		abandoned	今廢	g009p0336				khong_co_nam_trong_menh_de	true
+PL000000014120	福緣篷		abandoned	今廢	g009p0292				khong_co_nam_trong_menh_de	true
+PL000000014129	太子塔		abandoned	清乾隆後廢	g008p0116、g009p0326、g009p0474；				khong_co_nam_trong_menh_de	true
+PL000000014134	常樂庵		abandoned	後廢	g009p0284				khong_co_nam_trong_menh_de	true
+PL000000014136	三聖殿		destroyed	曾結茅焚修於此	g008p0116、g009p0312				khong_co_nam_trong_menh_de	true
+PL000000014146	朝陽洞庵		destroyed	焚修於此	g009p0283				khong_co_nam_trong_menh_de	true
+PL000000014153	甘露庵		abandoned	望槎二庵廢址	g008p0123、g009p0284				khong_co_nam_trong_menh_de	true
+PL000000014197	應身寶殿		abandoned	年久頹圮	g008p0495、g009p0313				khong_co_nam_trong_menh_de	true
+PL000000014215	真顯庵		abandoned	歲久傾廢	g008p0124；g009p0329				khong_co_nam_trong_menh_de	true
+PL000000014225	釋迦佛舍利塔		abandoned	碑均廢	g009p0477；				khong_co_nam_trong_menh_de	true
+PL000000014255	教誡堂		abandoned	後廢	g009p0264				khong_co_nam_trong_menh_de	true
+PL000000014260	觀旭亭		abandoned	今廢	g009p0455				khong_co_nam_trong_menh_de	true
+PL000000014261	著衣亭		abandoned	今廢	g008p0116、g009p0455				khong_co_nam_trong_menh_de	true
+PL000000014262	戒捨身亭		abandoned	今廢	g008p0116、g009p0455				khong_co_nam_trong_menh_de	true
+PL000000014263	坐坐亭		abandoned	後廢	g009p0457				khong_co_nam_trong_menh_de	true
+PL000000014274	天王殿		abandoned	今廢	g009p0333				khong_co_nam_trong_menh_de	true
+PL000000014275	慈源庵		abandoned	今廢	g009p0333				khong_co_nam_trong_menh_de	true
+PL000000014276	竹石居		abandoned	今廢	g009p0334				khong_co_nam_trong_menh_de	true
+PL000000014277	月印庵		abandoned	今廢	g009p0334				khong_co_nam_trong_menh_de	true
+PL000000014278	琉璃庵		abandoned	今廢	g009p0334				khong_co_nam_trong_menh_de	true
+PL000000014279	般若庵		abandoned	今廢	g008p0123、g009p0334				khong_co_nam_trong_menh_de	true
+PL000000014280	善說齋		abandoned	今廢	g009p0335				khong_co_nam_trong_menh_de	true
+PL000000014281	清籟庵		abandoned	今廢	g008p0125、g009p0335				khong_co_nam_trong_menh_de	true
+PL000000014282	秀蓮庵		abandoned	今廢	g009p0335				khong_co_nam_trong_menh_de	true
+PL000000014283	慧日庵		abandoned	今廢	g009p0335				khong_co_nam_trong_menh_de	true
+PL000000014284	智勝庵		abandoned	今廢	g009p0336				khong_co_nam_trong_menh_de	true
+PL000000014285	大休庵		abandoned	今廢	g009p0335				khong_co_nam_trong_menh_de	true
+PL000000014286	智定庵		abandoned	今廢	g009p0336				khong_co_nam_trong_menh_de	true
+PL000000014287	海印庵		abandoned	今廢	g009p0336				khong_co_nam_trong_menh_de	true
+PL000000014288	大慈庵		abandoned	今廢	g008p0125、g009p0337				khong_co_nam_trong_menh_de	true
+PL000000014289	西資庵		abandoned	今廢	g008p0125、g009p0333、g009p0352				khong_co_nam_trong_menh_de	true
+PL000000014290	鐵壁禪師舍利塔		abandoned	早廢	g009p0479；				khong_co_nam_trong_menh_de	true
+PL000000014311	棲道寺		abandoned	寺遭廢荒落﹔延至二十世紀七十年代	g089p0488；				khong_co_nam_trong_menh_de	true
+PL000000014311	棲道寺		abandoned	寺址遭到徹底破壞	g089p0488；				khong_co_nam_trong_menh_de	true
+PL000000014338	壽昌寺		destroyed	謝叅政克家乞為香火院	明清序：213；淵四．浙江通志．卷231：55				khong_co_nam_trong_menh_de	true
+PL000000014339	鴻福寺	1122	destroyed	宣和間燬	明清序：256；淵四．浙江通志．卷二百三十一：57；		宣和	midpoint	cung_menh_de	true
+PL000000014341	妙喜寺	843	abandoned	唐會昌中廢	淵四．浙江通志．卷二百三十一：53；淵四．大清一統志，卷二百二十九：32；四部續．嘉慶一統志．台州府一：26		會昌	midpoint	cung_menh_de	true
+PL000000014366	承天		abandoned	今廢	明清序：234；				khong_co_nam_trong_menh_de	true
+PL000000014571	曇花亭	1972	destroyed	1972年毀於火	淵四．浙江通志．卷四十六：26；			ce_year_literal	cung_menh_de	false
+PL000000014664	天台山寺		abandoned	唐㑹昌5年廢	佛光：4439；淵四．赤城志．卷28：17；淵四．元豐九域志．卷5：47；				khong_co_nam_trong_menh_de	true
+PL000000014675	新羅園		abandoned	後廢	g089p0780				khong_co_nam_trong_menh_de	true
+PL000000014689	瀑布寺		abandoned	久廢	g089p0165；淵四．赤城志．卷二十八：31				khong_co_nam_trong_menh_de	true
+PL000000014704	道元		abandoned	唐㑹昌中廢	T50n2061_p0768b26；宋僧索引：859；淵四．赤城志．卷28：31 ＆ 卷30：10				khong_co_nam_trong_menh_de	true
+PL000000014708	定光庵		abandoned	」其菴久廢	g089p0168、g089p0790；淵四．浙江通志．卷二百三十二：12				khong_co_nam_trong_menh_de	true
+PL000000014713	佛隴修禪寺	843	abandoned	唐會昌中廢	g089p0148；淵四．赤城志．卷28：22；		會昌	midpoint	cung_menh_de	true
+PL000000014717	石梁寺		destroyed	因兩次失火破損	g089p0150；g089p0169；g089p0185；g089p0802；淵四．方輿勝覽．卷八：5				khong_co_nam_trong_menh_de	true
+PL000000014725	桐溪寺		abandoned	今廢	g089p0109、g089p0167				khong_co_nam_trong_menh_de	true
+PL000000014744	白郎寺	843	abandoned	會昌中廢	g089p0152；淵四．赤城志．卷二十一：12		會昌	midpoint	cung_menh_de	false
+PL000000014756	裕民寺		abandoned	後廢	g089p0151；				khong_co_nam_trong_menh_de	true
+PL000000014756	裕民寺		abandoned	豈華頂廢後更徙於此（坦頭鎮鳳凰山前）耶？智者大師所書《陀羅尼經》四卷	g089p0151；				khong_co_nam_trong_menh_de	true
+PL000000014762	普光院	1413	abandoned	永樂初廢	g089p0159；淵四．赤城志．卷二十八：29		永樂	midpoint	cung_menh_de	true
+PL000000014763	法華寺	843	abandoned	唐會昌中廢	g089p0159、g089p0771		會昌	midpoint	cung_menh_de	true
+PL000000014763	法華寺		abandoned	國初廢	g089p0159、g089p0771				khong_co_nam_trong_menh_de	true
+PL000000014765	彌陀塔院		abandoned	今廢	g089p0166				khong_co_nam_trong_menh_de	true
+PL000000014766	旃檀瑞像院		abandoned	國初廢	g089p0160；天台縣地名志：120				khong_co_nam_trong_menh_de	true
+PL000000014767	壽聖		abandoned	國初廢	g089p0160；天台縣地名志：321；				khong_co_nam_trong_menh_de	true
+PL000000014770	回巒院	1383	abandoned	國朝洪武初廢	g089p0161；		洪武	midpoint	cung_menh_de	true
+PL000000014771	淨安院		abandoned	寺幾廢	g089p0161；天台縣地名志：254；				khong_co_nam_trong_menh_de	true
+PL000000014772	鎮國院	1383	abandoned	洪武中廢	g089p0162；天台縣地名志：201；		洪武	midpoint	cung_menh_de	false
+PL000000014773	禪智寺		abandoned	國初廢	g089p0162				khong_co_nam_trong_menh_de	true
+PL000000014774	靈瑞寺		abandoned	國初廢	g089p0162				khong_co_nam_trong_menh_de	true
+PL000000014775	崇福寺		abandoned	國初廢	g089p0162				khong_co_nam_trong_menh_de	true
+PL000000014778	螺溪傳教院		abandoned	後廢	g089p0164；淵四．十國春秋．卷89：7；				khong_co_nam_trong_menh_de	true
+PL000000014779	西定慧院		abandoned	後廢	g089p0164、g089p0167；淵四．赤城志．卷二十八：23				khong_co_nam_trong_menh_de	true
+PL000000014781	天台觀		abandoned	今觀已圮	g089p0177；天台縣地名志：390				khong_co_nam_trong_menh_de	true
+PL000000014782	受業寺	843	abandoned	會昌中廢	宋元方志．嘉定赤城志．卷28：7496；g089p0154；唐寺考：197；		會昌	midpoint	cung_menh_de	true
+PL000000014782	受業寺		destroyed	建中靖國初火	宋元方志．嘉定赤城志．卷28：7496；g089p0154；唐寺考：197；				loai_nam_xay_dung	true
+PL000000014798	岩板寺		abandoned	國初廢	g089p0158；				khong_co_nam_trong_menh_de	true
+PL000000014879	永慶寺		abandoned	久廢	明清序：245、淵四．赤城志．卷二十七：7				khong_co_nam_trong_menh_de	true
+PL000000015309	化城寺		abandoned	廢址在今安徽當涂	唐寺考：219；				khong_co_nam_trong_menh_de	true
+PL000000015388	龜山寺		abandoned	屬安徽九華廢庵之一	g077p0113、g077p0165				khong_co_nam_trong_menh_de	true
+PL000000015389	聖泉院		abandoned	屬安徽九華廢庵之一	g077p0164；				khong_co_nam_trong_menh_de	true
+PL000000015569	勝因寺		abandoned	明嘉靖年廢					khong_co_nam_trong_menh_de	true
+PL000000016608	廣福院		abandoned	屬安徽九華廢庵之一	g077p0165；				khong_co_nam_trong_menh_de	true
+PL000000016609	淨居院		abandoned	屬安徽九華廢庵之一	g077p0039、g077p0044、g077p0166				khong_co_nam_trong_menh_de	true
+PL000000016610	伏虎庵		abandoned	屬安徽九華廢庵之一	g077p0107、g077p0163				khong_co_nam_trong_menh_de	true
+PL000000016610	伏虎庵		abandoned	今廢	g077p0107、g077p0163				khong_co_nam_trong_menh_de	true
+PL000000016611	資聖庵		abandoned	屬安徽九華廢庵之一	g077p0168				khong_co_nam_trong_menh_de	true
+PL000000016839	懷賢亭		abandoned	今廢	g077p0262				khong_co_nam_trong_menh_de	true
+PL000000016847	藏經樓		destroyed	化城全寺被燬	g077p0143				khong_co_nam_trong_menh_de	true
+PL000000016850	延壽庵		abandoned	屬安徽九華廢庵之一	g077p0170、g077p0198				khong_co_nam_trong_menh_de	true
+PL000000016850	延壽庵		destroyed	清被燬後	g077p0170、g077p0198				khong_co_nam_trong_menh_de	true
+PL000000016852	大夏庵		abandoned	（一）屬安徽九華廢庵之一					khong_co_nam_trong_menh_de	true
+PL000000016853	天柱庵		abandoned	屬安徽九華廢庵之一	g077p0164				khong_co_nam_trong_menh_de	true
+PL000000016857	半山寺		abandoned	今廢	g077p0130、g077p0159、g077p0261、g077p0262；				khong_co_nam_trong_menh_de	true
+PL000000016858	東岩精舍		destroyed	地藏焚修初地	g077p0147、g077p0242				khong_co_nam_trong_menh_de	true
+PL000000016858	東岩精舍	1933	destroyed	民國二十二年冬全寺被焚	g077p0147、g077p0242		民國	exact_year	cung_menh_de	false
+PL000000016860	環奇亭		abandoned	今廢	g077p0147				khong_co_nam_trong_menh_de	true
+PL000000016862	石雲庵		abandoned	屬安徽九華廢庵之一	g077p0168				khong_co_nam_trong_menh_de	true
+PL000000016862	石雲庵		abandoned	今廢	g077p0168				khong_co_nam_trong_menh_de	true
+PL000000016864	淨信院		abandoned	屬安徽九華廢庵之一	g077p0105、g077p0166				khong_co_nam_trong_menh_de	true
+PL000000016865	望江洲		abandoned	位安徽九華廢庵淨信寺上	g077p0122、g077p0166				khong_co_nam_trong_menh_de	true
+PL000000016866	費拾遺書堂		abandoned	屬安徽九華廢庵之一	g077p0168				khong_co_nam_trong_menh_de	true
+PL000000016867	芙蓉庵		destroyed	後毀於火災	g077p0144；				khong_co_nam_trong_menh_de	true
+PL000000016867	芙蓉庵		destroyed	繼又毀於火	g077p0144；				khong_co_nam_trong_menh_de	true
+PL000000016867	芙蓉庵		abandoned	清末廢	g077p0144；				khong_co_nam_trong_menh_de	true
+PL000000016868	新羅庵		abandoned	屬安徽九華廢庵之一	g077p0169、g077p0328				khong_co_nam_trong_menh_de	true
+PL000000016869	廣修院		abandoned	屬安徽九華廢庵之一	g077p0046、g077p0164				khong_co_nam_trong_menh_de	true
+PL000000016871	天臺寺		abandoned	後廢去	g077p0153、g077p0154				khong_co_nam_trong_menh_de	true
+PL000000016873	景福		abandoned	屬安徽九華廢庵之一	g077p0105、g077p0166				khong_co_nam_trong_menh_de	true
+PL000000016875	圓照庵		abandoned	屬安徽九華廢庵之一	g077p0106、g077p0112、g077p0114、g077p0167				khong_co_nam_trong_menh_de	true
+PL000000016890	覺安寺		abandoned	屬安徽九華廢庵之一	g077p0171				khong_co_nam_trong_menh_de	true
+PL000000016894	獅子庵		abandoned	屬安徽九華廢庵之一	g077p0169				khong_co_nam_trong_menh_de	true
+PL000000016895	天然庵		destroyed	後燬	g077p0149				khong_co_nam_trong_menh_de	true
+PL000000016910	妙音院		abandoned	清末廢	唐寺考：223				khong_co_nam_trong_menh_de	true
+PL000000016913	白雲庵		abandoned	屬安徽九華廢庵之一	g077p0170				khong_co_nam_trong_menh_de	true
+PL000000016914	文殊庵		abandoned	屬安徽《九華紀勝》所載廢庵之一	g077p0170				khong_co_nam_trong_menh_de	true
+PL000000016916	四峰庵		abandoned	屬安徽九華廢庵之一	g077p0167、g077p0235				khong_co_nam_trong_menh_de	true
+PL000000016916	四峰庵		abandoned	久廢	g077p0167、g077p0235				khong_co_nam_trong_menh_de	true
+PL000000017000	臥龍庵		abandoned	屬安徽九華廢庵之一	g077p0169				khong_co_nam_trong_menh_de	true
+PL000000017057	五臺明智院		abandoned	屬安徽九華廢庵之一	g077p0110；g077p0168				khong_co_nam_trong_menh_de	true
+PL000000017067	會勝寺		abandoned	其寺廢于唐之會昌	唐寺考：219；				khong_co_nam_trong_menh_de	true
+PL000000017126	龍興寺		destroyed	是南無消災延壽藥師佛著名道場	唐寺考：208；				khong_co_nam_trong_menh_de	true
+PL000000017144	安國院		abandoned	會昌例廢	淵四．明一統志．卷七十四：5；宋元方志．淳熙三山志．卷三十八：9				khong_co_nam_trong_menh_de	true
+PL000000017197	大乘愛同寺		abandoned	㑹昌例廢	唐寺考：206；明清序：259；淵四．淳熙三山志．卷三十三：22；				khong_co_nam_trong_menh_de	true
+PL000000017197	大乘愛同寺		abandoned	今廢	唐寺考：206；明清序：259；淵四．淳熙三山志．卷三十三：22；				khong_co_nam_trong_menh_de	true
+PL000000017199	福州東禪寺		destroyed	東禪寺被借用充當軍火庫					khong_co_nam_trong_menh_de	true
+PL000000017199	福州東禪寺		abandoned	福州市政府在東禪寺廢墟上建起了福州鍋爐廠					khong_co_nam_trong_menh_de	true
+PL000000017254	妙峰院		destroyed	明末寺宇被焚					khong_co_nam_trong_menh_de	true
+PL000000017295	黃檗環翠亭		abandoned	今廢	g086p0075				khong_co_nam_trong_menh_de	true
+PL000000017297	黃檗山作霖亭		abandoned	今廢	g086p0076				khong_co_nam_trong_menh_de	true
+PL000000017367	萬福禪寺天王殿		abandoned	今廢	g086p0066				khong_co_nam_trong_menh_de	true
+PL000000017422	黃檗山聞香菴		abandoned	尋廢為埔地	g086p0082				khong_co_nam_trong_menh_de	true
+PL000000017432	黃檗山東嶽塔院		abandoned	今廢	g086p0087				khong_co_nam_trong_menh_de	true
+PL000000017436	黃檗山坦翁叅塔		abandoned	為山鄰所廢	g086p0230				khong_co_nam_trong_menh_de	true
+PL000000017438	公媽塔		abandoned	亦為山隣所廢	g086p0230				khong_co_nam_trong_menh_de	true
+PL000000017492	雙池園		abandoned	久為山鄰廢壞	g086p0237				khong_co_nam_trong_menh_de	true
+PL000000017544	眞寂寺	1337	abandoned	元至元年間（1335-1340）圮廢			至元	midpoint	cung_menh_de	false
+PL000000017544	眞寂寺		abandoned	清初又復廢墜					khong_co_nam_trong_menh_de	true
+PL000000017544	眞寂寺		abandoned	20世紀圮毀					khong_co_nam_trong_menh_de	true
+PL000000017554	梵天禪寺	1354	destroyed	元代至正十四年（1354）毀於兵火			至正	exact_year	cung_menh_de	false
+PL000000017572	華嚴寺		destroyed	後燬	淵四．福建通志．卷六十二：43；淵四．明一統志．卷七十七：42；唐寺考：211；全唐文：3905				khong_co_nam_trong_menh_de	true
+PL000000017620	太平院		destroyed	寺被大火燒毁					khong_co_nam_trong_menh_de	true
+PL000000017622	大中三會寺	843	destroyed	唐會昌年間（841-846）遭火劫荒廢			會昌	midpoint	cung_menh_de	true
+PL000000017623	西明寺		destroyed	香火鼎盛一時	明清序：221；				khong_co_nam_trong_menh_de	true
+PL000000017796	潔己堂		destroyed	至正丁酉燬	g062p0021- g062p0022；				khong_co_nam_trong_menh_de	true
+PL000000017801	護國水陸院		abandoned	已廢					khong_co_nam_trong_menh_de	true
+PL000000017803	泉州開元寺伽藍祠		abandoned	旣廢乃改祀東廊	g062p0025				khong_co_nam_trong_menh_de	true
+PL000000017803	泉州開元寺伽藍祠		destroyed	黎明傳聞武林南山寺羅漢堂災	g062p0025				khong_co_nam_trong_menh_de	true
+PL000000017803	泉州開元寺伽藍祠		abandoned	後廢折入民間	g062p0025				khong_co_nam_trong_menh_de	true
+PL000000017808	山門		abandoned	早已廢圮	g062p0032；				khong_co_nam_trong_menh_de	true
+PL000000017810	鐘樓		destroyed	乾寜二年燬	g062p0033				khong_co_nam_trong_menh_de	true
+PL000000017811	經樓		destroyed	乾寜二年燬	g062p0033				khong_co_nam_trong_menh_de	true
+PL000000017813	方丈		destroyed	嘉靖閻火刼之後	g062p0034				khong_co_nam_trong_menh_de	true
+PL000000017813	方丈		abandoned	廢不復振	g062p0034				khong_co_nam_trong_menh_de	true
+PL000000017814	舊壇越祠		abandoned	今廢址折入民居	g062p0034				khong_co_nam_trong_menh_de	true
+PL000000017815	泉州開元寺舊祖師堂		abandoned	後廢折入民居	g062p0034 - g062p0035				khong_co_nam_trong_menh_de	true
+PL000000017816	東藏殿		destroyed	紹興乙亥災	g062p0035				khong_co_nam_trong_menh_de	true
+PL000000017862	彌陀殿		destroyed	為水陸焚脩	g062p0048 - g062p0049				khong_co_nam_trong_menh_de	true
+PL000000017863	夢觀堂		abandoned	今皆廢不可考	g062p0051				khong_co_nam_trong_menh_de	true
+PL000000017877	白雲廟		abandoned	元妙觀在近代毀圮					khong_co_nam_trong_menh_de	true
+PL000000017880	光孝寺		abandoned	郡守潘玨奉詔以南草場廢寺建					khong_co_nam_trong_menh_de	true
+PL000000017888	昭慶院		abandoned	後廢	明清序：284；				khong_co_nam_trong_menh_de	true
+PL000000017888	昭慶院		destroyed	招慶寺燬於兵	明清序：284；				khong_co_nam_trong_menh_de	true
+PL000000017890	旗纛廟		abandoned	今廢					khong_co_nam_trong_menh_de	true
+PL000000018013	保福寺		abandoned	後廢					khong_co_nam_trong_menh_de	true
+PL000000018215	鸞峰庵	1944	destroyed	民國三十三年（1944）毁於兵燹			民國	exact_year	cung_menh_de	true
+PL000000018482	大中建善寺		abandoned	㑹昌例廢	淵四．淳熙三山志．卷三十五：1；唐寺考：207；				khong_co_nam_trong_menh_de	true
+PL000000018578	大梵寺		destroyed	歷來香火鼎盛					khong_co_nam_trong_menh_de	true
+PL000000018584	北蘭寺		abandoned	後廢	唐寺考：225；				khong_co_nam_trong_menh_de	true
+PL000000018731	星居寺		destroyed	元末燬	唐寺考：240；				khong_co_nam_trong_menh_de	true
+PL000000018732	地藏寺		destroyed	兵燬	唐寺考：240；淵四．江西通志．卷一百十一：32				khong_co_nam_trong_menh_de	true
+PL000000018793	上大林寺		destroyed	元末燬	淵四．大清一統志．卷二百四十四：32；唐寺考：235；				khong_co_nam_trong_menh_de	true
+PL000000018794	天池妙吉禪寺		destroyed	元時燬	明清序：217；				khong_co_nam_trong_menh_de	true
+PL000000018794	天池妙吉禪寺		abandoned	後寺廢	明清序：217；				khong_co_nam_trong_menh_de	true
+PL000000018796	西琳寺		destroyed	元時燬	唐寺考：237；明清序：221；				khong_co_nam_trong_menh_de	true
+PL000000018868	延恩		abandoned	後廢	淵四．江西通志．卷一百十一：20				khong_co_nam_trong_menh_de	true
+PL000000018914	真如禪院		abandoned	後廢毀	佛光：5330；唐寺考：229；明清序：223；				khong_co_nam_trong_menh_de	true
+PL000000018966	福星龍安院		abandoned	已廢	淵四．江西通志．卷一百十三：13；				khong_co_nam_trong_menh_de	true
+PL000000019102	安天寺		destroyed	後被火	唐寺考：230；淵四．大清一統志．卷二百五十四：11；四部續．嘉慶一統志．贛州府二：8				khong_co_nam_trong_menh_de	true
+PL000000019104	聖壽寺		destroyed	元末燬	淵四．江西通志．卷一百十三：32；				khong_co_nam_trong_menh_de	true
+PL000000019386	青原淨居寺		destroyed	元末燬	明清序：250；				khong_co_nam_trong_menh_de	true
+PL000000019392	資國寺	1544	abandoned	明嘉靖中廢	明清序：256		嘉靖	midpoint	cung_menh_de	true
+PL000000019594	報恩寺		destroyed	元燬	唐寺考：239；				khong_co_nam_trong_menh_de	true
+PL000000019688	報思廣孝寺		destroyed	清光緒庚子又毀於火	唐寺考：227；明清序：273；				khong_co_nam_trong_menh_de	true
+PL000000019690	靜覺寺		abandoned	明成化中廢	唐寺考：227；明清序：250；				loai_nam_xay_dung	true
+PL000000019985	馬祖禪寺		destroyed	元末燬	唐寺考：224；				khong_co_nam_trong_menh_de	true
+PL000000020044	普安寺		destroyed	元末燬于兵	淵四．江西通志．卷一百十二 ：38；唐寺考：201；				khong_co_nam_trong_menh_de	true
+PL000000020130	薦福寺		destroyed	元季燬	唐寺考：224；				khong_co_nam_trong_menh_de	true
+PL000000020243	鎮安院		destroyed	崇禎壬申（1632）火	歷城縣志．卷18：6；				khong_co_nam_trong_menh_de	true
+PL000000020243	鎮安院		destroyed	藏經雖燬	歷城縣志．卷18：6；				khong_co_nam_trong_menh_de	true
+PL000000020296	靜默寺		abandoned	北周廢佛時遭毀					khong_co_nam_trong_menh_de	true
+PL000000020296	靜默寺		abandoned	此後因寺廢絕					khong_co_nam_trong_menh_de	true
+PL000000023296	東京報慈寺		destroyed	燬於金兵					khong_co_nam_trong_menh_de	true
+PL000000023300	龍興寺		abandoned	周世宗廢爲龍興倉	淵四．汴京遺蹟志．卷十：13；淵四．東京夢華錄．卷三：1；淵四．續資治通鑑長編．卷十八：6				khong_co_nam_trong_menh_de	true
+PL000000023301	傳法院		destroyed	命天息災	佛光：1371、6808；淵四．宋朝事實．卷七：26；淵四．汴京遺蹟志．卷十一：28				khong_co_nam_trong_menh_de	true
+PL000000023301	傳法院		destroyed	詔僧天息災等	佛光：1371、6808；淵四．宋朝事實．卷七：26；淵四．汴京遺蹟志．卷十一：28				khong_co_nam_trong_menh_de	true
+PL000000023313	安業寺		destroyed	燬於金兵	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000023316	天壽院		destroyed	累經兵燹	淵四．汴京遺蹟志．卷十：14；				khong_co_nam_trong_menh_de	true
+PL000000023341	天清寺		destroyed	元末兵燹	淵四．汴京遺蹟志．卷十：10				khong_co_nam_trong_menh_de	true
+PL000000023341	天清寺		abandoned	寺塔俱廢	淵四．汴京遺蹟志．卷十：10				khong_co_nam_trong_menh_de	true
+PL000000023424	菩提寺		destroyed	金末兵燬	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000023594	衛國寺	843	abandoned	會昌中廢	唐寺考：65；城坊考：402；		會昌	midpoint	cung_menh_de	true
+PL000000023595	淨土寺	843	abandoned	武宗會昌中廢	唐寺考：55、60		會昌	midpoint	cung_menh_de	false
+PL000000023651	衛國寺	843	abandoned	會昌中廢	唐寺考：54、55、65；城坊考：355		會昌	midpoint	cung_menh_de	false
+PL000000023656	荷澤寺		destroyed	廣收香火錢以資軍用	唐寺考：58；淵四．唐會要．卷四十八：10；				khong_co_nam_trong_menh_de	true
+PL000000023658	景福尼寺	843	abandoned	會昌中廢	唐寺考：59、60		會昌	midpoint	cung_menh_de	false
+PL000000026449	黃龍寺		abandoned	清初廢移建改名黃龍寺	明清序：272				loai_nam_xay_dung	true
+PL000000026499	金台寺		destroyed	明末清初毀於戰火					khong_co_nam_trong_menh_de	true
+PL000000027025	大通寺		abandoned	幾經興廢	唐寺考：135；明清序：202；				khong_co_nam_trong_menh_de	true
+PL000000027093	延慶寺		abandoned	至㑹昌寺廢	唐僧索引：682；T50n2060_p0668c19；唐寺考：133；				khong_co_nam_trong_menh_de	true
+PL000000027425	唐安寺		destroyed	明末燬	唐寺考：139；淵四．大清一統志．卷二百六十六：9；四部續．嘉慶一統志．荊門直隸州：14				khong_co_nam_trong_menh_de	true
+PL000000027754	天王寺		abandoned	宋時廢	明清序：215				khong_co_nam_trong_menh_de	true
+PL000000028226	隆平寺		destroyed	後燬	唐寺考：241；				khong_co_nam_trong_menh_de	true
+PL000000028548	大安寺		abandoned	後廢	唐寺考：138；淵四．大清一統志．卷二百六十六：8；四部續．嘉慶一統志．安陸府：21				khong_co_nam_trong_menh_de	true
+PL000000028577	竹林寺		abandoned	後廢	唐寺考：132；				khong_co_nam_trong_menh_de	true
+PL000000028638	開福禪寺		abandoned	寺宇傾圮	佛百：4521；淵四．大清一統志．卷277：12；四部續．嘉慶一統志．長沙府三：4；				khong_co_nam_trong_menh_de	true
+PL000000028638	開福禪寺		destroyed	明末遭兵燬	佛百：4521；淵四．大清一統志．卷277：12；四部續．嘉慶一統志．長沙府三：4；				khong_co_nam_trong_menh_de	true
+PL000000030549	建封寺		abandoned	建封寺毀廢已久	仇江2009；				khong_co_nam_trong_menh_de	true
+PL000000030603	官石寺		destroyed	後燬	唐寺考：283；				khong_co_nam_trong_menh_de	true
+PL000000032117	開元寺		destroyed	後因紗燈延火	淵四．明一統志．卷八十三：33；唐寺考：288；				khong_co_nam_trong_menh_de	true
+PL000000032117	開元寺		destroyed	燒燬重建	淵四．明一統志．卷八十三：33；唐寺考：288；				khong_co_nam_trong_menh_de	true
+PL000000034046	崇教寺		destroyed	寺毀於火災					khong_co_nam_trong_menh_de	true
+PL000000034695	石鏡寺		destroyed	從南北朝時期開始香火綿延	唐寺考：265；				khong_co_nam_trong_menh_de	true
+PL000000034769	定蘭塔院		destroyed	唐朝釋定蘭焚身供養諸佛後	T50n2061_p0856b23、X85n1590_p0205b24				khong_co_nam_trong_menh_de	true
+PL000000035017	中興寺	845	abandoned	會昌五年廢	全唐文：3702；唐寺考：268；		會昌	exact_year	cung_menh_de	false
+PL000000036091	朝陽閣	1917	destroyed	1917年毀於火				ce_year_literal	cung_menh_de	false
+PL000000036106	大歡喜亭		abandoned	今廢	g049p0046、g049p0187				khong_co_nam_trong_menh_de	true
+PL000000036109	紅椿坪	1778	destroyed	清乾隆四十三年曾毀於火			乾隆	exact_year	cung_menh_de	true
+PL000000036122	天門寺		abandoned	今已頹圮	歷地魏：110；g049p0176；g0049p046				khong_co_nam_trong_menh_de	true
+PL000000036123	仙峰禪院		destroyed	後毀於火	歷地魏：294；				khong_co_nam_trong_menh_de	true
+PL000000036135	壽聖寺		abandoned	今就圮	g049p0028；淵四．明一統志．卷七十二：8；歷地魏：364				khong_co_nam_trong_menh_de	true
+PL000000036140	文昌廟		abandoned	今廢	g049p0031				khong_co_nam_trong_menh_de	true
+PL000000036147	香煙寺		abandoned	今廢	g049p0135、g049p0034				khong_co_nam_trong_menh_de	true
+PL000000036148	羅漢寺		abandoned	今廢	g049p0135				khong_co_nam_trong_menh_de	true
+PL000000036149	白雲寺		abandoned	今廢	g049p0135				khong_co_nam_trong_menh_de	true
+PL000000036151	大峨庵		abandoned	後圮	g049p0035；				khong_co_nam_trong_menh_de	true
+PL000000036163	慈雲寺		abandoned	後傾圮	g049p0037；				khong_co_nam_trong_menh_de	true
+PL000000036171	觀心庵	1765	destroyed	清乾隆間燬於火	g049p0040		乾隆	midpoint	cung_menh_de	false
+PL000000036172	息心所		abandoned	明末清初荒廢					khong_co_nam_trong_menh_de	true
+PL000000036176	永延寺		abandoned	今圮	g049p0181				khong_co_nam_trong_menh_de	true
+PL000000036184	金剛寺		destroyed	被焚	g049p0047				khong_co_nam_trong_menh_de	true
+PL000000036202	蓮華社		abandoned	今廢）	g049p0042、g049p0137				khong_co_nam_trong_menh_de	true
+PL000000036203	羅漢寺		abandoned	今廢	g049p0181				khong_co_nam_trong_menh_de	true
+PL000000036204	不到寺		abandoned	今廢	g049p0180、g049p0055				khong_co_nam_trong_menh_de	true
+PL000000036280	棋盤寺		abandoned	已廢	g049p0179；				khong_co_nam_trong_menh_de	true
+PL000000036285	迴龍庵		abandoned	今廢	g049p0181				khong_co_nam_trong_menh_de	true
+PL000000036286	華藏庵		abandoned	今廢	g049p0138				khong_co_nam_trong_menh_de	true
+PL000000036348	大峨樓		destroyed	明末燬於兵火	g049p0179、g049p0038、g049p0039；				khong_co_nam_trong_menh_de	true
+PL000000036349	菩薩閣		abandoned	今廢	g049p0186				khong_co_nam_trong_menh_de	true
+PL000000036353	慈福院		abandoned	聖積寺廢	g049p0177；				khong_co_nam_trong_menh_de	true
+PL000000036357	華嚴院		abandoned	已廢	"g049p0033、g049p0177）歸雲閣即華巖寺，已廢，遺址距夢峰上行1.25公里。 夢峰位于伏虎寺右側，相距0.5公里，是伏虎山下一座小山巒
+。"				khong_co_nam_trong_menh_de	true
+PL000000040867	凈業居		abandoned	今廢	g084p0329				khong_co_nam_trong_menh_de	true
+PL000000040868	葉子蓬		abandoned	今廢	g084p0329				khong_co_nam_trong_menh_de	true
+PL000000040869	岳山靜室		abandoned	今廢	g084p0329				khong_co_nam_trong_menh_de	true
+PL000000040871	四無亭		abandoned	今廢	g084p0365				khong_co_nam_trong_menh_de	true
+PL000000040876	微笑閣		abandoned	今廢	g084p0309				khong_co_nam_trong_menh_de	true
+PL000000040878	萬佛塔		abandoned	今廢	g084p0314				khong_co_nam_trong_menh_de	true
+PL000000040881	卤來寺		abandoned	今廢	g084p0268				khong_co_nam_trong_menh_de	true
+PL000000040882	千手閣		abandoned	今廢	g084p0309				khong_co_nam_trong_menh_de	true
+PL000000040885	放光塔		abandoned	廢圮	g084p0612				khong_co_nam_trong_menh_de	true
+PL000000040902	觀音閣		abandoned	今廢	g084p0310				khong_co_nam_trong_menh_de	true
+PL000000040903	蓬萊初地坊		abandoned	今廢	g084p0370				khong_co_nam_trong_menh_de	true
+PL000000040925	水露庵		abandoned	今廢	g084p0298				khong_co_nam_trong_menh_de	true
+PL000000040935	觀瀑亭		abandoned	今廢	g084p0365				khong_co_nam_trong_menh_de	true
+PL000000040939	無我庵		abandoned	今廢	g084p0282				khong_co_nam_trong_menh_de	true
+PL000000040946	覺容室		abandoned	今廢	g084p0352				khong_co_nam_trong_menh_de	true
+PL000000040960	拈花精舍		abandoned	今廢	g084p0354				khong_co_nam_trong_menh_de	true
+PL000000040979	斗母閣		abandoned	今廢	g084p0309				khong_co_nam_trong_menh_de	true
+PL000000040991	昊天寶閣		abandoned	今廢	g084p0309				khong_co_nam_trong_menh_de	true
+PL000000041007	白石庵		abandoned	今廢	g084p0294				khong_co_nam_trong_menh_de	true
+PL000000041008	藏頭庵		abandoned	今廢	g084p0296				khong_co_nam_trong_menh_de	true
+PL000000041014	古鏡室		abandoned	今廢	g084p0357				khong_co_nam_trong_menh_de	true
+PL000000041017	萬松深處坊		abandoned	今廢	g084p0368				khong_co_nam_trong_menh_de	true
+PL000000041024	法雲室		abandoned	今廢	g084p0331				khong_co_nam_trong_menh_de	true
+PL000000041025	羣峯拱聖坊		abandoned	今廢	g084p0368				khong_co_nam_trong_menh_de	true
+PL000000041029	長生祠		destroyed	燬于火	g084p0316				khong_co_nam_trong_menh_de	true
+PL000000041038	彼岸室		abandoned	今荒廢	g084p0362				khong_co_nam_trong_menh_de	true
+PL000000041039	福緣林		abandoned	今廢	g084p0362				khong_co_nam_trong_menh_de	true
+PL000000041050	袈裟石閣		abandoned	今廢	g084p0308				khong_co_nam_trong_menh_de	true
+PL000000041055	還慈室		abandoned	今廢	g084p0324				khong_co_nam_trong_menh_de	true
+PL000000041059	覺融靜室		abandoned	今廢	g084p0324				khong_co_nam_trong_menh_de	true
+PL000000041060	貫徹室		abandoned	今廢	g084p0325				khong_co_nam_trong_menh_de	true
+PL000000041061	會心室		abandoned	今廢	g084p0325				khong_co_nam_trong_menh_de	true
+PL000000041064	定雲庵		abandoned	今荒廢	g084p0268				khong_co_nam_trong_menh_de	true
+PL000000041065	般若崖室		abandoned	今廢	g084p0330				khong_co_nam_trong_menh_de	true
+PL000000041066	紫栢崖室		abandoned	今廢	g084p0330				khong_co_nam_trong_menh_de	true
+PL000000041067	楞枷居		abandoned	今荒廢	g084p0331				khong_co_nam_trong_menh_de	true
+PL000000041074	法明寺		abandoned	今廢	g084p0269				khong_co_nam_trong_menh_de	true
+PL000000041075	盤龍庵		abandoned	今廢	g084p0298				khong_co_nam_trong_menh_de	true
+PL000000041076	燃燈寺		abandoned	今廢	g084p0269				khong_co_nam_trong_menh_de	true
+PL000000041077	全眞室		abandoned	今廢	g084p0333				khong_co_nam_trong_menh_de	true
+PL000000041078	燃燈室		abandoned	今廢	g084p0358				khong_co_nam_trong_menh_de	true
+PL000000041080	觀音寺		abandoned	今廢	g084p0270				khong_co_nam_trong_menh_de	true
+PL000000041085	大龍潭		abandoned	今廢	g084p0273				khong_co_nam_trong_menh_de	true
+PL000000041092	白鹿寺		abandoned	今廢	g084p0274				khong_co_nam_trong_menh_de	true
+PL000000041093	威音寺		abandoned	今廢	g084p0275				khong_co_nam_trong_menh_de	true
+PL000000041095	吉祥寺		abandoned	今廢	g084p0276				khong_co_nam_trong_menh_de	true
+PL000000041100	法行室		abandoned	今荒廢	g084p0331				khong_co_nam_trong_menh_de	true
+PL000000041102	三脚坊		abandoned	今圮廢	g084p0369				khong_co_nam_trong_menh_de	true
+PL000000041103	菩提塲		abandoned	後荒廢	g084p0280				khong_co_nam_trong_menh_de	true
+PL000000041103	菩提塲		abandoned	今廢	g084p0280				khong_co_nam_trong_menh_de	true
+PL000000041104	般若庵		abandoned	後廢	g084p0293				khong_co_nam_trong_menh_de	true
+PL000000041106	煉魔室		abandoned	今廢	g084p0357				khong_co_nam_trong_menh_de	true
+PL000000041109	靈源精舍		abandoned	爲靈源庵今廢	g084p0286				khong_co_nam_trong_menh_de	true
+PL000000041117	凌霄庵		abandoned	今廢	g084p0289				khong_co_nam_trong_menh_de	true
+PL000000041118	寶山室		abandoned	今廢	g084p0330				khong_co_nam_trong_menh_de	true
+PL000000041120	海會庵		abandoned	今廢	g084p0290				khong_co_nam_trong_menh_de	true
+PL000000041122	八角亭		abandoned	今廢	g084p0365				khong_co_nam_trong_menh_de	true
+PL000000041129	大力庵		abandoned	今廢	g084p0298				khong_co_nam_trong_menh_de	true
+PL000000041130	蘭宗寺		abandoned	今地廢	g084p0292				khong_co_nam_trong_menh_de	true
+PL000000041133	曹溪庵		abandoned	今荒廢	g084p0295				khong_co_nam_trong_menh_de	true
+PL000000041135	海印庵		abandoned	今廢	g084p0327				khong_co_nam_trong_menh_de	true
+PL000000041136	功德庵		abandoned	今廢	g084p0295				khong_co_nam_trong_menh_de	true
+PL000000041137	兜率庵		abandoned	今廢	g084p0296				khong_co_nam_trong_menh_de	true
+PL000000041138	摩雲居		abandoned	今廢	g084p0327				khong_co_nam_trong_menh_de	true
+PL000000041139	觀音庵		abandoned	今廢	g084p0296				khong_co_nam_trong_menh_de	true
+PL000000041140	燄光室		abandoned	今廢	g084p0331				khong_co_nam_trong_menh_de	true
+PL000000041141	寶藏庵		abandoned	今廢	g084p0296				khong_co_nam_trong_menh_de	true
+PL000000041142	圓覺庵		abandoned	今庵已傾廢	g084p0297				khong_co_nam_trong_menh_de	true
+PL000000041143	瀑布庵		abandoned	今廢	g084p0297				khong_co_nam_trong_menh_de	true
+PL000000041144	凈土庵		abandoned	今廢	g084p0297				khong_co_nam_trong_menh_de	true
+PL000000041145	慈聖庵		abandoned	今廢	g084p0297				khong_co_nam_trong_menh_de	true
+PL000000041147	奉眞庵		abandoned	今廢	g084p0298				khong_co_nam_trong_menh_de	true
+PL000000041148	獅子庵		abandoned	今廢	g084p0299				khong_co_nam_trong_menh_de	true
+PL000000041149	獅子窩		abandoned	今圯廢矣	g084p0193				khong_co_nam_trong_menh_de	true
+PL000000041153	觀風閣		abandoned	今廢	g084p0302				khong_co_nam_trong_menh_de	true
+PL000000041154	天長閣		abandoned	今廢	g084p0255、g084p0302				khong_co_nam_trong_menh_de	true
+PL000000041155	大觀閣		abandoned	今廢	g084p0303				khong_co_nam_trong_menh_de	true
+PL000000041156	鐵瓦殿		abandoned	傾圮而廢	g084p0304				khong_co_nam_trong_menh_de	true
+PL000000041160	大悲閣		abandoned	今荒廢	g084p0307				khong_co_nam_trong_menh_de	true
+PL000000041161	普賢閣		abandoned	今廢	g084p0308				khong_co_nam_trong_menh_de	true
+PL000000041162	文殊閣		abandoned	今廢	g084p0307				khong_co_nam_trong_menh_de	true
+PL000000041163	賓蒼閣		abandoned	今廢	g084p0308				khong_co_nam_trong_menh_de	true
+PL000000041164	龍吟壑		abandoned	今廢	g084p0310				khong_co_nam_trong_menh_de	true
+PL000000041170	棲眞處		abandoned	今廢	g084p0322				khong_co_nam_trong_menh_de	true
+PL000000041171	寶印庵		abandoned	今廢	g084p0323				khong_co_nam_trong_menh_de	true
+PL000000041173	天然室		abandoned	今廢	g084p0323				khong_co_nam_trong_menh_de	true
+PL000000041174	休歇處		abandoned	今廢	g084p0325				khong_co_nam_trong_menh_de	true
+PL000000041175	古佛洞團標		abandoned	今荒廢	g084p0326				khong_co_nam_trong_menh_de	true
+PL000000041176	望北庵		abandoned	今廢	g084p0326				khong_co_nam_trong_menh_de	true
+PL000000041177	魯擺靜室		abandoned	今廢	g084p0326				khong_co_nam_trong_menh_de	true
+PL000000041178	桃源庵		abandoned	今廢	g084p0326				khong_co_nam_trong_menh_de	true
+PL000000041179	廣西室		abandoned	今廢	g084p0327				khong_co_nam_trong_menh_de	true
+PL000000041180	山東靜室		abandoned	今廢	g084p0327				khong_co_nam_trong_menh_de	true
+PL000000041181	洛伽庵		abandoned	今廢	g084p0327				khong_co_nam_trong_menh_de	true
+PL000000041182	齊雲庵		abandoned	今廢	g084p0332				khong_co_nam_trong_menh_de	true
+PL000000041186	年碍室		abandoned	今廢	g084p0334				khong_co_nam_trong_menh_de	true
+PL000000041187	學弘靜室		abandoned	今廢	g084p0335				khong_co_nam_trong_menh_de	true
+PL000000041188	畢婆室		abandoned	今廢	g084p0335				khong_co_nam_trong_menh_de	true
+PL000000041189	止月廬		abandoned	今廢	g084p0335				khong_co_nam_trong_menh_de	true
+PL000000041190	隔凡室		abandoned	今廢	g084p0335				khong_co_nam_trong_menh_de	true
+PL000000041191	大乘室		abandoned	今廢	g084p0336				khong_co_nam_trong_menh_de	true
+PL000000041192	了塵室		abandoned	今廢	g084p0336				khong_co_nam_trong_menh_de	true
+PL000000041193	野鷄蓬		abandoned	今廢	g084p0336				khong_co_nam_trong_menh_de	true
+PL000000041194	無疆室		abandoned	今廢	g084p0336				khong_co_nam_trong_menh_de	true
+PL000000041195	松竹居		abandoned	今廢	g084p0337				khong_co_nam_trong_menh_de	true
+PL000000041206	倚天庵		abandoned	今廢	g084p0343				khong_co_nam_trong_menh_de	true
+PL000000041207	純持室		abandoned	今廢	g084p0343				khong_co_nam_trong_menh_de	true
+PL000000041208	還忠室		abandoned	今廢	g084p0344				khong_co_nam_trong_menh_de	true
+PL000000041211	燦輝室		abandoned	今廢	g084p0340				khong_co_nam_trong_menh_de	true
+PL000000041218	智行室		abandoned	今廢	g084p0343				khong_co_nam_trong_menh_de	true
+PL000000041223	無宗庵		abandoned	今廢	g084p0341				khong_co_nam_trong_menh_de	true
+PL000000041224	慧劍庵		abandoned	今廢	g084p0345				khong_co_nam_trong_menh_de	true
+PL000000041231	太素庵		abandoned	今廢	g084p0345				khong_co_nam_trong_menh_de	true
+PL000000041232	密用室		abandoned	今廢	g084p0345				khong_co_nam_trong_menh_de	true
+PL000000041233	曉天庵		abandoned	今廢	g084p0345				khong_co_nam_trong_menh_de	true
+PL000000041234	無塵室		abandoned	今廢	g084p0346				khong_co_nam_trong_menh_de	true
+PL000000041240	木庵		abandoned	今廢	g084p0349				khong_co_nam_trong_menh_de	true
+PL000000041242	美庵室		abandoned	今廢	g084p0350				khong_co_nam_trong_menh_de	true
+PL000000041244	山月扉		abandoned	今廢	g084p0348				khong_co_nam_trong_menh_de	true
+PL000000041245	知宗室		abandoned	今廢	g084p0349				khong_co_nam_trong_menh_de	true
+PL000000041246	韜光室		abandoned	今廢	g084p0350				khong_co_nam_trong_menh_de	true
+PL000000041247	枕流居		abandoned	今荒廢	g085p0350				khong_co_nam_trong_menh_de	true
+PL000000041248	月庵室		abandoned	今廢	g084p0351				khong_co_nam_trong_menh_de	true
+PL000000041249	道本室		abandoned	今廢	g084p0350				khong_co_nam_trong_menh_de	true
+PL000000041250	大定室		abandoned	今廢	g084p0350				khong_co_nam_trong_menh_de	true
+PL000000041254	碧雲山房		abandoned	今荒廢	g084p0364				khong_co_nam_trong_menh_de	true
+PL000000041255	蓮花山房		abandoned	今廢	g084p0364				khong_co_nam_trong_menh_de	true
+PL000000041258	景星亭		abandoned	今廢	g084p0254、g084p0255、g084p0364				khong_co_nam_trong_menh_de	true
+PL000000041259	善雨亭		abandoned	今廢	g084p0255、g084p0366				khong_co_nam_trong_menh_de	true
+PL000000041359	懷恩寺		abandoned	今廢	g084p0275				khong_co_nam_trong_menh_de	true
+PL000000042113	淨法寺		abandoned	周武帝廢佛教	淵四．長安志．卷10：4；城坊考：191；唐寺考：20				khong_co_nam_trong_menh_de	true
+PL000000042147	安國寺		abandoned	後漸漸摧圮	淵四．長安志．卷8：13；唐寺考：7；				khong_co_nam_trong_menh_de	true
+PL000000042225	報恩寺		abandoned	寺廢	唐寺考：1；城坊考：173				khong_co_nam_trong_menh_de	true
+PL000000042232	靜安宮		abandoned	高祖徙明昭廢宮立為證果尼寺	唐寺考：8；淵四．長安志．卷九：7				khong_co_nam_trong_menh_de	true
+PL000000042232	靜安宮		abandoned	儀鳳二年廢宮復立為開業寺	唐寺考：8；淵四．長安志．卷九：7				loai_nam_xay_dung	true
+PL000000042250	玉芝觀		abandoned	寺廢	唐寺考：35；淵四．長安志．卷十：5				khong_co_nam_trong_menh_de	true
+PL000000042260	神峪寺	703	destroyed	長安三年七月被火焚	唐寺考：41；淵四．唐會要．卷48：6；陝西通志．卷28：33；城坊考：86		長安	exact_year	cung_menh_de	false
+PL000000042293	報恩寺		destroyed	又因兵燹	唐寺考：6、39；淵四．陝西通志．卷二十八：18				khong_co_nam_trong_menh_de	true
+PL000000042296	崇福寺	845	abandoned	會昌五年（845）廢佛之時一度被廢	佛百：1214.1；唐寺考：15、3		會昌	exact_year	cung_menh_de	false
+PL000000042317	醴泉寺		abandoned	開皇十二年廢監立寺	唐寺考：22；淵四．長安志．卷10：9				loai_nam_xay_dung	true
+PL000000042330	昭成尼寺		abandoned	廢崇德坊之道德寺	唐寺考：43；城坊考：203；				khong_co_nam_trong_menh_de	true
+PL000000042331	鎮國大波若寺	710	abandoned	睿宗景雲中廢	唐寺考：44		景雲	midpoint	cung_menh_de	true
+PL000000042414	楚國寺	611	abandoned	大業七年廢	淵四．長安志．卷八：11		大業	exact_year	cung_menh_de	false
+PL000000042418	崇福寺	622	abandoned	唐武德初廢	唐寺考：13		武德	midpoint	cung_menh_de	true
+PL000000042418	崇福寺	714	abandoned	玄宗開元二年廢	唐寺考：13		開元	exact_year	cung_menh_de	true
+PL000000042420	護國寺	621	abandoned	至武德四年（621）廢	城坊考：152、154；唐寺考：22；T50n2061_p0863b16；佛光：3705		武德	exact_year	cung_menh_de	true
+PL000000042420	護國寺	845	abandoned	會昌五年（845）滅佛時被廢	城坊考：152、154；唐寺考：22；T50n2061_p0863b16；佛光：3705		會昌	exact_year	cung_menh_de	false
+PL000000042421	普耀寺	714	abandoned	開元二年廢	唐寺考：26；淵四．長安志．卷八：17		開元	exact_year	cung_menh_de	false
+PL000000042428	建福寺	714	abandoned	唐開元二年廢	唐寺考：19		開元	exact_year	cung_menh_de	false
+PL000000042430	唐昌寺	611	abandoned	大業中廢	城坊考：71；唐寺考：4；淵四．長安志．卷七：16；淵四．唐會要．卷四十八：5、17；		大業	midpoint	cung_menh_de	true
+PL000000042442	靈巖寺	845	abandoned	唐會昌五年廢	唐寺考：21；		會昌	exact_year	cung_menh_de	true
+PL000000042505	豐德寺		destroyed	唐以後香火不旺	淵四．逰城南記：22；唐寺考：12；				khong_co_nam_trong_menh_de	true
+PL000000042513	翠微宮	636	abandoned	貞觀十年廢	淵四．關中勝蹟圖志．卷七：6；淵四．玉海．卷一百五十七：19；唐寺考：7；明清序：230		貞觀	exact_year	cung_menh_de	true
+PL000000042514	東寺		abandoned	周武末寺廢	淵四．長安志．卷十五：22；唐寺考：13、41；				khong_co_nam_trong_menh_de	true
+PL000000042999	聖德寺		abandoned	今廢	唐寺考：128；				khong_co_nam_trong_menh_de	true
+PL000000046756	仰華寺	1591	destroyed	後於明萬曆十九年（1591）被鄭洛焚燬			萬曆	exact_year	cung_menh_de	true
+PL000000047106	勝佛寺		destroyed	水災等破壞	T50n2061_p0877a24；				khong_co_nam_trong_menh_de	true
+PL000000047805	雀黎大寺		destroyed	香火甚盛					khong_co_nam_trong_menh_de	true
+PL000000047805	雀黎大寺		destroyed	直至9世紀被戰火摧毀					khong_co_nam_trong_menh_de	true
+PL000000047805	雀黎大寺		abandoned	到14世紀伊斯蘭教進入塔里木盆地後徹底廢棄					khong_co_nam_trong_menh_de	true
+PL000000048337	補歰波祇釐僧伽藍		abandoned	雖經過耆那教徒的破壞與改建	西域註：814；				khong_co_nam_trong_menh_de	true
+PL000000048416	喜多院	1205	destroyed	1205年戰火燒燬	佛光：4900；			ce_year_literal	cung_menh_de	true
+PL000000048623	浮石寺		destroyed	高麗朝初期燒毀	佛光：4159；				khong_co_nam_trong_menh_de	true
+PL000000049322	普賢道場		abandoned	闍維舌根不壞	X80n1565_p0212c11				khong_co_nam_trong_menh_de	true
+PL000000049633	橫山寺	843	abandoned	唐會昌中廢	宋元方志．嘉泰吳興志：4759；湖州府 宗志．卷28：563		會昌	midpoint	cung_menh_de	true
+PL000000049696	崑山寺		abandoned	唐武宗廢佛時毀	宋元方志．嘉泰吳興志：4759；湖州府 宗志．卷28：563				khong_co_nam_trong_menh_de	true
+PL000000053162	元興寺	1891	destroyed	光緒十七年（1891年）毀於火			光緒	exact_year	cung_menh_de	false
+PL000000055167	寧化寺		abandoned	後廢	宋元方志：4747；淵四．文恭集．卷三十五：10				khong_co_nam_trong_menh_de	true
+PL000000055176	寶隱寺		destroyed	元末燬	宋元方志：4755；長興縣趙志：1359-60				khong_co_nam_trong_menh_de	true
+PL000000055415	七寶臺		destroyed	輒至此塔焚香瞻禮	X77n1522_p0157a19；淵四．酉陽雜俎．續集卷六：2				khong_co_nam_trong_menh_de	true
+PL000000055424	彌勒閣		destroyed	即入彌勒閣內焚香	T50n2064_p0991b17				khong_co_nam_trong_menh_de	true
+PL000000055453	智度院		destroyed	北宋守真焚葬於此院側	T50n2061_p0871c15				khong_co_nam_trong_menh_de	true
+PL000000055501	上方北院		destroyed	即入彌勒閣內焚香	T50n2064_p0991b14				khong_co_nam_trong_menh_de	true
+PL000000055537	開聖		abandoned	清廢					khong_co_nam_trong_menh_de	true
+PL000000055576	上福寺		abandoned	㑹昌毁廢	淵四．會稽志．卷八：28；淵四．大清一統志，卷二百二十六：50；四部續．嘉慶一統志．紹興府一：42				khong_co_nam_trong_menh_de	true
+PL000000055576	上福寺		destroyed	後廢于火災	淵四．會稽志．卷八：28；淵四．大清一統志，卷二百二十六：50；四部續．嘉慶一統志．紹興府一：42				khong_co_nam_trong_menh_de	true
+PL000000055586	老壽菴		destroyed	舊名老夀菴王岐公家香火院也	淵四．吳郡志．卷三十一：17				khong_co_nam_trong_menh_de	true
+PL000000055586	老壽菴		destroyed	此寺金人所寓故不得焚	淵四．吳郡志．卷三十一：17				khong_co_nam_trong_menh_de	true
+PL000000055602	實際禪寺		destroyed	寺遭兵燹					khong_co_nam_trong_menh_de	true
+PL000000055705	東塢庵		abandoned	今廢	g084p0299				khong_co_nam_trong_menh_de	true
+PL000000055714	百接橋		abandoned	舊橋久廢	g084p0374				khong_co_nam_trong_menh_de	true
+PL000000055761	筇竹寺		destroyed	明永樂已亥（1419）遭火災	淵四．雲南通志．卷十五：47；四部續．嘉慶一統志．雲南府一：22；				khong_co_nam_trong_menh_de	true
+PL000000055812	五福寺		destroyed	香火盛極一時					khong_co_nam_trong_menh_de	true
+PL000000055876	寶光寺		abandoned	文革前後慘遭毀壞					khong_co_nam_trong_menh_de	true
+PL000000055880	光度寺		destroyed	建炎燬	淵四．江西通志．卷一百十二：22				loai_nam_xay_dung	true
+PL000000055929	景德寺		abandoned	後俱廢	淵四．江西通志．卷一百十二：37；淵四．大清一統志．卷二百四十二：31；四部續．嘉慶一統志．廣信府二：7				khong_co_nam_trong_menh_de	true
+PL000000055980	東隱庵	1853	destroyed	清咸豐三年（1853）萬壽寺毀於兵火			咸豐	exact_year	cung_menh_de	false
+PL000000056053	大定寺		abandoned	年久寺廢					khong_co_nam_trong_menh_de	true
+PL000000056071	明月庵		destroyed	皆結茅以奉香火焉	g049p0049				khong_co_nam_trong_menh_de	true
+PL000000056090	鳳嶺庵		abandoned	今廢	g049p0122				khong_co_nam_trong_menh_de	true
+PL000000056134	喜光堂		abandoned	今廢	g049p0184				khong_co_nam_trong_menh_de	true
+PL000000056151	皇覺寺		abandoned	金廢					khong_co_nam_trong_menh_de	true
+PL000000056151	皇覺寺		destroyed	焚修不便」					khong_co_nam_trong_menh_de	true
+PL000000056153	淵德觀		destroyed	委道士奉香火					khong_co_nam_trong_menh_de	true
+PL000000056223	禪宗大報國寺	1319	destroyed	延祐六年燬	淵四．浙江通志．卷二百二十七：1		延祐	exact_year	cung_menh_de	true
+PL000000056241	白雲寺	1808	abandoned	清嘉慶年間被倭寇徹底毀壞			嘉慶	midpoint	cung_menh_de	false
+PL000000056254	童子寺燃燈塔	1117	destroyed	金天輔元年毀於戰火			天輔	exact_year	cung_menh_de	true
+PL000000056266	龍游閣		abandoned	今廢	g032p1009；淵四．浙江通志．卷四十：31				khong_co_nam_trong_menh_de	true
+PL000000056273	東湖書院		abandoned	後廢					khong_co_nam_trong_menh_de	true
+PL000000056276	天慧堂		abandoned	今廢	g032p1010				khong_co_nam_trong_menh_de	true
+PL000000056279	凌霄閣		abandoned	今廢	g032p01009				khong_co_nam_trong_menh_de	true
+PL000000056280	小雪竇		abandoned	取名為「四明院」後遭毀壞					khong_co_nam_trong_menh_de	true
+PL000000056280	小雪竇		destroyed	香火鼎盛					khong_co_nam_trong_menh_de	true
+PL000000056285	極樂寺		abandoned	歲久傾圮					khong_co_nam_trong_menh_de	true
+PL000000056290	妙莊嚴閣		abandoned	今廢	g032p1009				khong_co_nam_trong_menh_de	true
+PL000000056291	玉泉寺		destroyed	五代遭兵燹毀壞					khong_co_nam_trong_menh_de	true
+PL000000056291	玉泉寺		abandoned	成為一片廢墟					khong_co_nam_trong_menh_de	true
+PL000000056292	萬佛閣		abandoned	今廢	g032p1009				khong_co_nam_trong_menh_de	true
+PL000000056295	無垢軒		abandoned	今廢	g032p1012；J26nB178_p0189a24				khong_co_nam_trong_menh_de	true
+PL000000056299	天王殿		abandoned	今廢	g032p1011				khong_co_nam_trong_menh_de	true
+PL000000056301	報恩光孝禪寺		destroyed	該寺後殿（現為動物園）毀於日軍戰火					khong_co_nam_trong_menh_de	true
+PL000000056334	佛慧寺		destroyed	正徳間燬	X78n1549_p0266a14；淵四．武林梵志．卷四：27				khong_co_nam_trong_menh_de	true
+PL000000056335	大華嚴寺		destroyed	後毀於兵燹					khong_co_nam_trong_menh_de	true
+PL000000056337	百丈山		abandoned	今皆廢					khong_co_nam_trong_menh_de	true
+PL000000056380	鐘樓	1662	destroyed	清康熙元年（1662）寺毁于火	g011p0919		康熙	exact_year	cung_menh_de	false
+PL000000056405	崇覺寺		destroyed	該寺廟於一九三七年被侵華的日軍炸燬					khong_co_nam_trong_menh_de	true
+PL000000056424	一宿禪林		abandoned	至清代一度荒廢					khong_co_nam_trong_menh_de	true
+PL000000056428	護國寺		destroyed	火燬	g077p0155				khong_co_nam_trong_menh_de	true
+PL000000056436	心庵		destroyed	清被燬後	g077p0161				khong_co_nam_trong_menh_de	true
+PL000000056437	平坦寺		destroyed	清被燬後	g077p0169				khong_co_nam_trong_menh_de	true
+PL000000056440	忠孝節義祠	1797	destroyed	清嘉慶二年火	g077p0171		嘉慶	exact_year	cung_menh_de	true
+PL000000056445	流止亭		abandoned	今廢	g032p1010、g032p1011				khong_co_nam_trong_menh_de	true
+PL000000056480	九華書院		destroyed	毀於兵燹	g077p0255；				khong_co_nam_trong_menh_de	true
+PL000000056533	玉皇廟		abandoned	現在建築是民國十四年（1925）在玉皇廟的廢墟上重建的					loai_nam_xay_dung	true
+PL000000056547	古北台寺		abandoned	」廢於清代					khong_co_nam_trong_menh_de	true
+PL000000056587	光孝寺		abandoned	百廢並舉					khong_co_nam_trong_menh_de	true
+PL000000056603	宸翰閣		abandoned	今廢	g032p1009				khong_co_nam_trong_menh_de	true
+PL000000056604	版亭		abandoned	今廢	g032p1010				khong_co_nam_trong_menh_de	true
+PL000000056606	四寮		abandoned	今廢	g032p1010				khong_co_nam_trong_menh_de	true
+PL000000056608	古懺堂		abandoned	今廢	g032p1010				khong_co_nam_trong_menh_de	true
+PL000000056609	洗心亭		abandoned	今廢	g032p1011				khong_co_nam_trong_menh_de	true
+PL000000056611	靈谷庵		abandoned	今廢	g032p1011				khong_co_nam_trong_menh_de	true
+PL000000056612	逢徑庵		abandoned	今廢	g032p1011				khong_co_nam_trong_menh_de	true
+PL000000056615	死心亭		abandoned	今廢	g032p1012				khong_co_nam_trong_menh_de	true
+PL000000056618	鼓樓		abandoned	今廢	g032p1008				khong_co_nam_trong_menh_de	true
+PL000000056626	妙香房		abandoned	後廢	g032p1014、g032p1014				khong_co_nam_trong_menh_de	true
+PL000000056627	幻室		abandoned	今廢	g032p1014				khong_co_nam_trong_menh_de	true
+PL000000056628	妙明房		abandoned	今廢	g032p1014				khong_co_nam_trong_menh_de	true
+PL000000056629	南塔房		abandoned	今廢	g032p1014				khong_co_nam_trong_menh_de	true
+PL000000056630	如意房		abandoned	今廢	g032p1015				khong_co_nam_trong_menh_de	true
+PL000000056631	惠泉東房		abandoned	今廢	g032p1015				khong_co_nam_trong_menh_de	true
+PL000000056632	惠泉西房		abandoned	今廢	g032p1015				khong_co_nam_trong_menh_de	true
+PL000000056633	安隱房		abandoned	今廢	g032p1015				khong_co_nam_trong_menh_de	true
+PL000000056702	子潜坑		destroyed	焚紙錢於此					khong_co_nam_trong_menh_de	true
+PL000000056764	圓覺庵		destroyed	至正末燬重建	g032p1050				loai_nam_xay_dung	true
+PL000000056765	圓修庵		destroyed	兵燬重建	g032p1050；				khong_co_nam_trong_menh_de	true
+PL000000056767	圓覺禪寺		destroyed	元末兵燬重建	g032p1051				khong_co_nam_trong_menh_de	true
+PL000000056767	圓覺禪寺		abandoned	今廢	g032p1051				khong_co_nam_trong_menh_de	true
+PL000000056829	融南禪寺		abandoned	廢於元					khong_co_nam_trong_menh_de	true
+PL000000056829	融南禪寺		destroyed	大清調遷兵燹					khong_co_nam_trong_menh_de	true
+PL000000056835	廣嚴寺	611	destroyed	隋大業末燬於兵	淵四．武林梵志．卷四：60；X77n1522_p0157c18；淵四．浙江通志．卷三十九：18		大業	midpoint	cung_menh_de	false
+PL000000056870	地藏廟		abandoned	已廢	g032p1053				khong_co_nam_trong_menh_de	true
+PL000000056918	中華第一觀音園	607	destroyed	在隋朝大業三年（607）不幸失火全毀			大業	exact_year	cung_menh_de	false
+PL000000056921	無為寺		abandoned	今廢	淵四．吳興備志．卷十五：5；宋元方志．嘉泰吳興志．卷十三：4747				khong_co_nam_trong_menh_de	true
+PL000000056921	無為寺		abandoned	」唐初寺廢	淵四．吳興備志．卷十五：5；宋元方志．嘉泰吳興志．卷十三：4747				khong_co_nam_trong_menh_de	true
+PL000000056933	朝天宮	1626	destroyed	明天啟六年六月二十日一夜大火			天啟	exact_year	cung_menh_de	false
+PL000000056933	朝天宮		destroyed	十三重殿宇全部被焚燬					khong_co_nam_trong_menh_de	true
+PL000000056971	國泰		abandoned	今廢	g089p0166；淵四．赤城志．卷二十八：21				khong_co_nam_trong_menh_de	true
+PL000000056981	無量壽塔院		abandoned	今廢（在蓮花壙	g089p0165；				khong_co_nam_trong_menh_de	true
+PL000000057068	峆嶺菴		destroyed	後來毀於戰火	 g089p0164；				khong_co_nam_trong_menh_de	true
+PL000000057069	隱岳寺	605	abandoned	隋大業元年廢	g089p0165；		大業	exact_year	cung_menh_de	true
+PL000000057072	大慈院		abandoned	今廢	g089p0168				khong_co_nam_trong_menh_de	true
+PL000000057088	玄帝廟		destroyed	香火不廢	g089p0175；天台縣地名志：35				khong_co_nam_trong_menh_de	true
+PL000000057110	芙蓉山		destroyed	火色青閃	淵四．福建通志．卷三：10；歷地史：1199；				khong_co_nam_trong_menh_de	true
+PL000000057130	大梅山護聖院		abandoned	會昌廢					khong_co_nam_trong_menh_de	true
+PL000000057183	鴻祐寺		abandoned	今廢					khong_co_nam_trong_menh_de	true
+PL000000057197	至行尊者塔		destroyed	敬文發塔火育之	g089p0510				khong_co_nam_trong_menh_de	true
+PL000000057262	雙林		destroyed	宋慶歷中開寶寺靈感塔燬	淵四．汴京遺蹟志．卷十：6；大清一統志．卷一百五十：34；四部續．嘉慶一統志．開封府二：27				khong_co_nam_trong_menh_de	true
+PL000000057262	雙林		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：6；大清一統志．卷一百五十：34；四部續．嘉慶一統志．開封府二：27				khong_co_nam_trong_menh_de	true
+PL000000057291	下塔		destroyed	明末又遭兵燹					khong_co_nam_trong_menh_de	true
+PL000000057291	下塔	1856	destroyed	咸豐年間又毀於大火			咸豐	midpoint	cung_menh_de	true
+PL000000057291	下塔		abandoned	成了廢墟					khong_co_nam_trong_menh_de	true
+PL000000057354	慈法院		destroyed	元燬	淵四．江西通志．卷一百一十三：23				khong_co_nam_trong_menh_de	true
+PL000000057651	景福寺	843	abandoned	會昌中廢	唐寺考：65；城坊考：421		會昌	midpoint	cung_menh_de	true
+PL000000057671	一軒寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：12				khong_co_nam_trong_menh_de	true
+PL000000057672	雲老寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：12				khong_co_nam_trong_menh_de	true
+PL000000057673	明福寺		destroyed	金宣帝時展城廢燬	淵四．汴京遺蹟志．卷十：13				khong_co_nam_trong_menh_de	true
+PL000000057676	戒壇院		destroyed	金末兵燬	淵四．汴京遺蹟志．卷十：13、卷十一：24				khong_co_nam_trong_menh_de	true
+PL000000057677	龜兒寺		abandoned	而寺隨以廢	淵四．汴京遺蹟志．卷十：13				khong_co_nam_trong_menh_de	true
+PL000000057678	廣福寺		abandoned	後廢為大梁衛營	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057679	破塔寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057680	鐵佛寺		abandoned	今廢	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057682	巴樓寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057683	鴻福寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057685	地湧佛寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057686	法雲寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057687	惠明寺		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057688	乾寧寺		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057690	華嚴寺		destroyed	金兵燬之	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057691	兩浙寺		destroyed	金兵燬之	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057692	奉聖寺		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057693	興國寺		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057694	旌德寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057696	奉先寺		destroyed	金兵燬之	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057697	白塔寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057699	顯靜寺		destroyed	金兵燬之	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057701	慶壽寺		abandoned	後廢	淵四．汴京遺蹟志．卷十：15				khong_co_nam_trong_menh_de	true
+PL000000057702	永寧寺		abandoned	後廢	淵四．汴京遺蹟志．卷十：16				khong_co_nam_trong_menh_de	true
+PL000000057703	乾明寺		destroyed	燬于金兵	淵四．汴京遺蹟志．卷十：14				khong_co_nam_trong_menh_de	true
+PL000000057704	打瓦寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：16				khong_co_nam_trong_menh_de	true
+PL000000057708	北太黃寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：16				khong_co_nam_trong_menh_de	true
+PL000000057709	南太黃寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：16				khong_co_nam_trong_menh_de	true
+PL000000057710	景福寺		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：16				khong_co_nam_trong_menh_de	true
+PL000000057711	延慶觀		abandoned	元末僞宋太保劉福通廢之	淵四．汴京遺蹟志．卷十：16、17				khong_co_nam_trong_menh_de	true
+PL000000057713	佑聖觀		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十：18				khong_co_nam_trong_menh_de	true
+PL000000057716	玉陽觀		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十：18				khong_co_nam_trong_menh_de	true
+PL000000057717	太清觀		destroyed	其後皆燬於金兵	淵四．汴京遺蹟志．卷十：18、19				khong_co_nam_trong_menh_de	true
+PL000000057719	祥源觀		destroyed	後皆燬於金兵	淵四．汴京遺蹟志．卷十：19				khong_co_nam_trong_menh_de	true
+PL000000057720	萬壽觀		destroyed	玉清昭應宮災	淵四．汴京遺蹟志．卷十：20				khong_co_nam_trong_menh_de	true
+PL000000057720	萬壽觀		destroyed	後皆燬於金兵	淵四．汴京遺蹟志．卷十：20				khong_co_nam_trong_menh_de	true
+PL000000057722	醴泉觀		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十：21				khong_co_nam_trong_menh_de	true
+PL000000057723	西五岳觀		destroyed	爲震電雷火所燬	淵四．汴京遺蹟志．卷十：21				khong_co_nam_trong_menh_de	true
+PL000000057724	南山觀		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：21				khong_co_nam_trong_menh_de	true
+PL000000057725	四聖觀		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十：21				khong_co_nam_trong_menh_de	true
+PL000000057726	延真觀		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：21				khong_co_nam_trong_menh_de	true
+PL000000057727	玉霄觀		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十：21				khong_co_nam_trong_menh_de	true
+PL000000057728	洞源觀		destroyed	後燬于金兵	淵四．汴京遺蹟志．卷十：22				khong_co_nam_trong_menh_de	true
+PL000000057732	静林寺		abandoned	中廢	淵四．咸淳臨安志．卷八十三：5				khong_co_nam_trong_menh_de	true
+PL000000057736	佑聖院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：24				khong_co_nam_trong_menh_de	true
+PL000000057737	寶聖院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：24				khong_co_nam_trong_menh_de	true
+PL000000057738	等覺院		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十一：24				khong_co_nam_trong_menh_de	true
+PL000000057739	旌孝院		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十一：24				khong_co_nam_trong_menh_de	true
+PL000000057740	萬歲院		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十一：24				khong_co_nam_trong_menh_de	true
+PL000000057741	福田院		destroyed	後爲兵燬	淵四．汴京遺蹟志．卷十一：24				khong_co_nam_trong_menh_de	true
+PL000000057742	三學護國院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：24				khong_co_nam_trong_menh_de	true
+PL000000057743	報恩院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057744	鴻禧院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057745	法雲院		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057746	開化院		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057747	黃建院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057748	淨居院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057749	淨慧院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057750	開聖院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057751	道者院		destroyed	焚錢山	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057751	道者院		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十一：25				khong_co_nam_trong_menh_de	true
+PL000000057752	啟聖院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：26				khong_co_nam_trong_menh_de	true
+PL000000057753	定力院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：26				khong_co_nam_trong_menh_de	true
+PL000000057754	觀音明聖院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：27；淵四．東京夢華錄．卷三：5；宋會要輯稿：7319				khong_co_nam_trong_menh_de	true
+PL000000057755	四聖院		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十一：27				khong_co_nam_trong_menh_de	true
+PL000000057756	淨因院		destroyed	元末兵燬	淵四．汴京遺蹟志．卷十一：27				khong_co_nam_trong_menh_de	true
+PL000000057757	興德院		destroyed	金季兵燬	淵四．汴京遺蹟志．卷十一：28				khong_co_nam_trong_menh_de	true
+PL000000057758	印經院	1072	abandoned	神宗熙寧末廢其院	淵四．汴京遺蹟志．卷十一：28		熙寧	midpoint	cung_menh_de	true
+PL000000057759	黃姑庵		destroyed	後燬于火	淵四．汴京遺蹟志．卷十一：29				khong_co_nam_trong_menh_de	true
+PL000000057764	寶籙堂		abandoned	渰没圮壊	淵四．汴京遺蹟志．卷十一：17				khong_co_nam_trong_menh_de	true
+PL000000057880	開元寺		abandoned	今寺廢	淵四．大清一統志．卷十七：32；四部續．嘉慶一統志．天津府二：12				khong_co_nam_trong_menh_de	true
+PL000000057881	崇因寺		destroyed	後燬	淵四．大清一統志．卷十八：44；四部續．嘉慶一統志．正定府二：15、16				khong_co_nam_trong_menh_de	true
+PL000000057891	三明寺		abandoned	寺亦隨廢	淵四．大清一統志．卷二十：30；四部續．嘉慶一統志．順德府二：5				khong_co_nam_trong_menh_de	true
+PL000000057899	隆興寺		abandoned	嵗久圯廢	淵四．大清一統志．卷二十一：33；四部續．嘉慶一統志．廣平府二：14				khong_co_nam_trong_menh_de	true
+PL000000057902	白佛寺		destroyed	後燬	淵四．大清一統志．卷二十二：35；四部續．嘉慶一統志．大名府二：6				khong_co_nam_trong_menh_de	true
+PL000000057917	永安寺		abandoned	寺圮重建	淵四．大清一統志．卷二十五：11；四部續．嘉慶一統志．宣化府三：16				khong_co_nam_trong_menh_de	true
+PL000000057980	泰安寺	1354	abandoned	至正末兵廢	淵四．大清一統志．卷三十一：15；四部續．嘉慶一統志．冀州直隸州二：3		至正	midpoint	cung_menh_de	true
+PL000000057982	洪濟寺		abandoned	今廢	淵四．大清一統志．卷三十一：15；四部續．嘉慶一統志．冀州直隸州二：3				khong_co_nam_trong_menh_de	true
+PL000000058004	東會寺		abandoned	今廢	淵四．大清一統志．卷三十九：31；四部續．嘉慶一統志．奉天府二：26				khong_co_nam_trong_menh_de	true
+PL000000058049	金剛寺		abandoned	古剎久廢	淵四．大清一統志．卷一百六十八：38；四部續．嘉慶一統志．汝寧府二：14				khong_co_nam_trong_menh_de	true
+PL000000058049	金剛寺		destroyed	明季後燬復修	淵四．大清一統志．卷一百六十八：38；四部續．嘉慶一統志．汝寧府二：14				khong_co_nam_trong_menh_de	true
+PL000000058068	實相院		abandoned	古廢寺也	X82n1571_p0215c04；淵四．大清一統志．卷五十五：20；四部續．嘉慶一統志．蘇州府三：5				khong_co_nam_trong_menh_de	true
+PL000000058115	報恩寺		abandoned	元廢	淵四．大清一統志．卷六十五：19；四部續．嘉慶一統志．淮安府二：25				khong_co_nam_trong_menh_de	true
+PL000000058121	勝果寺		destroyed	帝筮得山火賁卦	淵四．大清一統志．卷六十七：23；四部續．嘉慶一統志．揚州府二：18				khong_co_nam_trong_menh_de	true
+PL000000058121	勝果寺		destroyed	名山火	淵四．大清一統志．卷六十七：23；四部續．嘉慶一統志．揚州府二：18				khong_co_nam_trong_menh_de	true
+PL000000058121	勝果寺		abandoned	今併廢	淵四．大清一統志．卷六十七：23；四部續．嘉慶一統志．揚州府二：18				khong_co_nam_trong_menh_de	true
+PL000000058182	新渡寺		abandoned	今廢	淵四．大清一統志．卷八十九：26；四部續．嘉慶一統志．穎州府二：2				khong_co_nam_trong_menh_de	true
+PL000000058223	法藥寺		abandoned	㑹昌五年廢	淵四．會稽志．卷八：7；淵四．浙江通志．卷二百三十一：25；淵四．大清一統志，卷二百二十六：49；四部續．嘉慶一統志．紹興府一：42；諸暨縣志：1424				khong_co_nam_trong_menh_de	true
+PL000000058283	水圍寺		abandoned	今廢	淵四．大清一統志．卷一百十一：17；四部續．嘉慶一統志．朔平府：14				khong_co_nam_trong_menh_de	true
+PL000000058333	雲峯寺		abandoned	久廢	淵四．大清一統志．卷一百二十三：15；四部續．嘉慶一統志．隰州直隸州：12				khong_co_nam_trong_menh_de	true
+PL000000058665	凝壽寺		abandoned	定平廢縣	淵四．大清一統志．卷二百三：29；四部續．嘉慶一統志．慶陽府二：13；				khong_co_nam_trong_menh_de	true
+PL000000058729	觀音庵		destroyed	太平軍焚毀					khong_co_nam_trong_menh_de	true
+PL000000058972	念定院		destroyed	道舟乃於此斷左肱焚之供養大悲像	T50n2061_p0859b02				khong_co_nam_trong_menh_de	true
+PL000000059064	文殊院		abandoned	元末寺廢	淵四．大清一統志．卷二百六十一：32；四部續．嘉慶一統志．漢陽府一：27；				khong_co_nam_trong_menh_de	true
+PL000000059141	承天寺		destroyed	以為幸災	淵四．大清一統志．卷二百六十九：8；四部續．嘉慶一統志．荊州府二：8				khong_co_nam_trong_menh_de	true
+PL000000059157	傳慶寺		destroyed	明末燬	淵四．大清一統志．卷二百六十九：8；四部續．嘉慶一統志．荊州府二：8				khong_co_nam_trong_menh_de	true
+PL000000059204	淯溪寺		destroyed	後燬	淵四．大清一統志．卷二百六十六：9；四部續．嘉慶一統志．荊門直隸州：14				khong_co_nam_trong_menh_de	true
+PL000000059224	寧國寺		abandoned	寧國寺在廢五城縣側	淵四．蜀中廣記．卷三十：12				khong_co_nam_trong_menh_de	true
+PL000000059235	淨明寺		abandoned	塔壞而光仍見	淵四．山西通志．卷168：15				khong_co_nam_trong_menh_de	true
+PL000000059235	淨明寺	999	destroyed	咸平二年三月壬戌災	淵四．山西通志．卷168：15		咸平	exact_year	cung_menh_de	false
+PL000000059235	淨明寺		abandoned	……元末廢	淵四．山西通志．卷168：15				khong_co_nam_trong_menh_de	true
+PL000000059250	普和寺		abandoned	自宋至今不圮	淵四．大清一統志．卷二百七十八：29；四部續．嘉慶一統志．寶慶府：7				khong_co_nam_trong_menh_de	true
+PL000000059340	齊雲寺		destroyed	宋代靖康之難時毀於兵火	佛光：2090				khong_co_nam_trong_menh_de	true
+PL000000059874	國清寺		destroyed	戰國時因庇護淺井長政與朝倉義景的軍隊遭織田信長焚燬					khong_co_nam_trong_menh_de	true
+PL000000059888	本能寺		destroyed	有多次被大火燒毀的記錄					khong_co_nam_trong_menh_de	true
+PL000000059888	本能寺		abandoned	因1864年禁門之變廢寺百餘年後重建					loai_nam_xay_dung	true
+PL000000059903	黃金佛寺		destroyed	位於曼谷火車總站附近					khong_co_nam_trong_menh_de	true
+PL000000059968	普濟禪寺		destroyed	專收來自Tacloban災區的學生就讀					khong_co_nam_trong_menh_de	true
+PL000000059982	鶴鳴寺		destroyed	禪寺香火鼎盛					khong_co_nam_trong_menh_de	true
+PL000000059998	慈濟美國總會		destroyed	提供災民急難救助金和物資					khong_co_nam_trong_menh_de	true
+PL000000060055	本納寺		abandoned	關東大地震中一度毀壞					khong_co_nam_trong_menh_de	true
+PL000000060092	圓通寺	1945	destroyed	1945年先後遭地震與戰火摧殘				ce_year_literal	cung_menh_de	true
+PL000000060130	廣濟寺		destroyed	可供香客燒香拜佛					khong_co_nam_trong_menh_de	true
+PL000000060130	廣濟寺	1934	destroyed	1934年曾發生嚴重火災				ce_year_literal	cung_menh_de	true
+PL000000060130	廣濟寺		destroyed	正殿和後殿燒毀					khong_co_nam_trong_menh_de	true
+PL000000060130	廣濟寺		destroyed	明代經典和國外進貢白檀釋迦牟尼立像俱焚					khong_co_nam_trong_menh_de	true
+PL000000060270	崇福寺		destroyed	燬	仁和縣志．卷12：754				khong_co_nam_trong_menh_de	true
+PL000000060270	崇福寺		destroyed	元末燬	仁和縣志．卷12：754				khong_co_nam_trong_menh_de	true
+PL000000060273	西廬禪寺	1856	destroyed	清咸豐中毀於兵火			咸豐	midpoint	cung_menh_de	true

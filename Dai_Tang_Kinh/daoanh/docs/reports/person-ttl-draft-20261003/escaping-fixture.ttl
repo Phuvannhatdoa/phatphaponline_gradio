@@ -1,0 +1,95 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<ex:monk/dila_a000885> a <bkg:Monk> ;
+    rdfs:label "Trùng Hiển"@vi ;
+    rdfs:label "重顯"@zh ;
+    crm:P1_is_identified_by <ex:monk/dila_a000885> ;
+    owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A000885> ;
+    bkg:biographicalNote "Bản đang sửa \"nháy\" \\ và \"\"\"\n<script>window.bad=1</script>"@vi ;
+    bkg:biographicalNote "明州雪竇重顯禪師，智門光祚禪師法嗣，大鑑下第十世。從益州普安院仁詵出家，後參智門祚得法。出居吳門之洞庭，遷四明之雪竇。與瑯邪慧覺，同稱「二甘露門」。寂後仁宗賜號「明覺禪師」。有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》七集。法嗣有天衣義懷、報本有蘭等六人。 （T51n2077_p0473c13；佛光：3985；佛名：501）"@zh ;
+    bkg:sourceNote "Tên khác (DILA):\n雪竇重顯\n隱之\n明覺重顯\n雪竇明覺\n明覺顯\n明覺大師\n雪竇顯\n明覺\n雪竇\n\nTên khác (Việt):\n\n\nTriều đại (DILA):\n北宋\n\nNghề nghiệp (DILA):\n習禪\n\nXuất xứ (DILA):\n遂州\n\nTiểu sử chi tiết (DILA):\n字隱之，智門光祚禪師之法嗣。遂州人，俗姓李。生於太平興國五年四月八日。咸平中終父母喪，詣益州普安院仁銑師落髮。晚參隨州智門祚和尚，因扣不起一念之旨，豁然知歸。遂徧游叢席，眾所推仰。先居吳門之洞庭，遷四明之雪竇，由是雲門之道復振於江淅。都尉李侯奏章服，侍中賈公奏聞朝廷，乞賜「明覺」之號。皇祐四年六月十日示寂，壽七十三，僧臘五十夏。法語遺有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》，凡七集。法嗣有天衣義懷、報本有蘭等六人。（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉；《祖庭事苑》卷 1；《嘉泰普燈錄總目錄》卷 1）\n\nNgày sinh (DILA):\n+0980-05-29\n\nNgày mất (DILA):\n+1052-07-14\n\nGhi chú năm mất (DILA):\n皇祐四年六月十日，壽七十三（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）\n\nTrích dẫn ngày (DILA):\n生於：北宋, 太宗, 太平興國, 五年, 四月, 初八日\n\nNơi hoạt động (DILA):\n蘇州洞庭翠峯禪寺；明州雪竇山資聖寺\n\nKinh trong Đại Tạng (DILA):\n佛果圜悟禪師碧巖錄(T2003)\n    佛果擊節錄(X1301)\n\nTác phẩm (DILA):\n《明覺禪師後錄》一卷（收於《明覺禪師語錄》之卷二，《大正藏》T47）\n    《明覺禪師瀑泉集》一卷（即《明覺禪師語錄》六卷中之卷四，《大正藏》T47）\n    《明覺禪師祖英集》二卷（即《明覺禪師語錄》六卷中之卷五、六，《大正藏》T47）\n    《明覺禪師語錄》六卷（《大正藏》T47）\n    《雪寶和尚拈古》一卷（即《明覺禪師語錄》六卷中之卷三，《大正藏》T47）\n    《雪寶顯和尚明覺大師頌古集》一卷（《四部叢刊‧續編‧集部‧雪竇四集》）\n    《雪竇禪師語》（收於《續古尊宿語要》卷 2，《卍續藏》X68）\n\nTài liệu tham khảo (DILA):\n入矢義高 1981《雪竇頌古》，東京：筑摩書房。\n    吳平 2000〈雲門宗中興之祖──雪竇重顯〉，《人生雜誌》208，頁 54-57。\n    岩永正晴 1996〈《正法眼蔵》「観音」について（二）── 雪竇・圜悟・宏智の頌古にみる「雲巌大悲菩薩」話解釈〉，《曹洞宗宗学研究所紀要》10，頁 67-82。\n    張平叔〈悟真篇外集：讀雪竇禪師祖英集〉，《民國佛教期刊文獻集成補篇》57，頁 328-329。\n    旡言〈雪竇百頌講座（續）〉，《民國佛教期刊文獻集成》204，頁 141-144。\n    旡言〈雪竇百頌講座（續三）〉，《民國佛教期刊文獻集成》204，頁 233-238。\n    旡言〈雪竇百頌講座（續二）〉，《民國佛教期刊文獻集成》204，頁 174-180。\n    旡言〈雪竇百頌講座〉，《民國佛教期刊文獻集成》204，頁 109-112。\n    李安綱 2005《雪竇重顯大師傳》（中國佛教高僧全集54），高雄縣：佛光文化事業有限公司。\n    柳田聖山 1978〈雪竇頌古の世界〉，《禅文化研究所紀要》10，頁 11-87。\n    椎名宏雄 1995〈《明覺禪師語錄》諸本の系統〉，《駒澤大學佛教學部論集》26，頁 201-234。\n    楊曾文 2002〈雪竇重顯及其禪法〉，《中國禪學》1。\n    榑林皓堂 1957〈雪竇頌古と宏智頌古〉，《日本仏教学会年報》22，頁 69-80。\n    永井政之 1972〈雪竇の語録の成立に関する一考察〉，《駒沢大学大学院仏教学研究会年報》6，頁 82-94。\n    永井政之 1973〈雪竇の語録の成立に関する一考察（二）〉，《駒沢大学大学院仏教学研究会年報》7，頁 11-20。\n    永井政之 1973〈雪竇頌古の展開について〉，《印度学仏教学研究》43，頁 140-141。\n    永井政之 1974〈雪竇の語録の成立に関する一考察（三）〉，《駒沢大学大学院仏教学研究会年報》8，頁 112-124。\n    溫金玉 1996〈雲門中興之祖──雪竇重顯禪師〉，《廣東佛教》49，頁 96-98。\n    無言 1980〈雪竇百頌講座〉，《現代佛教學術叢刊》12，臺北：大乘文化。\n    秋野孝道、安藤文英 1931《雪竇禅師頌古稱提講話》，東京：文明書院。\n    維思 1978〈宋代明州（寧波）五大和尚──永明延壽、雪竇重顯、宏智正覺、大慧宗怣、天童如淨〉，《浙江月刊》10.4，頁 35-37。\n\nĐược đề cập trong (DILA):\n《建中靖國續燈錄》卷 3\n    《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉\n    《祖庭事苑》卷 1\n    《補續高僧傳》卷 7\n    《釋氏稽古略》卷 4\n勅建淨慈寺志‧卷8‧隱之重顯\n武林梵志‧卷9‧重顯禪師\n武林靈隱寺志‧卷3‧雪竇重顯禪師\n\nTrích dẫn CBETA (DILA):\n( CBETA T50n2062_p0915a10 ) 明高僧傳: 釋正覺傳\n( CBETA T50n2062_p0920b23 ) 明高僧傳: 釋法寧傳 {雪竇}\n( CBETA X77n1524_p0377a10 ) 補續高僧傳: 繼忠傳 {雪竇顯}\n( CBETA X77n1524_p0413b11 ) 補續高僧傳: 大愚芝傳 {雪竇顯}\n( CBETA X77n1524_p0416c01 ) 補續高僧傳: 泉大道傳 {雪竇}\n( CBETA X77n1524_p0416c22 ) 補續高僧傳: 雪竇顯傳 {雪竇顯}\n( CBETA X77n1524_p0416c23 ) 補續高僧傳: 雪竇顯傳 {隱之}\n( CBETA X77n1524_p0417c01 ) 補續高僧傳: 雪竇顯傳 {明覺}\n( CBETA X77n1524_p0418b09 ) 補續高僧傳: 開先暹傳 {雪竇顯}\n( CBETA X77n1524_p0418b14 ) 補續高僧傳: 開先暹傳 {雪竇}\n( CBETA X77n1524_p0420a09 ) 補續高僧傳: 棲賢湜傳 {雪竇顯}\n( CBETA X77n1524_p0423b02 ) 補續高僧傳: 天衣懷傳 {明覺}\n( CBETA X77n1524_p0423b18 ) 補續高僧傳: 延恩安傳 {雪竇顯}\n( CBETA X77n1524_p0512b01 ) 補續高僧傳: 空印軾傳 {雪竇}\n( CBETA X77n1524_p0524a22 ) 補續高僧傳: 太癅傳 {雪竇}\ng010p0406(明州阿育王山志) { 雪竇 }\ng081p0191(清涼山志) { 雪竇 }\ng032p0745(徑山志) { 雪竇 }\n\nWikidata (DILA):\nQ45423028\n\nGiới tính (DILA):\nNam\n\nTăng/Tục (DILA):\n是\n\nTiểu sử vắn tắt (Việt):\nBản đang sửa \"nháy\" \\ và \"\"\"\n<script>window.bad=1</script>\n\nTông phái trên hồ sơ: Thiền Tông\n\n勅建淨慈寺志‧卷8‧隱之重顯\nhttp://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g016%26cpage=0551\n\n武林梵志‧卷9‧重顯禪師\nhttp://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g007%26cpage=0747\n\n武林靈隱寺志‧卷3‧雪竇重顯禪師\nhttp://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g021%26cpage=0148\n\nThầy: Quang Tộ · A015592\n（望月‧卷六‧附錄：049）\n\nHọc trò: Nghĩa Hoài · A003908\n（望月‧卷六‧附錄：049）\n\nHọc trò: Pháp Tông · A021005\n（望月‧卷六‧附錄：049）\n\nHọc trò: Tỉnh Tông · A021006\n（望月‧卷六‧附錄：049）\n\nHọc trò: Nhật Thận · A021007\n（望月‧卷六‧附錄：049）\n\nHọc trò: Hiển Thăng · A021008\n（望月‧卷六‧附錄：049）\n\nHọc trò: Huệ Kim · A021009\n（望月‧卷六‧附錄：049）\n\nHọc trò: Tằng Hội · A021010\n（望月‧卷六‧附錄：049）\n\nHọc trò: Tỉnh Tông · A021951\n(T51n2077_p0499b23)\n\nHọc trò: Cảnh Tiên · A025516\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……廣教景先禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\n\nHọc trò: Tự Chính · A025517\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……妙果自政禪師」(CBETA, T51, no. 2077, p. 499, a12-b6)\n\nHọc trò: Đông Thiền Hiền · A025518\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……東禪賢禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\n\nHọc trò: Tri Nhất · A025519\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……薦福知一禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\n\nHọc trò: Trạch Chi · A025520\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……海會擇芝禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\n\nHọc trò: Trí Phúc · A025521\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……長蘆智福禪師」(CBETA, T51, no. 2077, p. 499, a12-18)\n\nHọc trò: Tông Thiện · A025524\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……嶽林宗善禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\n\nHọc trò: Thủ Minh · A025525\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心守明禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\n\nHọc trò: Thủ Hoàn · A025527\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……證聖守環禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\n\nHọc trò: Hữu Lan · A025528\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……報本有蘭禪師」(CBETA, T51, no. 2077, p. 499, a12-17)\n\nHọc trò: Thanh Diễn · A025531\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心清演禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\n\nHọc trò: Tri Ứng · A025532\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明知應禪師」(CBETA, T51, no. 2077, p. 499, a12-23)\n\nHọc trò: Nguyên Ích · A025533\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……雲峯元益首座」(CBETA, T51, no. 2077, p. 499, a12-24)\n\nHọc trò: Uẩn Quán · A015139\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶相蘊觀禪師」(CBETA, T51, no. 2077, p. 499, a12-15)\n\nHọc trò: Tuệ Chiếu · A025535\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……萬壽慧照禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\n\nHọc trò: Đức Long · A025536\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……上山德隆禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\n\nHọc trò: Truyền Tông · A025537\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……承天傳宗禪師」(CBETA, T51, no. 2077, p. 499, a12-14)\n\nHọc trò: Trí Truyền · A014406\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……龍興智傳禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\n\nHọc trò: Tại Hoà · A025543\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……天衣在和禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\n\nHọc trò: Trọng Khanh · A025545\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……鳳棲仲卿禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\n\nHọc trò: Tí Hoàn · A025547\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶慶子環禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\n\nHọc trò: Đức Sơ · A025548\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……靈巖德初禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\n\nHọc trò: Thủ Ân · A025549\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……湯院守恩禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\n\nHọc trò: Lục Hợp Hương Tích Tư · A025550\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……香積孜禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\n\nHọc trò: Kiền Minh Tắc · A025551\n《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明則禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\n\nHọc trò: Huệ Kim · A045421\n《雪竇寺志．卷4．惠金典座雲門宗第五世》：「師依明覺於雪竇」\nhttp://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=y125%26cpage=0156\n\nThầy: Thầy thử · A999999\nNguồn thử\n\nNguồn DILA: https://authority.dila.edu.tw/person/search.php?aid=A000885" ;
+    bkg:birthYear "980"^^xsd:integer ;
+    bkg:deathYear "1052"^^xsd:integer ;
+    bkg:birthEvent <ex:monk/dila_a000885_birthEvent> ;
+    bkg:deathEvent <ex:monk/dila_a000885_deathEvent> ;
+    bkg:gender <bkg:Male> ;
+    bkg:hasTeacher <ex:monk/dila_a015592>, <ex:monk/dila_a999999> ;
+    bkg:hasDisciple <ex:monk/dila_a003908>, <ex:monk/dila_a021005>, <ex:monk/dila_a021006>, <ex:monk/dila_a021007>, <ex:monk/dila_a021008>, <ex:monk/dila_a021009>, <ex:monk/dila_a021010>, <ex:monk/dila_a021951>, <ex:monk/dila_a025516>, <ex:monk/dila_a025517>, <ex:monk/dila_a025518>, <ex:monk/dila_a025519>, <ex:monk/dila_a025520>, <ex:monk/dila_a025521>, <ex:monk/dila_a025524>, <ex:monk/dila_a025525>, <ex:monk/dila_a025527>, <ex:monk/dila_a025528>, <ex:monk/dila_a025531>, <ex:monk/dila_a025532>, <ex:monk/dila_a025533>, <ex:monk/dila_a015139>, <ex:monk/dila_a025535>, <ex:monk/dila_a025536>, <ex:monk/dila_a025537>, <ex:monk/dila_a014406>, <ex:monk/dila_a025543>, <ex:monk/dila_a025545>, <ex:monk/dila_a025547>, <ex:monk/dila_a025548>, <ex:monk/dila_a025549>, <ex:monk/dila_a025550>, <ex:monk/dila_a025551>, <ex:monk/dila_a045421> ;
+    bkg:isLineageFounder false .
+
+<ex:monk/dila_a015592> rdfs:label "Quang Tộ"@vi .
+<ex:monk/dila_a015592> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A015592> .
+<ex:monk/dila_a999999> rdfs:label "Thầy thử"@vi .
+<ex:monk/dila_a999999> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A999999> .
+<ex:monk/dila_a003908> rdfs:label "Nghĩa Hoài"@vi .
+<ex:monk/dila_a003908> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A003908> .
+<ex:monk/dila_a021005> rdfs:label "Pháp Tông"@vi .
+<ex:monk/dila_a021005> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A021005> .
+<ex:monk/dila_a021006> rdfs:label "Tỉnh Tông"@vi .
+<ex:monk/dila_a021006> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A021006> .
+<ex:monk/dila_a021007> rdfs:label "Nhật Thận"@vi .
+<ex:monk/dila_a021007> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A021007> .
+<ex:monk/dila_a021008> rdfs:label "Hiển Thăng"@vi .
+<ex:monk/dila_a021008> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A021008> .
+<ex:monk/dila_a021009> rdfs:label "Huệ Kim"@vi .
+<ex:monk/dila_a021009> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A021009> .
+<ex:monk/dila_a021010> rdfs:label "Tằng Hội"@vi .
+<ex:monk/dila_a021010> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A021010> .
+<ex:monk/dila_a021951> rdfs:label "Tỉnh Tông"@vi .
+<ex:monk/dila_a021951> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A021951> .
+<ex:monk/dila_a025516> rdfs:label "Cảnh Tiên"@vi .
+<ex:monk/dila_a025516> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025516> .
+<ex:monk/dila_a025517> rdfs:label "Tự Chính"@vi .
+<ex:monk/dila_a025517> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025517> .
+<ex:monk/dila_a025518> rdfs:label "Đông Thiền Hiền"@vi .
+<ex:monk/dila_a025518> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025518> .
+<ex:monk/dila_a025519> rdfs:label "Tri Nhất"@vi .
+<ex:monk/dila_a025519> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025519> .
+<ex:monk/dila_a025520> rdfs:label "Trạch Chi"@vi .
+<ex:monk/dila_a025520> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025520> .
+<ex:monk/dila_a025521> rdfs:label "Trí Phúc"@vi .
+<ex:monk/dila_a025521> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025521> .
+<ex:monk/dila_a025524> rdfs:label "Tông Thiện"@vi .
+<ex:monk/dila_a025524> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025524> .
+<ex:monk/dila_a025525> rdfs:label "Thủ Minh"@vi .
+<ex:monk/dila_a025525> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025525> .
+<ex:monk/dila_a025527> rdfs:label "Thủ Hoàn"@vi .
+<ex:monk/dila_a025527> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025527> .
+<ex:monk/dila_a025528> rdfs:label "Hữu Lan"@vi .
+<ex:monk/dila_a025528> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025528> .
+<ex:monk/dila_a025531> rdfs:label "Thanh Diễn"@vi .
+<ex:monk/dila_a025531> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025531> .
+<ex:monk/dila_a025532> rdfs:label "Tri Ứng"@vi .
+<ex:monk/dila_a025532> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025532> .
+<ex:monk/dila_a025533> rdfs:label "Nguyên Ích"@vi .
+<ex:monk/dila_a025533> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025533> .
+<ex:monk/dila_a015139> rdfs:label "Uẩn Quán"@vi .
+<ex:monk/dila_a015139> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A015139> .
+<ex:monk/dila_a025535> rdfs:label "Tuệ Chiếu"@vi .
+<ex:monk/dila_a025535> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025535> .
+<ex:monk/dila_a025536> rdfs:label "Đức Long"@vi .
+<ex:monk/dila_a025536> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025536> .
+<ex:monk/dila_a025537> rdfs:label "Truyền Tông"@vi .
+<ex:monk/dila_a025537> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025537> .
+<ex:monk/dila_a014406> rdfs:label "Trí Truyền"@vi .
+<ex:monk/dila_a014406> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A014406> .
+<ex:monk/dila_a025543> rdfs:label "Tại Hoà"@vi .
+<ex:monk/dila_a025543> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025543> .
+<ex:monk/dila_a025545> rdfs:label "Trọng Khanh"@vi .
+<ex:monk/dila_a025545> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025545> .
+<ex:monk/dila_a025547> rdfs:label "Tí Hoàn"@vi .
+<ex:monk/dila_a025547> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025547> .
+<ex:monk/dila_a025548> rdfs:label "Đức Sơ"@vi .
+<ex:monk/dila_a025548> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025548> .
+<ex:monk/dila_a025549> rdfs:label "Thủ Ân"@vi .
+<ex:monk/dila_a025549> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025549> .
+<ex:monk/dila_a025550> rdfs:label "Lục Hợp Hương Tích Tư"@vi .
+<ex:monk/dila_a025550> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025550> .
+<ex:monk/dila_a025551> rdfs:label "Kiền Minh Tắc"@vi .
+<ex:monk/dila_a025551> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A025551> .
+<ex:monk/dila_a045421> rdfs:label "Huệ Kim"@vi .
+<ex:monk/dila_a045421> owl:sameAs <https://authority.dila.edu.tw/person/search.php?aid=A045421> .

@@ -1,0 +1,1 @@
+id,name_zh,dict_vi,groq_trans_vi,final_vi,clean_zh,meta_note,variant_zh,is_uncertain,needs_review,review_status,diff_type,diff_reason,model_id,batch_id,prompt_tokens,completion_tokens,retry_count,last_error,processing_started_at,checked_at,provisional

@@ -1,0 +1,46 @@
+/* T232: panel phụ, số suy dẫn có quy ước/đường; không thay số đời legacy của cây.
+   Nếu trang có #lineage-gen-v2-body → render inline vào left panel (places.html).
+   Ngược lại → giữ nguyên corner panel cũ (fallback cho các trang khác). */
+(function(){'use strict';
+let serial=0,current='';
+const inlineBody=()=>document.getElementById('lineage-gen-v2-body');
+const inlineWrap=()=>document.getElementById('lineage-gen-v2-inline');
+/* Corner panel legacy — ẩn khi dùng inline mode */
+const panel=document.createElement('section');panel.id='lineage-generation-v2';panel.style.cssText='position:fixed;right:16px;bottom:18px;width:min(360px,calc(100vw - 32px));max-height:42vh;overflow:auto;padding:14px;background:#020617;color:#e2e8f0;border:1px solid #d97706;border-radius:10px;z-index:70;font-family:Inter,sans-serif;font-size:12px;box-shadow:0 8px 24px #0008';
+const cornerTitle=document.createElement('h3');cornerTitle.textContent='Pháp mạch · theo từng hệ truyền thừa';cornerTitle.style.cssText='margin:0 0 8px;font-size:14px;color:#fbbf24';panel.append(cornerTitle);const box=document.createElement('div');panel.append(box);panel.hidden=true;document.body.append(panel);
+const states={candidate:'Dự kiến',derived_reviewable:'Suy dẫn · cần trình duyệt',conflict:'Mâu thuẫn',unreachable:'Chưa nối tới mốc',missing_anchor:'Chưa khóa mốc',incomplete:'Thiếu dữ liệu',resource_limit:'Vượt giới hạn'};
+function renderInto(container,id,data,wrap){
+  container.replaceChildren();
+  /* Chỉ hiển thị dòng có số xác định (number !== null) và
+     bỏ hệ "Thích Ca 1" (trùng với Ca Diếp 1, +1; Ca Diếp=1 là quy ước chuẩn). */
+  var visible=(data.report.results||[]).filter(function(r){
+    return r.number!==null && !(r.label&&r.label.includes('Thích Ca 1'));
+  });
+  if(!visible.length){if(wrap)wrap.style.display='none';return;}
+  visible.forEach(function(r){
+    /* Rút gọn label: bỏ suffix hệ đếm " · Ca Diếp 1" / " · Thích Ca 1", thêm "Truyền Thừa " */
+    var cleanLabel='Truyền Thừa '+r.label.replace(/\s*·\s*(Ca Diếp|Thích Ca)\s*\d+\s*$/,'').trim();
+    var row=document.createElement('div');row.style.cssText='font-size:13px;font-weight:600;color:var(--da-text);padding:3px 0';
+    row.textContent=cleanLabel+' · Đời thứ '+r.number;
+    container.append(row);
+  });
+}
+async function load(id){
+  const body=inlineBody(),wrap=inlineWrap();
+  const useInline=!!(body&&wrap);
+  if(!/^A\d{6}$/.test(id||'')){if(useInline)wrap.style.display='none';else panel.hidden=true;current='';return;}
+  if(id===current&&(useInline?wrap.style.display!=='none':!panel.hidden))return;
+  current=id;
+  if(useInline){wrap.style.display='';body.innerHTML='<div style="color:#94a3b8;font-size:10px">Đang tính cho '+id+'…</div>';}
+  else{panel.hidden=false;box.textContent='Đang tính cho '+id+'…';}
+  const n=++serial;
+  try{const response=await fetch('/daoanh/api/admin/ttl_v2/generation/calculate/'+id);const data=await response.json();if(n!==serial)return;if(!response.ok||!data.ok)throw new Error(data.error||'Chưa đọc được mốc số đời.');renderInto(useInline?body:box,id,data,useInline?wrap:null);}
+  catch(e){if(n===serial)(useInline?body:box).textContent=e.message;}
+}
+function url(){const q=new URLSearchParams(location.search);if(q.get('mode')==='lineage'){load(q.get('focus'));}else{const wrap=inlineWrap();if(wrap)wrap.style.display='none';panel.hidden=true;current='';}}
+window.addEventListener('popstate',url);
+['selectPerson','openPersonLineage'].forEach(function(name){var original=window[name];if(typeof original==='function')window[name]=function(id){for(var _len=arguments.length,args=new Array(_len>1?_len-1:0),_key=1;_key<_len;_key++)args[_key-1]=arguments[_key];load(id);return original.apply(this,[id].concat(args));};});
+['_gmpShowNodeDetail','_nexusShowDetail'].forEach(function(name){var original=window[name];if(typeof original==='function')window[name]=function(node){for(var _len=arguments.length,args=new Array(_len>1?_len-1:0),_key=1;_key<_len;_key++)args[_key-1]=arguments[_key];load(node&&(node.person_id||node.dila_id||node.id));return original.apply(this,[node].concat(args));};});
+var replace=history.replaceState.bind(history);history.replaceState=function(){var result=replace.apply(history,arguments);url();return result;};var push=history.pushState.bind(history);history.pushState=function(){var result=push.apply(history,arguments);url();return result;};
+url();
+}());

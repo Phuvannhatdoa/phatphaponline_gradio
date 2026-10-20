@@ -1,0 +1,11 @@
+=== entity_hub ===
+
+=== entity (DILA) ===
+entity_id=PL022435, dila_id=PL022435, type=PLACE, alias_vi=Thiếu Lâm Tự
+entity_id=PL000000023255, dila_id=PL000000023255, type=PLACE, alias_vi=Thiếu Lâm Tự
+
+=== entity_source_ids ===
+
+=== people ===
+
+=== lineage_chronology ===

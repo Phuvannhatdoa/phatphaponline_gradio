@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Phổ Hệ Phật Giáo - Bản Chính Xác 100%</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root { --primary: #8b4513; --secondary: #d35400; --bg: #fdf5e6; --panel: #fffcf5; --text: #3e2723; --border: #bc9b82; --accent: #ff9800; }
+        body { margin: 0; display: flex; font-family: 'Segoe UI', 'Arial', sans-serif; background: var(--bg); height: 100vh; overflow: hidden; }
+        
+        #left-panel { width: 340px; background: #fff; border-right: 2px solid #ddd; padding: 25px; display: flex; flex-direction: column; z-index: 100; box-shadow: 2px 0 15px rgba(0,0,0,0.1); }
+        .search-box { position: relative; margin-bottom: 20px; }
+        input#monk-input { width: 100%; padding: 15px; border: 2px solid var(--border); border-radius: 8px; font-size: 16px; outline: none; box-sizing: border-box; }
+        input#monk-input:focus { border-color: var(--secondary); }
+        
+        #suggest-box { position: absolute; width: 100%; background: #fff; border: 1px solid #ccc; max-height: 350px; overflow-y: auto; display: none; z-index: 1000; border-radius: 0 0 8px 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .suggest-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #eee; transition: 0.2s; }
+        .suggest-item:hover, .suggest-item:focus { background: #fff3e0; color: var(--secondary); outline: none; font-weight: bold; }
+
+        #tree-container { flex-grow: 1; position: relative; cursor: grab; }
+        .node rect { fill: #fff; stroke: var(--primary); stroke-width: 2.5px; rx: 10; ry: 10; }
+        .node text { font-size: 13px; font-weight: bold; text-anchor: middle; fill: var(--primary); }
+        .link { fill: none; stroke: var(--border); stroke-width: 2px; opacity: 0.5; }
+
+        #bio-panel { position: fixed; top: 0; right: -550px; width: 500px; height: 100vh; background: var(--panel); border-left: 2px solid var(--primary); z-index: 1001; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; }
+        #bio-panel.active { right: 0; }
+        #bio-header { background: var(--primary); color: #fff; padding: 20px; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        #bio-content { padding: 30px; overflow-y: auto; line-height: 1.9; font-size: 16px; color: #333; }
+        
+        .date-badge { background: #efe0cc; padding: 15px; border-radius: 8px; margin-bottom: 25px; border-left: 8px solid var(--secondary); font-weight: bold; font-size: 17px; }
+        .zen-dialogue { background: #fff; border-left: 4px solid var(--accent); padding: 15px; margin: 15px 0; font-style: italic; color: #5d4037; border-radius: 4px; box-shadow: 2px 2px 8px rgba(0,0,0,0.05); }
+        .section-title { display: block; color: var(--secondary); font-weight: bold; font-size: 20px; margin-top: 30px; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
+        .close-btn { cursor: pointer; font-size: 30px; }
+        #loader { position: fixed; bottom: 30px; left: 370px; background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body>
+
+<div id="left-panel">
+    <h2 style="color:var(--primary); margin: 0 0 20px 0; text-align: center;">PHẬT GIÁO KNOWLEDGE GRAPH</h2>
+    <div class="search-box">
+        <input type="text" id="monk-input" placeholder="Tìm tên Tổ sư..." autocomplete="off">
+        <div id="suggest-box"></div>
+    </div>
+    <div style="font-size:14px; color:#5d4037; line-height:1.7; background:#fff8ef; padding:20px; border-radius:10px; border: 1px solid #ecd5bb;">
+        <b>Lưu ý:</b><br>
+        - Hệ thống truy vấn trực tiếp từ 2000 file TTL.<br>
+        - Dùng phím <b>Mũi tên</b> hoặc <b>Tab</b> để chọn tên.<br>
+        - Nhấn <b>Enter</b> để hiển thị truyền thừa và bửu lục.
+    </div>
+</div>
+
+<div id="tree-container"></div>
+<div id="loader">Đang thỉnh dữ liệu từ GraphDB...</div>
+
+<div id="bio-panel">
+    <div id="bio-header">
+        <span id="bio-title">CHI TIẾT HÀNH TRẠNG</span>
+        <span class="close-btn" onclick="document.getElementById('bio-panel').classList.remove('active')">×</span>
+    </div>
+    <div id="bio-content"></div>
+</div>
+
+<script>
+/** CẤU HÌNH VPS **/
+const SPARQL_ENDPOINT = "http://localhost:5000/sparql";
+
+const svg = d3.select("#tree-container").append("svg").attr("width", "100%").attr("height", "100%")
+    .call(d3.zoom().on("zoom", (e) => g.attr("transform", e.transform)));
+const g = svg.append("g");
+const treeLayout = d3.tree().nodeSize([300, 180]);
+
+// Hàm tạo ID chuẩn cho D3
+function makeId(uri) {
+    return "id_" + uri.split(/[#/]/).pop().replace(/[^a-zA-Z0-9]/g, "_");
+}
+
+/** HÀM VẼ CÂY (D3.JS) **/
+function updateTree(flatData) {
+    g.selectAll("*").remove();
+    if (!flatData || flatData.length === 0) return;
+
+    try {
+        const root = d3.stratify().id(d => d.id).parentId(d => d.parent)(flatData);
+        treeLayout(root);
+
+        g.selectAll(".link").data(root.links()).enter().append("path").attr("class", "link")
+            .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
+
+        const node = g.selectAll(".node").data(root.descendants()).enter().append("g")
+            .attr("class", "node").attr("transform", d => `translate(${d.x},${d.y})`)
+            .on("click", (e, d) => fetchMonkData(d.data.uri, d.data.label));
+
+        node.append("rect").attr("width", 220).attr("height", 50).attr("x", -110).attr("y", -25);
+        node.append("text").attr("dy", 5).text(d => d.data.label);
+
+        const t = d3.zoomIdentity.translate(window.innerWidth/2 - 150, 100).scale(0.75);
+        svg.transition().duration(600).call(d3.zoom().transform, t);
+    } catch (err) { console.error("D3 Error:", err); }
+}
+
+/** TRUY VẤN CHI TIẾT TỪ URI **/
+async function fetchMonkData(uri, name) {
+    const loader = document.getElementById('loader');
+    loader.style.display = 'block';
+
+    const query = `
+        PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT DISTINCT ?note ?bL ?dL ?t ?tN ?d ?dN WHERE {
+            <${uri}> rdfs:label ?name .
+            OPTIONAL { <${uri}> bkg:biographicalNote ?note . }
+            OPTIONAL { <${uri}> bkg:birthEvent/rdfs:label ?bL . }
+            OPTIONAL { <${uri}> bkg:deathEvent/rdfs:label ?dL . }
+            OPTIONAL { <${uri}> bkg:hasTeacher ?t . ?t rdfs:label ?tN . }
+            OPTIONAL { ?d bkg:hasTeacher <${uri}> . ?d rdfs:label ?dN . }
+        }`;
+
+    try {
+        const response = await fetch(`${SPARQL_ENDPOINT}?query=${encodeURIComponent(query)}`);
+        const result = await response.json();
+        const rows = result.results.bindings;
+
+        if (rows.length > 0) {
+            const info = rows[0];
+            let note = info.note ? info.note.value : "";
+            let birth = info.bL ? info.bL.value : "Chưa rõ";
+            let death = info.dL ? info.dL.value : "Chưa rõ";
+
+            // Tự động tìm năm sinh nếu Label trống
+            if (birth === "Chưa rõ" && note) {
+                const match = note.match(/\((\d{3,4})\s*-\s*(\d{3,4})\)/);
+                if (match) { birth = match[1]; death = match[2]; }
+            }
+
+            // Hiển thị Panel
+            document.getElementById('bio-title').innerText = name;
+            document.getElementById('bio-content').innerHTML = `
+                <div class="date-badge">📅 Niên đại: ${birth} — ${death}</div>
+                ${formatZenNote(note)}
+            `;
+            document.getElementById('bio-panel').classList.add('active');
+
+            // Xử lý dữ liệu vẽ cây (Thầy - Trò)
+            const rootId = makeId(uri);
+            let nodes = [{ id: rootId, label: name, parent: "", uri: uri }];
+            let added = new Set([rootId]);
+
+            rows.forEach(row => {
+                if (row.t) {
+                    const tid = makeId(row.t.value);
+                    if (!added.has(tid)) {
+                        nodes.push({ id: tid, label: row.tN.value, parent: "", uri: row.t.value });
+                        nodes[0].parent = tid;
+                        added.add(tid);
+                    }
+                }
+                if (row.d) {
+                    const did = makeId(row.d.value);
+                    if (!added.has(did)) {
+                        nodes.push({ id: did, label: row.dN.value, parent: rootId, uri: row.d.value });
+                        added.add(did);
+                    }
+                }
+            });
+            updateTree(nodes);
+        }
+    } catch (e) { console.error("SPARQL Error:", e); }
+    loader.style.display = 'none';
+}
+
+function formatZenNote(text) {
+    if (!text) return "Dữ liệu đang được biên tập...";
+    return text.split('\n').map(l => {
+        let s = l.trim();
+        if (!s) return "";
+        if (s.match(/^[0-9]+\)|^[IVX]+\./) || s.includes("CÔNG ÁN") || s.includes("HÀNH TRẠNG")) 
+            return `<span class="section-title">${s}</span>`;
+        if (s.startsWith('-') || s.startsWith('*') || s.includes('?')) 
+            return `<div class="zen-dialogue">${s}</div>`;
+        return `<p style="margin-bottom:15px">${s}</p>`;
+    }).join("");
+}
+
+/** AUTOCOMPLETE SEARCH **/
+const input = document.getElementById('monk-input');
+const suggest = document.getElementById('suggest-box');
+
+input.addEventListener('input', async () => {
+    const val = input.value.trim();
+    if (val.length < 2) { suggest.style.display = 'none'; return; }
+
+    const q = `SELECT DISTINCT ?s ?name WHERE { ?s <http://www.w3.org/2000/01/rdf-schema#label> ?name . FILTER(regex(str(?name), "${val}", "i")) } LIMIT 15`;
+    try {
+        const res = await fetch(`${SPARQL_ENDPOINT}?query=${encodeURIComponent(q)}`).then(r => r.json());
+        const items = res.results.bindings;
+        if (items.length > 0) {
+            suggest.innerHTML = items.map((it, idx) => `
+                <div class="suggest-item" tabindex="${idx+1}" 
+                     onclick="selectMonk('${it.s.value}', '${it.name.value.replace(/'/g, "\\'")}')"
+                     onkeydown="if(event.key==='Enter') selectMonk('${it.s.value}', '${it.name.value.replace(/'/g, "\\'")}')">
+                    ${it.name.value}
+                </div>
+            `).join("");
+            suggest.style.display = 'block';
+        } else { suggest.style.display = 'none'; }
+    } catch (e) {}
+});
+
+function selectMonk(uri, name) {
+    input.value = name;
+    suggest.style.display = 'none';
+    fetchMonkData(uri, name);
+}
+
+// Điều hướng bằng phím Tab/Mũi tên
+input.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab' || e.key === 'ArrowDown') {
+        if (suggest.style.display === 'block') {
+            e.preventDefault();
+            suggest.querySelector('.suggest-item').focus();
+        }
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dila: <https://authority.dila.edu.tw/person/search.php?aid=> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<ex:monk/dao_ninh_dao_khoan> a <bkg:Monk> ;
+    rdfs:label "Đại Ninh Đạo Khoan"@vi ;
+    rdfs:label "大寧道寬"@zh-Hant ;
+    owl:sameAs dila:A020545 ;
+    dct:source dila:A020545 ;
+    crm:P1_is_identified_by <ex:monk/dao_ninh_dao_khoan> ;        
+    bkg:biographicalNote """ 
+	
+	Thiền sư Đạo Khoan ở Đại ninh
+
+Thiền sư Đạo Khoan ở Đại ninh tại Hồng châu. Có vị Tăng hỏi:
+– Tôn giả Ca-diếp thấy chư Phật là thấy cái gì? Mà Đức Như Lai vừa nắm cành hoa liền mỉm cười?
+
+Sư đáp:
+– Nhẫn tuấn chẳng cấm.
+
+Lại hỏi:
+– Đơn Hà thiêu đốt Phật gỗ, vị chủ vì sao mà mày râu đều rơi rụng?
+
+Sư đáp:
+– Giặc chẳng đánh con nhà nghèo.
+
+Lại hỏi:
+– Đã là một chân pháp giới, cớ sao lại có ngàn sai muôn khác?
+
+Sư đáp:
+– Rễ sâu lá tốt.
+
+Vị Tăng ấy vừa đánh tướng vòng tròn vừa hỏi:
+– Lại còn có ra được cái này không?
+
+Sư đáp:
+– Khéo đùa thành vụng.
+
+Lại hỏi:
+– Thế nào là trước ba ba, sau cũng ba ba?
+
+Sư đáp:
+– Số chín chẳng đến chín.
+
+Lại hỏi:
+– Thế nào là đại ý của Phật pháp?
+
+Sư đáp:
+– Điểm trà phải là trăm sôi vọt.
+
+Lại hỏi:
+– Ý chỉ ấy như thế?
+
+Sư đáp:
+– Uống hết chớ chừa cặn.
+
+Có vị Tăng đến nơi phòng thất Sư mà hỏi:
+– Thế nào là trâu trắng nằm giữa đường?
+
+Sư nắm gân lửa cắm vào lò lửa và bảo:
+– Hiểu không?
+
+Vị Tăng ấy nói:
+– Không hiểu.
+
+Sư bảo:
+– Đầu chẳng thiếu, đuôi chẳng thừa.
+
+Ngày sư ở tại Đồng an, có vị Tăng đến hỏi:
+– Đã là Đồng an cớ sao lại có vị Tăng cảm bệnh mà thị tịch?
+
+Sư đáp:
+– Bố thí chẳng như lại liền trách.
+
+Có lúc lên giảng đường, Sư bảo:
+– Thiếu lâm diệu quyết, gia phong của chư Phật xưa trước, ứng dụng tùy cơ, nắm buông tự tại, như nắm tay trong lòng bàn tay mở hợp có lúc, tợ nước thành bọt bóng, nổi tan không định, động tình đều hiểu biết, nói nín toàn rành rõ, muôn dụng tự nhiên chẳng nhọc tâm lụy, đến trong đó gọi là thuận theo nước thả thuyền. Hãy tạm nói ngược gió đất mái chéo ai là kẻ khéo tay?
+
+Ngừng giây lát, Sư lại bảo:
+– Đùa bỡn với sóng nước phải là người đùa bỡn sóng nước.
+
+Và Sư hét một tiếng, bảo:
+– Trân trọng.
+
+Lại có lúc lên giảng đường, Sư bảo:
+– Vô niệm là Tông, vô trú làm bản, chân không làm thể, diệu hữu làm dụng. Do đó nói: “Khắp đại địa là chân không, khắp pháp giới là diệu hữu. Hạy tạm nói người nào dùng được? Vận dụng cả bốn mùa, nhật nguyệt sáng tỏ lâu dài. Pháp vốn không dời đổi, đạo không nơi chốn, tùy duyên tự tại, theo vật chẳng trầm. Cõi này xứ nọ, vào phàm ra Thánh, tuy là như vậy, nhưng hãy nói một câu vào làng tùy tập tục, làm sao mà sống, nói?
+
+Ngừng giây lát, Sư lại bảo:
+– Trời Tây gọi là tiếng Phạm, phương này gọi là tiếng Trung Hoa thời Tiền Đường.
+	"""@vi ;
+    bkg:birthEvent <ex:monk/dao_ninh_dao_khoan_birthEvent> ;
+    bkg:deathEvent <ex:monk/dao_ninh_dao_khoan_deathEvent> ;
+    bkg:dharmaLineageName "Tông Lâm Tế Trung Hoa"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 45;    	
+	bkg:hasTeacher <ex:monk/thach_suong_so_vien> ;
+	bkg:isLineageFounder false .
+
+
+<ex:monk/linh_an_duc_chuong> rdfs:label "Linh Ẩn Đức Chương"@vi . 
+<ex:monk/quang_phap_nguyen> rdfs:label "Quảng Pháp Nguyên"@vi . 
+<ex:monk/huong_son_uan_luong> rdfs:label "Hương Sơn Uẩn Lương"@vi . 
+<ex:monk/bach_truong_duy_chinh> rdfs:label "Bách Trượng Duy Chính"@vi . 
+<ex:monk/linh_son_ban_ngon> rdfs:label "Linh Sơn Bản Ngôn"@vi .  
+<ex:monk/tuong_son_bao_tam> rdfs:label "Tương Sơn Bảo Tâm"@vi .  
+<ex:monk/song_phong_tinh_hoi> rdfs:label "Song Phong Tỉnh Hồi"@vi .  
+<ex:monk/dao_ngo_ngo_chan> rdfs:label "Đạo Ngô Ngộ Chân"@vi .  
+<ex:monk/dao_ninh_dao_khoan> rdfs:label "Đại Ninh Đạo Khoan"@vi .  
+<ex:monk/vo_tuyen_son_chinh> rdfs:label "Võ Tuyền Sơn Chính"@vi .  
+<ex:monk/khanh_thien_tong_chan> rdfs:label "Khánh Thiện Tông Chấn"@vi .  
+<ex:monk/tuong_son_giac_hai> rdfs:label "Tương Sơn Giác Hải"@vi . 
+<ex:monk/quy_phong_tu_quynh> rdfs:label "Quy Phong Tử Quỳnh"@vi . 
+<ex:monk/thach_mon_nha> rdfs:label "Thạch Môn Nhã"@vi . 
+<ex:monk/dai_quy_duc_can> rdfs:label "Đại Quy Đức Càn"@vi . 
+<ex:monk/nam_phong_duy_quang> rdfs:label "Nam Phong Duy Quảng"@vi . 
+
+
+
+
+
+
+
+
+# Định danh thầy được đối chiếu DILA; số đời vẫn giữ bản TTL cũ.
+<ex:monk/thach_suong_so_vien> owl:sameAs dila:A001439 .

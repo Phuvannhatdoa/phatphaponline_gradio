@@ -1,0 +1,597 @@
+dila_id	note_excerpt	year	era_name	method	has_renovation_flag	goi_y	ly_do	admin_quyet_dinh	admin_ghi_chu
+PL000000000173	東青園寺 寶嬰尼於泰始三年建。（T50n2063_p0943b14）	467	泰始	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000000177	禪林寺 泰始三年，明帝勅此寺名為禪林。（T50n2063_p0945b13）	467	泰始	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000000180	西青園寺 寶嬰尼於泰始三年建。（T50n2063_p0943b14；T50n2063_p0947b25）	467	泰始	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000000259	十方院 俗稱十方院。明萬曆六年建，清順治十年修。（明清序：297）	1578	萬曆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000000292	千佛叢林 （一）明萬曆九年孝定皇太后建。（明清序：231）（二）拈花寺即千佛寺，清雍正十一年賜拈花寺。（明清序：283）	1581	萬曆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000000359	歸義寺 歸義寺位於金燕京舊城時和坊（在今廣安門大街北）。始建於唐天寶歲。迫以安氏亂常，金陵史氏歸順，特詔封歸義郡王，兼總幽燕節制，始置此寺，詔以歸義為額。大中十	856	大中	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000000411	淨安寺 淨安寺的舊稱，正統三年建。（明清序：221）	1438	正統	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000000480	佑聖教寺 在通州舊城內西北隅。浮圖十三層，高三百五十尺，周圍四百尺，創於唐貞觀七年，歷五代、遼、金、元，凡八代而始成。（唐寺考：124；	633	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000001244	湯泉寺 在州西北四十里，即湯泉寺。唐貞觀二年建，明萬歴五年戚繼光修。（唐寺考：124；	628	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000001487	圖銘寺 在成安縣西十二里，唐太極元年建。有古栢石佛圖，俱千年遺蹟。（唐寺考：111；	712	太極	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000001488	元符寺 在磁州東北五十里，唐貞觀十六年建。相傳二祖示寂之所。（唐寺考：113；	642	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000001594	多慶寺 在磁州北，林壇里。周廣順二年建。（唐寺考：113；	952	廣順	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000002214	靈源寺 在唐縣東北靈源山，唐上元二年建。（唐寺考：119；	761	上元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000003908	北臺石窟 北魏時代所開鑿的石窟寺院。位於山西省大同西方二十公里的雲岡。……文成帝即位後，任命曇曜為沙門統，又依曇曜之奏請，在武州塞（雲岡）開鑿五石窟，以為太祖等	494	太和	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000004245	靈空聖夀院 在縣大西門外，宋建隆二年，取靈空山先師龍池水於此禱之得雨，因建先師堂。端拱二年，賜額靈空聖夀院，後改承天寺，又改今名。明洪武十五年，置僧㑹司併福昌古	961	建隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000004430	丈八佛寺 在陵川縣城外西北卧龍岡上。唐初為丈八佛寺，宋太平興國元年賜今額。（唐寺考：96；淵四．大清一統志．卷一百七：27；四部續．嘉慶一統志．澤州府：22）	976	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000004572	覺興寺 在應州治南，唐太和三年建。（唐寺考：105；	479	太和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000004573	天王寺 在應州東南，下社村。唐太和六年建。（唐寺考：105；	482	太和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000004985	太子寺 在聞喜縣東關，唐貞觀六年建。（唐寺考：91；	632	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000005173	靈居寺 在永濟縣中條山。北周建德年間建，初名靈居，北朝高僧曇延發跡地，隋仁壽元年改今名。同年，隋文帝奉送舍於三十州，詔令十月十五日同時起塔，此寺即其中之一。隋、	601	仁壽	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000005388	奉眞閣 宋景德四年，勅五臺眞容院，建重閣，設文殊像。綺煥殊麗，映曜林谷，賜額「奉眞閣」。《宋清涼傳》。（g081p0210）	1007	景德	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000005681	慈雲寺 在臨汾縣城東關。唐貞觀三年勅建，太宗破宋金剛立慈雲寺於晉州，起居郎禇遂良為碑銘。（唐寺考：92；淵四．山西通志．卷一百六十八：48；淵四．唐會要．卷四十	629	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000005742	太平興國寺 在翼城縣西門外。唐貞元三年建，名慶國寺，宋勅賜太平興國寺。（唐寺考：91；	1155	貞元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000006675	靈覺寺 位於唐夏州朔方。開元二十六年釋潛真曾隸名於此。（T50n2061_p0736b19）	738	開元	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000008373	上海下院 在上海大南門外（今大昌街），為普陀山法雨寺上海下院，俗名大佛廠。嘉慶元年，普陀山法雨寺僧嚴修募建大殿。咸豐十年，毀於太平軍進攻上海。同治二年，改名鎮海	1796	嘉慶	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000008374	蓮花寺 圓通庵下院，在上海法租界貝諦鏖路（即成都南路），光緒二十六年住持化杲建。（	1900	光緒	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008418	廣福普慧寺 即廣福普慧寺，元天曆元年建。（明清序：203）	1328	天曆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008473	瑞應院 在雲峰寺東本名瑞應院。宋淳祐四年創，明萬曆五年居素建彌陀殿，清康熙四十二年賜額禪定寺。（明清序：225；淵四．大清一統志．卷五十八：30；四部續．嘉慶一	1244	淳祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008477	破山興福寺 即西禪興福寺，唐咸通九年賜額破山興福，順治、康熙中修。（明清序：294）	868	咸通	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000008586	妙音寺 建武四年夏。釋法雲初於妙音寺開法華淨名二經。（T50n2060_p0464a03）	497	建武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008587	光業寺 位在建康，梁大同七年釋智文受詔於光業寺首開律藏，靈味瓦棺等寺亦奏請也。（X77n1522_p0175b20）	541	大同	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000008647	法音精舍 齊建元四年建，後成為南京中著名尼寺，淨珪、	482	建元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008663	奉誠寺 景平元年平陸令許桑捨宅建剎。因名「平陸寺」，即後之「奉誠寺」。（T50n2059_p0342b15）	423	景平	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008746	下雲居院 上雲居下雲居二院，上雲居院在鍾山之右，去城十二里。舊圖經云，本齊勝善寺，建武二年南海王蕭子罕造，梁時尼所居，後復為僧院。下雲居在上雲居右，宋元嘉中置，	495	建武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008749	香林寺 明時建，舊名興善寺，康熙三十八年改名香林寺。（明清序：232、294；何孝榮 2000：145；	1699	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000008756	法輪寺 位於江蘇南京覆舟山麓（小九華山）。為東晉恭思皇后褚氏所創。原稱青園寺。義熙五年（409）竺道生自長安返建康，被延請入住本寺。（佛光：6380；淵四．景定	409	義熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008759	靈味寺 位於建康鍾山蔣林里，宋永初三年沙門法意起造。明太祖為營建陵園，將靈味寺併入	422	永初	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008762	上雲居寺 上雲居下雲居二院，上雲居院在鍾山之右，去城十二里。舊圖經云，本齊勝善寺，建武二年南海王蕭子罕造，梁時尼所居，後復為僧院。（淵四．至大金陵新志．卷十一下	495	建武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008769	普濟寺 梁頭陀寺也，建康實錄梁武帝大同元年置頭陀寺。記舍人石興造寺在蔣山頂第一峯，後移置山下，本朝治平中改賜今額。（淵四．六朝事跡編類．卷下：43；何孝榮 20	535	大同	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008800	福興寺 梁大同二年之俶建也。本於塘蒲之東，遷於銀湖之北。中更一徙，以襲其初，傳記缺遺，莫詳歲月。江南東道節度處置使韋陟，初入牛頭山謁第六祖忠大師，施錢三十萬，於	536	大同	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008840	帝師寺 帝師寺在保寧寺北（延祐七年建）。（淵四．至大金陵新志．卷十一下：4）	1320	延祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008874	天安寺 據《南朝佛寺志》載：「晉孝武帝太元五年立新亭寺，宋孝武帝孝建年中（454-456）時改曰中興寺。宋明帝時易名天安寺。」晉比丘竺法義入寂，弟子於墓所構舍宇	380	太元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008944	壽寧寺 壽寧寺在府城北隅，即舊廣孝寺基。按圖經，本在欽化橋街西，江寧縣治南。（梁普通元年造大愛敬寺於鍾山，……。開寶七年徙入城中，南唐張洎捨宅置。淳化五年改今額	520	普通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008950	清凉道場 清凉廣惠禪寺在石頭城去府城一里（吳順義中徐溫建為興教寺，南唐昇元初改為石頭清凉大道場，宋太平興國五年改今額）。（淵四．至大金陵新志．卷十一下：11；	980	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000008955	古林庵 在南京城西馬鞍山中之鳳山，府吉祥寺之左。明萬厯間，律師古心創建有「中興戒律第一祖庭」、「敕賜振古香林」之盛譽。初名古林庵，萬曆十二年（1584）擴建，「	1584	萬曆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000008986	天王院 天王院，在上元縣靖安鎮去城十七里（梁普通二年建，初名頭陀寺，建隆四年改今額）。（淵四．至大金陵新志．卷十一下：22）	521	普通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009034	法濟寺 法濟寺在上元縣治東北（傳宋紹興二十七年建）。（淵四．至大金陵新志．卷十一下：16）	1157	紹興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009050	千佛嶺 位於棲霞山紗帽峰到紫盆峰西的岩壁上。南齊永明二年（484年），由僧紹之子仲璋與僧智度禪師先在西壁上鑿佛龕，鐫刻了三尊佛像，合稱「西方三聖」。至梁天監十年	511	天監	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009069	均慶院 均慶院在城南門外，舊在金陵坊。晉天寶寺，唐開元十年改天保，今廢。（淵四．至大金陵新志．卷十一下：19；何孝榮 2000：85、150；	722	開元	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009073	普照寺 普照菴在城正南隅，至大四年僧無盡建。（淵四．至大金陵新志．卷十一下：39；何孝榮 2000：97、150；	1311	至大	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009081	崇福院 崇福院，乾道志在城南門外（宋元嘉十年因僧楚雲所居號崇福，至太平興國八年修）。（淵四．至大金陵新志．卷十一下：27）	983	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009082	歸寂塔院 歸寂塔院，乾道志在城南七里（宋泰始二年建，初號永安寺院。唐保大二年起塔，號歸寂因名院）。（淵四．至大金陵新志．卷十一下：28）	466	泰始	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009088	三山寺 三山寺在府西三山之麓，本古刹明洪武十三年復建。（淵四．江南通志．卷四十三：16；何孝榮 2000：150；	1380	洪武	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000009145	新林寺 晉南京寺記云，波提寺在秣陵縣新林青陵，昔晉咸安二年簡文皇帝起造，本名新林寺。（淵四．法苑珠林．卷四十二：22）	372	咸安	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009147	祈澤治平寺 祈澤寺在高橋門外祈澤山，宋少帝景平元年建，名祈澤治平寺，梁即寺置龍堂龍池在焉。會昌中廢，南唐昇元間復，宋改祈澤寺為祈禱雨澤之所。（淵四．江南通志．卷	423	景平	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009173	旌忠禪院 旌忠禪院，乾道志在城西南五十八里，紹興二十六年賜額為秦申王墳寺，今為天禧寺下院。（淵四．至大金陵新志．卷十一下：30）	1156	紹興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009181	後陽院 後陽院，乾道志在城西南七十里（係萬回道場，開寶八年賜額，在後陽村因名）。（淵四．至大金陵新志．卷十一下：31；	975	開寶	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009186	青山幽巖寺 青山在牛首山南十里，建康實録云梁置幽巖寺，大毘曇師傳云承聖二年法師入秣陵青山，始創舍名曰幽巖，與佛窟寺相近。（淵四．江南通志．卷十一：20）	553	承聖	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009191	看經院 看經院，乾道志在城南四十里。建隆二年置，地名任店。（淵四．至大金陵新志．卷十一下：29）	961	建隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009192	功徳院 移忠報慈禪院，乾道志在牧牛亭路東，去城西南六十八里。紹興十五年秦申王請為功徳院。（淵四．至大金陵新志．卷十一下：30）	1145	紹興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009309	隆教院 隆教院，乾道志在城東南八十五里。梁大同二年建，初號金口寺，蓋里名也。楊吳順義二年改靈鷲院，治平元年改今額。（淵四．至大金陵新志．卷十一下：32）	536	大同	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009448	重居寺 在宜興縣西南隅，舊在縣西談村。蕭齊時建，名重居，唐上元二年移建於縣南二里。宋大中祥符間賜今額。（唐寺考：163；淵四．江南通志．卷四十五：28）	761	上元	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000009450	邵塢庵 舊邵塢庵，宋乾道二年建，明天順二年賜額。（明清序：234）	1166	乾道	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009452	大蘆 在宜興縣西南横山山亭區。唐咸通二年，里人張氏捨宅建。舊在山麓，宋至和間徙今地。（明清序：260；淵四．江南通志．卷四十五：29）	861	咸通	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009498	建元寺 位於建康（南京），南朝宋文帝劉義隆第七皇子劉宏於宋大明二年（458年）臨終前，囑咐將雞籠山下東偏北處的府第捐為寺廟，沿用名「棲元寺」，元、玄同義，南齊時	458	大明	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009751	道成寺 咸通四年建道成寺，宋時改。（明清序：245）	863	咸通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000009853	龍興寺 在吳縣治西。《吳郡志》云：「梁置，《吳地記》云：『則天后置御書額。開元五年再興，刺史張廷珪模勒御書于碑。』然房琯所撰碑與此不同。」（淵四．吳郡志．卷三十	717	開元	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009906	傳法寺 在長洲縣乘鯉坊内。姑蘇志，相傳梁天監二年，刺史孫文捨宅建，或云孫㻛故宅，㻛尚尘。寺後有妙嚴公主墓。（	503	天監	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000009981	鐘樓 位於寒山寺藏經樓西南側，座東朝西，為六角形二層重檐亭閣式建築。光緒三十二年（1906）總督陳夔龍巡撫江蘇，發心搆建，並鐵鑄巨鐘就懸掛于樓上。（	1906	光緒	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000010029	來鶴庵 宋初建，明崇禎十年野林重興，康熙中復修。（明清序：265）	1637	崇禎	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000010031	羅漢石壇 位於虎丘山，又釋元浩元和十二年示寂，刺史崔恭撰塔碑立於虎丘山羅漢石壇之左。（T50n2061_p0740b28；宋僧索引：415）	817	元和	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000010068	崇報禪寺 蘇州靈岩山上，著名淨土宗道場。東晉司空陸玩曾居靈岩山，建此寺。梁天監2年（503年）擴建為秀峰寺。唐改靈岩寺，信奉律宗。北宋元豐年間，改律宗為禪宗，圓	503	天監	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000010079	武平院 在長洲縣東北。吳郡志，天宮禪院舊武平院，唐景福元年僧淡然建。（唐寺考：175；淵四．大清一統志．卷五十五：16；四部續．嘉慶一統志．蘇州府三：7）	892	景福	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000010086	海雲院 位穹窿山。梁代建海雲禪院，宋紹興十二年賜額，明萬曆中鼎新。（明清序：244；	1142	紹興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000010092	穹窿寺 在穹窿山。梁天監二年創福臻禪院，唐會昌六年復建穹窿禪院，明永樂中敕改顯忠寺，崇禎十三年復建名拈華寺，清康熙四十一年賜額拈花禪寺。（明清序：283；淵四．	503	天監	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000010134	拂水巖 明洪武三年拂水庵，順治六年通琇奉敕建塔，塔院為禪院。（明清序：268、284；	1370	洪武	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000010238	寶覺 在吳江縣曹村，宋紹興十一年建。（淵四．江南通志．卷四十四：32）	1141	紹興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000010779	寶臺經藏 隋煬帝在開皇九年（589年）平定南朝的陳，於江都舊邸設立，佛典大備於斯。（T50n2060_p0516b21）	589	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000010808	高旻禪寺 清康熙四十年建，位於邗江區揚子江南路運西鄉的三汊河口，是馳名中外的揚州八大剎之一。嘉慶一統志誤植為高文寺。（明清序：202；	1701	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000010867	天寧禪院 在儀徵縣東南，澄江橋西。唐景龍三年建，宋蘇子瞻嘗於此寫經，紹興中更今名。建國後天寧寺不存，原址被天寧油米廠所用，現僅存天寧寺塔。（淵四．江南通志．卷四	709	景龍	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000011118	北山寺 在泰州北二里。唐寶歷元年，建王屋禪師道塲。宋嘉祐八年，改名開化。康熙三十八年，聖祖賜額。（明清序：293；淵四．大清一統志．卷六十七：25；四部續．嘉慶	1063	嘉祐	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011177	靈雲菴 在泰興縣南江上，梁天監四年建。江南通志，建安寺在泰興縣，梁天監四年建。江水坍没，今遷大西門郭家莊南，改名靈雲菴。（明清序：227；淵四．大清一統志．卷七	505	天監	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000011408	太平興國傳法寺 南宋時期歷史地名，明洪武七年改建為武林驛。南宋《都城紀勝》一書中的〈社會〉一節，其中有謂：「城中太平興國傳法寺淨業會，每月十七日則集男士，十八日	1374	洪武	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000011478	慈光院 光啟三年武肅王錢氏，始牧杭郡降疏請釋文喜住龍泉廨署，今慈光院是也。（T50n2061_p0784a04、T50n2061_p0784a05）	887	光啟	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011485	釋迦真身舍利塔 後梁貞明二年冬十二月武肅王命惠州防禦使弟鏵率官吏僧衆詣明州鄮縣阿育王寺迎釋迦舍利塔歸於府城。仍建浮圖于城南以致之，即此。後周顯德五年火，宋開寶元	958	顯德	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011489	西井寺 杭州州牧劉彦慕宗徹禪師道，立精舎于府西，號羅漢院，化徒三百。師後示疾遷化，門人塔于院之北隅。梁貞明五年錢王廣其院為安國羅漢寺。移師塔於大慈山塢。宋淳熙十	1184	淳熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011601	南山慧因教院 始於後唐天成二年，吳越王建。舊址（估計 30.227940°，120.127259°）位杭州西湖西南岸之赤山阜附近。今移建名「惠因高麗寺」。宋元豐	1087	元祐	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011631	長耳寺 法相寺俗稱長耳相，位杭州南高峰下。天福四年建長耳相，宋大中祥符九年改法相，明萬曆三十五年修。今已不存在。（唐寺考：182；	1016	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011656	南竺 位於南山風篁嶺。隋開皇十五年，陳仲寶所建，請真觀法師開山。法師錢塘世家范氏子。至宋理宗淳佑八年，賜額為崇恩演福禪寺。為宋朝教院十剎之一。（	595	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011666	聖因寺 康熙四十二年建。今孤山中山公園，亦即聖因寺遺址。大清一統志，在錢塘縣孤山南，即江浙臣民所建，聖祖仁皇帝行宫。雍正五年改寺，恭奉聖祖神御龍碑。（明清序：2	1703	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000011713	齊明寺 位於鹽官，齊建元四年建。（T50n2063_p0942b14；）	482	建元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000011819	聖壽院 廣明元年建興聖，熙寧元年改聖壽，隆興元年改廣福。（明清序：203）	880	廣明	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000011832	大慧祖師塔 位徑山大慧房後，為大慧宗杲（1089-1163）禪師塔。大慧宗杲禪師於隆興元年八月十日，示寂於徑山明月堂。皇帝聞之嗟惜，詔以明月堂為『妙喜菴』，賜謚	1163	隆興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011856	孚佑王殿 位徑山寺，內奉唐國一禪師開山時所現龍神也。紹興二十八年（1158），大慧宗杲建。（g032p0134）	1158	紹興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000011932	法照寺 在淳安縣東六十里，唐咸通八年建。（唐寺考：201；	867	咸通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000011934	上貴寺 在淳安縣東北五十五里，唐貞觀元年建。（唐寺考：202；	627	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000011996	烏龍寺 《金石録》：「《睦州龍興寺碑》，康希銑撰，徐嶠之正書。開元三年二月。」知睦州有龍興寺。（淵四．浙江通志．卷二百五十八：23）	715	開元	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012047	寧國院 在新城縣南七里，即寧國院。晉郭文嘗隱於此。咸和二年，人為立祠。吳越時，因碧沼清澈，遂題額曰碧沼寺。（唐寺考：182；	327	咸和	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012101	澄鑒寺 紹興十八年建澄鑒寺、二十五年賜額開化。（明清序：293）	1148	紹興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012171	羅漢律院 在鄞縣西北富榮坊，即能仁羅漢院。唐為乾符寺，咸通八年復建，名藥師院，又為承天。政和七年賜額寺羅漢應真院。有子院二：曰法華教院，曰羅漢律院。後能仁法華廢	867	咸通	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000012172	聖壽寺 在鄞縣西南六十里，唐咸通五年建，皇朝太平興國三年，賜今額。（淵四．寶慶四明志．卷十三：34；	978	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012184	香山教寺 在今寧波市鎮海區，背依達蓬山，前畔九龍湖。唐天寶十四年，僧惟實結庵創建。廣徳初建寺，大曆中請額。至晚清時依然規模宏大，寺名遠播，然而在同治年間被焚燬，	755	天寶	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012185	慧燈 《嘉靖寧波府志》：「在縣治南大梁街。」《延祐四明志》：「唐咸通十三年，使臣周景遇捨廨宇以建，賜額慧燈。」。（淵四．浙江通志．卷二百三十：2）	872	咸通	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012190	普和 縣西南五十五里，漢乾祐二年建，初名靈影，宋慶曆七年賜額。（淵四．延祐四明志．卷十七：8）	949	乾祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012311	宸奎閣 大覺禪師回阿育王寺後，於神宗熙寧三年（1070年）建造了宸奎閣，用以供藏仁宗的御書偈頌和英宗的手詔。宋哲宗元祐元年，蘇軾撰《宸奎閣碑銘》一文，詳述建閣經	1070	熙寧	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012320	千佛閣 位於天童寺內。正覺禪師任天童寺住持的30年間，天童寺走入中興時期。並於紹興四年（1134年），建成了「千佛閣」，後擴建成為東南第一大殿。（	1134	紹興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012325	太白精舍 唐開元二十年（732年），法璇禪師建太白精舍，後人稱之為「古天童」。至德二年（757年），宗弼禪師將寺遷太白精舍於太白峰下，即現今	732	開元	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012411	玉皇殿 祠宇觀在餘姚縣南七十里四明山，漢人劉剛及妻樊夫人上昇之地。唐明皇天寳三年，以其地險逺移觀於瀑布下，故俗謂之白水宫。本朝政和六年，詔建玉皇殿蠲其雜賦。（淵	1116	政和	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012506	資福院 建炎三年高宗駕幸永嘉，有旨以林靈素故居改為資福院。丞相呂頥浩，以道琛法師應詔，凡前後三坐道場，化緣不衰。（T49n2035_p0230c13、X77n1	1129	建炎	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012622	芙蓉菴 宋咸平二年，僧全了建，名常雲院。四年，寺廟進百寶塔，賜名承天寺。政和七年，以廷中有承天寺，改能仁寺。紹舉十二年，郡守閭邱昕奏賜額，遂為雁山大道場。後寧郡	999	咸平	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012628	飛泉 位於浙江省温州市樂清市雁蕩山，宋天禧二年（1018年）建造。飛泉寺屬院落式結構，有24間房，據說明清時期，香火鼎盛。但現在房屋倒塌破敗，再過幾年將成一片荒	1018	天禧	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012705	祥符 東晉中創精舍，普通中水陸院，大中祥符元年賜大中祥符院，明洪武二十四年改祥符禪寺。（明清序：230）	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012708	津梁庵 清順治十五年幻如創建，月生增置禪舍。（明清序：253）	1658	順治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012716	興善院 梁天監二年置，周顯德五年改報恩院，宋治平初改興善院，明景泰、天順中增建。（明清序：295）	503	天監	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012719	普光寺 晉天福元年建，明洪武初賜額。（明清序：300）	936	天福	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012763	古南禪院 明崇禎二年建社庵，密雲名古南禪院，清順治初牧雲開堂，成名剎。（明清序：264）	1629	崇禎	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012764	棲真寺 宋開寶二年開山，明洪武三十一年建，隆慶中增建禪堂，天啟中募修。（明清序：274）	969	開寶	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012774	慈雲寺 在嘉興縣東北二十六里魏塘鎮。唐大中十一年立，名保安寺。宋治平元年十一月改慈雲寺。（唐寺考：166；明清序：297；	857	大中	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012795	金粟寺匡祖堂 在海鹽縣澉浦鎮茶院村。…金粟寺靠山而建，已荒圮，山門和正殿十分破舊，两個配殿各有三間瓦房。南邊三間已成初级小學的校舍。 崇禎五年（1632）春，石	1632	崇禎	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000012839	安善寺 永明二年建安善寺，祥符元年改薦福寺。（明清序：267）	484	永明	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012971	上乘寺 湖州府治東北2里，唐咸通5年忠顗師建，刺史髙湜表為資聖寺。中和5年改上乘寺，宋景德2年改飛英教寺。初咸通中僧雲皎自長安來得舍利建飛英石塔寺以此名。一說，	864	咸通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012985	竹佛寺 在長興縣西南四十里方山，齊永明元年置，號「方山寺」。宋朝熙寧中有僧析竹絲織為佛至今存，號「竹佛」。唐僧釋子瑀（？-752）住錫於此。（宋元方志：4753	483	永明	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000012986	天安寺 湖州府志：在府治東北，陳永定3年，武帝后捨宅建，名龍興寺。萬厯湖州府志：唐神龍2年，改孝義寺。吳越錢氏，改天寧寺。宋紹興7年，崇奉徽宗香火，賜曰報恩廣孝	559	永定	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000013033	興福院 周顯德二年建興福院，宋治平二年改演教寺。（明清序：251）	955	顯德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013217	覺智寺_訛 在府東南四里226步。晉義熙12年驃騎郭將軍（偉）舍宅置寺，名覺嗣。唐會昌5年例廢。大中5年僧居玄詣闕，請僧契真復興此寺，并置禪院於北廡。詔賜名大中	851	大中	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000013225	玊泉院 在諸曁縣西北一十八里，晉天福七年建，號玊泉院，大中祥符元年改賜今額。（淵四．會稽志．卷八：8）	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000013292	法華精舍 在縣南三十里，晉義熈十三年髙僧曇翼結庵誦法華經，多靈異，内史孟凱請置法華寺。至梁恵舉禪師亦隠此山，武帝徴之不至。有翼公所頂戴紫檀十二面觀音，及梁昭明太	1373	洪武	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000013293	妙相院 在會稽縣東五里，唐元和九年建，舊名南崇寺。晉天福中，僧行欽於寺前水中得石佛，宋治平中賜今額。石佛在寺中，髙裁二尺餘。背有齊永明六年所銘，凡十八字，筆法極	814	元和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013297	功德院 雲門六寺之一。在會稽縣南三十一里一十步。初僧重曜于「雲門拯迷寺」之西建懴堂，號「凈名庵」。開寳五年（972）觀察使錢儀廣之，為「大乗永興禪院」。雍熙二年	1131	紹興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000013307	泰安寺 在㑹稽縣東南四十里。周顯德二年建，初號化城院。宋建中靖國元年，改賜名證慈。紹興初，以其地為孟太后攢宮，遷寺于山南白鹿峰下，賜名泰寧，而徙證慈額于曹娥。其	1101	建中靖國	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013327	慶苑寺 在嵊縣剡源鄉。宋元嘉二年建，號靈鷲寺。宋治平元年，改名鹿苑。寺有玉虹亭、隱天閣。大清一統志誤植為慶苑寺。位於剡縣太白山，	425	元嘉	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013365	龍興寺 劉宋太始元年建，號香嚴寺。唐神龍元年改為中興寺，神龍二年改為龍興寺。《香嚴寺碑》康希銑撰，徐嶠之正書篆額。開元十一年六月立碑在諸暨薦嚴寺。（唐寺考：19	96	太始	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013395	稱心山寺 在㑹稽縣東北四十五里，梁大同三年建。《輿地紀勝寺》與雲門、天衣埒，唐宋之問有詩。（唐寺考：187；	537	大同	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013399	報恩寺 位上虞縣西南二十五里唐，光啟三年建，明萬曆中復興。（明清序：276）	887	光啟	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013402	百官旌教寺 位於龍山北麓，杭甬鐵路南側。從鳳山路穿過丁界寺鐵路橋洞，有幾顆古樟樹參天聳立的一大塊地方，這就是當年旌教寺原址所在。唐大順二年（891）建，是浙東名	891	大順	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013453	龍藏寺 位於嵊州市三界鎮嶀山北麓（俗稱龍藏寺，現為三界茶廠），梁天監二年建，唐代詩人李紳三次游居寺內，捐款修建了龍宮寺，並撰寫了《龍宮寺碑》。（唐寺考：191；	503	天監	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013498	法隆寺 在金華縣通濟橋旁。有經憧髙五丈，刻云唐大中十一年立。（唐寺考：199；	857	大中	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013586	雙林佛殿 位義烏縣南雲黄山下。梁普通元年，傅大士依雙檮木結庵，大同六年即其地建寺，因名雙林佛殿，宋治平三年賜今額。（淵四．默成文集．卷三：3）	520	普通	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000013682	永平寺 在常山縣北三十里。唐大中十年建，宋趙鼎、魏矼、范沖三賢嘗寓此。（唐寺考：200；	856	大中	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000013710	聖壽寺 明萬厯《龍游縣志》在縣南五十里。髙僧懶牧坐化於此，有塔。崇禎《衢州府志》梁天監三年，僧嵩建。（淵四．浙江通志．卷二百三十三：9）	504	天監	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000013784	祖印院 位於浙江省舟山市城區，寺原在岱山的衢山島，名蓬萊寺，晉天福五年建。北宋治平二年（1065），朝廷御賜「祖印」額，其名一直沿襲至今。嘉熙二年，邑令余桂將祖	940	天福	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014061	普濟寺萬壽御碑亭 在普濟寺海印池北，五閒。高三丈八尺，深四丈，廣共六丈。清康熙四十一年建。安置康熙御製文碑石。豎蠲免錢糧碑於其旁。（g009p0450）	1702	康熙	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000014065	御製碑亭 在護國永壽普陀寺。明萬曆三十五年，發帑千兩，遣御馬監太監党禮建。（g009p0449）	1607	萬曆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014077	普濟寺藍公生祠 清康熙三十二年建。祀清定海總兵藍理。（g009p0462、g009p0236）	1693	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014090	御書亭 在法雨寺第五層，五閒。並清康熙四十一年建。安置康熙御製文碑石。豎蠲免錢糧碑於其旁。（g009p0450）	1702	康熙	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000014096	法雨寺藍公生祠 清康熙三十二年建，祀清定海總兵藍理。（g009p0462）	1693	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014097	陳黃二公祠 在法雨寺。清康熙三十七年，住持性統建。（g009p0464）	1698	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014112	慧濟寺圓通殿 恆學能積（1744-1802），於乾隆五十八年，首建圓通、玉皇二殿，大悲樓、齋樓。（g009p0281）	1793	乾隆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014113	雷祖殿 三閒。普陀慧濟寺僧頂順（登泉之徒），於嘉慶二十二年主席後建。（g009p0282）	1817	嘉慶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014125	大乘庵 在千步沙上。民國四年，慧濟寺監院僧慶祥，承受兜率舊址，改建是庵。（g009p0284）	1915	民國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014135	六合庵 位於普濟寺海印池東南側，天華堂右。清康熙初（1662-1677）鄞縣僧心一來山結茅於此，取名「六合庵」。康熙末（1707-1723）徒孫廣博、續靜等增建	1901	光緒	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014166	常明庵 在象王峯，清涼岡麓。清光緒三年，法雨寺住持立山圓創建，為退休之所。（g009p0290）	1877	光緒	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014172	梵音洞庵 在青鼓磊。明崇禎二年，僧寂住，為鎮海寺（即法雨寺）住持，建此為退休之所。（g009p0294）	1629	崇禎	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014204	金剛茅篷 在觀音洞左，初名金剛茅篷。民國二年，僧開音改建。（g009p0315）	1913	民國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014210	三官堂 在短姑道頭左，舊名三元殿。明萬曆五年，僧明安創，為登舟憩足之所。（g008p0117、g008p0126、g009p0317）	1577	萬曆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014215	真顯庵 在普陀寺後，宋真歇禪師建。歲久傾廢，萬曆三十年督造張隨改額「棲真庵」（一說改額「真顯」）。（g008p0124；g009p0329）	1602	萬曆	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000014249	青蓮寺 在朱家尖老佃房村，俗稱老佃房，康熙四十一年建。（g009p0237；	1702	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014251	福田庵 在大幹，康熙四十二年建。（g009p0237）	1703	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014269	土地祠 在普陀山普濟寺右，仁德堂西，前後共六閒。清康熙三十六年，仍舊址建。（g009p0458）	1697	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014312	明恩寺 舊名明恩寺。宋大中祥符九年建，治平三年改名，清康熙九年重興。（明清序：291）	1016	大中祥符	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014688	淨名院 位於台州市天台縣石粱鎮岩頭墩村。周顯德四年建通玄定慧院，德韶第一道場也，宋大中祥符元年改淨名院，明天啟中圓悟重興仍舊額，清康熙中復修。如今的通玄寺，簡陋	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014689	瀑布寺 在天台縣西北十五里十二都瀑布之側，宋元嘉二年僧法順建，久廢。（g089p0165；淵四．赤城志．卷二十八：31）	425	元嘉	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014691	龍山崇修院 在天台縣西南一十五里十九都龍山西南阜，舊號龍山集雲院，隋智者大師建。唐天寶六年改龍山為始豐，宋乾德二年號龍山崇修院，大中祥符元年改禪林寺。（宋元方志	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014693	薦福院 在椒江區章安街道黃石岙村。在《臨海縣誌》中，稱之為「皇入岙」。大概是南宋建炎間高宗南渡行在駐蹕章安時曾到過這裡，故有此別稱。《臨海縣誌》載：薦福寺在縣東	1010	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014695	長瓏 在天台縣（宋）西五十里二十九都得千佛山腳下。唐光啟三年建。凡三徙至今地，宋治平三年改今額。舊傳寺鑄一鐘屢不就，有老嫗施一錢，投於冶中，鐘即成，而錢宛然在焉	887	光啟	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014697	安國雲居院 在天台縣西北三十五里十四都，舊名安國雲居院，晉天福元年建，蓋僧德韶第二道場。大中祥符元年改額慈雲寺，隆興初併入護國寺。（明僧索引：1499；T50n	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014699	菩提院 在天台縣西北三十里十四都，舊名般若，後周顯德四年建，蓋僧德韶第九道場。宋大中祥符元年更名護國，後錢太師忱家乞為香燈院，加廣恩。（g089p0151；天台	957	顯德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014704	道元 《赤城志》：「佛窟寺在三井西峯上，僧遺則卓庵居之」又「昭慶院在（天台）縣西北二十五里，舊名佛窟。唐大中六年建，葢僧遺則卓庵之地，唐㑹昌中廢。後道士劉處静復	852	大中	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014720	大梵寺 在天台縣（宋）西南七十里三十三都，舊名雲光院，號暗巖。周顯德四年吳越昭儀孫氏捨資，俾天台鎮將陳希靖建。（g089p0154；	957	顯德	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014724	菩提大同寺 在天台縣東北九十里十一都。舊在嶴西，名菩提大同，周顯德五年建，後徙今地。宋治平三年改大明院，後復為大同寺，宋如菴主塔於此。（g089p0152；天台	958	顯德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014743	善建寺 在（宋）天台縣東北二十五里，白雲峯側，舊名雲峯。梁乾化元年建，盖智顗第六道場，後更名義建。太平興國五年改今額。（淵四．赤城志．卷二十八：19；天台縣地名	980	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014748	下巖 在（宋）天台縣北五里赤城山下，晉太元元年建。先是興寧中僧曇猷依巖造寺，號中巖，後以多赤蟻徙平地。宋大中祥符元年改崇善，政和八年改玉京觀。（g089p016	376	太元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014751	華頂禪林 在天台縣東北六十里十一都，坐落在華頂峰之下。舊名華頂圓覺道場。晉天福元年僧德韶建。蓋智者嘗宴坐於此，故上有降魔塔、伏虎壇、鬼疊石。（g089p0149	936	天福	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014755	保興福慶院 在天台縣東北三十里十都，舊名保興福慶院。晉天福四年建，宋治平三年更名普慶寺。（g089p0151；天台縣地名志：296）	939	天福	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014758	瑞龍院 在天台縣西南三十五里，唐咸通二年州牧京兆杜雄創瑞龍院於紫凝山，祈恭興揚法席，以悟淪迷。宋祥符元年（1008）改額無相寺，治平中（1064-1067）徙今	861	咸通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014765	彌陀塔院 在天台縣西南七十里二十五都，舊名彌陀塔院，蓋僧德韶第七道場。周顯德中建，宋大中祥符元年賜額，今廢。（g089p0166）	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014768	水陸院 在天台縣西三十里二十三都，今雷峰鄉壩頭村西北。宋太平興國四年建，熙寧三年改壽聖，紹興三十一年避高廟尊號，改西廣福，今復為水陸寺。（g089p0161；天	979	太平興國	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014769	寶壽寺 在天台縣西南五十七里三十二都，舊名寶壽，漢乾佑三年建，宋治平三年改今額。（g089p0161）	1066	治平	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014771	淨安院 在天台縣西南三十五里二十一都，位於天台山南部九龍山麓，九峰環拱，葛玄坑、龍鬚坑雙澗瑩繞。唐乾符二年建。先是吳赤烏中有周祥禪師居此，以山如屏峙，名翠屏菴。	875	乾符	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014773	禪智寺 在天台縣西四十里十一都，晉天福二年建，宋治平三年改禪智。國初廢，今復為文殊。（g089p0162）	937	天福	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014774	靈瑞寺 在天台縣西四十里三十四都，唐咸通四年建，舊名靈瑞，宋大中祥符元年改永福。國初廢，復重新之。（g089p0162）	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014775	崇福寺 在天台縣西二十五里十四都，周顯德七年建，蓋僧德韶施茗處，故至今呼為茶院。宋開寶三年，賜號崇福寺，祥符元年改景福院，國初廢。（g089p0162）	960	顯德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014778	螺溪傳教院 在縣東北一十里十一都，顧承徽舍宅，宋乾德元年錢俶建。錢俶遣使高麗求取一家章疏，高麗君乃命國僧諦觀報聘，以天台教部還歸于我。諦觀既至，禀學羲寂（義寂）	963	乾德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014795	白[鴳-女+隹]廟 在縣治北二里九都，今名白鶴廟。舊志傳石間有巨跡，鄉人神之遂立廟，奉本郡靈康顯佑廣惠威烈王，宋閣學之瑞有記，宋紹興四年，令潘晉孫命子繼先篆神蹟	1134	紹興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014798	岩板寺 在縣東四十五里一都洪求鄉蝙蝠山麓，舊名清化，赤烏二年建，宋治平三年改興化。隆興初參政賀允中乞為香燈院，改今額。國初廢，今重興。（g089p0158；	1066	治平	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014840	靈泉寺 《太平縣志》：在縣南隅，唐咸通五年建，舊名靈泉，宋祥符元年改今額。（淵四．浙江通志．卷二百三十二：25）	864	咸通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014881	靈鷲寺 舊名隱然。唐光化二年建，宋治平二年改名靈鷲寺，明末改興化寺。（明清序：294）	899	光化	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014921	報恩寺 唐光化二年建報恩寺，宋建炎初改法海寺。（明清序：252）	899	光化	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000014923	壽聖 北宋末年，處州百姓為了感戴當時知縣江安止的功德，就選擇了這個幽絕的境地造了壽聖寺，南宋隆興元年改為廣福寺。（	1163	隆興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000014924	法昌 括蒼縣西三十里，唐大中二年建。（淵四．浙江通志．卷二百三十四：19）	848	大中	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000015022	龍安院 位於龍泉，乾符三年，釋有緣於至縉雲龍泉大賽山立院。因奏祠部給額，號龍安。勅度七僧，住十八載。（X85n1590_p0200c08、T50n2061_p0	876	乾符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000015050	福巖寺 位於廬州肥東縣浮槎山頂上。乾隆一統志，在浮槎山，亦名福巖寺。碑略云，梁武帝女夢入一山為尼，帝取名山圖，展得此山。以天監三年，創道林，寺成祝髪號名持大師。	504	天監	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000015117	永壽寺 在蕪湖縣西五里，舊名永壽。晉元和二年建。（唐寺考：219；	807	元和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000015567	谷林寺 在桐城縣東十五里，魯硔山。舊名清泉寺，明建，康熙四十六年勅賜額谷林寺。（明清序：254；淵四．大清一統志．卷七十六：35；四部續．嘉慶一統志．安慶府二：	1707	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000016045	騰雲寺 在蕭縣都仁鄉，唐太和元年建。（唐寺考：83；	477	太和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000016159	寶林寺 在無為州西，唐垂拱二年建。（唐寺考：149；	686	垂拱	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000016161	羅漢寺 在無為州治東。唐永徽三年建。（唐寺考：149；	652	永徽	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000016162	南汰寺 在無為州，汰水之南，宋咸平元年建。又有北汰寺，在汰水北，唐永徽二年建。（唐寺考：150；	651	永徽	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000016163	福源寺 在無為州，雙泉山麓。唐永徽四年建。（唐寺考：150；	653	永徽	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000016202	淨戒寺 在含山縣南七十里，唐貞觀二年建。（唐寺考：148；	628	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000016232	百福寺 在州城中。唐貞觀二年建。（唐寺考：148；	628	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000016233	梵行寺 在州城南五十里。唐貞觀五年建，有古塔。（唐寺考：148；	631	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000016609	淨居院 屬安徽九華廢庵之一，本在雙石巖側。靖康元年，僧移建於玉甑峰側下。天柱山在寺右約十里，寺側前有疉石塔。（g077p0039、g077p0044、g077p	1126	靖康	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000016838	化成寺 位安徽九華街化城盆地，在九華山西南部，天台峯西北。為九華山開山祖寺，是地藏菩薩道場，也是九華山寺院的「總叢林」。寺始於晉隆安五年（401），初名「九華」	401	隆安	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000016942	普慧禪寺 位於宣州，《乾隆太平府志》卷十四〈古蹟志．寺觀附．繁昌縣〉載：「隱靜寺，在縣東南三十里隱靜山，一名五峰寺。劉宋（420-479年）杯渡禪師建，舊額『江	1058	嘉祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000016985	開法寺 在建平縣治東，梁天監四年建。（明清序：293；淵四．大清一統志．卷九十二：10；四部續．嘉慶一統志．廣德直隸州：8）	505	天監	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000016996	大忠寺 在建平縣治東北，唐貞觀二年建。（唐寺考：218；淵四．大清一統志．卷九十二：10；四部續．嘉慶一統志．廣德直隸州：8）	628	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000017123	越山吉祥禪院 位于福州鼓樓區北隅、屏山南麓，福建省人民政府東側。北宋乾德二年（964），吳越國王錢氏割據時，福州郡守為祈求國境安甯而建，初名「越山吉祥禪院」。明	964	乾德	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000017141	鳳棲寺 位於建州浦城縣，元和十二年，大安法師在乾元寺受戒。（T50n2061_p0780b19；明僧索引：1497）	817	元和	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000017206	護國院 康熙四年建，五十二年改建。（明清序：209）	1665	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000017293	龍堂 在黃檗山九淵龍湫旁。宋元符二年，安撫程邁祈雨有應，為立龍堂。（g086p0054）	1099	元符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000017431	黃檗塔院 在下棋壠。宋太平興國元年建。以衰亂故，江氏從而宅。左右現存塔五座，內有古井一口。（g086p0086）	976	太平興國	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000017526	東山聖泉法華院 在閩縣瑞聖里。景龍元年，僧懐一始卜居于愛同寺之西，苦乏水。忽一日二禽鬬噪於地，心異之，杖錫往視，因卓其所。有泉如縷，俄而涌溢，人乃礱石環其口，分	707	景龍	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000017721	證覺寺 唐武德三年建。（唐寺考：216；明清序：208；	620	武德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000017796	潔己堂 在戒壇之後，至元乙酉，僧錄劉鑑義建，至正丁酉燬。民國十四年（1925）圓瑛和尚改建為水泥仿木結構的二層樓閣。現為有「百寶樓」之稱的藏經閣。（g062p0	1925	民國	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000017799	甘露戒壇 在大殿之後。唐時，其地常降甘露，僧行昭因浚甘露井。宋天禧三年，僧始築戒壇。建炎二年，僧敦炤特考古圖經更築之，為壇五級，其間高下廣狹之度，俱有表法，仍命	1019	天禧	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000017809	東西二坊 在三門之外，泰定四年佛果炤所建。左曰「八吉祥」，右曰「六殊勝」，紀寺瑞也。（g062p0032 - g062p0033）	1327	泰定	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000017822	建法院 唐天祐二年，州刺史王延彬建。以居律師弘則，使授毘尼。（g062p0038）	905	天祐	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000018470	支提寺 支提寺於宋開寶四年（971年）為吳越王錢淑所建，歷代帝王曾四次敕賜寺名，五次欽差太監賜物修寺。現存有御賜珍寶、「千聖天冠」鐵佛、「流金大毗盧」銅佛以及佛	971	開寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000018482	大中建善寺 齊永明元年置，舊號建福，在温麻縣背洪嶺之北面，黄沙之南。景雲二年移建寺在縣城東改號「建善」，㑹昌例廢。大中四年僧大千令弇奏復之，賜「大中建善」為額。	483	永明	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000018767	龍泉寺 在江西省廬山腳下，地處九江市廬山區威家鎮。東晉太元六年（381年），淨土宗始祖慧遠大師來到廬山時，先創本寺。追根溯源，龍泉寺實乃蓮宗濫觴之地、淨宗法流之	381	太元	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000018771	東林社 東晉元興元年（402，一說太元十五年），慧遠又建般若臺精舍，作為念佛道場，並成立廬山白蓮社。（佛百：2873.2）	402	元興	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000018794	天池妙吉禪寺 位於廬山西北的天池山頂，為廬山頂最古老的寺院。東晉僧人慧持創立。舊名峰頂寺，宋更名天池院。元時燬，洪武六年復建。明太祖賜名「天池護國寺」。明成祖敕	1373	洪武	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000018959	開元寺 舊名開元寺，宋太平興國二年賜開先華藏，明天順初復舊名，清順治中曹源修，康熙四十六年賜秀峰寺。有王守仁〈又重遊開先寺題壁〉詩。（唐寺考：236；明清序：2	977	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000020134	妙果寺 位饒州，在朝天門外，寳勝橋西南，唐貞觀十年創，内有塔一。（淵四．江西通志．卷一百十三：2）	636	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000020274	華林寺 在正覺寺東，唐天寶十年建，今僅存正殿。（唐寺考：84；	751	天寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000020457	海印寺 明萬曆十四年，明神宗把《大藏經》十五部送給天下名山寺廟，太后將其中一部送給正在東海牢山（青島嶗山）的憨山，朝廷在牢山建立海印寺，特請憨山主持。（g081	1586	萬曆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000021262	慈雲寺 在膠州治西，唐大順元年建。（唐寺考：83；淵四．大清一統志．卷一百三十八：31；四部續．嘉慶一統志．萊州府二：5）	890	大順	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000021521	興隆寺 在滋陽縣北門内。仁壽二年建，舊名普樂，宋太平興國元年改名。王禹偁有記，有古塔十三級，高峻入雲，隋時物也。（唐寺考：81；	976	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000021712	明光寺 在新泰縣西五十里，唐開元七年建。（唐寺考：83；	719	開元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000022557	普靜寺 在蒲臺縣東南三十里。府志，唐廣德二年建。（唐寺考：86；淵四．大清一統志．卷一百三十九：19；四部續．嘉慶一統志．武定府：16）	764	廣德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023210	上香峪寺 上香峪寺在密縣西北，唐天寶七年建。（唐寺考：66；	748	天寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023300	龍興寺 在馬軍橋東北，大内西右掖門外街南。舊龍興寺也，周世宗廢爲龍興倉。宋太平興國二年正月辛卯復建，金元改爲文濟王府，洪武初爲宋國公馮勝宅。（淵四．汴京遺蹟志．	977	太平興國	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000023301	傳法院 太平興國五年，詔於太平興國寺大殿西，後稱傳法院。太宗時，法天譯出聖無量壽經、七佛讚等，州官表進，上覽大悅，乃敕建譯經院，命天息災、法天、施護等於此從事譯	980	太平興國	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023422	法雲 位於汴京。為英宗之三女越國大長公主及駙馬都尉張敦禮奏建。始創於神宗元豐五年 1082），成於元豐七年 （1084 ）。（	1082	元豐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023424	菩提寺 在大梁門外西北，白溝河之南，俗名菩提寺，周顯德四年創建，金末兵燬。（淵四．汴京遺蹟志．卷十：14）	957	顯德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023564	天宮寺 在東都尚善坊（今安樂窩村北洛河岸邊），髙祖龍潛舊宅，貞觀六年立為寺。一說，貞觀六年所立為太原舊第。十二年，以法護為寺主。武后長壽二年（692），阿儞真那	632	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000023574	景雲寺 在道光坊。本沙苑監之地，景龍元年韋庶人立為安樂寺。韋氏誅，改為景雲寺。尋為昭成皇后追福，改為昭成寺。（淵四．唐會要．卷四十八：10；唐寺考：54）	707	景龍	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023592	泰平寺 在東京洛陽歸義坊，則天垂拱二年，太平公主建。（唐寺考：64；城坊考：377；祖堂集：67）	686	垂拱	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000023593	同德寺 在東京洛陽景行坊。中宗景雲三年立為華嚴寺，開元二十一年改為同德寺。唐朝釋休靜法師住錫於此。（唐寺考：58、65；淵四．唐會要．卷四十八：10；城坊考：3	712	景雲	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023594	衛國寺 位於洛陽城內殖業坊（洛城東北），神龍二年，節憫太子建，以本封為名。會昌中廢，光化中復建，有小院十一。（唐寺考：65；城坊考：402；	706	神龍	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000023595	淨土寺 在東京洛陽毓財坊。本後魏淨土寺，隋大業四年，自故城徙建陽門內。唐太宗貞觀三年，復徙此坊。則天天授二年改大雲寺，武宗會昌中廢。（唐寺考：55、60）	608	大業	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000023651	衛國寺 寺舊在水南宣風坊，本隋楊文思宅，復賜樊子蓋。唐為宗楚客宅，楚客流嶺南，為節憫太子宅。太子升儲，神龍三年建為崇因尼寺。復改衛國寺，景雲元年改安國寺，會昌中	707	神龍	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023656	荷澤寺 在唐洛陽宜人坊。太極元年二月十七日，睿宗在藩，為武太后追佛所立。初名慈澤寺，神龍二年改為荷澤寺。其時於西京亦立荷恩。又慧能弟子神會，到洛陽，住菏澤寺，弘	712	太極	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000023657	敬愛寺 在東都洛陽懐仁坊。顯慶二年，孝敬在宫為髙宗武太后立之，以敬愛寺為名，制度與西明寺同。天授二年，薛懷義别造殿宇改名為佛授記寺，其後又改為敬愛寺。（淵四．唐	657	顯慶	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000023659	中興寺 在洛陽寜仁坊。貞觀七年立為衆香寺，至神龍元年二月改為中興寺。右補闕張景佚上疏議改龍興寺。（淵四．唐會要．卷四十八：7；唐寺考：61）	633	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000023661	中興寺 在章善坊。神龍元年2月立為中興寺。2年中宗為武太后追福，改為聖善寺。寺内報慈閣，中宗為韋后所立。景龍3年正月28日制東都改造聖善寺，更開拓50餘歩，以廣	705	神龍	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023662	聽琶寺 位於洛陽龍門山。聽琶寺者，聽琶王子避位出家，三藏法師寶思惟之立。景雲二年四月十六日制：以法師所造寺賜名曰「天竺」。一作「聽琶」。（全唐文．唐河南龍門天竺	711	景雲	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023716	長泉寺 在新安縣西北清要山上，一名長泉寺，五代周廣順二年建。俯瞰河流，為一方之勝概。（唐寺考：61；	952	廣順	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000023801	福星寺 在永寧縣北鳳翼山麓，唐貞觀元年建。康熙二十五年修。唐寺考及嘉慶一統志誤植為福星寺。（唐寺考：57；淵四．大清一統志．卷一百六十三：36；四部續．嘉慶一統	627	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000023932	奉恩寺 在葉縣河山里，唐天寶元年建。（唐寺考：72；淵四．大清一統志．卷一百六十六：26；四部續．嘉慶一統志．南陽府三：8）	742	天寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000024111	法隆寺 在湯陰縣西，唐貞觀二十四年建。（唐寺考：109；	650	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000024132	招提寺 位於滑臺，釋慧安於永淳二年（六八三）到滑臺，住在敕造的招提寺。（T50n2061_p0823b25；	683	永淳	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000024461	安境寺 在府治西南隅，五代晉開運二年建。嘉慶一統志作安境寺。（唐寺考：109；	945	開運	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000024516	居德寺 在修武縣西五十五里，唐開元八年建。（唐寺考：107；	720	開元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000025047	雲門寺 位於河南府澠池縣北三十里韶山主峰區，唐嘉祐元年建，為澠池佛寺之冠。康熙九年修。（明清序：223；	1056	嘉祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000025262	棲霞寺 在南召縣西北丹霞山，唐長慶四年建。（唐寺考：131；	824	長慶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000025518	靈臺寺 在商邱縣城東靈臺上，隋開皇二年建。（明清序：214；	582	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000025652	開元寺 原在虞城縣舊縣城北，宋紹聖三年建，後改建於今縣治西南隅。 （唐寺考：77、78；	1096	紹聖	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000026313	清涼寺 在汝陽縣治西南隅。唐大曆元年建，時名草寺，後名清涼。明宏治十四年，敇賜今額。（唐寺考：75；	766	大曆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000026314	吉祥寺 在汝陽縣南關，唐武德三年建，中有浮屠九級。（唐寺考：75；	620	武德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000026448	南溪寺 明時建向上寺，改相國寺，清康熙二十五年從化募修改南溪。（明清序：243）	1686	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000027464	石佛寺 在安陸縣西八十里唐，元和七年建。（唐寺考：154；	812	元和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000027743	長沙寺 在江陵縣城内。太元二年始建。晉永和中（345-356），郡人滕畯捨宅建。畯故長沙太守，因名長沙寺。内有阿育王像，屢著靈異後移置天皇寺。（淵四．大清一統志	377	太元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000027777	大二聖寺 在公安縣東北。一名興化寺，一名萬壽寺，又名光孝寺。晉太和三年建，寺凡數遷，初在江邉，唐建于梅園，明洪武中水傾潰，復徙椒園。（唐寺考：135；	479	太和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000028114	破額寺 古稱幽居寺，原名正覺寺，又名雙峰寺，是中國佛教禪宗第四代祖師道信大師的道場，位於黃梅縣城西北15公里西山之中，寺創建於唐武德7年，是中國禪宗第一所寺院。	624	武德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000028899	湘東寺 位於衡州，寺內有高樓臺。據《清涼山志》記載：唐大曆四年夏，法照法師於寺九旬起「五會唸佛道場」。感五色祥雲覆其寺，雲中有樓閣。睹阿彌陀佛及二菩薩，其身高大	769	大曆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000029296	新開寺 在巴陵縣南。五代時建，一名乾元寺。岳陽風土記，乾明寺乃舊永慶寺也，有古栢，相傳是大禹手植。名勝志，永慶寺在東山頂，井泉清洌。又宋太平興國五年，改賜寺額，	980	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000029529	福田寺 在石門縣東三十里，唐咸通五年建。（唐寺考：250；	864	咸通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000030435	制止寺 為禪宗六祖慧能與僧人談論「風動或旛動」公案的寺院。原為西漢南越王趙建德故宅。三國時，吳國官員虞翻謫徙居此，虞翻死後，家人捨宅建寺，取名制止寺。隆安元年（	397	隆安	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000030668	眾善寺 在樂昌縣北。宋紹聖四年建，今名眾善寺。（唐寺考：283；	1097	紹聖	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000031600	東林寺 在清遠縣東。唐顯德二年建。（唐寺考：279；	955	顯德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000032260	萬壽寺 始於隋代， 初名緣化寺。唐初稱善興寺。顯慶二年（657）建舍利塔於寺內。開元二十六年（738）改開元寺。宋又改永寧寺、寧壽寺。元順帝賜書「圓覺」， 故又	657	顯慶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000032280	香林寺 在義寧縣西南，唐咸通五年建。（唐寺考：286；	864	咸通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000032309	湘山寺 在全州西門外湘山之陽。唐乾符三年建，有無量壽佛塔，本名光孝寺，又名景德寺，宋賜額湘山寺。康熙五十二年，御書壽世慈蔭匾額。（唐寺考：252；	876	乾符	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000034714	松溪院 最早建於東漢桓帝延熙年間，六朝時名為安浦寺，唐時名為淨眾寺，宋代換名淨因寺，元末明初更名為萬佛寺，地址就在成都西門金花橋側。又《大清一統志》：「在成都縣	728	開元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000034870	開照寺 唐白敏中興立此寺，大中八年改額曰「開照」。據聞：一夜羣冦入寺劫掠，緇徒罄盡。寺元有釋迦藕絲袈裟，為千載之異物也。賊曹令取，與其妻拆而易之。夫妻當時手指節	854	大中	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000034918	中寺 清同治《郫縣誌．外紀》載：「古語云，郫縣七十寺分佈四郊內，其最著者法定寺也，漢永平年佛法初入中國時建」。 淨土宗第一代祖師慧遠的弟弟慧持（一說「惠持）在避	584	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000035017	中興寺 位於唐彭州九隴縣。初寺號太空，天授二年為大雲，開元中詔號龍興。會昌五年廢。（全唐文：3702；唐寺考：268；	691	天授	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000036121	會宗坊 位於峨眉山麓，是峨眉山的第一座寺廟、峨眉山佛教協會所在地。報國寺是入山的門戶，是游峨眉山的起點。為古會宗堂，明代萬曆四十三年（1615），道人明光開建。	1615	萬曆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000036126	長老坪寺 位於峨嵋山息心所前，放光坡上。相傳曾有長老（漢蒲公）坐化坪上。淸康熙二年，峨澈禪師移建。寺額以「長老坪」名之，坪下有觀音岩、風洞、放光坡等名勝。（g0	1663	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000036135	壽聖寺 位峨眉山市西，唐武德六年建，明永樂中增修，舊名壽聖西坡寺。明程啟充曾宿於此。今就圮。（g049p0028；淵四．明一統志．卷七十二：8；歷地魏：364）	623	武德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000036143	觀音堂 位峨眉山玉女峰下解脫坡。明嘉靖時（1522-1566），白無暇太師所建，名「觀音堂」。清初名「解脫庵」，傳說入山於此解脫塵凡，出山於此解脫險阻，故名。光	1884	光緒	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000036199	新開寺 位峨眉伏虎寺後，鞠家漕。萬曆三年，九老洞僧大用建。（g049p0180）	1575	萬曆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000036269	護國聖壽永延寺 萬曆四十二年甲寅（1614〉，明神宗朱翊鈞敕峨眉山金頂華藏寺（金殿）建永延寺藏經。（g049p0258；	1614	萬曆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000037387	齊興寺 位於岷山郡（今四川省茂縣）齊后山，釋玄暢於齊建元元年四月二十三日，建剎立寺。（T50n2059_p0377b06；	479	建元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000040881	卤來寺 雲南鷄足寺院之一，位在羅漢壁太華靜室之左。萬曆年，僧如唐禪棲於此。崇禎十年，其徒性讓改建為寺，今廢。（g084p0268）	1637	崇禎	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000040976	湧泉庵 位在凈覺庵右。舊爲湧泉庵，在寶蓮庵斗母閣之上。嘉靖年（1522-1567），僧眞山、眞用同建，後因山水崩瀉，庵爲之圯。萬曆二十年（1592），僧如海遷建	1592	萬曆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042076	定水寺 在西京長安太平坊西門之北。隋開皇十年，荊州總管上明公楊紀為慧能禪師以宅立寺。（T50n2060_p0700c21；唐寺考：9；城坊考：167）	590	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042113	淨法寺 在西京延康坊東南隅，隋開皇十年，左武侯大將軍陳國公竇抗所立。寺門本抗宅，棨㦸門所造，西院有木浮屠。抗弟進為母成太主建，重疊綺麗，崇一百五十尺，皆伐抗園梨	590	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042131	慧日寺 位於懷德坊東門之北。開皇六年所立。（唐僧索引：630；淵四．長安志．卷十：13；唐寺考：17）	586	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042134	清輝寺 在西京長安興寧坊南門之東。隋開皇三年（583）文帝為沙門曇崇所立。唐宣宗會昌六年（846，舊誤「大中六年」，參見《舊唐書．卷十八下》、《資治通鑑．卷二百	583	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042140	淨住寺 位於安興坊，本隋吏部尚書裴弘齊宅，開皇七年立為寺，有石塔，本姚萇之浴室。（淵四．長安志．卷八：12）	587	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042144	辯才寺 在西京長安懷德坊十字街西之北。本鄭孝王亮隋代舊宅，亮子司空、淮安王神通，以開皇十年為沙門智凝立此寺于群賢坊，以智凝辯才不滯，因名寺焉。唐高祖武德二年徙於	590	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042151	七寶臺寺 位於西京光宅坊橫街之北。儀鳯二年，望氣者言此坊有興氣，勑令掘得石函。函内有佛舍利骨萬餘粒。遂立寺。長安三年武后始置七寳䑓，因改寺額名。建中間，僧竭復於	703	長安	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042229	靈寶寺 在崇德坊。寺有二門，西門本濟度寺，隋秦孝王俊捨宅所立。東門本道徳寺，隋時立，至貞觀二十三年徙濟度寺於安業坊之修善寺，以其所為靈寳寺，盡度太宗嬪御為尼以處	649	貞觀	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042230	崇業寺 位於西京崇賢坊，十字街東南。本弘業寺，隋開皇十年，尼法覺立於法界寺之南，其地狹隘，大業三年合州刺史崔鳯捨宅移置於此。神龍元年改為崇業。（唐寺考：5；淵四	590	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042231	慈悲寺 在長安光德坊十字街東之北。唐武德元年，高祖為沙門曇獻立。（淵四．長安志．卷九：4唐寺考：6）	618	武德	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042232	靜安宮 在西京長安豐樂坊橫街之北。本隋勝光寺，隋文帝第二子蜀王秀所立。煬帝大業元年徙光德坊，於此置仙都宮。即文帝別廟。武德元年，高祖徙明昭廢宮立為證果尼寺。貞觀	618	武德	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042234	法壽尼寺 在西京長安開化坊西門之北，隋開皇六年立。（唐寺考：11）	586	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042236	甘露尼寺 在西京長安勝業坊，隋開皇五年立。（唐寺考：14）	585	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042238	法明尼寺 在西京長安崇賢坊西門之南。隋開皇八年，長安富商王道買捨宅所立。（唐寺考：11）	588	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042239	海覺寺 在西京長安崇賢坊南門西。隋開皇四年，淮南公元偉捨宅為沙門法聰所立。（唐寺考：15；淵四．長安志．卷十：5）	584	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042240	紀國寺 在西京長安延福坊西南隅。隋開皇六年，獻皇后獨孤氏為母紀國夫人崔氏所立。（唐寺考：17）	586	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042241	空觀寺 在西京長安興化坊西南隅。寺本周時村佛堂。多當時名手畫。一說隋開皇七年駙馬都尉元孝矩捨宅所立。（唐寺考：21；城坊考：170）	587	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042244	淨域寺 在西京長安宣陽坊西南隅。隋文帝開皇五年立。恭帝禪位，止於此，薨焉。（唐寺考：21）	585	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042247	菩提寺 位於唐西京平康坊南門之東。隋開皇二年，隴西公李敬道及僧惠英所奏立寺。寺之制度，鐘樓在東。唯此寺縁李右座林甫宅在東，故建鐘樓於西。寺内有郭令玳瑁鞭，及郭令	582	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042250	玉芝觀 在西京長安延福坊。本越王貞宅，後乾封縣權治於此。又為新都公主宅，施為新都寺。寺廢，乃為郯王府。天寶二年，立為玉芝觀。（唐寺考：35；淵四．長安志．卷十：	743	天寶	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042251	宣化尼寺 在西京長安永平坊東門之北。隋開皇五年，周樂昌公主及駙馬都尉尉遲安捨宅所立。（唐寺考：38）	585	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042252	通義宮 在唐西京通義坊，本髙祖潛龍舊宅，武徳元年以為通義宫。貞觀元年立為尼寺。（唐寺考：37；淵四．唐會要．卷四十八：5）	627	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000042254	宏濟僧寺 在西京長安勝業坊十字街北之西。本宏濟僧寺，隋開皇七年立。（唐寺考：37）	587	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042255	元法寺_諱 西京長安安邑坊十字街之北。本隋禮部尚書張穎宅。隋開皇六年立為寺。（唐寺考：38）	586	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042258	永壽寺 在唐西京永樂坊。景龍三年，中宗為永壽公主立。按光福坊有永壽公主廟。元稹《答姨兄胡靈之詩》注：「靈之寓居永樂南街廟中。」疑此寺也。《名畫記》：「永壽寺有吳	709	景龍	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042260	神峪寺 在唐西京崇仁坊。本太尉長孫無忌宅，龍朔三年為文徳皇后追福，立為尼寺，咸亨四年復為僧寺。長安三年七月被火焚，灰燼中得經數部，不損一字，衆以為異。數日之間，	663	龍朔	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042263	弘善寺 在西京長安常樂坊西南隅。隋開皇三年，獨孤皇后為父趙景武公獨孤信所立。本曰弘善寺，至開皇十八年改。（唐寺考：43）	583	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042266	資敬尼寺 在西京長安永樂坊坊內橫街之北。隋開皇三年，太保、薛國公長孫寬為其父立。（唐寺考：41；淵四．長安志．卷七：15）	583	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042268	開元寺 在咸寧縣南薰坊。唐開元四年建。（唐寺考：21；	716	開元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042272	圓通寺 元至正十一年建，明嘉靖二十六年，清康熙五十三年建。（明清序：286）	1351	至正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042290	並光寺 在西京長安頒政坊南門之東，唐太宗貞觀五年太子承乾所立。神龍元年，改此寺為中興寺，又改龍興寺。（唐寺考：25；淵四．唐會要．卷四十八：5）	631	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000042293	報恩寺 在西京長安延壽坊南門之西。隋開皇六年（586年），刑部尚書萬安公李圓通所立。神龍元年，中宗為懿德太子追福，改名加飾焉。又因兵燹，址存元至元中賜平章也先揑	586	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042297	興福寺 位於長安居德坊南門之西。本將軍尉遲樂宅，神龍二年立為寺。會昌六年（舊誤「大中六年」）改興福寺。（淵四．長安志．卷十：12；唐寺考：12；T50n2061	706	神龍	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042298	法海寺 在長安布政坊西門之南。本隋江陵總管、清水公賀拔華宅，開皇九年為沙門法海捨宅立寺，因以法海為名。（唐寺考：10）	589	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042300	功德尼寺 在西京長安懷遠坊十字街東之北。本在安定坊，隋開皇五年，周宣帝女細腰公主所立，唐武德中移於此。（唐寺考：14）	585	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042301	光明寺 位於西京懷遠坊東南隅。本名光明寺，隋開皇四年，文帝為沙門法經所立。時有延興寺僧曇延，因隋文賜以蠟燭，自然發焰。隋文帝竒之，將改所住寺為光明寺。曇延請更立	584	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042303	建法尼寺 在西京長安頒政坊十字街東之北。隋開皇三年坊人田通捨宅所立。（唐寺考：19）	583	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042311	靜樂尼寺 在西京長安崇化坊西南隅，隋開皇六年所立。（唐寺考：20）	586	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042313	積善尼寺 在西京長安義寧坊西北隅。隋開皇十二年，高熲妻賀拔氏所立，其地本賀拔氏之別第。（唐寺考：18）	592	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042314	靈安寺 在西京長安嘉會坊十字街西之北。武德三年，高祖為衛懷王元霸立。（唐寺考：22）	620	武德	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042315	羅漢寺 在西京長安懷德坊西南隅。隋開皇六年雍州牧、楚公豆盧績所立。（唐寺考：24）	586	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042316	妙勝尼寺 在西京長安醴泉坊，隋開皇二年周靜帝皇后平原公主所立。（唐寺考：25）	582	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042317	醴泉寺 位於長安醴泉坊十字街北之西，隋文帝於此置醴泉監，取甘泉水供御厨。開皇十二年廢監立寺。而醴泉坊則位於朱雀大街西第四街，寺占坊約十六分之一，約57612平方	592	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042319	靈化寺 在西京長安普寧坊十字街東之北。隋開皇二年沙門善吉所立，其地本吉之宅。（唐寺考：22）	582	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042320	普集寺 在西京長安居德坊西北隅，隋開皇七年，突厥開府儀同三司鮮于遵義捨宅所立。（唐寺考：26）	587	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042321	大聖千福法花寺 於唐西京安定坊東南隅，本章懷太子宅。咸亨四年捨宅立寺，會昌六年（舊誤「大中六年」）改興元，立有法華道場。先天初年東都安國、寧剎二寺請持法、慧忍二	673	咸亨	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042324	太原寺 唐初，於長安、洛陽、太原、荊州、揚州等五地置太原寺。長安太原寺在休祥坊。本侍中楊恭仁宅。咸亨二年以武后外氏宅立，垂拱三年改為魏國（西）寺，載初元年改為崇	671	咸亨	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042325	延唐寺 在唐西京休祥坊，本在故城中，周宣帝大象二年置。開皇二年移於此，盡度周氏皇后、嬪御以下千餘人為尼，以處之。會昌六年（舊誤「大中六年」）改名延唐寺。（唐寺考	582	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042328	護國天王院 在西京長安頒政坊。唐玄宗天寶二年建，宣宗咸通七年改為護國天王院。（唐寺考：34）	743	天寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042329	先天寺 在長安居德坊東南隅，本隋寶昌寺。隋開皇三年，敕大興、長安兩縣各置一寺，因立寶昌、禪林二寺，東西相對，時人呼為縣寺。其地本羅漢之圓丘。唐先天元年改為先天寺	583	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042330	昭成尼寺 在西京長安休祥坊，為尼寺。隋大業元年，元德太子為尼善惠、元懿立為慈和寺。永徽元年，廢崇德坊之道德寺，乃移額及尼於此寺。先天二年，又為昭成皇后追福，改為	605	大業	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042331	鎮國大波若寺 在西京長安布政坊東南隅。本蔣王惲園地，中宗景龍三年立為寺，睿宗景雲中廢。（唐寺考：44）	709	景龍	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042332	證空尼寺 在西京長安頒政坊十字街北之東，本工部尚書段倫之祖廟，貞觀十七年立為真空寺，武則天改真空為証空。（唐寺考：44）	643	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000042333	真心尼寺 在西京長安群賢坊東門之南。隋開皇八年，宦者儀同三司宋祥捨宅所立。（唐寺考：44）	588	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042337	濟法寺 位於長安布政坊北門之東。隋開皇二年沙門法藏所立。地本梁村之佛堂及隋武侯將軍韋和業宅。其佛殿隋光德太子之寢堂。太子薨後，舍施坼於此造。西禪院，房國公蘇威所	582	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042412	木塔寺 於隋大興城西南隅永陽坊東半部，今雁塔區丈八溝鄉木塔寨村北。即今西安木塔寺遺蹟。隋仁壽三年，建築大師宇文愷奏請興建木塔，大業七年竣工，俗稱木塔寺。唐會昌元	603	仁壽	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042413	修慈寺 唐西京昭國坊西南隅。本隋修慈寺，隋文帝開皇三年魯郡夫人孫氏所立。神龍中改崇濟寺。（唐寺考：4）	583	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042414	楚國寺 位於唐西京進（晉）昌坊西南隅，本隋興道寺之地，大業七年廢。髙祖起義，并州第五子智雲在京為隋留守隂世師等所害後，追封為楚哀王，因此立寺。水竹幽靜類於慈恩。	611	大業	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042417	法覺尼寺 在西京長安敦義坊東南隅，隋置。開元二年併入資善寺。（唐寺考：10）	714	開元	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042418	崇福寺 在西京長安敦義坊東北隅。本隋靈覺寺，隋文帝開皇六年，親王楊雄所立，唐武德初廢。高宗乾封二年，武后為其妹賀蘭氏復立為崇福寺，儀鳳二年，改福田寺，玄宗開元二	586	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042421	普耀寺 在西京長安青龍坊東南隅，隋開皇三年，獨孤皇后為外祖崔彥珍所立。開元二年廢。（唐寺考：26；淵四．長安志．卷八：17）	583	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042428	建福寺 在西京長安曲池坊，唐龍朔三年為新成公主所立。其地本隋天寶寺。寺內隋彌勒閣一百五十尺。唐開元二年廢。（唐寺考：19）	663	龍朔	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042442	靈巖寺 在臨潼縣東南。長安志，寺在零口鎮東坡上，去縣二十六里。隋開皇中置，號靈巖寺。唐會昌五年廢，宣宗咸通六年再置，名鷲嶺寺。宋太平興國六年改。（唐寺考：21；	981	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042445	福嚴寺 在臨潼東南驪山石魚巖下，即石甕寺。唐開元中建，宋改名福嚴寺。長安志，兩京道里記曰，在縣東五里南山半腹，臨石甕谷，故名石甕寺。太平興國七年改，中有玉石像，	982	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042509	開利寺 在長安縣南神木原上。長安志，開利寺在縣南三十里皇甫村，唐香積寺也。永隆二年建，宋太平興國三年改，金石文字記。寺有唐淨業法師塔銘，施燈功德經碑。今存。（唐	978	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042510	護國興教寺 在咸寧縣南五十里樊川北。唐總章三年建，有唐玄奘塔。金石文字記，玄奘塔銘，基公銘二碑，今並在寺。縣志，寺有玉峰軒，宋呂大防建。（唐寺考：36；	670	總章	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042514	東寺 在鄠縣東南六十里雲際山，周太祖時置為居賢寺，周武末寺廢。隋仁夀元年置為居賢捧日寺。至大業中，乃以此地賜駙馬都尉吴國公尉遲安為柴荘。安嘗見一老人素服謂安曰：	978	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042588	寶相寺 在盩厔縣東三里祁家寨。長安志，在縣東一里餘，唐元和中置為光耀寺。宋太平興國三年改寶相寺。（唐寺考：15；	978	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000042790	開元寺 在鳯翔縣城内北街，唐開元元年建。寺内亦有吳道子畫佛像，東閣有王維畫墨竹、宋蘇軾詩。（淵四．大清一統志．卷一百八十四：18；唐寺考：49；四部續．嘉慶一統	713	開元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000042866	耆闍寺 在岐山縣東北四十里，崛山上。唐乾寧四年建。（唐寺考：49；	897	乾寧	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000043339	饒益祠 在朝邑縣南十里，新市鎮。創自梁天監，唐貞觀二年，起十三層浮圖。（唐寺考：47；	628	貞觀	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000043437	海源寺 在蒲城縣東南五十里。縣志，唐貞觀二年建，有塔。（唐寺考：15；	628	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000043438	慧徹寺 在蒲城縣治西南。縣志，唐貞觀元年建，寺東有塔。（唐寺考：16；淵四．大清一統志．卷一百九十：28；四部續．嘉慶一統志．同州府二：23）	627	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000043514	慶善寺 在韓城縣治東南。唐貞觀二年建，宋仁宗時賜額。（唐寺考：47；	628	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000045042	大雲寺 在凉州衛治東北，唐景雲中建。天授元年十月二十九日兩京及天下諸州各置大雲寺一所，至開元二十六年六月一日並改為開元寺。（宋僧索引：403；淵四．明一統志．卷	690	天授	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000047951	通明寺 《温州府志》：在集善鄉，唐天寳間建。《瑞安縣志》：㑹昌六年（846）賜「真身禪院」額。周顯徳中改「通明寺」。宋太平興國四年（979）因陶貞白隠居，以山名	979	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000052342	澄心寺 唐景福二年，吳越王錢繆所建。佔地十餘畝，屋宇６４間，規模宏大。周顯德五年改名水心院。宋治平三年稱澄心寺。今址為東關中學。（	893	景福	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000054439	飛天寺 高雄美濃最大的寺廟，位於美濃東北角，寺廟左右有鐘、鼓兩山遙對，集天靈地秀，山川朝拜之傑，寺中主奉釋迦牟尼佛。寺廟興建於清光緒33年，能淨和尚發宏願建寺，	1907	光緒	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000055045	念定之塔 唐僧增忍之塔。咸通十二年十月十七日建，在靈州龍興寺水館之南。（T50n2061_p0877b20）	871	咸通	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000055673	清安禪寺 大金大定八年十月一日，詔大慶壽寺顗禪師，於位於東京創建，度僧五百員。作般瑟于叱會。（T49n2037_p0894a11）	1168	大定	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000055693	最勝寺 在艮山門外三里，建隆元年吳越王建，治平三年改賜今額。（淵四．咸淳臨安志．卷八十一：4）	960	建隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000055720	無碍寺 在餘杭縣北三十里孝行鄉，舊名無碍，南齊永明二年建，北宋治平二年改今額。（淵四．咸淳臨安志．卷八十三：5）	484	永明	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000055858	五峯院 鄞縣東南五十里，舊號五峯院。晉天福六年建，皇朝大中祥符三年賜額，常住田二百七十畝，山六百八十畝。（淵四．寶慶四明志．卷一十三：26）	1010	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000055863	斑竹庵 在上虞縣北四十里，俗稱斑竹庵，咸通二年建，號永夀寺，大中祥符元年改賜今額。（淵四．會稽志．卷八：28；	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000055963	廣慧寺 在順天府西四十里，舊名圓殿寺。明宣德三年改建，後又改廣惠寺。（淵四．畿輔通志．卷五十一：3）	1428	宣德	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000056007	紫金寺 在宣武門外，迤西寺門西向，有嘉靖三十二年，尚寳卿河間李圻碑記：「謂寺始建于宋云。」（淵四．欽定日下舊聞考．卷五十九：20）	1553	嘉靖	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000056153	淵德觀 宋代帝王崇尚道教，宋神宗時，朝廷命左諫議大夫安燾、起居舍人陳睦在鎮海的招寶山下打造「神舟」兩艘，一名「凌虛安濟致遠神舟」，一名「靈飛順濟神舟」。元豐元年	1078	元豐	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000056234	𨞆塔 遺址位於北侖區大碶街道嘉溪村烏石岙內。據《阿育王寺新志》載：西晉太康三年，山西并州離石人劉薩訶，即僧慧達，求舍利塔，至會稽鄮山，結茅於烏石岙，有舍利寶塔，	282	太康	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000056440	忠孝節義祠 在十三都，卽「南陽道院」舊址，明隆萬間，陳姓所改建。清嘉慶二年火，陳姓裔，又改建為「忠孝節義祠」。（g077p0171）	1797	嘉慶	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000056672	蓮峰院 位於建寧府建安縣。費隱通容禪師於崇禎九年（1636）遷住建寧府建安蓮峰院。（	1636	崇禎	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000056835	廣嚴寺 位於錢唐臨平鎮西前挹鼎湖，後踞丘山。按圖志舊名華嚴院，晉義熙十二年法師通所建以奉華嚴者。隋大業末燬於兵，唐髙祖時玄覽法師始即其地而恢拓之。鑄金銅像三百五	416	義熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000056934	紫陽書院 在安溪縣學宮東。明嘉靖五年至十年，提學副使邵銳倡建。由監生吳輝捐地，知縣黃懌成之。後因其地建文廟，書院無存。至嘉靖三十五年，知縣王漸造改建。嘉靖三十九	1526	嘉靖	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000056971	國泰 在縣西北五十里，舊名國泰。唐大中十年建，盖僧智顗著《止觀》之地。前有溪流，或號幽溪道場。國朝大中祥符元年改今額。今廢。（g089p0166；淵四．赤城志．	856	大中	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000056981	無量壽塔院 在縣西北二十五里十一都，舊名無量壽塔院。宋建隆元年建，蓋僧德韶第十道場，後於此示寂。祥符元年改今額，今廢（在蓮花壙，即今蓮花水庫的裡邊）。（g089	960	建隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057059	隱嶴寺 在縣東六十里一都，舊名「隱嶴」。漢乾佑三年建，宋治平三年改今額。（g089p0150；天台縣地名志：333）	1066	治平	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057066	寶國華嚴院 在縣西北二十五里十三都，舊名寶國華嚴院。吳越錢王時僧德韶建，宋大中祥符元年改今額，今頹毀。（g089p0164；	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057067	靈感壇 元和十二年勅建州浦城縣乾元寺置兜率壇。時天雨桂子及地生朱草，刺史元錫手疏其瑞上達冕旒，遂迴御禮，詔改鳳棲寺，號靈感壇焉。（T50n2061_p0780b	817	元和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057071	橫路庵 在縣西北三十五里十四都，舊名西雲。晉天福八年建，蓋僧德韶第三道場。宋祥符元年改額。（g089p0167；	943	天福	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057072	大慈院 舊在蓮花峯頂，名大慈院。開寶七年建，治平三年改額，熙寧三年徙縣西北二百步。今廢，基為豪右所佔。（g089p0168）	974	開寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057094	兜率寺 巾山（位於臨海古城區東南隅）東南有座兜率寺，廣順三年吳越王建。相傳宋時寺裡有一高僧，為文殊菩薩所化，來世間點悟眾生的，高僧叫戒阇黎。（	953	廣順	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057116	三童寺 在黃巖縣西南二十里。晉元興二年建。國朝大中祥符元年賜額。按蘇仲昌殿記即古三童寺也。（淵四．赤城志．卷二十八：2）	403	元興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057193	智者大師全身龕塔 大師以隋開皇十七年十一月二十四日於石城入滅，弟子舁歸，龕全身於真覺寺。隋煬帝仁壽元年，於大師忌辰設齋，開龕顏貌如生。至大業元年更開，惟空龕而已	597	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057197	至行尊者塔 師以唐會昌三年二月十六日終於禪林寺，葬全身於金地道場，後二十三年門人良湑、敬文發塔火育之，得舍利千餘粒，大如菽，即舊地建塔藏之。（g089p0510	843	會昌	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057250	九峰寺 位永嘉李浦村，北望巍峨九峰山，南觀浩淼楠溪江。清宣統二年，能明法師建。（	1910	宣統	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057321	華天禪寺 九華街北，近聚龍寺。民國十一年，住持僧寬成募建，康有為題額「華天禪寺」。寺北為高原，長江曳練、奇峯插雲，都歸一覽。（g077p0159；	1922	民國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057348	報先明覺院 《咸淳臨安志》在西溪，宋建隆二年呉越王建，治平二年改報先明覺院。西溪梵隱志嵗久傾圯，明萬歴間，里人萬某等重募建佛殿併像飾。（淵四．浙江通志．卷二百二	961	建隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057349	法海寺 《台州府志》在臨海縣南三十五里，宋太平興國七年建，治平三年賜今額。（淵四．浙江通志．卷二百三十一：50）	982	太平興國	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057376	大中寺 在南昌縣大木山，唐大中元年建，一名大中寺。（淵四．江西通志．卷一百一十一：2）	847	大中	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057387	金明教寺 《萬曆嘉興府志》在郡治西南二里，宋開禧元年賜額，時有異僧壽萬王者以醫名，史彌逺有疾王為療之獲愈，厚施不受，以建梵宇為請史乃購地於此。明洪武二十四年定為	1205	開禧	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057408	大寧寺 在長安縣西南五十里江留寺（邨），唐靈感寺也。景龍二年建，皇（宋）朝太平興國三年改。其所在、沿革不詳。（淵四．長安志．卷十二：12；唐寺考：22）	978	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057499	大覺寺 在西京崇賢坊，街北之西。隋開皇二年文帝為醫人周子臻所立。（城坊考：195；淵四．長安志．卷十：5）	582	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057535	寶勝寺 在西京長安永樂坊。隋開皇七年，道士孫昂為文帝所重，常自開道，特為立觀。本在永興坊，武德初徙於此地，本隋寶勝寺。（城坊考：68；淵四．長安志．卷七：15）	587	開皇	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057651	景福寺 在東京洛陽教業坊，唐太宗貞觀九年建景福寺，武后改天女，會昌中廢。（唐寺考：65；城坊考：421）	635	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000057655	罔極寺 始建於唐神龍元年，太平公主為武太后所立。本於長安大寜坊內。（參考：	705	神龍	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057675	慈孝寺 在雷家橋西北，故駙馬都尉吳元扆宅也。天聖二年十二月，詔建寺，奉真宗神御。初議名慈聖，時太后號有此二字，改賜今名。（淵四．汴京遺蹟志．卷十：13）	1024	天聖	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057699	顯靜寺 在陳州門裡，周世宗顯德二年創建，金兵燬之。（淵四．汴京遺蹟志．卷十：15）	955	顯德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057706	文殊寺 在鼓樓東北，釘秤巷之東，信國公湯和宅舊基也。國朝永樂十三年，尼僧悟善創建。（淵四．汴京遺蹟志．卷十：16）	1415	永樂	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057707	彌陀寺 在大寧坊木場街之東南，國朝洪武二十年，尼僧義慶等創建。（淵四．汴京遺蹟志．卷十：16）	1387	洪武	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057718	五岳觀 在南薰門內東北，普濟水門西北，宋大中祥符五年創建，......。初名五岳觀，觀成，賜名會靈。（淵四．汴京遺蹟志．卷十：19）	1012	大中祥符	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057719	祥源觀 在繁臺東南，宋初有人於此地見龜蛇，因建真武堂。真宗天禧二年，泉湧堂側，汲之靡竭，人有疾疫者，飲之輒愈，乃就其地建觀，......，後皆燬於金兵，累經河溢	1018	天禧	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057721	天慶觀 大中祥符二年十月，詔天下州、府、軍、監、關、縣皆建道觀一所，以天慶爲名。（淵四．汴京遺蹟志．卷十：21）	1009	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057722	醴泉觀 在東水門裏，宋眞宗大中祥符元年五月，泰山醴泉出，詔於其地建醴泉觀，後復建觀於京城，金季兵燬。（淵四．汴京遺蹟志．卷十：21）	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057731	靜林寺 在縣西三里，孟宅保之西。梁大同四年建。唐咸通六年，齊侃禪師因舊基更造。寺瞰溪流，特為勝絶。有釋靈一詩。（淵四．浙江通志．卷二百二十九：）	538	大同	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057733	雙林院 在崇德縣西北一十二里羔羊村，梁天監二年置為靜林寺，開平二年改為雙林院，宋祥符元年改澄寂院。（淵四．至元嘉禾志．卷十一：17）	503	天監	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057737	寶聖院 在蔡河北寺橋之南，宋時僧録重珦創建，仁宗景祐元年賜額，元末兵燬。（淵四．汴京遺蹟志．卷十一：24）	1034	景祐	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057738	等覺院 在安遠門外之西北，宋太祖乾德六年創建，金季兵燬。（淵四．汴京遺蹟志．卷十一：24）	968	乾德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057740	萬歲院 在仁和門外之東北，周世宗顯德二年創建，金季兵燬。（淵四．汴京遺蹟志．卷十一：24）	955	顯德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057741	福田院 在仁和門外之東北，唐太宗貞觀二年創建，後爲兵燬。（淵四．汴京遺蹟志．卷十一：24）	628	貞觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000057743	報恩院 在戴樓門裏，宋真宗咸平三年創建，元末兵燬。（淵四．汴京遺蹟志．卷十一：25）	1000	咸平	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057744	鴻禧院 在戴樓門裏之東北，宋太宗端拱二年創建，元末兵燬。（淵四．汴京遺蹟志．卷十一：25）	989	端拱	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057745	法雲院 在固子門裏，金水河灣之西南，宋真宗大中祥符三年創建，金季兵燬。（淵四．汴京遺蹟志．卷十一：25）	1010	大中祥符	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057746	開化院 在固子門裏，金水河之南，白鶻橋之東，宋大中祥符三年創建，金季兵燬。（淵四．汴京遺蹟志．卷十一：25）	1010	大中祥符	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057752	啟聖院 在大梁門内街北，即太宗誕生之地，晉䕶聖營也。太平興國六年建院，雍熈二年成，賜名啓聖，元末兵燬。（淵四．汴京遺蹟志．卷十一：26）	981	太平興國	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057754	觀音明聖院 在宋汴京內城麗景門（舊宋門，梁曰觀化．晉曰仁和。太平興國四年九月改麗景，金曰賓曜。）裏街北，即太廟南門前，元末兵燬。（淵四．汴京遺蹟志．卷十一：27	979	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057758	印經院 太平興國八年，置印經院，神宗熙寧末廢其院，以諸經印板賜顯聖寺。（淵四．汴京遺蹟志．卷十一：28）	983	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057762	觀音庵 在城内大寧坊朩場街之南，國朝洪武三十年，尼僧人栢等創建。（淵四．汴京遺蹟志．卷十一：17）	1397	洪武	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057763	老君庵 在仁和門裏宣平坊，國朝洪武二十一年尼僧勝海等創建，汴人呼爲老君庵。（淵四．汴京遺蹟志．卷十一：17）	1388	洪武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057776	天安萬壽寺 在禹州治西北，宋崇寧元年建，内有宋仁宗御書。嘉慶一統志作天安萬壽寺。（淵四．大清一統志．卷一百五十：34；四部續．嘉慶一統志．開封府二：28）	1102	崇寧	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057777	法海寺 在密縣治西，宋咸平四年建。縣志，寺前有塔，青白石雜為之，髙十餘級，四面自基至頂鑿蓮經一部，字畫道勁。宋張哲有法海寺石塔記。（淵四．大清一統志．卷一百五十	1001	咸平	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057778	中香峪寺 中香峪寺在縣西北，宋開寶元年建。（淵四．大清一統志．卷一百五十：35；四部續．嘉慶一統志．開封府二：28）	968	開寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057779	下香峪寺 下香峪寺在縣西，開寶二年建。（淵四．大清一統志．卷一百五十：35；四部續．嘉慶一統志．開封府二：28）	969	開寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057782	光武寺 在西華縣南長樂鄉，明永樂六年建。成化七年修。相傳光武微時，常止宿於此。（淵四．大清一統志．卷一百七十：27；四部續．嘉慶一統志．陳州府一：22）	1408	永樂	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057783	慧辨寺 在西華縣西七里許，宋紹興三年建。（淵四．大清一統志．卷一百七十：27；四部續．嘉慶一統志．陳州府一：22）	1133	紹興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057784	隄城寺 在西華縣西北，元延祐六年建。（淵四．大清一統志．卷一百七十：27；四部續．嘉慶一統志．陳州府一：22）	1319	延祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057793	福佑寺 在西華門外路北。雍正元年建，寺門牌坊三座，東曰佛光普照，西曰澤流九有。世宗御書，大殿匾曰慈燈朗照，内殿匾曰慈容儼在。（淵四．大清一統志．卷二：16；	1723	雍正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057794	回寺 在西長安門之西。乾隆二十八年建，回部各城平定後，其伯克霍集斯霍什克等入覲，並授封王公，賜居邸舍。餘衆願居京師者，編設佐領。于長安門西建營房以居之，並因其土	1763	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057796	德壽寺 在南苑，順治十七年建（嘉慶一統志作十五年建）。皇上屢經臨幸瞻禮，御書正殿匾曰慧燈圓照。有御製詩勒石。（淵四．大清一統志．卷七：28；	1660	順治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057800	永慕寺 在南苑舊衙門之西，康熙三十年建，為孝莊文皇后祝釐之所。聖祖御書匾曰香靈法雨。乾隆二十九年修。有高宗純皇帝御製詩。（淵四．大清一統志．卷七：28；四部續．	1691	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057807	恩佑寺 在暢春園鐘樓北，雍正元年建。恭奉聖祖御容以時展謁，薦獻如禮。乾隆八年移奉安佑宮，此寺遂専為佛地。（淵四．大清一統志．卷二：16；	1723	雍正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057808	恩慕寺 在暢春園東垣，乾隆四十二年建。為孝聖憲皇后廣資慈福，兼恩佑、永慕二寺名。（四部續．嘉慶一統志．京師二：14；	1777	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057810	大報恩延壽寺 在萬夀山之北，前臨昆明湖。乾隆十六年，恭逢皇太后六旬大慶，皇上命特建兹寺，為皇太后祈福資佑。有御製碑文勒石，又於寺之西建堂，塑五百羅漢像，有御製萬	1751	乾隆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057812	香嚴寺 在玉泉山靜明園内山上，乾隆二十二年修建。寺内有八方塔一座，髙七層。有御書玉峯塔影，初地殊標，二力勝果，三摩慈䕃，四智無遮，五藴皆空，六度圓成，七寳莊嚴，	1757	乾隆	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000057813	妙喜寺 在玉泉山靜明園西門外，乾隆二十三年修建。御書殿内匾曰香海同源。（淵四．大清一統志．卷二：16、17）	1758	乾隆	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000057817	弘恩寺 在良鄉縣。明萬歷中建，康熙五十六年，賜御書大願慈航匾，并題詩勒石。（淵四．大清一統志．卷七：30；四部續．嘉慶一統志．順天府四：19）	1717	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057819	黃岡寺 在寧陵縣西南三十里，後魏大定三年建。（淵四．大清一統志．卷一百五十四：39；四部續．嘉慶一統志．歸德府二：15）	1163	大定	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057822	白塔寺 在永城縣舊城東，宋大觀五年建。（淵四．大清一統志．卷一百五十四：39；四部續．嘉慶一統志．歸德府二：15）	1111	大觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000057823	住堽寺 在虞城縣東南五十里，宋元豐五年建。（淵四．大清一統志．卷一百五十四：39；四部續．嘉慶一統志．歸德府二：15）	1082	元豐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057830	柏林寺 在湯陰縣南南陽村，隋開皇元年建。（淵四．大清一統志．卷一百五十七：6；四部續．嘉慶一統志．彰德府二：14）	581	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057835	白池寺 在汲縣西北蒼峪山，宋建炎三年建。（淵四．大清一統志．卷一百五十八：44；四部續．嘉慶一統志．衛輝府二：17）	1129	建炎	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057845	永安寺 在府治南，元中統二年建。貯佛經五百卷。嘉慶一統志作永安寺。（淵四．大清一統志．卷十一：28；四部續．嘉慶一統志．保定府四：7）	1261	中統	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057859	開元寺 在盧龍縣南䑓山頂，明永樂七年建。為郡人遊賞之所。（淵四．大清一統志．卷十四：13；四部續．嘉慶一統志．永平府二：10、11）	1409	永樂	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057861	金峯寺 在撫寧縣治北，明正統四年建。（淵四．大清一統志．卷十四：13；四部續．嘉慶一統志．永平府二：11）	1439	正統	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057878	開福寺 在靜海縣西北，明洪武中修。有古塔在寺前，隋文帝時建，級十三，髙二十二丈，洞八尺，塔前識宋元豐二年施磚人姓名。（淵四．大清一統志．卷十七：32；四部續．嘉	1079	元豐	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057884	天安萬寧寺 在平山縣覺山，宋元豐元年建。寺有八角井，中有靈蛇二，曰大青小青，相傳為龍種，禱雨輒應。嘉慶一統志作天安萬寧寺。（淵四．大清一統志．卷十八：45；四部	1078	元豐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057886	招提寺 在阜平縣西一百二十里，康熙二十一年建。賜額乾隆十一年，皇上御賜匾曰香巖淨域，十五年、二十六年、四十六年聖駕西巡幸此，有御製招提寺詩。（淵四．大清一統志．	1682	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057905	寂照寺 在獲嘉縣西南，元至正九年建。（淵四．大清一統志．卷一百五十八：44；四部續．嘉慶一統志．衛輝府二：17）	1349	至正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057915	白塔寺 在長垣縣西門内，明洪武八年建塔。相傳有鍾不叩自鳴。（淵四．大清一統志．卷二十二：35、36；四部續．嘉慶一統志．大名府二：6）	1375	洪武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057919	廣慈寺 在懷來縣城内，順治五年建，康熙三十五年賜額。内有行宫，乾隆十年駕幸多倫諾爾，經臨寺中，賜鏡圓常照額。（淵四．大清一統志．卷二十五：11；四部續．嘉慶一統	1648	順治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057925	靈山寺 在保安州南一百五十里，金泰和八年建。（淵四．大清一統志．卷二十五：11；四部續．嘉慶一統志．宣化府三：16）	1208	泰和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057926	永佑寺 在山莊内萬樹園旁，乾隆十六年建。南嚮，聨額皆乾隆帝御書，門外樹坊三，門三楹，額曰永佑寺。入門前殿五楹，供彌勒佛。丹墀列碑二，恭鐫御製碑文。......後	1751	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057931	溥仁寺 在承徳府東北，熱河行宮東三里許。康熙五十二年，聖祖仁皇帝六旬萬壽，蒙古諸藩恭建祝釐。寺南嚮，門額曰溥仁寺，兼清、漢、蒙古文。門内天王殿三楹，恭懸聖祖御書	1713	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057932	溥善寺 在承徳府東北，溥仁寺後。康熙五十二年，聖祖仁皇帝六旬萬壽，蒙古諸藩恭建祝釐，規制與溥仁寺同。現已無存。（淵四．大清一統志．卷二十八：9；四部續．嘉慶一統	1713	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057934	普佑寺 在承徳府東北，熱河行宫東北六里許，乾隆二十五年敕建。寺南嚮，門三楹，内為正殿，又内為天王殿，後為法輪殿，最後為經樓。寺中諸佛皆仿西藏塑像。（淵四．大清一	1760	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057935	普樂寺 在承徳府東北，熱河行宮東北二里許，乾隆三十一年勅建。寺東嚮，聯額皆御書，正殿供藥王佛，門内植碑一，恭鐫御製碑記，御製渡河詣普樂寺瞻禮詩。（淵四．大清一統	1766	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057936	殊像寺 在承徳府東北，普陀宗乘廟之西，乾隆三十九年勅建，仿五臺山殊像寺製。御書寺額曰殊像寺，寺南嚮，門三楹，左右有鐘鼓樓。（淵四．大清一統志．卷二十八：10；四	1774	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057937	廣安寺 在承徳府北，寺南嚮，乾隆三十九年勅建。聯額皆御書，每歲蒙古諸部鱗集瞻仰。有御書廣安寺詩。（淵四．大清一統志．卷二十八：10；四部續．嘉慶一統志．承德府三	1774	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057938	安遠廟 在承徳府東北，熱河行宮東北山麓。乾隆二十四年，以凖噶爾降人逹什逹瓦部遷居山下，二十九年敕建安遠廟，仿伊犁固爾札廟式。（淵四．大清一統志．卷二十八：9；四	1759	乾隆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057943	穹覽寺 在灤平縣喀喇河屯行宮東南。寺南嚮，康熙四十三年，聖祖駐蹕喀喇河屯，隨侍人員，恭建此寺以祝萬夀。門内鐘鼓樓二，中植碑一，恭鐫聖祖御製碑文。（淵四．大清一統	1704	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057947	安禪寺 在豐寧縣中巴爾台地，康熙四十二年建，有聖祖御書寺額。（淵四．大清一統志．卷二十八：12；四部續．嘉慶一統志．承德府三：6）	1703	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057948	金雲寺 在豐寧縣南，乾隆元年建。（淵四．大清一統志．卷二十八：12；四部續．嘉慶一統志．承德府三：6）	1736	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057949	佑順寺 在建昌縣東北，康熙三十七年建，聖祖賜額及檀香佛像。（淵四．大清一統志．卷二十八：12；四部續．嘉慶一統志．承德府三：6）	1698	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057950	承禧寺 在建昌縣西，康熙五十年，聖祖駐蹕其地，發帑建，賜承禧寺額。（淵四．大清一統志．卷二十八：12；四部續．嘉慶一統志．承德府三：7）	1711	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057951	宏慈寺 在建昌縣北，敖漢界内。康熙四十六年，敖漢郡王扎木蘇建，聖祖賜寺額。（淵四．大清一統志．卷二十八：12；四部續．嘉慶一統志．承德府三：7）	1707	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057952	佑安寺 在朝陽縣東北，康熙四十四年建，聖祖賜寺額。（淵四．大清一統志．卷二十八：12；四部續．嘉慶一統志．承德府三：7）	1705	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057953	朝陽寺 在朝陽縣東，康熙九年建。（淵四．大清一統志．卷二十八：12；四部續．嘉慶一統志．承德府三：7）	1670	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057962	萬壽興隆寺 在玉田縣東七十里。嘉慶二十三年，皇帝巡幸盛京，於寺之西偏，恭建行宮。回鑾時，恭逢萬壽聖節，駐驛於此，賜名萬壽興隆寺。（四部續．嘉慶一統志．遵化直隸州	1818	嘉慶	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000057975	興隆寺 在河內縣西北。即元仁宗潛邸也，延祐二年建。（四部續．嘉慶一統志．懷慶府二：17）	1315	延祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057978	盤谷寺 在濟源縣盤谷山北。齊建元元年建。（淵四．大清一統志．卷一百六十一：9；四部續．嘉慶一統志．懷慶府二：18）	479	建元	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057988	明院寺 在隆平縣東任村，隋開皇四年建。（淵四．大清一統志．卷三十二：15；四部續．嘉慶一統志．趙州直隸州一：13）	584	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000057997	萬壽寺 在外攘門外，康熙五十二年勅建。御書額曰遼海慈雲。（淵四．大清一統志．卷三十九：30；四部續．嘉慶一統志．奉天府二：25）	1713	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058020	地藏寺 在吉林城東門外，乾隆五十二年建。（四部續．嘉慶一統志．吉林二：28）	1787	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058022	古佛寺 在寧古塔城西門外，乾隆三年建。（四部續．嘉慶一統志．吉林二：28）	1738	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058024	凝福寺 在呼倫布雨爾地方，乾隆五十年建。（四部續．嘉慶一統志．黑龍江：14）	1785	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058025	壽安寺 在呼倫布雨爾地方，乾隆五十年建。（四部續．嘉慶一統志．黑龍江：14）	1785	乾隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058026	普光寺 在呼倫布雨爾地方，嘉慶七年建。（四部續．嘉慶一統志．黑龍江：14）	1802	嘉慶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058027	廣覺寺 在呼倫布雨爾地方，嘉慶七年建。（四部續．嘉慶一統志．黑龍江：14）	1802	嘉慶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058029	排頭菴 在上元縣東三十二里。寶華山往來下院，舊名排頭菴，康熙六年建。乾隆十六年，御書慈雲普應匾額，及對聯以賜。（淵四．大清一統志．卷五十二：12；四部續．嘉慶一	1667	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058035	興國寺 在南陽縣東南，宋至和元年建。（淵四．大清一統志．卷一百六十六：26；四部續．嘉慶一統志．南陽府三：7）	1054	至和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058037	鐵佛寺 在南陽縣東北上石堰東北，宋元祐三年建。（淵四．大清一統志．卷一百六十六：26；四部續．嘉慶一統志．南陽府三：7）	1088	元祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058038	菩提寺 在唐縣治東，宋紹聖三年建。（淵四．大清一統志．卷一百六十六：26；四部續．嘉慶一統志．南陽府三：7）	1096	紹聖	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058039	羅漢寺 在桐柏縣東，宋元豐八年建。（淵四．大清一統志．卷一百六十六：26；四部續．嘉慶一統志．南陽府三：7）	1085	元豐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058040	永慶寺 在桐柏縣東北三里，宋大觀元年建。（淵四．大清一統志．卷一百六十六：26；四部續．嘉慶一統志．南陽府三：7）	1107	大觀	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000058046	觀音寺 在裕州西南二十里，宋元豐八年建。（淵四．大清一統志．卷一百六十六：26；四部續．嘉慶一統志．南陽府三：8）	1085	元豐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058053	賢首寺 在信陽州城西南七里賢隱山。山舊名賢首，故又名賢首寺。僧在松建，順治五年修。（淵四．大清一統志．卷一百六十八：38；四部續．嘉慶一統志．汝寧府二：15）	1648	順治	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058055	靈山寺 在羅山縣西南一百里靈山上。寺因山得名，拓基於宋，至明宣德七年，創建佛殿。宏治間增修。邑人張仲簡有記。（淵四．大清一統志．卷一百六十八：38；四部續．嘉慶	1432	宣德	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058057	王孟寺 在郾城縣紫雲岡。宋太平興國三年，王孟二商人創建。故名。（淵四．大清一統志．卷一百七十二：21；四部續．嘉慶一統志．許州直隸州一：17）	978	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058066	楞伽寺 在吳縣上方山下。梁天監二年，僧法境建。舊亦名楞伽，宋治平元年，改今名。乾隆二十七年，翠華南巡，御製治平寺詩。（淵四．大清一統志．卷五十五：17；四部續．	503	天監	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058068	實相院 在香山西太湖濱。吳郡志，實相院，在吳縣西南七十里，古廢寺也。梁大同十年，再興。祥符元年改今名。相傳為馬祖弟子廣澄道場。（X82n1571_p0215c0	544	大同	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058069	興福寺 在東洞庭茶塢南。梁天監二年，干將軍捨宅建。（淵四．大清一統志．卷五十五：20；四部續．嘉慶一統志．蘇州府三：5）	503	天監	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058071	水月寺 在洞庭西山縹緲峯下。吳郡志，梁大同四年建，山有無礙泉。蘇舜欽有記。（淵四．大清一統志．卷五十五：20；四部續．嘉慶一統志．蘇州府三：5）	538	大同	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058073	東小湖寺 在西洞庭涵村東新安嶺，宋咸淳二年建。（淵四．大清一統志．卷五十五：20；四部續．嘉慶一統志．蘇州府三：5）	1266	咸淳	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058075	吳山院 在吳縣吳山。吳郡志，壽聖院在吳縣西南二十里。晉天福五年，吳越中軍節度使錢文奉建，以奉其父廣陵王元璙墓祀，初名吳山院，治平中，改賜今額。（淵四．大清一統志	940	天福	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058084	崇敎興福敎寺 在昭文縣治南，一名方塔，宋建炎四年建。姑蘇志，東塔崇敎興福敎寺，在縣治東北半里。宋建炎四年，僧文用謂此邑客山髙主位低，請於縣令李誾之建塔，鎮之，功	1130	建炎	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058086	永福寺 在吳江縣八赤，宋紹興二十一年建。（淵四．大清一統志．卷五十五：21；四部續．嘉慶一統志．蘇州府三：8）	1151	紹興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058107	昌國寺 在丹陽縣延陵鎮。晉太康二年建，寺有石鍾，開元中造，有宋米元章碑記。相傳羅漢為劉鸞所造。（淵四．大清一統志．卷六十三：9；四部續．嘉慶一統志．鎮江府二：1	281	太康	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058114	紹隆寺 在府治淮北里。舊名紹隆，康熙二十五年改建，四十四年勅賜今額，並御書供奉寺內。（淵四．大清一統志．卷六十五：18；四部續．嘉慶一統志．淮安府二：25）	1686	康熙	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000058117	慈雲寺 在清河縣清江浦。雍正十三年，奉特旨動帑興修。乾隆四年，頒賜龍藏全部供奉。四十五年、四十九年翠華南廵，並有御製慈雲寺瞻禮詩。（淵四．大清一統志．卷六十五：	1735	雍正	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058130	福勝寺 在豐縣西二十里，元至正三年建。（淵四．大清一統志．卷六十九：52；四部續．嘉慶一統志．徐州府二：20）	1343	至正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058133	壽聖寺 在宿遷縣舊治南，元大德四年建。（淵四．大清一統志．卷六十九：52；四部續．嘉慶一統志．徐州府二：20）	1300	大德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058135	聖像寺 在州陸河市。吳僕射徐真捨宅建，晉建興二年，得泛海二石佛因名。（淵四．大清一統志．卷七十一：20；四部續．嘉慶一統志．太倉直隸州一：16）	266	建興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058136	報恩院 在州城西隅，長春橋北，舊在武陵橋。梁天監四年建，稱報恩院。宋大中祥符元年改今額，明洪武十三年改為鎮海衛，十四年復建寺，前有放生池。（淵四．大清一統志．卷	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058137	雙鳯寺 在州北雙鳳鎮。東晉咸和六年，支遁掘地得二石龜，化為鳯，因建。初賜額雙鳯，宋祥符元年改今名。（淵四．大清一統志．卷七十一：20；四部續．嘉慶一統志．太倉直	331	咸和	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058138	慈濟寺 在崇明縣東南隅，河泊所東。宋淳祐二年建，今遷新城學宮左。為祝釐習儀之所。（淵四．大清一統志．卷七十一：20；四部續．嘉慶一統志．太倉直隸州一：17）	1242	淳祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058139	寶慶觀 在崇明縣舊縣治北。宋寶慶元年建。元至正中，遷建縣治南十五里。有文天祥海上瀛洲遺篆。乾隆一統志作寶慶觀。（淵四．大清一統志．卷七十一：20；四部續．嘉慶一	1225	寶慶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058145	招德寺 在沭陽縣東五里。元大德二年建，寺内有古塔，髙七層。相傳唐貞觀時，尉遲公監造。（淵四．大清一統志．卷七十二：20；四部續．嘉慶一統志．海州直隸州：16）	1298	大德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058167	觀音寺 在固始縣治西南，明洪武三年建。（四部續．嘉慶一統志．光州直隸州二：4；淵四．大清一統志．卷一百七十六：22）	1370	洪武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058170	興福寺 在息縣東三十里明灣里。宋皇祐二年建，今稱興福寺。（四部續．嘉慶一統志．光州直隸州二：3；淵四．大清一統志．卷一百七十六：22）	1050	皇祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058177	北汰寺 北汰寺在無為州在汰水北。唐永徽二年建。汰水之南，有南汰寺，宋咸平元年建。（淵四．大清一統志．卷八十五：31；四部續．嘉慶一統志．廬州府二： 11）	651	永徽	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058181	棲賢寺 在壽州西北。魏書，蕭寳寅傳，正始元年三月，寶寅行達汝陰，東城已䧟，遂停夀春之棲賢寺。（淵四．大清一統志．卷八十七：41；四部續．嘉慶一統志．鳳陽府二：1	504	正始	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058187	咸平寺 在亳州城内。明洪武二十八年建。（淵四．大清一統志．卷八十九：26；四部續．嘉慶一統志．穎州府二：2）	1395	洪武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058205	上龜山寺 在盱眙縣治西，宋天禧二年建。（淵四．大清一統志．卷九十四：21；四部續．嘉慶一統志．泗州直隸州：17）	1018	天禧	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058209	雲際寺 在岢嵐州西四十里，宋宣和三年建。（淵四．大清一統志．卷九十七：12；四部續．嘉慶一統志．太原府一：34）	1121	宣和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058213	鹿苑寺 在洪洞縣東南。一名鹿苑寺，宋治平二年建，王安石有記。（淵四．大清一統志．卷九十九：44；四部續．嘉慶一統志．平陽府一：35）	1065	治平	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058214	羅漢寺 在洪洞縣西二里。一名羅漢寺，晉永和二年建，寺内有通幽橋、流杯池、寒翠軒、雪香、邃緣、花心、月波、環碧、宜雨，六亭。後寺為汾水浸塌，移建近城。（淵四．大清	346	永和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058219	開元寺 在永濟縣東關内。宋真宗大中祥符四年，祀后土，幸開元寺。明洪武初，併廣慧、普濟、淨業、善慶、湖北五寺入焉。（淵四．大清一統志．卷一百一：29；四部續．嘉慶	1011	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058229	法雲寺 在萬泉縣南十里。通志，寺在介山絶頂，宏麗精巧，甲於一方。元泰定元年建，明萬歷八年建石城，週七十丈。（淵四．大清一統志．卷一百一：29；四部續．嘉慶一統志	1324	泰定	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058234	資福寺 在汾陽縣南郭，隋開皇二年建。（淵四．大清一統志．卷一百六：7；四部續．嘉慶一統志．汾州府：26 ）	582	開皇	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058246	石佛寺 在寧鄉縣西，元至大三年建。（淵四．大清一統志．卷一百六：8；四部續．嘉慶一統志．汾州府：26）	1310	至大	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058250	廣教寺 在鳳臺縣城内西南，金大定四年建。（淵四．大清一統志．卷一百七：26；四部續．嘉慶一統志．澤州府：21）	1164	大定	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058257	開化寺 在郟縣治東。後魏時期建，順治十一年修。（四部續．嘉慶一統志．汝州直隸州二：8；淵四．大清一統志．卷一百七十四：22）	1654	順治	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058266	圓覺寺 在渾源州治東，金正隆三年建。（淵四．大清一統志．卷一百九：38；四部續．嘉慶一統志．大同府：32；	1158	正隆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058267	靜居寺 在渾源州南二十里，元至治三年建。（淵四．大清一統志．卷一百九：38；四部續．嘉慶一統志．大同府：32）	1323	至治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058270	永安寺 在渾源州治東北。元延祐三年建，明洪武中，併報國等寺入焉。（淵四．大清一統志．卷一百九：39；四部續．嘉慶一統志．大同府：32；	1316	延祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058272	大安寺 在應州南三十里。元皇慶二年建，有碧峯、獨峯二和尚塔。明洪武中，帝賜碧峯詩石刻，及宋濓所撰塔銘，俱存。（淵四．大清一統志．卷一百九：39；四部續．嘉慶一統	1313	皇慶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058273	沙家寺 在山陰縣南三十里迎嵐里。金明昌二年建。（淵四．大清一統志．卷一百九：39；四部續．嘉慶一統志．大同府：32）	1191	明昌	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058293	娑羅寺 在五臺縣東臺南。順治八年建，寺有娑羅樹亦名娑羅寺。聖祖御題額曰旃林，有御製娑羅樹歌。乾隆十一年、四十六年，有皇上御製恭和聖祖元韻詩，又御題額曰七佛導師。	1651	順治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058295	崇聖寺 在崞縣治東，宋政和二年建。（淵四．大清一統志．卷一百十四：27；四部續．嘉慶一統志．代州直隸州：21）	1112	政和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058311	興福寺 在州治西北，崇寧坊。宋乾興元年建，明洪武初併廣慈、石牛二寺入焉。後圯移建城隍廟街西，更名新寺。（淵四．大清一統志．卷一百十七：26；四部續．嘉慶一統志．	1022	乾興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058313	羊駝寺 在安邑縣西，王曲村。金泰和四年建。縣志，初鄉人掘地，得石人騎羊，創寺奉之。故又名羊駝寺。（淵四．大清一統志．卷一百十七：26；四部續．嘉慶一統志．解州直	1204	泰和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058317	壽聖寺 在芮城縣東北一里。宋元豐元年建。（淵四．大清一統志．卷一百十七：26；四部續．嘉慶一統志．解州直隸州：21）	1078	元豐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058334	龍興寺 在蒲縣北五里。金泰和二年建，明洪武中併興國、清凉二寺入焉。（淵四．大清一統志．卷一百二十三：15；四部續．嘉慶一統志．隰州直隸州：12）	1202	泰和	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058335	興化寺 在永和縣治西南。金明昌五年建，明洪武中併昭陽、丈八佛二寺入焉。（淵四．大清一統志．卷一百二十三：15；四部續．嘉慶一統志．隰州直隸州：12）	1194	明昌	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058346	興福寺 在歸化城南門外。順治七年建，康熙三十一年改今名。（淵四．大清一統志．卷一百二十四：14；四部續．嘉慶一統志．歸化城六廳：11）	1650	順治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058347	崇壽寺 在歸化城南門外。順治七年建，康熙三十三年改今名。（淵四．大清一統志．卷一百二十四：14；四部續．嘉慶一統志．歸化城六廳：11）	1650	順治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058349	永壽寺 在歸化城南門外。康熙九年建，三十二年改今名。（淵四．大清一統志．卷一百二十四：14；四部續．嘉慶一統志．歸化城六廳：11）	1670	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058350	白塔 在歸化城東四十里。金大定七年建，今毁碑，塔尚存。塔髙二十丈，七級，有金世宗時閲經人姓氏。（淵四．大清一統志．卷一百二十四：14；四部續．嘉慶一統志．歸化城	1167	大定	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058352	白塔 在歸化城西四十里。順治九年建。（淵四．大清一統志．卷一百二十四：14；四部續．嘉慶一統志．歸化城六廳：11）	1652	順治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058360	淳熙寺 在平原縣城西。宋嘉祐五年，僧義海創建。（淵四．大清一統志．卷一百二十七：26；四部續．嘉慶一統志．濟南府二：21）	1060	嘉祐	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058362	泉林寺 在泗水縣東五十里陪尾山下。寺之左右，皆深林茂樹。有大泉十數，渟泓澄澈，互相灌輸，會而成溪，是為泗水。南經汴城東，有橋曰卞橋。西至邑城，會流焉。.....	1756	乾隆	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058371	普恩寺 在府城內。雍正十年奉敕建並賜額。（淵四．大清一統志．卷一百三十五：26；四部續．嘉慶一統志．青州府二：21）	1732	雍正	exact_year	N	CẦN XEM	có từ khóa khác (trùng tu/bia/đổi tên/đạo quán) gần niên hiệu		
+PL000000058388	大金佛寺 在鳳翔縣城東。元大德元年建。（四部續．嘉慶一統志．鳳翔府二：16；淵四．大清一統志．卷一百八十四：18）	1297	大德	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058402	石佛寺 在濰縣治東南。府志，宋咸平元年建，中有市袋真儀石刻，為宋崔白筆，蘇軾題記。（淵四．大清一統志．卷一百三十八：31；四部續．嘉慶一統志．萊州府二：5）	998	咸平	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058407	王泉寺 在膠州南九十里，元泰定五年建。大清一統治作王泉寺。（淵四．大清一統志．卷一百三十八：31；四部續．嘉慶一統志．萊州府二：5）	1328	泰定	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058410	慶成寺 在即墨縣治東，元泰定元年建。（淵四．大清一統志．卷一百三十八：31；四部續．嘉慶一統志．萊州府二：5）	1324	泰定	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058416	三教寺 在蒲臺縣治西南。府志，明洪武十五年建，相傳為辟支佛道場。（淵四．大清一統志．卷一百三十九：19；四部續．嘉慶一統志．武定府：16）	1382	洪武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058428	正覺寺 在新泰縣西南四十里，法雲山之陽。宋建中靖國元年建，大觀元年賜額。（淵四．大清一統志．卷一百四十二：38；四部續．嘉慶一統志．泰安府一：31）	1101	建中靖國	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058444	資佛寺 在夏津縣治北。舊有塔髙十二級，明宏治中于塔址掘出石槨金棺，内有水晶瓶藏舍利七粒。又中一石匣，上刻太平興國八年定光佛舍利也。（淵四．大清一統志．卷一百四十	983	太平興國	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058571	天安寺 在府治東，金大定元年建。嘉慶一統志作天安寺。（淵四．大清一統志．卷一百六十一：9；四部續．嘉慶一統志．懷慶府二：17）	1161	大定	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058572	興隆寺 在府治西北，即元仁宗潛邸也。延祐二年建寺。（淵四．大清一統志．卷一百六十一：9；四部續．嘉慶一統志．懷慶府二：17）	1315	延祐	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058574	興化寺 舊在温縣南門内。明嘉靖元年，徙建城東南隅，司馬懿故宅。（淵四．大清一統志．卷一百六十一：9；四部續．嘉慶一統志．懷慶府二：18）	1522	嘉靖	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058578	僧伽殿 位於狼山支雲塔後。明成化十八年（1482年）千戶王綱，僧德清等募建僧伽殿於狼山。萬曆年間重茸，改今名，現供奉	1482	成化	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058582	平倭碑亭 位於狼山幻公塔上方處四角亭，亭內有撫臺李公平倭碑，高3米，寬1米，立於明嘉靖三十九年（1567年），馬坤撰文，該碑原立於道邊，1965年移入四角亭。（	1560	嘉靖	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058592	東泉寺 在府冶東。明正統元年建，内有石泉清洌，灌溉田園。（淵四．大清一統志．卷一百八十七：26；四部續．嘉慶一統志．榆林府二：5）	1436	正統	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058594	大安寺 在榆林縣東三十里，常樂堡。明弘治元年建。嘉慶一統志作大安寺。（淵四．大清一統志．卷一百八十七：26；四部續．嘉慶一統志．榆林府二：5）	1488	弘治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058595	盤龍寺 在懷遠縣東南九十里，響水堡。明成化七年建，康熙六十年修。（淵四．大清一統志．卷一百八十七：26；四部續．嘉慶一統志．榆林府二：5）	1471	成化	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058596	波羅寺 在懷遠縣東南四十里，波羅堡。寺有睡佛殿，明成化十一年建，萬歷十四年修。（淵四．大清一統志．卷一百八十七：26；四部續．嘉慶一統志．榆林府二：5）	1475	成化	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058597	法雲寺 在懷遠縣東南四十里，五龍山。明成化十九年建。（淵四．大清一統志．卷一百八十七：26；四部續．嘉慶一統志．榆林府二：5）	1483	成化	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058603	迎福寺 在府谷縣西北八十里，鎮羌堡。明成化五年建。（淵四．大清一統志．卷一百八十七：27；四部續．嘉慶一統志．榆林府二：5）	1469	成化	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058610	龍光寺 在大荔縣西北四十里，賈家莊。宋文帝元嘉五年建。（淵四．大清一統志．卷一百九十：27；四部續．嘉慶一統志．同州府二：23）	428	元嘉	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058611	蒲澗寺 在番禺縣白雲山麓，宋淳化元年建。（四部續．嘉慶一統志．廣州府二：14；唐寺考：280）	990	淳化	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058613	化樂寺 在順德縣平步堡。宋嘉熙四年建。（四部續．嘉慶一統志．廣州府二：14）	1240	嘉熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058615	無量寺 在香山縣治東，宋紹興二年建。（四部續．嘉慶一統志．廣州府二：14）	1132	紹興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058637	興國寺 在州西北隅。明洪武十八年始創為寺，藏舍利寶塔。（淵四．大清一統志．卷一百九十三：14；四部續．嘉慶一統志．乾州直隸州：12）	1385	洪武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058684	勝泉寺 在張掖縣東樂堡東門外，明永樂十五年建。（四部續．嘉慶一統志．甘州府：15）	1417	永樂	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058701	西來寺 在武威縣南營房，康熙十年建。（四部續．嘉慶一統志．涼州府二：6）	1671	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058716	治平寺 在潮陽縣南二里，宋治平元年建。（四部續．嘉慶一統志．潮州府：29）	1064	治平	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058731	下水寺 在武威縣城南六十里，順治二年建。（四部續．嘉慶一統志．涼州府二：7）	1645	順治	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058740	海潮寺 在武威縣東北隅，明成化二十二年建。（嘉慶一統志．涼州府二：7）	1486	成化	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058743	金川寺 在永昌縣北，有二。縣志，一在縣北一里，明永樂十一年建。另一在縣北十里，名後金川寺。（淵四．大清一統志．卷二百六：29；四部續．嘉慶一統志．涼州府二：7）	1413	永樂	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058745	後金川寺 在永昌縣北，有二。縣志，一在縣北十里，名後金川寺。另一在縣北一里，明永樂十一年建。（淵四．大清一統志．卷二百六：29；四部續．嘉慶一統志．涼州府二：7	1413	永樂	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058746	報恩寺 在平番縣東，康熙十九年建。（四部續．嘉慶一統志．涼州府二：7）	1680	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058747	答報紅菴卜寺 在平番縣北，舊名答報紅菴卜寺。雍正七年建，嘉慶六年改名崇善寺。（四部續．嘉慶一統志．涼州府二：7）	1729	雍正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058808	九蓮寺 在肅州北王子莊西壩，雍正八年建。（四部續．嘉慶一統志．肅州直隸州：13）	1730	雍正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058809	孔雀寺 在肅州北王子莊，雍正十年建。（四部續．嘉慶一統志．肅州直隸州：13）	1732	雍正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058812	永安寺 在安西州東，橋灣堡西里許。雍正十年建。（四部續．嘉慶一統志．安西直隸州：16）	1732	雍正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058874	香積寺 在陽山縣北，浦下鄉。宋紹興元年建。（四部續．嘉慶一統志．連州直隸州：10）	1131	紹興	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058875	開元寺 在羅定州雄鎮。明天啟五年，由瀧水所遷建。康熙二年修。（四部續．嘉慶一統志．羅定直隸州：10）	1625	天啟	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058882	華容寺 在柳州府城內，康熙二十年建。（四部續．嘉慶一統志．柳州府：20）	1681	康熙	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000058888	大佛寺 在凌雲縣隔江對岸。明萬歷間建，康熙五十六年修。（四部續．嘉慶一統志．泗城府：6）	1717	康熙	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058919	崇化寺 在蕭山縣治正北。東晉咸和六年，許詢捨宅建，號曰崇化寺。有閣藏宋仁宗御書，治平二年改今額。（淵四．大清一統志，卷二百二十六：49；四部續．嘉慶一統志．紹興	331	咸和	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000058921	廣惠禪院 在蕭山縣玉峯山下。梁大同三年建，名安禪寺。宋景德二年，改廣惠禪院。范仲淹有寄題溪口廣惠院詩。（淵四．大清一統志，卷二百二十六：49；四部續．嘉慶一統志	537	大同	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000059107	報恩寺 在鍾祥縣東，宋開寶二年建。（淵四．大清一統志．卷二百六十六：8；四部續．嘉慶一統志．安陸府：21）	969	開寶	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000059149	高陵寺 在石首縣西十五里，髙陵岡。梁天監元年建。（淵四．大清一統志．卷二百六十九：8；四部續．嘉慶一統志．荊州府二：8）	502	天監	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000059300	鐵佛寺 在慈利縣治南，宋咸淳元年建。（淵四．大清一統志．卷二百八十七：25；四部續．嘉慶一統志．澧州直隸州：7）	1265	咸淳	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000059307	光明寺 在靖州州城東門。明洪武元年建，有塔。（淵四．大清一統志．卷二百八十九：18；四部續．嘉慶一統志．靖州直隸州：15）	1368	洪武	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000059326	興隆寺 在永綏舊廳城東，雍正九年建。（四部續．嘉慶一統志．永綏直隸廳：4）	1731	雍正	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		
+PL000000059400	尊勝院 在松江府西北九十里，地名趙屯。考證：梁貞明六年，僧智道立精舍；晉天福二年賜名尊勝院；宋大中祥符元年改賜福喜院。（淵四．至元嘉禾志．卷十：14）	1008	大中祥符	exact_year	N	CẦN XEM	không thấy động từ thành lập gần niên hiệu		
+PL000000059415	萬善寺 位於丹鳳南路尹公橋東北。據《丹陽縣誌》載，為明萬曆八年僧正善募建，初名「海會庵」。四十二年，敕賜新名「萬善寺」。天啟末年建萬善塔，亦稱「通天塔」。今除藏	1580	萬曆	exact_year	N	ĐỀ XUẤT DUYỆT	có động từ thành lập gần niên hiệu, không có từ khóa khác		

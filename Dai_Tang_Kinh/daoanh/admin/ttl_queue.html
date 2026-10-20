@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTL Queue - Fuzzy Matching Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&family=JetBrains+Mono:wght@700&display=swap');
+        
+        :root {
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --bg-dark: #020617;
+            --bg-dark-secondary: #0f172a;
+            --bg-dark-tertiary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #334155;
+            --success: #10b981;
+            --info: #3b82f6;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+        
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); margin: 0; }
+        .han-nom { font-family: 'Noto Serif TC', serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .confidence-high { background: rgba(16, 185, 129, 0.2); border: 1px solid var(--success); }
+        .confidence-med { background: rgba(245, 158, 11, 0.2); border: 1px solid var(--warning); }
+        .confidence-low { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--error); }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-slate-900 border-b border-amber-600 p-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <span class="text-2xl">🪷</span>
+            <h1 class="text-lg font-black text-amber-500">TTL Queue - Fuzzy Matching</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button onclick="runFuzzyMatcher()" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 rounded-lg font-bold text-sm">
+                <i class="fas fa-search"></i> Run Fuzzy Match
+            </button>
+            <span id="status" class="text-sm text-slate-400">Ready</span>
+        </div>
+    </header>
+    
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar - Queue List -->
+        <aside class="w-80 bg-slate-900 border-r border-slate-800 flex flex-col">
+            <div class="p-4 border-b border-slate-800">
+                <h2 class="text-xs font-black uppercase text-slate-400">Queue (OLD TTL Files)</h2>
+                <p class="text-[10px] text-slate-500 mt-1" id="queue-count">Loading...</p>
+            </div>
+            <div id="queue-list" class="flex-1 overflow-y-auto p-2 space-y-2">
+                <!-- Queue items will be loaded here -->
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Match Result Header -->
+            <div id="match-header" class="p-4 bg-slate-800 border-b border-slate-700 hidden">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-bold text-amber-500" id="match-filename">-</h2>
+                        <p class="text-sm text-slate-400">Confidence: <span id="match-confidence" class="font-bold">-</span></p>
+                    </div>
+                    <div class="flex gap-2">
+                        <span id="match-method" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-700">-</span>
+                        <span id="match-dila" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-600">DILA: -</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Tabs -->
+            <div id="content-tabs" class="hidden">
+                <div class="flex border-b border-slate-700">
+                    <button onclick="showTab('names')" class="tab-btn px-4 py-2 text-sm font-bold border-b-2 border-amber-500 text-amber-500" data-tab="names">Names</button>
+                    <button onclick="showTab('bio')" class="tab-btn px-4 py-2 text-sm font-bold border-b-2 border-transparent text-slate-400" data-tab="bio">Bio (OLD TTL)</button>
+                    <button onclick="showTab('dila')" class="tab-btn px-4 py-2 text-sm font-bold border-b-2 border-transparent text-slate-400" data-tab="dila">DILA Info</button>
+                    <button onclick="showTab('new')" class="tab-btn px-4 py-2 text-sm font-bold border-b-2 border-transparent text-slate-400" data-tab="new">NEW TTL Preview</button>
+                </div>
+                
+                <div class="flex-1 overflow-y-auto p-4">
+                    <!-- Names Tab -->
+                    <div id="tab-names" class="tab-content">
+                        <h3 class="text-sm font-bold text-slate-400 mb-2">Extracted Names from OLD TTL</h3>
+                        <div id="names-list" class="space-y-2"></div>
+                    </div>
+                    
+                    <!-- Bio Tab -->
+                    <div id="tab-bio" class="tab-content hidden">
+                        <h3 class="text-sm font-bold text-slate-400 mb-2">Biographical Note (from OLD TTL)</h3>
+                        <pre id="bio-content" class="bg-slate-900 p-4 rounded-lg text-xs text-slate-300 whitespace-pre-wrap font-mono overflow-x-auto"></pre>
+                    </div>
+                    
+                    <!-- DILA Tab -->
+                    <div id="tab-dila" class="tab-content hidden">
+                        <h3 class="text-sm font-bold text-slate-400 mb-2">DILA Person Authority Info</h3>
+                        <div id="dila-content" class="bg-slate-900 p-4 rounded-lg text-sm"></div>
+                    </div>
+                    
+                    <!-- NEW TTL Preview Tab -->
+                    <div id="tab-new" class="tab-content hidden">
+                        <h3 class="text-sm font-bold text-slate-400 mb-2">NEW TTL (will be saved to ontology/monks/)</h3>
+                        <pre id="new-ttl-content" class="bg-slate-900 p-4 rounded-lg text-xs text-slate-300 whitespace-pre-wrap font-mono overflow-x-auto"></pre>
+                        <button onclick="submitNewTTL()" class="mt-4 px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg font-bold">
+                            <i class="fas fa-save"></i> Submit & Save NEW TTL
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty State -->
+            <div id="empty-state" class="flex-1 flex items-center justify-center text-slate-500">
+                <div class="text-center">
+                    <i class="fas fa-file-code text-4xl mb-4"></i>
+                    <p>Select a TTL file from the queue</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        let currentMatch = null;
+        let fuzzyData = [];
+        
+        // Load fuzzy matches on page load
+        async function loadFuzzyMatches() {
+            document.getElementById('status').innerText = 'Loading...';
+            try {
+                const res = await fetch('/daoanh/api/fuzzy/matches');
+                fuzzyData = await res.json();
+                renderQueue();
+                document.getElementById('status').innerText = `Loaded ${fuzzyData.length} matches`;
+            } catch(e) {
+                document.getElementById('status').innerText = 'Error: ' + e.message;
+            }
+        }
+        
+        function renderQueue() {
+            const list = document.getElementById('queue-list');
+            document.getElementById('queue-count').innerText = `${fuzzyData.length} files in queue`;
+            
+            list.innerHTML = fuzzyData.map((item, idx) => {
+                const confClass = item.confidence >= 98 ? 'confidence-high' : item.confidence >= 85 ? 'confidence-med' : 'confidence-low';
+                return `
+                    <div class="p-3 rounded-lg bg-slate-800 cursor-pointer hover:bg-slate-700 ${confClass}" onclick="loadItem(${idx})">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-white truncate">${item.filename}</span>
+                            <span class="text-[10px] font-bold ${item.confidence >= 98 ? 'text-green-400' : 'text-amber-400'}">${item.confidence}%</span>
+                        </div>
+                        <div class="text-[10px] text-slate-400 mt-1">
+                            ${item.dila_id ? 'DILA: ' + item.dila_id : 'No match'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        async function loadItem(idx) {
+            currentMatch = fuzzyData[idx];
+            
+            // Show header
+            document.getElementById('match-header').classList.remove('hidden');
+            document.getElementById('content-tabs').classList.remove('hidden');
+            document.getElementById('empty-state').classList.add('hidden');
+            
+            // Update header
+            document.getElementById('match-filename').innerText = currentMatch.filename;
+            document.getElementById('match-confidence').innerText = currentMatch.confidence + '%';
+            document.getElementById('match-confidence').className = currentMatch.confidence >= 98 ? 'font-bold text-green-400' : 'font-bold text-amber-400';
+            document.getElementById('match-method').innerText = currentMatch.method || '-';
+            document.getElementById('match-dila').innerText = currentMatch.dila_id ? 'DILA: ' + currentMatch.dila_id : 'No Match';
+            
+            // Render names
+            const namesList = document.getElementById('names-list');
+            const names = currentMatch.names;
+            namesList.innerHTML = `
+                <div class="mb-3"><span class="text-xs font-bold text-green-400">Vietnamese (${names.vi.length})</span>
+                    <div class="flex flex-wrap gap-1 mt-1">${names.vi.slice(0,10).map(n => `<span class="px-2 py-1 bg-slate-700 rounded text-xs">${n}</span>`).join('')}</div>
+                </div>
+                <div class="mb-3"><span class="text-xs font-bold text-amber-400">Chinese (${names.zh.length})</span>
+                    <div class="flex flex-wrap gap-1 mt-1">${names.zh.map(n => `<span class="px-2 py-1 bg-slate-700 rounded text-xs han-nom">${n}</span>`).join('')}</div>
+                </div>
+                <div><span class="text-xs font-bold text-blue-400">Japanese (${names.ja.length})</span>
+                    <div class="flex flex-wrap gap-1 mt-1">${names.ja.map(n => `<span class="px-2 py-1 bg-slate-700 rounded text-xs">${n}</span>`).join('')}</div>
+                </div>
+            `;
+            
+            // Load OLD TTL content
+            try {
+                const res = await fetch('/daoanh/api/ttl/old/' + currentMatch.filename);
+                const data = await res.json();
+                
+                // Extract bio from TTL
+                const bioMatch = data.content.match(/bkg:biographicalNote\s+"""([^"]+)"""/);
+                const bio = bioMatch ? bioMatch[1] : 'No biographical note found';
+                document.getElementById('bio-content').innerText = bio.substring(0, 2000);
+                
+                // Generate NEW TTL preview
+                generateNewTTL(data.content, currentMatch.dila_id);
+            } catch(e) {
+                console.error('Error loading TTL:', e);
+            }
+            
+            // Show names tab by default
+            showTab('names');
+        }
+        
+        function generateNewTTL(oldContent, dilaId) {
+            let newTTL = oldContent;
+            
+            // Add owl:sameAs if DILA ID found
+            if (dilaId) {
+                // Find the monk URI in the TTL
+                const monkUriMatch = oldContent.match(/<ex:monk\/([^>]+)>/);
+                if (monkUriMatch) {
+                    const monkName = monkUriMatch[1];
+                    // Check if owl:sameAs already exists
+                    if (!oldContent.includes('owl:sameAs')) {
+                        // Add owl:sameAs before the closing dot
+                        newTTL = oldContent.replace(/\s*\.\s*$/, ` ;\n    owl:sameAs <ex:monk/${dilaId}> .`);
+                    }
+                }
+            }
+            
+            document.getElementById('new-ttl-content').innerText = newTTL;
+        }
+        
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('border-amber-500', 'text-amber-500');
+                el.classList.add('border-transparent', 'text-slate-400');
+            });
+            
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('border-amber-500', 'text-amber-500');
+        }
+        
+        async function runFuzzyMatcher() {
+            document.getElementById('status').innerText = 'Running fuzzy matcher...';
+            // This would call the fuzzy matcher script
+            // For now, just reload
+            loadFuzzyMatches();
+        }
+        
+        async function submitNewTTL() {
+            if (!currentMatch) return;
+            
+            const newTTL = document.getElementById('new-ttl-content').innerText;
+            const filename = currentMatch.filename;
+            
+            // Save to ontology/monks/
+            const res = await fetch('/daoanh/api/ttl/save', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({filename, content: newTTL})
+            });
+            
+            if (res.ok) {
+                alert('✅ Saved to ontology/monks/' + filename);
+            } else {
+                alert('❌ Error saving');
+            }
+        }
+        
+        // Initial load
+        loadFuzzyMatches();
+    </script>
+</body>
+</html>

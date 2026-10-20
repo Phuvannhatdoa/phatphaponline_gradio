@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — Web Enrichment Cache</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body { background:#0d1117; color:#c9d1d9; font-family:system-ui,sans-serif; font-size:13px; margin:0; }
+.hd { background:#161b22; border-bottom:1px solid #30363d; padding:12px 20px; display:flex; align-items:center; gap:16px; }
+.hd h1 { font-size:16px; font-weight:600; margin:0; color:#f0f6fc; }
+.hd-back { color:#58a6ff; text-decoration:none; font-size:12px; }
+.hd-back:hover { text-decoration:underline; }
+.main { max-width:1100px; margin:0 auto; padding:24px 20px; }
+.stats-row { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+.stat-box { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:14px 20px; flex:1; min-width:120px; }
+.stat-num { font-size:22px; font-weight:700; color:#f0f6fc; }
+.stat-lbl { font-size:11px; color:#8b949e; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+.filter-row { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+select, input { background:#161b22; border:1px solid #30363d; color:#c9d1d9; padding:6px 10px; border-radius:6px; font-size:12px; }
+.btn { padding:6px 14px; border-radius:6px; border:none; cursor:pointer; font-size:12px; font-weight:600; }
+.btn-primary { background:#238636; color:#fff; }
+.btn-primary:hover { background:#2ea043; }
+.btn-danger { background:#da3633; color:#fff; }
+.btn-sm { padding:3px 8px; font-size:11px; border-radius:4px; border:1px solid; cursor:pointer; font-weight:600; }
+.btn-verify { background:rgba(35,134,54,.15); border-color:#238636; color:#3fb950; }
+.btn-reject { background:rgba(218,54,51,.12); border-color:#da3633; color:#f85149; }
+.btn-auto { background:rgba(88,166,255,.1); border-color:#388bfd; color:#58a6ff; }
+table { width:100%; border-collapse:collapse; }
+th { text-align:left; padding:8px 12px; background:#161b22; color:#8b949e; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; border-bottom:1px solid #30363d; }
+td { padding:10px 12px; border-bottom:1px solid #21262d; vertical-align:top; }
+tr:hover td { background:#161b22; }
+.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.badge-auto { background:rgba(139,148,158,.15); color:#8b949e; }
+.badge-verified { background:rgba(63,185,80,.15); color:#3fb950; }
+.badge-reported { background:rgba(248,81,73,.15); color:#f85149; }
+.badge-rejected { background:rgba(218,54,51,.1); color:#a44; }
+.summary-text { font-size:12px; line-height:1.6; color:#c9d1d9; max-height:90px; overflow:hidden; }
+.expand-btn { background:none; border:none; color:#58a6ff; cursor:pointer; font-size:11px; padding:2px 0; }
+.pagination { display:flex; gap:8px; margin-top:16px; align-items:center; }
+.pag-btn { padding:5px 12px; background:#161b22; border:1px solid #30363d; color:#58a6ff; border-radius:6px; cursor:pointer; font-size:12px; }
+.pag-btn:disabled { color:#484f58; cursor:default; border-color:#21262d; }
+.entity-link { color:#58a6ff; font-family:monospace; font-size:11px; }
+.source-link { color:#79c0ff; font-size:11px; }
+</style>
+</head>
+<body>
+<div class="hd">
+  <a href="index.html" class="hd-back">← Admin</a>
+  <h1><i class="fa-solid fa-globe" style="color:#58a6ff;margin-right:6px"></i>Web Enrichment Cache</h1>
+</div>
+<div class="main">
+
+  <div class="stats-row" id="statsRow">
+    <div class="stat-box"><div class="stat-num" id="sTotal">—</div><div class="stat-lbl">Tổng</div></div>
+    <div class="stat-box"><div class="stat-num" id="sAuto">—</div><div class="stat-lbl">Auto</div></div>
+    <div class="stat-box"><div class="stat-num" id="sVerified">—</div><div class="stat-lbl">Đã xác nhận</div></div>
+    <div class="stat-box"><div class="stat-num" id="sReported">—</div><div class="stat-lbl">Cần kiểm tra</div></div>
+    <div class="stat-box"><div class="stat-num" id="sRejected">—</div><div class="stat-lbl">Đã từ chối</div></div>
+  </div>
+
+  <div class="filter-row">
+    <select id="fStatus" onchange="loadPage(1)">
+      <option value="">Tất cả status</option>
+      <option value="auto">Auto</option>
+      <option value="verified">Verified</option>
+      <option value="reported">Reported (cần duyệt)</option>
+      <option value="rejected">Rejected</option>
+    </select>
+    <select id="fType" onchange="loadPage(1)">
+      <option value="">Tất cả loại</option>
+      <option value="place">Địa danh</option>
+      <option value="person">Tăng nhân</option>
+    </select>
+    <span style="color:#8b949e;margin-left:auto;font-size:12px;" id="pageInfo"></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:60px">ID</th>
+        <th style="width:130px">Entity</th>
+        <th style="width:90px">Nguồn</th>
+        <th>Tóm tắt</th>
+        <th style="width:80px">Status</th>
+        <th style="width:80px">Báo lỗi</th>
+        <th style="width:100px">Ngày</th>
+        <th style="width:130px">Hành động</th>
+      </tr>
+    </thead>
+    <tbody id="tBody"></tbody>
+  </table>
+
+  <div class="pagination">
+    <button class="pag-btn" id="prevBtn" onclick="loadPage(currentPage-1)">← Trước</button>
+    <span style="font-size:12px;color:#8b949e;" id="pagStatus"></span>
+    <button class="pag-btn" id="nextBtn" onclick="loadPage(currentPage+1)">Sau →</button>
+  </div>
+</div>
+
+<script>
+let currentPage = 1;
+let totalRows = 0;
+const perPage = 50;
+
+async function loadStats() {
+  try {
+    const r = await fetch('/daoanh/api/admin/web-enrichments?page=1');
+    const d = await r.json();
+    totalRows = d.total || 0;
+    document.getElementById('sTotal').textContent = totalRows;
+    // fetch individual counts
+    const statuses = ['auto','verified','reported','rejected'];
+    const ids = ['sAuto','sVerified','sReported','sRejected'];
+    for (let i = 0; i < statuses.length; i++) {
+      const r2 = await fetch(`/daoanh/api/admin/web-enrichments?status=${statuses[i]}&page=1`);
+      const d2 = await r2.json();
+      document.getElementById(ids[i]).textContent = d2.total || 0;
+    }
+  } catch(e) {}
+}
+
+async function loadPage(page) {
+  currentPage = Math.max(1, page);
+  const status = document.getElementById('fStatus').value;
+  const etype = document.getElementById('fType').value;
+  const params = new URLSearchParams({page: currentPage});
+  if (status) params.set('status', status);
+  if (etype) params.set('entity_type', etype);
+
+  const r = await fetch('/daoanh/api/admin/web-enrichments?' + params);
+  const d = await r.json();
+  if (!d.ok) return;
+
+  const total = d.total;
+  const maxPage = Math.ceil(total / perPage);
+  document.getElementById('pageInfo').textContent = `${total} kết quả · trang ${currentPage}/${maxPage}`;
+  document.getElementById('pagStatus').textContent = `Trang ${currentPage} / ${Math.ceil(total/perPage)}`;
+  document.getElementById('prevBtn').disabled = currentPage <= 1;
+  document.getElementById('nextBtn').disabled = currentPage >= Math.ceil(total/perPage);
+
+  const tb = document.getElementById('tBody');
+  if (!d.enrichments.length) {
+    tb.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#484f58;padding:24px">Không có dữ liệu</td></tr>';
+    return;
+  }
+
+  tb.innerHTML = d.enrichments.map(e => {
+    const badgeCls = {auto:'badge-auto',verified:'badge-verified',reported:'badge-reported',rejected:'badge-rejected'}[e.status] || 'badge-auto';
+    const summaryShort = (e.summary_vi || '').substring(0, 180);
+    const hasMore = (e.summary_vi || '').length > 180;
+    const typeLabel = e.entity_type === 'place' ? '📍' : '🧘';
+    const dateStr = (e.created_at || '').substring(0, 10);
+    const srcHtml = e.source_url
+      ? `<a href="${e.source_url}" target="_blank" rel="noopener" class="source-link">${e.source_name || 'Nguồn'} ↗</a>`
+      : (e.source_name || '—');
+    return `<tr>
+      <td style="color:#484f58">#${e.id}</td>
+      <td>${typeLabel} <span class="entity-link">${e.entity_id}</span><br><span style="color:#484f58;font-size:10px">${e.fetched_by||'user'}</span></td>
+      <td>${srcHtml}</td>
+      <td>
+        <div class="summary-text" id="sum-${e.id}">${summaryShort}${hasMore ? '…' : ''}</div>
+        ${hasMore ? `<button class="expand-btn" onclick="expandRow(${e.id}, \`${e.summary_vi.replace(/`/g,"'")}\`)">Xem thêm</button>` : ''}
+      </td>
+      <td><span class="badge ${badgeCls}">${e.status}</span></td>
+      <td style="color:${e.report_count>0?'#f85149':'#484f58'}">${e.report_count}</td>
+      <td style="color:#484f58">${dateStr}</td>
+      <td style="display:flex;flex-direction:column;gap:4px;">
+        ${e.status !== 'verified' ? `<button class="btn-sm btn-verify" onclick="setStatus(${e.id}, 'verified')">✓ Xác nhận</button>` : ''}
+        ${e.status !== 'rejected' ? `<button class="btn-sm btn-reject" onclick="setStatus(${e.id}, 'rejected')">✗ Từ chối</button>` : ''}
+        ${e.status !== 'auto' ? `<button class="btn-sm btn-auto" onclick="setStatus(${e.id}, 'auto')">↺ Auto</button>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function expandRow(id, full) {
+  const el = document.getElementById('sum-' + id);
+  if (el) el.innerHTML = full;
+}
+
+async function setStatus(id, status) {
+  const r = await fetch(`/daoanh/api/admin/web-enrichment/${id}/status`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({status})
+  });
+  const d = await r.json();
+  if (d.ok) { loadPage(currentPage); loadStats(); }
+  else alert('Lỗi: ' + d.error);
+}
+
+loadStats();
+loadPage(1);
+</script>
+</body>
+</html>

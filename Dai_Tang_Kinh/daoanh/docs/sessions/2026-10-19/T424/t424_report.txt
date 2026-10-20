@@ -1,0 +1,40 @@
+T424 DRY-RUN — 2026-10-20T08:30:05 — db=data\lineage.db
+==========================================================================
+Parse TTL: 1035 file OK | 0 file lỗi (bỏ '0-template.ttl')
+Crosswalk T423 (entity_source_ids source='TTL_LOCAL'): 1054 slug
+--------------------------------------------------------------------------
+  edges_distinct_slug               : 1143
+  selfloop_ttl                      : 4
+  insertable_both_mapped            : 1076
+  insertable_dedupe_canonical       : 1062
+  canonical_selfloop_after_collapse : 2
+  both_accepted                     : 614
+  reverse_pairs                     : 2
+  slugs_unmapped                    : 66
+  edges_skipped_unmapped            : 67
+  endpoint_combos                   : 
+      accepted / accepted          614
+      candidate / accepted         195
+      accepted / candidate         188
+      candidate / candidate        79
+--------------------------------------------------------------------------
+Self-loop (slug, theo file TTL): 4
+Self-loop SAU KHI sụp canonical (N:1): 2
+    nam_vien_hue_ngung → A004981
+    thai_tu_dao_nhat → A038615
+--------------------------------------------------------------------------
+Đảo chiều (canonical) — 2 cặp:
+    A000472 ⇄ ptda:tinh_tu_van
+    A003868 ⇄ A010427
+--------------------------------------------------------------------------
+Slug chưa map (66): an_bao_chanh_nhon, an_binh_buu_quang, an_doan_hoang_nghia, an_phuoc_chi_thanh, bach_nham_minh_triet, bich_thien_thanh_khong, cam_thanh, chuong_hai_thanh_nguyen, chuong_ly_hoang_hoa, chuong_nghia_thanh_tuyen, chuong_thien_hoang_ao, chuong_tri_quang_giac, chuong_tuong_vinh_ien, cuu_ma_da_la, dai_ninh_dao_khoan, dao_nhan_tich_lac, di_phong_kinh_ninh, dieu_tue, dinh_tue_sieu_tin, dong_duong_huyen_sach, dot_khong_tri_ban, ex:monk/, hermadeva, hoa_lam_giac, hung_duong_thien, luu_thiet_ma, minh_giac_ky_phuong, minh_vat_nhat_tri, phap_an_quang_do, phap_chuyen_dieu_nghiem, phap_hien, phap_nhan_thien_truong, phap_than_dao_minh, phap_tinh_vien_quang, phat_tuong_duc_lien, phat_tuyet_tuong_quang, song_khe_duan_quang, su_tu, the_than_bo_tat, thien_dai_van_cu_tri …
+==========================================================================
+CẢNH BÁO (cần Admin quyết):
+  1. source_code: task/T185/rebuild-consensus dùng 'TTL'; T423 lại đăng ký
+     data_sources='TTL_LOCAL'. Bản này dùng 'TTL'. Nếu chọn 'TTL_LOCAL' thì
+     phải sửa cả rebuild consensus (đang đọc source_code='TTL').
+  2. 66 slug TTL chưa có hồ sơ định danh → cạnh có đầu này BỊ BỎ (không nạp).
+  3. Cạnh candidate: nạp kèm mapping_verified=0 (T425 thêm cột mapping_ok).
+  4. trust_level='L2' (theo tiền lệ T185).
+  5. Đảo chiều / self-loop canonical: KHÔNG tự sửa, chỉ báo (danh sách trên).
+=          CHẠY THỬ — KHÔNG GHI DB. Chờ Admin duyệt mới --apply.           

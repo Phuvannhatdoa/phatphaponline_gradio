@@ -1,0 +1,4 @@
+A001984 | Quy Sơn Linh Hựu | 靈祐 | len=16
+A020353 | Quy Sơn | 龜山 | len=7
+A028047 | Quy Sơn Quang Nhất | 歸山光一 | len=18
+A043940 | Quy Sơn Từ | 龜山慈 | len=10

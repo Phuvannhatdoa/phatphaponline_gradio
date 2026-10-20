@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DILA Place Index — Đạo Ảnh</title>
+<link rel="stylesheet" href="/daoanh/styles/daoanh-design.css">
+<style>
+  body { font-family: var(--da-font-sans); background: var(--da-bg); color: var(--da-text); margin: 0; padding: 0; }
+  .da-topbar { display:flex; align-items:center; gap:12px; padding:12px 20px; background:var(--da-surface); border-bottom:1px solid var(--da-border); }
+  .da-topbar a { color:var(--da-muted); text-decoration:none; font-size:12px; }
+  .da-topbar a:hover { color:var(--da-text); }
+  .da-topbar h1 { font-size:15px; font-weight:700; color:var(--da-text); margin:0; flex:1; }
+  .filter-row { display:flex; flex-wrap:wrap; gap:8px; padding:14px 20px; background:var(--da-surface); border-bottom:1px solid var(--da-border); align-items:center; }
+  .filter-row input, .filter-row select { font-size:12px; padding:5px 10px; border:1px solid var(--da-border); border-radius:5px; background:var(--da-card); color:var(--da-text); }
+  .filter-row input { flex:1; min-width:180px; max-width:320px; }
+  .filter-row select { max-width:240px; }
+  .filter-row button { font-size:12px; padding:5px 14px; border:none; border-radius:5px; cursor:pointer; }
+  .btn-search { background:var(--da-cyan); color:#fff; }
+  .btn-export { background:var(--da-green); color:#fff; }
+  .stats-row { display:flex; gap:16px; padding:10px 20px; font-size:12px; color:var(--da-muted); flex-wrap:wrap; }
+  .stats-row span { background:var(--da-card); border:1px solid var(--da-border); border-radius:5px; padding:3px 10px; }
+  .stats-row strong { color:var(--da-text); }
+  .table-wrap { overflow-x:auto; padding:0 20px 20px; }
+  table { width:100%; border-collapse:collapse; font-size:12px; min-width:700px; }
+  th { text-align:left; padding:8px 10px; background:var(--da-surface); border-bottom:2px solid var(--da-border); font-weight:600; color:var(--da-muted); white-space:nowrap; }
+  td { padding:7px 10px; border-bottom:1px solid var(--da-border); vertical-align:top; }
+  tr:hover td { background:var(--da-card); }
+  .id-cell { font-family:var(--da-font-mono); font-size:10px; color:var(--da-cyan); }
+  .name-vi { color:var(--da-green); font-size:11px; }
+  .cat-badge { font-size:10px; background:var(--da-surface); border:1px solid var(--da-border); border-radius:4px; padding:1px 6px; color:var(--da-muted); }
+  .dist-cell { max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--da-muted); }
+  .conf-dot { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:4px; }
+  .pagination { display:flex; gap:8px; padding:12px 20px; align-items:center; font-size:12px; color:var(--da-muted); }
+  .pagination button { font-size:12px; padding:4px 12px; border:1px solid var(--da-border); border-radius:5px; background:var(--da-card); color:var(--da-text); cursor:pointer; }
+  .pagination button:disabled { opacity:0.4; cursor:default; }
+  #loadingMsg { padding:30px; text-align:center; color:var(--da-muted); font-size:13px; }
+  .da-tabbar { display:flex; gap:0; border-bottom:2px solid var(--da-border); padding:0 20px; background:var(--da-surface); }
+  .da-tab { font-size:12px; font-weight:600; padding:8px 18px; text-decoration:none; color:var(--da-muted); border-bottom:2px solid transparent; margin-bottom:-2px; transition:color .15s,border-color .15s; }
+  .da-tab:hover { color:var(--da-text); }
+  .da-tab.active { color:var(--da-cyan); border-bottom-color:var(--da-cyan); }
+</style>
+</head>
+<body>
+
+<div class="da-topbar">
+  <a href="/daoanh/places">← GIS Map</a>
+  <span style="color:var(--da-border)">|</span>
+  <a href="/daoanh/admin/">Admin</a>
+  <span style="color:var(--da-border)">|</span>
+  <h1>DILA Index</h1>
+  <span style="font-size:11px;color:var(--da-muted)" id="totalBadge">—</span>
+</div>
+<div class="da-tabbar">
+  <a href="/daoanh/admin/dila_index.html" class="da-tab active">📍 DILA Place Index</a>
+  <a href="/daoanh/admin/dila_person_index.html" class="da-tab">👤 DILA Person Index</a>
+</div>
+
+<div class="filter-row">
+  <input type="text" id="qInput" placeholder="Tìm tên 少林寺 hoặc DILA ID…" onkeydown="if(event.key==='Enter')search()">
+  <select id="catSelect" onchange="search()">
+    <option value="">— Tất cả loại —</option>
+  </select>
+  <select id="countrySelect" onchange="search()">
+    <option value="">— Tất cả quốc gia —</option>
+  </select>
+  <button class="btn-search" onclick="search()">Tìm</button>
+  <button class="btn-export" onclick="exportCSV()">Xuất CSV</button>
+  <button class="btn-export" style="background:var(--da-amber)" onclick="exportJSON()">Xuất JSON</button>
+</div>
+
+<div class="stats-row" id="statsRow">Đang tải thống kê…</div>
+
+<div id="loadingMsg">Đang tải…</div>
+
+<div class="table-wrap" id="tableWrap" style="display:none">
+  <table>
+    <thead>
+      <tr>
+        <th>DILA ID</th>
+        <th>Tên Hán</th>
+        <th>Tên Việt</th>
+        <th>Loại</th>
+        <th>Địa khu</th>
+        <th>Toạ độ</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div class="pagination" id="pager" style="display:none">
+  <button id="prevBtn" onclick="goPage(-1)" disabled>← Trước</button>
+  <span id="pageInfo"></span>
+  <button id="nextBtn" onclick="goPage(1)">Sau →</button>
+</div>
+
+<script>
+const BASE = '/daoanh/api';
+let _offset = 0, _total = 0;
+const LIMIT = 50;
+
+async function loadStats() {
+  const d = await fetch(BASE + '/dila/stats').then(r => r.json()).catch(() => null);
+  if (!d || !d.ok) return;
+  document.getElementById('totalBadge').textContent = `${d.total.toLocaleString()} địa danh`;
+  document.getElementById('statsRow').innerHTML =
+    `<span>Tổng: <strong>${d.total.toLocaleString()}</strong></span>` +
+    `<span>Đã map Việt ngữ: <strong>${d.mapped_vi.toLocaleString()}</strong></span>` +
+    d.by_category.slice(0,6).map(c => `<span>${c.note_category}: <strong>${c.n.toLocaleString()}</strong></span>`).join('');
+
+  const catSel = document.getElementById('catSelect');
+  d.by_category.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.note_category; o.textContent = `${c.note_category} (${c.n.toLocaleString()})`;
+    catSel.appendChild(o);
+  });
+  const countrySel = document.getElementById('countrySelect');
+  d.by_country.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.country; o.textContent = `${c.country} (${c.n.toLocaleString()})`;
+    countrySel.appendChild(o);
+  });
+}
+
+async function search(resetPage = true) {
+  if (resetPage) _offset = 0;
+  document.getElementById('loadingMsg').style.display = 'block';
+  document.getElementById('tableWrap').style.display = 'none';
+  document.getElementById('pager').style.display = 'none';
+
+  const q = encodeURIComponent(document.getElementById('qInput').value.trim());
+  const cat = encodeURIComponent(document.getElementById('catSelect').value);
+  const country = encodeURIComponent(document.getElementById('countrySelect').value);
+  const url = `${BASE}/dila/places?q=${q}&category=${cat}&country=${country}&limit=${LIMIT}&offset=${_offset}`;
+  const d = await fetch(url).then(r => r.json()).catch(() => null);
+  document.getElementById('loadingMsg').style.display = 'none';
+  if (!d || !d.ok) { document.getElementById('loadingMsg').textContent = 'Lỗi tải dữ liệu.'; document.getElementById('loadingMsg').style.display = 'block'; return; }
+  _total = d.total;
+  renderTable(d.items);
+  renderPager();
+}
+
+function renderTable(items) {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = items.map(r => {
+    const confColor = r.confidence >= 0.9 ? 'var(--da-green)' : r.confidence >= 0.7 ? 'var(--da-amber)' : 'var(--da-muted)';
+    const nameVi = r.name_vi ? `<span class="name-vi"><span class="conf-dot" style="background:${confColor}"></span>${r.name_vi}</span>` : '<span style="color:var(--da-muted);font-size:11px">—</span>';
+    const cat = r.note_category ? `<span class="cat-badge">${r.note_category}</span>` : '';
+    const geo = r.geo_lat && r.geo_long ? `<span style="font-size:10px;color:var(--da-muted)">${parseFloat(r.geo_lat).toFixed(2)}, ${parseFloat(r.geo_long).toFixed(2)}</span>` : '';
+    return `<tr>
+      <td class="id-cell"><a href="/daoanh/places#${r.id}" style="color:var(--da-cyan)">${r.id}</a></td>
+      <td>${r.name_zh || r.name || ''}</td>
+      <td>${nameVi}</td>
+      <td>${cat}</td>
+      <td class="dist-cell" title="${r.district || ''}">${r.district || ''}</td>
+      <td>${geo}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tableWrap').style.display = 'block';
+}
+
+function renderPager() {
+  const totalPages = Math.ceil(_total / LIMIT);
+  const curPage = Math.floor(_offset / LIMIT) + 1;
+  document.getElementById('pageInfo').textContent = `Trang ${curPage}/${totalPages} — ${_total.toLocaleString()} kết quả`;
+  document.getElementById('prevBtn').disabled = _offset === 0;
+  document.getElementById('nextBtn').disabled = _offset + LIMIT >= _total;
+  document.getElementById('pager').style.display = 'flex';
+}
+
+function goPage(dir) {
+  _offset = Math.max(0, _offset + dir * LIMIT);
+  search(false);
+}
+
+function exportCSV() {
+  const q = encodeURIComponent(document.getElementById('qInput').value.trim());
+  const cat = encodeURIComponent(document.getElementById('catSelect').value);
+  const country = encodeURIComponent(document.getElementById('countrySelect').value);
+  window.location.href = `${BASE}/dila/places?q=${q}&category=${cat}&country=${country}&limit=5000&offset=0&format=csv`;
+}
+
+function exportJSON() {
+  const q = encodeURIComponent(document.getElementById('qInput').value.trim());
+  const cat = encodeURIComponent(document.getElementById('catSelect').value);
+  const country = encodeURIComponent(document.getElementById('countrySelect').value);
+  window.open(`${BASE}/dila/places?q=${q}&category=${cat}&country=${country}&limit=5000&offset=0&format=json`);
+}
+
+// Init
+loadStats();
+search();
+</script>
+</body>
+</html>

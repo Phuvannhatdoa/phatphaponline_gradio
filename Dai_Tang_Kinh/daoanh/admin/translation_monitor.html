@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Dịch thuật T95 (CBETA)</title>
+<style>
+  :root{
+    --bg:#020617; --panel:#0f172a; --panel2:#111c33; --line:#1e293b;
+    --gold:#d97706; --gold2:#f59e0b; --text:#e2e8f0; --muted:#94a3b8;
+    --green:#22c55e; --red:#ef4444; --blue:#3b82f6; --cyan:#06b6d4; --purple:#a855f7; --yellow:#eab308;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Inter,Arial,sans-serif;padding:20px}
+  h1{font-size:20px;color:var(--gold)}
+  h1 small{color:var(--muted);font-weight:400;font-size:13px}
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+  .nav a{margin-right:14px;font-size:13px}
+  .cards{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:120px}
+  .card b{display:block;font-size:22px;color:var(--gold)}
+  .card span{font-size:12px;color:var(--muted)}
+  .toolbar{display:flex;gap:8px;margin:10px 0;align-items:center}
+  button{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer;font-size:12px}
+  button:hover{border-color:var(--gold);color:var(--gold)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  button.gold{background:var(--gold);color:#020617;border-color:var(--gold);font-weight:600}
+  .auto{font-size:12px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--gold);font-weight:600}
+  tr:last-child td{border-bottom:none}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+  .st-running{background:rgba(59,130,246,.15);color:var(--blue);border:1px solid var(--blue)}
+  .st-queued{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid var(--yellow)}
+  .st-paused{background:rgba(245,158,11,.12);color:var(--gold2);border:1px solid var(--gold2)}
+  .st-failed{background:rgba(239,68,68,.12);color:var(--red);border:1px solid var(--red)}
+  .st-completed{background:rgba(34,197,94,.12);color:var(--green);border:1px solid var(--green)}
+  .st-cancelled{background:rgba(148,163,184,.12);color:var(--muted);border:1px solid var(--muted)}
+  .prog{background:#1e293b;border-radius:20px;height:10px;width:140px;overflow:hidden;display:inline-block;vertical-align:middle}
+  .prog>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+  .mono{font-family:Consolas,monospace;font-size:11px;color:var(--cyan)}
+  .err{color:var(--red);font-size:11px}
+  details{margin-top:6px;font-size:12px}
+  summary{cursor:pointer;color:var(--gold)}
+  .items{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px;margin-top:6px;max-height:320px;overflow:auto}
+  .items div{padding:3px 4px;border-bottom:1px dashed var(--line)}
+  .items .ok{color:var(--green)} .items .bad{color:var(--red)} .items .gray{color:var(--muted)}
+  #msg{padding:8px 12px;border-radius:8px;margin:10px 0;font-size:13px;display:none}
+  #msg.err{display:block;background:rgba(239,68,68,.1);border:1px solid var(--red);color:var(--red)}
+  #msg.ok{display:block;background:rgba(34,197,94,.1);border:1px solid var(--green);color:var(--green)}
+  .empty{color:var(--muted);padding:20px;text-align:center}
+</style>
+</head>
+<body>
+  <div class="top">
+    <h1>🪷 Admin · Dịch thuật T95 <small>CBETA pipeline batch Groq · monitor &amp; quản job</small></h1>
+    <div class="nav">
+      <a href="/daoanh/admin/">Đạo Ảnh admin</a>
+      <a href="/daoanh/dashboard/">Dashboard</a>
+      <a href="https://cbetaonline.dila.edu.tw/" target="_blank" rel="noopener">CBETA Online ↗</a>
+    </div>
+  </div>
+  <div id="msg"></div>
+  <div class="cards" id="cards"></div>
+  <div class="toolbar">
+    <button class="gold" onclick="refresh(true)">⟳ Làm mới</button>
+    <button onclick="exportAll()">⬇ Export T50n2060 (JSON)</button>
+    <button onclick="exportAll('md')">⬇ Export T50n2060 (MD)</button>
+    <label class="auto"><input type="checkbox" id="autoRef" checked onchange="scheduleAuto()"> Tự làm mới 15s</label>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Job / Work</th><th>Trạng thái</th><th>Tiến trình</th><th>Failed</th><th>Retries</th>
+        <th>Raw audit</th><th>Thời gian</th><th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div id="empty" class="empty">Chưa có job dịch nào.</div>
+
+<script>
+var baseUrl = window.location.origin;
+var jobsCache = [];
+var timer = null;
+
+async function safeFetch(url, opts){
+  var r = await fetch(url, Object.assign({headers:{'Content-Type':'application/json'}}, opts||{}));
+  var text = await r.text();
+  var data = null;
+  try{ data = JSON.parse(text); }catch(e){ data = {ok:false, error:text}; }
+  return data;
+}
+function msg(t, cls){ var el=document.getElementById('msg'); el.textContent=t; el.className=cls||'err'; }
+function stClass(s){ return 'st-'+s; }
+function stLabel(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function escAttr(s){ return esc(s); }
+
+function card(n,label){ var c=document.createElement('div'); c.className='card'; c.innerHTML='<b>'+n+'</b><span>'+label+'</span>'; return c; }
+
+function workTitle(j){ return j.work_id; }
+
+function render(){
+  var tb=document.getElementById('rows');
+  tb.innerHTML='';
+  var cards=document.getElementById('cards');
+  var active=0, running=0, paused=0, failedItems=0, completed=0, cancelled=0, queued=0;
+  jobsCache.forEach(function(j){
+    if(j.status==='running')running++; else if(j.status==='queued')queued++;
+    else if(j.status==='paused')paused++; else if(j.status==='completed')completed++;
+    else if(j.status==='cancelled')cancelled++;
+    failedItems+=j.failed_items;
+  });
+  cards.innerHTML='';
+  cards.appendChild(card(jobsCache.length,'Tổng job'));
+  cards.appendChild(card(running,'Đang chạy'));
+  cards.appendChild(card(queued,'Chờ'));
+  cards.appendChild(card(paused,'Tạm dừng'));
+  cards.appendChild(card(completed,'Hoàn thành'));
+  cards.appendChild(card(cancelled,'Bị hủy'));
+  cards.appendChild(card(failedItems,'Item lỗi (tất cả job)'));
+
+  var empty=document.getElementById('empty');
+  empty.style.display = jobsCache.length? 'none':'block';
+
+  jobsCache.forEach(function(j, i){
+    var tr=document.createElement('tr');
+    var prog = '<div class="prog"><i style="width:'+j.progress_percent+'%"></i></div>';
+    var err = j.sample_error? '<div class="err">⚠ '+j.sample_error+'</div>': '';
+    var t0=(j.created_at||'').slice(0,19).replace('T',' ');
+    var t1=(j.started_at||'')?( (j.started_at||'').slice(0,19).replace('T',' ') ):'—';
+    tr.innerHTML =
+      '<td><div class="mono">'+j.job_id+'</div><div>'+workTitle(j)+' · scope: '+(j.requested_scope||'')+'</div>'
+      +'<div style="color:var(--muted)">by '+(j.created_by||'—')+'</div></td>'
+      +'<td><span class="badge '+stClass(j.status)+'">'+stLabel(j.status)+'</span></td>'
+      +'<td>'+prog+' '+j.progress_percent+'%<div style="color:var(--muted)">'+j.done_items+'/'+j.item_total+' • passages '+j.completed_passages+'/'+j.total_passages+'</div></td>'
+      +'<td>'+j.failed_items+err+'</td>'
+      +'<td>'+j.total_attempts+'</td>'
+      +'<td><a href="javascript:void(0)" onclick="showRaw(\''+j.job_id+'\',this)">'+j.raw_audit+' files</a></td>'
+      +'<td style="color:var(--muted)">tạo '+t0+'<br>chạy '+t1+'</td>'
+      +'<td><button onclick="details(\''+j.job_id+'\',this)">Chi tiết</button> '
+      +(j.status==='paused'?'<button onclick="resume(\''+j.job_id+'\')">Resume</button> ':'')
+      +(j.status==='running'||j.status==='queued'||j.status==='paused'?'<button onclick="cancel(\''+j.job_id+'\')">Hủy</button>':'')
+      +'<div class="sub"></div></td>';
+    tb.appendChild(tr);
+  });
+}
+
+async function refresh(showMsg){
+  var d=await safeFetch(baseUrl+'/daoanh/api/admin/translation/jobs');
+  if(!d.ok){ msg('Không truy cập được monitor: '+(d.error||'auth')); return; }
+  jobsCache=d.jobs||[];
+  render();
+  if(showMsg) msg('Đã làm mới '+jobsCache.length+' job.', 'ok');
+}
+function scheduleAuto(){
+  clearTimeout(timer);
+  if(document.getElementById('autoRef').checked) timer=setTimeout(function(){ refresh(false); scheduleAuto(); }, 15000);
+}
+async function details(jobId, btn){
+  var d=await safeFetch(baseUrl+'/daoanh/api/translation/jobs/'+encodeURIComponent(jobId));
+  var sub=btn.parentElement.querySelector('.sub');
+  if(!d.ok){ sub.innerHTML='<div class="err">'+d.error+'</div>'; return; }
+  var items=d.items||[];
+  var h='<details open><summary>'+items.length+' item — '+((d.job||{}).status||'')+'</summary><div class="items">';
+  items.forEach(function(it){
+    var c= it.status==='completed'?'ok': it.status==='failed'||it.status==='error'?'bad':'gray';
+    var tail=''+(it.error_message?' · '+it.error_message:'')+(it.revision_no?' · rev '+it.revision_no:'');
+    var vchip='';
+    if(it.validation_status){
+      var vc = it.validation_status==='PASS'?'var(--green)': it.validation_status==='REVIEW'?'#eab308':'var(--red)';
+      vchip=' <span class="badge" style="background:rgba(22,163,74,.1);color:'+vc+';border:1px solid '+vc+'">validator '+it.validation_status+'</span>';
+    }
+    var vbtn='';
+    if(it.translation_id){
+      vbtn=' <button style="font-size:10px;padding:2px 8px;background:rgba(34,197,94,.12);color:var(--green);border:1px solid var(--green);border-radius:4px;cursor:pointer" '+
+           'title="Duyệt chuẩn thủ công bản dịch của đoạn này (T94: manual_verified + reviewed)" '+
+           'onclick="verifySegment(this,\''+escAttr(it.passage_id)+'\')">✓ Duyệt chuẩn</button>';
+    }
+    h+='<div class="'+c+'">'+it.sequence_no+'. '+it.passage_id+' → '+it.status+tail+vchip+vbtn+'</div>';
+  });
+  h+='</div></details>';
+  sub.innerHTML=h;
+}
+function verifySegment(btn, passageId){
+  if(!confirm('Duyệt chuẩn thủ công segment '+passageId+'?\n→ quality_status=reviewed, review_status=verified, INSERT manual_verified alignment. (Có thể hoàn tác thủ công sau).')) return;
+  btn.disabled=true;
+  safeFetch(baseUrl+'/daoanh/api/admin/translation/verify',{method:'POST',body:JSON.stringify({passage_id:passageId, reviewer:'admin', note:'Duyệt chuẩn thủ công từ translation_monitor (T94 Phase 3)'})})
+    .then(function(d){
+      if(d.ok){ msg('Đã duyệt chuẩn '+d.translation_id+' («'+passageId+'»).','ok'); btn.outerHTML='<span style="color:var(--green);font-size:10px">✓ đã duyệt</span>'; }
+      else msg(d.error||'Lỗi duyệt chuẩn'); btn.disabled=false;
+    })
+    .catch(function(e){ btn.disabled=false; msg('Lỗi gọi API duyệt chuẩn: '+e); });
+}
+async function showRaw(jobId, el){
+  var d=await safeFetch(baseUrl+'/daoanh/api/admin/translation/jobs/'+encodeURIComponent(jobId)+'/raw');
+  if(!d.ok){ msg(d.error||'Lỗi đọc raw audit'); return; }
+  if(!d.files.length){ msg('Job '+jobId+' không có file raw audit.'); return; }
+  var h='<details open><summary>Raw audit — '+d.files.length+' file</summary><div class="items">';
+  d.files.forEach(function(f){ h+='<div class="gray mono">'+f.name+' · '+f.size+'B · '+f.modified+'</div>'; });
+  h+='</div></details>';
+  el.outerHTML=h;
+}
+function resume(jobId){
+  if(!confirm('Resume job '+jobId+'?\n→ Requueue toàn bộ item failed và chạy lại worker.')) return;
+  safeFetch(baseUrl+'/daoanh/api/admin/translation/jobs/'+encodeURIComponent(jobId)+'/resume',{method:'POST'})
+    .then(function(d){ if(d.ok) msg('Resume OK: '+d.resumed+' item.', 'ok'); else msg(d.error||'Lỗi resume'); refresh(false); });
+}
+function cancel(jobId){
+  if(!confirm('Hủy job '+jobId+'?\n→ Các item còn chờ/chạy chuyển sang cancelled (bản đã dịch vẫn giữ).')) return;
+  safeFetch(baseUrl+'/daoanh/api/admin/translation/jobs/'+encodeURIComponent(jobId)+'/cancel',{method:'POST'})
+    .then(function(d){ if(d.ok) msg('Đã hủy '+d.cancelled_items+' item.', 'ok'); else msg(d.error||'Lỗi hủy'); refresh(false); });
+}
+function exportAll(fmt){
+  var url=baseUrl+'/daoanh/api/cbeta/works/T50n2060/translation-export?download=1'+(fmt?('&format='+fmt):'');
+  window.location.href=url;
+}
+
+refresh(true); scheduleAuto();
+</script>
+</body>
+</html>

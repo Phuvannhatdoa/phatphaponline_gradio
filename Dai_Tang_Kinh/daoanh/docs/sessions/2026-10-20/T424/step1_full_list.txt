@@ -1,0 +1,449 @@
+Tong canh mapping_verified=0: 448
+  57027: A000113 (介諶/Giới Kham) -> ptda:long_hoa_ban (None/None) | TTL: TS-Duc-Vuong-Gioi-Kham.ttl
+  57035: A000117 (元省/Nguyên Tỉnh) -> ptda:ho_thanh_cu_tinh (None/None) | TTL: TS-Ngo-Thanh-Cu-Tinh.ttl
+  57036: A000117 (元省/Nguyên Tỉnh) -> ptda:mac_tuong_thieu_hu (None/None) | TTL: Cs-Mac-Tuong-Thieu-Hu.ttl
+  57043: A000237 (弘忍/Hoằng Nhẫn) -> A045639 (惠明/Pháp Như) | TTL: TS-Phap-Nhu.ttl
+  57074: A000453 (克勤/Khắc Cần) -> ptda:giac_am_to_thi (None/None) | TTL: TS-Giac-Am-To-Thi.ttl
+  57075: A000453 (克勤/Khắc Cần) -> ptda:hong_phuoc_tu_giao (None/None) | TTL: TS-Hong-Phuoc-Tu-Giao.ttl
+  57076: A000453 (克勤/Khắc Cần) -> ptda:phuoc_nghiem_van_dien (None/None) | TTL: TS-Vien-Ngo-Khac-Can.ttl
+  57077: A000453 (克勤/Khắc Cần) -> ptda:trieu_lenh_cam (None/None) | TTL: Cs-Trieu-Lenh-Cam.ttl
+  57079: A000472 (妙高/Diệu Cao) -> ptda:tinh_tu_van (None/None) | TTL: TS-Tinh-Tu-Van.ttl
+  57087: A001003 (馬鳴/Mã Minh) -> A008792 (摩拏羅/Ma Nã La) | TTL: Bo-Tat-Ma-Minh.ttl
+  57093: A001037 (崇岳/Sùng Nhạc) -> ptda:long_tuong_hy_lien (None/None) | TTL: TS-Linh-An-Sung-Nhac.ttl
+  57099: A001241 (景元/Cảnh Nguyên) -> ptda:quoc_thanh_hanh_co (None/None) | TTL: TS-Ho-Quoc-Canh-Nguyen.ttl
+  57106: A001334 (善果/Thiện Quả) -> A021291 (祖證/Tổ Chứng) | TTL: TS-Dai-Hong-To-Chung.ttl
+  57108: A001334 (善果/Thiện Quả) -> ptda:dai_quy_hanh (None/None) | TTL: TS-Dai-Quy-Hanh.ttl
+  57112: A001345 (善遇/Thiện Ngộ) -> A021326 (德用/Đức Dụng) | TTL: TS-Song-Lam-Duc-Dung.ttl
+  57134: A001742 (慧寶/Tuệ Bảo) -> A021084 (善孜/Thiện Tư) | TTL: TS-Bo-De-Quang-Dung.ttl
+  57136: A001897 (懷海/Bách Trượng Hoài Hải) -> A003636 (大安/Đại An) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57141: A001897 (懷海/Bách Trượng Hoài Hải) -> A020681 (五峰本/Ngũ Phong Bản) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57143: A001897 (懷海/Bách Trượng Hoài Hải) -> ptda:bach_truong_duy_chanh (None/None) | TTL: TS-Bach-Truong-Duy-Chanh.ttl
+  57144: A001897 (懷海/Bách Trượng Hoài Hải) -> ptda:dai_tu_hoan_trung (None/None) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57145: A001897 (懷海/Bách Trượng Hoài Hải) -> ptda:hoang_ba_hy_van (None/None) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57146: A001897 (懷海/Bách Trượng Hoài Hải) -> ptda:hong_chau_dong_son_tue (None/None) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57147: A001897 (懷海/Bách Trượng Hoài Hải) -> ptda:thach_suong_tanh_khong (None/None) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57148: A001897 (懷海/Bách Trượng Hoài Hải) -> ptda:ve_quoc_kinh_trieu_dao (None/None) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57149: A001897 (懷海/Bách Trượng Hoài Hải) -> ptda:vo_ngon_thong (None/None) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57150: A002188 (摩訶迦葉/Ma Ha Ca Diệp) -> A002857 (鳩摩羅多/Pháp Danh) | TTL: Ton-Gia-Cuu-Ma-La-Da.ttl
+  57151: A002188 (摩訶迦葉/Ma Ha Ca Diệp) -> A003861 (阿難/A Nan) | TTL: Ton-Gia-A-Nan.ttl
+  57161: A003229 (法照/Pháp Chiếu) -> ptda:huong_duong_hy_an (None/None) | TTL: TS-Bao-Ung-Phap-Chieu.ttl
+  57168: A003518 (曇頴/Đàm Dĩnh) -> ptda:quang_giao_ke_chan (None/None) | TTL: TS-Quang-Giao-Ke-Chan.ttl
+  57169: A003518 (曇頴/Đàm Dĩnh) -> ptda:thach_phat_hien_trong (None/None) | TTL: TS-Thach-Phat-Hien-Trong.ttl
+  57178: A003865 (智常/Trí Thường) -> A045400 (智通/Trí Thông) | TTL: TS-Ngu-Dai-Tri-Thong.ttl
+  57186: A003881 (慧可/Nhị Tổ) -> ptda:cs_huong (None/None) | TTL: Cs-Huong.ttl
+  57196: A003889 (普願/Phổ Nguyện) -> ptda:cu_chau_loi_tung_tu_ho (None/None) | TTL: TS-Cu-Chau-Loi-Tu-Ho.ttl
+  57197: A003889 (普願/Phổ Nguyện) -> ptda:nhat_tu (None/None) | TTL: TS-Nam-Tuyen-Pho-Nguyen.ttl
+  57198: A003889 (普願/Phổ Nguyện) -> ptda:tu_ho_ly_tong (None/None) | TTL: TS-Nam-Tuyen-Pho-Nguyen.ttl
+  57199: A003889 (普願/Phổ Nguyện) -> ptda:tung_son_lac_kinh (None/None) | TTL: TS-Nam-Tuyen-Pho-Nguyen.ttl
+  57200: A003889 (普願/Phổ Nguyện) -> ptda:tuyen_chau_luc_hoan (None/None) | TTL: TS-Nam-Tuyen-Pho-Nguyen.ttl
+  57215: A003907 (蘊聰/Uẩn Thông) -> ptda:vinh_phuoc_dien_chieu (None/None) | TTL: TS-Coc-An-Uan-Thong.ttl
+  57219: A003920 (可真/Khả Chân) -> ptda:hung_duong_hien (None/None) | TTL: TS-Hung-Duong-Hien.ttl
+  57231: A003923 (常總/Thường Tổng) -> ptda:bao_than_huu_thuy (None/None) | TTL: TS-Bao-Than-Huu-Thuy.ttl
+  57232: A003923 (常總/Thường Tổng) -> ptda:hung_phuoc_khuong_nguyen (None/None) | TTL: TS-Chieu-Giac-Thuong-Tong.ttl
+  57233: A003923 (常總/Thường Tổng) -> ptda:khai_tien_hanh_anh (None/None) | TTL: TS-Chieu-Giac-Thuong-Tong.ttl
+  57234: A003923 (常總/Thường Tổng) -> ptda:long_tuyen_quy (None/None) | TTL: TS-Chieu-Giac-Thuong-Tong.ttl
+  57235: A003923 (常總/Thường Tổng) -> ptda:tue_luc_kha_xuong (None/None) | TTL: TS-Chieu-Giac-Thuong-Tong.ttl
+  57236: A004015 (懷讓/Hoài Nhường) -> A038890 (道一/Mã Tổ Đạo Nhất) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57245: A004017 (法遠/Pháp Viễn) -> ptda:ban_giac_nha_chau (None/None) | TTL: TS-Ban-Giac-Nha-Chau.ttl
+  57246: A004017 (法遠/Pháp Viễn) -> ptda:tinh_nhan_dao_trang (None/None) | TTL: TS-Phu-Son-Phap-Vien.ttl
+  57253: A004475 (從諗/Triệu Châu Trà) -> A026824 (慧覺/Tuệ Giác) | TTL: TS-Duong-Chau-Tue-Giac.ttl
+  57255: A004475 (從諗/Triệu Châu Trà) -> ptda:hang_chau_da_phuoc (None/None) | TTL: TS-Hang-Chau-Da-Phuoc.ttl
+  57256: A004475 (從諗/Triệu Châu Trà) -> ptda:lung_chau_quoc_thanh_phung (None/None) | TTL: TS-Lung-Chau-Quoc-Thanh-Phung.ttl
+  57257: A004551 (元長/Nguyên Trưởng) -> ptda:van_phong_thoi_uy (None/None) | TTL: TS-Thien-Nham-Nguyen-Truong.ttl
+  57266: A004571 (智閑/Trí Nhàn) -> ptda:chung_nam_phong_duc (None/None) | TTL: TS-Chung-Nam-Phong-Duc.ttl
+  57267: A004571 (智閑/Trí Nhàn) -> ptda:ich_chau_truong_binh (None/None) | TTL: TS-Huong-Nghiem-Tri-Nhan.ttl
+  57268: A004606 (僧粲/Tăng Xán) -> ptda:dao_tin (None/None) | TTL: Ton-Gia-Tang-Xan.ttl
+  57276: A004750 (祖心/Tổ Tâm) -> A008471 (黃庭堅/Hoàng Đình Kiên) | TTL: Cs-Hoang-Dinh-Kien.ttl
+  57287: A004750 (祖心/Tổ Tâm) -> ptda:song_lanh_hoa (None/None) | TTL: TS-Hoi-Duong-To-Tam.ttl
+  57288: A004750 (祖心/Tổ Tâm) -> ptda:tu_van_dao (None/None) | TTL: TS-Hoi-Duong-To-Tam.ttl
+  57289: A004818 (虛雲/Hư Vân) -> ptda:khoan_tinh (None/None) | TTL: TS-Dien-Triet-Hu-Van.ttl
+  57290: A004980 (存獎/Tồn Tưởng) -> A004981 (慧顒/Tuệ Ngung) | TTL: TS-Hung-Hoa-Ton-Tuong.ttl
+  57291: A004981 (慧顒/Tuệ Ngung) -> A004983 (省念/Tỉnh Niệm) | TTL: TS-Phong-Huyet-Dien-Chieu.ttl
+  57301: A004983 (省念/Tỉnh Niệm) -> ptda:than_danh_hong_nhan (None/None) | TTL: TS-Than-Danh-Hong-Nhan.ttl
+  57302: A004983 (省念/Tỉnh Niệm) -> ptda:tri_mon_hoi_han (None/None) | TTL: TS-Thu-Son-Tinh-Niem.ttl
+  57310: A004984 (善昭/Thiện Chiêu) -> A026824 (慧覺/Tuệ Giác) | TTL: TS-Lang-Nha-Tue-Giac.ttl
+  57313: A004984 (善昭/Thiện Chiêu) -> A038615 (道一/Đạo Nhất) | TTL: TS-Phan-Duong-Thien-Chieu.ttl
+  57314: A004984 (善昭/Thiện Chiêu) -> ptda:long_mon_chieu (None/None) | TTL: TS-Phan-Duong-Thien-Chieu.ttl
+  57317: A005091 (慧安/Huệ An) -> ptda:tung_nhac_pha_tao_doa (None/None) | TTL: TS-Tung-Nhac-Hue-An.ttl
+  57318: A005159 (世親/Bà Tu Bàn Đâu) -> A008792 (摩拏羅/Ma Nã La) | TTL: Ton-Gia-Ba-Tu-Ban-Dau.ttl
+  57320: A005718 (道謙/Tông Môn Võ Khố) -> ptda:ngo_thap_tam (None/None) | TTL: TS-Khai-Thien-Dao-Khiem.ttl
+  57323: A006310 (智巖/Trí Nham) -> A038165 (惠芳/Huệ Phương) | TTL: TS-Nguu-Dau-Hue-Phuong.ttl
+  57325: A006830 (慧寶/Tuệ Bảo) -> ptda:bich_phong_tanh_kim (None/None) | TTL: TS-Bich-Phong-Tanh-Kim.ttl
+  57329: A007336 (道顏/Đạo Nhan) -> A021395 (法演/Pháp Diễn) | TTL: TS-Bao-An-Phap-Dien.ttl
+  57340: A007526 (克文/Khắc Văn) -> A020681 (五峰本/Ngũ Phong Bản) | TTL: TS-Lac-Dam-Khac-Van.ttl
+  57343: A007526 (克文/Khắc Văn) -> A021084 (善孜/Thiện Tư) | TTL: TS-Lac-Dam-Khac-Van.ttl
+  57346: A007526 (克文/Khắc Văn) -> ptda:bao_tu_tan_anh (None/None) | TTL: TS-Bao-Tu-Tan-Anh.ttl
+  57347: A007526 (克文/Khắc Văn) -> ptda:cuu_phong_hy_quang (None/None) | TTL: TS-Cuu-Phong-Hy-Quang.ttl
+  57348: A007526 (克文/Khắc Văn) -> ptda:sieu_hoa_tinh (None/None) | TTL: TS-Lac-Dam-Khac-Van.ttl
+  57349: A007526 (克文/Khắc Văn) -> ptda:thanh_luong_duc_hong (None/None) | TTL: TS-Lac-Dam-Khac-Van.ttl
+  57350: A007526 (克文/Khắc Văn) -> ptda:thuong_phong_tue_hoa (None/None) | TTL: TS-Lac-Dam-Khac-Van.ttl
+  57351: A007526 (克文/Khắc Văn) -> ptda:tue_an_tue_uyen (None/None) | TTL: TS-Lac-Dam-Khac-Van.ttl
+  57353: A007837 (道生/Đạo Sinh) -> ptda:kinh_son_dao_xung (None/None) | TTL: TS-Kinh-Son-Dao-Xung.ttl
+  57367: A008373 (守卓/Thủ Trác) -> ptda:ban_tich_van_quan (None/None) | TTL: TS-Ban-Tich-Van-Quan.ttl
+  57377: A008395 (悟新/Ngộ Tân) -> A030596 (道龍/Đạo Long) | TTL: TS-Chung-Son-Dao-Long.ttl
+  57380: A008412 (心道/Tâm Đạo) -> A038165 (惠芳/Huệ Phương) | TTL: TS-So-An-Hue-Phuong.ttl
+  57395: A008630 (道旻/Đạo Mân) -> ptda:banh_nhu_lam (None/None) | TTL: Cs-Banh-Nhu-Lam.ttl
+  57396: A008630 (道旻/Đạo Mân) -> ptda:do_huong_trinh (None/None) | TTL: Cs-Do-Huong-Trinh.ttl
+  57397: A008630 (道旻/Đạo Mân) -> ptda:pham_xung (None/None) | TTL: Cs-Pham-Xung.ttl
+  57398: A008633 (慕喆/Mộ Triết) -> A014617 (道平/Đạo Bình) | TTL: TS-Dai-Quy-Mo-Triet.ttl
+  57408: A008633 (慕喆/Mộ Triết) -> ptda:hung_giao_tue_thuan (None/None) | TTL: TS-Dai-Quy-Mo-Triet.ttl
+  57409: A008633 (慕喆/Mộ Triết) -> ptda:la_phu_hy (None/None) | TTL: TS-Dai-Quy-Mo-Triet.ttl
+  57417: A008635 (應乾/Bảo Phong Khắc Văn) -> ptda:thang_nhan_ham_tinh (None/None) | TTL: TS-Lac-Dam-Ung-Can.ttl
+  57419: A008679 (文雅/Văn Nhã) -> ptda:cuu_tien_phap (None/None) | TTL: TS-Cuu-Tien-Phap.ttl
+  57426: A008792 (摩拏羅/Ma Nã La) -> A008791 (鶴勒那/Hạc Lắc Na) | TTL: Ton-Gia-Hac-Lac-Na.ttl
+  57427: A008792 (摩拏羅/Ma Nã La) -> A046539 (隆壽/Long Thọ) | TTL: Bo-Tat-Long-Tho.ttl
+  57446: A009457 (神秀/Hà Trạch Thần Hội) -> ptda:do_luong_ton_thuc (None/None) | TTL: TS-Do-Luong-Ton-Thuc.ttl
+  57450: A009460 (天然/Đan Hà Thiên Nhiên) -> ptda:cat_chau_tanh_khong (None/None) | TTL: TS-Cat-Chau-Tanh-Khong.ttl
+  57451: A009460 (天然/Đan Hà Thiên Nhiên) -> ptda:me_thuong (None/None) | TTL: TS-Don-Ha-Thien-Nhien.ttl
+  57458: A009592 (如琰/Như Diễm) -> ptda:song_long_bang (None/None) | TTL: TS-Kinh-Son-Nhu-Diem.ttl
+  57459: A009592 (如琰/Như Diễm) -> ptda:tinh_tu_van (None/None) | TTL: TS-Kinh-Son-Nhu-Diem.ttl
+  57460: A009665 (善珍/Thiện Trân) -> ptda:kinh_son_hanh_doan (None/None) | TTL: TS-Kinh-Son-Hanh-Doan.ttl
+  57473: A010251 (玄素/Huyền Tố) -> ptda:phap_kinh_ngo_trung (None/None) | TTL: TS-Hac-Lam-Huyen-To.ttl
+  57480: A010291 (希遷/Thạch Đầu Hy Thiên) -> A020018 (佛陀/Phật Đà) | TTL: TS-Dam-Chau-Dai-Xuyen.ttl
+  57482: A010291 (希遷/Thạch Đầu Hy Thiên) -> A025951 (華林/Hoa Lâm) | TTL: TS-Dam-Chau-Hoa-Lam.ttl
+  57483: A010291 (希遷/Thạch Đầu Hy Thiên) -> ptda:dam_chau_truong_ty_khoang (None/None) | TTL: TS-Dam-Chau-Truong-Ty-Khoang.ttl
+  57484: A010291 (希遷/Thạch Đầu Hy Thiên) -> ptda:thuy_khong (None/None) | TTL: TS-Thach-Dau-Hy-Thien.ttl
+  57491: A010427 (崇信/Sùng Tín) -> ptda:lac_dam_buu_long (None/None) | TTL: TS-Lac-Dam-Buu-Long.ttl
+  57492: A010581 (慶諸/Khánh Chư) -> A010511 (玄泰/Huyền Thái) | TTL: TS-Dam-Chau-Bao-Cai-Uoc.ttl
+  57496: A010581 (慶諸/Khánh Chư) -> ptda:loc_thanh (None/None) | TTL: TS-Thach-Suong-Khanh-Chu.ttl
+  57502: A010618 (景岑/Trường Sa Cảnh Sầm) -> ptda:tuyet_dau_thuong_thong (None/None) | TTL: TS-Truong-Sa-Canh-Sam.ttl
+  57503: A010660 (系南/Hệ Nam) -> A047679 (德宣/Đức Tuyên) | TTL: TS-La-Han-He-Nam.ttl
+  57504: A010660 (系南/Hệ Nam) -> ptda:van_phong_tue_xuong (None/None) | TTL: TS-La-Han-He-Nam.ttl
+  57518: A012470 (達摩/Đạt Ma) -> ptda:thien_tue_bao_chuong (None/None) | TTL: Ton-Gia-Bo-De-Dat-Ma.ttl
+  57521: A012872 (文蓮/Văn Sen) -> ptda:tay_thien_hy_tu (None/None) | TTL: TS-Tay-Thien-Hy-Tu.ttl
+  57522: A013175 (如宏/Như Hoằng) -> ptda:thuan_kiet_tanh_khue (None/None) | TTL: TS-Doan-Huc-Nhu-Hoang.ttl
+  57523: A013404 (圓悟/Viên Ngộ) -> ptda:dao_man_moc_tran (None/None) | TTL: TS-Dao-Man-Moc-Tran.ttl
+  57530: A013727 (靈源/Linh Nguồn) -> ptda:bac_son_tu_kinh (None/None) | TTL: TS-Bac-Son-Tu-Kinh.ttl
+  57531: A013727 (靈源/Linh Nguồn) -> ptda:quang_hieu_dam (None/None) | TTL: TS-Duy-Thanh-Linh-Nguyen.ttl
+  57532: A013727 (靈源/Linh Nguồn) -> ptda:thuong_phong_ban_tai (None/None) | TTL: TS-Duy-Thanh-Linh-Nguyen.ttl
+  57535: A014063 (智藏/Trí Tạng) -> ptda:kien_chau_xu_triet (None/None) | TTL: TS-Kien-Chau-Xu-Triet.ttl
+  57543: A014099 (道廣/Đạo Quảng) -> A021326 (德用/Đức Dụng) | TTL: TS-Nam-Minh-Dao-Quang.ttl
+  57546: A014349 (元璉/Nguyên Liễn) -> A030596 (道龍/Đạo Long) | TTL: TS-Hoa-Nghiem-Dao-Long.ttl
+  57547: A014349 (元璉/Nguyên Liễn) -> A047679 (德宣/Đức Tuyên) | TTL: TS-Quang-Tue-Duc-Tuyen.ttl
+  57556: A014442 (洪英/Suyền Anh) -> ptda:dai_quy_te_tuan (None/None) | TTL: TS-Dai-Quy-Te-Tuan.ttl
+  57561: A014489 (昭慶/Chiêu Khánh) -> ptda:ngoc_tuyen_thien_sieu (None/None) | TTL: TS-Kien-Long-Chieu-Khanh.ttl
+  57564: A014563 (梵卿/Phạm Khanh) -> ptda:tuyet_dau_tri (None/None) | TTL: TS-Tuong-Dien-Pham-Khanh.ttl
+  57565: A014617 (道平/Đạo Bình) -> A009269 (宗哲/Tông Triết) | TTL: TS-Khai-Phuoc-Tong-Triet.ttl
+  57566: A014617 (道平/Đạo Bình) -> A026924 (彥孜/Ngạn Tư) | TTL: TS-Phap-Luan-Ngan-Tu.ttl
+  57567: A014617 (道平/Đạo Bình) -> A026926 (繼成/Kế Thành) | TTL: TS-Tinh-Nhan-Ke-Thanh.ttl
+  57572: A015194 (曇賁/Đàm Bí) -> ptda:dai_quy_giam (None/None) | TTL: TS-Dai-Quy-Giam.ttl
+  57573: A015194 (曇賁/Đàm Bí) -> ptda:long_hoa_ban (None/None) | TTL: TS-Van-Nien-Dam-Bi.ttl
+  57574: A015692 (永慈/Vĩnh Từ) -> ptda:dinh_bao_phong_tri (None/None) | TTL: TS-Dinh-Bao-Phong-Tri.ttl
+  57580: A016211 (惟儼/Đạo Ngô Viên Trí) -> ptda:tue_tinh_ty_tho (None/None) | TTL: TS-Duoc-Son-Duy-Nghiem.ttl
+  57585: A017569 (難提/Nan Đề) -> A002188 (摩訶迦葉/Ma Ha Ca Diệp) | TTL: Ton-Gia-Da-Da-Xa-Da.ttl
+  57590: A018345 (宣能/Tuyên Năng) -> ptda:thien_ninh_quynh (None/None) | TTL: TS-Thien-Ninh-Quynh.ttl
+  57594: A020018 (佛陀/Phật Đà) -> A005238 (普光/Phổ Quang) | TTL: TS-Dam-Chau-Dai-Xuyen.ttl
+  57595: A020018 (佛陀/Phật Đà) -> A020033 (僊天/Tiên Thiên) | TTL: TS-Dam-Chau-Dai-Xuyen.ttl
+  57599: A020363 (紹宗/Thiệu Tông) -> ptda:loc_thanh (None/None) | TTL: TS-Dao-Ngo-Vien-Tri.ttl
+  57611: A020573 (懷秀/Hoài Tú) -> ptda:phuoc_nghiem_van_dien (None/None) | TTL: TS-Dai-Quy-Hoai-Tu.ttl
+  57615: A020575 (元肅/Nguyên Túc) -> ptda:nguyet_chau_than_giam (None/None) | TTL: TS-Bach-Truong-Nguyen-Tuc.ttl
+  57617: A020579 (曉常/Hiểu Thường) -> ptda:o_nhai_so (None/None) | TTL: TS-Ngu-To-Hieu-Thuong.ttl
+  57625: A020691 (惟信/Duy Tín) -> ptda:chanh_phap_hy_ninh (None/None) | TTL: TS-Chanh-Phap-Hy-Ninh.ttl
+  57626: A020691 (惟信/Duy Tín) -> ptda:luong_son_hoai (None/None) | TTL: TS-Luong-Son-Hoai.ttl
+  57627: A020691 (惟信/Duy Tín) -> ptda:nhac_son_am_chu_to (None/None) | TTL: TS-Nhac-Son-Am-Chu-To.ttl
+  57631: A021084 (善孜/Thiện Tư) -> A021142 (法詮/Pháp Thuyên) | TTL: TS-Tinh-Do-Thien-Tu.ttl
+  57632: A021084 (善孜/Thiện Tư) -> A039046 (守龍/Thủ Long) | TTL: TS-Khanh-Thien-Thu-Long.ttl
+  57633: A021104 (仁繪/Nhân Hội) -> ptda:vien_van_chuyet_cong (None/None) | TTL: TS-Duc-Thien-Nhan-Hoi.ttl
+  57635: A021291 (祖證/Tổ Chứng) -> ptda:duoc_lam_thach_quan (None/None) | TTL: TS-Duoc-Lam-Thach-Quan.ttl
+  57636: A021326 (德用/Đức Dụng) -> A012452 (圓清/Viên Thanh) | TTL: TS-Cao-Am-Vien-Thanh.ttl
+  57637: A021326 (德用/Đức Dụng) -> A021327 (三峰印/Tam Phong Ấn) | TTL: TS-Song-Lam-Duc-Dung.ttl
+  57648: A023322 (靈祐/Hương Nghiêm Trí Nhàn) -> ptda:kinh_trieu_me_ho (None/None) | TTL: TS-Kinh-Trieu-Me-Ho.ttl
+  57649: A023322 (靈祐/Hương Nghiêm Trí Nhàn) -> ptda:tan_chau_hoac_son (None/None) | TTL: TS-Quy-Son-Linh-Huu.ttl
+  57650: A024688 (Nathan Sivin/Nathan Sivin) -> ptda:doan_vien_chieu_hoa (None/None) | TTL: TS-Chat-Sanh-Tich-Van.ttl
+  57651: A024770 (寶藏/Bảo Tạng) -> ptda:dao_minh_hue_sam (None/None) | TTL: TS-Dao-Minh-Hue-Sam.ttl
+  57655: A024883 (元悟/Nguyên Ngộ) -> ptda:tuong_thanh_quang_tung (None/None) | TTL: TS-Hoanh-Hoa-Nguyen-Ngo.ttl
+  57659: A025951 (華林/Hoa Lâm) -> A005238 (普光/Phổ Quang) | TTL: TS-Dam-Chau-Hoa-Lam.ttl
+  57660: A025951 (華林/Hoa Lâm) -> A020033 (僊天/Tiên Thiên) | TTL: TS-Dam-Chau-Hoa-Lam.ttl
+  57667: A026824 (慧覺/Tuệ Giác) -> A000085 (子璿/Tử Tuyền) | TTL: TS-Truong-Thuy-Tu-Tuyen.ttl
+  57668: A026824 (慧覺/Tuệ Giác) -> A000220 (可宣/Khả Tuyên) | TTL: TS-Quy-Tong-Kha-Tuyen.ttl
+  57669: A026824 (慧覺/Tuệ Giác) -> A001776 (曉月/Hiểu Nguyệt) | TTL: TS-Lac-Dam-Hieu-Nguyet.ttl
+  57670: A026824 (慧覺/Tuệ Giác) -> A004515 (智遷/Trí Thiên) | TTL: TS-Lang-Nha-Tri-Thien.ttl
+  57671: A026824 (慧覺/Tuệ Giác) -> A008043 (如方/Như Phương) | TTL: TS-Chan-Nhu-Phuong.ttl
+  57672: A026824 (慧覺/Tuệ Giác) -> A008532 (超信/Siêu Tín) | TTL: TS-Dinh-Hue-Sieu-Tin.ttl
+  57673: A026824 (慧覺/Tuệ Giác) -> A014417 (顯端/Hiển Đoan) | TTL: TS-Bach-Loc-Hien-Doan.ttl
+  57674: A026824 (慧覺/Tuệ Giác) -> A018792 (悟空/Ngộ Không) | TTL: TS-Ngoc-Tuyen-Ngo-Khong.ttl
+  57675: A026824 (慧覺/Tuệ Giác) -> A020344 (道熙/Đạo Hy) | TTL: TS-Duong-Chau-Tue-Giac.ttl
+  57676: A026824 (慧覺/Tuệ Giác) -> A026958 (姜山方/Khương Sơn Phương) | TTL: TS-Khuong-Son-Phuong.ttl
+  57677: A026824 (慧覺/Tuệ Giác) -> A026961 (洞淵/Động Uyên) | TTL: TS-Luong-Phong-Dong-Uyen.ttl
+  57678: A026824 (慧覺/Tuệ Giác) -> ptda:hung_giao_than (None/None) | TTL: TS-Hung-Giao-Than.ttl
+  57687: A029593 (慧能/Truyền Pháp Chánh Tông Ký) -> A002653 (寶意/Bảo Ý) | TTL: TS-Bien-Dam-Hieu-Lieu.ttl
+  57703: A029593 (慧能/Truyền Pháp Chánh Tông Ký) -> A045400 (智通/Trí Thông) | TTL: TS-Tho-Chau-Tri-Thong.ttl
+  57704: A032162 (義玄/Tổ Sư) -> A004980 (存獎/Tồn Tưởng) | TTL: TS-Hung-Hoa-Ton-Tuong.ttl
+  57705: A032162 (義玄/Tổ Sư) -> A010423 (志閑/Chí Nhàn) | TTL: TS-Lam-Te-Nghia-Huyen.ttl
+  57706: A032162 (義玄/Tổ Sư) -> A013245 (雲山/Vân Sơn) | TTL: TS-Lam-Te-Nghia-Huyen.ttl
+  57707: A032162 (義玄/Tổ Sư) -> A019866 (萬歲/Vạn Tuế) | TTL: TS-Lam-Te-Nghia-Huyen.ttl
+  57708: A032162 (義玄/Tổ Sư) -> A020418 (譚空/Đàm Không) | TTL: TS-Lam-Te-Nghia-Huyen.ttl
+  57709: A032162 (義玄/Tổ Sư) -> A020421 (善崔/Thiện Thôi) | TTL: TS-Dinh-Chau-Thien-Thoi.ttl
+  57710: A032162 (義玄/Tổ Sư) -> A020423 (歷村/Lịch Thôn) | TTL: TS-Lam-Te-Nghia-Huyen.ttl
+  57711: A032162 (義玄/Tổ Sư) -> A020424 (桐峯/Đồng Phong) | TTL: TS-Am-Chu-Dong-Phong.ttl
+  57712: A032162 (義玄/Tổ Sư) -> A020425 (級衣/Cấp Y) | TTL: TS-Lam-Te-Nghia-Huyen.ttl
+  57713: A032162 (義玄/Tổ Sư) -> A020426 (覆盆/Phúc Bồn) | TTL: TS-Am-Chu-Phuc-Bon.ttl
+  57714: A032162 (義玄/Tổ Sư) -> A024945 (慧然/Huệ Nhiên) | TTL: TS-Lam-Te-Nghia-Huyen.ttl
+  57715: A032162 (義玄/Tổ Sư) -> A027011 (杉洋/Sam Dương) | TTL: TS-Am-Chu-Sam-Duong.ttl
+  57716: A032162 (義玄/Tổ Sư) -> ptda:am_chu_ho_khe (None/None) | TTL: TS-Am-Chu-Ho-Khe.ttl
+  57717: A032162 (義玄/Tổ Sư) -> ptda:bao_tho_dien_chieu (None/None) | TTL: TS-Bao-Tho-Dien-Chieu.ttl
+  57718: A032162 (義玄/Tổ Sư) -> ptda:thuong_chau_me_thuong (None/None) | TTL: TS-Lam-Te-Nghia-Huyen.ttl
+  57723: A033489 (守端/Thủ Đoan) -> ptda:bao_phuoc_thu (None/None) | TTL: TS-Bach-Van-Thu-Doan.ttl
+  57724: A033489 (守端/Thủ Đoan) -> ptda:quach_tuong_chanh (None/None) | TTL: Cs-De-Hinh-Quach-Tuong-Chanh.ttl
+  57725: A033489 (守端/Thủ Đoan) -> ptda:sung_thang_ky (None/None) | TTL: TS-Bach-Van-Thu-Doan.ttl
+  57727: A033584 (慧遠/Tuệ Viễn) -> A021350 (覺阿/Giác A) | TTL: TS-Dong-Son-Te-Vi.ttl
+  57728: A033584 (慧遠/Tuệ Viễn) -> ptda:tang_khai (None/None) | TTL: Cs-Tang-Khai.ttl
+  57736: A036842 (法演/Phật Nhãn Thanh Viễn) -> A014617 (道平/Đạo Bình) | TTL: TS-Ngu-To-Phap-Dien.ttl
+  57738: A036842 (法演/Phật Nhãn Thanh Viễn) -> A024897 (道初/Đạo Sơ) | TTL: TS-Cuu-Danh-To.ttl
+  57739: A036842 (法演/Phật Nhãn Thanh Viễn) -> ptda:phap_so (None/None) | TTL: TS-Ngu-To-Phap-Dien.ttl
+  57740: A036842 (法演/Phật Nhãn Thanh Viễn) -> ptda:thai_binh_hue_can_phat_giam (None/None) | TTL: TS-Ngu-To-Phap-Dien.ttl
+  57741: A036842 (法演/Phật Nhãn Thanh Viễn) -> ptda:thanh_vien_phat_nhan (None/None) | TTL: TS-Ngu-To-Phap-Dien.ttl
+  57742: A037198 (慧月/Tuệ Nguyệt) -> ptda:tien_phuoc_luong (None/None) | TTL: TS-Tien-Phuoc-Luong.ttl
+  57745: A037572 (覺海/Giác Hải) -> ptda:quy_phong_tu_quynh (None/None) | TTL: TS-Quy-Phong-Tu-Quynh.ttl
+  57746: A037572 (覺海/Giác Hải) -> ptda:thach_mon_nha (None/None) | TTL: TS-Thach-Mon-Nhac.ttl
+  57747: A038165 (惠芳/Huệ Phương) -> A010050 (法持/Pháp Trì) | TTL: TS-Kim-Lang-Phap-Tri.ttl
+  57748: A038179 (鄒洪/Trâu Suyền) -> ptda:chanh_truyen_huyen_huu (None/None) | TTL: TS-Chanh-Truyen-Huyen-Huu.ttl
+  57749: A038615 (道一/Đạo Nhất) -> ptda:long_mon_chieu (None/None) | TTL: TS-Long-Mon-Chieu.ttl
+  57781: A038686 (宗杲/Tông Cảo) -> ptda:linh_nham_lieu_tanh (None/None) | TTL: TS-Dai-Hue-Tong-Cao.ttl
+  57782: A038686 (宗杲/Tông Cảo) -> ptda:tay_thien_danh_nhu (None/None) | TTL: TS-Dai-Hue-Tong-Cao.ttl
+  57783: A038686 (宗杲/Tông Cảo) -> ptda:tuyet_phong_uan_van (None/None) | TTL: TS-Dai-Hue-Tong-Cao.ttl
+  57785: A038890 (道一/Mã Tổ Đạo Nhất) -> A000064 (大義/Đại Nghĩa) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57786: A038890 (道一/Mã Tổ Đạo Nhất) -> A001536 (道通/Đạo Thông) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57787: A038890 (道一/Mã Tổ Đạo Nhất) -> A001897 (懷海/Bách Trượng Hoài Hải) | TTL: TS-Bach-Truong-Hoai-Hai.ttl
+  57788: A038890 (道一/Mã Tổ Đạo Nhất) -> A002627 (伊葉波羅/Pháp Lực) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57789: A038890 (道一/Mã Tổ Đạo Nhất) -> A003865 (智常/Trí Thường) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57790: A038890 (道一/Mã Tổ Đạo Nhất) -> A003889 (普願/Phổ Nguyện) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57791: A038890 (道一/Mã Tổ Đạo Nhất) -> A004672 (洪恩/Suyền Ân) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57792: A038890 (道一/Mã Tổ Đạo Nhất) -> A005250 (龐蘊/Bàng Uẩn) | TTL: Cs-Tuong-Chau-Bang-Uan.ttl
+  57793: A038890 (道一/Mã Tổ Đạo Nhất) -> A007136 (隆山/Long Sơn) | TTL: TS-Dam-Chau-Long-Son.ttl
+  57794: A038890 (道一/Mã Tổ Đạo Nhất) -> A009478 (隱峯/Ẩn Phong) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57795: A038890 (道一/Mã Tổ Đạo Nhất) -> A010129 (玄策/Huyền Sách) | TTL: TS-Huyen-Sach.ttl
+  57796: A038890 (道一/Mã Tổ Đạo Nhất) -> A010429 (釋甄叔/Thích Chân Thúc) | TTL: TS-Duong-Ky-Chan-Thuc.ttl
+  57797: A038890 (道一/Mã Tổ Đạo Nhất) -> A010451 (釋無業/Thích Vô Nghiệp) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57798: A038890 (道一/Mã Tổ Đạo Nhất) -> A010916 (義通/Nghĩa Thông) | TTL: TS-Lo-To-Bao-Van.ttl
+  57799: A038890 (道一/Mã Tổ Đạo Nhất) -> A012046 (如滿/Như Mãn) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57800: A038890 (道一/Mã Tổ Đạo Nhất) -> A012493 (寶積/Bảo Tích) | TTL: TS-Ban-Son-Bao-Tich.ttl
+  57801: A038890 (道一/Mã Tổ Đạo Nhất) -> A014063 (智藏/Trí Tạng) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57802: A038890 (道一/Mã Tổ Đạo Nhất) -> A014072 (懷惲/Hoài Uẩn) | TTL: TS-Chuong-Kinh-Hoai-Uan.ttl
+  57803: A038890 (道一/Mã Tổ Đạo Nhất) -> A014108 (打地/Đả Địa) | TTL: TS-Han-Chau-Da-Dia.ttl
+  57804: A038890 (道一/Mã Tổ Đạo Nhất) -> A014171 (無了/Vô Liễu) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57805: A038890 (道一/Mã Tổ Đạo Nhất) -> A015914 (如會/Như Hội) | TTL: TS-Ho-Nam-Dong-Tu-Nhu-Hoi.ttl
+  57806: A038890 (道一/Mã Tổ Đạo Nhất) -> A017313 (善悟/Thiện Ngộ) | TTL: TS-Hoa-Lam-Thien-Giac.ttl
+  57807: A038890 (道一/Mã Tổ Đạo Nhất) -> A019007 (大珠慧海/Đại Châu Tuệ Hải) | TTL: TS-Dai-Chau-Hue-Hai.ttl
+  57808: A038890 (道一/Mã Tổ Đạo Nhất) -> A019891 (自滿/Tự Mãn) | TTL: TS-Ly-Thon-Tu-Man.ttl
+  57809: A038890 (道一/Mã Tổ Đạo Nhất) -> A019894 (常興/Thường Hưng) | TTL: TS-Lac-Dam-Thuong-Hung.ttl
+  57810: A038890 (道一/Mã Tổ Đạo Nhất) -> A019897 (寶徹/Bảo Triệt) | TTL: TS-Ma-Coc-Bao-Triet.ttl
+  57811: A038890 (道一/Mã Tổ Đạo Nhất) -> A019902 (法會/Pháp Hội) | TTL: TS-Lac-Dam-Phap-Hoi.ttl
+  57812: A038890 (道一/Mã Tổ Đạo Nhất) -> A019905 (智堅/Trí Kiên) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57813: A038890 (道一/Mã Tổ Đạo Nhất) -> A019907 (惟建/Duy Kiến) | TTL: TS-Lac-Dam-Duy-Kien.ttl
+  57814: A038890 (道一/Mã Tổ Đạo Nhất) -> A019911 (古寺/Cổ Tự) | TTL: TS-Co-Tu.ttl
+  57815: A038890 (道一/Mã Tổ Đạo Nhất) -> A019913 (佛嶴/Phật Áo) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57816: A038890 (道一/Mã Tổ Đạo Nhất) -> A019918 (神藏/Thần Tạng) | TTL: TS-Ma-Dau-Than-Tang.ttl
+  57817: A038890 (道一/Mã Tổ Đạo Nhất) -> A019919 (石臼/Thạch Cữu) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57818: A038890 (道一/Mã Tổ Đạo Nhất) -> A019924 (總印/Tổng Ấn) | TTL: TS-Dam-Chau-Tong-An.ttl
+  57819: A038890 (道一/Mã Tổ Đạo Nhất) -> A019925 (廣澄/Quảng Trừng) | TTL: TS-Dai-Dong-Quang-Trung.ttl
+  57820: A038890 (道一/Mã Tổ Đạo Nhất) -> A019927 (大善/Đại Thiện) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57821: A038890 (道一/Mã Tổ Đạo Nhất) -> A021511 (金牛和尚/Kim Ngưu Hoà Thượng) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57822: A038890 (道一/Mã Tổ Đạo Nhất) -> A024782 (曇藏/Đàm Tạng) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57823: A038890 (道一/Mã Tổ Đạo Nhất) -> A024876 (法常/Pháp Thường) | TTL: TS-Dai-Mai-Phap-Thuong.ttl
+  57824: A038890 (道一/Mã Tổ Đạo Nhất) -> A027163 (洞安/Đọng An) | TTL: TS-Dong-An.ttl
+  57825: A038890 (道一/Mã Tổ Đạo Nhất) -> A027168 (利山/Lợi Sơn) | TTL: TS-Loi-Son.ttl
+  57826: A038890 (道一/Mã Tổ Đạo Nhất) -> A027171 (則川/Tắc Xuyên) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57827: A038890 (道一/Mã Tổ Đạo Nhất) -> A027172 (百靈/Bách Linh) | TTL: TS-Bach-Linh.ttl
+  57828: A038890 (道一/Mã Tổ Đạo Nhất) -> A027194 (草堂/Thảo Đường) | TTL: TS-Kinh-Trieu-Thao-Duong.ttl
+  57829: A038890 (道一/Mã Tổ Đạo Nhất) -> A027195 (興平/Hưng Bình) | TTL: TS-Kinh-Trieu-Hung-Binh.ttl
+  57830: A038890 (道一/Mã Tổ Đạo Nhất) -> A027196 (逍遙/Tiêu Dao) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57831: A038890 (道一/Mã Tổ Đạo Nhất) -> A027198 (浮盃/Phù Bôi) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57832: A038890 (道一/Mã Tổ Đạo Nhất) -> A029185 (西山亮/Tây Sơn Lượng) | TTL: TS-Hong-Chau-Tay-Son-Luong.ttl
+  57833: A038890 (道一/Mã Tổ Đạo Nhất) -> A033244 (大暘/Đại Dương) | TTL: TS-Dai-Duong.ttl
+  57834: A038890 (道一/Mã Tổ Đạo Nhất) -> A033708 (無等/Vô Đẳng) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57835: A038890 (道一/Mã Tổ Đạo Nhất) -> A037700 (靈嶠/Linh Kiệu) | TTL: TS-Linh-Kieu.ttl
+  57836: A038890 (道一/Mã Tổ Đạo Nhất) -> A045117 (石琳/Thạch Lâm) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57837: A038890 (道一/Mã Tổ Đạo Nhất) -> A046463 (道明/Đạo Minh) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57838: A038890 (道一/Mã Tổ Đạo Nhất) -> A046666 (道悟/Đạo Ngộ) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57839: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:bac_giang_tay_lan_nhuong (None/None) | TTL: TS-Bac-Giang-Tay-Lan-Nhuong.ttl
+  57840: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:bon_khe (None/None) | TTL: TS-Bon-Khe.ttl
+  57841: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:dam_chau_tu_khe (None/None) | TTL: TS-Dam-Chau-Tu-Khue.ttl
+  57842: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:diem_quan_te_an (None/None) | TTL: TS-Diem-Quan-Te-An.ttl
+  57843: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:dinh_chau_thuy_duong (None/None) | TTL: TS-Dinh-Chau-Thuy-Duong.ttl
+  57844: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:giang_tay_bai_tho (None/None) | TTL: TS-Giang-Tay-Bai-Tho.ttl
+  57845: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:hac_nhan (None/None) | TTL: TS-Hac-Nhan.ttl
+  57846: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:hong_chau_thuy_lao (None/None) | TTL: TS-Hong-Chau-Thuy-Lao.ttl
+  57847: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:kinh_trieu_duy_khoan (None/None) | TTL: TS-Kinh-Trieu-Duy-Khoan.ttl
+  57848: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:lac_kinh_hac_gian (None/None) | TTL: TS-Lac-Kinh-Hac-Gian.ttl
+  57849: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:me_lanh (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57850: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:minh_khue_dao_hanh (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57851: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:mong_khe (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57852: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:ngu_due_linh_mac (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57853: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:o_cuu (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57854: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:phu_dung_thai_duc (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57855: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:phuoc_khe (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57856: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:te_phong (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57857: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:thieu_chau_khong_nguyen (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57858: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:tong_son (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57859: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:u_chau_hong_loa (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57860: A038890 (道一/Mã Tổ Đạo Nhất) -> ptda:van_cu_nang (None/None) | TTL: TS-Ma-To-Dao-Nhat.ttl
+  57862: A042533 (曇華/Đàm Hoa) -> ptda:mat_am_han_kiet (None/None) | TTL: TS-Mat-Am-Han-Kiet.ttl
+  57863: A042533 (曇華/Đàm Hoa) -> ptda:thu_ky_nam (None/None) | TTL: Cs-Phuoc-Chau-Nam.ttl
+  57865: A043535 (普明/Phổ Minh) -> ptda:thao_xao_thong_thanh (None/None) | TTL: TS-Ky-Ngan-Pho-Minh.ttl
+  57869: A045639 (惠明/Pháp Như) -> A012818 (彥岑/Ngạn Sầm) | TTL: TS-An-Tinh-Ngan-Sam.ttl
+  57870: A045639 (惠明/Pháp Như) -> A025177 (報恩成/Báo Ân Thành) | TTL: TS-Bao-An-Thanh.ttl
+  57873: A046146 (明亮/Minh Lượng) -> ptda:phat_bao_phap_hoa (None/None) | TTL: TS-Phat-Bao-Phap-Hoa.ttl
+  57874: A046146 (明亮/Minh Lượng) -> ptda:phat_y_linh_nhac (None/None) | TTL: TS-Phat-Y-Linh-Nhac.ttl
+  57878: A046200 (谷鍾秀/Dương Kỳ Phương Hội) -> ptda:son_chu_dong_lam_uc (None/None) | TTL: TS-Duong-Ky-Phuong-Hoi.ttl
+  57879: A046200 (谷鍾秀/Dương Kỳ Phương Hội) -> ptda:ty_bo_ton (None/None) | TTL: Cs-Ty-Bo-Ton.ttl
+  57907: A047924 (慧南/Huệ Nam) -> A021395 (法演/Pháp Diễn) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57908: A047924 (慧南/Huệ Nam) -> A026824 (慧覺/Tuệ Giác) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57918: A047924 (慧南/Huệ Nam) -> ptda:bao_ninh_vien_co (None/None) | TTL: TS-Bao-Ninh-Vien-Co.ttl
+  57919: A047924 (慧南/Huệ Nam) -> ptda:dang_van_sieu_cap (None/None) | TTL: TS-Dang-Van-Sieu-Cap.ttl
+  57920: A047924 (慧南/Huệ Nam) -> ptda:dien_khanh_hong_chuan (None/None) | TTL: TS-Dien-Khanh-Hong-Chuan.ttl
+  57921: A047924 (慧南/Huệ Nam) -> ptda:huu_thanh_phap_cu (None/None) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57922: A047924 (慧南/Huệ Nam) -> ptda:khai_nguyen_tu_kha (None/None) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57923: A047924 (慧南/Huệ Nam) -> ptda:linh_nham_trong_xac (None/None) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57924: A047924 (慧南/Huệ Nam) -> ptda:nguong_son_hanh_vy (None/None) | TTL: TS-Nguong-Son-Hanh-Vy.ttl
+  57925: A047924 (慧南/Huệ Nam) -> ptda:thang_nghiep_duy_huong (None/None) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57926: A047924 (慧南/Huệ Nam) -> ptda:thuong_lam_thuan (None/None) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57927: A047924 (慧南/Huệ Nam) -> ptda:tich_thuy_vinh (None/None) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57928: A047924 (慧南/Huệ Nam) -> ptda:tuyen_minh_phat_an (None/None) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57929: A047924 (慧南/Huệ Nam) -> ptda:van_cu_nguyen_huu (None/None) | TTL: TS-Hoang-Long-Hue-Nam.ttl
+  57932: ptda:bach_van_khong_do (None/None) -> ptda:co_chuyet_nguyen_hau (None/None) | TTL: TS-Bach-Van-Khong-Do.ttl
+  57933: ptda:bao_ninh_vien_co (None/None) -> A008356 (淨曇/Tịnh Đàm) | TTL: TS-Bao-Ninh-Vien-Co.ttl
+  57934: ptda:bao_ninh_vien_co (None/None) -> A008420 (戒香/Giới Hương) | TTL: TS-Bao-Ninh-Vien-Co.ttl
+  57935: ptda:bao_than_huu_thuy (None/None) -> A035873 (道環/Đạo Hoàn) | TTL: TS-Bao-Than-Huu-Thuy.ttl
+  57936: ptda:bao_tho_dien_chieu (None/None) -> A011832 (思明/Tư Minh) | TTL: TS-Bao-Tho-Dien-Chieu.ttl
+  57937: ptda:bao_tho_dien_chieu (None/None) -> ptda:bao_tho (None/None) | TTL: TS-Bao-Tho-Dien-Chieu.ttl
+  57938: ptda:bich_phong_tanh_kim (None/None) -> ptda:bach_van_khong_do (None/None) | TTL: TS-Bach-Van-Khong-Do.ttl
+  57939: ptda:bon_qua_khoang_vien (None/None) -> ptda:nguyen_thieu_sieu_bach (None/None) | TTL: TS-Bon-Qua-Khoang-Vien.ttl
+  57940: ptda:cat_chau_tanh_khong (None/None) -> A020040 (光仁/Quang Nhân) | TTL: TS-Cat-Chau-Tanh-Khong.ttl
+  57941: ptda:chanh_nhac_bon_sieu (None/None) -> ptda:vinh_xuong_giac_thua (None/None) | TTL: TS-Chanh-Nhac-Bon-Sieu.ttl
+  57942: ptda:chanh_truyen_huyen_huu (None/None) -> A013404 (圓悟/Viên Ngộ) | TTL: TS-Chanh-Truyen-Huyen-Huu.ttl
+  57943: ptda:co_chuyet_nguyen_hau (None/None) -> A000844 (施護/Thi Hộ) | TTL: TS-Co-Chuyet-Nguyen-Hau.ttl
+  57944: ptda:co_luong_nhan_phon (None/None) -> ptda:dieu_lien_thanh_hoa (None/None) | TTL: TS-Co-Luong-Nhan-Phon.ttl
+  57945: ptda:cu_chau_loi_tung_tu_ho (None/None) -> A009451 (勝光/Thắng Quang) | TTL: TS-Cu-Chau-Loi-Tu-Ho.ttl
+  57946: ptda:cu_chau_loi_tung_tu_ho (None/None) -> A027173 (浮石/Phù Thạch) | TTL: TS-Chuong-Chau-Phu-Thach.ttl
+  57947: ptda:cu_chau_loi_tung_tu_ho (None/None) -> A027174 (日容/Nhật Dung) | TTL: TS-Cu-Chau-Loi-Tu-Ho.ttl
+  57948: ptda:cu_chau_loi_tung_tu_ho (None/None) -> ptda:tu_dong (None/None) | TTL: TS-Cu-Chau-Loi-Tu-Ho.ttl
+  57949: ptda:dai_giac_nguy_phu (None/None) -> A000075 (大覺/Đại Giác) | TTL: TS-Dai-Giac-Nguy-Phu.ttl
+  57950: ptda:dai_giac_nguy_phu (None/None) -> A020284 (南院/Nam Viện) | TTL: TS-Dai-Giac-Nguy-Phu.ttl
+  57951: ptda:dai_giac_nguy_phu (None/None) -> A020420 (旻德/Mân Đức) | TTL: TS-Dai-Giac-Nguy-Phu.ttl
+  57952: ptda:dai_quy_hanh (None/None) -> A025206 (子涓/Tí Quyên) | TTL: TS-Dai-Quy-Hanh.ttl
+  57953: ptda:dam_chau_truong_ty_khoang (None/None) -> A001344 (善道/Thiện Đạo) | TTL: TS-Dam-Chau-Truong-Ty-Khoang.ttl
+  57954: ptda:dao_man_moc_tran (None/None) -> ptda:bon_qua_khoang_vien (None/None) | TTL: TS-Bon-Qua-Khoang-Vien.ttl
+  57955: ptda:dao_minh_hue_sam (None/None) -> A015692 (永慈/Vĩnh Từ) | TTL: TS-Dao-Minh-Hue-Sam.ttl
+  57956: ptda:dao_tin (None/None) -> A000237 (弘忍/Hoằng Nhẫn) | TTL: Ton-Gia-Hoang-Mai-Hoang-Nhan.ttl
+  57957: ptda:dao_tin (None/None) -> A002290 (法朗/Pháp Lãng) | TTL: TS-Tan-La-Phap-Lang.ttl
+  57958: ptda:dao_tin (None/None) -> A006316 (善伏/Thiện Phục) | TTL: TS-Thien-Phuc.ttl
+  57959: ptda:dao_tin (None/None) -> A018085 (法融/Pháp Dung) | TTL: TS-Nguu-Dau-Phap-Dung.ttl
+  57960: ptda:diem_quan_te_an (None/None) -> A002224 (道恒/Đạo Hằng) | TTL: TS-Diem-Quan-Te-An.ttl
+  57961: ptda:diem_quan_te_an (None/None) -> A019953 (玄真/Huyền Chân) | TTL: TS-Diem-Quan-Te-An.ttl
+  57962: ptda:diem_quan_te_an (None/None) -> ptda:kinh_son_giam_tong (None/None) | TTL: TS-Diem-Quan-Te-An.ttl
+  57963: ptda:dieu_lien_thanh_hoa (None/None) -> ptda:dinh_phong_qua_thanh (None/None) | TTL: TS-Dieu-Lien-Thanh-Hoa.ttl
+  57964: ptda:dinh_bao_phong_tri (None/None) -> ptda:tong_thien_ban_thuy (None/None) | TTL: TS-Dinh-Bao-Phong-Tri.ttl
+  57965: ptda:dinh_phong_qua_thanh (None/None) -> A032500 (常開/Thường Khai) | TTL: TS-Dinh-Phong-Qua-Thanh.ttl
+  57966: ptda:doan_vien_chieu_hoa (None/None) -> A043535 (普明/Phổ Minh) | TTL: TS-Doan-Vien-Chieu-Hoa.ttl
+  57967: ptda:duoc_lam_thach_quan (None/None) -> A003131 (慧開/Huệ Khai) | TTL: TS-Duoc-Lam-Thach-Quan.ttl
+  57968: ptda:duy_sieu_nang_xan (None/None) -> ptda:co_luong_nhan_phon (None/None) | TTL: TS-Co-Luong-Nhan-Phon.ttl
+  57969: ptda:ha_son_thu_tuan (None/None) -> ptda:phan_luong_quy (None/None) | TTL: Cs-Phan-Luong-Quy.ttl
+  57970: ptda:ha_son_thu_tuan (None/None) -> ptda:tru_nham_lieu_van (None/None) | TTL: TS-Ha-Son-Thu-Tuan.ttl
+  57971: ptda:hoang_ba_hy_van (None/None) -> A000929 (悟明/Ngộ Minh) | TTL: TS-Hoang-Ba-Hy-Van.ttl
+  57972: ptda:hoang_ba_hy_van (None/None) -> A003624 (裴休/Bùi Hưu) | TTL: Cs-Tuong-Quoc-Bui-Huu.ttl
+  57973: ptda:hoang_ba_hy_van (None/None) -> A003631 (楚南/Sở Nam) | TTL: TS-Hang-Chau-So-Nam.ttl
+  57974: ptda:hoang_ba_hy_van (None/None) -> A003632 (靈觀/Linh Quán) | TTL: TS-Hoang-Ba-Hy-Van.ttl
+  57975: ptda:hoang_ba_hy_van (None/None) -> A003633 (宗徹/Tông Triệt) | TTL: TS-Hoang-Ba-Hy-Van.ttl
+  57976: ptda:hoang_ba_hy_van (None/None) -> A032162 (義玄/Tổ Sư) | TTL: TS-Hoang-Ba-Hy-Van.ttl
+  57977: ptda:hoang_ba_hy_van (None/None) -> ptda:dai_giac_nguy_phu (None/None) | TTL: TS-Dai-Giac-Nguy-Phu.ttl
+  57978: ptda:hoat_ngo_long_tham (None/None) -> ptda:duy_sieu_nang_xan (None/None) | TTL: TS-Duy-Sieu-Nang-Xan.ttl
+  57979: ptda:hung_duong_hien (None/None) -> A014617 (道平/Đạo Bình) | TTL: TS-Hung-Duong-Hien.ttl
+  57980: ptda:hung_duong_hien (None/None) -> A015197 (自詢/Tự Tuân) | TTL: TS-Hung-Duong-Hien.ttl
+  57981: ptda:hung_duong_hien (None/None) -> A020569 (仁仙/Nhân Tiên) | TTL: TS-Hung-Duong-Hien.ttl
+  57982: ptda:hung_duong_hien (None/None) -> A020570 (曉欽/Hiểu Khâm) | TTL: TS-Hung-Duong-Hien.ttl
+  57983: ptda:hung_duong_hien (None/None) -> A020883 (慧蘭/Tuệ Lan) | TTL: TS-Hung-Duong-Hien.ttl
+  57984: ptda:hung_duong_hien (None/None) -> A026920 (汝能/Nhớ Năng) | TTL: TS-Hung-Duong-Hien.ttl
+  57985: ptda:hung_duong_hien (None/None) -> A039385 (妙喜/Diệu Hỷ) | TTL: TS-Hung-Duong-Hien.ttl
+  57986: ptda:hung_duong_hien (None/None) -> A043421 (明天/Minh Thiên) | TTL: TS-Hung-Duong-Hien.ttl
+  57987: ptda:hung_duong_hien (None/None) -> A046977 (許鑛/Hứa Khoáng) | TTL: TS-Hung-Duong-Hien.ttl
+  57988: ptda:hung_duong_hien (None/None) -> ptda:hung_giao_tue_thuan (None/None) | TTL: TS-Hung-Duong-Hien.ttl
+  57989: ptda:hung_duong_hien (None/None) -> ptda:la_phu_hy (None/None) | TTL: TS-Hung-Duong-Hien.ttl
+  57990: ptda:khai_nguyen_tu_kha (None/None) -> A033693 (道英/Đạo Anh) | TTL: TS-Khai-Nguyen-Tu-Kha.ttl
+  57991: ptda:khai_tien_hanh_anh (None/None) -> A008636 (慈氏瑞仙/Từ Thị Thuỵ Tiên) | TTL: TS-Khai-Tien-Hanh-Anh.ttl
+  57992: ptda:khai_tien_hanh_anh (None/None) -> A020643 (海評/Hải Bình) | TTL: TS-Dai-Quy-Hai-Binh.ttl
+  57993: ptda:mat_am_han_kiet (None/None) -> A001037 (崇岳/Sùng Nhạc) | TTL: TS-Linh-An-Sung-Nhac.ttl
+  57994: ptda:mat_am_han_kiet (None/None) -> A004696 (祖先/Tổ Tiên) | TTL: TS-Mat-Am-Han-Kiet.ttl
+  57995: ptda:mat_am_han_kiet (None/None) -> A007837 (道生/Đạo Sinh) | TTL: TS-Mat-Am-Han-Kiet.ttl
+  57996: ptda:minh_hai_phap_bao (None/None) -> ptda:thiet_bao_cam_ung (None/None) | TTL: TS-Thiet-Bao-Cam-Ung.ttl
+  57997: ptda:minh_hai_phap_bao (None/None) -> ptda:thiet_dam_chanh_luan (None/None) | TTL: TS-Thiet-Dam-Chanh-Luan.ttl
+  57998: ptda:minh_hai_phap_bao (None/None) -> ptda:thiet_dang_bao_quang (None/None) | TTL: TS-Thiet-Dang-Bao-Quang.ttl
+  57999: ptda:minh_hai_phap_bao (None/None) -> ptda:thiet_dinh_an_triem (None/None) | TTL: TS-Thiet-Dinh-An-Triem.ttl
+  58000: ptda:minh_hai_phap_bao (None/None) -> ptda:thiet_the_triem_an (None/None) | TTL: TS-Thiet-The-Triem-An.ttl
+  58001: ptda:minh_hanh_tai_tai (None/None) -> A014133 (真堅/Chân Kiên) | TTL: TS-Minh-Hanh-Tai-Tai.ttl
+  58002: ptda:minh_hanh_tai_tai (None/None) -> A021844 (真慧/Chân Tuệ) | TTL: TS-Chan-Tue.ttl
+  58003: ptda:nguong_son_hanh_vy (None/None) -> A009510 (靜顯/Tĩnh Hiển) | TTL: TS-Coc-An-Tinh-Hien.ttl
+  58004: ptda:nguong_son_hanh_vy (None/None) -> A043012 (永泰/Vắng Thái) | TTL: TS-Hoang-Ba-Vinh-Thai.ttl
+  58005: ptda:nguong_son_hanh_vy (None/None) -> ptda:long_vuong_thien_tuy (None/None) | TTL: TS-Long-Vuong-Thien-Tuy.ttl
+  58006: ptda:nguyen_thieu_sieu_bach (None/None) -> A013497 (明賢/Minh Hiền) | TTL: TS-Nguyen-Thieu-Sieu-Bach.ttl
+  58007: ptda:nguyen_thieu_sieu_bach (None/None) -> A022877 (定然/Định Nhiên) | TTL: TS-Nguyen-Thieu-Sieu-Bach.ttl
+  58008: ptda:nguyen_thieu_sieu_bach (None/None) -> A046146 (明亮/Minh Lượng) | TTL: TS-Nguyen-Thieu-Sieu-Bach.ttl
+  58009: ptda:nguyen_thieu_sieu_bach (None/None) -> ptda:minh_hai_phap_bao (None/None) | TTL: TS-Minh-Hai-Phap-Bao.ttl
+  58010: ptda:nhac_son_am_chu_to (None/None) -> ptda:dien_khanh_thuc (None/None) | TTL: TS-Dien-Khanh-Thuc.ttl
+  58011: ptda:phap_kiem_minh_giac (None/None) -> ptda:toan_y_pho_hue (None/None) | TTL: TS-Phap-Kiem-Minh-Giac.ttl
+  58012: ptda:phat_y_linh_nhac (None/None) -> A012379 (圓光/Viên Quang) | TTL: TS-Phat-Y-Linh-Nhac.ttl
+  58013: ptda:phuong_lai_xuong_vien (None/None) -> ptda:hoat_ngo_long_tham (None/None) | TTL: TS-Hoat-Ngo-Long-Tham.ttl
+  58014: ptda:song_long_bang (None/None) -> A000983 (祖誾/Tổ Ngân) | TTL: TS-Linh-An-To-Ngan.ttl
+  58015: ptda:tay_thien_danh_nhu (None/None) -> A008738 (安永/An Vĩnh) | TTL: TS-Co-Son-An-Vinh.ttl
+  58016: ptda:tay_thien_danh_nhu (None/None) -> A008739 (安分/An Phân) | TTL: TS-Am-Chu-Kiem-Mon-An-Phan.ttl
+  58017: ptda:tay_thien_danh_nhu (None/None) -> A012849 (王銍/Vương Chí) | TTL: TS-Tay-Thien-Danh-Nhu.ttl
+  58018: ptda:tay_thien_danh_nhu (None/None) -> A018307 (南雅/Nam Nhã) | TTL: TS-Long-Tuong-Nam-Nha.ttl
+  58019: ptda:thai_binh_hue_can_phat_giam (None/None) -> A004153 (智才/Trí Tài) | TTL: TS-Long-Nha-Tri-Tai.ttl
+  58020: ptda:thai_binh_hue_can_phat_giam (None/None) -> A008412 (心道/Tâm Đạo) | TTL: TS-Thai-Binh-Hue-Can-Phat-Giam.ttl
+  58021: ptda:thai_binh_hue_can_phat_giam (None/None) -> A008732 (知昺/Tri Bính) | TTL: TS-Nam-Hoa-Tri-Binh.ttl
+  58022: ptda:thai_binh_hue_can_phat_giam (None/None) -> A008952 (擇明/Trạch Minh) | TTL: TS-Lac-Dam-Trach-Minh.ttl
+  58023: ptda:thai_binh_hue_can_phat_giam (None/None) -> A011446 (了璨/Liễu Xán) | TTL: TS-Thai-Binh-Hue-Can-Phat-Giam.ttl
+  58024: ptda:thai_binh_hue_can_phat_giam (None/None) -> A021328 (谷山海/Cốc Sơn Hải) | TTL: TS-Coc-Son-Hai.ttl
+  58025: ptda:thai_binh_hue_can_phat_giam (None/None) -> A021330 (蓬萊卿/Bồng Lai Khanh) | TTL: TS-Bong-Lai-Khanh.ttl
+  58026: ptda:thai_binh_hue_can_phat_giam (None/None) -> A021331 (寶藏本/Bảo Tạng Bản) | TTL: TS-Bao-Tang-Ban.ttl
+  58027: ptda:thai_binh_hue_can_phat_giam (None/None) -> ptda:dai_trung_tuong_phu_hai (None/None) | TTL: TS-Dai-Trung-Tuong-Phu-Hai.ttl
+  58028: ptda:thai_binh_hue_can_phat_giam (None/None) -> ptda:ha_son_thu_tuan (None/None) | TTL: TS-Ha-Son-Thu-Tuan.ttl
+  58029: ptda:than_danh_hong_nhan (None/None) -> A015580 (妙智/Diệu Trí) | TTL: TS-Quang-Van-Dieu-Tri.ttl
+  58030: ptda:than_danh_hong_nhan (None/None) -> A020458 (寶情/Bảo Tình) | TTL: TS-Son-Chu-Khai-Thanh-Bao-Tinh.ttl
+  58031: ptda:thang_nhan_ham_tinh (None/None) -> A012406 (普信/Phổ Tín) | TTL: TS-Thang-Nhan-Ham-Tinh.ttl
+  58032: ptda:thang_nhan_ham_tinh (None/None) -> A020663 (興道/Hưng Đạo) | TTL: TS-Thang-Nhan-Ham-Tinh.ttl
+  58033: ptda:thang_nhan_ham_tinh (None/None) -> A034992 (果愍/Quả Mẫn) | TTL: TS-Quang-Hieu-Qua-Man.ttl
+  58034: ptda:thanh_vien_phat_nhan (None/None) -> A000276 (正賢/Chánh Hiền) | TTL: TS-Quy-Tong-Chanh-Hien.ttl
+  58035: ptda:thanh_vien_phat_nhan (None/None) -> A001345 (善遇/Thiện Ngộ) | TTL: TS-Thanh-Vien-Phat-Nhan.ttl
+  58036: ptda:thanh_vien_phat_nhan (None/None) -> A007212 (法順/Pháp Thuận) | TTL: TS-Bach-Duong-Phap-Thuan.ttl
+  58037: ptda:thanh_vien_phat_nhan (None/None) -> A008427 (士珪/Sĩ Khuê) | TTL: TS-Long-Tuong-Si-Khue.ttl
+  58038: ptda:thanh_vien_phat_nhan (None/None) -> A008460 (法忠/Pháp Trung) | TTL: TS-Hoang-Long-Phap-Trung.ttl
+  58039: ptda:thanh_vien_phat_nhan (None/None) -> A009012 (馮楫/Phùng Tiếp) | TTL: Cs-Cap-Su-Phung-Tiep.ttl
+  58040: ptda:thanh_vien_phat_nhan (None/None) -> A012872 (文蓮/Văn Sen) | TTL: TS-Tay-Thien-Van-Lien.ttl
+  58041: ptda:thanh_vien_phat_nhan (None/None) -> A014704 (明辯/Minh Biện) | TTL: TS-Dao-Trang-Minh-Bien.ttl
+  58042: ptda:thanh_vien_phat_nhan (None/None) -> A020946 (世奇/Thế Kỳ) | TTL: TS-Thanh-Do-The-Ky.ttl
+  58043: ptda:thanh_vien_phat_nhan (None/None) -> A025170 (方廣深/Phương Quảng Thâm) | TTL: TS-Phuong-Quang-Tham.ttl
+  58044: ptda:thanh_vien_phat_nhan (None/None) -> A045639 (惠明/Pháp Như) | TTL: TS-Thanh-Vien-Phat-Nhan.ttl
+  58045: ptda:thao_xao_thong_thanh (None/None) -> A046258 (心空/Tâm Không) | TTL: TS-Ngo-Tu-Tam-Khong.ttl
+  58046: ptda:thich_ca_mau_ni_phat (None/None) -> A002188 (摩訶迦葉/Ma Ha Ca Diệp) | TTL: Thich-Ca-Mau-Ni-Phat.ttl
+  58047: ptda:thiet_dinh_an_triem (None/None) -> ptda:phap_kiem_minh_giac (None/None) | TTL: TS-Phap-Kiem-Minh-Giac.ttl
+  58048: ptda:thu_dao_tuc_tien (None/None) -> ptda:chanh_nhac_bon_sieu (None/None) | TTL: TS-Chanh-Nhac-Bon-Sieu.ttl
+  58049: ptda:thuan_kiet_tanh_khue (None/None) -> ptda:tu_van_hai_tuan (None/None) | TTL: TS-Thuan-Kiet-Tanh-Khue.ttl
+  58050: ptda:thuong_lam_thuan (None/None) -> A007595 (蘇轍/Tô Triệt) | TTL: Cs-To-Triet.ttl
+  58051: ptda:thuong_phong_ban_tai (None/None) -> A003390 (僧遵/Tăng Tuân) | TTL: TS-Co-Son-Tang-Tuan.ttl
+  58052: ptda:thuong_phong_ban_tai (None/None) -> A007275 (元素/Nguyên Tố) | TTL: TS-Pho-Hien-Nguyen-To.ttl
+  58053: ptda:thuong_phong_ban_tai (None/None) -> ptda:co_son_to_tran (None/None) | TTL: TS-Co-Son-To-Tran.ttl
+  58054: ptda:tich_thuy_vinh (None/None) -> A009174 (楚金/Sở Kim) | TTL: TS-Thanh-Binh-So-Kim.ttl
+  58055: ptda:tinh_nhan_dao_trang (None/None) -> A020474 (慧暹/Tuệ Xiêm) | TTL: TS-Tinh-Nhan-Dao-Trang.ttl
+  58056: ptda:tinh_nhan_dao_trang (None/None) -> A026981 (繼超/Kế Siêu) | TTL: TS-The-Thang-Ke-Sieu.ttl
+  58057: ptda:tinh_nhan_dao_trang (None/None) -> A036547 (洞孚/Động Phu) | TTL: TS-Huong-Nghiem-Dong-Phu.ttl
+  58058: ptda:tinh_tu_van (None/None) -> A000472 (妙高/Diệu Cao) | TTL: TS-Kinh-Son-Dieu-Cao.ttl
+  58059: ptda:toan_y_pho_hue (None/None) -> ptda:chuong_hiep_chanh_tri (None/None) | TTL: TS-Chuong-Hiep-Chanh-Tri.ttl
+  58060: ptda:tong_thien_ban_thuy (None/None) -> A022218 (明通/Minh Thông) | TTL: TS-Phuong-Van-Minh-Thong.ttl
+  58061: ptda:tu_van_hai_tuan (None/None) -> A024688 (Nathan Sivin/Nathan Sivin) | TTL: TS-Chat-Sanh-Tich-Van.ttl
+  58062: ptda:tue_luc_kha_xuong (None/None) -> ptda:tue_luc_dong_nguyen (None/None) | TTL: TS-Tue-Luc-Dong-Nguyen.ttl
+  58063: ptda:tuong_thanh_quang_tung (None/None) -> ptda:thu_dao_tuc_tien (None/None) | TTL: TS-Thu-Dao-Tuc-Tien.ttl
+  58064: ptda:tuyen_minh_phat_an (None/None) -> A026822 (師定/Sư Định) | TTL: TS-Long-Hung-Su-Dinh.ttl
+  58065: ptda:van_cu_nguyen_huu (None/None) -> A010660 (系南/Hệ Nam) | TTL: TS-La-Han-He-Nam.ttl
+  58066: ptda:van_cu_nguyen_huu (None/None) -> A014301 (重宣/Trọng Tuyên) | TTL: TS-Tu-Do-Trong-Tuyen.ttl
+  58067: ptda:van_cu_nguyen_huu (None/None) -> A020615 (省悅/Tỉnh Duyệt) | TTL: TS-Canh-Phuoc-Tinh-Duyet.ttl
+  58068: ptda:van_cu_nguyen_huu (None/None) -> A020616 (自瑜/Tự Du) | TTL: TS-Tu-Lang-Tu-Du.ttl
+  58069: ptda:van_cu_nguyen_huu (None/None) -> A020617 (彥隆/Ngạn Long) | TTL: TS-Tu-Van-Ngan-Long.ttl
+  58070: ptda:van_cu_nguyen_huu (None/None) -> A021696 (永程/Vĩnh Trình) | TTL: TS-Nam-Phong-Vinh-Trinh.ttl
+  58071: ptda:van_cu_nguyen_huu (None/None) -> A026249 (海智/Hải Trí) | TTL: TS-Tri-Hai-Tri.ttl
+  58072: ptda:van_cu_nguyen_huu (None/None) -> A037213 (慧日/Tuệ Nhật) | TTL: TS-Van-Cu-Nguyen-Huu.ttl
+  58073: ptda:van_cu_nguyen_huu (None/None) -> ptda:bach_tao_nghiem (None/None) | TTL: TS-Bach-Tao-Nghiem.ttl
+  58074: ptda:van_cu_nguyen_huu (None/None) -> ptda:hai_hoi_thu_tung (None/None) | TTL: TS-Hai-Hoi-Thu-Tung.ttl
+  58075: ptda:van_phong_thoi_uy (None/None) -> A024770 (寶藏/Bảo Tạng) | TTL: TS-To-Duc-Bao-Tang.ttl
+  58076: ptda:vien_van_chuyet_cong (None/None) -> ptda:minh_hanh_tai_tai (None/None) | TTL: TS-Minh-Hanh-Tai-Tai.ttl
+  58077: ptda:vinh_xuong_giac_thua (None/None) -> ptda:phuong_lai_xuong_vien (None/None) | TTL: TS-Phuong-Lai-Xuong-Vien.ttl

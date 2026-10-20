@@ -1,0 +1,11 @@
+/* T233: controls phù hợp palette Admin; tên Codex vẫn là dữ liệu tham khảo. */
+#codex-name-panel{font-size:14px;line-height:1.5}
+#codex-name-panel h3{margin:0 0 8px;color:#fbbf24;font-size:18px}
+#codex-name-panel p{margin:8px 0}
+#codex-name-panel button{font:inherit;padding:6px 12px;border:1px solid #334155;border-radius:6px;background:#0f172a;color:#e2e8f0;cursor:pointer}
+#codex-name-panel button:hover:enabled{border-color:#d97706;color:#fbbf24}
+#codex-name-panel button:disabled{opacity:.45;cursor:default}
+#codex-name-panel label{display:block;margin-top:12px;color:#94a3b8}
+#codex-name-panel input{font:inherit;min-width:240px;max-width:100%;padding:7px 10px;margin:6px 8px 12px 0;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:6px}
+#codex-corpus-pages{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+#codex-name-status{color:#67e8f9}

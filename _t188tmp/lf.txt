@@ -1,0 +1,2 @@
+﻿IDX=%GIT_INDEX_FILE% 
+rc=0

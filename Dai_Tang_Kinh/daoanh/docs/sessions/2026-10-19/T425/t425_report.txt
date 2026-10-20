@@ -1,0 +1,25 @@
+T425 DRY-RUN — 2026-10-20T09:10:01 — db=data\lineage.db
+======================================================================
+Cột sẽ thêm:
+  relation_kind: CHƯA CÓ
+  source_edge_ref: CHƯA CÓ
+  mapping_ok: CHƯA CÓ
+VIEW sẽ tạo:
+  v_tree_dila: CHƯA CÓ
+  v_tree_marcus: CHƯA CÓ
+  v_tree_ttl: CHƯA CÓ
+  v_tree_overlay: CHƯA CÓ
+----------------------------------------------------------------------
+DDL:
+  ALTER TABLE lineage_edge_assertions ADD COLUMN relation_kind TEXT DEFAULT "unknown"
+  ALTER TABLE lineage_edge_assertions ADD COLUMN source_edge_ref TEXT
+  ALTER TABLE lineage_edge_assertions ADD COLUMN mapping_ok INTEGER DEFAULT 0
+  UPDATE lineage_edge_assertions SET mapping_ok = mapping_verified, source_edge_ref = ref
+----------------------------------------------------------------------
+So sánh overlay vs consensus:
+  overlay total: 23,431
+  consensus total: 23,411
+  overlay không trong consensus: 98
+  consensus không trong overlay: 78
+======================================================================
+CHẠY THỬ — KHÔNG GHI DB. Chờ Admin duyệt mới --apply.

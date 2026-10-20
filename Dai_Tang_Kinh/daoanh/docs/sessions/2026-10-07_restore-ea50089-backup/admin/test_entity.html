@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test - DILA Integration Layer (Entity Passages)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: #0a0c10; color: #e2e8f0; padding: 40px; }
+  .container { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #d97706; margin-bottom: 8px; }
+  .subtitle { font-size: 11px; color: #64748b; margin-bottom: 30px; }
+  .search { display: flex; gap: 8px; margin-bottom: 30px; }
+  .search input { flex: 1; padding: 12px 16px; background: #11151c; border: 1px solid #1e293b; border-radius: 8px; color: #e2e8f0; font-size: 14px; font-family: monospace; }
+  .search input:focus { outline: none; border-color: #d97706; }
+  .search button { padding: 12px 28px; background: #d97706; border: none; border-radius: 8px; color: #000; font-weight: 800; font-size: 12px; text-transform: uppercase; cursor: pointer; letter-spacing: 0.1em; }
+  .search button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .card { background: #181d26; border: 1px solid #1e293b; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #d97706; margin-bottom: 16px; }
+  .entity-grid { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; font-size: 13px; }
+  .entity-grid .label { color: #64748b; font-weight: 600; }
+  .entity-grid .value { color: #e2e8f0; }
+  .entity-grid .value.mono { font-family: monospace; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .badge.person { background: #3b0764; color: #d8b4fe; }
+  .badge.place { background: #064e3b; color: #6ee7b7; }
+  .badge.text { background: #1e3a5f; color: #93c5fd; }
+  .passage-item { padding: 16px; background: #0a0c10; border: 1px solid #1e293b; border-radius: 12px; margin-bottom: 10px; }
+  .passage-item .meta { display: flex; gap: 12px; font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+  .passage-item .meta span { background: #11151c; padding: 2px 8px; border-radius: 4px; }
+  .passage-item .text { font-size: 13px; line-height: 1.8; color: #cbd5e1; font-family: 'Noto Serif TC', serif; white-space: pre-wrap; }
+  .error { color: #f87171; padding: 16px; text-align: center; }
+  .loading { text-align: center; padding: 40px; color: #64748b; font-size: 12px; }
+  .count { font-size: 12px; color: #64748b; margin-bottom: 12px; }
+  .load-more { width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #94a3b8; font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; }
+  .load-more:hover { background: #334155; }
+  .load-more:disabled { opacity: 0.5; cursor: not-allowed; }
+  .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #1e293b; font-size: 10px; color: #475569; }
+  .footer a { color: #d97706; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔍 DILA Integration Layer</h1>
+  <div class="subtitle">Test Entity → Passages (CBETA T51n2076)</div>
+
+  <div class="search">
+    <input id="entityId" type="text" placeholder="Nhập DILA_ID (vd T51n2076, PL000000, A000001)" value="T51n2076" onkeydown="if(event.key==='Enter')load()" />
+    <button id="loadBtn" onclick="load()">Tra cứu</button>
+  </div>
+
+  <div id="entitySection" class="card" style="display:none">
+    <h2>📋 Thông tin Entity</h2>
+    <div id="entityInfo" class="entity-grid"></div>
+  </div>
+
+  <div id="passageSection" style="display:none">
+    <div class="card">
+      <h2>📖 Đoạn kinh liên quan</h2>
+      <div id="passageCount" class="count"></div>
+      <div id="passageList"></div>
+      <div id="loadMoreWrap" style="display:none; margin-top: 12px;">
+        <button id="loadMoreBtn" class="load-more" onclick="loadMore()">Tải thêm</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading" class="loading" style="display:none">
+    <p>⏳ Đang tra cứu...</p>
+  </div>
+  <div id="error" class="error" style="display:none"></div>
+  <div id="noData" class="card" style="display:none">
+    <p style="text-align:center;color:#64748b;font-size:13px;">Không tìm thấy dữ liệu cho entity này.</p>
+  </div>
+
+  <div class="footer">
+    <p>Nguồn: DILA Authority + CBETA (T51n2076 景德傳燈錄) · Phase 1</p>
+    <p>API: <code>/daoanh/api/entity/&lt;entity_id&gt;</code> · <code>/daoanh/api/entity/&lt;entity_id&gt;/passages</code></p>
+    <p>Xem thêm: <a href="/daoanh/admin/">Đạo Ảnh Dashboard</a></p>
+  </div>
+</div>
+
+<script>
+const BASE = '/daoanh';
+let currentEntityId = '';
+let currentCount = 0;
+let currentOffset = 0;
+const LIMIT = 50;
+
+async function load() {
+  const id = document.getElementById('entityId').value.trim();
+  if (!id) return;
+  currentEntityId = id;
+  currentOffset = 0;
+
+  document.getElementById('loadBtn').disabled = true;
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('entitySection').style.display = 'none';
+  document.getElementById('passageSection').style.display = 'none';
+  document.getElementById('error').style.display = 'none';
+  document.getElementById('noData').style.display = 'none';
+
+  try {
+    // Fetch entity info
+    const infoRes = await fetch(`${BASE}/api/entity/${encodeURIComponent(id)}`);
+    const info = await infoRes.json();
+
+    if (!info.has_data) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('noData').style.display = 'block';
+      document.getElementById('loadBtn').disabled = false;
+      return;
+    }
+
+    renderEntity(info.entity);
+
+    // Fetch passages
+    const passagesRes = await fetch(`${BASE}/api/entity/${encodeURIComponent(id)}/passages?limit=${LIMIT}&offset=0`);
+    const passages = await passagesRes.json();
+
+    renderPassages(passages);
+  } catch (err) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('error').textContent = 'Lỗi kết nối: ' + err.message;
+  }
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('loadBtn').disabled = false;
+}
+
+async function loadMore() {
+  currentOffset += LIMIT;
+  document.getElementById('loadMoreBtn').disabled = true;
+  document.getElementById('loadMoreBtn').textContent = '⏳ Đang tải...';
+
+  try {
+    const res = await fetch(`${BASE}/api/entity/${encodeURIComponent(currentEntityId)}/passages?limit=${LIMIT}&offset=${currentOffset}`);
+    const data = await res.json();
+    appendPassages(data);
+  } catch (err) {
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('error').textContent = 'Lỗi khi tải thêm: ' + err.message;
+  }
+
+  document.getElementById('loadMoreBtn').disabled = false;
+  document.getElementById('loadMoreBtn').textContent = `Tải thêm (hiện ${currentOffset + LIMIT}/${currentCount})`;
+}
+
+function renderEntity(entity) {
+  const typeClass = (entity.entity_type || '').toLowerCase();
+  const typeBadge = `<span class="badge ${typeClass}">${entity.entity_type}</span>`;
+
+  const rows = [
+    ['Entity ID', `<span class="mono">${esc(entity.entity_id)}</span>`],
+    ['Loại', typeBadge],
+    ['DILA ID', `<span class="mono">${esc(entity.dila_id)}</span>`],
+    ['Tên Hán (alias_zh)', esc(entity.alias_zh || '—')],
+    ['Tên Việt (alias_vi)', esc(entity.alias_vi || '—')],
+  ];
+  if (entity.cbeta_occ) rows.push(['CBETA Occ', esc(entity.cbeta_occ)]);
+  if (entity.marcus_id) rows.push(['Marcus ID', esc(entity.marcus_id)]);
+  if (entity.extra_alias) rows.push(['Extra Alias', esc(entity.extra_alias)]);
+
+  document.getElementById('entityInfo').innerHTML = rows.map(([l, v]) =>
+    `<div class="label">${l}</div><div class="value">${v}</div>`
+  ).join('');
+  document.getElementById('entitySection').style.display = 'block';
+}
+
+function renderPassages(data) {
+  currentCount = data.count || 0;
+  const list = document.getElementById('passageList');
+  list.innerHTML = '';
+  appendPassages(data);
+}
+
+function appendPassages(data) {
+  const list = document.getElementById('passageList');
+  if (!data.has_data || !data.passages || data.passages.length === 0) {
+    list.innerHTML = '<p style="text-align:center;color:#64748b;font-size:13px;padding:20px;">Không tìm thấy đoạn kinh nào liên quan đến entity này trong CBETA T51n2076.</p>';
+    document.getElementById('passageSection').style.display = 'block';
+    document.getElementById('passageCount').textContent = 'Tổng số: 0 passages';
+    document.getElementById('loadMoreWrap').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('passageCount').textContent = `Tổng số: ${currentCount} passages (hiện ${Math.min(currentOffset + data.passages.length, currentCount)})`;
+
+  for (const p of data.passages) {
+    const div = document.createElement('div');
+    div.className = 'passage-item';
+    div.innerHTML = `
+      <div class="meta">
+        <span>📄 ${esc(p.text_id)}</span>
+        <span>📍 ${esc(p.loc_ref)}</span>
+      </div>
+      <div class="text">${esc(p.raw_text)}</div>
+    `;
+    list.appendChild(div);
+  }
+
+  document.getElementById('passageSection').style.display = 'block';
+  document.getElementById('loadMoreWrap').style.display = (currentOffset + data.passages.length < currentCount) ? 'block' : 'none';
+  if (currentOffset + data.passages.length < currentCount) {
+    document.getElementById('loadMoreBtn').textContent = `Tải thêm (hiện ${currentOffset + data.passages.length}/${currentCount})`;
+  }
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Auto-load on page load
+window.addEventListener('DOMContentLoaded', () => {
+  // Check URL params
+  const params = new URLSearchParams(window.location.search);
+  const idParam = params.get('id') || 'T51n2076';
+  if (idParam) {
+    document.getElementById('entityId').value = idParam;
+    load();
+  }
+});
+</script>
+</body>
+</html>

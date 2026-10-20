@@ -1,0 +1,56 @@
+T423 DRY-RUN — 2026-10-19T21:33:00 — db=data\lineage.db
+======================================================================
+Đề xuất data_sources: source_code=TTL_LOCAL name='TTL Thiền Sư Việt Nam (bản địa)' type=lineage_authority
+entity_id lớn nhất hiện tại: 267006  → cấp mới từ 267007
+----------------------------------------------------------------------
+  total_non_alias     : 1054
+  accepted            : 794
+  candidate           : 260
+  new_local           : 204
+  n1_dila_ids         : 26
+  bug038              : 3
+  alias_rows          : 457
+----------------------------------------------------------------------
+N:1 (dila_id bị nhiều hồ sơ non-alias trỏ) — 26 nhóm:
+  A002188 x2: da_da_xa_da|ma_ha_ca_diep
+  A002653 x2: bien_dam_hieu_lieu|tay_vuc_quat_da_tam_tang
+  A003636 x2: phuc_chau_dai_an|phuoc_chau_dai_an
+  A004981 x2: phong_huyet_dien_chieu|nam_vien_hue_ngung
+  A008471 x2: hoang_dinh_kien|hoang_long_tri_minh
+  A008792 x2: ca_ty_ma_la|ma_noa_la
+  A009478 x2: ngu_dai_an_phong|thach_cung_hue_tang
+  A010511 x3: dam_chau_bao_cai_uoc|nam_nhac_huyen_thai|the_nham_ton_tho
+  A014617 x2: tang_chu_pho_dung|tri_hai_dao_binh
+  A020018 x2: dam_chau_dai_xuyen|phung_tuong_phat_da
+  A020681 x2: ngu_phong_ban|ngu_phong_thuong_quan
+  A021084 x2: tho_ninh_thien_tu|tinh_do_thien_tu
+  A021291 x2: dai_hong_to_chung|lao_na_tu_dang_dai_hoang
+  A021326 x2: pho_minh_duc_dung|song_lam_duc_dung
+  A021350 x2: dong_son_te_vi|giac_a
+  A021395 x2: bao_an_phap_dien|tu_to_phap_dien
+  A024897 x2: cuu_danh_to|long_hoa_dao_so
+  A025951 x2: dam_chau_hoa_lam|kinh_trieu_thi_loi
+  A026824 x3: duong_chau_tue_giac|lang_nha_tue_giac|linh_thuu_tue_giac
+  A030596 x2: chung_son_dao_long|hoa_nghiem_dao_long
+  A038165 x2: nguu_dau_hue_phuong|so_an_hue_phuong
+  A038615 x2: thai_tu_dao_nhat|thai_tu_dong_quang
+  A043012 x2: hoang_ba_vinh_thai|tue_nhat_minh
+  A045400 x2: ngu_dai_tri_thong|tho_chau_tri_thong
+  A045639 x2: phap_nhu|van_cu_phap_nhu
+  A047679 x2: phu_son_duc_tuyen|quang_tue_duc_tuyen
+----------------------------------------------------------------------
+BUG-038 (candidate + đề xuất):
+  hoang_ba_hy_van	267069	BUG-038: chưa nối DILA; tên hiện 'Hơi Vận' sai, nên là Hoàng Bá Hy Vận (希運); đề xuất dila_id = A000490; chờ Admin; định danh cục bộ ptda:hoang_ba_hy_van
+  lam_te_nghia_huyen	250225	BUG-038: A032162 là 義玄 triều Joseon (Triều Tiên), không phải Lâm Tế Nghĩa Huyền nhà Đường; đề xuất dila_id = A003627; chờ Admin
+  ma_to_dao_nhat	256854	BUG-038: A038890 là 道一/みちかず (Nhật), không phải Mã Tổ Đạo Nhất 馬祖道一; đề xuất dila_id = A003623; chờ Admin
+----------------------------------------------------------------------
+Đối chiếu ttl_mapping (7 dòng):
+  TS-Dai-Hue-Tong-Cao | Đại Huệ Tông Cảo | A038686 | verified
+  TS-Vien-Ngo-Khac-Can | Viên Ngộ Khắc Cần | A000453 | verified
+  TS-Thien-Tue-Bao-Chuong | Thiên Tuế Bảo Chưởng | None | chưa xác định
+  Ton-Gia-Dao-Tin | Tôn Giả Đạo Tín | None | chưa xác định
+  TS-Duong-Ki-Phuong-Hoi | Dương Kì Phương Hội | A004146 | verified
+  TS-Bach-Van-Thu-Doan | Bạch Vân Thủ Đoan | A033489 | verified
+  TS-Ngu-To-Phap-Dien | Ngũ Tổ Pháp Diễn | A036842 | verified
+======================================================================
+GHI CHÚ: đây là CHẠY THỬ, KHÔNG ghi DB. Chờ Admin duyệt mới --apply.

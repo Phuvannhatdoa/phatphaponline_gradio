@@ -1,0 +1,36 @@
+T355 (BUG-033) vong 2 - network log TRUOC khi sua url() trong admin/places-generation-v2.js
+URL test (dung nguyen URL trong task, tab "Phap mach" / mode=lineage):
+http://127.0.0.1:8080/daoanh/places.html?mode=lineage&focus=A010081&lm=tree&chain=A001719,A003666,A004015,A016638,A019795,A019798,A019968,A001707,A005612,A009251,A010065,A010066,A010075,A010119,A010129,A010293,A011235,A014100,A019796,A019797,A019799,A019966,A019967,A019969,A019972,A019974,A019975,A019976,A019977,A019978,A025981,A025982,A025983,A025984,A025988,A025991,A025994,A025995,A025996,A025997,A025998,A025999,A026000,A026001,A026002,A026003,A040183,A009589
+
+Thao tac: click node Hoang Nhan (A000237, to su truoc Hue Nang that A001719 / "Mong Son Dao Minh" A010081=focus)
+trong tab "Phap mach" (_renderLineageChain, mode:'lineage'), sau do click icon mo/thu node con
+(Mong Son Dao Minh +/-).
+
+Ket qua filter urlPattern=generation/calculate (dung thu tu network log that, khong chinh sua):
+
+[15112.83]  GET /daoanh/api/admin/ttl_v2/generation/calculate/A010081 -> 200 OK   (focus goc)
+[15112.104] GET /daoanh/api/admin/ttl_v2/generation/calculate/A000237 -> 200 OK   (node vua click)
+[15112.169] GET /daoanh/api/admin/ttl_v2/generation/calculate/A010081 -> 200 OK   (RACE - focus lai goi lai)
+[15112.267] GET /daoanh/api/admin/ttl_v2/generation/calculate/A010081 -> 200 OK   (RACE)
+[15112.289] GET /daoanh/api/admin/ttl_v2/generation/calculate/A000237 -> 200 OK
+[15112.358] GET /daoanh/api/admin/ttl_v2/generation/calculate/A010081 -> 200 OK   (RACE)
+[15112.388] GET /daoanh/api/admin/ttl_v2/generation/calculate/A000237 -> 200 OK
+[15112.471] GET /daoanh/api/admin/ttl_v2/generation/calculate/A010081 -> 200 OK   (RACE)
+[15112.493] GET /daoanh/api/admin/ttl_v2/generation/calculate/A024844 -> 200 OK   (click node khac - Sung Tich)
+[15112.576] GET /daoanh/api/admin/ttl_v2/generation/calculate/A010081 -> 200 OK   (RACE)
+[15112.597] GET /daoanh/api/admin/ttl_v2/generation/calculate/A000237 -> 200 OK
+
+NHAN XET (xac nhan gia thuyet QA):
+- Moi lan click node (ke ca click than node, ke ca click icon +/-), ham _t130SyncUrl()
+  (places.html ~11202) ghi lai URL qua history.pushState/replaceState (vi state _ftExpanded
+  thay doi lam "chain" serialize ra khac truoc, mac du "focus" KHONG doi).
+- admin/places-generation-v2.js monkey-patch history.pushState/replaceState (dong 71) de goi
+  lai url() moi lan URL duoc ghi.
+- url() (dong 61, TRUOC KHI SUA) khong kiem tra focus/mode co thuc su thay doi hay khong -
+  luon goi load(q.get('focus')) = load('A010081') MOI LAN duoc goi, bat ke dang o node nao.
+- Ket qua: mot request toi /generation/calculate/A010081 (focus, TTL 33) duoc ban sinh ra
+  SONG SONG voi request dung cho node vua click (vi du A000237, TTL 32), tao race dieu kien.
+  `load()` dung bien `serial` toan cuc de huy request cu hon - nen GIA TRI CUOI CUNG hien thi
+  tren panel phu thuoc vao request NAO GOI SAU CUNG (serial cao nhat), KHONG phai node nguoi
+  dung vua chon. Day la nguyen nhan goc xac nhan cua BUG-033 (khac voi gia thuyet vong 1 la
+  thieu dieu kien mode 'expanded').

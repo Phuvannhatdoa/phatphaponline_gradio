@@ -1,0 +1,24 @@
+﻿from_dila_id,to_dila_id,ztj_direction,ztj_relations
+A001719,A010428,confirmed,下出
+A003623,A004846,confirmed,下出
+A003623,A012647 (?),confirmed,下出
+A003623,A014171,confirmed,下出
+A003623,A020283,confirmed,下出
+A003654,A006310,unknown,傍出
+A003654,A010048,unknown,傍出
+A003654,A010049,unknown,傍出
+A003654,A010050,unknown,傍出
+A003654,A010051,unknown,傍出
+A003677,A001066,confirmed,下出
+A003677,A010611,confirmed,下出
+A003677,A020215,confirmed,下出
+A009491,A019856,confirmed,下出
+A010423,A027195,confirmed,下出
+A010423,A027200,confirmed,下出
+A010423,A027242,confirmed,下出
+A010616,A004217,confirmed,下出
+A010616,A005612,confirmed,下出
+A010616,A013914,confirmed,下出
+A012493,A012492 (?),confirmed,下出
+A017324,A017329,confirmed,下出
+A020110,A020141,confirmed,下出

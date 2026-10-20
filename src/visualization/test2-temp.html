@@ -1,0 +1,204 @@
+import os
+import requests
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# --- CẤU HÌNH GRAPHDB ---
+GRAPHDB_URL = "http://localhost:7200/repositories/buddhist"
+
+# DỮ LIỆU GỐC ĐẠO HỮU ĐÃ MỚM (Giữ để làm trang chủ)
+HOME_LINEAGE = [
+    {"id": "id_Thien_Tong_An_Do", "label": "Thiền Tông Ấn Độ", "parent": "", "uri": "ex:Thien_Tong_An_Do"},
+    {"id": "id_Thien_Tong_Trung_Hoa", "label": "Thiền Tông Trung Hoa", "parent": "id_Thien_Tong_An_Do", "uri": "ex:Thien_Tong_Trung_Hoa"},
+    {"id": "id_Thien_Tong_Tay_Tang", "label": "Thiền Tông Tây Tạng", "parent": "id_Thien_Tong_An_Do", "uri": "ex:Thien_Tong_Tay_Tang"},
+    {"id": "id_Thien_Tong_Bac_Tong", "label": "Bắc Tông (Thần Tú)", "parent": "id_Thien_Tong_Trung_Hoa", "uri": "ex:Thien_Tong_Bac_Tong"},
+    {"id": "id_Thien_Tong_Nam_Tong", "label": "Nam Tông (Huệ Năng)", "parent": "id_Thien_Tong_Trung_Hoa", "uri": "ex:Thien_Tong_Nam_Tong"},
+    {"id": "id_Tong_Lam_Te_Viet_Nam", "label": "Tông Lâm Tế Việt Nam", "parent": "id_Thien_Tong_Trung_Hoa", "uri": "ex:Tong_Lam_Te_Viet_Nam"},
+    {"id": "id_Tong_Lam_Te_Trung_Hoa", "label": "Tông Lâm Tế Trung Hoa", "parent": "id_Thien_Tong_Nam_Tong", "uri": "ex:Tong_Lam_Te_Trung_Hoa"},
+    {"id": "id_Tong_Tao_Dong", "label": "Tông Tào Động", "parent": "id_Thien_Tong_Nam_Tong", "uri": "ex:Tong_Tao_Dong"},
+    {"id": "id_Phai_Duong_Ki", "label": "Phái Dương Kì", "parent": "id_Tong_Lam_Te_Trung_Hoa", "uri": "ex:Phai_Duong_Ki"},
+    {"id": "id_Phai_Hoang_Long", "label": "Phái Hoàng Long", "parent": "id_Tong_Lam_Te_Trung_Hoa", "uri": "ex:Phai_Hoang_Long"},
+    {"id": "id_Dong_Chuc_Thanh", "label": "Dòng Chúc Thánh", "parent": "id_Tong_Lam_Te_Viet_Nam", "uri": "ex:Dong_Chuc_Thanh"},
+    {"id": "id_Dong_Lieu_Quan", "label": "Dòng Liễu Quán", "parent": "id_Tong_Lam_Te_Viet_Nam", "uri": "ex:Dong_Lieu_Quan"}
+]
+
+INDEX_HTML = """
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Phổ Hệ Phật Giáo - Bản Tích Hợp</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root { --primary: #8b4513; --secondary: #d35400; --bg: #fdf5e6; --panel: #fffcf5; --text: #3e2723; --border: #bc9b82; --accent: #ff9800; }
+        body { margin: 0; display: flex; font-family: 'Segoe UI', 'Arial', sans-serif; background: var(--bg); height: 100vh; overflow: hidden; }
+        #left-panel { width: 340px; background: #fff; border-right: 2px solid #ddd; padding: 25px; display: flex; flex-direction: column; z-index: 100; box-shadow: 2px 0 15px rgba(0,0,0,0.1); }
+        .search-box { position: relative; margin-bottom: 20px; }
+        input#monk-input { width: 100%; padding: 15px; border: 2px solid var(--border); border-radius: 8px; font-size: 16px; outline: none; box-sizing: border-box; }
+        #suggest-box { position: absolute; width: 100%; background: #fff; border: 1px solid #ccc; max-height: 350px; overflow-y: auto; display: none; z-index: 1000; border-radius: 0 0 8px 8px; }
+        .suggest-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #eee; }
+        .suggest-item:hover { background: #fff3e0; color: var(--secondary); font-weight: bold; }
+        #tree-container { flex-grow: 1; position: relative; cursor: grab; }
+        .node rect { fill: #fff; stroke: var(--primary); stroke-width: 2.5px; rx: 10; ry: 10; }
+        .node text { font-size: 13px; font-weight: bold; text-anchor: middle; fill: var(--primary); }
+        .link { fill: none; stroke: var(--border); stroke-width: 2px; opacity: 0.5; }
+        #bio-panel { position: fixed; top: 0; right: -550px; width: 500px; height: 100vh; background: var(--panel); border-left: 2px solid var(--primary); z-index: 1001; transition: 0.4s; display: flex; flex-direction: column; }
+        #bio-panel.active { right: 0; }
+        #bio-header { background: var(--primary); color: #fff; padding: 20px; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
+        #bio-content { padding: 30px; overflow-y: auto; line-height: 1.9; }
+        .date-badge { background: #efe0cc; padding: 15px; border-radius: 8px; margin-bottom: 25px; border-left: 8px solid var(--secondary); font-weight: bold; }
+        .zen-dialogue { background: #fff; border-left: 4px solid var(--accent); padding: 10px; margin: 10px 0; font-style: italic; }
+        .section-title { display: block; color: var(--secondary); font-weight: bold; font-size: 18px; margin-top: 20px; }
+        #loader { position: fixed; bottom: 30px; left: 370px; background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 30px; display: none; }
+    </style>
+</head>
+<body>
+
+<div id="left-panel">
+    <h2 style="color:var(--primary); text-align: center;">THIỀN PHỔ HỆ</h2>
+    <div class="search-box">
+        <input type="text" id="monk-input" placeholder="Tìm tên Tổ sư..." autocomplete="off">
+        <div id="suggest-box"></div>
+    </div>
+    <div style="font-size:14px; background:#fff8ef; padding:15px; border-radius:8px; border: 1px solid #ecd5bb;">
+        <b>Truyền thừa @ Thiền sư:</b><br>
+        Hệ thống tự động kết nối Thầy - Trò từ dữ liệu GraphDB.
+    </div>
+</div>
+
+<div id="tree-container"></div>
+<div id="loader">Đang thỉnh dữ liệu...</div>
+
+<div id="bio-panel">
+    <div id="bio-header"><span id="bio-title">HÀNH TRẠNG</span><span style="cursor:pointer" onclick="document.getElementById('bio-panel').classList.remove('active')">×</span></div>
+    <div id="bio-content"></div>
+</div>
+
+<script>
+const svg = d3.select("#tree-container").append("svg").attr("width", "100%").attr("height", "100%")
+    .call(d3.zoom().on("zoom", (e) => g.attr("transform", e.transform)));
+const g = svg.append("g");
+const treeLayout = d3.tree().nodeSize([280, 180]);
+
+function makeId(uri) { return "id_" + uri.split(/[#/:]/).pop().replace(/[^a-zA-Z0-9]/g, "_"); }
+
+function updateTree(flatData) {
+    g.selectAll("*").remove();
+    try {
+        const root = d3.stratify().id(d => d.id).parentId(d => d.parent)(flatData);
+        treeLayout(root);
+        g.selectAll(".link").data(root.links()).enter().append("path").attr("class", "link")
+            .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
+        const node = g.selectAll(".node").data(root.descendants()).enter().append("g")
+            .attr("class", "node").attr("transform", d => `translate(${d.x},${d.y})`)
+            .on("click", (e, d) => fetchMonkData(d.data.uri, d.data.label));
+        node.append("rect").attr("width", 200).attr("height", 46).attr("x", -100).attr("y", -23);
+        node.append("text").attr("dy", 5).text(d => d.data.label);
+        svg.transition().duration(600).call(d3.zoom().transform, d3.zoomIdentity.translate(window.innerWidth/2 - 150, 100).scale(0.7));
+    } catch (err) { console.error(err); }
+}
+
+async function fetchMonkData(uri, name) {
+    document.getElementById('loader').style.display = 'block';
+    const query = `
+        PREFIX bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT DISTINCT ?note ?bL ?dL ?t ?tN ?d ?dN WHERE {
+            { <${uri}> rdfs:label ?name . }
+            UNION { BIND("${name}" AS ?name) }
+            OPTIONAL { <${uri}> bkg:biographicalNote ?note . }
+            OPTIONAL { <${uri}> bkg:hasTeacher ?t . ?t rdfs:label ?tN . }
+            OPTIONAL { ?d bkg:hasTeacher <${uri}> . ?d rdfs:label ?dN . }
+        } LIMIT 50`;
+    try {
+        const response = await fetch(`/sparql?query=${encodeURIComponent(query)}`);
+        const result = await response.json();
+        const rows = result.results.bindings;
+        if (rows.length > 0) {
+            const info = rows[0];
+            document.getElementById('bio-title').innerText = name;
+            document.getElementById('bio-content').innerHTML = `
+                <div class="date-badge">📅 Pháp hiệu: ${name}</div>
+                ${formatZenNote(info.note ? info.note.value : "")}
+            `;
+            document.getElementById('bio-panel').classList.add('active');
+            
+            // Vẽ cây truyền thừa cá nhân
+            const rootId = makeId(uri);
+            let nodes = [{ id: rootId, label: name, parent: "", uri: uri }];
+            let added = new Set([rootId]);
+            rows.forEach(row => {
+                if (row.t) {
+                    const tid = makeId(row.t.value);
+                    if (!added.has(tid)) {
+                        nodes.push({ id: tid, label: row.tN.value, parent: "", uri: row.t.value });
+                        nodes[0].parent = tid; added.add(tid);
+                    }
+                }
+                if (row.d) {
+                    const did = makeId(row.d.value);
+                    if (!added.has(did)) {
+                        nodes.push({ id: did, label: row.dN.value, parent: rootId, uri: row.d.value });
+                        added.add(did);
+                    }
+                }
+            });
+            updateTree(nodes);
+        }
+    } catch (e) { console.error(e); }
+    document.getElementById('loader').style.display = 'none';
+}
+
+function formatZenNote(text) {
+    if (!text) return "<p>Đang cập nhật hành trạng...</p>";
+    return text.split('\\n').map(l => {
+        let s = l.trim();
+        if (s.match(/^[0-9]+\\)|HÀNH TRẠNG|CÔNG ÁN/)) return `<span class="section-title">${s}</span>`;
+        if (s.startsWith('-') || s.includes('?')) return `<div class="zen-dialogue">${s}</div>`;
+        return `<p>${s}</p>`;
+    }).join("");
+}
+
+// AUTOCOMPLETE
+const input = document.getElementById('monk-input');
+const suggest = document.getElementById('suggest-box');
+input.addEventListener('input', async () => {
+    const val = input.value.trim();
+    if (val.length < 2) { suggest.style.display = 'none'; return; }
+    const q = `SELECT DISTINCT ?s ?name WHERE { ?s <http://www.w3.org/2000/01/rdf-schema#label> ?name . FILTER(regex(str(?name), "${val}", "i")) } LIMIT 10`;
+    try {
+        const res = await fetch(`/sparql?query=${encodeURIComponent(q)}`).then(r => r.json());
+        const items = res.results.bindings;
+        if (items.length > 0) {
+            suggest.innerHTML = items.map(it => `<div class="suggest-item" onclick="selectMonk('${it.s.value}', '${it.name.value.replace(/'/g, "\\'")}')">${it.name.value}</div>`).join("");
+            suggest.style.display = 'block';
+        }
+    } catch (e) {}
+});
+
+function selectMonk(uri, name) {
+    input.value = name; suggest.style.display = 'none';
+    fetchMonkData(uri, name);
+}
+
+// Load Home Lineage lúc đầu
+updateTree(JSON.parse(JSON.stringify(window.HOME_DATA)));
+</script>
+<script>window.HOME_DATA = """ + str(HOME_LINEAGE) + """;</script>
+</body>
+</html>
+"""
+
+@app.route('/')
+def index(): return INDEX_HTML
+
+@app.route('/sparql')
+def sparql_proxy():
+    query = request.args.get('query')
+    r = requests.get(GRAPHDB_URL, params={'query': query}, headers={'Accept': 'application/sparql-results+json'})
+    return jsonify(r.json())
+
+if __name__ == '__main__':
+    os.system("fuser -k 80/tcp")
+    app.run(host='0.0.0.0', port=80)

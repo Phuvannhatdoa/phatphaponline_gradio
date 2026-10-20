@@ -1,0 +1,33 @@
+[2026-10-13T18:55:56.609620] 
+============================================================
+[2026-10-13T18:55:56.609682]   T380 RESTORE — Mode: DRY-RUN
+[2026-10-13T18:55:56.609699] ============================================================
+
+[2026-10-13T18:55:56.609712] ℹ️  Copying DB for dry-run...
+[2026-10-13T18:56:25.756372] ✓ Dry-run copy created: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\lineage_dryrun.db
+[2026-10-13T18:56:25.780451] ✓ Database connections opened
+[2026-10-13T18:56:25.780483] ℹ️  Starting transaction...
+[2026-10-13T18:56:25.780589] ℹ️  Creating TEMP snapshots...
+[2026-10-13T18:56:27.044675] ✓ TEMP snapshots created
+[2026-10-13T18:56:27.044715] ℹ️  Adding entity_type column...
+[2026-10-13T18:56:27.055195] ℹ️  Clearing tables...
+[2026-10-13T18:56:27.117374] ✓ 4 tables cleared
+[2026-10-13T18:56:27.117412] ℹ️  Attaching backup DB...
+[2026-10-13T18:56:27.397011] ℹ️  Inserting ai_person_name...
+[2026-10-13T18:56:27.616576] ✓ ai_person_name: 39269 rows
+[2026-10-13T18:56:27.616605] ℹ️  Inserting passage...
+[2026-10-13T18:56:28.537217] ✓ passage: 44820 rows
+[2026-10-13T18:56:28.537252] ℹ️  Inserting vn_person_authority...
+[2026-10-13T18:56:28.537335] ❌ Error: table vn_person_authority has no column named updated_at
+[2026-10-13T18:56:28.553059] Traceback (most recent call last):
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\docs\sessions\2026-10-13\T380_RESTORE_SCRIPT.py", line 165, in restore_t380
+    conn_work.execute("""
+    ~~~~~~~~~~~~~~~~~^^^^
+        INSERT INTO vn_person_authority
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        FROM bak.vn_person_authority
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    """)
+    ^^^^
+sqlite3.OperationalError: table vn_person_authority has no column named updated_at

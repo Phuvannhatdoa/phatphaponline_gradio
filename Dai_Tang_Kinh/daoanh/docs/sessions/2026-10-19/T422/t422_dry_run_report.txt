@@ -1,0 +1,17 @@
+T422 DRY RUN — 2026-10-19T19:38:58
+============================================================
+
+TRUOC:
+  DILA       rows=46006  pairs=23014
+  MARCUS     rows=11169  pairs=11169
+  TOTAL rows=57175
+
+NHOM TRUNG:
+  DILA       groups=22992  rows=45984  delete=22992
+
+SAU DEDUPE (du kien):
+  DILA       rows 46006 -> 23014
+  MARCUS     rows 11169 -> 11169
+
+Can gop ref: 0 nhom
+Tong so dong se xoa: 22992

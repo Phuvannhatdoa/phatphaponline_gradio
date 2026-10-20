@@ -1,0 +1,58 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix pth: <https://www.phatphaponline.org/ontology/daoanh#> .
+
+<ex:monk/minh_hai_phap_bao> a <bkg:Monk> ;
+    rdfs:label "Minh Hải Pháp Bảo"@vi ;
+    crm:P1_is_identified_by <ex:monk/minh_hai_phap_bao> ;        
+    bkg:biographicalNote """
+Tổ sư Minh Hải Pháp Bảo (明海法寶), còn gọi là Minh Hải Đắc Trí Pháp Bảo, là vị khai tổ thiền phái Lâm Tế Chúc Thánh tại Việt Nam, gắn với tổ đình Chúc Thánh ở Hội An, Quảng Nam.
+
+Theo hồ sơ local và xác nhận của Admin Phật Tổ Đạo Ảnh ngày 10-10-2026, ngài có cùng nguồn gốc tu học tại chùa Báo Tư ở Quảng Châu, Quảng Đông, Trung Quốc với Tổ sư Nguyên Thiều Siêu Bạch (Thọ Tông). Hồ sơ truyền thừa local ghi nhận ngài nối tiếp Nguyên Thiều Siêu Bạch và biệt xuất nhánh Lâm Tế Chúc Thánh tại Việt Nam. Xuất xứ tu học này không phải thông tin về quê sinh.
+
+Theo quy ước số đời của PTDA, lấy Ma Ha Ca Diếp là đời thứ nhất, Minh Hải Pháp Bảo được ghi ở đời thứ 71. Đây là số đời theo toàn mạch Thiền Tông tính từ Ma Ha Ca Diếp; trong nhánh Lâm Tế Chúc Thánh Việt Nam, ngài là vị khai tổ. Số 71 đã có trong TTL local và được Admin xác nhận giữ nguyên; hồ sơ này không phải kết quả tính lại số đời bằng thuật toán.
+
+TTL tiếng Việt này là hồ sơ gốc local của PTDA trong thời gian chưa xác minh được DILA Authority ID phù hợp cho Minh Hải Pháp Bảo Chúc Thánh. A000662 明海 đã được Admin xác nhận là một nhân vật khác; không dùng ID đó để định danh ngài. Khi có bản cập nhật DILA, chỉ bổ sung liên kết sau khi kiểm chứng đúng cùng nhân vật.
+"""@vi ;
+    bkg:birthEvent <ex:monk/minh_hai_phap_bao_birthEvent> ;
+    bkg:deathEvent <ex:monk/minh_hai_phap_bao_deathEvent> ;
+    bkg:dharmaLineageName "Dòng Lâm Tế Chúc Thánh Việt Nam"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 71;    	
+    bkg:hasTeacher <ex:monk/nguyen_thieu_sieu_bach> ;     	   	
+    bkg:isLineageFounder true ;
+    dct:identifier "PTDA:minh_hai_phap_bao" ;
+    pth:sourceNote "Hồ sơ gốc tiếng Việt của PTDA: LOCAL_TTL. DILA Authority ID chưa xác minh; A000662 là nhân vật khác. Mốc 71 tính từ Ma Ha Ca Diếp = 1 do Admin xác nhận, chưa dùng làm mốc tính tự động toàn corpus."@vi ;
+    dct:source <https://www.phatphaponline.org/resource/source-record/ptda-minh-hai/2026-10-10> .
+
+
+<ex:monk/nguyen_thieu_sieu_bach> rdfs:label "Nguyên Thiều Siêu Bạch"@vi .
+
+# Hồ sơ local giữ URI cũ để các TTL thầy/trò tiếp tục tham chiếu đúng.
+<ex:monk/minh_hai_phap_bao> rdfs:label "明海法寶"@zh-Hant .
+
+<https://www.phatphaponline.org/resource/source-record/ptda-minh-hai/2026-10-10> a pth:SourceRecord, prov:Entity ;
+    pth:sourceCode "LOCAL" ;
+    pth:sourceRecordId "PTDA-Admin-Minh-Hai-2026-10-10" ;
+    dct:hasVersion "2026-10-10" ;
+    dct:creator "Admin Phật Tổ Đạo Ảnh"@vi ;
+    dct:date "2026-10-10"^^xsd:date ;
+    pth:independenceKey "ptda-admin-minh-hai-2026-10-10" ;
+    dct:bibliographicCitation "Xác nhận của Admin PTDA ngày 10-10-2026: dùng TTL local Minh Hải Pháp Bảo làm hồ sơ gốc trong lúc chờ định danh DILA; cùng xuất xứ tu học/pháp mạch Báo Tư với Nguyên Thiều Siêu Bạch (Thọ Tông); khai tổ nhánh Lâm Tế Chúc Thánh Việt Nam; giữ số đời 71 tính từ Ma Ha Ca Diếp."@vi .
+
+# 71 là số đã có trong legacy và được Admin giữ nguyên; không tạo ba nguồn giả.
+<https://www.phatphaponline.org/resource/assertion/ptda-minh-hai/generation-2026-10-10>
+    a pth:Assertion, rdf:Statement, prov:Entity ;
+    rdf:subject <ex:monk/minh_hai_phap_bao> ;
+    rdf:predicate bkg:generationOrder ;
+    rdf:object 71 ;
+    pth:status "source_asserted" ;
+    pth:countingScheme "Thiền Tông toàn mạch; gốc Ma Ha Ca Diếp; Ma Ha Ca Diếp = 1; phạm vi số đời tính từ Ma Ha Ca Diếp."@vi ;
+    pth:derivationMethod "admin_confirmation_retaining_legacy_value" ;
+    pth:rationale "Số đời trước và sau đều là 71. Admin xác nhận quy ước đếm, không tăng đời hay suy số từ tên chữ bối. Chưa xác minh ba gốc sử liệu độc lập cho toàn đường truyền; không tự nâng thành accepted trong hệ v2 hoặc kích hoạt tính số đời toàn corpus."@vi ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/ptda-minh-hai/2026-10-10> .

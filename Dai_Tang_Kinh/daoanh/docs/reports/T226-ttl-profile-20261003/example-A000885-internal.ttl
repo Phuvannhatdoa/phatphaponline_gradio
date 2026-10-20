@@ -1,0 +1,1293 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix pth: <https://www.phatphaponline.org/ontology/daoanh#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://www.phatphaponline.org/resource/dossier/97f97992-e82d-510a-ab0c-fa27b412584d> a dcat:Dataset,
+        prov:Entity ;
+    dcterms:conformsTo <https://www.phatphaponline.org/ontology/ttl-profile/2.0.0> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_1>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_10>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_11>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_12>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_13>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_14>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_15>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_16>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_17>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_18>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_19>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_2>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_20>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_21>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_22>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_23>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_24>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_25>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_26>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_27>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_28>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_29>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_3>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_30>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_31>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_32>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_33>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_34>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_35>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_4>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_5>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_6>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_7>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_8>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_9> ;
+    foaf:primaryTopic <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    pth:accessLevel "internal_draft" ;
+    pth:hasAssertion <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_1>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_10>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_11>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_12>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_13>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_14>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_15>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_16>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_17>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_18>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_19>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_2>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_20>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_21>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_22>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_23>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_24>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_25>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_26>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_27>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_28>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_29>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_3>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_30>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_31>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_32>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_33>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_34>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_35>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_36>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_37>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_38>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_39>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_4>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_40>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_41>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_42>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_43>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_44>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_45>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_46>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_47>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_48>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_49>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_5>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_50>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_51>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_52>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_53>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_54>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_55>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_56>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_57>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_58>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_59>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_6>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_60>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_61>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_62>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_63>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_64>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_65>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_66>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_67>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_7>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_8>,
+        <https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_9> ;
+    pth:profilePayload "{\"assertions\": [{\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_1\", \"object\": {\"kind\": \"literal\", \"value\": \"A000885\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#dilaId\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_2\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"重顯\"}, \"predicate\": \"http://www.w3.org/2000/01/rdf-schema#label\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_3\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"雪竇重顯\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_4\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"隱之\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_5\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"明覺重顯\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_6\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"雪竇明覺\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_7\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"明覺顯\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_8\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"明覺大師\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_9\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"雪竇顯\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_10\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"明覺\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_11\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"雪竇\"}, \"predicate\": \"http://www.w3.org/2004/02/skos/core#altLabel\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_12\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"生於：北宋, 太宗, 太平興國, 五年, 四月, 初八日\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#sourceNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_13\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"北宋\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#dynasty\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_14\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"遂州\\n      PL000000035822\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#placeOfOrigin\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_15\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"雲門宗\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#sourceNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_16\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"是\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#sourceNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_17\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"明州雪竇重顯禪師，智門光祚禪師法嗣，大鑑下第十世。從益州普安院仁詵出家，後參智門祚得法。出居吳門之洞庭，遷四明之雪竇。與瑯邪慧覺，同稱「二甘露門」。寂後仁宗賜號「明覺禪師」。有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》七集。法嗣有天衣義懷、報本有蘭等六人。\\n（T51n2077_p0473c13；佛光：3985；佛名：501）\"}, \"predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#biographicalNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_18\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"字隱之，智門光祚禪師之法嗣。遂州人，俗姓李。生於太平興國五年四月八日。咸平中終父母喪，詣益州普安院仁銑師落髮。晚參隨州智門祚和尚，因扣不起一念之旨，豁然知歸。遂徧游叢席，眾所推仰。先居吳門之洞庭，遷四明之雪竇，由是雲門之道復振於江淅。都尉李侯奏章服，侍中賈公奏聞朝廷，乞賜「明覺」之號。皇祐四年六月十日示寂，壽七十三，僧臘五十夏。法語遺有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》，凡七集。法嗣有天衣義懷、報本有蘭等六人。（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉；《祖庭事苑》卷 1；《嘉泰普燈錄總目錄》卷 1）\"}, \"predicate\": \"http://www.phatphaponline.org/ontology/buddhist-kg#biographicalNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_19\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"佛果圜悟禪師碧巖錄(T2003)\\n    佛果擊節錄(X1301)\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#associatedWork\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_20\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"《明覺禪師後錄》一卷（收於《明覺禪師語錄》之卷二，《大正藏》T47）\\n    《明覺禪師瀑泉集》一卷（即《明覺禪師語錄》六卷中之卷四，《大正藏》T47）\\n    《明覺禪師祖英集》二卷（即《明覺禪師語錄》六卷中之卷五、六，《大正藏》T47）\\n    《明覺禪師語錄》六卷（《大正藏》T47）\\n    《雪寶和尚拈古》一卷（即《明覺禪師語錄》六卷中之卷三，《大正藏》T47）\\n    《雪寶顯和尚明覺大師頌古集》一卷（《四部叢刊‧續編‧集部‧雪竇四集》）\\n    《雪竇禪師語》（收於《續古尊宿語要》卷 2，《卍續藏》X68）\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#associatedWork\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_21\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"《建中靖國續燈錄》卷 3\\n    《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉\\n    《祖庭事苑》卷 1\\n    《補續高僧傳》卷 7\\n    《釋氏稽古略》卷 4\\n    勅建淨慈寺志‧卷8‧隱之重顯\\n    武林梵志‧卷9‧重顯禪師\\n    武林靈隱寺志‧卷3‧雪竇重顯禪師\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#mentionedIn\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_22\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"入矢義高 1981《雪竇頌古》，東京：筑摩書房。\\n    吳平 2000〈雲門宗中興之祖──雪竇重顯〉，《人生雜誌》208，頁 54-57。\\n    岩永正晴 1996〈《正法眼蔵》「観音」について（二）── 雪竇・圜悟・宏智の頌古にみる「雲巌大悲菩薩」話解釈〉，《曹洞宗宗学研究所紀要》10，頁 67-82。\\n    張平叔〈悟真篇外集：讀雪竇禪師祖英集〉，《民國佛教期刊文獻集成補篇》57，頁 328-329。\\n    旡言〈雪竇百頌講座（續）〉，《民國佛教期刊文獻集成》204，頁 141-144。\\n    旡言〈雪竇百頌講座（續三）〉，《民國佛教期刊文獻集成》204，頁 233-238。\\n    旡言〈雪竇百頌講座（續二）〉，《民國佛教期刊文獻集成》204，頁 174-180。\\n    旡言〈雪竇百頌講座〉，《民國佛教期刊文獻集成》204，頁 109-112。\\n    李安綱 2005《雪竇重顯大師傳》（中國佛教高僧全集54），高雄縣：佛光文化事業有限公司。\\n    柳田聖山 1978〈雪竇頌古の世界〉，《禅文化研究所紀要》10，頁 11-87。\\n    椎名宏雄 1995〈《明覺禪師語錄》諸本の系統〉，《駒澤大學佛教學部論集》26，頁 201-234。\\n    楊曾文 2002〈雪竇重顯及其禪法〉，《中國禪學》1。\\n    榑林皓堂 1957〈雪竇頌古と宏智頌古〉，《日本仏教学会年報》22，頁 69-80。\\n    永井政之 1972〈雪竇の語録の成立に関する一考察〉，《駒沢大学大学院仏教学研究会年報》6，頁 82-94。\\n    永井政之 1973〈雪竇の語録の成立に関する一考察（二）〉，《駒沢大学大学院仏教学研究会年報》7，頁 11-20。\\n    永井政之 1973〈雪竇頌古の展開について〉，《印度学仏教学研究》43，頁 140-141。\\n    永井政之 1974〈雪竇の語録の成立に関する一考察（三）〉，《駒沢大学大学院仏教学研究会年報》8，頁 112-124。\\n    溫金玉 1996〈雲門中興之祖──雪竇重顯禪師〉，《廣東佛教》49，頁 96-98。\\n    無言 1980〈雪竇百頌講座〉，《現代佛教學術叢刊》12，臺北：大乘文化。\\n    秋野孝道、安藤文英 1931《雪竇禅師頌古稱提講話》，東京：文明書院。\\n    維思 1978〈宋代明州（寧波）五大和尚──永明延壽、雪竇重顯、宏智正覺、大慧宗怣、天童如淨〉，《浙江月刊》10.4，頁 35-37。\\n    董群 1995〈雪竇重顯對禪學的貢獻〉，《五臺山研究》4，頁 8-12。\\n    鄔介屏 1935〈雪竇一首賦簡〉，《民國佛教期刊文獻集成》62，頁 89。\\n    陳平坤 2004〈雪竇重顯的「宗」「教」觀〉，《大專學生佛學論文集》14，頁 216-255。\\n    雪童 1988〈雪竇高僧〉，《法音》。\\n    雪菴 1935〈雪竇山中寄悔生〉，《民國佛教期刊文獻集成》45，頁 492。\\n    黃繹勳 2007〈雪竇重顯禪師生平與雪竇七集之考辨〉，《臺大佛學研究》14，頁 77-117。\\n    黃繹勳 2009〈《雪竇和尚住洞庭語錄》之「拈古」略探〉，《中華佛學學報》22，頁 69-96。\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#sourceNote\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_23\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"蘇州洞庭翠峯禪寺；明州雪竇山資聖寺\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#activeAt\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_24\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"+0980-05-29\\n    太平興國五年四月八日生（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#birthDateExpression\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_25\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"+1052-07-14\\n    皇祐四年六月十日，壽七十三（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#deathDateExpression\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_26\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"習禪\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#occupation\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_27\", \"object\": {\"kind\": \"literal\", \"language\": \"zh-Hant\", \"value\": \"( CBETA T50n2062_p0915a10 ) 明高僧傳: 釋正覺傳\\n    ( CBETA T50n2062_p0920b23 ) 明高僧傳: 釋法寧傳 {雪竇}\\n    ( CBETA X77n1524_p0377a10 ) 補續高僧傳: 繼忠傳 {雪竇顯}\\n    ( CBETA X77n1524_p0413b11 ) 補續高僧傳: 大愚芝傳 {雪竇顯}\\n    ( CBETA X77n1524_p0416c01 ) 補續高僧傳: 泉大道傳 {雪竇}\\n    ( CBETA X77n1524_p0416c22 ) 補續高僧傳: 雪竇顯傳 {雪竇顯}\\n    ( CBETA X77n1524_p0416c23 ) 補續高僧傳: 雪竇顯傳 {隱之}\\n    ( CBETA X77n1524_p0417c01 ) 補續高僧傳: 雪竇顯傳 {明覺}\\n    ( CBETA X77n1524_p0418b09 ) 補續高僧傳: 開先暹傳 {雪竇顯}\\n    ( CBETA X77n1524_p0418b14 ) 補續高僧傳: 開先暹傳 {雪竇}\\n    ( CBETA X77n1524_p0420a09 ) 補續高僧傳: 棲賢湜傳 {雪竇顯}\\n    ( CBETA X77n1524_p0423b02 ) 補續高僧傳: 天衣懷傳 {明覺}\\n    ( CBETA X77n1524_p0423b18 ) 補續高僧傳: 延恩安傳 {雪竇顯}\\n    ( CBETA X77n1524_p0512b01 ) 補續高僧傳: 空印軾傳 {雪竇}\\n    ( CBETA X77n1524_p0524a22 ) 補續高僧傳: 太癅傳 {雪竇}\\n    g010p0406(明州阿育王山志) { 雪竇 } \\n    g081p0191(清涼山志) { 雪竇 } \\n    g032p0745(徑山志) { 雪竇 }\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#mentionedIn\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_28\", \"object\": {\"kind\": \"literal\", \"value\": \"Male\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#gender\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_29\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/ontology/daoanh#Monastic\"}, \"predicate\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_30\", \"object\": {\"kind\": \"iri\", \"value\": \"http://www.cidoc-crm.org/cidoc-crm/E21_Person\"}, \"predicate\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_31\", \"object\": {\"kind\": \"literal\", \"value\": \"Wikidata:Q45423028\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#externalIdentifier\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\"], \"id\": \"dila_32\", \"object\": {\"kind\": \"literal\", \"value\": \"CBDB:0033232\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#externalIdentifier\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_1\"], \"id\": \"dila_33\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：049）\", \"relation_scope\": \"DILA raw type=teacher; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/4712a2bf-163b-5cad-893c-85bb0c178cae\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_2\"], \"id\": \"dila_34\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/2ebe9cdd-f5fd-5eec-8334-e05f469c3b99\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：049）\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_3\"], \"id\": \"dila_35\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/7c37030b-3dd4-5a60-aefb-758bf15b3494\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：049）\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_4\"], \"id\": \"dila_36\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/ae6a1112-4707-5b6c-81c6-76704ca7b927\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：049）\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_5\"], \"id\": \"dila_37\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/abf4322f-a09d-5806-b29f-fd772ed69f95\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：049）\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_6\"], \"id\": \"dila_38\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/1a7b7a2f-36e2-54d9-9307-4a5b6a93a6c2\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：049）\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_7\"], \"id\": \"dila_39\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/2a084559-70a2-50f5-b993-3b13e8008827\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：049）\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_8\"], \"id\": \"dila_40\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/504049c0-6dfc-5247-ae9e-6546b1e72316\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"（望月‧卷六‧附錄：049）\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_9\"], \"id\": \"dila_41\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/ba816bc1-c444-5f68-bbad-781a470d56ec\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"(T51n2077_p0499b23)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_10\"], \"id\": \"dila_42\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/655a6b6e-79e2-5f0c-a8c2-6317addc777f\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……廣教景先禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_11\"], \"id\": \"dila_43\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/279b6a89-3bff-53a6-8e15-1eeb5c68963b\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……妙果自政禪師」(CBETA, T51, no. 2077, p. 499, a12-b6)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_12\"], \"id\": \"dila_44\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/0a879257-5d60-5b2c-a126-9c9a6fd26ebd\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……東禪賢禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_13\"], \"id\": \"dila_45\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/a6d0d17f-777b-57c8-9af2-1c279c70d593\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……薦福知一禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_14\"], \"id\": \"dila_46\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/e9ebdd7a-7811-5788-85ab-8955a328dcdc\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……海會擇芝禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_15\"], \"id\": \"dila_47\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/2f58836b-f7c8-53a9-9c6c-4f1f2cbe5856\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……長蘆智福禪師」(CBETA, T51, no. 2077, p. 499, a12-18)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_16\"], \"id\": \"dila_48\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/f7f4326e-270f-5b1c-a699-2fbaedaf45fd\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……嶽林宗善禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_17\"], \"id\": \"dila_49\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/19dbdd54-a354-5af4-a864-11057e6b9d76\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心守明禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_18\"], \"id\": \"dila_50\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/95883cbc-9e40-5749-b06d-14cd76eb221a\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……證聖守環禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_19\"], \"id\": \"dila_51\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/8674c502-34ea-57eb-bbfe-66012f41cc53\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……報本有蘭禪師」(CBETA, T51, no. 2077, p. 499, a12-17)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_20\"], \"id\": \"dila_52\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/790d4ebc-a47d-5b29-a1c9-30911024ff08\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心清演禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_21\"], \"id\": \"dila_53\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/4916eee6-2640-57a6-a1d0-9fcb26673add\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明知應禪師」(CBETA, T51, no. 2077, p. 499, a12-23)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_22\"], \"id\": \"dila_54\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/2e825480-de7f-5b85-be74-bd9238dbdef7\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……雲峯元益首座」(CBETA, T51, no. 2077, p. 499, a12-24)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_23\"], \"id\": \"dila_55\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/426c1c0c-fded-5074-9950-9b7b68d254d5\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶相蘊觀禪師」(CBETA, T51, no. 2077, p. 499, a12-15)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_24\"], \"id\": \"dila_56\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/d4952b24-f874-5c6c-b775-4ec470f0d8df\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……萬壽慧照禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_25\"], \"id\": \"dila_57\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/cd418c4d-4e89-5c0b-b160-bb74a50bea20\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……上山德隆禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_26\"], \"id\": \"dila_58\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/2b0462c7-eef1-5c08-bdc8-0be9f053823f\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……承天傳宗禪師」(CBETA, T51, no. 2077, p. 499, a12-14)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_27\"], \"id\": \"dila_59\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/7cd1b93a-93ab-5128-867a-116c8a33d33b\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……龍興智傳禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_28\"], \"id\": \"dila_60\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/3ab7c8dd-43ab-5133-a600-71b1f564e52f\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……天衣在和禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_29\"], \"id\": \"dila_61\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/ef323ec5-30ab-5bf9-a08c-4dc0bec50b57\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……鳳棲仲卿禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_30\"], \"id\": \"dila_62\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/279f112c-c5a1-56f6-a5eb-364240738312\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶慶子環禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_31\"], \"id\": \"dila_63\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/bb4ac467-c09b-5c07-9ad6-d6e5d99adca7\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……靈巖德初禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_32\"], \"id\": \"dila_64\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/b15b6f94-c626-5563-9398-f1f7a3f50b66\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……湯院守恩禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_33\"], \"id\": \"dila_65\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/1a5b6757-4151-535d-9ac4-4386e09305f4\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……香積孜禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_34\"], \"id\": \"dila_66\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/93049299-4cac-5eb6-be5c-e407ede194a2\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明則禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, {\"derivation\": \"DILA_TEI_record\", \"evidence\": [\"dila_record\", \"relation_35\"], \"id\": \"dila_67\", \"object\": {\"kind\": \"iri\", \"value\": \"https://www.phatphaponline.org/resource/person/3b55bed6-dc65-5523-bbcb-1cf782b79ed8\"}, \"predicate\": \"https://www.phatphaponline.org/ontology/daoanh#teacherOf\", \"rationale\": \"《雪竇寺志．卷4．惠金典座雲門宗第五世》：「師依明覺於雪竇」\", \"relation_scope\": \"DILA raw type=student; chưa xác nhận là truyền pháp\", \"status\": \"source_asserted\", \"subject\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}], \"created_at\": \"2026-10-03T15:37:00.736795+00:00\", \"legacy_turtle\": \"\", \"person\": {\"dila_id\": \"A000885\", \"entity_type\": \"Monastic\", \"key\": \"97f97992-e82d-510a-ab0c-fa27b412584d\", \"legacy_slug\": \"\", \"name_vi\": \"\", \"name_zh\": \"重顯\", \"uri\": \"https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d\"}, \"profile_version\": \"2.0.0\", \"sources\": [{\"citation\": \"DILA TEI person xml:id=A000885\", \"code\": \"DILA\", \"dataset_url\": \"https://github.com/DILA-edu/Authority-Databases\", \"id\": \"dila_record\", \"record_id\": \"A000885\", \"record_url\": \"https://authority.dila.edu.tw/person/search.php?aid=A000885\", \"retrieved_at\": \"2026-10-03T15:37:00.736894+00:00\", \"rights_status\": \"pending_registry_review\", \"sha256\": \"3b8f921eb8dd2487fac1bb24362979c6b3c521add53e29aecb4fd65b462c7d49\", \"snapshot\": {\"names\": [{\"language\": \"zho-Hant\", \"text\": \"重顯\", \"type\": \"primary\"}, {\"language\": \"zho-Hant\", \"text\": \"雪竇重顯\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"隱之\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"明覺重顯\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"雪竇明覺\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"明覺顯\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"明覺大師\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"雪竇顯\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"明覺\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"雪竇\", \"type\": \"alternative\"}], \"xml\": \"<ns0:person xmlns:ns0=\\\"http://www.tei-c.org/ns/1.0\\\" xml:id=\\\"A000885\\\" ana=\\\"historical\\\">\\n  <ns0:persName xml:lang=\\\"zho-Hant\\\">重顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">雪竇重顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">隱之</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">明覺重顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">雪竇明覺</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">明覺顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">明覺大師</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">雪竇顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">明覺</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">雪竇</ns0:persName>\\n  <ns0:sex value=\\\"1\\\" />\\n  <ns0:birth>\\n    +0980-05-29\\n    <ns0:note>太平興國五年四月八日生（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）</ns0:note>\\n  </ns0:birth>\\n  <ns0:death>\\n    +1052-07-14\\n    <ns0:note>皇祐四年六月十日，壽七十三（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）</ns0:note>\\n  </ns0:death>\\n  <ns0:note type=\\\"birthDeathDateQuote\\\">生於：北宋, 太宗, 太平興國, 五年, 四月, 初八日</ns0:note>\\n  <ns0:note type=\\\"dynasty\\\">\\n    北宋\\n  </ns0:note>\\n  <ns0:occupation>習禪</ns0:occupation>\\n  <ns0:note type=\\\"placeOfOrigin\\\">\\n    <ns0:placeName>遂州\\n      <ns0:ref target=\\\"http://authority.dila.edu.tw/place/\\\">PL000000035822</ns0:ref>\\n    </ns0:placeName>\\n  </ns0:note>\\n  <ns0:note type=\\\"sect\\\">雲門宗 </ns0:note>\\n  <ns0:note type=\\\"monk\\\">是</ns0:note>\\n  <ns0:note type=\\\"concise\\\">明州雪竇重顯禪師，智門光祚禪師法嗣，大鑑下第十世。從益州普安院仁詵出家，後參智門祚得法。出居吳門之洞庭，遷四明之雪竇。與瑯邪慧覺，同稱「二甘露門」。寂後仁宗賜號「明覺禪師」。有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》七集。法嗣有天衣義懷、報本有蘭等六人。\\n（T51n2077_p0473c13；佛光：3985；佛名：501）</ns0:note>\\n  <ns0:note type=\\\"extensive\\\">字隱之，智門光祚禪師之法嗣。遂州人，俗姓李。生於太平興國五年四月八日。咸平中終父母喪，詣益州普安院仁銑師落髮。晚參隨州智門祚和尚，因扣不起一念之旨，豁然知歸。遂徧游叢席，眾所推仰。先居吳門之洞庭，遷四明之雪竇，由是雲門之道復振於江淅。都尉李侯奏章服，侍中賈公奏聞朝廷，乞賜「明覺」之號。皇祐四年六月十日示寂，壽七十三，僧臘五十夏。法語遺有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》，凡七集。法嗣有天衣義懷、報本有蘭等六人。（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉；《祖庭事苑》卷 1；《嘉泰普燈錄總目錄》卷 1）</ns0:note>\\n\\n  <ns0:listRelation>\\n    <ns0:relation type=\\\"teacher\\\" active=\\\"A015592\\\" n=\\\"光祚\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A003908\\\" n=\\\"義懷\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021005\\\" n=\\\"法宗\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021006\\\" n=\\\"省倧\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021007\\\" n=\\\"日慎\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021008\\\" n=\\\"顯昇\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021009\\\" n=\\\"慧金\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021010\\\" n=\\\"曾會\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021951\\\" n=\\\" 省宗\\\">\\n      <ns0:desc>\\n        <ns0:bibl>(T51n2077_p0499b23)</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025516\\\" n=\\\"景先\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……廣教景先禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025517\\\" n=\\\"自政\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……妙果自政禪師」(CBETA, T51, no. 2077, p. 499, a12-b6)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025518\\\" n=\\\"東禪賢\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……東禪賢禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025519\\\" n=\\\"知一\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……薦福知一禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025520\\\" n=\\\"擇芝\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……海會擇芝禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025521\\\" n=\\\"智福\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……長蘆智福禪師」(CBETA, T51, no. 2077, p. 499, a12-18)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025524\\\" n=\\\"宗善\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……嶽林宗善禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025525\\\" n=\\\"守明\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心守明禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025527\\\" n=\\\"守環\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……證聖守環禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025528\\\" n=\\\"有蘭\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……報本有蘭禪師」(CBETA, T51, no. 2077, p. 499, a12-17)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025531\\\" n=\\\"清演\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心清演禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025532\\\" n=\\\"知應\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明知應禪師」(CBETA, T51, no. 2077, p. 499, a12-23)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025533\\\" n=\\\"元益\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……雲峯元益首座」(CBETA, T51, no. 2077, p. 499, a12-24)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A015139\\\" n=\\\"蘊觀\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶相蘊觀禪師」(CBETA, T51, no. 2077, p. 499, a12-15)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025535\\\" n=\\\"慧照\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……萬壽慧照禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025536\\\" n=\\\"德隆\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……上山德隆禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025537\\\" n=\\\"傳宗\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……承天傳宗禪師」(CBETA, T51, no. 2077, p. 499, a12-14)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A014406\\\" n=\\\"智傳\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……龍興智傳禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025543\\\" n=\\\"在和\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……天衣在和禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025545\\\" n=\\\"仲卿\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……鳳棲仲卿禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025547\\\" n=\\\"子環\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶慶子環禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025548\\\" n=\\\"德初\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……靈巖德初禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025549\\\" n=\\\"守恩\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……湯院守恩禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025550\\\" n=\\\"六合香積孜\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……香積孜禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025551\\\" n=\\\"乾明則\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明則禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A045421\\\" n=\\\"惠金\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《雪竇寺志．卷4．惠金典座雲門宗第五世》：「師依明覺於雪竇」</ns0:bibl>\\n        <ns0:ref type=\\\"url\\\">http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=y125%26cpage=0156</ns0:ref>\\n      </ns0:desc>\\n    </ns0:relation>\\n  </ns0:listRelation>\\n  <ns0:listBibl>\\n    <ns0:bibl>( CBETA T50n2062_p0915a10 ) 明高僧傳: 釋正覺傳</ns0:bibl>\\n    <ns0:bibl>( CBETA T50n2062_p0920b23 ) 明高僧傳: 釋法寧傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0377a10 ) 補續高僧傳: 繼忠傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0413b11 ) 補續高僧傳: 大愚芝傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0416c01 ) 補續高僧傳: 泉大道傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0416c22 ) 補續高僧傳: 雪竇顯傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0416c23 ) 補續高僧傳: 雪竇顯傳 {隱之}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0417c01 ) 補續高僧傳: 雪竇顯傳 {明覺}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0418b09 ) 補續高僧傳: 開先暹傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0418b14 ) 補續高僧傳: 開先暹傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0420a09 ) 補續高僧傳: 棲賢湜傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0423b02 ) 補續高僧傳: 天衣懷傳 {明覺}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0423b18 ) 補續高僧傳: 延恩安傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0512b01 ) 補續高僧傳: 空印軾傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0524a22 ) 補續高僧傳: 太癅傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g010%26cpage=0406%26target=A000885\\\">g010p0406(明州阿育王山志) { 雪竇 } </ns0:ref></ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g081%26cpage=0191%26target=A000885\\\">g081p0191(清涼山志) { 雪竇 } </ns0:ref></ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g032%26cpage=0745%26target=A000885\\\">g032p0745(徑山志) { 雪竇 } </ns0:ref></ns0:bibl>\\n  </ns0:listBibl>\\n  <ns0:note type=\\\"worksInTripitaka\\\">\\n    佛果圜悟禪師碧巖錄(T2003)\\n    佛果擊節錄(X1301)\\n  </ns0:note>\\n  <ns0:note type=\\\"worksBy\\\">\\n    《明覺禪師後錄》一卷（收於《明覺禪師語錄》之卷二，《大正藏》T47）\\n    《明覺禪師瀑泉集》一卷（即《明覺禪師語錄》六卷中之卷四，《大正藏》T47）\\n    《明覺禪師祖英集》二卷（即《明覺禪師語錄》六卷中之卷五、六，《大正藏》T47）\\n    《明覺禪師語錄》六卷（《大正藏》T47）\\n    《雪寶和尚拈古》一卷（即《明覺禪師語錄》六卷中之卷三，《大正藏》T47）\\n    《雪寶顯和尚明覺大師頌古集》一卷（《四部叢刊‧續編‧集部‧雪竇四集》）\\n    《雪竇禪師語》（收於《續古尊宿語要》卷 2，《卍續藏》X68）\\n  </ns0:note>\\n  <ns0:note type=\\\"mentionedIn\\\">\\n    《建中靖國續燈錄》卷 3\\n    《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉\\n    《祖庭事苑》卷 1\\n    《補續高僧傳》卷 7\\n    《釋氏稽古略》卷 4\\n    <ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g016%26cpage=0551\\\">勅建淨慈寺志‧卷8‧隱之重顯</ns0:ref>\\n    <ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g007%26cpage=0747\\\">武林梵志‧卷9‧重顯禪師</ns0:ref>\\n    <ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g021%26cpage=0148\\\">武林靈隱寺志‧卷3‧雪竇重顯禪師</ns0:ref>\\n  </ns0:note>\\n  <ns0:note type=\\\"secondaryLit\\\">\\n    入矢義高 1981《雪竇頌古》，東京：筑摩書房。\\n    吳平 2000〈雲門宗中興之祖──雪竇重顯〉，《人生雜誌》208，頁 54-57。\\n    岩永正晴 1996〈《正法眼蔵》「観音」について（二）── 雪竇・圜悟・宏智の頌古にみる「雲巌大悲菩薩」話解釈〉，《曹洞宗宗学研究所紀要》10，頁 67-82。\\n    張平叔〈悟真篇外集：讀雪竇禪師祖英集〉，《民國佛教期刊文獻集成補篇》57，頁 328-329。\\n    旡言〈雪竇百頌講座（續）〉，《民國佛教期刊文獻集成》204，頁 141-144。\\n    旡言〈雪竇百頌講座（續三）〉，《民國佛教期刊文獻集成》204，頁 233-238。\\n    旡言〈雪竇百頌講座（續二）〉，《民國佛教期刊文獻集成》204，頁 174-180。\\n    旡言〈雪竇百頌講座〉，《民國佛教期刊文獻集成》204，頁 109-112。\\n    李安綱 2005《雪竇重顯大師傳》（中國佛教高僧全集54），高雄縣：佛光文化事業有限公司。\\n    柳田聖山 1978〈雪竇頌古の世界〉，《禅文化研究所紀要》10，頁 11-87。\\n    椎名宏雄 1995〈《明覺禪師語錄》諸本の系統〉，《駒澤大學佛教學部論集》26，頁 201-234。\\n    楊曾文 2002〈雪竇重顯及其禪法〉，《中國禪學》1。\\n    榑林皓堂 1957〈雪竇頌古と宏智頌古〉，《日本仏教学会年報》22，頁 69-80。\\n    永井政之 1972〈雪竇の語録の成立に関する一考察〉，《駒沢大学大学院仏教学研究会年報》6，頁 82-94。\\n    永井政之 1973〈雪竇の語録の成立に関する一考察（二）〉，《駒沢大学大学院仏教学研究会年報》7，頁 11-20。\\n    永井政之 1973〈雪竇頌古の展開について〉，《印度学仏教学研究》43，頁 140-141。\\n    永井政之 1974〈雪竇の語録の成立に関する一考察（三）〉，《駒沢大学大学院仏教学研究会年報》8，頁 112-124。\\n    溫金玉 1996〈雲門中興之祖──雪竇重顯禪師〉，《廣東佛教》49，頁 96-98。\\n    無言 1980〈雪竇百頌講座〉，《現代佛教學術叢刊》12，臺北：大乘文化。\\n    秋野孝道、安藤文英 1931《雪竇禅師頌古稱提講話》，東京：文明書院。\\n    維思 1978〈宋代明州（寧波）五大和尚──永明延壽、雪竇重顯、宏智正覺、大慧宗怣、天童如淨〉，《浙江月刊》10.4，頁 35-37。\\n    <ns0:ref target=\\\"http://wtsy.chinajournal.net.cn/\\\">董群 1995〈雪竇重顯對禪學的貢獻〉，《五臺山研究》4，頁 8-12。</ns0:ref>\\n    鄔介屏 1935〈雪竇一首賦簡〉，《民國佛教期刊文獻集成》62，頁 89。\\n    陳平坤 2004〈雪竇重顯的「宗」「教」觀〉，《大專學生佛學論文集》14，頁 216-255。\\n    雪童 1988〈雪竇高僧〉，《法音》。\\n    雪菴 1935〈雪竇山中寄悔生〉，《民國佛教期刊文獻集成》45，頁 492。\\n    <ns0:ref target=\\\"http://enlight.lib.ntu.edu.tw/FULLTEXT/JR-BJ010/bj010156127.pdf\\\">黃繹勳 2007〈雪竇重顯禪師生平與雪竇七集之考辨〉，《臺大佛學研究》14，頁 77-117。</ns0:ref>\\n    <ns0:ref target=\\\"http://www.chibs.edu.tw/publication/chbj/22/0619hwung.pdf\\\">黃繹勳 2009〈《雪竇和尚住洞庭語錄》之「拈古」略探〉，《中華佛學學報》22，頁 69-96。</ns0:ref>\\n  </ns0:note>\\n  <ns0:note type=\\\"activeAt\\\">蘇州洞庭翠峯禪寺；明州雪竇山資聖寺</ns0:note>\\n  <ns0:idno type=\\\"Wikidata\\\">Q45423028</ns0:idno>\\n  <ns0:idno type=\\\"CBDB\\\">0033232</ns0:idno>\\n</ns0:person>\\n\"}, \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：049）\", \"code\": \"DILA\", \"id\": \"relation_1\", \"record_id\": \"A000885:A015592\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：049）\", \"code\": \"DILA\", \"id\": \"relation_2\", \"record_id\": \"A000885:A003908\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：049）\", \"code\": \"DILA\", \"id\": \"relation_3\", \"record_id\": \"A000885:A021005\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：049）\", \"code\": \"DILA\", \"id\": \"relation_4\", \"record_id\": \"A000885:A021006\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：049）\", \"code\": \"DILA\", \"id\": \"relation_5\", \"record_id\": \"A000885:A021007\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：049）\", \"code\": \"DILA\", \"id\": \"relation_6\", \"record_id\": \"A000885:A021008\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：049）\", \"code\": \"DILA\", \"id\": \"relation_7\", \"record_id\": \"A000885:A021009\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"（望月‧卷六‧附錄：049）\", \"code\": \"DILA\", \"id\": \"relation_8\", \"record_id\": \"A000885:A021010\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"(T51n2077_p0499b23)\", \"code\": \"DILA\", \"id\": \"relation_9\", \"record_id\": \"A000885:A021951\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……廣教景先禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\", \"code\": \"DILA\", \"id\": \"relation_10\", \"record_id\": \"A000885:A025516\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……妙果自政禪師」(CBETA, T51, no. 2077, p. 499, a12-b6)\", \"code\": \"DILA\", \"id\": \"relation_11\", \"record_id\": \"A000885:A025517\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……東禪賢禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\", \"code\": \"DILA\", \"id\": \"relation_12\", \"record_id\": \"A000885:A025518\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……薦福知一禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\", \"code\": \"DILA\", \"id\": \"relation_13\", \"record_id\": \"A000885:A025519\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……海會擇芝禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\", \"code\": \"DILA\", \"id\": \"relation_14\", \"record_id\": \"A000885:A025520\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……長蘆智福禪師」(CBETA, T51, no. 2077, p. 499, a12-18)\", \"code\": \"DILA\", \"id\": \"relation_15\", \"record_id\": \"A000885:A025521\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……嶽林宗善禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\", \"code\": \"DILA\", \"id\": \"relation_16\", \"record_id\": \"A000885:A025524\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心守明禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\", \"code\": \"DILA\", \"id\": \"relation_17\", \"record_id\": \"A000885:A025525\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……證聖守環禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\", \"code\": \"DILA\", \"id\": \"relation_18\", \"record_id\": \"A000885:A025527\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……報本有蘭禪師」(CBETA, T51, no. 2077, p. 499, a12-17)\", \"code\": \"DILA\", \"id\": \"relation_19\", \"record_id\": \"A000885:A025528\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心清演禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\", \"code\": \"DILA\", \"id\": \"relation_20\", \"record_id\": \"A000885:A025531\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明知應禪師」(CBETA, T51, no. 2077, p. 499, a12-23)\", \"code\": \"DILA\", \"id\": \"relation_21\", \"record_id\": \"A000885:A025532\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……雲峯元益首座」(CBETA, T51, no. 2077, p. 499, a12-24)\", \"code\": \"DILA\", \"id\": \"relation_22\", \"record_id\": \"A000885:A025533\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶相蘊觀禪師」(CBETA, T51, no. 2077, p. 499, a12-15)\", \"code\": \"DILA\", \"id\": \"relation_23\", \"record_id\": \"A000885:A015139\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……萬壽慧照禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\", \"code\": \"DILA\", \"id\": \"relation_24\", \"record_id\": \"A000885:A025535\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……上山德隆禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\", \"code\": \"DILA\", \"id\": \"relation_25\", \"record_id\": \"A000885:A025536\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……承天傳宗禪師」(CBETA, T51, no. 2077, p. 499, a12-14)\", \"code\": \"DILA\", \"id\": \"relation_26\", \"record_id\": \"A000885:A025537\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……龍興智傳禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\", \"code\": \"DILA\", \"id\": \"relation_27\", \"record_id\": \"A000885:A014406\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……天衣在和禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\", \"code\": \"DILA\", \"id\": \"relation_28\", \"record_id\": \"A000885:A025543\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……鳳棲仲卿禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\", \"code\": \"DILA\", \"id\": \"relation_29\", \"record_id\": \"A000885:A025545\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶慶子環禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\", \"code\": \"DILA\", \"id\": \"relation_30\", \"record_id\": \"A000885:A025547\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……靈巖德初禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\", \"code\": \"DILA\", \"id\": \"relation_31\", \"record_id\": \"A000885:A025548\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……湯院守恩禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\", \"code\": \"DILA\", \"id\": \"relation_32\", \"record_id\": \"A000885:A025549\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……香積孜禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\", \"code\": \"DILA\", \"id\": \"relation_33\", \"record_id\": \"A000885:A025550\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明則禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\", \"code\": \"DILA\", \"id\": \"relation_34\", \"record_id\": \"A000885:A025551\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}, {\"citation\": \"《雪竇寺志．卷4．惠金典座雲門宗第五世》：「師依明覺於雪竇」\", \"code\": \"DILA\", \"id\": \"relation_35\", \"record_id\": \"A000885:A045421\", \"record_url\": \"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=y125%26cpage=0156\", \"rights_status\": \"pending_registry_review\", \"version\": \"2026-09\"}]}"^^rdf:JSON ;
+    pth:profileVersion "2.0.0" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_1> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "A000885" ;
+    rdf:predicate pth:dilaId ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_10> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "明覺"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_11> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "雪竇"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_12> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "生於：北宋, 太宗, 太平興國, 五年, 四月, 初八日"@zh-Hant ;
+    rdf:predicate pth:sourceNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_13> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "北宋"@zh-Hant ;
+    rdf:predicate pth:dynasty ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_14> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """遂州
+      PL000000035822"""@zh-Hant ;
+    rdf:predicate pth:placeOfOrigin ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_15> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "雲門宗"@zh-Hant ;
+    rdf:predicate pth:sourceNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_16> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "是"@zh-Hant ;
+    rdf:predicate pth:sourceNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_17> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """明州雪竇重顯禪師，智門光祚禪師法嗣，大鑑下第十世。從益州普安院仁詵出家，後參智門祚得法。出居吳門之洞庭，遷四明之雪竇。與瑯邪慧覺，同稱「二甘露門」。寂後仁宗賜號「明覺禪師」。有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》七集。法嗣有天衣義懷、報本有蘭等六人。
+（T51n2077_p0473c13；佛光：3985；佛名：501）"""@zh-Hant ;
+    rdf:predicate bkg:biographicalNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_18> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "字隱之，智門光祚禪師之法嗣。遂州人，俗姓李。生於太平興國五年四月八日。咸平中終父母喪，詣益州普安院仁銑師落髮。晚參隨州智門祚和尚，因扣不起一念之旨，豁然知歸。遂徧游叢席，眾所推仰。先居吳門之洞庭，遷四明之雪竇，由是雲門之道復振於江淅。都尉李侯奏章服，侍中賈公奏聞朝廷，乞賜「明覺」之號。皇祐四年六月十日示寂，壽七十三，僧臘五十夏。法語遺有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》，凡七集。法嗣有天衣義懷、報本有蘭等六人。（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉；《祖庭事苑》卷 1；《嘉泰普燈錄總目錄》卷 1）"@zh-Hant ;
+    rdf:predicate bkg:biographicalNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_19> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """佛果圜悟禪師碧巖錄(T2003)
+    佛果擊節錄(X1301)"""@zh-Hant ;
+    rdf:predicate pth:associatedWork ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_2> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "重顯"@zh-Hant ;
+    rdf:predicate rdfs:label ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_20> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """《明覺禪師後錄》一卷（收於《明覺禪師語錄》之卷二，《大正藏》T47）
+    《明覺禪師瀑泉集》一卷（即《明覺禪師語錄》六卷中之卷四，《大正藏》T47）
+    《明覺禪師祖英集》二卷（即《明覺禪師語錄》六卷中之卷五、六，《大正藏》T47）
+    《明覺禪師語錄》六卷（《大正藏》T47）
+    《雪寶和尚拈古》一卷（即《明覺禪師語錄》六卷中之卷三，《大正藏》T47）
+    《雪寶顯和尚明覺大師頌古集》一卷（《四部叢刊‧續編‧集部‧雪竇四集》）
+    《雪竇禪師語》（收於《續古尊宿語要》卷 2，《卍續藏》X68）"""@zh-Hant ;
+    rdf:predicate pth:associatedWork ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_21> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """《建中靖國續燈錄》卷 3
+    《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉
+    《祖庭事苑》卷 1
+    《補續高僧傳》卷 7
+    《釋氏稽古略》卷 4
+    勅建淨慈寺志‧卷8‧隱之重顯
+    武林梵志‧卷9‧重顯禪師
+    武林靈隱寺志‧卷3‧雪竇重顯禪師"""@zh-Hant ;
+    rdf:predicate pth:mentionedIn ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_22> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """入矢義高 1981《雪竇頌古》，東京：筑摩書房。
+    吳平 2000〈雲門宗中興之祖──雪竇重顯〉，《人生雜誌》208，頁 54-57。
+    岩永正晴 1996〈《正法眼蔵》「観音」について（二）── 雪竇・圜悟・宏智の頌古にみる「雲巌大悲菩薩」話解釈〉，《曹洞宗宗学研究所紀要》10，頁 67-82。
+    張平叔〈悟真篇外集：讀雪竇禪師祖英集〉，《民國佛教期刊文獻集成補篇》57，頁 328-329。
+    旡言〈雪竇百頌講座（續）〉，《民國佛教期刊文獻集成》204，頁 141-144。
+    旡言〈雪竇百頌講座（續三）〉，《民國佛教期刊文獻集成》204，頁 233-238。
+    旡言〈雪竇百頌講座（續二）〉，《民國佛教期刊文獻集成》204，頁 174-180。
+    旡言〈雪竇百頌講座〉，《民國佛教期刊文獻集成》204，頁 109-112。
+    李安綱 2005《雪竇重顯大師傳》（中國佛教高僧全集54），高雄縣：佛光文化事業有限公司。
+    柳田聖山 1978〈雪竇頌古の世界〉，《禅文化研究所紀要》10，頁 11-87。
+    椎名宏雄 1995〈《明覺禪師語錄》諸本の系統〉，《駒澤大學佛教學部論集》26，頁 201-234。
+    楊曾文 2002〈雪竇重顯及其禪法〉，《中國禪學》1。
+    榑林皓堂 1957〈雪竇頌古と宏智頌古〉，《日本仏教学会年報》22，頁 69-80。
+    永井政之 1972〈雪竇の語録の成立に関する一考察〉，《駒沢大学大学院仏教学研究会年報》6，頁 82-94。
+    永井政之 1973〈雪竇の語録の成立に関する一考察（二）〉，《駒沢大学大学院仏教学研究会年報》7，頁 11-20。
+    永井政之 1973〈雪竇頌古の展開について〉，《印度学仏教学研究》43，頁 140-141。
+    永井政之 1974〈雪竇の語録の成立に関する一考察（三）〉，《駒沢大学大学院仏教学研究会年報》8，頁 112-124。
+    溫金玉 1996〈雲門中興之祖──雪竇重顯禪師〉，《廣東佛教》49，頁 96-98。
+    無言 1980〈雪竇百頌講座〉，《現代佛教學術叢刊》12，臺北：大乘文化。
+    秋野孝道、安藤文英 1931《雪竇禅師頌古稱提講話》，東京：文明書院。
+    維思 1978〈宋代明州（寧波）五大和尚──永明延壽、雪竇重顯、宏智正覺、大慧宗怣、天童如淨〉，《浙江月刊》10.4，頁 35-37。
+    董群 1995〈雪竇重顯對禪學的貢獻〉，《五臺山研究》4，頁 8-12。
+    鄔介屏 1935〈雪竇一首賦簡〉，《民國佛教期刊文獻集成》62，頁 89。
+    陳平坤 2004〈雪竇重顯的「宗」「教」觀〉，《大專學生佛學論文集》14，頁 216-255。
+    雪童 1988〈雪竇高僧〉，《法音》。
+    雪菴 1935〈雪竇山中寄悔生〉，《民國佛教期刊文獻集成》45，頁 492。
+    黃繹勳 2007〈雪竇重顯禪師生平與雪竇七集之考辨〉，《臺大佛學研究》14，頁 77-117。
+    黃繹勳 2009〈《雪竇和尚住洞庭語錄》之「拈古」略探〉，《中華佛學學報》22，頁 69-96。"""@zh-Hant ;
+    rdf:predicate pth:sourceNote ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_23> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "蘇州洞庭翠峯禪寺；明州雪竇山資聖寺"@zh-Hant ;
+    rdf:predicate pth:activeAt ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_24> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """+0980-05-29
+    太平興國五年四月八日生（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）"""@zh-Hant ;
+    rdf:predicate pth:birthDateExpression ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_25> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """+1052-07-14
+    皇祐四年六月十日，壽七十三（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）"""@zh-Hant ;
+    rdf:predicate pth:deathDateExpression ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_26> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "習禪"@zh-Hant ;
+    rdf:predicate pth:occupation ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_27> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object """( CBETA T50n2062_p0915a10 ) 明高僧傳: 釋正覺傳
+    ( CBETA T50n2062_p0920b23 ) 明高僧傳: 釋法寧傳 {雪竇}
+    ( CBETA X77n1524_p0377a10 ) 補續高僧傳: 繼忠傳 {雪竇顯}
+    ( CBETA X77n1524_p0413b11 ) 補續高僧傳: 大愚芝傳 {雪竇顯}
+    ( CBETA X77n1524_p0416c01 ) 補續高僧傳: 泉大道傳 {雪竇}
+    ( CBETA X77n1524_p0416c22 ) 補續高僧傳: 雪竇顯傳 {雪竇顯}
+    ( CBETA X77n1524_p0416c23 ) 補續高僧傳: 雪竇顯傳 {隱之}
+    ( CBETA X77n1524_p0417c01 ) 補續高僧傳: 雪竇顯傳 {明覺}
+    ( CBETA X77n1524_p0418b09 ) 補續高僧傳: 開先暹傳 {雪竇顯}
+    ( CBETA X77n1524_p0418b14 ) 補續高僧傳: 開先暹傳 {雪竇}
+    ( CBETA X77n1524_p0420a09 ) 補續高僧傳: 棲賢湜傳 {雪竇顯}
+    ( CBETA X77n1524_p0423b02 ) 補續高僧傳: 天衣懷傳 {明覺}
+    ( CBETA X77n1524_p0423b18 ) 補續高僧傳: 延恩安傳 {雪竇顯}
+    ( CBETA X77n1524_p0512b01 ) 補續高僧傳: 空印軾傳 {雪竇}
+    ( CBETA X77n1524_p0524a22 ) 補續高僧傳: 太癅傳 {雪竇}
+    g010p0406(明州阿育王山志) { 雪竇 } 
+    g081p0191(清涼山志) { 雪竇 } 
+    g032p0745(徑山志) { 雪竇 }"""@zh-Hant ;
+    rdf:predicate pth:mentionedIn ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_28> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Male" ;
+    rdf:predicate pth:gender ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_29> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object pth:Monastic ;
+    rdf:predicate rdf:type ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_3> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "雪竇重顯"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_30> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object crm:E21_Person ;
+    rdf:predicate rdf:type ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_31> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "Wikidata:Q45423028" ;
+    rdf:predicate pth:externalIdentifier ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_32> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "CBDB:0033232" ;
+    rdf:predicate pth:externalIdentifier ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_33> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/4712a2bf-163b-5cad-893c-85bb0c178cae> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_1> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：049）" ;
+    pth:relationScope "DILA raw type=teacher; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_34> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/2ebe9cdd-f5fd-5eec-8334-e05f469c3b99> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_2> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：049）" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_35> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/7c37030b-3dd4-5a60-aefb-758bf15b3494> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_3> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：049）" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_36> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/ae6a1112-4707-5b6c-81c6-76704ca7b927> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_4> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：049）" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_37> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/abf4322f-a09d-5806-b29f-fd772ed69f95> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_5> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：049）" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_38> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/1a7b7a2f-36e2-54d9-9307-4a5b6a93a6c2> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_6> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：049）" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_39> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/2a084559-70a2-50f5-b993-3b13e8008827> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_7> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：049）" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_4> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "隱之"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_40> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/504049c0-6dfc-5247-ae9e-6546b1e72316> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_8> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "（望月‧卷六‧附錄：049）" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_41> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/ba816bc1-c444-5f68-bbad-781a470d56ec> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_9> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "(T51n2077_p0499b23)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_42> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/655a6b6e-79e2-5f0c-a8c2-6317addc777f> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_10> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……廣教景先禪師」(CBETA, T51, no. 2077, p. 499, a12-27)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_43> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/279b6a89-3bff-53a6-8e15-1eeb5c68963b> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_11> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……妙果自政禪師」(CBETA, T51, no. 2077, p. 499, a12-b6)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_44> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/0a879257-5d60-5b2c-a126-9c9a6fd26ebd> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_12> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……東禪賢禪師」(CBETA, T51, no. 2077, p. 499, a12-28)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_45> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/a6d0d17f-777b-57c8-9af2-1c279c70d593> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_13> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……薦福知一禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_46> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/e9ebdd7a-7811-5788-85ab-8955a328dcdc> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_14> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……海會擇芝禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_47> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/2f58836b-f7c8-53a9-9c6c-4f1f2cbe5856> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_15> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……長蘆智福禪師」(CBETA, T51, no. 2077, p. 499, a12-18)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_48> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/f7f4326e-270f-5b1c-a699-2fbaedaf45fd> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_16> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……嶽林宗善禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_49> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/19dbdd54-a354-5af4-a864-11057e6b9d76> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_17> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心守明禪師」(CBETA, T51, no. 2077, p. 499, a12-20)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_5> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "明覺重顯"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_50> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/95883cbc-9e40-5749-b06d-14cd76eb221a> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_18> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……證聖守環禪師」(CBETA, T51, no. 2077, p. 499, a12-26)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_51> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/8674c502-34ea-57eb-bbfe-66012f41cc53> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_19> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……報本有蘭禪師」(CBETA, T51, no. 2077, p. 499, a12-17)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_52> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/790d4ebc-a47d-5b29-a1c9-30911024ff08> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_20> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心清演禪師」(CBETA, T51, no. 2077, p. 499, a12-26)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_53> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/4916eee6-2640-57a6-a1d0-9fcb26673add> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_21> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明知應禪師」(CBETA, T51, no. 2077, p. 499, a12-23)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_54> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/2e825480-de7f-5b85-be74-bd9238dbdef7> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_22> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……雲峯元益首座」(CBETA, T51, no. 2077, p. 499, a12-24)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_55> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/426c1c0c-fded-5074-9950-9b7b68d254d5> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_23> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶相蘊觀禪師」(CBETA, T51, no. 2077, p. 499, a12-15)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_56> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/d4952b24-f874-5c6c-b775-4ec470f0d8df> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_24> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……萬壽慧照禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_57> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/cd418c4d-4e89-5c0b-b160-bb74a50bea20> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_25> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……上山德隆禪師」(CBETA, T51, no. 2077, p. 499, a12-28)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_58> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/2b0462c7-eef1-5c08-bdc8-0be9f053823f> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_26> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……承天傳宗禪師」(CBETA, T51, no. 2077, p. 499, a12-14)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_59> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/7cd1b93a-93ab-5128-867a-116c8a33d33b> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_27> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……龍興智傳禪師」(CBETA, T51, no. 2077, p. 499, a12-22)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_6> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "雪竇明覺"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_60> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/3ab7c8dd-43ab-5133-a600-71b1f564e52f> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_28> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……天衣在和禪師」(CBETA, T51, no. 2077, p. 499, a12-20)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_61> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/ef323ec5-30ab-5bf9-a08c-4dc0bec50b57> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_29> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……鳳棲仲卿禪師」(CBETA, T51, no. 2077, p. 499, a12-21)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_62> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/279f112c-c5a1-56f6-a5eb-364240738312> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_30> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶慶子環禪師」(CBETA, T51, no. 2077, p. 499, a12-19)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_63> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/bb4ac467-c09b-5c07-9ad6-d6e5d99adca7> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_31> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……靈巖德初禪師」(CBETA, T51, no. 2077, p. 499, a12-21)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_64> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/b15b6f94-c626-5563-9398-f1f7a3f50b66> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_32> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……湯院守恩禪師」(CBETA, T51, no. 2077, p. 499, a12-27)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_65> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/1a5b6757-4151-535d-9ac4-4386e09305f4> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_33> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……香積孜禪師」(CBETA, T51, no. 2077, p. 499, a12-19)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_66> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/93049299-4cac-5eb6-be5c-e407ede194a2> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_34> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明則禪師」(CBETA, T51, no. 2077, p. 499, a12-22)" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_67> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object <https://www.phatphaponline.org/resource/person/3b55bed6-dc65-5523-bbcb-1cf782b79ed8> ;
+    rdf:predicate pth:teacherOf ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record>,
+        <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_35> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:rationale "《雪竇寺志．卷4．惠金典座雲門宗第五世》：「師依明覺於雪竇」" ;
+    pth:relationScope "DILA raw type=student; chưa xác nhận là truyền pháp" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_7> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "明覺顯"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_8> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "明覺大師"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/assertion/97f97992-e82d-510a-ab0c-fa27b412584d/dila_9> a rdf:Statement,
+        prov:Entity,
+        pth:Assertion ;
+    rdf:object "雪竇顯"@zh-Hant ;
+    rdf:predicate skos:altLabel ;
+    rdf:subject <https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> ;
+    prov:wasDerivedFrom <https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> ;
+    pth:derivationMethod "DILA_TEI_record" ;
+    pth:status "source_asserted" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_1> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：049）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_1" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A015592" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_10> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……廣教景先禪師」(CBETA, T51, no. 2077, p. 499, a12-27)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_10" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025516" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_11> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……妙果自政禪師」(CBETA, T51, no. 2077, p. 499, a12-b6)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_11" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025517" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_12> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……東禪賢禪師」(CBETA, T51, no. 2077, p. 499, a12-28)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_12" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025518" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_13> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……薦福知一禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_13" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025519" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_14> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……海會擇芝禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_14" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025520" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_15> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……長蘆智福禪師」(CBETA, T51, no. 2077, p. 499, a12-18)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_15" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025521" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_16> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……嶽林宗善禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_16" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025524" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_17> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心守明禪師」(CBETA, T51, no. 2077, p. 499, a12-20)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_17" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025525" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_18> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……證聖守環禪師」(CBETA, T51, no. 2077, p. 499, a12-26)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_18" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025527" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_19> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……報本有蘭禪師」(CBETA, T51, no. 2077, p. 499, a12-17)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_19" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025528" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_2> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：049）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_2" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A003908" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_20> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心清演禪師」(CBETA, T51, no. 2077, p. 499, a12-26)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_20" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025531" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_21> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明知應禪師」(CBETA, T51, no. 2077, p. 499, a12-23)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_21" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025532" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_22> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……雲峯元益首座」(CBETA, T51, no. 2077, p. 499, a12-24)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_22" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025533" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_23> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶相蘊觀禪師」(CBETA, T51, no. 2077, p. 499, a12-15)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_23" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A015139" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_24> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……萬壽慧照禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_24" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025535" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_25> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……上山德隆禪師」(CBETA, T51, no. 2077, p. 499, a12-28)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_25" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025536" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_26> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……承天傳宗禪師」(CBETA, T51, no. 2077, p. 499, a12-14)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_26" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025537" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_27> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……龍興智傳禪師」(CBETA, T51, no. 2077, p. 499, a12-22)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_27" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A014406" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_28> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……天衣在和禪師」(CBETA, T51, no. 2077, p. 499, a12-20)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_28" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025543" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_29> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……鳳棲仲卿禪師」(CBETA, T51, no. 2077, p. 499, a12-21)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_29" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025545" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_3> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：049）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_3" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A021005" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_30> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶慶子環禪師」(CBETA, T51, no. 2077, p. 499, a12-19)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_30" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025547" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_31> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……靈巖德初禪師」(CBETA, T51, no. 2077, p. 499, a12-21)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_31" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025548" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_32> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……湯院守恩禪師」(CBETA, T51, no. 2077, p. 499, a12-27)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_32" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025549" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_33> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……香積孜禪師」(CBETA, T51, no. 2077, p. 499, a12-19)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_33" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025550" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_34> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明則禪師」(CBETA, T51, no. 2077, p. 499, a12-22)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_34" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A025551" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_35> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "《雪竇寺志．卷4．惠金典座雲門宗第五世》：「師依明覺於雪竇」" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_35" ;
+    foaf:page <http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=y125%26cpage=0156> ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A045421" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_4> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：049）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_4" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A021006" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_5> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：049）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_5" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A021007" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_6> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：049）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_6" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A021008" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_7> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：049）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_7" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A021009" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_8> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "（望月‧卷六‧附錄：049）" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_8" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A021010" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/relation_9> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "(T51n2077_p0499b23)" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "relation_9" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885:A021951" .
+
+<https://www.phatphaponline.org/resource/person/97f97992-e82d-510a-ab0c-fa27b412584d> a pth:Person ;
+    pth:displayName "重顯"@zh-Hant ;
+    pth:editorialEntityType "Monastic" .
+
+<https://www.phatphaponline.org/resource/source-record/97f97992-e82d-510a-ab0c-fa27b412584d/dila_record> a prov:Entity,
+        pth:SourceRecord ;
+    dcterms:bibliographicCitation "DILA TEI person xml:id=A000885" ;
+    dcterms:hasVersion "2026-09" ;
+    dcterms:identifier "dila_record" ;
+    foaf:page <https://authority.dila.edu.tw/person/search.php?aid=A000885> ;
+    pth:datasetUrl <https://github.com/DILA-edu/Authority-Databases> ;
+    pth:retrievedAt "2026-10-03T15:37:00.736894+00:00" ;
+    pth:rightsStatus "pending_registry_review" ;
+    pth:sha256 "3b8f921eb8dd2487fac1bb24362979c6b3c521add53e29aecb4fd65b462c7d49" ;
+    pth:sourceCode "DILA" ;
+    pth:sourceRecordId "A000885" ;
+    pth:sourceSnapshot "{\"names\": [{\"language\": \"zho-Hant\", \"text\": \"重顯\", \"type\": \"primary\"}, {\"language\": \"zho-Hant\", \"text\": \"雪竇重顯\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"隱之\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"明覺重顯\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"雪竇明覺\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"明覺顯\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"明覺大師\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"雪竇顯\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"明覺\", \"type\": \"alternative\"}, {\"language\": \"zho-Hant\", \"text\": \"雪竇\", \"type\": \"alternative\"}], \"xml\": \"<ns0:person xmlns:ns0=\\\"http://www.tei-c.org/ns/1.0\\\" xml:id=\\\"A000885\\\" ana=\\\"historical\\\">\\n  <ns0:persName xml:lang=\\\"zho-Hant\\\">重顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">雪竇重顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">隱之</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">明覺重顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">雪竇明覺</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">明覺顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">明覺大師</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">雪竇顯</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">明覺</ns0:persName>\\n  <ns0:persName type=\\\"alternative\\\" xml:lang=\\\"zho-Hant\\\">雪竇</ns0:persName>\\n  <ns0:sex value=\\\"1\\\" />\\n  <ns0:birth>\\n    +0980-05-29\\n    <ns0:note>太平興國五年四月八日生（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）</ns0:note>\\n  </ns0:birth>\\n  <ns0:death>\\n    +1052-07-14\\n    <ns0:note>皇祐四年六月十日，壽七十三（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉）</ns0:note>\\n  </ns0:death>\\n  <ns0:note type=\\\"birthDeathDateQuote\\\">生於：北宋, 太宗, 太平興國, 五年, 四月, 初八日</ns0:note>\\n  <ns0:note type=\\\"dynasty\\\">\\n    北宋\\n  </ns0:note>\\n  <ns0:occupation>習禪</ns0:occupation>\\n  <ns0:note type=\\\"placeOfOrigin\\\">\\n    <ns0:placeName>遂州\\n      <ns0:ref target=\\\"http://authority.dila.edu.tw/place/\\\">PL000000035822</ns0:ref>\\n    </ns0:placeName>\\n  </ns0:note>\\n  <ns0:note type=\\\"sect\\\">雲門宗 </ns0:note>\\n  <ns0:note type=\\\"monk\\\">是</ns0:note>\\n  <ns0:note type=\\\"concise\\\">明州雪竇重顯禪師，智門光祚禪師法嗣，大鑑下第十世。從益州普安院仁詵出家，後參智門祚得法。出居吳門之洞庭，遷四明之雪竇。與瑯邪慧覺，同稱「二甘露門」。寂後仁宗賜號「明覺禪師」。有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》七集。法嗣有天衣義懷、報本有蘭等六人。\\n（T51n2077_p0473c13；佛光：3985；佛名：501）</ns0:note>\\n  <ns0:note type=\\\"extensive\\\">字隱之，智門光祚禪師之法嗣。遂州人，俗姓李。生於太平興國五年四月八日。咸平中終父母喪，詣益州普安院仁銑師落髮。晚參隨州智門祚和尚，因扣不起一念之旨，豁然知歸。遂徧游叢席，眾所推仰。先居吳門之洞庭，遷四明之雪竇，由是雲門之道復振於江淅。都尉李侯奏章服，侍中賈公奏聞朝廷，乞賜「明覺」之號。皇祐四年六月十日示寂，壽七十三，僧臘五十夏。法語遺有《洞庭語錄》、《雪竇開堂錄》、《瀑泉集》、《祖英集》、《頌古集》、《拈古集》、《雪竇後錄》，凡七集。法嗣有天衣義懷、報本有蘭等六人。（《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉；《祖庭事苑》卷 1；《嘉泰普燈錄總目錄》卷 1）</ns0:note>\\n\\n  <ns0:listRelation>\\n    <ns0:relation type=\\\"teacher\\\" active=\\\"A015592\\\" n=\\\"光祚\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A003908\\\" n=\\\"義懷\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021005\\\" n=\\\"法宗\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021006\\\" n=\\\"省倧\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021007\\\" n=\\\"日慎\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021008\\\" n=\\\"顯昇\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021009\\\" n=\\\"慧金\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021010\\\" n=\\\"曾會\\\">\\n      <ns0:desc>\\n        <ns0:bibl>（望月‧卷六‧附錄：049）</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A021951\\\" n=\\\" 省宗\\\">\\n      <ns0:desc>\\n        <ns0:bibl>(T51n2077_p0499b23)</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025516\\\" n=\\\"景先\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……廣教景先禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025517\\\" n=\\\"自政\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……妙果自政禪師」(CBETA, T51, no. 2077, p. 499, a12-b6)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025518\\\" n=\\\"東禪賢\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……東禪賢禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025519\\\" n=\\\"知一\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……薦福知一禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025520\\\" n=\\\"擇芝\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……海會擇芝禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025521\\\" n=\\\"智福\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……長蘆智福禪師」(CBETA, T51, no. 2077, p. 499, a12-18)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025524\\\" n=\\\"宗善\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……嶽林宗善禪師」(CBETA, T51, no. 2077, p. 499, a12-b4)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025525\\\" n=\\\"守明\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心守明禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025527\\\" n=\\\"守環\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……證聖守環禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025528\\\" n=\\\"有蘭\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……報本有蘭禪師」(CBETA, T51, no. 2077, p. 499, a12-17)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025531\\\" n=\\\"清演\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……稱心清演禪師」(CBETA, T51, no. 2077, p. 499, a12-26)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025532\\\" n=\\\"知應\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明知應禪師」(CBETA, T51, no. 2077, p. 499, a12-23)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025533\\\" n=\\\"元益\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……雲峯元益首座」(CBETA, T51, no. 2077, p. 499, a12-24)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A015139\\\" n=\\\"蘊觀\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶相蘊觀禪師」(CBETA, T51, no. 2077, p. 499, a12-15)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025535\\\" n=\\\"慧照\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……萬壽慧照禪師」(CBETA, T51, no. 2077, p. 499, a12-b5)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025536\\\" n=\\\"德隆\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……上山德隆禪師」(CBETA, T51, no. 2077, p. 499, a12-28)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025537\\\" n=\\\"傳宗\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……承天傳宗禪師」(CBETA, T51, no. 2077, p. 499, a12-14)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A014406\\\" n=\\\"智傳\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……龍興智傳禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025543\\\" n=\\\"在和\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……天衣在和禪師」(CBETA, T51, no. 2077, p. 499, a12-20)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025545\\\" n=\\\"仲卿\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……鳳棲仲卿禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025547\\\" n=\\\"子環\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……寶慶子環禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025548\\\" n=\\\"德初\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……靈巖德初禪師」(CBETA, T51, no. 2077, p. 499, a12-21)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025549\\\" n=\\\"守恩\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……湯院守恩禪師」(CBETA, T51, no. 2077, p. 499, a12-27)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025550\\\" n=\\\"六合香積孜\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……香積孜禪師」(CBETA, T51, no. 2077, p. 499, a12-19)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A025551\\\" n=\\\"乾明則\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《續傳燈錄》卷5：「雪竇顯禪師法嗣……乾明則禪師」(CBETA, T51, no. 2077, p. 499, a12-22)\\n</ns0:bibl>\\n      </ns0:desc>\\n    </ns0:relation>\\n    <ns0:relation type=\\\"student\\\" active=\\\"A045421\\\" n=\\\"惠金\\\">\\n      <ns0:desc>\\n        <ns0:bibl>《雪竇寺志．卷4．惠金典座雲門宗第五世》：「師依明覺於雪竇」</ns0:bibl>\\n        <ns0:ref type=\\\"url\\\">http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=y125%26cpage=0156</ns0:ref>\\n      </ns0:desc>\\n    </ns0:relation>\\n  </ns0:listRelation>\\n  <ns0:listBibl>\\n    <ns0:bibl>( CBETA T50n2062_p0915a10 ) 明高僧傳: 釋正覺傳</ns0:bibl>\\n    <ns0:bibl>( CBETA T50n2062_p0920b23 ) 明高僧傳: 釋法寧傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0377a10 ) 補續高僧傳: 繼忠傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0413b11 ) 補續高僧傳: 大愚芝傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0416c01 ) 補續高僧傳: 泉大道傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0416c22 ) 補續高僧傳: 雪竇顯傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0416c23 ) 補續高僧傳: 雪竇顯傳 {隱之}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0417c01 ) 補續高僧傳: 雪竇顯傳 {明覺}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0418b09 ) 補續高僧傳: 開先暹傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0418b14 ) 補續高僧傳: 開先暹傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0420a09 ) 補續高僧傳: 棲賢湜傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0423b02 ) 補續高僧傳: 天衣懷傳 {明覺}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0423b18 ) 補續高僧傳: 延恩安傳 {雪竇顯}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0512b01 ) 補續高僧傳: 空印軾傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl>( CBETA X77n1524_p0524a22 ) 補續高僧傳: 太癅傳 {雪竇}</ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g010%26cpage=0406%26target=A000885\\\">g010p0406(明州阿育王山志) { 雪竇 } </ns0:ref></ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g081%26cpage=0191%26target=A000885\\\">g081p0191(清涼山志) { 雪竇 } </ns0:ref></ns0:bibl>\\n    <ns0:bibl><ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g032%26cpage=0745%26target=A000885\\\">g032p0745(徑山志) { 雪竇 } </ns0:ref></ns0:bibl>\\n  </ns0:listBibl>\\n  <ns0:note type=\\\"worksInTripitaka\\\">\\n    佛果圜悟禪師碧巖錄(T2003)\\n    佛果擊節錄(X1301)\\n  </ns0:note>\\n  <ns0:note type=\\\"worksBy\\\">\\n    《明覺禪師後錄》一卷（收於《明覺禪師語錄》之卷二，《大正藏》T47）\\n    《明覺禪師瀑泉集》一卷（即《明覺禪師語錄》六卷中之卷四，《大正藏》T47）\\n    《明覺禪師祖英集》二卷（即《明覺禪師語錄》六卷中之卷五、六，《大正藏》T47）\\n    《明覺禪師語錄》六卷（《大正藏》T47）\\n    《雪寶和尚拈古》一卷（即《明覺禪師語錄》六卷中之卷三，《大正藏》T47）\\n    《雪寶顯和尚明覺大師頌古集》一卷（《四部叢刊‧續編‧集部‧雪竇四集》）\\n    《雪竇禪師語》（收於《續古尊宿語要》卷 2，《卍續藏》X68）\\n  </ns0:note>\\n  <ns0:note type=\\\"mentionedIn\\\">\\n    《建中靖國續燈錄》卷 3\\n    《明覺禪師語錄》卷 6〈明州雪竇山資聖寺第六祖明覺大師塔銘〉\\n    《祖庭事苑》卷 1\\n    《補續高僧傳》卷 7\\n    《釋氏稽古略》卷 4\\n    <ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g016%26cpage=0551\\\">勅建淨慈寺志‧卷8‧隱之重顯</ns0:ref>\\n    <ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g007%26cpage=0747\\\">武林梵志‧卷9‧重顯禪師</ns0:ref>\\n    <ns0:ref target=\\\"http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g021%26cpage=0148\\\">武林靈隱寺志‧卷3‧雪竇重顯禪師</ns0:ref>\\n  </ns0:note>\\n  <ns0:note type=\\\"secondaryLit\\\">\\n    入矢義高 1981《雪竇頌古》，東京：筑摩書房。\\n    吳平 2000〈雲門宗中興之祖──雪竇重顯〉，《人生雜誌》208，頁 54-57。\\n    岩永正晴 1996〈《正法眼蔵》「観音」について（二）── 雪竇・圜悟・宏智の頌古にみる「雲巌大悲菩薩」話解釈〉，《曹洞宗宗学研究所紀要》10，頁 67-82。\\n    張平叔〈悟真篇外集：讀雪竇禪師祖英集〉，《民國佛教期刊文獻集成補篇》57，頁 328-329。\\n    旡言〈雪竇百頌講座（續）〉，《民國佛教期刊文獻集成》204，頁 141-144。\\n    旡言〈雪竇百頌講座（續三）〉，《民國佛教期刊文獻集成》204，頁 233-238。\\n    旡言〈雪竇百頌講座（續二）〉，《民國佛教期刊文獻集成》204，頁 174-180。\\n    旡言〈雪竇百頌講座〉，《民國佛教期刊文獻集成》204，頁 109-112。\\n    李安綱 2005《雪竇重顯大師傳》（中國佛教高僧全集54），高雄縣：佛光文化事業有限公司。\\n    柳田聖山 1978〈雪竇頌古の世界〉，《禅文化研究所紀要》10，頁 11-87。\\n    椎名宏雄 1995〈《明覺禪師語錄》諸本の系統〉，《駒澤大學佛教學部論集》26，頁 201-234。\\n    楊曾文 2002〈雪竇重顯及其禪法〉，《中國禪學》1。\\n    榑林皓堂 1957〈雪竇頌古と宏智頌古〉，《日本仏教学会年報》22，頁 69-80。\\n    永井政之 1972〈雪竇の語録の成立に関する一考察〉，《駒沢大学大学院仏教学研究会年報》6，頁 82-94。\\n    永井政之 1973〈雪竇の語録の成立に関する一考察（二）〉，《駒沢大学大学院仏教学研究会年報》7，頁 11-20。\\n    永井政之 1973〈雪竇頌古の展開について〉，《印度学仏教学研究》43，頁 140-141。\\n    永井政之 1974〈雪竇の語録の成立に関する一考察（三）〉，《駒沢大学大学院仏教学研究会年報》8，頁 112-124。\\n    溫金玉 1996〈雲門中興之祖──雪竇重顯禪師〉，《廣東佛教》49，頁 96-98。\\n    無言 1980〈雪竇百頌講座〉，《現代佛教學術叢刊》12，臺北：大乘文化。\\n    秋野孝道、安藤文英 1931《雪竇禅師頌古稱提講話》，東京：文明書院。\\n    維思 1978〈宋代明州（寧波）五大和尚──永明延壽、雪竇重顯、宏智正覺、大慧宗怣、天童如淨〉，《浙江月刊》10.4，頁 35-37。\\n    <ns0:ref target=\\\"http://wtsy.chinajournal.net.cn/\\\">董群 1995〈雪竇重顯對禪學的貢獻〉，《五臺山研究》4，頁 8-12。</ns0:ref>\\n    鄔介屏 1935〈雪竇一首賦簡〉，《民國佛教期刊文獻集成》62，頁 89。\\n    陳平坤 2004〈雪竇重顯的「宗」「教」觀〉，《大專學生佛學論文集》14，頁 216-255。\\n    雪童 1988〈雪竇高僧〉，《法音》。\\n    雪菴 1935〈雪竇山中寄悔生〉，《民國佛教期刊文獻集成》45，頁 492。\\n    <ns0:ref target=\\\"http://enlight.lib.ntu.edu.tw/FULLTEXT/JR-BJ010/bj010156127.pdf\\\">黃繹勳 2007〈雪竇重顯禪師生平與雪竇七集之考辨〉，《臺大佛學研究》14，頁 77-117。</ns0:ref>\\n    <ns0:ref target=\\\"http://www.chibs.edu.tw/publication/chbj/22/0619hwung.pdf\\\">黃繹勳 2009〈《雪竇和尚住洞庭語錄》之「拈古」略探〉，《中華佛學學報》22，頁 69-96。</ns0:ref>\\n  </ns0:note>\\n  <ns0:note type=\\\"activeAt\\\">蘇州洞庭翠峯禪寺；明州雪竇山資聖寺</ns0:note>\\n  <ns0:idno type=\\\"Wikidata\\\">Q45423028</ns0:idno>\\n  <ns0:idno type=\\\"CBDB\\\">0033232</ns0:idno>\\n</ns0:person>\\n\"}"^^rdf:JSON .
+

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Về Dự Án — Đạo Ảnh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg:       #F2F0EC;
+  --bg2:      #ECEAE6;
+  --surface:  #FFFFFF;
+  --border:   #DDD8CE;
+  --gold:     #B8941E;
+  --gold-dim: rgba(184,148,30,0.10);
+  --gold-glow:rgba(184,148,30,0.22);
+  --amethyst: #7B64CC;
+  --text-hi:  #1A1E28;
+  --text-mid: #4A5160;
+  --text-lo:  #8A909E;
+  --shadow:   0 2px 12px rgba(0,0,0,0.08);
+  --r:        12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #070C14; --bg2: #0A1120; --surface: #0F1824; --border: #1D2C3D;
+    --gold: #C8A84B; --gold-dim: rgba(200,168,75,0.12); --gold-glow: rgba(200,168,75,0.25);
+    --amethyst: #9E8CDB; --text-hi: #EDF0F3; --text-mid: #A0ACBA; --text-lo: #5A6680;
+    --shadow: 0 2px 16px rgba(0,0,0,0.4);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #070C14; --bg2: #0A1120; --surface: #0F1824; --border: #1D2C3D;
+  --gold: #C8A84B; --gold-dim: rgba(200,168,75,0.12); --gold-glow: rgba(200,168,75,0.25);
+  --amethyst: #9E8CDB; --text-hi: #EDF0F3; --text-mid: #A0ACBA; --text-lo: #5A6680;
+  --shadow: 0 2px 16px rgba(0,0,0,0.4);
+}
+:root[data-theme="light"] {
+  --bg: #F2F0EC; --bg2: #ECEAE6; --surface: #FFFFFF; --border: #DDD8CE;
+  --gold: #B8941E; --text-hi: #1A1E28; --text-mid: #4A5160; --text-lo: #8A909E;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg); color: var(--text-hi);
+  font-size: 15px; line-height: 1.6;
+}
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.hd {
+  position: sticky; top: 0; z-index: 100;
+  height: 56px; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 24px; gap: 24px;
+  backdrop-filter: blur(12px);
+}
+.hd-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+.hd-logo-mark {
+  width: 32px; height: 32px; background: var(--gold); border-radius: 8px;
+  font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 16px;
+  color: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.hd-logo-text { font-weight: 600; font-size: 15px; color: var(--text-hi); }
+.hd-spacer { flex: 1; }
+.hd-badge {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--text-lo); text-transform: uppercase;
+}
+.hd-theme-btn {
+  width: 34px; height: 34px; border-radius: 8px; background: none;
+  border: 1px solid var(--border); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-lo); transition: color 0.15s, border-color 0.15s; flex-shrink: 0;
+}
+.hd-theme-btn:hover { color: var(--gold); border-color: var(--gold); }
+.hd-theme-btn svg { width: 16px; height: 16px; }
+
+.pg-hero {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 64px 24px 56px; text-align: center;
+}
+.pg-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px;
+}
+.pg-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(28px, 5vw, 44px); font-weight: 700; color: var(--text-hi);
+  line-height: 1.2; text-wrap: balance; margin-bottom: 10px;
+}
+.pg-sub {
+  font-size: 16px; color: var(--text-mid);
+  max-width: 560px; margin: 0 auto 18px; line-height: 1.6;
+}
+.pg-quote { font-family: 'Noto Serif SC', serif; font-style: italic; font-size: 15px; color: var(--gold); }
+
+.page-layout {
+  display: flex; align-items: flex-start;
+  max-width: 1080px; margin: 0 auto; padding: 0 24px;
+}
+.toc {
+  position: sticky; top: 72px; width: 200px; flex-shrink: 0;
+  padding: 32px 0; margin-right: 40px;
+}
+.toc-title {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-lo); margin-bottom: 12px;
+}
+.toc a {
+  display: block; font-size: 12.5px; color: var(--text-lo);
+  padding: 5px 0 5px 12px; margin-bottom: 2px;
+  border-left: 2px solid var(--border);
+  transition: color 0.15s, border-color 0.15s; text-decoration: none;
+}
+.toc a:hover, .toc a.active { color: var(--gold); border-left-color: var(--gold); }
+@media (max-width: 720px) { .toc { display: none; } .page-layout { padding: 0 16px; } }
+
+.pg-body { flex: 1; min-width: 0; padding: 48px 0 80px; }
+
+.sec-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 6px;
+}
+.sec-title {
+  font-family: 'Noto Serif SC', serif; font-size: 20px; font-weight: 700;
+  color: var(--text-hi); margin-bottom: 14px;
+}
+.sec-body { color: var(--text-mid); font-size: 14.5px; line-height: 1.8; margin-bottom: 24px; }
+.sec-divider { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+.card-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px; margin-bottom: 32px;
+}
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 18px 20px; box-shadow: var(--shadow);
+}
+.card-icon { font-size: 20px; margin-bottom: 8px; }
+.card-num { font-weight: 700; font-size: 18px; color: var(--text-hi); margin-bottom: 4px; }
+.card-desc { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
+
+.philosophy-block {
+  background: var(--gold-dim); border: 1px solid var(--gold-glow);
+  border-radius: var(--r); padding: 28px 32px; margin-bottom: 32px;
+}
+.philosophy-block p { color: var(--text-mid); font-size: 14.5px; line-height: 1.8; margin-bottom: 12px; }
+.philosophy-block p:last-child { margin-bottom: 0; }
+.philosophy-quote {
+  font-family: 'Noto Serif SC', serif; font-style: italic; font-size: 15px;
+  color: var(--gold); text-align: center; padding: 12px 0 4px;
+}
+.pth-badge {
+  text-align: center; margin-top: 16px; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-lo);
+}
+
+.obj-list { list-style: none; padding: 0; margin-bottom: 24px; }
+.obj-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  font-size: 14px; color: var(--text-mid);
+}
+.obj-list li:last-child { border-bottom: none; }
+.obj-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0; margin-top: 7px;
+}
+
+.phase-header {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--amethyst); margin: 24px 0 10px;
+}
+.roadmap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+@media (max-width: 560px) { .roadmap-grid { grid-template-columns: 1fr; } }
+.rm-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start;
+}
+.rm-num { font-size: 11px; font-weight: 700; color: var(--text-lo); flex-shrink: 0; min-width: 22px; padding-top: 1px; }
+.rm-num.done { color: var(--gold); }
+.rm-title { font-weight: 600; font-size: 13px; color: var(--text-hi); margin-bottom: 3px; }
+.rm-tag { font-size: 11px; color: var(--text-lo); font-family: monospace; }
+
+.src-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.src-table th {
+  text-align: left; padding: 9px 14px; background: var(--bg2); color: var(--text-mid);
+  font-weight: 600; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase;
+  border-bottom: 2px solid var(--border); white-space: nowrap;
+}
+.src-table td {
+  padding: 11px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text-mid); vertical-align: top;
+}
+.src-table tr:last-child td { border-bottom: none; }
+.src-table td:first-child { color: var(--text-hi); font-weight: 600; white-space: nowrap; }
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+  background: var(--gold-dim); color: var(--gold); white-space: nowrap;
+}
+.badge-cc0 { background: rgba(34,197,94,0.12); color: #16a34a; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .badge-cc0 { color: #4ade80; } }
+:root[data-theme="dark"] .badge-cc0 { color: #4ade80; }
+
+.license-block {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 16px 20px; margin-bottom: 12px;
+}
+.license-block h4 { font-size: 13px; font-weight: 600; color: var(--text-hi); margin-bottom: 6px; }
+.license-block p { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+
+.terms-section { margin-bottom: 20px; }
+.terms-section h4 {
+  font-size: 13px; font-weight: 700; color: var(--text-hi); margin-bottom: 8px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.terms-section p, .terms-section li { font-size: 13.5px; color: var(--text-mid); line-height: 1.75; }
+.terms-section ul { padding-left: 20px; margin-top: 6px; }
+.terms-section li { margin-bottom: 4px; }
+
+.contact-block {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 24px 28px; box-shadow: var(--shadow);
+}
+.contact-block p { color: var(--text-mid); font-size: 14px; margin-bottom: 12px; }
+.contact-block p:last-child { margin-bottom: 0; }
+.contact-block strong { color: var(--text-hi); }
+
+.ft { border-top: 1px solid var(--border); padding: 20px 24px; text-align: center; font-size: 12px; color: var(--text-lo); }
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <a class="hd-logo" href="/daoanh/home.html">
+    <div class="hd-logo-mark">道</div>
+    <div><div class="hd-logo-text">Đạo Ảnh</div></div>
+  </a>
+  <div class="hd-spacer"></div>
+  <span class="hd-badge">Phật Tổ Đạo Ảnh</span>
+  <button class="hd-theme-btn" id="themeBtn" title="Đổi sáng/tối" aria-label="Toggle theme">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="10" cy="10" r="4"/>
+      <path d="M10 2v1.5M10 16.5V18M2 10h1.5M16.5 10H18M4.5 4.5l1 1M14.5 14.5l1 1M4.5 15.5l1-1M14.5 5.5l1-1" stroke-linecap="round"/>
+    </svg>
+  </button>
+</header>
+
+<div class="pg-hero">
+  <div class="pg-eyebrow">Phật Tổ Đạo Ảnh · Hệ Sinh Thái Puzzle Đại Tạng Kinh</div>
+  <h1 class="pg-title">Về Dự Án</h1>
+  <p class="pg-sub">Tích hợp kho tri thức Phật giáo quốc tế vào một nền tảng tra cứu thống nhất bằng tiếng Việt — địa danh, kinh điển và tăng nhân xuyên 2.500 năm lịch sử</p>
+  <p class="pg-quote">"Khớp nối tri thức — Truyền tải tâm linh."</p>
+</div>
+
+<div class="page-layout">
+  <nav class="toc" aria-label="Mục lục">
+    <div class="toc-title">Mục lục</div>
+    <a href="#gioi-thieu">Giới thiệu</a>
+    <a href="#triet-ly">Triết lý Mảnh Ghép</a>
+    <a href="#muc-tieu">Mục tiêu</a>
+    <a href="#lo-trinh">Lộ trình chiến lược</a>
+    <a href="#nguon-du-lieu">Nguồn dữ liệu</a>
+    <a href="#dieu-khoan">Điều khoản sử dụng</a>
+    <a href="#lien-he">Liên hệ</a>
+  </nav>
+
+  <main class="pg-body">
+
+    <section id="gioi-thieu">
+      <div class="sec-label">Tổng quan</div>
+      <h2 class="sec-title">Đạo Ảnh là gì?</h2>
+      <p class="sec-body">
+        <strong style="color:var(--text-hi)">Đạo Ảnh</strong> (道影) là hệ thống tra cứu dữ liệu Phật học số hóa,
+        xây dựng nhằm tích hợp các nguồn dữ liệu học thuật quốc tế vào một giao diện tra cứu thống nhất bằng tiếng Việt.
+        Dự án kết hợp dữ liệu địa lý từ DILA BGIS, kinh điển Hán văn từ CBETA, mạng lưới tăng nhân từ Marcus SNA
+        và hệ thống dịch thuật AI — cho phép nghiên cứu viên và người tu học khám phá lịch sử Phật giáo từ nhiều chiều.
+      </p>
+      <div class="card-grid">
+        <div class="card"><div class="card-icon">🗺</div><div class="card-num">59,167</div><div class="card-desc">địa danh Phật giáo — tự viện, hang đá, tháp, thánh địa từ DILA BGIS</div></div>
+        <div class="card"><div class="card-icon">📖</div><div class="card-num">13,520</div><div class="card-desc">mục kinh điển Hán văn Đại Chính Tạng và các tạng khác từ CBETA</div></div>
+        <div class="card"><div class="card-icon">🧘</div><div class="card-num">48,673</div><div class="card-desc">hồ sơ tăng nhân — cao tăng, thiền sư, tổ sư từ DILA Person Authority</div></div>
+        <div class="card"><div class="card-icon">🌿</div><div class="card-num">2,000+</div><div class="card-desc">hồ sơ phả hệ truyền thừa — pháp mạch và quan hệ sư-đệ từ Marcus SNA</div></div>
+      </div>
+    </section>
+
+    <hr class="sec-divider">
+
+    <section id="triet-ly">
+      <div class="sec-label">Sứ mệnh</div>
+      <h2 class="sec-title">Triết lý "Mảnh Ghép"</h2>
+      <div class="philosophy-block">
+        <p>Chúng tôi không xây dựng một phần mềm rời rạc — chúng tôi kiến tạo các <strong style="color:var(--text-hi)">Mảnh Ghép Tri Thức</strong>. Mỗi nhân vật, mỗi địa danh, mỗi dòng kinh văn là một mảnh ghép quan trọng trong bức tranh toàn cảnh 2.500 năm lịch sử Phật giáo.</p>
+        <p>Khi được khớp nối bằng sức mạnh của trí tuệ nhân tạo và bản đồ số, những mảnh ghép ấy tái hiện hành trình hoằng pháp từ Ấn Độ qua Trung Á, Trung Hoa cho đến Đông Nam Á — một cách chân thực và có thể kiểm chứng. Dự án là "cây cầu tri thức" hiện đại, giúp xóa nhòa khoảng cách giữa kho tàng kinh điển đồ sộ và người dùng đương đại Việt Nam.</p>
+        <p><strong style="color:var(--text-hi)">ZQ Adapter Hub</strong> — vai trò cốt lõi của dự án — là đơn vị duy nhất thực hiện Việt hóa dữ liệu từ các kho học thuật quốc tế (DILA, CBETA, MARCUS). Không có ZQ, người dùng Việt buộc phải biết tên Hán mới tra cứu được.</p>
+        <div class="philosophy-quote">"Puzzle: Khớp nối tri thức — Truyền tải tâm linh."</div>
+        <div class="pth-badge">Vận hành bởi Pháp Thí Hội</div>
+      </div>
+    </section>
+
+    <hr class="sec-divider">
+
+    <section id="muc-tieu">
+      <div class="sec-label">Định hướng</div>
+      <h2 class="sec-title">Mục tiêu nghiên cứu</h2>
+      <p class="sec-body">Dự án phục vụ cộng đồng Phật học tiếng Việt — từ học giả, sinh viên đến người thực hành — với các mục tiêu cụ thể:</p>
+      <ul class="obj-list">
+        <li><span class="obj-dot"></span><span>Tra cứu địa danh Phật giáo lịch sử qua bản đồ GIS tương tác</span></li>
+        <li><span class="obj-dot"></span><span>Tìm kiếm kinh điển theo tên, tác giả, triều đại, tông phái</span></li>
+        <li><span class="obj-dot"></span><span>Khám phá mạng lưới sư-đệ và đồ thị truyền thừa pháp mạch</span></li>
+        <li><span class="obj-dot"></span><span>Liên kết chéo giữa địa danh, tăng nhân và kinh điển cùng thời kỳ</span></li>
+        <li><span class="obj-dot"></span><span>Dịch thuật AI học thuật Hán–Việt theo chuẩn Phật học Hán truyền</span></li>
+        <li><span class="obj-dot"></span><span>Cung cấp API mở cho nghiên cứu học thuật độc lập</span></li>
+        <li><span class="obj-dot"></span><span>Tích lũy kho dịch thuật DILA bền vững — từng bản dịch người dùng tra là một mảnh ghép vào corpus tiếng Việt</span></li>
+      </ul>
+    </section>
+
+    <hr class="sec-divider">
+
+    <section id="lo-trinh">
+      <div class="sec-label">Kế hoạch</div>
+      <h2 class="sec-title">Lộ Trình Chiến Lược — 28 Chương</h2>
+      <p class="sec-body">Đề án thực thi chiến lược dài hạn chia làm 4 giai đoạn, bao quát toàn bộ vòng đời của nền tảng từ xây dựng nền tảng đến sẵn sàng cho kỷ nguyên mới.</p>
+
+      <div class="phase-header">Giai đoạn I — Xây dựng nền tảng (Chương 1–7)</div>
+      <div class="roadmap-grid">
+        <div class="rm-card"><span class="rm-num done">✓</span><div><div class="rm-title">Tầm nhìn 2.500 năm</div><div class="rm-tag">KHỚP NỐI & THỰC THI</div></div></div>
+        <div class="rm-card"><span class="rm-num done">✓</span><div><div class="rm-title">Hành trình số hóa văn bản</div><div class="rm-tag">ETL & BÓC TÁCH</div></div></div>
+        <div class="rm-card"><span class="rm-num">03</span><div><div class="rm-title">Xây dựng Tủ sách thông minh</div><div class="rm-tag">NOSQL & STORAGE</div></div></div>
+        <div class="rm-card"><span class="rm-num">04</span><div><div class="rm-title">Kiến trúc Bộ não AI</div><div class="rm-tag">AI & NLP</div></div></div>
+        <div class="rm-card"><span class="rm-num done">✓</span><div><div class="rm-title">Bản đồ Đồ thị Tri thức</div><div class="rm-tag">KNOWLEDGE GRAPH</div></div></div>
+        <div class="rm-card"><span class="rm-num done">✓</span><div><div class="rm-title">Hệ thống Hỏi đáp thông minh</div><div class="rm-tag">RAG & GROUNDING</div></div></div>
+        <div class="rm-card"><span class="rm-num">07</span><div><div class="rm-title">Giao diện và Cổng kết nối</div><div class="rm-tag">UI & API</div></div></div>
+      </div>
+
+      <div class="phase-header">Giai đoạn II — Trí tuệ & Trải nghiệm (Chương 8–14)</div>
+      <div class="roadmap-grid">
+        <div class="rm-card"><span class="rm-num done">✓</span><div><div class="rm-title">Trợ lý Chatbot Phật học</div><div class="rm-tag">CHATBOT & LLM</div></div></div>
+        <div class="rm-card"><span class="rm-num">09</span><div><div class="rm-title">Công cụ Nghiên cứu Nâng cao</div><div class="rm-tag">SEMANTIC SEARCH</div></div></div>
+        <div class="rm-card"><span class="rm-num">10</span><div><div class="rm-title">Ứng dụng Học tập Tương tác</div><div class="rm-tag">GAMIFICATION</div></div></div>
+        <div class="rm-card"><span class="rm-num">11</span><div><div class="rm-title">Mở rộng và Bảo trì</div><div class="rm-tag">DEVOPS & SCALE</div></div></div>
+        <div class="rm-card"><span class="rm-num">12</span><div><div class="rm-title">Vượt qua rào cản ngôn ngữ</div><div class="rm-tag">NLU & CONTEXT</div></div></div>
+        <div class="rm-card"><span class="rm-num">13</span><div><div class="rm-title">Cộng đồng và Hợp tác</div><div class="rm-tag">COMMUNITY</div></div></div>
+        <div class="rm-card"><span class="rm-num">14</span><div><div class="rm-title">Ứng dụng Phân tích Hình ảnh</div><div class="rm-tag">COMPUTER VISION</div></div></div>
+      </div>
+
+      <div class="phase-header">Giai đoạn III — Nhân sự & Tài chính (Chương 15–21)</div>
+      <div class="roadmap-grid">
+        <div class="rm-card"><span class="rm-num">15</span><div><div class="rm-title">Đội ngũ và Cố vấn</div><div class="rm-tag">ADVISORY BOARD</div></div></div>
+        <div class="rm-card"><span class="rm-num">16</span><div><div class="rm-title">Tài liệu Tham chiếu</div><div class="rm-tag">REFERENCES</div></div></div>
+        <div class="rm-card"><span class="rm-num">17</span><div><div class="rm-title">Bền vững và Tác động xã hội</div><div class="rm-tag">SUSTAINABILITY</div></div></div>
+        <div class="rm-card"><span class="rm-num">18</span><div><div class="rm-title">Dự toán Kinh phí 20 năm</div><div class="rm-tag">BUDGET PLANNING</div></div></div>
+        <div class="rm-card"><span class="rm-num">19</span><div><div class="rm-title">Đánh giá Rủi ro</div><div class="rm-tag">RISK MANAGEMENT</div></div></div>
+        <div class="rm-card"><span class="rm-num">20</span><div><div class="rm-title">Phụ lục Kỹ thuật</div><div class="rm-tag">TECHNICAL APPENDIX</div></div></div>
+        <div class="rm-card"><span class="rm-num">21</span><div><div class="rm-title">Kết luận và Tầm nhìn</div><div class="rm-tag">CONCLUSION</div></div></div>
+      </div>
+
+      <div class="phase-header">Giai đoạn IV — Tối ưu & Tương lai (Chương 22–28)</div>
+      <div class="roadmap-grid">
+        <div class="rm-card"><span class="rm-num">22</span><div><div class="rm-title">Chỉ số Đánh giá Hiệu quả</div><div class="rm-tag">KPIs & METRICS</div></div></div>
+        <div class="rm-card"><span class="rm-num">23</span><div><div class="rm-title">Tối ưu hóa chuyên sâu</div><div class="rm-tag">PERFORMANCE</div></div></div>
+        <div class="rm-card"><span class="rm-num">24</span><div><div class="rm-title">Mô hình AI Phật học đặc thù</div><div class="rm-tag">FINE-TUNING</div></div></div>
+        <div class="rm-card"><span class="rm-num">25</span><div><div class="rm-title">Thiết kế Trải nghiệm Đa năng</div><div class="rm-tag">ACCESSIBILITY</div></div></div>
+        <div class="rm-card"><span class="rm-num">26</span><div><div class="rm-title">Hướng dẫn Đóng góp</div><div class="rm-tag">CONTRIBUTING GUIDE</div></div></div>
+        <div class="rm-card"><span class="rm-num">27</span><div><div class="rm-title">Quản lý Cộng đồng lâu dài</div><div class="rm-tag">COMMUNITY MGMT</div></div></div>
+        <div class="rm-card"><span class="rm-num">28</span><div><div class="rm-title">Sẵn sàng cho Kỷ nguyên mới</div><div class="rm-tag">FUTURE READY</div></div></div>
+      </div>
+    </section>
+
+    <hr class="sec-divider">
+
+    <section id="nguon-du-lieu">
+      <div class="sec-label">Nguồn dữ liệu & Giấy phép</div>
+      <h2 class="sec-title">Dữ liệu học thuật được kiểm chứng</h2>
+      <p class="sec-body">Đạo Ảnh chỉ sử dụng dữ liệu từ các tổ chức học thuật quốc tế uy tín, không sản xuất dữ liệu gốc. Mọi nguồn đều được sử dụng phi thương mại và ghi nhận attribution đầy đủ theo giấy phép gốc.</p>
+      <div style="overflow-x:auto; margin-bottom:28px;">
+        <table class="src-table" aria-label="Nguồn dữ liệu">
+          <thead><tr><th>Nguồn</th><th>Tổ chức</th><th>Nội dung</th><th>Giấy phép</th></tr></thead>
+          <tbody>
+            <tr><td>DILA Authority</td><td>Dharma Drum Institute of Liberal Arts</td><td>Nhân danh, địa danh, niên đại Phật giáo</td><td><span class="badge">CC BY-SA 3.0</span></td></tr>
+            <tr><td>Marcus / MARCUS</td><td>Marcus Bingenheimer (Temple University)</td><td>Glossaries, mạng lưới tăng nhân, SNA</td><td><span class="badge badge-cc0">CC0 1.0</span></td></tr>
+            <tr><td>CBETA</td><td>Chinese Buddhist Electronic Text Association</td><td>Kinh điển Hán văn, Đại Chính Tạng</td><td><span class="badge">CC BY-NC-SA 4.0</span></td></tr>
+            <tr><td>SuttaCentral</td><td>SuttaCentral.net</td><td>Kinh tạng Nikāya, đối chiếu Pāli–Hán–Anh</td><td><span class="badge">CC BY-NC-SA</span></td></tr>
+            <tr><td>84000</td><td>84000 — Translating the Words of the Buddha</td><td>Dịch thuật kinh tạng Tạng–Anh</td><td><span class="badge">Phi thương mại</span></td></tr>
+            <tr><td>FoJin</td><td>Open source (xr843)</td><td>Platform quản lý văn bản Phật giáo</td><td><span class="badge">Apache 2.0</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="license-block">
+        <h4>DILA Authority Databases — CC BY-SA 3.0</h4>
+        <p>Ba bộ dữ liệu authority (Person, Place, Time) do Dharma Drum Institute of Liberal Arts công bố. Chúng tôi ghi attribution: <em>"Dữ liệu trích từ Buddhist Studies Authority Databases, DILA, cấp phép CC BY-SA."</em> Mọi bộ dữ liệu phái sinh sẽ được chia sẻ theo giấy phép tương thích ShareAlike.</p>
+      </div>
+      <div class="license-block">
+        <h4>Marcus Bingenheimer Glossaries — CC0 1.0 Universal</h4>
+        <p>Bộ <em>Buddhist Studies Glossaries</em> công bố tại GitHub, phân phối dưới CC0 1.0 — cho phép sử dụng, chỉnh sửa và chia sẻ không hạn chế. Dù không bắt buộc, chúng tôi trân trọng ghi nhận và cảm ơn tác giả.</p>
+      </div>
+      <div class="license-block">
+        <h4>CBETA — CC BY-NC-SA 4.0</h4>
+        <p>Văn bản Hán tạng số hóa được sử dụng phi thương mại, phục vụ nghiên cứu và tra cứu. Chúng tôi không bán, không thu phí truy cập, không đóng gói lại toàn bộ corpus CBETA để tải về. Khi trích dẫn, ghi rõ nguồn "CBETA".</p>
+      </div>
+    </section>
+
+    <hr class="sec-divider">
+
+    <section id="dieu-khoan">
+      <div class="sec-label">Pháp lý</div>
+      <h2 class="sec-title">Điều Khoản Sử Dụng <span style="font-size:13px;font-weight:400;color:var(--text-lo)">v1.0</span></h2>
+      <div class="terms-section">
+        <h4>1. Tôn chỉ và mục đích</h4>
+        <p>Dự án hoạt động với tinh thần <em>Pháp Thí</em> của Phật Giáo Đại Thừa — chia sẻ, hoằng dương Phật Pháp, phục vụ nghiên cứu và học tập, hoàn toàn phi thương mại. Không thu phí truy cập nội dung, không bán dữ liệu văn bản.</p>
+      </div>
+      <div class="terms-section">
+        <h4>2. Bạn được phép</h4>
+        <ul>
+          <li>Đọc, tra cứu và trích dẫn nội dung phục vụ tu học, nghiên cứu, giảng dạy phi thương mại</li>
+          <li>Chia sẻ liên kết đến các trang trên hệ thống</li>
+          <li>Khi trích dẫn: ghi rõ tên nguồn (phatphaponline.org / Đạo Ảnh) và attribution của nguồn gốc (DILA/CBETA…)</li>
+        </ul>
+      </div>
+      <div class="terms-section">
+        <h4>3. Bạn không được</h4>
+        <ul>
+          <li>Sử dụng nội dung cho mục đích thương mại khi chưa có văn bản đồng ý từ các bên liên quan</li>
+          <li>Tải và phân phối lại toàn bộ corpus văn bản như dataset độc lập</li>
+          <li>Sửa đổi, cắt ghép nội dung gây hiểu sai ý nghĩa giáo lý hoặc sai nguồn bản quyền</li>
+        </ul>
+      </div>
+      <div class="terms-section">
+        <h4>4. Miễn trừ trách nhiệm</h4>
+        <p>Nội dung cung cấp "như hiện có" phục vụ tham khảo. Chúng tôi không đảm bảo tuyệt đối về độ chính xác — đặc biệt với văn bản cổ, dị bản, lỗi OCR. Người dùng tự chịu trách nhiệm khi áp dụng vào thực hành hay nghiên cứu.</p>
+      </div>
+      <div class="terms-section">
+        <h4>5. Khiếu nại bản quyền</h4>
+        <p>Nếu bạn là tác giả hoặc tổ chức cho rằng nội dung vi phạm giấy phép, vui lòng liên hệ qua trang Cộng đồng. Chúng tôi sẽ rà soát, chỉnh sửa attribution, hoặc gỡ bỏ nội dung nếu cần.</p>
+      </div>
+    </section>
+
+    <hr class="sec-divider">
+
+    <section id="lien-he">
+      <div class="sec-label">Liên hệ</div>
+      <h2 class="sec-title">Liên hệ & Hợp tác</h2>
+      <div class="contact-block">
+        <p>Đạo Ảnh là dự án phi lợi nhuận, phục vụ nghiên cứu học thuật Phật giáo Việt Nam. Chúng tôi chào đón sự hợp tác từ các học giả, nhà nghiên cứu và tổ chức Phật học.</p>
+        <p><strong>Website gốc:</strong> <a href="https://phatphaponline.org" target="_blank" rel="noopener">phatphaponline.org</a></p>
+        <p><strong>Vận hành bởi:</strong> Pháp Thí Hội</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="ft">
+  © 2026 <strong>Đạo Ảnh</strong> · Phật Tổ Đạo Ảnh — Hệ Sinh Thái Puzzle Đại Tạng Kinh ·
+  Vận hành bởi <strong>Pháp Thí Hội</strong> ·
+  Dữ liệu: DILA · CBETA · Marcus SNA
+</footer>
+
+<script>
+const themes = ['', 'light', 'dark'];
+let ti = 0;
+const btn = document.getElementById('themeBtn');
+btn.addEventListener('click', () => {
+  ti = (ti + 1) % themes.length;
+  const t = themes[ti];
+  if (t) document.documentElement.setAttribute('data-theme', t);
+  else document.documentElement.removeAttribute('data-theme');
+});
+const secs = document.querySelectorAll('section[id]');
+const tocLinks = document.querySelectorAll('.toc a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+secs.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

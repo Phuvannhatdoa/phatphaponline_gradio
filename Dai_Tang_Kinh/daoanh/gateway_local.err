@@ -1,0 +1,494 @@
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8080
+Press CTRL+C to quit
+127.0.0.1 - - [19/Oct/2026 17:17:07] "GET /daoanh/api/admin/namevi/flag-list?page=1&per_page=5&hide_done=false HTTP/1.1" 502 -
+127.0.0.1 - - [19/Oct/2026 17:18:21] "GET /daoanh/admin/namevimap.html HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:18:21] "GET /daoanh/admin/codex-namevi.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:18:22] "POST /daoanh/api/login/check HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:23] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:23] "GET /daoanh/login.html HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:18:26] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:18:28] "GET /api/admin/namevi-queue/A008800 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:31] "POST /daoanh/api/login/verify HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:32] "GET /daoanh/admin/ HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:18:33] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:18:37] "GET /daoanh/admin/namevimap.html HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:18:37] "GET /daoanh/admin/codex-namevi.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:18:37] "GET /daoanh/admin/codex-namevi.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:38] "POST /daoanh/api/login/check HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:38] "GET /api/admin/namevi-queue/A001547 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:39] "GET /api/admin/namevi-queue/A046539 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:39] "GET /api/admin/namevi-queue/A004146 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:39] "GET /api/admin/ai-transliterate/status HTTP/1.1" 403 -
+127.0.0.1 - - [19/Oct/2026 17:18:43] "GET /api/admin/namevi-queue/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:47] "GET /api/admin/namevi-queue/A008789 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:47] "GET /api/admin/namevi-queue/A008800 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:47] "GET /api/admin/namevi-queue/A008793 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:49] "GET /api/admin/namevi-queue/A008801 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:52] "GET /daoanh/api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:52] "GET /api/admin/namevi-queue/A008799 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:58] "GET /api/admin/namevi-queue/A001547 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:58] "GET /api/admin/namevi-queue/A038686 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:18:58] "GET /api/admin/namevi-queue/A033489 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:03] "GET /api/admin/namevi-queue/A046539 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:03] "GET /api/admin/namevi-queue/A004146 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:03] "GET /api/admin/namevi-queue/A001003 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:03] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:08] "GET /api/admin/ai-transliterate/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:08] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:09] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:19:09] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:19:10] "GET /daoanh/api/admin/ttl_v2/codex_name/list?page=1&q= HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:19:12] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:12] "GET /daoanh/api/admin/ttl_v2/codex_name/status HTTP/1.1" 500 -
+[2026-10-19 17:19:23,586] ERROR in app: Exception on /api/admin/namevi/flag-list [GET]
+Traceback (most recent call last):
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\urllib3\connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\urllib3\connection.py", line 571, in getresponse
+    httplib_response = super().getresponse()
+  File "C:\Python314\Lib\http\client.py", line 1450, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\http\client.py", line 336, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\http\client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\socket.py", line 725, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\requests\adapters.py", line 645, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\urllib3\util\retry.py", line 490, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\urllib3\util\util.py", line 39, in reraise
+    raise value
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\urllib3\connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+        self, url, f"Read timed out. (read timeout={timeout_value})"
+    ) from err
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=5000): Read timed out. (read timeout=60)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\local_gateway.py", line 100, in gateway
+    return proxy(target_port(full_path))
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\local_gateway.py", line 48, in proxy
+    resp = requests.request(
+        method=request.method,
+    ...<5 lines>...
+        timeout=60,
+    )
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\requests\sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\requests\sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\Nam Thien\AppData\Roaming\Python\Python314\site-packages\requests\adapters.py", line 691, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=5000): Read timed out. (read timeout=60)
+127.0.0.1 - - [19/Oct/2026 17:19:23] "GET /api/admin/namevi/flag-list?page=1&per_page=50&hide_done=true HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:19:55] "GET /daoanh/api/admin/namevi/flag-list?page=1&per_page=5&hide_done=false HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:57] "GET /api/admin/namevi/flag-list?page=1&per_page=50&hide_done=true HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:19:58] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:20:15] "GET /daoanh/admin/namevimap.html HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:15] "GET /daoanh/admin/codex-namevi.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:15] "GET /daoanh/admin/codex-namevi.js HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:16] "GET /daoanh/login.html HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:17] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:21] "GET /api/admin/namevi-queue/A008800 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:21] "GET /api/admin/namevi-queue/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:21] "GET /api/admin/namevi-queue/A008793 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:21] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:22] "GET /api/admin/namevi-queue/A008789 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:22] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:20:23] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:25] "GET /api/admin/namevi/flag-list?page=1&per_page=50&hide_done=true&sort_by=confidence_cross&sort_dir=desc HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:25] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:20:27] "GET /daoanh/api/admin/namevi/flag-list?page=1&per_page=3&hide_done=false HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:33] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:34] "GET /daoanh/admin/namevimap.html HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:34] "GET /daoanh/admin/codex-namevi.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:34] "GET /daoanh/admin/codex-namevi.js HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:34] "GET /daoanh/login.html HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:34] "GET /daoanh/api/admin/ttl-local-names HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:35] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:20:35] "GET /api/admin/namevi-queue/A036842 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:36] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:36] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:20:38] "GET /api/admin/namevi-queue/A008793 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:41] "GET /api/admin/namevi/ttl-stats?status=has_ttl&page=1&per_page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:42] "GET /api/admin/namevi-queue/A008800 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:42] "GET /api/admin/namevi-queue/A008801 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:20:42] "GET /api/admin/namevi-queue/A008789 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:10] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:12] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:13] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:15] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:17] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:19] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:22] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:24] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:25] "GET /daoanh/places.html HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:26] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:28] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:32] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:34] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:38] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:40] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:43] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:45] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:46] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:48] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:49] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:51] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:52] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:54] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:56] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:21:58] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:21:59] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:01] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:04] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:06] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:07] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:10] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:10] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:13] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:16] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:18] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:20] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:22] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:24] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:26] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:39] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:41] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:44] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:47] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:48] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:50] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:51] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:53] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:54] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:56] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:22:57] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:22:59] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:00] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:02] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:03] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:06] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:32] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:34] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:36] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:38] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:39] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:42] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:44] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:46] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:48] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:50] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:52] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:53] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:55] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:23:55] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:23:58] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:24:00] "POST /api/admin/namevi-map/update HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:24:02] "POST /daoanh/api/admin/ttl_v2/codex_name/lookup HTTP/1.1" 500 -
+127.0.0.1 - - [19/Oct/2026 17:24:56] "GET /daoanh/places?mode=lineage&focus=A009447&lm=tree HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:24:56] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:24:56] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:24:58] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A009447 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:24:59] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:24:59] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:24:59] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:01] "GET /daoanh/api/monk/A009447/graph HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:02] "GET /daoanh/api/monk/A009447/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:04] "GET /daoanh/api/persons/A009447 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:05] "GET /daoanh/api/monk/A009447/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:05] "GET /daoanh/api/monk/A009447/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:06] "GET /daoanh/api/person/A009447/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:06] "GET /daoanh/api/person/A009447/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:06] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:25:07] "GET /daoanh/api/person/A009447/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:07] "GET /daoanh/api/person/A009447/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:07] "GET /daoanh/api/evidence/A009447 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:07] "GET /daoanh/api/monk/A009447/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:08] "GET /daoanh/api/ttl/anchor-by-dila?ids=A046539,A001209,A006022,A017569,A002188,A002857,A008793,A005159,A008792,A008791,A000907,A008789,A008788,A004683,A012470,A003881,A001601,A003654,A000237,A001719,A003666,A010291,A009460,A010616,A009447,A009444,A013791,A020045,A020047,A020048,A020049,A020051,A020053,A020054,A020056,A020057,A025955,A020059,A025956,A035883,A035884,A035885 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:08] "GET /daoanh/api/ttl/anchor-by-dila?ids=A009460,A010616,A009447,A009444,A013791,A020045,A020047,A020048,A020049,A020051,A020053,A020054,A020056,A020057,A025955,A020059,A025956,A035883,A035884,A035885 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:14] "GET /daoanh/api/person/A013791/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:14] "GET /daoanh/api/person/A013791/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:14] "GET /daoanh/api/monk/A013791/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:14] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A013791 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:15] "GET /daoanh/api/person/A013791/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:16] "GET /daoanh/api/person/A013791/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:20] "GET /daoanh/api/person/A020047/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:20] "GET /daoanh/api/person/A020047/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:20] "GET /daoanh/api/monk/A020047/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:20] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A020047 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:21] "GET /daoanh/api/person/A020047/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:21] "GET /daoanh/api/person/A020047/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:49] "GET /daoanh/api/person/A020048/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:49] "GET /daoanh/api/person/A020048/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:49] "GET /daoanh/api/monk/A020048/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:49] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A020048 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:49] "GET /daoanh/api/person/A020048/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:50] "GET /daoanh/api/person/A020048/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:51] "GET /daoanh/api/person/A020051/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:52] "GET /daoanh/api/monk/A020051/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:52] "GET /daoanh/api/person/A020051/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:52] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A020051 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:52] "GET /daoanh/api/person/A020054/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:52] "GET /daoanh/api/person/A020054/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:52] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A020054 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:52] "GET /daoanh/api/monk/A020054/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:53] "GET /daoanh/api/person/A020051/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:53] "GET /daoanh/api/person/A020051/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:53] "GET /daoanh/api/person/A020054/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:54] "GET /daoanh/api/person/A020054/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:56] "GET /daoanh/api/monk/A010616/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:56] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A010616 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:56] "GET /daoanh/api/person/A010616/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:56] "GET /daoanh/api/person/A010616/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:57] "GET /daoanh/api/person/A010616/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:25:57] "GET /daoanh/api/person/A010616/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:31] "GET /daoanh/api/monk-resolve?name=11 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:31] "GET /daoanh/api/monk-resolve?name=111 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:31] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:31] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:32] "GET /daoanh/api/monk-resolve?name=Đơn%20Hà%20Thiên%20Nhiên HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:32] "GET /daoanh/api/public/autocomplete?q=11 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:32] "GET /daoanh/api/monk-resolve?name=Đơn%20Hà%20Thiên%20Nhiên HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:32] "GET /daoanh/api/public/autocomplete?q=111 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:33] "GET /daoanh/api/public/autocomplete?q=Đơn%20Hà%20Thiên%20Nhiên HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:33] "GET /daoanh/api/public/autocomplete?q=Đơn%20Hà%20Thiên%20Nhiên HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:54] "GET /daoanh/api/monk/A003654/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:55] "GET /daoanh/api/person/A003654/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:55] "GET /daoanh/api/person/A003654/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:55] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A003654 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:55] "GET /daoanh/api/person/A003654/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:26:55] "GET /daoanh/api/person/A003654/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:15] "GET /daoanh/api/person/A001719/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:15] "GET /daoanh/api/monk/A001719/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:15] "GET /daoanh/api/person/A001719/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:16] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:17] "GET /daoanh/api/person/A001719/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:17] "GET /daoanh/api/person/A001719/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:18] "GET /daoanh/api/person/A001719/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:18] "GET /daoanh/api/person/A001719/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:18] "GET /daoanh/api/monk/A001719/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:18] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:19] "GET /daoanh/api/person/A001719/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:19] "GET /daoanh/api/person/A001719/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:34] "GET /daoanh/api/monk/A003666/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:34] "GET /daoanh/api/ttl/anchor-by-dila?ids=A000237,A001719,A003666 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:34] "GET /daoanh/api/monk/A003666/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:34] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A003666 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:34] "GET /daoanh/api/person/A003666/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:34] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:27:34] "GET /daoanh/api/person/A003666/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:34] "GET /daoanh/api/monk/A003666/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:35] "GET /daoanh/api/ttl/anchor-by-dila?ids=A046539,A001209,A006022,A017569,A002188,A002857,A008793,A005159,A008792,A008791,A000907,A008789,A008788,A004683,A012470,A003881,A001601,A003654,A000237,A001719,A003666 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:36] "GET /daoanh/api/person/A003666/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:36] "GET /daoanh/api/person/A003666/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:46] "GET /daoanh/api/ttl/anchor-by-dila?ids=A046539,A001209,A006022,A017569,A002188,A002857,A008793,A005159,A008792,A008791,A000907,A008789,A008788,A004683,A012470,A003881,A001601,A003654,A000237,A001719,A003666,A010291 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:56] "GET /daoanh/api/ttl/anchor-by-dila?ids=A046539,A001209,A006022,A017569,A002188,A002857,A008793,A005159,A008792,A008791,A000907,A008789,A008788,A004683,A012470,A003881,A001601,A003654,A000237,A001719,A003666,A010291,A009460,A010297,A020018,A025951,A000074,A010296,A010298,A010299,A010301,A010302,A010480,A010510,A020017,A020019,A020020,A020021,A020022,A025952,A025959,A025960,A025961,A025962,A025963,A025964 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:27:56] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:28:26] "GET /daoanh/api/person/A010297/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:26] "GET /daoanh/api/person/A010297/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:26] "GET /daoanh/api/monk/A010297/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:26] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A010297 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:28] "GET /daoanh/api/person/A010297/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:28] "GET /daoanh/api/person/A010297/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:34] "GET /daoanh/places.html HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:34] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:34] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:36] "GET /daoanh/places.html?mode=lineage&focus=A004980&lm=tree HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:36] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:28:36] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:28:37] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A004980 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:37] "GET /daoanh/api/monk/A004980/graph HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:37] "GET /daoanh/api/monk/A004980/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:37] "GET /daoanh/api/evidence/A004980 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:37] "GET /daoanh/api/monk/A004980/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:38] "GET /daoanh/api/ttl/anchor-by-dila?ids=A032156,A032162,A004980,A004981,A004982,A020438,A006575,A020370,A020434,A020435,A026996,A026998,A026997 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:38] "GET /daoanh/api/monk/A004980/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:38] "GET /daoanh/api/person/A004980/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:38] "GET /daoanh/api/person/A004980/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:38] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:38] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:39] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:39] "GET /daoanh/api/monk/A004980/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:39] "GET /daoanh/api/ttl/anchor-by-dila?ids=A008233,A000453,A001128,A004687,A004691,A004696,A004697,A004699,A021593,A007799,A022525,A031577,A031581,A031584,A031589,A031593,A015785,A032113,A032156,A032162,A004980,A004981,A004982,A020438,A006575,A020370,A020434,A020435,A026996,A026998,A026997 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:39] "GET /daoanh/api/persons/A004980 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:40] "GET /daoanh/api/person/A004980/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:40] "GET /daoanh/api/person/A004980/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:44] "GET /daoanh/places.html HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:44] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:44] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:46] "GET /daoanh/places.html?mode=lineage&focus=A004980&lm=tree HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:46] "GET /daoanh/api/person/A025951/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:47] "GET /daoanh/api/person/A025951/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:47] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:28:47] "GET /daoanh/api/monk/A025951/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:47] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A025951 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:47] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:28:48] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A004980 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:48] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:48] "GET /daoanh/api/monk/A004980/graph HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:48] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:48] "GET /daoanh/api/monk/A004980/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:48] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:48] "GET /daoanh/api/person/A025951/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:49] "GET /daoanh/api/monk/A004980/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:49] "GET /daoanh/api/person/A025951/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:49] "GET /daoanh/api/monk/A004980/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:49] "GET /daoanh/api/evidence/A004980 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:49] "GET /daoanh/api/ttl/anchor-by-dila?ids=A032156,A032162,A004980,A004981,A004982,A020438,A006575,A020370,A020434,A020435,A026996,A026998,A026997 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:50] "GET /daoanh/api/person/A004980/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:50] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:28:50] "GET /daoanh/api/person/A004980/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:50] "GET /daoanh/api/monk/A004980/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:50] "GET /daoanh/api/ttl/anchor-by-dila?ids=A008233,A000453,A001128,A004687,A004691,A004696,A004697,A004699,A021593,A007799,A022525,A031577,A031581,A031584,A031589,A031593,A015785,A032113,A032156,A032162,A004980,A004981,A004982,A020438,A006575,A020370,A020434,A020435,A026996,A026998,A026997 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:50] "GET /daoanh/api/persons/A004980 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:51] "GET /daoanh/api/person/A004980/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:51] "GET /daoanh/api/person/A004980/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:56] "GET /daoanh/places.html HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:56] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:57] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:58] "GET /daoanh/places.html?mode=lineage&focus=A009460&lm=tree HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:58] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:28:58] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:28:59] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A009460 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:59] "GET /daoanh/api/monk/A009460/graph HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:59] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:28:59] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:00] "GET /daoanh/api/monk/A009460/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:01] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:01] "GET /daoanh/api/evidence/A009460 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:01] "GET /daoanh/api/monk/A009460/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:02] "GET /daoanh/api/monk/A009460/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:02] "GET /daoanh/api/ttl/anchor-by-dila?ids=A003666,A010291,A009460,A010616,A020042,A020043,A009447,A010676,A016682,A046624,A020037,A020038,A020035,A020039,A020040,A020036,A025957,A025958 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:02] "GET /daoanh/api/person/A009460/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:02] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:29:02] "GET /daoanh/api/person/A009460/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:03] "GET /daoanh/api/monk/A009460/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:03] "GET /daoanh/api/ttl/anchor-by-dila?ids=A046539,A001209,A006022,A017569,A002188,A002857,A008793,A005159,A008792,A008791,A000907,A008789,A008788,A004683,A012470,A003881,A001601,A003654,A000237,A001719,A003666,A010291,A009460,A010616,A020042,A020043,A009447,A010676,A016682,A046624,A020037,A020038,A020035,A020039,A020040,A020036,A025957,A025958 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:03] "GET /daoanh/api/persons/A009460 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:04] "GET /daoanh/api/person/A009460/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:04] "GET /daoanh/api/person/A009460/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:08] "GET /daoanh/places.html HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:09] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:10] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:11] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:11] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:11] "GET /daoanh/places.html?mode=lineage&focus=A009460&lm=tree HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:12] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:29:12] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:13] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:29:14] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A009460 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:15] "GET /daoanh/api/monk/A009460/graph HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:15] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:29:15] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:16] "GET /daoanh/api/monk/A009460/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:17] "GET /daoanh/api/monk/A009460/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:17] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:18] "GET /daoanh/api/evidence/A009460 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:20] "GET /daoanh/api/persons/A009460 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:48] "GET /daoanh/api/monk/A009460/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:49] "GET /daoanh/api/ttl/anchor-by-dila?ids=A003666,A010291,A009460,A010616,A020042,A020043,A009447,A010676,A016682,A046624,A020037,A020038,A020035,A020039,A020040,A020036,A025957,A025958 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:49] "GET /daoanh/api/person/A009460/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:49] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:29:49] "GET /daoanh/api/person/A009460/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:49] "GET /daoanh/api/monk/A009460/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:50] "GET /daoanh/api/ttl/anchor-by-dila?ids=A046539,A001209,A006022,A017569,A002188,A002857,A008793,A005159,A008792,A008791,A000907,A008789,A008788,A004683,A012470,A003881,A001601,A003654,A000237,A001719,A003666,A010291,A009460,A010616,A020042,A020043,A009447,A010676,A016682,A046624,A020037,A020038,A020035,A020039,A020040,A020036,A025957,A025958 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:51] "GET /daoanh/api/person/A009460/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:52] "GET /daoanh/api/person/A009460/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:55] "GET /daoanh/places.html HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:55] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:55] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:57] "GET /daoanh/places.html?mode=lineage&focus=A047924&lm=tree HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:57] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:57] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:29:57] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:57] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:29:58] "GET /daoanh/api/monk/A047924/graph HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:58] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A047924 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:58] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:58] "GET /daoanh/api/monk/A047924/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:58] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:58] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:59] "GET /daoanh/api/evidence/A047924 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:29:59] "GET /daoanh/api/persons/A047924 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:04] "GET /daoanh/api/monk/A047924/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:04] "GET /daoanh/api/monk/A047924/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:04] "GET /daoanh/api/ttl/anchor-by-dila?ids=A004984,A001439,A047924,A000738,A003923,A003555,A008635,A014563,A020619,A020622,A020624,A026881,A003772,A003822,A008485,A009554,A014588,A020620,A020621,A020623,A021280,A026879,A026880,A026883,A026887,A026889,A026890,A026891,A026892,A004410,A004750,A001341,A004717,A008395,A008471,A014545,A014645,A017793,A017794,A020691,A020692,A020693,A020694,A020695,A020696,A007526,A004048,A008378,A008679,A014649,A020670,A020675,A020681,A020682,A026828,A001673,A007519,A011209,A014515,A014521,A020671,A020673,A020674,A020676,A020678,A020680,A022021,A020454,A021072,A021084,A008352,A008351,A026810,A023045,A010904,A010960,A011765,A014442,A020608,A020610,A020611,A020612,A026802,A026803,A026804,A014444,A014488,A020594,A020592,A020593,A013914,A046388,A014489,A020587,A026818,A014491,A020585,A014516,A020586,A026812,A014557,A020573,A020604,A026905,A014735,A020603,A026906,A031395,A020574,A020599,A026811,A020575,A020597,A020598,A026801,A014351,A020579,A020591,A026806,A020580,A020588,A020583,A026813,A021395,A026824,A001776,A004515,A008043,A008532,A014417,A020344,A026958 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:04] "GET /daoanh/api/monk/A047924/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:05] "GET /daoanh/api/person/A047924/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:05] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:30:05] "GET /daoanh/api/person/A047924/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:05] "GET /daoanh/api/ttl/anchor-by-dila?ids=A008233,A000453,A001128,A004687,A004691,A004696,A004697,A004699,A021593,A007799,A022525,A031577,A031581,A031584,A031589,A031593,A015785,A032113,A032156,A032162,A004980,A004981,A004982,A004983,A004984,A001439,A047924,A000738,A003923,A003555,A008635,A014563,A020619,A020622,A020624,A026881,A003772,A003822,A008485,A009554,A014588,A020620,A020621,A020623,A021280,A026879,A026880,A026883,A026887,A026889,A026890,A026891,A026892,A004410,A004750,A001341,A004717,A008395,A008471,A014545,A014645,A017793,A017794,A020691,A020692,A020693,A020694,A020695,A020696,A007526,A004048,A008378,A008679,A014649,A020670,A020675,A020681,A020682,A026828,A001673,A007519,A011209,A014515,A014521,A020671,A020673,A020674,A020676,A020678,A020680,A022021,A020454,A021072,A021084,A008352,A008351,A026810,A023045,A010904,A010960,A011765,A014442,A020608,A020610,A020611,A020612,A026802,A026803,A026804,A014444,A014488,A020594,A020592,A020593,A013914,A046388,A014489,A020587,A026818,A014491,A020585,A014516,A020586,A026812,A014557,A020573,A020604,A026905,A014735,A020603,A026906,A031395,A020574,A020599,A026811,A020575,A020597,A020598,A026801,A014351,A020579,A020591,A026806,A020580,A020588,A020583,A026813,A021395,A026824,A001776,A004515,A008043,A008532,A014417,A020344,A026958 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:06] "GET /daoanh/api/person/A047924/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:07] "GET /daoanh/api/person/A047924/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:12] "GET /daoanh/places.html HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:13] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:13] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:15] "GET /daoanh/places.html?mode=lineage&focus=A047924&lm=tree HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:15] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:15] "GET /daoanh/admin/places-generation-v2.js HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:30:15] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:15] "GET /daoanh/styles/daoanh-design.css HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:30:16] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A047924 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:16] "GET /daoanh/api/monk/A047924/graph HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:16] "GET /favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:16] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:17] "GET /daoanh/api/monk/A047924/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:17] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:18] "GET /daoanh/api/evidence/A047924 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:20] "GET /daoanh/api/persons/A047924 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:21] "GET /daoanh/api/monk/A047924/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:21] "GET /daoanh/api/monk/A047924/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:21] "GET /daoanh/api/ttl/anchor-by-dila?ids=A004984,A001439,A047924,A000738,A003923,A003555,A008635,A014563,A020619,A020622,A020624,A026881,A003772,A003822,A008485,A009554,A014588,A020620,A020621,A020623,A021280,A026879,A026880,A026883,A026887,A026889,A026890,A026891,A026892,A004410,A004750,A001341,A004717,A008395,A008471,A014545,A014645,A017793,A017794,A020691,A020692,A020693,A020694,A020695,A020696,A007526,A004048,A008378,A008679,A014649,A020670,A020675,A020681,A020682,A026828,A001673,A007519,A011209,A014515,A014521,A020671,A020673,A020674,A020676,A020678,A020680,A022021,A020454,A021072,A021084,A008352,A008351,A026810,A023045,A010904,A010960,A011765,A014442,A020608,A020610,A020611,A020612,A026802,A026803,A026804,A014444,A014488,A020594,A020592,A020593,A013914,A046388,A014489,A020587,A026818,A014491,A020585,A014516,A020586,A026812,A014557,A020573,A020604,A026905,A014735,A020603,A026906,A031395,A020574,A020599,A026811,A020575,A020597,A020598,A026801,A014351,A020579,A020591,A026806,A020580,A020588,A020583,A026813,A021395,A026824,A001776,A004515,A008043,A008532,A014417,A020344,A026958 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:22] "GET /daoanh/api/monk/A047924/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:22] "GET /daoanh/api/person/A047924/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:22] "GET /favicon.ico HTTP/1.1" 304 -
+127.0.0.1 - - [19/Oct/2026 17:30:22] "GET /daoanh/api/person/A047924/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:23] "GET /daoanh/api/ttl/anchor-by-dila?ids=A008233,A000453,A001128,A004687,A004691,A004696,A004697,A004699,A021593,A007799,A022525,A031577,A031581,A031584,A031589,A031593,A015785,A032113,A032156,A032162,A004980,A004981,A004982,A004983,A004984,A001439,A047924,A000738,A003923,A003555,A008635,A014563,A020619,A020622,A020624,A026881,A003772,A003822,A008485,A009554,A014588,A020620,A020621,A020623,A021280,A026879,A026880,A026883,A026887,A026889,A026890,A026891,A026892,A004410,A004750,A001341,A004717,A008395,A008471,A014545,A014645,A017793,A017794,A020691,A020692,A020693,A020694,A020695,A020696,A007526,A004048,A008378,A008679,A014649,A020670,A020675,A020681,A020682,A026828,A001673,A007519,A011209,A014515,A014521,A020671,A020673,A020674,A020676,A020678,A020680,A022021,A020454,A021072,A021084,A008352,A008351,A026810,A023045,A010904,A010960,A011765,A014442,A020608,A020610,A020611,A020612,A026802,A026803,A026804,A014444,A014488,A020594,A020592,A020593,A013914,A046388,A014489,A020587,A026818,A014491,A020585,A014516,A020586,A026812,A014557,A020573,A020604,A026905,A014735,A020603,A026906,A031395,A020574,A020599,A026811,A020575,A020597,A020598,A026801,A014351,A020579,A020591,A026806,A020580,A020588,A020583,A026813,A021395,A026824,A001776,A004515,A008043,A008532,A014417,A020344,A026958 HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:23] "GET /daoanh/api/person/A047924/translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 17:30:23] "GET /daoanh/api/person/A047924/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [19/Oct/2026 18:23:39] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -

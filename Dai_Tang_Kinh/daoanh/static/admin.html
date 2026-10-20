@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📍 Buddhist Places Manager - Admin</title>
+    
+    <!-- Libraries (CDN) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Section -->
+        <div id="login-section" class="section">
+            <div class="login-box">
+                <h1>🔐 Login - Buddhist Places Admin</h1>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Username (GraphDB):</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Login</button>
+                </form>
+                <p class="info">Sử dụng credentials từ GraphDB</p>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboard-section" class="section hidden">
+            <!-- Header -->
+            <header class="header">
+                <h1>📍 Buddhist Places Manager</h1>
+                <div class="header-actions">
+                    <span id="user-info"></span>
+                    <button onclick="app.refreshData()" class="btn-secondary">🔄 Refresh JSON</button>
+                    <button onclick="app.exportCSV()" class="btn-secondary">📥 Export CSV</button>
+                    <a href="http://158.220.106.183:7200/import#user" target="_blank" class="btn-secondary">🔧 GraphDB Import</a>
+                    <button onclick="app.logout()" class="btn-danger">Logout</button>
+                </div>
+            </header>
+
+            <!-- Stats Banner -->
+            <div class="stats-banner">
+                <div class="stat">
+                    <span class="stat-value" id="total-places">0</span>
+                    <span class="stat-label">Tổng Places</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="cbeta-places">0</span>
+                    <span class="stat-label">CBETA</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="dila-places">0</span>
+                    <span class="stat-label">DILA</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="vietnamese-places">0</span>
+                    <span class="stat-label">Đã Việt hóa</span>
+                </div>
+                <div class="stat alert" id="gps-changes-badge" style="display:none;">
+                    <span class="stat-value" id="gps-changes-count">0</span>
+                    <span class="stat-label">GPS Changes</span>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="search-box">
+                    <input type="text" id="search" placeholder="🔍 Tìm tên Hán/Việt..." onkeyup="app.search()">
+                </div>
+                <div class="filter-box">
+                    <select id="filter-source" onchange="app.filter()">
+                        <option value="all">Tất cả nguồn</option>
+                        <option value="CBETA">CBETA (ưu tiên)</option>
+                        <option value="DILA">DILA (thực tế)</option>
+                        <option value="BOTH">Cả hai</option>
+                    </select>
+                    <select id="filter-country" onchange="app.filter()">
+                        <option value="all">Tất cả quốc gia</option>
+                        <option value="IN">Ấn Độ</option>
+                        <option value="CN">Trung Quốc</option>
+                        <option value="VN">Việt Nam</option>
+                        <option value="JP">Nhật Bản</option>
+                        <option value="KR">Hàn Quốc</option>
+                    </select>
+                </div>
+                <button onclick="app.showCompare()" class="btn-warning">⚠️ GPS Compare</button>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table id="places-table" class="display">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Hán</th>
+                            <th>Tên Việt</th>
+                            <th>Nguồn</th>
+                            <th>GPS</th>
+                            <th>Quốc gia</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="edit-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>✏️ Chỉnh sửa Việt hóa</h2>
+                <form id="edit-form">
+                    <input type="hidden" id="edit-id">
+                    <div class="form-group">
+                        <label>Tên Hán:</label>
+                        <input type="text" id="edit-name-zh" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Tên tiếng Việt:</label>
+                        <input type="text" id="edit-name-vi" placeholder="Nhập tên tiếng Việt">
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả tiếng Việt:</label>
+                        <textarea id="edit-desc-vi" rows="4" placeholder="Nhập mô tả tiếng Việt"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>GPS:</label>
+                        <span id="edit-gps"></span>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">💾 Lưu</button>
+                        <button type="button" onclick="app.closeEditModal()" class="btn-secondary">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Compare Modal -->
+        <div id="compare-modal" class="modal hidden">
+            <div class="modal-content modal-large">
+                <h2>⚠️ GPS Compare - DILA Quarterly Update</h2>
+                <div id="compare-results">
+                    <p>Đang tải...</p>
+                </div>
+                <div class="form-actions">
+                    <button onclick="app.closeCompareModal()" class="btn-secondary">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts (CDN) -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/graphdb.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

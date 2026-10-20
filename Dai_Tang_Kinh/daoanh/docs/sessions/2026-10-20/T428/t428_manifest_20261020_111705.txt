@@ -1,0 +1,15 @@
+T428 Manifest - 2026-10-20 11:17:05
+============================================================
+Places XML SHA256: 736f5ec62b822e618516527bd6e53d8d85dfe8dcf110a1efb6f88ead3b52a56b
+Districts XML SHA256: 73b82b9e2b6f8845335bd4ca943efc1dc9fa28ad0ef1bd0568f6c5c70444ab07
+
+Places stats:
+  updated: 0
+  inserted: 208
+  skipped: 59145
+  mismatched: 41
+
+Districts stats:
+  inserted: 16907
+  updated: 0
+  skipped: 0

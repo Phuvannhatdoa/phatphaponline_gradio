@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phật Giáo Online - PhatPhapOnline.org</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f0e6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #d4a574 0%, #8b4513 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200') center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+        }
+        
+        .main-content {
+            padding: 3rem 0;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            color: #8b4513;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .feature-card p {
+            color: #666;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .search-section h2 {
+            color: #8b4513;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-form input {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            width: 300px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-form input:focus {
+            outline: none;
+            border-color: #d4a574;
+        }
+        
+        .search-form button {
+            padding: 12px 30px;
+            background: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .search-form button:hover {
+            background: #6d3610;
+        }
+        
+        .results {
+            margin-top: 2rem;
+        }
+        
+        .result-item {
+            background: #f9f9f9;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #d4a574;
+            border-radius: 5px;
+        }
+        
+        .result-item h4 {
+            color: #8b4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-form input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🪷 Phật Giáo Online</div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Trang Chủ</a></li>
+                        <li><a href="#">Tra Cứu Phổ Hệ</a></li>
+                        <li><a href="#">Đại Tạng Kinh</a></li>
+                        <li><a href="#">Tăng Ni</a></li>
+                        <li><a href="#">Liên Hệ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Chào Mừng Đến Với Phật Giáo Online</h1>
+            <p>Hỗ trợ Tăng Ni tra cứu dữ liệu Phật Giáo từ Đại Tạng Kinh Tiếng Việt</p>
+        </div>
+    </section>
+    
+    <main class="container main-content">
+        <section class="search-section">
+            <h2>🔍 Tra Cứu Phổ Hệ Truyền Thừa</h2>
+            <form class="search-form" onsubmit="searchLineage(event)">
+                <input type="text" id="searchInput" placeholder="Nhập tên Tăng/Ni hoặc dòng pháp...">
+                <button type="submit">Tìm Kiếm</button>
+            </form>
+            <div id="results" class="results"></div>
+        </section>
+        
+        <section class="features">
+            <div class="feature-card">
+                <h3>📖 Tra Cứu Kinh Điển</h3>
+                <p>Tìm kiếm và đọc các bài Kinh từ Đại Tạng Kinh Tiếng Việt. Hỗ trợ tìm theo tên Kinh, chương, và nội dung.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🧘 Tra Cứu Pháp Danh</h3>
+                <p>Tra cứu thông tin về các vị Tăng/Ni, pháp danh, nơi tu học, và dòng truyền thừa.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🏛️ Chùa Việt Nam</h3>
+                <p>Danh sách các chùa Việt Nam, thông tin địa chỉ, lịch sử, và các hoạt động Phật sự.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📚 Thư Viện</h3>
+                <p>Tài liệu, sách Phật Giáo, kinh điển, và các bài giảng của các Hòa Thượng.</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© 2026 PhatPhapOnline.org - Hỗ trợ Tăng Ni tra cứu dữ liệu Phật Giáo</p>
+            <p>Địa chỉ: http://158.220.106.183 | Domain: phatphaponline.org</p>
+        </div>
+    </footer>
+    
+    <script>
+        function searchLineage(e) {
+            e.preventDefault();
+            const input = document.getElementById('searchInput').value;
+            const results = document.getElementById('results');
+            
+            if (!input.trim()) {
+                results.innerHTML = '<p class="loading">Vui lòng nhập từ khóa tìm kiếm</p>';
+                return;
+            }
+            
+            results.innerHTML = '<p class="loading">Đang tìm kiếm...</p>';
+            
+            setTimeout(() => {
+                const mockResults = [
+                    { name: 'Thích Ca Niệm Trang', temple: 'Chùa Quảng Nghiêm', year: '1995', lineage: 'Thiền Tông' },
+                    { name: 'Thích Đạo Minh', temple: 'Chùa Giác Ngộ', year: '2000', lineage: 'Tịnh Độ Tông' },
+                    { name: 'Thích Hoằng Trung', temple: 'Chùa Phước Viên', year: '1988', lineage: 'Truyền Thống Việt Nam' }
+                ];
+                
+                const filtered = mockResults.filter(r => 
+                    r.name.toLowerCase().includes(input.toLowerCase()) ||
+                    r.lineage.toLowerCase().includes(input.toLowerCase())
+                );
+                
+                if (filtered.length === 0) {
+                    results.innerHTML = '<p class="loading">Không tìm thấy kết quả nào</p>';
+                } else {
+                    results.innerHTML = filtered.map(r => `
+                        <div class="result-item">
+                            <h4>${r.name}</h4>
+                            <p><strong>Chùa:</strong> ${r.temple}</p>
+                            <p><strong>Năm xuất gia:</strong> ${r.year}</p>
+                            <p><strong>Dòng pháp:</strong> ${r.lineage}</p>
+                        </div>
+                    `).join('');
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>

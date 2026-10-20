@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đạo Ảnh - Editor Dashboard (T119)</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#020617; --card:#0f172a; --line:#1e293b; --amber:#d97706; --amber2:#f59e0b; --text:#e2e8f0; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; }
+  .mono { font-family:'JetBrains Mono', monospace; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; }
+  .tab { padding:8px 14px; border-radius:8px; cursor:pointer; color:#94a3b8; border:1px solid transparent; }
+  .tab.active { background:var(--amber); color:#111827; font-weight:600; }
+  .btn { border-radius:8px; padding:6px 12px; font-weight:600; cursor:pointer; }
+  .btn-amber { background:var(--amber); color:#111827; }
+  .btn-ghost { border:1px solid var(--line); color:#cbd5e1; }
+  .st { padding:2px 8px; border-radius:999px; font-size:12px; }
+  .st-new { background:rgba(245,158,11,.15); color:var(--amber2); }
+  .st-ack { background:rgba(59,130,246,.15); color:#60a5fa; }
+  .st-closed { background:rgba(16,185,129,.15); color:#34d399; }
+  .st-verified { background:rgba(16,185,129,.15); color:#34d399; }
+  .st-unverified { background:rgba(248,113,113,.15); color:#f87171; }
+</style>
+</head>
+<body class="p-6">
+<div class="max-w-7xl mx-auto">
+  <div class="flex items-center justify-between mb-5">
+    <h1 class="text-2xl font-extrabold serif" style="color:var(--amber2)">🪷 Editor Dashboard — Bản địa Đạo Ảnh</h1>
+    <span id="clock" class="mono text-sm text-slate-400"></span>
+  </div>
+
+  <div id="stats" class="grid grid-cols-4 gap-3 mb-5"></div>
+
+  <div class="flex gap-2 mb-4 flex-wrap" id="tabs">
+    <div class="tab active" data-tab="claims">Claims</div>
+    <div class="tab" data-tab="feedback">Feedback <span id="fbBadge" class="text-xs"></span></div>
+    <div class="tab" data-tab="gaps">Data Gaps <span id="gapBadge" class="text-xs"></span></div>
+    <div class="tab" data-tab="resolutions">Resolutions</div>
+    <div class="tab" data-tab="audit">Audit Trail</div>
+    <div class="tab" data-tab="geo">Geo Enrichment</div>
+    <div class="tab" data-tab="bio">Bio Review <span id="bioBadge" class="text-xs"></span></div>
+  </div>
+
+  <div id="view"></div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const API = '/daoanh/api';
+let state = { tab: 'claims', page: 1, per: 50, claimsStatus: 'unverified', claimsType: '', selected: new Set() };
+
+async function j(r) { const d = await r.json(); if (!d.ok) throw new Error(d.error || 'Lỗi API'); return d; }
+async function get(u) { const r = await fetch(u); return j(r); }
+async function post(u, body) { const r = await fetch(u, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body||{})}); return j(r); }
+function fmt(d) { return d ? String(d).slice(0,16) : '-'; }
+function esc(s) { return String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function setTab(t) {
+  state.tab = t; state.page = 1; state.selected.clear();
+  document.querySelectorAll('#tabs .tab').forEach(x=>x.classList.toggle('active', x.dataset.tab===t));
+  render();
+}
+
+async function loadStats() {
+  try {
+    const d = await get(API + '/admin/editor-stats');
+    const rows = [
+      ['Claims', d.claims_total, 'tổng assertion'],
+      ['Chưa thẩm định', d.claims_unverified, `đã duyệt ${d.claims_verified}`],
+      ['Conflict mở', d.conflicts_open, `đã giải ${d.resolutions_total}`],
+      ['Dữ liệu thiếu', d.gaps_new, `feedback ${d.feedback_new}`],
+    ];
+    $('#stats').innerHTML = rows.map(([k,v,sub])=>`
+      <div class="card p-3">
+        <div class="text-xs text-slate-400">${k}</div>
+        <div class="text-2xl font-extrabold" style="color:var(--amber2)">${v}</div>
+        <div class="text-xs text-slate-500">${sub}</div>
+      </div>`).join('');
+    $('#fbBadge').textContent = d.feedback_new ? `(${d.feedback_new} mới)` : '';
+    $('#gapBadge').textContent = d.gaps_new ? `(${d.gaps_new})` : '';
+    $('#bioBadge').textContent = d.bio_pending ? `(${d.bio_pending})` : '';
+  } catch(e) { $('#stats').innerHTML = `<div class="card p-3 text-red-400">Lỗi stats: ${esc(e.message)}</div>`; }
+}
+
+function pagination(total) {
+  const pages = Math.max(1, Math.ceil(total / state.per));
+  let h = `<div class="flex items-center gap-2 mt-3 mono text-sm">
+    <button class="btn btn-ghost" onClick="goPage(${state.page-1})" ${state.page<=1?'disabled':''}>‹</button>
+    <span>Trang ${state.page}/${pages} · ${total} dòng</span>
+    <button class="btn btn-ghost" onClick="goPage(${state.page+1})" ${state.page>=pages?'disabled':''}>›</button>
+  </div>`;
+  return h;
+}
+function goPage(p) { if (p >= 1) { state.page = p; render(); } }
+
+async function render() {
+  const t = state.tab;
+  if (t === 'claims') return renderClaims();
+  if (t === 'feedback') return renderFeedback();
+  if (t === 'gaps') return renderGaps();
+  if (t === 'resolutions') return renderResolutions();
+  if (t === 'audit') return renderAudit();
+  if (t === 'geo') return renderGeo();
+  if (t === 'bio') return renderBio();
+}
+
+let claimsCache = null;
+async function renderClaims() {
+  const q = new URLSearchParams({page: state.page, per_page: state.per, status: state.claimsStatus});
+  if (state.claimsType) q.set('entity_type', state.claimsType);
+  const d = await get(`${API}/admin/entity-claims/unverified?${q}`);
+  claimsCache = d;
+  const allOnPage = d.claims.map(c => c.claim_id);
+  $('#view').innerHTML = `
+    <div class="card p-4 mb-4 flex items-center gap-3 flex-wrap">
+      <b>Hàng chờ thẩm định claim</b>
+      <select id="fStatus" class="bg-slate-800 border border-slate-700 rounded px-2 py-1">
+        <option value="unverified" ${state.claimsStatus==='unverified'?'selected':''}>unverified</option>
+        <option value="needs_review" ${state.claimsStatus==='needs_review'?'selected':''}>needs_review</option>
+        <option value="disputed" ${state.claimsStatus==='disputed'?'selected':''}>disputed</option>
+        <option value="verified" ${state.claimsStatus==='verified'?'selected':''}>verified</option>
+      </select>
+      <input id="fType" class="bg-slate-800 border border-slate-700 rounded px-2 py-1" placeholder="entity_type (place/person…)" value="${esc(state.claimsType)}">
+      <button class="btn btn-ghost" onClick="claimsFilter()">Lọc</button>
+      <div class="ml-auto flex gap-2">
+        <button class="btn btn-ghost" onClick="selAll()">Chọn tất cả trang</button>
+        <button class="btn btn-amber" onClick="bulkVerify('verified')">✅ Duyệt verified</button>
+        <button class="btn btn-ghost" onClick="bulkVerify('disputed')">Dispute</button>
+      </div>
+    </div>
+    <div class="card overflow-x-auto"><table class="w-full text-sm">
+      <thead><tr class="text-left text-slate-400 border-b border-slate-800">
+        <th class="p-2">#</th><th class="p-2">Claim ID</th><th class="p-2">Entity</th><th class="p-2">Loại</th>
+        <th class="p-2">Predicate</th><th class="p-2">Object</th><th class="p-2">Nguồn</th><th class="p-2">Cấp</th>
+      </tr></thead><tbody id="claimRows"></tbody></table></div>
+    ${pagination(d.total)}`;
+  $('#claimRows').innerHTML = d.claims.map(c => {
+    const sel = state.selected.has(c.claim_id) ? 'checked' : '';
+    return `<tr class="border-b border-slate-800/50">
+      <td class="p-2"><input type="checkbox" ${sel} onchange="toggleSel(${c.claim_id})"></td>
+      <td class="p-2 mono">${c.claim_id}</td>
+      <td class="p-2">${esc(c.canonical_label || c.entity_id)}<div class="text-xs text-slate-500">${esc(c.entity_type||'')}</div></td>
+      <td class="p-2">${esc(c.claim_type||'')}</td>
+      <td class="p-2">${esc(c.predicate||'')}</td>
+      <td class="p-2 max-w-xs truncate">${esc(c.object_text||'')}</td>
+      <td class="p-2">${esc(c.source_reference||'')}<div class="text-xs">${esc((c.source_url||'').slice(0,30))}</div></td>
+      <td class="p-2">${esc(c.assertion_level||'')}</td>
+    </tr>`;
+  }).join('') || `<tr><td class="p-4 text-slate-500" colspan="8">Không có claim nào.</td></tr>`;
+}
+function toggleSel(id) { state.selected.has(id) ? state.selected.delete(id) : state.selected.add(id); }
+function selAll() { if (claimsCache) claimsCache.claims.forEach(c => state.selected.add(c.claim_id)); renderClaims(); }
+async function claimsFilter() {
+  state.claimsStatus = $('#fStatus').value; state.claimsType = $('#fType').value.trim(); state.page = 1; state.selected.clear();
+  renderClaims();
+}
+async function bulkVerify(verdict) {
+  const ids = [...state.selected];
+  if (!ids.length) { alert('Chọn ít nhất 1 claim.'); return; }
+  const level = prompt('assertion_level (high/medium/low) — mặc định low:', 'low').trim() || 'low';
+  if (!['high','medium','low'].includes(level)) return alert('level phải ∈ high|medium|low');
+  if (!confirm(`Duyệt ${ids.length} claims -> ${verdict}/${level}?`)) return;
+  try {
+    const d = await post(`${API}/admin/claims/bulk-review`, {ids, verdict, assertion_level: level, editor: 'admin'});
+    alert(`Đã duyệt ${d.count} claims. audit_id=${d.audit_id}`);
+    state.selected.clear(); await loadStats(); renderClaims();
+  } catch(e) { alert('Lỗi: ' + e.message); }
+}
+
+async function renderFeedback() {
+  const d = await get(`${API}/admin/feedback?status=new&page=${state.page}&per_page=${state.per}`);
+  $('#view').innerHTML = `
+    <div class="card overflow-x-auto"><table class="w-full text-sm">
+    <thead><tr class="text-left text-slate-400 border-b border-slate-800">
+      <th class="p-2">ID</th><th class="p-2">Loại</th><th class="p-2">Entity</th><th class="p-2">Ghi chú</th><th class="p-2">Cấp user</th><th class="p-2">Ngày</th><th class="p-2">Hành động</th>
+    </tr></thead><tbody>
+    ${d.feedback.map(f => `<tr class="border-b border-slate-800/50">
+      <td class="p-2 mono">${f.id}</td>
+      <td class="p-2">${esc(f.feedback_type)}</td>
+      <td class="p-2">${esc(f.entity_id||'')}<div class="text-xs">${esc(f.entity_type||'')}</div></td>
+      <td class="p-2">${esc(f.note_plain)}</td>
+      <td class="p-2">${esc(f.user_level||'-')}</td>
+      <td class="p-2">${fmt(f.created_at)}</td>
+      <td class="p-2"><button class="btn btn-ghost" onClick="fbSt(${f.id},'ack')">✓ Ack</button>
+          <button class="btn btn-amber" onClick="fbSt(${f.id},'closed')">Đóng</button></td>
+    </tr>`).join('') || '<tr><td class="p-4 text-slate-500" colspan="7">Không có feedback mới.</td></tr>'}
+    </tbody></table></div>
+    ${pagination(d.total)}`;
+}
+async function fbSt(id, status) { await post(`${API}/admin/feedback/${id}/status`, {status}); await loadStats(); renderFeedback(); }
+
+async function renderGaps() {
+  const d = await get(`${API}/admin/data-gaps?status=new&page=${state.page}&per_page=${state.per}`);
+  const byType = Object.entries(d.by_type || {}).map(([k,v]) => `<span class="st st-ack">${k}: ${v}</span>`).join(' ');
+  $('#view').innerHTML = `
+    <div class="card p-3 mb-3"><b>Phân theo gap_type (mới):</b> <span class="flex gap-2 mt-2">${byType || '-'}</span></div>
+    <div class="card overflow-x-auto"><table class="w-full text-sm">
+    <thead><tr class="text-left text-slate-400 border-b border-slate-800">
+      <th class="p-2">ID</th><th class="p-2">Entity</th><th class="p-2">Loại</th><th class="p-2">Ghi chú</th><th class="p-2">Nguồn gợi ý</th><th class="p-2">Ngày</th><th class="p-2">Hành động</th>
+    </tr></thead><tbody>
+    ${d.gaps.map(g => `<tr class="border-b border-slate-800/50">
+      <td class="p-2 mono">${g.id}</td>
+      <td class="p-2">${esc(g.entity_id)}<div class="text-xs text-slate-500">${esc(g.entity_name||'')}</div></td>
+      <td class="p-2">${esc(g.gap_type)}</td>
+      <td class="p-2 max-w-sm">${esc(g.note_plain||'')}</td>
+      <td class="p-2">${esc(g.source_hint||'-')}</td>
+      <td class="p-2">${fmt(g.created_at)}</td>
+      <td class="p-2"><button class="btn btn-ghost" onClick="gapSt(${g.id},'ack')">✓ Ack</button>
+          <button class="btn btn-amber" onClick="gapSt(${g.id},'closed')">Đóng</button></td>
+    </tr>`).join('') || '<tr><td class="p-4 text-slate-500" colspan="7">Không có gap mới.</td></tr>'}
+    </tbody></table></div>
+    ${pagination(d.total)}`;
+}
+async function gapSt(id, status) { await post(`${API}/admin/data-gap/${id}/status`, {status}); await loadStats(); renderGaps(); }
+
+async function renderResolutions() {
+  const d = await get(`${API}/admin/resolutions/history?page=${state.page}&per_page=${state.per}`);
+  $('#view').innerHTML = `
+    <div class="card overflow-x-auto"><table class="w-full text-sm">
+    <thead><tr class="text-left text-slate-400 border-b border-slate-800">
+      <th class="p-2">ID</th><th class="p-2">Nhân vật</th><th class="p-2">Conflict</th><th class="p-2">Chọn nguồn</th>
+      <th class="p-2">Trước</th><th class="p-2">Ghi chú</th><th class="p-2">Bởi</th><th class="p-2">Vào lúc</th>
+    </tr></thead><tbody>
+    ${d.resolutions.map(r => `<tr class="border-b border-slate-800/50">
+      <td class="p-2 mono">${r.id}</td>
+      <td class="p-2">${esc(r.name_vi||r.label||r.monk_id)}<div class="text-xs text-slate-500">${esc(r.person_id||'')}</div></td>
+      <td class="p-2">#${r.conflict_id} ${esc(r.conflict_type||'')}</td>
+      <td class="p-2">${esc(r.chosen_source)}</td>
+      <td class="p-2">${esc(r.previous_source||'-')}</td>
+      <td class="p-2 max-w-xs truncate">${esc(r.notes||'')}</td>
+      <td class="p-2">${esc(r.resolved_by)}</td>
+      <td class="p-2">${fmt(r.resolved_at)}</td>
+    </tr>`).join('') || '<tr><td class="p-4 text-slate-500" colspan="8">Chưa có resolution nào.</td></tr>'}
+    </tbody></table></div>
+    ${pagination(d.total)}`;
+}
+
+async function renderAudit() {
+  const d = await get(`${API}/admin/audit/trail?page=${state.page}&per_page=${state.per}`);
+  $('#view').innerHTML = `
+    <div class="card overflow-x-auto"><table class="w-full text-sm">
+    <thead><tr class="text-left text-slate-400 border-b border-slate-800">
+      <th class="p-2">Audit ID</th><th class="p-2">Entity</th><th class="p-2">Action</th><th class="p-2">Field</th>
+      <th class="p-2">Cũ → Mới</th><th class="p-2">Evidence</th><th class="p-2">Editor</th><th class="p-2">Vào lúc</th>
+    </tr></thead><tbody>
+    ${d.audits.map(a => `<tr class="border-b border-slate-800/50">
+      <td class="p-2 mono" style="color:var(--amber2)">${esc(a.audit_id)}</td>
+      <td class="p-2">${esc(a.entity_ref||'')}</td>
+      <td class="p-2">${esc(a.action)}</td>
+      <td class="p-2">${esc(a.field_name||'')}</td>
+      <td class="p-2 max-w-xs">${esc(a.old_value||'')} → ${esc(a.new_value||'')}</td>
+      <td class="p-2 max-w-xs truncate">${esc(a.evidence_sources||'')}</td>
+      <td class="p-2">${esc(a.editor||'')}</td>
+      <td class="p-2">${fmt(a.created_at)}</td>
+    </tr>`).join('') || '<tr><td class="p-4 text-slate-500" colspan="8">Không có audit nào.</td></tr>'}
+    </tbody></table></div>
+    ${pagination(d.total)}`;
+}
+
+async function renderGeo() {
+  const d = await get(`${API}/admin/geo-enrich/candidates?page=${state.page}&per_page=${state.per}`);
+  $('#view').innerHTML = `
+    <div class="card p-4 mb-3">
+      <b>Ứng viên geo enrichment (Wikidata P625/P2044)</b>
+      <p class="text-xs text-slate-500 mt-1">Chọn dòng → nhập tọa độ ✔ để Duyệt (status=approved) hoặc ✘ Từ chối. Không tự approve.</p>
+    </div>
+    <div class="card overflow-x-auto"><table class="w-full text-sm">
+    <thead><tr class="text-left text-slate-400 border-b border-slate-800">
+      <th class="p-2">DILA ID</th><th class="p-2">Tên (zh)</th><th class="p-2">Geo</th><th class="p-2">QID đề xuất</th>
+      <th class="p-2">lat/lon/elev</th><th class="p-2">Trạng thái</th><th class="p-2">✔ Duyệt</th><th class="p-2">✘</th>
+    </tr></thead><tbody>
+    ${d.candidates.map(c => {
+      const qid = c.enrich_source_qid || c.wikidata_qid || '';
+      const lat = c.enrich_lat != null ? c.enrich_lat : (c.geo_lat ?? '');
+      const lon = c.enrich_lon != null ? c.enrich_lon : (c.geo_long ?? '');
+      const elev = c.enrich_elevation_m ?? '';
+      return `<tr class="border-b border-slate-800/50">
+      <td class="p-2 mono">${c.dila_id}</td>
+      <td class="p-2">${esc(c.name)}<div class="text-xs text-slate-500">${esc(c.name_zh||'')}</div></td>
+      <td class="p-2">${c.geo_lat==null||c.geo_long==null?'thiếu':'có'}</td>
+      <td class="p-2 mono">${qid||'-'}</td>
+      <td class="p-2 mono text-xs">${lat} / ${lon} / ${elev}</td>
+      <td class="p-2">${esc(c.enrich_status||'none')}</td>
+      <td class="p-2"><button class="btn btn-amber" onClick="geoApprove('${c.dila_id}','${qid}','${lat}','${lon}','${elev}')">✔</button></td>
+      <td class="p-2"><button class="btn btn-ghost" ${c.id?`onClick="geoStatus(${c.id},'rejected')"`:'disabled'} >✘</button></td>
+    </tr>`;}).join('') || '<tr><td class="p-4 text-slate-500" colspan="8">Không còn ứng viên.</td></tr>'}
+    </tbody></table></div>
+    ${pagination(d.total)}`;
+}
+async function geoApprove(dilaId, qid, lat, lon, elev) {
+  if (!qid) return alert('Chưa có QID đề xuất — chạy scripts/enrich_places.py --run trước.');
+  if (!confirm(`Duyệt ${dilaId} -> Q${qid} (${lat}, ${lon}), elev=${elev||'--'}?`)) return;
+  try {
+    await post(`${API}/admin/geo-enrich`, {dila_id: dilaId, wikidata_qid: qid,
+      lat: lat===''?null:Number(lat), lon: lon===''?null:Number(lon),
+      elevation_m: elev===''?null:Number(elev), source_url: 'wikidata'});
+    alert('Đã duyệt ✔');
+    await loadStats(); renderGeo();
+  } catch(e) { alert('Lỗi: ' + e.message); }
+}
+async function geoStatus(id, status) { await post(`${API}/admin/geo-enrich/${id}/status`, {status}); renderGeo(); }
+
+let bioSel = new Set();
+async function renderBio() {
+  const st = state.bioStatus || 'pending';
+  const d = await get(`${API}/admin/bio-review/pending?status=${st}&page=${state.page}&per_page=${state.per}`);
+  $('#view').innerHTML = `
+    <div class="card p-4 mb-3 flex items-center gap-3 flex-wrap">
+      <b>Bio Tiếng Việt — hàng chờ duyệt (person_bio_vi_draft)</b>
+      <select id="bioSt" class="bg-slate-800 border border-slate-700 rounded px-2 py-1" onchange="bioFilter()">
+        <option value="pending" ${st==='pending'?'selected':''}>pending</option>
+        <option value="approved" ${st==='approved'?'selected':''}>approved</option>
+        <option value="rejected" ${st==='rejected'?'selected':''}>rejected</option>
+        <option value="all" ${st==='all'?'selected':''}>all</option>
+      </select>
+      <div class="ml-auto flex gap-2">
+        <button class="btn btn-amber" onClick="bioApply()">✅ Áp dụng đã duyệt → people.bio_vi</button>
+      </div>
+    </div>
+    <div class="card overflow-x-auto"><table class="w-full text-sm">
+    <thead><tr class="text-left text-slate-400 border-b border-slate-800">
+      <th class="p-2">Duyệt</th><th class="p-2">Person</th><th class="p-2">Tên VI</th><th class="p-2">Bio dự thảo</th>
+      <th class="p-2">Nguồn</th><th class="p-2">✔/✘</th><th class="p-2">Bio đời</th><th class="p-2">Hành động</th>
+    </tr></thead><tbody>
+    ${d.drafts.map(x => {
+      const key = 'bio_' + x.person_id;
+      const sel = bioSel.has(key) ? 'checked' : '';
+      const approved = x.admin_approved > 0;
+      const rejected = x.admin_approved < 0;
+      const hasOld = x.has_bio_vi ? 'có' : 'chưa';
+      return `<tr class="border-b border-slate-800/50">
+      <td class="p-2"><input type="checkbox" ${sel} onchange="bioToggle('${key}')" ${approved?'disabled':''}></td>
+      <td class="p-2">${esc(x.person_id)}<div class="text-xs text-slate-500">${esc(x.person_name_zh||'')}</div></td>
+      <td class="p-2">${esc(x.name_vi||x.person_name_vi||'')}</td>
+      <td class="p-2 max-w-md"><span class="line-clamp-3">${esc(x.bio_vi_draft||'-')}</span>
+        <div class="text-xs text-slate-500 mt-1">${x.char_count?'['+x.char_count+' ký tự] ':''}${esc(x.admin_note||'')}</div></td>
+      <td class="p-2 text-xs">${esc(x.source_name||x.source_lex_id||'-')}<div>${esc(x.match_type||'')}</div></td>
+      <td class="p-2">${approved?'<span class="st st-verified">✔ approved</span>':rejected?'<span class="st st-unverified">✘ rejected</span>':'<span class="st st-new">chờ</span>'}</td>
+      <td class="p-2">${hasOld}</td>
+      <td class="p-2 flex gap-1">
+        ${!approved&&!rejected?`<button class="btn btn-amber" onClick="bioVote('${x.person_id}','approve')">✔ Duyệt</button>
+          <button class="btn btn-ghost" onClick="bioVote('${x.person_id}','reject')">✘ Từ chối</button>`:`<button class="btn btn-ghost" onClick="bioVote('${x.person_id}','approve')">Sửa → Duyệt</button>`}
+      </td>
+    </tr>`;}).join('') || '<tr><td class="p-4 text-slate-500" colspan="8">Không có draft trong trạng thái này.</td></tr>'}
+    </tbody></table></div>
+    ${pagination(d.total)}`;
+}
+function bioFilter() { state.bioStatus = $('#bioSt').value; state.page = 1; bioSel.clear(); renderBio(); }
+function bioToggle(k) { bioSel.has(k) ? bioSel.delete(k) : bioSel.add(k); }
+async function bioVote(pid, action) {
+  if (!confirm(`Duyệt thao tác bio_vi_draft ${action} cho ${pid}?`)) return;
+  try {
+    await post(`${API}/admin/bio-review/${pid}`, {action, note: 'Batch D (T73)', editor: 'admin'});
+    await loadStats(); renderBio();
+  } catch(e) { alert('Lỗi: ' + e.message); }
+}
+async function bioApply() {
+  const ids = [...bioSel].map(k => k.slice(4));
+  if (!ids.length) return alert('Chọn ít nhất 1 dòng đã approved (hộp ✔ ở cột đầu).');
+  if (!confirm(`Áp dụng ${ids.length} draft approved → people.bio_vi?`)) return;
+  try {
+    const d = await post(`${API}/admin/bio-review/apply`, {person_ids: ids, editor: 'admin'});
+    alert(`Áp dụng xong: ${d.applied} ghi, ${d.skipped} giống sẵn (SKIP).`);
+    bioSel.clear(); await loadStats(); renderBio();
+  } catch(e) { alert('Lỗi: ' + e.message); }
+}
+
+document.querySelectorAll('#tabs .tab').forEach(x => x.addEventListener('click', () => setTab(x.dataset.tab)));
+function tick(){ $('#clock').textContent = new Date().toLocaleString('vi-VN'); }
+setInterval(tick, 1000); tick();
+loadStats();
+render();
+</script>
+</body>
+</html>

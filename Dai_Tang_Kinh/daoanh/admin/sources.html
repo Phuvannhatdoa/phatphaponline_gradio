@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Source Hub — Đạo Ảnh Admin</title>
+<link rel="stylesheet" href="/daoanh/admin/admin.css">
+<style>
+:root {
+  --c-ok: #16a34a; --c-warn: #d97706; --c-err: #dc2626; --c-info: #2563eb;
+  --c-legacy: #7c3aed; --c-border: #e5e7eb; --c-bg2: #f9fafb;
+}
+body { font-family: system-ui,sans-serif; margin:0; padding:0; background:#fff; }
+.topbar { background:#1e293b; color:#fff; padding:0.7rem 1.5rem;
+          display:flex; align-items:center; gap:1rem; }
+.topbar h1 { font-size:1rem; margin:0; font-weight:600; }
+.topbar a { color:#94a3b8; font-size:0.82rem; text-decoration:none; }
+.topbar a:hover { color:#fff; }
+.stats-row { display:flex; gap:1rem; padding:1rem 1.5rem; background:var(--c-bg2);
+             border-bottom:1px solid var(--c-border); flex-wrap:wrap; }
+.stat-box { background:#fff; border:1px solid var(--c-border); border-radius:8px;
+            padding:0.6rem 1rem; min-width:110px; text-align:center; }
+.stat-box .num { font-size:1.6rem; font-weight:700; line-height:1.2; }
+.stat-box .lbl { font-size:0.75rem; color:#64748b; }
+.num.ok  { color:var(--c-ok); }
+.num.warn{ color:var(--c-warn); }
+.num.err { color:var(--c-err); }
+.num.leg { color:var(--c-legacy); }
+.toolbar { padding:0.7rem 1.5rem; display:flex; gap:0.5rem; align-items:center;
+           border-bottom:1px solid var(--c-border); }
+.toolbar select, .toolbar input { border:1px solid #d1d5db; border-radius:6px;
+                                   padding:0.3rem 0.6rem; font-size:0.85rem; }
+.tbl-wrap { padding:0 1.5rem 2rem; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+th { background:var(--c-bg2); text-align:left; padding:0.5rem 0.7rem;
+     border-bottom:2px solid var(--c-border); white-space:nowrap; position:sticky;
+     top:0; z-index:1; font-size:0.78rem; color:#374151; }
+td { padding:0.45rem 0.7rem; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
+tr:hover td { background:#f8fafc; }
+.badge { display:inline-block; padding:1px 7px; border-radius:4px;
+         font-size:0.73rem; font-weight:600; }
+.b-legacy  { background:#ede9fe; color:#5b21b6; }
+.b-active  { background:#dcfce7; color:#15803d; }
+.b-auditing{ background:#fef9c3; color:#854d0e; }
+.b-blocked { background:#fee2e2; color:#991b1b; }
+.b-unknown { background:#f1f5f9; color:#475569; }
+.b-internal{ background:#e0f2fe; color:#075985; }
+.badge-mode { font-size:0.7rem; border:1px solid currentColor; border-radius:3px;
+              padding:1px 5px; background:transparent; }
+.claims-bar { display:inline-block; height:8px; border-radius:4px;
+              background:#3b82f6; vertical-align:middle; margin-right:4px; }
+.detail-btn { background:none; border:1px solid #d1d5db; border-radius:4px;
+              padding:2px 8px; cursor:pointer; font-size:0.75rem; color:#374151; }
+.detail-btn:hover { background:#f1f5f9; }
+#detail-panel { position:fixed; right:0; top:0; bottom:0; width:380px;
+                background:#fff; border-left:1px solid var(--c-border);
+                overflow-y:auto; padding:1.2rem; display:none; z-index:100;
+                box-shadow:-4px 0 12px rgba(0,0,0,.08); }
+#detail-panel h2 { font-size:1rem; margin:0 0 0.3rem; }
+#detail-panel .close { float:right; cursor:pointer; font-size:1.1rem; color:#94a3b8; }
+#detail-panel .close:hover { color:#111; }
+.dp-row { display:flex; gap:0.5rem; margin-bottom:0.3rem; font-size:0.83rem; }
+.dp-row .lbl { color:#64748b; min-width:130px; }
+.dp-row .val { font-weight:500; word-break:break-all; }
+.dp-divider { border:none; border-top:1px solid var(--c-border); margin:0.7rem 0; }
+.warning-bar { background:#fff7ed; border:1px solid #fdba74; border-radius:6px;
+               padding:0.5rem 1rem; font-size:0.82rem; color:#7c2d12; margin:0.8rem 1.5rem; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>🔐 Source Hub</h1>
+  <a href="/daoanh/admin/">← Admin</a>
+  <a href="/daoanh/admin/source_check.html">Legal Check cũ</a>
+  <a href="/daoanh/credits.html">Credits</a>
+  <span style="margin-left:auto;font-size:0.78rem;color:#64748b" id="last-updated"></span>
+</div>
+
+<div class="warning-bar" id="warn-bar" style="display:none">
+  ⚠ <strong id="warn-text"></strong>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="num" id="s-total">–</div><div class="lbl">Tổng nguồn</div></div>
+  <div class="stat-box"><div class="num ok" id="s-active">–</div><div class="lbl">ACTIVE</div></div>
+  <div class="stat-box"><div class="num leg" id="s-legacy">–</div><div class="lbl">LEGACY (historical)</div></div>
+  <div class="stat-box"><div class="num warn" id="s-auditing">–</div><div class="lbl">AUDITING</div></div>
+  <div class="stat-box"><div class="num err" id="s-blocked">–</div><div class="lbl">BLOCKED/UNKNOWN</div></div>
+  <div class="stat-box"><div class="num err" id="s-unverified">–</div><div class="lbl">license_verified=0</div></div>
+  <div class="stat-box"><div class="num" id="s-claims">–</div><div class="lbl">Total claims</div></div>
+</div>
+
+<div class="toolbar">
+  <label style="font-size:0.82rem;color:#374151">Lọc:</label>
+  <select id="filter-status">
+    <option value="">Tất cả trạng thái</option>
+    <option value="ACTIVE">ACTIVE</option>
+    <option value="LEGACY">LEGACY</option>
+    <option value="AUDITING">AUDITING</option>
+    <option value="BLOCKED">BLOCKED</option>
+    <option value="UNKNOWN">UNKNOWN</option>
+  </select>
+  <select id="filter-mode">
+    <option value="">Tất cả mode</option>
+    <option value="INGEST">INGEST</option>
+    <option value="BLOCKED">BLOCKED</option>
+    <option value="REFERENCE_ONLY">REFERENCE_ONLY</option>
+  </select>
+  <input type="text" id="filter-text" placeholder="Tìm tên nguồn…" style="width:160px">
+</div>
+
+<div class="tbl-wrap">
+<table id="src-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nguồn</th>
+      <th>Trạng thái pháp lý</th>
+      <th>legal_at_ingest</th>
+      <th>Mode</th>
+      <th>license_verified</th>
+      <th>Claims</th>
+      <th>Auth score</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="src-tbody">
+    <tr><td colspan="9" style="text-align:center;padding:2rem;color:#94a3b8">Đang tải…</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div id="detail-panel">
+  <span class="close" onclick="closeDetail()">✕</span>
+  <h2 id="dp-title">–</h2>
+  <div id="dp-content"></div>
+</div>
+
+<script>
+const CLAIMS_MAX = 300000;
+let allSources = [];
+
+async function load() {
+  try {
+    const r = await fetch('/daoanh/api/admin/sources/list');
+    const d = await r.json();
+    allSources = d.sources || [];
+    renderStats(d);
+    renderTable(allSources);
+    document.getElementById('last-updated').textContent = 'Cập nhật: ' + new Date().toLocaleTimeString('vi-VN');
+  } catch(e) {
+    document.getElementById('warn-bar').style.display = '';
+    document.getElementById('warn-text').textContent = 'Không lấy được dữ liệu từ API: ' + e.message;
+    renderFallback();
+  }
+}
+
+function renderStats(d) {
+  const src = d.sources || [];
+  document.getElementById('s-total').textContent = src.length;
+  document.getElementById('s-active').textContent = src.filter(s => s.legal_status === 'ACTIVE').length;
+  document.getElementById('s-legacy').textContent = src.filter(s => s.legal_status_at_ingest === 'LEGACY').length;
+  document.getElementById('s-auditing').textContent = src.filter(s => s.legal_status === 'AUDITING').length;
+  document.getElementById('s-blocked').textContent = src.filter(s => ['BLOCKED','UNKNOWN'].includes(s.legal_status)).length;
+  document.getElementById('s-unverified').textContent = src.filter(s => !s.license_verified).length;
+  const totalClaims = src.reduce((a,s) => a + (s.claims||0), 0);
+  document.getElementById('s-claims').textContent = totalClaims.toLocaleString('vi-VN');
+}
+
+function badgeStatus(s, at_ingest) {
+  if (at_ingest === 'LEGACY') return `<span class="badge b-legacy">LEGACY</span>`;
+  const map = {ACTIVE:'b-active',AUDITING:'b-auditing',BLOCKED:'b-blocked',
+               UNKNOWN:'b-unknown',INTERNAL_USE:'b-internal'};
+  return `<span class="badge ${map[s]||'b-unknown'}">${s||'–'}</span>`;
+}
+
+function badgeMode(m) {
+  const col = m==='INGEST'?'var(--c-ok)':m==='BLOCKED'?'var(--c-err)':'var(--c-warn)';
+  return `<span class="badge-mode" style="color:${col};border-color:${col}">${m||'–'}</span>`;
+}
+
+function renderTable(sources) {
+  const tbody = document.getElementById('src-tbody');
+  if (!sources.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;color:#94a3b8">Không có nguồn nào</td></tr>';
+    return;
+  }
+  tbody.innerHTML = sources.map((s,i) => {
+    const barW = Math.round((s.claims||0) / CLAIMS_MAX * 80);
+    const claimsHtml = s.claims
+      ? `<span class="claims-bar" style="width:${barW}px"></span>${(s.claims).toLocaleString('vi-VN')}`
+      : '<span style="color:#94a3b8">0</span>';
+    const verified = s.license_verified
+      ? '<span style="color:var(--c-ok)">✓</span>'
+      : '<span style="color:var(--c-err)">✗</span>';
+    return `<tr data-id="${s.source_id}" data-status="${s.legal_status||''}" data-ingest="${s.legal_status_at_ingest||''}" data-mode="${s.integration_mode||''}" data-name="${s.source_code||''}">
+      <td style="color:#94a3b8">${s.source_id}</td>
+      <td><strong>${s.source_code||'–'}</strong><br><span style="color:#64748b;font-size:0.75rem">${s.organization||''}</span></td>
+      <td>${badgeStatus(s.legal_status, s.legal_status_at_ingest)}</td>
+      <td style="font-size:0.78rem;color:#7c3aed">${s.legal_status_at_ingest||'–'}</td>
+      <td>${badgeMode(s.integration_mode)}</td>
+      <td style="text-align:center">${verified}</td>
+      <td>${claimsHtml}</td>
+      <td style="text-align:center">${s.authority_score!=null?s.authority_score:'–'}</td>
+      <td><button class="detail-btn" onclick="showDetail(${s.source_id})">Chi tiết</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function applyFilters() {
+  const st = document.getElementById('filter-status').value;
+  const mo = document.getElementById('filter-mode').value;
+  const tx = document.getElementById('filter-text').value.toLowerCase();
+  const filtered = allSources.filter(s => {
+    const effectiveStatus = s.legal_status_at_ingest === 'LEGACY' ? 'LEGACY' : (s.legal_status||'');
+    if (st && effectiveStatus !== st) return false;
+    if (mo && (s.integration_mode||'') !== mo) return false;
+    if (tx && !(s.source_code||'').toLowerCase().includes(tx) && !(s.organization||'').toLowerCase().includes(tx)) return false;
+    return true;
+  });
+  renderTable(filtered);
+}
+
+['filter-status','filter-mode','filter-text'].forEach(id =>
+  document.getElementById(id).addEventListener('input', applyFilters));
+
+function showDetail(id) {
+  const s = allSources.find(x => x.source_id === id);
+  if (!s) return;
+  const panel = document.getElementById('detail-panel');
+  document.getElementById('dp-title').textContent = s.source_code + (s.organization ? ` — ${s.organization}` : '');
+  const rows = [
+    ['source_id', s.source_id],
+    ['legal_status', s.legal_status||'–'],
+    ['legal_status_at_ingest', s.legal_status_at_ingest||'–'],
+    ['integration_mode', s.integration_mode||'–'],
+    ['license_verified', s.license_verified ? '✓ có' : '✗ chưa'],
+    ['license_spdx', s.license_spdx||'–'],
+    ['data_license', s.data_license||'–'],
+    ['active', s.active ? 'có' : 'không'],
+    ['claims', (s.claims||0).toLocaleString('vi-VN')],
+    ['authority_score', s.authority_score!=null ? s.authority_score : '–'],
+    ['origin_url', s.origin_url ? `<a href="${s.origin_url}" target="_blank">${s.origin_url}</a>` : '–'],
+    ['license_url', s.license_url ? `<a href="${s.license_url}" target="_blank">${s.license_url}</a>` : '–'],
+  ];
+  document.getElementById('dp-content').innerHTML = rows.map(([l,v]) =>
+    `<div class="dp-row"><span class="lbl">${l}</span><span class="val">${v}</span></div>`
+  ).join('') + `<hr class="dp-divider">
+  <div style="font-size:0.78rem;color:#64748b">Để thay đổi trạng thái pháp lý,<br>dùng API <code>/api/admin/sources/update-status</code><br>hoặc chỉnh trực tiếp trong DB với script.</div>`;
+  panel.style.display = 'block';
+}
+
+function closeDetail() {
+  document.getElementById('detail-panel').style.display = 'none';
+}
+
+// Fallback: render static data nếu API chưa có
+function renderFallback() {
+  const fallback = [
+    {source_id:1,source_code:'DILA',legal_status:'AUDITING',legal_status_at_ingest:'LEGACY',integration_mode:'INGEST',license_verified:0,claims:293177,authority_score:100},
+    {source_id:2,source_code:'BDRC',legal_status:'UNKNOWN',legal_status_at_ingest:null,integration_mode:'BLOCKED',license_verified:0,claims:0,authority_score:40},
+    {source_id:3,source_code:'CBETA',legal_status:'AUDITING',legal_status_at_ingest:'LEGACY',integration_mode:'INGEST',license_verified:0,claims:13933,authority_score:80},
+    {source_id:4,source_code:'MARCUS',legal_status:'AUDITING',legal_status_at_ingest:'LEGACY',integration_mode:'INGEST',license_verified:0,claims:22332,authority_score:60},
+    {source_id:5,source_code:'ZQLOCAL',legal_status:'AUDITING',legal_status_at_ingest:'LEGACY',integration_mode:'INGEST',license_verified:0,claims:118295,authority_score:50},
+    {source_id:6,source_code:'Wikidata',legal_status:'AUDITING',legal_status_at_ingest:'LEGACY',integration_mode:'INGEST',license_verified:0,claims:148,authority_score:25},
+    {source_id:7,source_code:'SAT',legal_status:'UNKNOWN',legal_status_at_ingest:null,integration_mode:'BLOCKED',license_verified:0,claims:0,authority_score:75},
+    {source_id:8,source_code:'CHGIS',legal_status:'UNKNOWN',legal_status_at_ingest:null,integration_mode:'BLOCKED',license_verified:0,claims:0,authority_score:58},
+    {source_id:9,source_code:'FoJin',legal_status:'UNKNOWN',legal_status_at_ingest:null,integration_mode:'BLOCKED',license_verified:0,claims:0,authority_score:40},
+    {source_id:10,source_code:'Kanripo',legal_status:'UNKNOWN',legal_status_at_ingest:null,integration_mode:'BLOCKED',license_verified:0,claims:0,authority_score:70},
+    {source_id:11,source_code:'SuttaCentral',legal_status:'UNKNOWN',legal_status_at_ingest:null,integration_mode:'BLOCKED',license_verified:0,claims:0,authority_score:50},
+    {source_id:12,source_code:'84000',legal_status:'UNKNOWN',legal_status_at_ingest:null,integration_mode:'BLOCKED',license_verified:0,claims:0,authority_score:45},
+    {source_id:13,source_code:'TGAZ',legal_status:'UNKNOWN',legal_status_at_ingest:null,integration_mode:'BLOCKED',license_verified:0,claims:0,authority_score:55},
+    {source_id:14,source_code:'ZENLINEAGE',legal_status:'INTERNAL_USE',legal_status_at_ingest:'LEGACY',integration_mode:'INGEST',license_verified:0,claims:0,authority_score:50},
+  ];
+  allSources = fallback;
+  renderStats({sources: fallback});
+  renderTable(fallback);
+  document.getElementById('warn-bar').style.display = '';
+  document.getElementById('warn-text').textContent = 'API chưa có — hiển thị dữ liệu tĩnh (snapshot 2026-10-04). Chạy app.py để xem dữ liệu thật.';
+}
+
+load();
+</script>
+</body>
+</html>

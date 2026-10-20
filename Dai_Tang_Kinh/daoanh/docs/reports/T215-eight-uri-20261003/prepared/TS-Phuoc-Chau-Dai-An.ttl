@@ -1,0 +1,29 @@
+@prefix bkg: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dila: <https://authority.dila.edu.tw/person/search.php?aid=> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<ex:monk/phuoc_chau_dai_an> a <bkg:Monk> ;
+    rdfs:label "Phước Châu Đại An"@vi ;
+    rdfs:label "福州大安"@zh-Hant ;
+    owl:sameAs dila:A003636 ;
+    dct:source dila:A003636 ;
+    crm:P1_is_identified_by <ex:monk/phuoc_chau_dai_an> ;        
+    bkg:biographicalNote """Thiền sư Đại An ở Phước Châu, còn có tên Trường Khánh Đại An và Lãn An, sống đời Đường. Sư họ Trần, ban đầu học luật ở Hoàng Bá, sau đến tham học Bách Trượng Hoài Hải và lãnh hội tông chỉ. Sư cùng Linh Hựu dựng đạo tràng ở Quy Sơn, về sau trụ trì chùa Trường Khánh tại Phước Châu. Tóm tắt Việt từ DILA A003636; không phải bản dịch toàn văn kinh."""@vi ;
+    bkg:birthEvent <ex:monk/phuoc_chau_dai_an_birthEvent> ;
+    bkg:deathEvent <ex:monk/phuoc_chau_dai_an_deathEvent> ;
+    bkg:dharmaLineageName "Thiền Tông Trung Hoa - Nam Tông"@vi ;
+    bkg:gender <bkg:Male> ;
+    bkg:generationOrder 37 ;    
+    bkg:hasTeacher <ex:monk/bach_truong_hoai_hai> ;        
+    bkg:isLineageFounder false .
+ 
+<ex:monk/bach_truong_hoai_hai> rdfs:label "Bách Trượng Hoài Hải"@vi . 
+ 
+
+
+# Định danh thầy được đối chiếu DILA; số đời vẫn giữ bản TTL cũ.
+<ex:monk/bach_truong_hoai_hai> owl:sameAs dila:A001897 .

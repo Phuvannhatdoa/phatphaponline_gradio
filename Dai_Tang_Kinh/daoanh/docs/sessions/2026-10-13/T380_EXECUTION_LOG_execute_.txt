@@ -1,0 +1,36 @@
+[2026-10-13T19:13:01.303397] 
+============================================================
+[2026-10-13T19:13:01.303472]   T380 RESTORE — Mode: EXECUTE
+[2026-10-13T19:13:01.303492] ============================================================
+
+Traceback (most recent call last):
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\docs\sessions\2026-10-13\T380_RESTORE_SCRIPT.py", line 82, in restore_t380
+    log_msg(logs, f"\u2139\ufe0f  Creating backup: {backup_path}")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\docs\sessions\2026-10-13\T380_RESTORE_SCRIPT.py", line 41, in log_msg
+    print(log_entry)
+    ~~~~~^^^^^^^^^^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 29-30: character maps to <undefined>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\docs\sessions\2026-10-13\T380_RESTORE_SCRIPT.py", line 313, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\docs\sessions\2026-10-13\T380_RESTORE_SCRIPT.py", line 299, in main
+    success, logs, backup_path = restore_t380(mode=args.mode)
+                                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\docs\sessions\2026-10-13\T380_RESTORE_SCRIPT.py", line 277, in restore_t380
+    log_msg(logs, f"\u274c Error: {e}")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\docs\sessions\2026-10-13\T380_RESTORE_SCRIPT.py", line 41, in log_msg
+    print(log_entry)
+    ~~~~~^^^^^^^^^^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u274c' in position 29: character maps to <undefined>

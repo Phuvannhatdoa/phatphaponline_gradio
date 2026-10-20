@@ -1,0 +1,22 @@
+/* T358: panel độc lập, không đổi layout các phần Dashboard khác. */
+.triage-panel{min-width:0;color:#e2e8f0}
+.triage-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.triage-heading h2{font-size:18px;margin:0;color:#fbbf24}
+.triage-note,.triage-panel small{color:#94a3b8;font-size:12px;line-height:1.6}
+.triage-panel small{display:block;margin-top:7px}
+.triage-sequences{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.triage-sequence{border:1px solid #475569;border-radius:7px;padding:6px 8px;font-size:12px;max-width:100%;overflow-wrap:anywhere}
+.triage-table-wrap{max-height:680px;overflow:auto;max-width:100%;border:1px solid #334155;border-radius:8px}
+.triage-table{border-collapse:collapse;table-layout:fixed;width:100%;min-width:1050px;font-size:12px;line-height:1.55}
+.triage-table caption{text-align:left;padding:10px;color:#cbd5e1}
+.triage-table th,.triage-table td{padding:10px;vertical-align:top;border-top:1px solid #334155;overflow-wrap:anywhere;text-align:left}
+.triage-table thead th{position:sticky;top:0;z-index:1;color:#fbbf24;background:#0f172a}
+.triage-table th:first-child{width:15%}.triage-table th:nth-child(2){width:11%}.triage-table th:nth-child(3){width:16%}.triage-table th:nth-child(4){width:27%}.triage-table th:nth-child(5){width:19%}.triage-table th:nth-child(6){width:12%}
+.triage-table p{margin:0 0 8px}.triage-checks{padding-left:16px;margin:6px 0}
+.triage-reference{display:block;margin-top:4px;font-size:11px}.triage-reference a{color:#7dd3fc;text-decoration:underline}
+.triage-panel button:disabled{opacity:.55;cursor:not-allowed}.triage-panel :focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+#triageConfirm{box-sizing:border-box;width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;border:1px solid #64748b;border-radius:12px;background:#0f172a;color:#e2e8f0;padding:22px}
+#triageConfirm::backdrop{background:rgba(2,6,23,.85)}
+#triageConfirm label{display:block;margin:14px 0 6px}#triageConfirm input{box-sizing:border-box;width:100%;padding:10px;background:#020617;color:#f8fafc;border:1px solid #64748b;border-radius:6px}
+#triageConfirm h3{margin-top:0;color:#fbbf24}#triageConfirm p{line-height:1.6}.triage-dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;margin-top:18px}#triageConfirmError{color:#fca5a5}
+@media(max-width:600px){.triage-heading h2{font-size:16px}.triage-heading .hx-btn{width:100%}.triage-table-wrap{margin-top:10px}#triageConfirm{padding:16px}}

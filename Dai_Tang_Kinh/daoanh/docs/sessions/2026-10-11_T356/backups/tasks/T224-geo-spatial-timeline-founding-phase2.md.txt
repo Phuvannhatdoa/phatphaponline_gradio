@@ -1,0 +1,135 @@
+---
+id: T224
+title: "Geo-Spatial & Timeline — Source Reuse Audit (phân loại A1/A2/C/B/D/E cho 59.167 DILA places)"
+module: GIS Places / Timeline / HOME
+priority: medium
+status: done
+doc_status: done
+undone_reason: "Đã xong G0+G1+G2, đủ 5/5 acceptance. Admin chốt 2026-10-04: (1) nguồn toạ độ = DILA cấp → places_dila.geo_lat/lon là SSOT 98,84%, không xây enrich toạ độ, không chồng T121; (2) license BỎ QUA, sẽ update sau ở tầng HTML (T231 Source Hub / T230 catalog). G3 KHÔNG mở."
+undone_until: ""
+undone_action: "BÀN GIAO cho T22 (in_progress, chủ sở hữu places_dila.note pipeline): (a) worklist 226 place nhóm B có mốc thành lập chưa có event — gấp 4× 55 row T22 đã có; (b) 55/55 row source='dila_founding_phase2' có label_vi RỖNG + source_ref tự tham chiếu. T224 KHÔNG làm 2 việc này để tránh trùng."
+blocked_reason: ""
+handoff_notes: >-
+  G3 cố ý không mở: nhóm E (41.986 place) là giới hạn nguồn DILA, không phải backlog
+  (E đã có name_zh 99,99%, note_category 100%, lat/lon 99,86% — chỉ thiếu nội dung mô tả
+  và mốc thời gian, cả hai đều không có trong nguồn). Nếu sau này mở G3, điều kiện tiên
+  quyết là tách confidence thành evidence_method + confidence_score (additive) và phân
+  loại source_ref thành 4 loại — xem docs/T224_EVIDENCE_EVENT_MODEL.md §6.
+  Ba cột cross-ref rỗng (chgis_svid, tgaz_id, bdrc_id) giữ nguyên theo quyết định Admin.
+owner: mimo-flash
+created: 2026-10-04
+updated: 2026-10-04
+depends_on: [T22, T112, T121]
+designed_by: mimo-flash
+handoff_to: Admin
+former_id: T181
+plan_approved_at: "2026-10-04 (Admin duyệt: đổi ID sang T224, plan tự chứa, và hướng (a) cho nhóm E)"
+revert: "docs-only: git revert --no-edit de114937f658ed9472288bc6d86588866c515ecf <sha_T224_pass2>; 0 DB, 0 code"
+---
+
+# T224 — Source Reuse Audit: phân loại 59.167 DILA places
+
+**Plan đầy đủ:** `docs/Mimo-Flash/T224-geo-spatial-timeline-founding-phase2.md`
+**Bản gốc đã bác (để đối chiếu):**
+`docs/Mimo-Flash/X-T181-geo-spatial-timeline-founding-phase2-SUPERSEDED.md`
+
+---
+
+## 1. Vì sao đổi ID
+
+`T181` đã thuộc task **CBETA Bulk Import**
+(`tasks/T181-cbeta-bulk-import-lazy-translate.md`, `in_progress`, code
+`scripts/t181_map_sigla.py`) — **khác task hoàn toàn, cùng ID**. Đổi sang **T224** (đã
+kiểm 2 tầng: 0 task file, 0 tham chiếu prose). **Không đụng task CBETA.**
+
+## 2. Vì sao viết lại, không chỉ sửa số
+
+| Trích dẫn của plan cũ | Thực tế |
+|---|---|
+| `docs/GEO_SPATIAL_TIMELINE_SPEC.md` "APPROVED, kèm 5 fix review" | **không tồn tại** |
+| `docs/Mimo-Flash/PROMPT-T181-source-reuse-audit.txt` | **không tồn tại** (repo có **0** file `PROMPT-*.txt`) |
+| "số liệu đệm khớp SPEC §4" | không kiểm chứng được |
+
+**Hệ quả:** tiêu chí phân loại **nằm trong prompt** ⇒ prompt mất ⇒ tiêu chí mất ⇒
+nhóm **B suy ra sai**. Bài học (giống T222): **nhét tiêu chí vào thân plan**, không
+tạo file prompt riêng.
+
+## 3. Vì sao nhóm B cũ là sai
+
+`places_dila.raw_xml` khác rỗng **59.167 / 59.167 = 100%** ⇒ tiêu chí *"có TEI/XML
+marked-up evidence"* khớp **mọi dòng** ⇒ B = 59.167, D = E = 0. Thêm TEI **không có**
+markup ngày thành lập: `foundingDate` = 0, `founded` = 0 / 59.167.
+
+`ns0:note` là **boilerplate nguồn**: mẫu 4.000 dòng chỉ **794** giá trị khác nhau,
+`中研院歷史地名` chiếm ~78%. Văn bản mô tả thật nằm ở **cột `note`** ⇒ là **prose** ⇒
+**nhóm D**, không phải B.
+
+> ⚠️ XML là **namespace-prefixed** (`<ns0:placeName>`, `<ns0:note>`). Literal
+> `<placeName` / `<TEI` / `<place` khớp **0 dòng**.
+
+## 4. Phân bồ đã đo (read-only, tổng khớp tuyệt đối)
+
+Thứ tự ưu tiên **bắt buộc** `A1 > A2 > C > B > D > E` — cần vì **22 place** có cả
+`geo_cross_ref` lẫn mốc thành lập.
+
+| Nhóm | Tiêu chí | Số place | % |
+|---|---|---|---|
+| **A1** | event nguồn `wikidata` / `wikidata_p571` (bằng chứng ngoài) | **249** | 0,42% |
+| **A2** | event suy luận từ era / dynasty / note | **3.285** | 5,55% |
+| **C** | `EXISTS` `geo_cross_ref`, chưa thuộc A | **85** | 0,14% |
+| **B** | có mốc thành lập (regex `始建於`/`創建`/`建於`/`建國`), chưa thuộc A | **226** | 0,38% |
+| **D** | có `note` mô tả địa lý → **cần NLP** | **13.336** | 22,54% |
+| **E** | không có gì ⇒ **giới hạn nguồn** | **41.986** | 70,96% |
+| | **TỔNG** | **59.167** | ✅ khớp `places_dila` |
+
+**Tách A1/A2** vì 93% event là **suy luận** — chỉ **301 / 3.688** event có `source_ref` là
+QID/URL thật. Gộp chung sẽ khiến Admin tưởng có 3.534 ngày thành lập *chắc chắn*.
+
+**Mẫu số** = `places_dila` (59.167), **không phải** `places` (59.161).
+`place_timeline_events` **không có cột `place_id`**; cột là `dila_id` → `places_dila.id`
+(3.688/3.688 khớp, **không khai báo FK**).
+
+## 5. Quyết định của Admin
+
+**Hướng (a):** nhóm **E = giới hạn nguồn**, KHÔNG phải backlog ⇒ **không mở G3**.
+Nếu chọn (b) thì E thành backlog 42k place và **chồng T121** (đang `in_progress`).
+
+## 6. Phụ thuộc — bản cũ ghi sai
+
+| Task | Bản cũ | Thật |
+|---|---|---|
+| **T22** | `in_progress` | ✓ đúng (Layer E Ollama chưa xong) |
+| **T22.1** | ✅ DONE | file chỉ còn ở `tasks/backup/`, **không có status** |
+| **T121** | 🟡 PENDING | **`in_progress`** — giữ Layer 3 (Wikidata lat/lon) |
+| **T112** | 🚫 BLOCK | **`done`** — ràng buộc nhóm C là **license** 5 nguồn chưa rõ, không phải task blocked |
+
+## 7. Ghi nhận cho T22 — KHÔNG làm trùng
+
+- **55/55** row `source='dila_founding_phase2'` có **`label_vi` RỖNG** + `source_ref` tự
+  tham chiếu. T22 khai `label_vi` trong schema ⇒ đây là **lỗi nội bộ T22**. T22 còn
+  `in_progress` ⇒ **chủ sở hữu**.
+- **226 place** có mốc thành lập nhưng chưa có event ⇒ gấp **4×** 55 row của T22.
+  Đây là **worklist** cho T22 Layer D/E.
+
+## 8. 🛠 Bẫy kỹ thuật — bắt buộc đọc trước khi chạy
+
+**Pattern CJK truyền qua PowerShell heredoc sẽ bị mangle thành `?` ⇒ trả 0 giả.**
+Phiên review 2026-10-04 đã đo sai một vòng rồi phát hiện qua control.
+
+- Mọi script phải dùng **`\uXXXX`** trong Python, hoặc để file UTF-8.
+- **Luôn chạy 1 control** trước khi tin số: `建` phải ≈ **4.646**, `帝` ≈ **798**
+  (`唐宋` ≈ 36). Nếu cả 3 bằng 0 ⇒ pattern đã chết.
+
+## 9. Acceptance
+
+1. 3 file report `docs/T224_*.md`, phân bồ A1/A2/C/B/D/E tổng khớp **59.167**.
+2. **0 write DB** — `?mode=ro`; khi đối chiếu "0 dòng mới" phải **loại trừ 55 row**
+   `dila_founding_phase2` (2026-09-01, của T22).
+3. Mọi regex CJK có **1 control pass**.
+4. Ước lượng khối lượng nhóm **D** (13.336) → trình Admin **trước** khi mở G3.
+5. `npm run dup:ids` sạch.
+
+## 10. Revert
+
+- Docs-only: `git revert --no-edit de114937f658ed9472288bc6d86588866c515ecf <sha_T224_pass2>`
+- G3 (tương lai): script `--revert` + DB backup pattern T157.

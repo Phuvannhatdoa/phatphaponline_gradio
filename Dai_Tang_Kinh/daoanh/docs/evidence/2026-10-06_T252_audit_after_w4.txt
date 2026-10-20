@@ -1,0 +1,12 @@
+====================================================================
+T234 DATA HONESTY GATE — read-only, 7 kiem tra
+====================================================================
+  [ OK ] H1  event_evidence.event_id khop event_type
+  [ OK ] H2  time_mentions.time_authority_id tro tai that
+  [ OK ] H3  nam suy ra duoc tu note hoac bang trieu dai
+  [ OK ] H4  nhan '(N年建)' co khop nguon
+  [ OK ] H5  source_ref khong tu tham chieu
+  [ OK ] H6  time_periods era/dynasty co start_year
+  [ OK ] H7  dila_id ton tai trong places_dila
+--------------------------------------------------------------------
+PASS 7/7 — khong phat hien du lieu bia dat

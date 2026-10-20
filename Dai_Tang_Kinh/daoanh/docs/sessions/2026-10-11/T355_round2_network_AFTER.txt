@@ -1,0 +1,38 @@
+T355 (BUG-033) vong 2 - network log SAU khi sua url() trong admin/places-generation-v2.js
+URL test (giong het truoc, tab "Phap mach" / mode=lineage, chain 48 entity, focus=A010081):
+http://127.0.0.1:8080/daoanh/places.html?mode=lineage&focus=A010081&lm=tree&chain=A001719,...(48 entity, xem T355 report)
+
+Thao tac (sau hard refresh ctrl+shift+r de nap JS moi):
+1. Hard refresh -> load trang, panel hien "Dời thu 33" (focus A010081) - dung.
+2. Click than node "Tôn Giả Hoàng Mai Hoằng Nhẫn" (A000237, to su cua focus) -> panel doi
+   thanh "Đời thứ 32" - dung.
+3. Click icon "-" tren node Mông Sơn Đạo Minh (focus, A010081) de THU GON cay con -> panel
+   VAN giu "Đời thứ 32" (khong bi ghi de ve 33).
+4. Click icon "+" tren node Mông Sơn Đạo Minh de MO LAI cay con -> panel VAN giu "Đời thứ 32".
+5. Click than node "Sùng Tịch" (A024844, de tu cua focus, doi 34 that) -> panel doi dung thanh
+   "Đời thứ 34".
+
+Ket qua filter urlPattern=generation/calculate (network log tich luy tu dau phien, cac dong
+[15112.83]..[15112.672] la cua phien TRUOC sua (xem T355_round2_network_BEFORE.txt), 3 dong
+CUOI la cua phien SAU sua, danh dau rieng ben duoi):
+
+... (cac dong cu, xem file BEFORE) ...
+[15112.651] GET /daoanh/api/admin/ttl_v2/generation/calculate/A010081 -> 200 OK  <- (buoc 1: hard refresh, initial url() load(focus))
+[15112.672] GET /daoanh/api/admin/ttl_v2/generation/calculate/A000237 -> 200 OK  <- (buoc 2: click than Hoang Nhan)
+[15112.680] GET /daoanh/api/admin/ttl_v2/generation/calculate/A024844 -> 200 OK  <- (buoc 5: click than Sung Tich)
+
+QUAN TRONG: Buoc 3 (click icon "-" thu gon) va buoc 4 (click icon "+" mo lai) KHONG sinh ra
+BAT KY request /generation/calculate/* nao moi (khong con request A010081 "race" xen vao nua).
+Truoc khi sua, MOI lan rerender()/_t130SyncUrl() (ke ca do icon +/- gay ra) deu sinh them 1
+request load(focus)=A010081 chay song song, gay race va de panel hien sai/khong on dinh.
+Sau khi sua: url() chi goi load(focus) khi focus/mode THUC SU doi (lan dau tien trang nap, hoac
+dieu huong that qua popstate/doi focus) - khong con goi lai khi URL chi doi do _t130SyncUrl ghi
+lai "chain" (mo/thu node). Panel nay bam dung theo node vua duoc chon (qua
+window._ptdaLoadGenerationV2(pid) goi truc tiep tu places.html, T354/T355 round 1), khong con bi
+ghi de boi load(focus) chay nen.
+
+KET LUAN: Da xac nhan het root cause that cua BUG-033 vong 2, fix trong
+admin/places-generation-v2.js (ham url()) giai quyet dung nguyen nhan goc - khong phai do thieu
+dieu kien mode 'expanded' (gia thuyet vong 1, van giu nguyen vi khong gay regression), ma do
+race dieu kien giua load(focus) (tu url()/history monkeypatch) va load(pid) (tu click handler
+truc tiep trong places.html).

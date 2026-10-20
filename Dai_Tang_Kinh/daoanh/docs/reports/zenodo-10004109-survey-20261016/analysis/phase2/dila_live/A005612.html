@@ -1,0 +1,219 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>人名規範資料庫</title>
+	<script type="text/javascript" src="../js/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.tooltip.min.js"></script>
+	<script type="text/javascript" src="../include/functions.js"></script>
+	<script type="text/javascript" src="../include/delDialog.js"></script>	
+	<script type="text/javascript" src="autoUrl.js"></script>
+	<script type="text/javascript" src="searchJS.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<!--google分析-->
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-12423702-15']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>	
+	<!--google分析-->
+	
+	<link rel="stylesheet" type="text/css" href="../css/styles2.css"/>
+	<style type="text/css">
+	.OtherDataBox {
+		display:none;
+		border:1px solid #BBBBBB;
+		margin:10px;
+		padding:10px;
+		width:90%;
+	}
+	.HL{
+		color:red;
+	}
+	.HHL{
+		color:yellow;
+	}
+
+	.fontStyle {
+		color: #558341;
+		cursor:pointer;
+	}
+	.fontStyle:hover {
+		text-decoration:underline;
+	}
+	
+	.msgBoxClass {
+		display:none;
+		background-color:#FFD7C4;
+		padding:4px;
+
+	}
+	.editBoxClass	{
+		display:none;
+	}
+	.postBoxClass	{
+		display:none;
+
+	}
+	.delLine{
+		TEXT-DECORATION:line-through;
+	}
+	div.birthDeathInfoShow {
+		padding-left:50px;
+		display:;
+	}
+	div.birthDeathInfoHide {
+		display:none;
+	}
+	#relationArea {
+
+	}	
+	#relationArea .relation_row	{
+		margin:auto;
+	}
+	ol li	{
+		margin-bottom:0;	/* override styles2.css */
+	}
+
+	</style>
+		<script type="text/javascript">
+		var BASE_URL = "authority.dila.edu.tw";
+		$(document).ready(function()	{
+			//WIKI說明連結
+			$('.fontStyle').click(function()	{
+				var id = $(this).attr('id');
+				var url = '';
+				if(id == 'wiki_names')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E5.B8.B8.E5.90.8D.E8.88.87.E5.88.A5.E5.90.8D';
+				else if(id == 'wiki_Pno')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E7.B7.A8.E8.BC.AF.E3.80.8C.E4.BA.BA.E5.90.8D.E8.A6.8F.E7.AF.84.E8.B3.87.E6.96.99.E5.BA.AB.E3.80.8D';
+				else if(id == 'wiki_sort')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E9.A1.9E.E5.88.A5_Category.E3.80.8D.E6.AC.84.EF.BC.9A';
+				else if(id == 'wiki_BirthDateBegin' || id == 'wiki_DeathDateBegin')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E7.94.9F.E5.8D.92.E5.B9.B4_Birth_.26_Death.E3.80.8D.E6.AC.84.EF.BC.9A';
+				else if(id == 'wiki_BirthDateString')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E7.94.9F.E5.8D.92.E5.B9.B4.E6.9F.A5.E8.A9.A2.E5.AD.97.E4.B8.B2_Birth-Death_date_Quote.E3.80.8D.E6.AC.84.EF.BC.9A';
+				else if(id == 'wiki_birthPlace')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E7.B1.8D.E8.B2.AB_From.E3.80.8D.E6.AC.84.EF.BC.9A';
+				else if(id == 'wiki_Historical')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E6.98.AF.E5.90.A6.E6.AD.B7.E5.8F.B2.E4.BA.BA.E7.89.A9_Historical_Person.E3.80.8D.E6.AC.84.EF.BC.9A';
+				else if(id == 'wiki_Dynasty')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E6.9C.9D.E4.BB.A3_Dynasty.E3.80.8D.E6.AC.84.EF.BC.9A';
+				else if(id == 'wiki_Note')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E8.AA.AA.E6.98.8E_Note.E3.80.8D.E6.AC.84.EF.BC.9A';
+				else if(id == 'wiki_OccurredIn')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E5.87.BA.E7.8F.BE.E4.BD.8D.E7.BD.AE_Occurs_in';
+				else if(id == 'wiki_deathPlace')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E5.A1.94.2F.E5.9C.93.E5.AF.82.E5.9C.B0.E3.80.8D.E6.AC.84.EF.BC.9A';				
+				else if(id == 'wiki_Gender')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E3.80.8C.E6.80.A7.E5.88.A5_Gender.E3.80.8D.E6.AC.84.EF.BC.9A';				
+				else if(id == 'wiki_relationship')
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.5B.E5.B8.AB.E5.BE.92.E9.97.9C.E4.BF.82.5D.E6.AC.84.EF.BC.9A';
+				else if(id == 'wiki_whatGroup')	
+					url = 'http://wiki.dila.edu.tw/pages/%E3%80%8C%E4%BD%9B%E5%AD%B8%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%88Buddhist_Authority_Database_Project%EF%BC%89%E3%80%8D%E5%B7%A5%E4%BD%9C%E6%89%8B%E5%86%8A#.E4.BA.BA.E5.90.8D.E3.80.81.E5.9C.B0.E5.90.8D.E7.BE.A4.E7.B5.84';
+
+					
+				if(url != '')
+					window.open(url);
+				else
+					alert('This field has no document yet.');
+				
+			});	
+
+			//feedback function +
+			$('.feedBackClass').click(function()	{
+				$(this).next().slideToggle(200);
+			});
+			$('.feedBackSubmitBtn').click(function()	{
+				$(this).parent().find('table :input').each(function()	{
+					//照順序讀下來
+					document.feedBackForm[$(this).attr('name')].value = $(this).attr('value');					
+				});
+				document.feedBackForm.backUrl.value = location.href;
+				document.feedBackForm.submit();
+			});
+			//feedback function -
+			
+			//引用網址 +
+			$('.getReferenceURL').each(function(e)	{
+				var thisObj = $(this);
+				thisObj.next().html('<div style="float:left">引用網址(按ctrl+c複製):</div><input type="text" style="width:190px" value="'+'https://'+BASE_URL+'/person/?fromInner='+thisObj.next().text()+'" />');
+				thisObj.tooltip({offset: [-20, -50],
+					/*
+					events: {
+					  def:     "click,dbclick",    // default show/hide events for an element
+					  input:   "click,dbclick",               // for all input elements
+					  widget:  "click,dbclick",  // select, checkbox, radio, button
+					  tooltip: "click,dbclick"     // the tooltip element
+					},
+					*/
+					onShow:function()	{
+						thisObj.next().find(':input').select();
+					}
+				
+				});
+			});
+			//引用網址 -
+			
+			//漢語拼音mouseover跳出注音 +
+			var show_hanyupinyin_flag = false;
+			$('.hanyupinyin').bind(
+				{mouseover:function(e)	{
+					if(!show_hanyupinyin_flag)	return false;
+					var ps = $(this);
+					$.ajax({
+						type:"GET",
+							url:'../common/hanyupinyin/getChuyinByPinyin.php?pinyin='+encodeURIComponent(ps.text()),
+							success:function(tooltip_string)	{
+								if($.trim(tooltip_string) != '')
+									$('#tooltip').css({'left':(e.pageX+6)+'px','top':(e.pageY+(ps.get(0).offsetHeight/2))+8+'px'}).html(tooltip_string).show();			
+							}
+					});
+				},
+				mouseout:function()	{
+					$('#tooltip').hide();
+				}}
+			);
+			$('#show_hanyupinyin').click(function()	{
+				show_hanyupinyin_flag = $(this).attr('checked');
+			});			
+			//漢語拼音mouseover跳出注音 -	
+			
+			//西曆切換
+			$('#time_western_switch').click(function()	{		
+				location.href = location.href.replace(/&western_switch=.+/g,"")+'&western_switch='+($(this).prop('checked') ? 'yes':'no');
+			});			
+		});
+	
+
+	</script>
+</head>
+<body style="padding:0">
+	<div class="pagebody" style="overflow:auto">
+	檢索【 <span class='HHL'>A005612</span> 】(人名：1 筆，群組：0 筆) ：<br/><br/><label style="color:#655643"><input type="checkbox" id="show_hanyupinyin" />開啟漢語拼音注音輔助(滑鼠移到漢語拼音即可看到)</label><br/><label style="color:#655643"><input type="checkbox" name="time_western_switch" id="time_western_switch" value="yes" >切換生卒年至西曆(預設為格里高曆)</label><a target="_blank" href="http://wiki.dila.edu.tw/pages/%E6%B3%95%E9%BC%93%E4%BD%9B%E6%95%99%E5%AD%B8%E9%99%A2%E6%99%82%E9%96%93%E8%A6%8F%E7%AF%84%E8%B3%87%E6%96%99%E5%BA%AB%E8%AA%AA%E6%98%8E%EF%BC%9ANotes_on_the_DDBC_Time_Authority_Database#.E8.A5.BF.E6.9B.86.E9.83.A8.E5.88.86_Standards_regarding_western_dates.EF.BC.9A" style="font-size:smaller;margin-left:10px">說明</a><div id='dynastySelector'></div><br/><div id="D054-" class="fpr_div">  <span >神會(<span class='hanyupinyin'>shén huì</span>)</span><div style="float:right;margin-right:5%"><a class="getReferenceURL"><img title="引用網址" alt="引用網址" src="../images/reference_url.png" border="0"/></a><span style="display:none" class="tooltip">A005612</span></div> <br/><br/><span id="wiki_names" class="fontStyle">別名 Alternative Names：</span><br/>[正體中文] 釋神會(<span class='hanyupinyin'>shì shén huì</span>),荷澤神會(<span class='hanyupinyin'>hé zé shén huì</span>),真宗(<span class='hanyupinyin'>zhēn zōng</span>),南陽和尚(<span class='hanyupinyin'>nán yáng hé shàng</span>),荷澤大師(<span class='hanyupinyin'>hé zé dà shī</span>),真宗大師(<span class='hanyupinyin'>zhēn zōng dà shī</span>),荷澤會(<span class='hanyupinyin'>hé zé huì</span>)<br/><br/><span id="wiki_Pno" class="fontStyle">規範碼 Authority ID：</span>A005612<br/><span id="wiki_sort" class="fontStyle">分類 Category：</span>習禪<br/><span id="wiki_BirthDateBegin" class="fontStyle">生年 Birth：</span>+0684-01-01 ~ +0684-12-31<br/><span id="wiki_DeathDateBegin" class="fontStyle">卒年 Death：</span>+0758-06-27<br/><span id="wiki_Dynasty" class="fontStyle">朝代 Dynasty：</span>唐;<br/><span id="wiki_BirthDateString" class="fontStyle">生卒年查詢字串 Birth-Death date Quote：</span>卒於：唐, 肅宗, 乾元, 元年, 五月, 十三日，75歲<br/><span id="wiki_BirthDateNote" class="fontStyle">生年出處 Birthdate Reference：</span>依記錄推算。<br/><span id="wiki_DeathDateNote" class="fontStyle">卒年出處 Deathdate Reference：</span>享年七十有五，僧臘五十四夏，乾元元年五月十三日荊府開元寺，奄然坐化。（<a target="_blank" href="http://enlight.lib.ntu.edu.tw/FULLTEXT/JR-MISC/mag12421.htm">http://enlight.lib.ntu.edu.tw/FULLTEXT/JR-MISC/mag12421.htm</a>，2012.01.06）<br/><span id="wiki_birthPlace" class="fontStyle">籍貫 From：</span><a target='_blank' href='../place/index.php?fromInner=PL000000027119'>襄陽(PL000000027119)</a><br/><span id="wiki_zen_school_sect" class="fontStyle">宗派：</span>荷澤宗 <br/><span id="wiki_Gender" class="fontStyle">性別 Gender：</span>男<br/><span id="wiki_is_monk" class="fontStyle">是否為僧人：</span>是<br/><span id="wiki_Historical" class="fontStyle">是否為歷史人物 Historical Person：</span>是<br/><span id="wiki_Note" class="fontStyle">註解(精簡) Notes(simple)：</span>唐僧。襄陽高氏。幼學《五經》、《老》、《莊》等，後投國昌寺顥元出家。參謁六祖慧能（638-713），得其旨。開元二十年（732），設無遮大會於河南滑臺大雲寺，與山東崇遠論戰；斥神秀一門「師承是傍，法門是漸」，指出漸修之非。有〈顯宗記）行世。奉為中國禪宗七祖，其法流稱「荷澤宗」，門下英才甚多，有無名、法如等。
+（佛百：3647.2；佛光：4255；佛名：537；疑年錄：120）<br/><span id="wiki_relationship" class="fontStyle">師徒關係 ：</span><a target="_blank" title="Export graphml" href="https://authority-dev.dila.edu.tw/tools/relation_files/graphml/A005612.graphml"><img src="img/graphml.png" style="width:26px" /></a>&nbsp;&nbsp;<a title="Export excel" href="https://authority-dev.dila.edu.tw/tools/relation_files/excel/A005612.xls"><img src="img/excel.png" style="width:26px"/></a><br/>[老師]<ol id="relationArea"><li class='relation_row'><a href='search.php?aid=A001719'>惠能</a>&nbsp;&nbsp;&nbsp;(X79n1557_p0001c24)</li><li class='relation_row'><a href='search.php?aid=A010084'>顥元</a>&nbsp;&nbsp;&nbsp;辭親投本府國昌寺顥元法師下出家。（T50n2061_p0756c11）</li></ol>[弟子]<ol id="relationArea"><li class='relation_row'><a href='search.php?aid=A004220'>無名</a>&nbsp;&nbsp;&nbsp;(T51n2076_p0301b07)</li><li class='relation_row'><a href='search.php?aid=A013883'>福琳</a>&nbsp;&nbsp;&nbsp;(T51n2076_p0301a29)</li><li class='relation_row'><a href='search.php?aid=A013914'>法如</a>&nbsp;&nbsp;&nbsp;(T51n2076_p0301b02)</li><li class='relation_row'><a href='search.php?aid=A010072'>釋進平</a>&nbsp;&nbsp;&nbsp;(T51n2076_p0301b03)</li><li class='relation_row'><a href='search.php?aid=A008831'>慧演</a>&nbsp;&nbsp;&nbsp;(T51n2076_p0301b04)</li><li class='relation_row'><a href='search.php?aid=A010318'>釋廣敷</a>&nbsp;&nbsp;&nbsp;(T51n2076_p0301b05)</li><li class='relation_row'><a href='search.php?aid=A019962'>光寶</a>&nbsp;&nbsp;&nbsp;（望月‧卷六‧附錄：045)</li><li class='relation_row'><a href='search.php?aid=A012516'>釋圓震</a>&nbsp;&nbsp;&nbsp;（T50n2061_p0838c09）</li><li class='relation_row'><a href='search.php?aid=A004217'>惟忠</a>&nbsp;&nbsp;&nbsp;遊嵩嶽，見神會禪師，折疑沈默。（T50n2061_p0763c11）</li><li class='relation_row'><a href='search.php?aid=A025975'>懷空</a>&nbsp;&nbsp;&nbsp;《景德傳燈錄》卷13：「洛陽荷澤神會大師法嗣……河陽懷空禪師」(CBETA, T51, no. 2076, p. 301, a28-b4)</li><li class='relation_row'><a href='search.php?aid=A025977'>涪州朗</a>&nbsp;&nbsp;&nbsp;《景德傳燈錄》卷13：「洛陽荷澤神會大師法嗣……涪州朗禪師」(CBETA, T51, no. 2076, p. 301, a28-b8)</li><li class='relation_row'><a href='search.php?aid=A008830'>行覺</a>&nbsp;&nbsp;&nbsp;《景德傳燈錄》卷13：「洛陽荷澤神會大師法嗣……江陵行覺禪師」(CBETA, T51, no. 2076, p. 301, a28-b6)</li><li class='relation_row'><a href='search.php?aid=A013867'>道隱</a>&nbsp;&nbsp;&nbsp;《景德傳燈錄》卷13：「洛陽荷澤神會大師法嗣……寧州通隱禪師」(CBETA, T51, no. 2076, p. 301, a28-b9)</li><li class='relation_row'><a href='search.php?aid=A010356'>靈坦</a>&nbsp;&nbsp;&nbsp;《景德傳燈錄》卷13：「洛陽荷澤神會大師法嗣……廣陵靈坦禪師」(CBETA, T51, no. 2076, p. 301, a28-b9)</li><li class='relation_row'><a href='search.php?aid=A025978'>李常</a>&nbsp;&nbsp;&nbsp;《景德傳燈錄》卷13：「洛陽荷澤神會大師法嗣……河南尹李常」(CBETA, T51, no. 2076, p. 301, a28-b11)</li><li class='relation_row'><a href='search.php?aid=A037711'>大乘和尚</a>&nbsp;&nbsp;&nbsp;《頓悟大乘政理決》卷1：「是摩訶衍本出禪門北宗，又事神會，蓋兼習南北宗者也。 」 <a target="_blank" href="http://cbetaonline.dila.edu.tw/B35, no. 195, p. 804, a8">http://cbetaonline.dila.edu.tw/B35, no. 195, p. 804, a8</a></li><li class='relation_row'><a href='search.php?aid=A014122'>乘廣</a>&nbsp;&nbsp;&nbsp;至洛陽，依荷澤會公以契真乘。 <a target="_blank" href="https://zh.wikisource.org/zh-hant/袁州萍鄉縣楊岐山故廣禪師碑">https://zh.wikisource.org/zh-hant/袁州萍鄉縣楊岐山故廣禪師碑</a></li><li class='relation_row'><a href='search.php?aid=A048440'>智如</a>&nbsp;&nbsp;&nbsp;《圓覺經略疏鈔》卷4：「第七祖門下，傳法二十二人，且敘一枝者。磁州（礠洲）法觀寺智如和尚，俗姓王。」 <a target="_blank" href="http://cbetaonline.dila.edu.tw/X09n0248_p0863a17">http://cbetaonline.dila.edu.tw/X09n0248_p0863a17</a></li></ol><br/><span id="wiki_disambiguation" class="fontStyle">消歧義(此筆人名可能跟下列人名搞混) Disambiguation：</span><br/><a href='search.php?aid=A010304'>A010304</a>(神會)<br/><br/><span id="wiki_sameas" class="fontStyle">SameAs：</span><ul><li>Wikidata：<ol><li><a target="_blank" href="https://www.wikidata.org/wiki/Q712218">https://www.wikidata.org/wiki/Q712218</a></li></ol></li><li>CBDB：<ol><li><a target="_blank" href="https://cbdb.fas.harvard.edu/cbdbapi/person.php?id=143081">https://cbdb.fas.harvard.edu/cbdbapi/person.php?id=143081</a></li></ol></li></ul><br/><span id="wiki_OccurredIn" class="fontStyle">Occurs in：</span><br/><ul><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0735c21">CBETA T50n2061_p0735c21</a> 宋高僧傳: 良賁傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0755b09">CBETA T50n2061_p0755b09</a> 宋高僧傳: 釋慧能傳 { 神會 }</li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0756b13">CBETA T50n2061_p0756b13</a> 宋高僧傳: 神秀傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0756b13">CBETA T50n2061_p0756b13</a> 宋高僧傳: 釋神秀傳 { 神會 }</li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0756c08">CBETA T50n2061_p0756c08</a> 宋高僧傳: 神會傳 { 釋神會 }</li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0757a14">CBETA T50n2061_p0757a14</a> 宋高僧傳: 神會傳 { 真宗 }</li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0763c11">CBETA T50n2061_p0763c11</a> 宋高僧傳: 惟忠傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0766c22">CBETA T50n2061_p0766c22</a> 宋高僧傳: 志滿傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0767a03">CBETA T50n2061_p0767a03</a> 宋高僧傳: 光瑤傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0767a24">CBETA T50n2061_p0767a24</a> 宋高僧傳: 靈坦傳 </li><span id='cbetaHideTag1' style='display:none'><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0784c08">CBETA T50n2061_p0784c08</a> 宋高僧傳: 圓紹傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0817a26">CBETA T50n2061_p0817a26</a> 宋高僧傳: 無名傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0838b17">CBETA T50n2061_p0838b17</a> 宋高僧傳: 廣敷傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0838c09">CBETA T50n2061_p0838c09</a> 宋高僧傳: 圓震傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0843a11">CBETA T50n2061_p0843a11</a> 宋高僧傳: 神英傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0891b01">CBETA T50n2061_p0891b01</a> 宋高僧傳: 進平傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0891b09">CBETA T50n2061_p0891b09</a> 宋高僧傳: 道隱傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0892b25">CBETA T50n2061_p0892b25</a> 宋高僧傳: 皎然傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0893a01">CBETA T50n2061_p0893a01</a> 宋高僧傳: 慧演傳 </li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0893a15">CBETA T50n2061_p0893a15</a> 宋高僧傳: 行覺傳 { 荷澤會 }</li><li><a target="_blank" href="https://cbetaonline.dila.edu.tw/T50n2061_p0893c18">CBETA T50n2061_p0893c18</a> 宋高僧傳: 道齊傳 </li></span>........<input id='cbetaHideBtn1' type='button' value='More' onclick='javascript:occurredInDisplay("cbetaHideTag1","cbetaHideBtn1")'/><br/><li> <a target="_blank" href="http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g017&cpage=0036&target=A005612">g017p0036(玉岑山慧因高麗華嚴教寺志)</a> { 荷澤 } </li><li> <a target="_blank" href="http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g081&cpage=0191&target=A005612">g081p0191(清涼山志)</a> { 神會 } </li><li> <a target="_blank" href="http://buddhistinformatics.dila.edu.tw/fosizhi/ui.html?book=g081&cpage=0111&target=A005612">g081p0111(清涼山志)</a> { 荷澤 } </li></ul><br/><br/><br/><a href='javascript:void(null)' class='feedBackClass' style='color:blue;text-decoration:underline'>問題回報(Feedback)</a><div id='feedBackDivA005612' style='display:none'><div style='border:1px solid #AD9C85;background-color:#CCC1B3'>	<table border='0'>		<tr><td>Name：</td><td><input type='text' name='feedBackName'/></td></tr>		<tr><td>E-mail：</td><td><input type='text' name='feedBackMail'/></td></tr>		<tr><td style='vertical-align:top'>Comment：</td><td><textarea name='feedBackComment' rows='7' cols='45'>[A005612 - 神會(shén huì)]</textarea></td></tr>	</table><input type='button' value='submit comment' class='feedBackSubmitBtn' /></div></div></div>		
+	</div>
+		<div id="delDialog" style="border:thin solid;filter:alpha(opacity=80);opacity:0.8;display:none;background-color:#B5CDFF;width:300px;height:85px;position:absolute;top:0;left:0"><center><span id="delDialogID">-100</span>合併到哪個編碼？<input id="delDialogTo" type="text" size="15" onblur="javascript:validateID('person')" onkeyup="javascript:validateID('person')"/><span id="del_check_right" style="display:none;font-size:12px"><img alt="編碼格式無誤。" src="../images/check_right.gif"/>編碼格式無誤。</span><span id="del_check_error" style="display:none;font-size:12px;color:red"><img alt="編碼不存在" src="../images/check_error.gif"/>編碼不存在。</span><br/><input id="delDialogBtn" type="button" value="確定" disabled="disabled" style="display:none" onclick="javascript:delSubmit('person','')"/><input type="button" value="取消" onclick="javascript:delDialogClose()"/></center></div>
+	<script type="text/javascript"> if(document.getElementById('dynastySelector')) { document.getElementById('dynastySelector').innerHTML = '<br/><table><tr><td>朝代過濾器(不含群組)：<select size="1" id="dySelector" onchange="javascript:handleDynasty()"><option value="all">顯示全部</option><option value="D054-">唐;</option> </select></td><td><div id="dyResCount"></div></td></tr></table>'; $('#dyResCount').html('共'+$('div[class=pagebody] div[class=fpr_div]').length+'筆'); } </script>
+
+	<!--feedback form-->
+	<form name="feedBackForm" action="../common/sendFeedBackMail.php" method="POST">
+		<input type="hidden" name="feedBackName" value=""/>
+		<input type="hidden" name="feedBackMail" value=""/>
+		<input type="hidden" name="feedBackComment" value=""/>
+		<input type="hidden" name="backUrl" value=""/>
+	</form>	
+	
+	<!-- hanyupinyin tooltip -->
+	<div id="tooltip"></div>	
+</body>
+</html>

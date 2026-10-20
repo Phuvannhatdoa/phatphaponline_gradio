@@ -1,0 +1,47 @@
+[2026-10-13T19:13:07.354516] 
+============================================================
+[2026-10-13T19:13:07.354579]   T380 RESTORE — Mode: EXECUTE
+[2026-10-13T19:13:07.354597] ============================================================
+
+[2026-10-13T19:13:07.354671] ℹ️  Creating backup: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\backups\lineage_backup_T380_20261013_191307.db
+[2026-10-13T19:14:17.689634] ✓ Backup created: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\backups\lineage_backup_T380_20261013_191307.db
+[2026-10-13T19:14:17.718789] ✓ Database connections opened
+[2026-10-13T19:14:17.718823] ℹ️  Starting transaction...
+[2026-10-13T19:14:17.718933] ℹ️  Adding entity_type column...
+[2026-10-13T19:14:17.855245] ℹ️  Creating TEMP snapshots...
+[2026-10-13T19:14:18.849847] ✓ TEMP snapshots created
+[2026-10-13T19:14:18.849884] ℹ️  Clearing tables...
+[2026-10-13T19:14:19.000040] ✓ 4 tables cleared
+[2026-10-13T19:14:19.000075] ℹ️  Attaching backup DB...
+[2026-10-13T19:14:19.125051] ℹ️  Inserting ai_person_name...
+[2026-10-13T19:14:19.796942] ✓ ai_person_name: 39269 rows
+[2026-10-13T19:14:19.796976] ℹ️  Inserting passage...
+[2026-10-13T19:14:24.601159] ✓ passage: 44820 rows
+[2026-10-13T19:14:24.601197] ℹ️  Inserting vn_person_authority...
+[2026-10-13T19:14:24.930756] ✓ vn_person_authority: 1507 rows (before TEMP merge)
+[2026-10-13T19:14:24.930784] ℹ️  Inserting vn_person_relations...
+[2026-10-13T19:14:24.937848] ✓ vn_person_relations: 2013 rows
+[2026-10-13T19:14:24.937863] ℹ️  Updating 'keep current' fields from TEMP...
+[2026-10-13T19:15:50.399924] ✓ 'Keep current' fields updated from TEMP
+[2026-10-13T19:15:50.399956] ℹ️  Re-inserting 4 alias_* rows...
+[2026-10-13T19:15:50.401316] ✓ 4 alias_* rows re-inserted (total alias: 457)
+[2026-10-13T19:15:50.401334] 
+============================================================
+[2026-10-13T19:15:50.401344]   VERIFICATION
+[2026-10-13T19:15:50.401351] ============================================================
+
+[2026-10-13T19:15:50.401358] ℹ️  Running PRAGMA quick_check...
+[2026-10-13T19:34:18.679016] ✓ PRAGMA quick_check: OK
+[2026-10-13T19:34:18.679047] ℹ️  Verifying row counts...
+[2026-10-13T19:34:18.873042] ✓ ai_person_name: 39269 rows
+[2026-10-13T19:34:18.970340] ✓ passage: 44820 rows
+[2026-10-13T19:34:18.974263] ✓ vn_person_authority: 1511 rows
+[2026-10-13T19:34:18.974735] ✓ vn_person_relations: 2013 rows
+[2026-10-13T19:34:18.974754] ℹ️  Committing transaction...
+[2026-10-13T19:34:20.729418] ✓ Transaction committed!
+[2026-10-13T19:34:20.734061] 
+============================================================
+[2026-10-13T19:34:20.734091]   SUCCESS
+[2026-10-13T19:34:20.734101] ============================================================
+
+[2026-10-13T19:34:20.734108] ✓ Restore completed successfully!

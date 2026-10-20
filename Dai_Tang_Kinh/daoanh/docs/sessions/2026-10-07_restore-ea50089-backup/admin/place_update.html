@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thẩm định Địa danh — Groq Qwen vs Từ điển</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  .scrollbar-thin{scrollbar-width:thin}
+  .scrollbar-thin::-webkit-scrollbar{height:6px;width:6px}
+  .scrollbar-thin::-webkit-scrollbar-thumb{background:#44403c;border-radius:3px}
+</style>
+</head>
+<body class="bg-[#020617] text-slate-200 font-sans">
+<div id="root"></div>
+
+<script>
+(function() {
+  var session = localStorage.getItem('admin_session');
+  if (!session) {
+    window.location.href = '/daoanh/login.html';
+    return;
+  }
+  fetch('/daoanh/api/login/check', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({session_token: session})
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    if (!data.valid) {
+      localStorage.removeItem('admin_session');
+      window.location.href = '/daoanh/login.html';
+    }
+  }).catch(function() {});
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React;
+
+const TABS = [
+  { key: 'conflict',    label: 'Cần xem xét', status: 'conflict' },
+  { key: 'api_error',   label: 'Lỗi API',     status: 'api_error' },
+  { key: 'done',        label: 'Đã duyệt',    status: 'done' },
+];
+
+const DIFFS = [
+  { key: '',                   label: 'Tất cả' },
+  { key: 'POLYPHONIC_CHAR',    label: 'Đa âm' },
+  { key: 'TAXONOMY_VARIANT',   label: 'Từ loại' },
+  { key: 'PHONETIC_MISMATCH',  label: 'Phiên âm' },
+  { key: 'NONE',               label: 'Giống' },
+];
+
+const DIFF_STYLE = {
+  POLYPHONIC_CHAR:   'bg-red-500/15 text-red-400 border-red-500/40',
+  TAXONOMY_VARIANT:  'bg-amber-500/15 text-amber-400 border-amber-500/40',
+  PHONETIC_MISMATCH: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/40',
+  NONE:              'bg-emerald-500/15 text-emerald-400 border-emerald-500/40',
+};
+
+const STYLE_STATUS = {
+  conflict: 'bg-orange-500/15 text-orange-300 border-orange-500/40',
+  api_error: 'bg-sky-500/15 text-sky-300 border-sky-500/40',
+  verified: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40',
+  approved_dict: 'bg-violet-500/15 text-violet-300 border-violet-500/40',
+  pending: 'bg-slate-500/15 text-slate-300 border-slate-500/40',
+};
+
+const token = () => localStorage.getItem('admin_session') || '';
+
+const App = () => {
+  const [tab, setTab] = useState('conflict');
+  const [diff, setDiff] = useState('');
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [counts, setCounts] = useState({});
+  const [savingId, setSavingId] = useState(null);
+
+  const LIMIT = 100;
+
+  const fetchList = useCallback(async (reset, append) => {
+    if (reset) setLoading(true); else setLoadingMore(true);
+    const next = reset ? 0 : offset;
+    const st = tab === 'done' ? 'verified' : tab === 'api_error' ? 'api_error' : 'conflict';
+    try {
+      const params = new URLSearchParams({ status: st, diff, limit: String(LIMIT), offset: String(next) });
+      const res = await fetch('/daoanh/api/admin/place-groq-review?' + params, {
+        headers: { 'X-Session-Token': token() }
+      });
+      const data = await res.json();
+      if (data.ok) {
+        if (append) setItems(prev => [...prev, ...data.items]);
+        else setItems(data.items);
+        setTotal(data.total);
+        setOffset(next + data.items.length);
+      } else {
+        console.error('T169 list error:', data.error);
+      }
+    } catch (e) {
+      console.error('Fetch error:', e);
+    } finally {
+      setLoading(false); setLoadingMore(false);
+    }
+  }, [tab, diff, offset]);
+
+  useEffect(() => { fetchList(true, false); }, [tab, diff]);
+
+  const fetchCounts = useCallback(async () => {
+    const out = {};
+    for (const t of TABS) {
+      const st = t.status === 'done' ? 'verified' : t.status;
+      try {
+        const res = await fetch('/daoanh/api/admin/place-groq-review?status=' + st + '&limit=1&offset=0', {
+          headers: { 'X-Session-Token': token() }
+        });
+        const d = await res.json();
+        out[t.key] = d.ok ? d.total : 0;
+      } catch (e) { out[t.key] = 0; }
+    }
+    setCounts(out);
+  }, []);
+
+  useEffect(() => { fetchCounts(); }, [tab]);
+
+  const onSave = async (item, chosen, manual) => {
+    setSavingId(item.id);
+    try {
+      const res = await fetch('/daoanh/api/admin/place-groq-review/' + encodeURIComponent(item.id), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() },
+        body: JSON.stringify({ chosen, name_vi: manual })
+      });
+      const d = await res.json();
+      if (d.ok) {
+        setItems(prev => prev.filter(x => x.id !== item.id));
+        setTotal(t => Math.max(0, t - 1));
+        setCounts(c => ({ ...c, [tab]: Math.max(0, (c[tab] || 0) - 1) }));
+      } else {
+        alert('Lỗi duyệt: ' + (d.error || ''));
+      }
+    } catch (e) {
+      alert('Lỗi mạng: ' + e.message);
+    } finally {
+      setSavingId(null);
+    }
+  };
+
+  const Badge = ({ text, cls }) => (
+    <span className={`inline-block px-2 py-0.5 rounded-full border text-xs font-semibold ${cls}`}>{text}</span>
+  );
+
+  return (
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="flex items-center gap-4 mb-6">
+        <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-lg text-black font-black">删</div>
+        <div>
+          <h1 className="text-2xl font-black uppercase tracking-tight">Thẩm định Địa danh</h1>
+          <p className="text-slate-500 text-sm">Groq Qwen <span className="text-amber-500 font-bold">qwen3.8-27b</span> vs từ điển SQLite · side-car <code className="text-slate-400">place_groq_audit</code></p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-5">
+        {TABS.map(t => (
+          <button key={t.key} onClick={() => { setTab(t.key); setDiff(''); setOffset(0); }}
+            className={`px-4 py-1.5 rounded-full border text-sm font-semibold transition flex items-center gap-2 ${
+              tab === t.key
+                ? 'bg-amber-500 text-black border-amber-400'
+                : 'bg-slate-800/60 text-slate-300 border-slate-700 hover:border-amber-500/50'
+            }`}>
+            {t.label}
+            <span className={`text-xs ${tab === t.key ? 'text-black/60' : 'text-amber-400'}`}>{counts[t.key] ?? '…'}</span>
+          </button>
+        ))}
+      </div>
+
+      {tab === 'conflict' && (
+        <div className="mb-4 flex items-center gap-2">
+          <span className="text-xs text-slate-500 uppercase tracking-wide">Lọc theo loại khác biệt</span>
+          <div className="flex gap-1">
+            {DIFFS.map(d => (
+              <button key={d.key || 'all'} onClick={() => { setDiff(d.key); setOffset(0); fetchList(true, false); }}
+                className={`px-3 py-1 rounded text-xs font-medium border ${diff === d.key
+                  ? 'bg-slate-200 text-slate-900 border-slate-200'
+                  : 'bg-slate-800/60 text-slate-400 border-slate-700 hover:text-slate-200'}`}>
+                {d.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="text-slate-500 text-sm mb-3">Tổng: <span className="text-amber-500 font-bold">{total.toLocaleString()}</span></div>
+
+      {loading ? (
+        <div className="text-center py-16 text-slate-400">Đang tải…</div>
+      ) : items.length === 0 ? (
+        <div className="text-center py-16 text-slate-500 border border-dashed border-slate-700 rounded-2xl">
+          Không có hàng nào trong tab này.
+        </div>
+      ) : (
+        <div className="overflow-x-auto scrollbar-thin rounded-2xl border border-slate-800">
+          <table className="w-full text-sm">
+            <thead className="bg-slate-900/80 text-slate-400">
+              <tr>
+                <th className="text-left px-3 py-2 font-semibold">ID · Hán</th>
+                <th className="text-left px-3 py-2 font-semibold">Phiên âm (từ điển)</th>
+                <th className="text-left px-3 py-2 font-semibold">LLM Qwen3.8-27b</th>
+                <th className="text-left px-3 py-2 font-semibold">Phân loại</th>
+                <th className="text-left px-3 py-2 font-semibold">Xử lý</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-800/60">
+              {items.map(item => <Row key={item.id} item={item} onSave={onSave} saving={savingId === item.id} />)}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {items.length > 0 && offset < total && (
+        <div className="mt-5 text-center">
+          <button onClick={() => fetchList(false, true)} disabled={loadingMore}
+            className="px-5 py-2 rounded-full border border-amber-500/40 text-amber-400 font-semibold hover:bg-amber-500/10 disabled:opacity-50">
+            {loadingMore ? 'Đang tải…' : 'Tải thêm'}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const Row = ({ item, onSave, saving }) => {
+  const [chosen, setChosen] = useState(item.groq_trans_vi ? 'groq' : 'dict');
+  const [manual, setManual] = useState('');
+
+  const decide = (c) => {
+    if (c === 'dict') return item.dict_vi || '';
+    if (c === 'groq') return (item.groq_trans_vi || '').trim();
+    return manual.trim();
+  };
+
+  return (
+    <tr className="bg-slate-900/30 hover:bg-slate-800/40 align-top">
+      <td className="px-3 py-3">
+        <div className="text-slate-300 font-mono text-xs">{item.id}</div>
+        <div className="text-xl font-bold text-amber-400">{item.name_zh}</div>
+        {item.diff_reason && <div className="text-[11px] text-slate-500 mt-1 max-w-[16rem]">{item.diff_reason}</div>}
+      </td>
+      <td className="px-3 py-3">
+        <span className="text-slate-200">{item.dict_vi || <span className="text-slate-600 italic">(trống)</span>}</span>
+      </td>
+      <td className="px-3 py-3">
+        <span className="text-slate-200">{item.groq_trans_vi || <span className="text-slate-600 italic">—</span>}</span>
+      </td>
+      <td className="px-3 py-3">
+        <div className="flex flex-col gap-1">
+          {item.diff_type && <Badge text={item.diff_type} cls={DIFF_STYLE[item.diff_type] || 'bg-slate-700 text-slate-300 border-slate-600'} />}
+          <Badge text={item.review_status} cls={STYLE_STATUS[item.review_status] || STYLE_STATUS.pending} />
+        </div>
+      </td>
+      <td className="px-3 py-3">
+        <div className="flex flex-col gap-2">
+          <label className={`flex items-center gap-2 cursor-pointer ${item.dict_vi ? '' : 'opacity-40 pointer-events-none'}`}>
+            <input type="radio" name={'c-' + item.id} checked={chosen === 'dict'} onChange={() => setChosen('dict')} className="accent-amber-500" />
+            <span className="text-xs">Dùng từ điển <span className="text-slate-400">(giữ nguyên)</span></span>
+          </label>
+          <label className={`flex items-center gap-2 cursor-pointer ${item.groq_trans_vi ? '' : 'opacity-40 pointer-events-none'}`}>
+            <input type="radio" name={'c-' + item.id} checked={chosen === 'groq'} onChange={() => setChosen('groq')} className="accent-amber-500" />
+            <span className="text-xs">Dùng Groq</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name={'c-' + item.id} checked={chosen === 'manual'} onChange={() => setChosen('manual')} className="accent-amber-500" />
+            <span className="text-xs">Sửa tay</span>
+          </label>
+          <input
+            value={manual}
+            onChange={e => setManual(e.target.value)}
+            placeholder="Nhập phiên âm thủ công…"
+            className="px-2 py-1 rounded bg-slate-800/70 border border-slate-700 text-slate-200 text-xs w-full"
+          />
+          <button
+            onClick={() => onSave(item, chosen, manual)}
+            disabled={saving || (chosen === 'manual' && !manual.trim())}
+            className="px-3 py-1.5 rounded-full bg-amber-500 text-black text-xs font-bold hover:bg-amber-400 disabled:opacity-40"
+          >
+            {saving ? 'Đang lưu…' : 'Xác nhận & duyệt'}
+          </button>
+          <div className="text-[10px] text-slate-600">Kết quả: <span className="text-slate-400">{decide(chosen) || '—'}</span></div>
+        </div>
+      </td>
+    </tr>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

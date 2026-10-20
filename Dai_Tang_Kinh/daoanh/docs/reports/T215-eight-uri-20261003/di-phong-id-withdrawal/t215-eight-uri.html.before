@@ -1,0 +1,111 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>T215 — 8 hồ sơ URI TTL</title><style>body{margin:0;background:#020617;color:#e2e8f0;font-family:Inter,system-ui,sans-serif;line-height:1.65}main{max-width:1100px;margin:auto;padding:24px}h1,h2,a{color:#fbbf24}article,.notice{padding:20px;margin:18px 0;border:1px solid #334155;border-radius:12px;background:#0f172a}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#020617;padding:14px}code{overflow-wrap:anywhere}summary{cursor:pointer}.muted{color:#94a3b8}</style></head><body><main><a href="dashboard_process.html">← Dashboard</a> · <a href="t215-self-edges.html">9 hồ sơ trước</a><h1>T215 — Đối chiếu 8 URI TTL</h1><p>Kiểm ngày 2026-10-03 · DILA là chuẩn · TTL tham chiếu Việt dịch</p><section class="notice"><strong>8/8 đã kiểm; 2 TTL bổ sung định danh, 5 file thiếu xác minh, 1 file không tồn tại. Chưa Done 8/8.</strong><p>Không đổi số đời. DB chưa đồng bộ. Ứng viên A000960 chỉ để đối chiếu, chưa chốt là Tuyết Giàu.</p><p>RDF 3/3 PASS. Pipeline dừng T203: 5 TTL khác còn40 ký tự Ð; Tester: lint/test/E2E static đạt; PlaceVN runtime lỗi. Chưa đủ điều kiện duyệt triển khai toàn dự án.</p><a href="t215-eight-uri-cases.json">Tải hồ sơ JSON</a></section><article><h2>1. Phước Châu Đại An</h2><p><code>TS-Phuoc-Chau-Dai-An.ttl</code></p><p><strong>đã bổ sung định danh trong TTL; DB chưa cập nhật</strong></p><p>URI và thầy trong file đã được sửa trước phiên này. DILA có alias 福州大安; thầy A001897 懷海. Bổ sung liên kết DILA, nhãn Hán, nguồn và tóm tắt Việt từ DILA; giữ đời 37.</p><p>giữ nguyên; chưa đủ 3 chứng cứ độc lập. read-only; không sync.</p><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A003636">DILA A003636</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A001897">DILA A001897</a></p><details><summary>Dòng cấu trúc trước sửa</summary><pre>L6: &lt;ex:monk/phuoc_chau_dai_an&gt; a &lt;bkg:Monk&gt; ;
+L7: rdfs:label &quot;Phước Châu Đại An&quot;@vi ;
+L8: crm:P1_is_identified_by &lt;ex:monk/phuoc_chau_dai_an&gt; ;
+L10: bkg:birthEvent &lt;ex:monk/phuoc_chau_dai_an_birthEvent&gt; ;
+L11: bkg:deathEvent &lt;ex:monk/phuoc_chau_dai_an_deathEvent&gt; ;
+L14: bkg:generationOrder 37 ;
+L15: bkg:hasTeacher &lt;ex:monk/bach_truong_hoai_hai&gt; ;
+L18: &lt;ex:monk/bach_truong_hoai_hai&gt; rdfs:label &quot;Bách Trượng Hoài Hải&quot;@vi .</pre></details></article><article><h2>2. Di Phong Kính Ninh</h2><p><code>TS-Di-Phong-Kinh-Ninh.ttl</code></p><p><strong>chưa xác minh DILA — bỏ qua sửa</strong></p><p>File đang dùng URI bach_van_khong_do và nhãn Nguyệt Khê Diệu Trừng; biography trống. Chưa tìm được record DILA tương ứng 夷峰鏡寧/鏡寧/敬寧 trong XML2026-09 và tìm kiếm web. A015708 夷峯方寧 là ứng viên khác tên (Phương Ninh), chưa đủ căn cứ gán cho Kính Ninh. Không lấy ID của thầy làm ID trò. Bỏ qua sửa khi chưa xác minh.</p><p>giữ nguyên; chưa đủ 3 chứng cứ độc lập. read-only; không sync.</p><p></p><details><summary>Dòng cấu trúc trước sửa</summary><pre>L6: &lt;ex:monk/bach_van_khong_do&gt; a &lt;bkg:Monk&gt; ;
+L7: rdfs:label &quot;Nguyệt Khê Diệu Trừng&quot;@vi ;
+L8: crm:P1_is_identified_by &lt;ex:monk/bach_van_khong_do&gt; ;
+L11: bkg:birthEvent &lt;ex:monk/bach_van_khong_do_birthEvent&gt; ;
+L12: bkg:deathEvent &lt;ex:monk/bach_van_khong_do_deathEvent&gt; ;
+L15: bkg:generationOrder 60;
+L16: bkg:hasTeacher &lt;ex:monk/nguyet_khe_dieu_trung&gt; ;
+L17: bkg:hasDisciple &lt;ex:monk/dot_khong_tri_ban&gt; ;
+L20: &lt;ex:monk/nguyet_khe_dieu_trung&gt; rdfs:label &quot;Nguyệt Khê Diệu Trừng&quot;@vi .
+L21: &lt;ex:monk/dot_khong_tri_ban&gt; rdfs:label &quot;Đột Không Trí Bản&quot;@vi .</pre></details></article><article><h2>3. Đột Không Trí Bản</h2><p><code>TS-Dot-Khong-Tri-Ban.ttl</code></p><p><strong>chưa xác minh DILA — bỏ qua sửa</strong></p><p>File dùng URI bach_van_khong_do, tên Đột Không Trí Bản, đời61. Chưa tìm được ID cho 突空智板; A020174 突空昇 là người khác, không dùng. Chuỗi Di Phong → Trí Bản → Vô Tận là dữ liệu TTL chưa chứng nhận quốc tế. Bỏ qua sửa.</p><p>giữ nguyên; chưa đủ 3 chứng cứ độc lập. read-only; không sync.</p><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A020174">DILA A020174</a></p><details><summary>Dòng cấu trúc trước sửa</summary><pre>L6: &lt;ex:monk/bach_van_khong_do&gt; a &lt;bkg:Monk&gt; ;
+L7: rdfs:label &quot;Đột Không Trí Bản&quot;@vi ;
+L8: crm:P1_is_identified_by &lt;ex:monk/bach_van_khong_do&gt; ;
+L11: bkg:birthEvent &lt;ex:monk/bach_van_khong_do_birthEvent&gt; ;
+L12: bkg:deathEvent &lt;ex:monk/bach_van_khong_do_deathEvent&gt; ;
+L15: bkg:generationOrder 61;
+L16: bkg:hasTeacher &lt;ex:monk/di_phong_kinh_ninh&gt; ;
+L17: bkg:hasDisciple &lt;ex:monk/vo_tan_tue_hai&gt; ;
+L20: &lt;ex:monk/vo_tan_tue_hai&gt; rdfs:label &quot;Vô Tận Tuệ Hải&quot;@vi .
+L21: &lt;ex:monk/di_phong_kinh_ninh&gt; rdfs:label &quot;Di Phong Kính Ninh&quot;@vi .</pre></details></article><article><h2>4. Đại Ninh Đạo Khoan</h2><p><code>TS-Dai-Ninh-Dao-Khoan.ttl</code></p><p><strong>đã bổ sung định danh trong TTL; DB chưa cập nhật</strong></p><p>DILA A020545 có alias 大寧道寬, hoạt động 洪州大寧/同安, thầy A001439 楚圓; khớp tiểu sử Việt. TS-Dao-Ninh-Dao-Khoan.ttl là bản trùng cùng người/cùng URI, không phải người khác chiếm URI. Giữ dao_ninh_dao_khoan để không tạo thêm một người hoặc phá tham chiếu. Bổ sung owl:sameAs/nhãn Hán/nguồn trong file đích, giữ đời45. Chưa hợp nhất hai file hoặc đổi URI hàng loạt.</p><p>giữ nguyên; chưa đủ 3 chứng cứ độc lập. read-only; không sync.</p><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A020545">DILA A020545</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A001439">DILA A001439</a></p><details><summary>Dòng cấu trúc trước sửa</summary><pre>L6: &lt;ex:monk/dao_ninh_dao_khoan&gt; a &lt;bkg:Monk&gt; ;
+L7: rdfs:label &quot;Đại Ninh Đạo Khoan&quot;@vi ;
+L8: crm:P1_is_identified_by &lt;ex:monk/dao_ninh_dao_khoan&gt; ;
+L88: bkg:birthEvent &lt;ex:monk/dao_ninh_dao_khoan_birthEvent&gt; ;
+L89: bkg:deathEvent &lt;ex:monk/dao_ninh_dao_khoan_deathEvent&gt; ;
+L92: bkg:generationOrder 45;
+L93: bkg:hasTeacher &lt;ex:monk/thach_suong_so_vien&gt; ;
+L97: &lt;ex:monk/linh_an_duc_chuong&gt; rdfs:label &quot;Linh Ẩn Đức Chương&quot;@vi .
+L98: &lt;ex:monk/quang_phap_nguyen&gt; rdfs:label &quot;Quảng Pháp Nguyên&quot;@vi .
+L99: &lt;ex:monk/huong_son_uan_luong&gt; rdfs:label &quot;Hương Sơn Uẩn Lương&quot;@vi .
+L100: &lt;ex:monk/bach_truong_duy_chinh&gt; rdfs:label &quot;Bách Trượng Duy Chính&quot;@vi .
+L101: &lt;ex:monk/linh_son_ban_ngon&gt; rdfs:label &quot;Linh Sơn Bản Ngôn&quot;@vi .
+L102: &lt;ex:monk/tuong_son_bao_tam&gt; rdfs:label &quot;Tương Sơn Bảo Tâm&quot;@vi .
+L103: &lt;ex:monk/song_phong_tinh_hoi&gt; rdfs:label &quot;Song Phong Tỉnh Hồi&quot;@vi .
+L104: &lt;ex:monk/dao_ngo_ngo_chan&gt; rdfs:label &quot;Đạo Ngô Ngộ Chân&quot;@vi .
+L105: &lt;ex:monk/dao_ninh_dao_khoan&gt; rdfs:label &quot;Đại Ninh Đạo Khoan&quot;@vi .
+L106: &lt;ex:monk/vo_tuyen_son_chinh&gt; rdfs:label &quot;Võ Tuyền Sơn Chính&quot;@vi .
+L107: &lt;ex:monk/khanh_thien_tong_chan&gt; rdfs:label &quot;Khánh Thiện Tông Chấn&quot;@vi .
+L108: &lt;ex:monk/tuong_son_giac_hai&gt; rdfs:label &quot;Tương Sơn Giác Hải&quot;@vi .
+L109: &lt;ex:monk/quy_phong_tu_quynh&gt; rdfs:label &quot;Quy Phong Tử Quỳnh&quot;@vi .
+L110: &lt;ex:monk/thach_mon_nha&gt; rdfs:label &quot;Thạch Môn Nhã&quot;@vi .
+L111: &lt;ex:monk/dai_quy_duc_can&gt; rdfs:label &quot;Đại Quy Đức Càn&quot;@vi .
+L112: &lt;ex:monk/nam_phong_duy_quang&gt; rdfs:label &quot;Nam Phong Duy Quảng&quot;@vi .</pre></details></article><article><h2>5. Đại Xá Như Trường</h2><p><code>TS-Dai-Xa-Nhu-Truong.ttl</code></p><p><strong>chưa xác minh DILA — bỏ qua sửa</strong></p><p>Có hai khối Monk cùng URI phong_huyet_dien_chieu và nhãn Nam Viện Huệ Ngung, cùng tiểu sử Phong Huyệt. Đời60/70, thầy To Đức/Tuyết Đậu và trò Giới Hải/Minh Hoằng trộn lẫn. Chưa khóa ID DILA cho Đại Xa/Đại Xá Như Trường (các biến thể 如長/如杖 chưa đủ). Không chọn số đời hoặc thầy theo khối cuối.</p><p>giữ nguyên; chưa đủ 3 chứng cứ độc lập. read-only; không sync.</p><p></p><details><summary>Dòng cấu trúc trước sửa</summary><pre>L7: &lt;ex:monk/phong_huyet_dien_chieu&gt; a &lt;bkg:Monk&gt; ;
+L8: rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi ;
+L9: crm:P1_is_identified_by &lt;ex:monk/phong_huyet_dien_chieu&gt; ;
+L456: bkg:birthEvent &lt;ex:monk/nam_vien_hue_ngung_birthEvent&gt; ;
+L457: bkg:deathEvent &lt;ex:monk/nam_vien_hue_ngung_deathEvent&gt; ;
+L460: bkg:generationOrder  60;
+L461: bkg:hasTeacher &lt;ex:monk/to_duc_bao_tang&gt; ;
+L462: bkg:hasDisciple &lt;ex:monk/gioi_hai_vinh_tu&gt; ;
+L465: &lt;ex:monk/lam_te_nghia_huyen&gt; rdfs:label &quot;Lâm Tế Nghĩa Huyền&quot;@vi .
+L466: &lt;ex:monk/nam_vien_hue_ngung&gt; rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi .
+L467: &lt;ex:monk/thu_son_tinh_niem&gt; rdfs:label &quot;Thủ Sơn Tỉnh Niệm&quot;@vi .
+L473: &lt;ex:monk/phong_huyet_dien_chieu&gt; a &lt;bkg:Monk&gt; ;
+L474: rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi ;
+L475: crm:P1_is_identified_by &lt;ex:monk/phong_huyet_dien_chieu&gt; ;
+L922: bkg:birthEvent &lt;ex:monk/nam_vien_hue_ngung_birthEvent&gt; ;
+L923: bkg:deathEvent &lt;ex:monk/nam_vien_hue_ngung_deathEvent&gt; ;
+L926: bkg:generationOrder 70;
+L927: bkg:hasTeacher &lt;ex:monk/tuyet_dau_chon_phac&gt; ;
+L928: bkg:hasDisciple &lt;ex:monk/minh_hoang_tu_dung&gt; ;
+L931: &lt;ex:monk/lam_te_nghia_huyen&gt; rdfs:label &quot;Lâm Tế Nghĩa Huyền&quot;@vi .
+L932: &lt;ex:monk/nam_vien_hue_ngung&gt; rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi .
+L933: &lt;ex:monk/thu_son_tinh_niem&gt; rdfs:label &quot;Thủ Sơn Tỉnh Niệm&quot;@vi .</pre></details></article><article><h2>6. Minh Hoằng Tử Dung</h2><p><code>TS-Minh-Hoang-Tu-Dung.ttl</code></p><p><strong>chưa xác minh DILA — bỏ qua sửa</strong></p><p>Có hai khối Phong Huyệt/Nam Viện, đời60/71, thầy/trò của hai người trộn lẫn. Tài liệu chính thức Order of Interbeing xác nhận Minh Hoằng 明弘, hiệu Tử Dung 子融, thầy của Liễu Quán. Chưa tìm được ID DILA tương ứng; A043469 明宏/梅芳 có hành trạng khác, không dùng. Quan hệ Đại Xá → Tử Dung chưa chứng nhận DILA.</p><p>giữ nguyên; chưa đủ 3 chứng cứ độc lập. read-only; không sync.</p><p><a href="https://orderofinterbeing.org/docs/TNH-Tradition-Lineage.pdf">Tài liệu truyền thừa chính thức</a></p><details><summary>Dòng cấu trúc trước sửa</summary><pre>L7: &lt;ex:monk/phong_huyet_dien_chieu&gt; a &lt;bkg:Monk&gt; ;
+L8: rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi ;
+L9: crm:P1_is_identified_by &lt;ex:monk/phong_huyet_dien_chieu&gt; ;
+L456: bkg:birthEvent &lt;ex:monk/nam_vien_hue_ngung_birthEvent&gt; ;
+L457: bkg:deathEvent &lt;ex:monk/nam_vien_hue_ngung_deathEvent&gt; ;
+L460: bkg:generationOrder  60;
+L461: bkg:hasTeacher &lt;ex:monk/to_duc_bao_tang&gt; ;
+L462: bkg:hasDisciple &lt;ex:monk/gioi_hai_vinh_tu&gt; ;
+L465: &lt;ex:monk/lam_te_nghia_huyen&gt; rdfs:label &quot;Lâm Tế Nghĩa Huyền&quot;@vi .
+L466: &lt;ex:monk/nam_vien_hue_ngung&gt; rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi .
+L467: &lt;ex:monk/thu_son_tinh_niem&gt; rdfs:label &quot;Thủ Sơn Tỉnh Niệm&quot;@vi .
+L473: &lt;ex:monk/phong_huyet_dien_chieu&gt; a &lt;bkg:Monk&gt; ;
+L474: rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi ;
+L475: crm:P1_is_identified_by &lt;ex:monk/phong_huyet_dien_chieu&gt; ;
+L922: bkg:birthEvent &lt;ex:monk/nam_vien_hue_ngung_birthEvent&gt; ;
+L923: bkg:deathEvent &lt;ex:monk/nam_vien_hue_ngung_deathEvent&gt; ;
+L926: bkg:generationOrder 71;
+L927: bkg:hasTeacher &lt;ex:monk/dai_xa_nhu_truong&gt; ;
+L928: bkg:hasDisciple &lt;ex:monk/thiet_dieu_lieu_quan&gt; ;
+L931: &lt;ex:monk/lam_te_nghia_huyen&gt; rdfs:label &quot;Lâm Tế Nghĩa Huyền&quot;@vi .
+L932: &lt;ex:monk/nam_vien_hue_ngung&gt; rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi .
+L933: &lt;ex:monk/thu_son_tinh_niem&gt; rdfs:label &quot;Thủ Sơn Tỉnh Niệm&quot;@vi .</pre></details></article><article><h2>7. Tuyết Giàu Chơn Phác</h2><p><code>TS-Tuyet-Giau-Chon-Phac.ttl</code></p><p><strong>chưa xác minh DILA — bỏ qua sửa</strong></p><p>Có hai khối Phong Huyệt/Nam Viện, đời60/69. A000960 真樸 có alias 雪槱真樸, thầy A001513 木陳道忞. Là ứng viên đáng kiểm; chưa chứng minh tên Việt Tuyết Giàu trong file này chính là 雪槱 (không phải 雪竇 Tuyết Đậu). DILA không liệt kê Đại Xá trong các quan hệ của record này. Tạo TTL ứng viên chỉ cho A000960 ở ngoài thư mục import, không gắn owl:sameAs vào URI Tuyết Giàu.</p><p>giữ nguyên; chưa đủ 3 chứng cứ độc lập. read-only; không sync.</p><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A000960">DILA A000960</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A001513">DILA A001513</a></p><details><summary>Dòng cấu trúc trước sửa</summary><pre>L7: &lt;ex:monk/phong_huyet_dien_chieu&gt; a &lt;bkg:Monk&gt; ;
+L8: rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi ;
+L9: crm:P1_is_identified_by &lt;ex:monk/phong_huyet_dien_chieu&gt; ;
+L456: bkg:birthEvent &lt;ex:monk/nam_vien_hue_ngung_birthEvent&gt; ;
+L457: bkg:deathEvent &lt;ex:monk/nam_vien_hue_ngung_deathEvent&gt; ;
+L460: bkg:generationOrder  60;
+L461: bkg:hasTeacher &lt;ex:monk/to_duc_bao_tang&gt; ;
+L462: bkg:hasDisciple &lt;ex:monk/gioi_hai_vinh_tu&gt; ;
+L465: &lt;ex:monk/lam_te_nghia_huyen&gt; rdfs:label &quot;Lâm Tế Nghĩa Huyền&quot;@vi .
+L466: &lt;ex:monk/nam_vien_hue_ngung&gt; rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi .
+L467: &lt;ex:monk/thu_son_tinh_niem&gt; rdfs:label &quot;Thủ Sơn Tỉnh Niệm&quot;@vi .
+L473: &lt;ex:monk/phong_huyet_dien_chieu&gt; a &lt;bkg:Monk&gt; ;
+L474: rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi ;
+L475: crm:P1_is_identified_by &lt;ex:monk/phong_huyet_dien_chieu&gt; ;
+L922: bkg:birthEvent &lt;ex:monk/nam_vien_hue_ngung_birthEvent&gt; ;
+L923: bkg:deathEvent &lt;ex:monk/nam_vien_hue_ngung_deathEvent&gt; ;
+L926: bkg:generationOrder 69;
+L927: bkg:hasTeacher &lt;ex:monk/dao_man_moc_tran&gt; ;
+L928: bkg:hasDisciple &lt;ex:monk/dai_xa_nhu_truong&gt; ;
+L931: &lt;ex:monk/lam_te_nghia_huyen&gt; rdfs:label &quot;Lâm Tế Nghĩa Huyền&quot;@vi .
+L932: &lt;ex:monk/nam_vien_hue_ngung&gt; rdfs:label &quot;Nam Viện Huệ Ngung&quot;@vi .
+L933: &lt;ex:monk/thu_son_tinh_niem&gt; rdfs:label &quot;Thủ Sơn Tỉnh Niệm&quot;@vi .</pre></details></article><article><h2>8. Linh Cưu</h2><p><code>TS-Linh-Cuu.ttl</code></p><p><strong>file không tồn tại; bác bỏ đổi Thạch Cữu thành Linh Cưu</strong></p><p>Đường dẫn TS-Linh-Cuu.ttl không tồn tại lúc kiểm. TS-Thach-Cuu.ttl tồn tại, nhãn Thạch Cữu, URI thach_cuu; DILA A019919 石臼, thầy A003623 道一 phù hợp Thạch Cữu. Không tái tạo Linh Cưu từ tiểu sử Thạch Cữu hoặc gán A019919 cho Linh Cưu. DB còn ttl_filename TS-Linh-Cuu cho thach_cuu: cần sửa provenance riêng sau đối chiếu.</p><p>giữ nguyên; chưa đủ 3 chứng cứ độc lập. read-only; không sync.</p><p><a href="https://authority.dila.edu.tw/person/search.php?aid=A019919">DILA A019919</a> · <a href="https://authority.dila.edu.tw/person/search.php?aid=A003623">DILA A003623</a></p><details><summary>Dòng cấu trúc trước sửa</summary><pre>Không có file ở đường dẫn được yêu cầu</pre></details></article><section class="notice"><h2>Việc còn lại</h2><p>Khóa danh tính Di Phong/Trí Bản/Đại Xá/Tử Dung; xác nhận tên Tuyết Giàu ↔ 雪槱; hợp nhất hai file Đại Ninh; sửa provenance DB Thạch Cữu sau đối chiếu. Các file trộn Phong Huyệt cần được giữ ngoài các lần import tiếp theo.</p></section></main></body></html>

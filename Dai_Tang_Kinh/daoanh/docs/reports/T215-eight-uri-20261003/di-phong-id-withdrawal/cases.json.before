@@ -1,0 +1,704 @@
+{
+  "task": "T215",
+  "checked": "2026-10-03",
+  "source": {
+    "source": "https://authority.dila.edu.tw/downloads/authority_person.2026-09.zip",
+    "archive": "data/backups/T215-tri-tai-sync-20261002/authority_person.2026-09.zip",
+    "sha256": "2f61ffafb98523b119b1fdfb84fd2fc2ab84d1617cb48e2f09bce6fd6f34f103",
+    "checked": "2026-10-03",
+    "record_count": 9,
+    "scope": "XML 2026-09 + official web; no-match means unconfirmed, not proof of absence from all DILA versions."
+  },
+  "cases": [
+    {
+      "case": 1,
+      "file": "TS-Phuoc-Chau-Dai-An.ttl",
+      "name_vi": "Phước Châu Đại An",
+      "exists": true,
+      "status": "đã bổ sung định danh trong TTL; DB chưa cập nhật",
+      "dila_id": "A003636",
+      "proposed_uri": "phuoc_chau_dai_an",
+      "generation_action": "giữ nguyên; chưa đủ 3 chứng cứ độc lập",
+      "note": "URI và thầy trong file đã được sửa trước phiên này. DILA có alias 福州大安; thầy A001897 懷海. Bổ sung liên kết DILA, nhãn Hán, nguồn và tóm tắt Việt từ DILA; giữ đời 37.",
+      "evidence_links": [
+        "https://authority.dila.edu.tw/person/search.php?aid=A003636",
+        "https://authority.dila.edu.tw/person/search.php?aid=A001897"
+      ],
+      "current_lines": [
+        {
+          "line": 6,
+          "text": "<ex:monk/phuoc_chau_dai_an> a <bkg:Monk> ;"
+        },
+        {
+          "line": 7,
+          "text": "rdfs:label \"Phước Châu Đại An\"@vi ;"
+        },
+        {
+          "line": 8,
+          "text": "crm:P1_is_identified_by <ex:monk/phuoc_chau_dai_an> ;"
+        },
+        {
+          "line": 10,
+          "text": "bkg:birthEvent <ex:monk/phuoc_chau_dai_an_birthEvent> ;"
+        },
+        {
+          "line": 11,
+          "text": "bkg:deathEvent <ex:monk/phuoc_chau_dai_an_deathEvent> ;"
+        },
+        {
+          "line": 14,
+          "text": "bkg:generationOrder 37 ;"
+        },
+        {
+          "line": 15,
+          "text": "bkg:hasTeacher <ex:monk/bach_truong_hoai_hai> ;"
+        },
+        {
+          "line": 18,
+          "text": "<ex:monk/bach_truong_hoai_hai> rdfs:label \"Bách Trượng Hoài Hải\"@vi ."
+        }
+      ],
+      "before_sha256": "2fb26f96925ef26fd209ecd044330de6cb397a3efa3ed2960a7990c8bcf26f9e",
+      "db_action": "read-only; không sync",
+      "prepared_file": "prepared/TS-Phuoc-Chau-Dai-An.ttl",
+      "after_sha256": "51adc42475dbb05af0368daf933e361bc9c1d7e0fd67a0fdfa2c41e2142b37ce",
+      "biography_openings": [
+        ""
+      ],
+      "monk_blocks": 1,
+      "applied": true
+    },
+    {
+      "case": 2,
+      "file": "TS-Di-Phong-Kinh-Ninh.ttl",
+      "name_vi": "Di Phong Kính Ninh",
+      "exists": true,
+      "status": "chưa xác minh DILA — bỏ qua sửa",
+      "dila_id": null,
+      "proposed_uri": "di_phong_kinh_ninh",
+      "generation_action": "giữ nguyên; chưa đủ 3 chứng cứ độc lập",
+      "note": "File đang dùng URI bach_van_khong_do và nhãn Nguyệt Khê Diệu Trừng; biography trống. Chưa tìm được record DILA tương ứng 夷峰鏡寧/鏡寧/敬寧 trong XML2026-09 và tìm kiếm web. Không lấy ID của thầy làm ID trò. Bỏ qua sửa khi chưa xác minh. Kiểm mở rộng phát hiện A015708 夷峯方寧 (Di Phong Phương Ninh), thầy A010860 月溪澄, mất1491. Tên 方寧 không phải 鏡寧; chưa đủ căn cứ coi cùng người, không áp mapping.",
+      "evidence_links": [
+        "https://authority.dila.edu.tw/person/search.php?aid=A015708",
+        "https://authority.dila.edu.tw/person/search.php?aid=A010860"
+      ],
+      "current_lines": [
+        {
+          "line": 6,
+          "text": "<ex:monk/bach_van_khong_do> a <bkg:Monk> ;"
+        },
+        {
+          "line": 7,
+          "text": "rdfs:label \"Nguyệt Khê Diệu Trừng\"@vi ;"
+        },
+        {
+          "line": 8,
+          "text": "crm:P1_is_identified_by <ex:monk/bach_van_khong_do> ;"
+        },
+        {
+          "line": 11,
+          "text": "bkg:birthEvent <ex:monk/bach_van_khong_do_birthEvent> ;"
+        },
+        {
+          "line": 12,
+          "text": "bkg:deathEvent <ex:monk/bach_van_khong_do_deathEvent> ;"
+        },
+        {
+          "line": 15,
+          "text": "bkg:generationOrder 60;"
+        },
+        {
+          "line": 16,
+          "text": "bkg:hasTeacher <ex:monk/nguyet_khe_dieu_trung> ;"
+        },
+        {
+          "line": 17,
+          "text": "bkg:hasDisciple <ex:monk/dot_khong_tri_ban> ;"
+        },
+        {
+          "line": 20,
+          "text": "<ex:monk/nguyet_khe_dieu_trung> rdfs:label \"Nguyệt Khê Diệu Trừng\"@vi ."
+        },
+        {
+          "line": 21,
+          "text": "<ex:monk/dot_khong_tri_ban> rdfs:label \"Đột Không Trí Bản\"@vi ."
+        }
+      ],
+      "before_sha256": "586545d2c3c82b77fc0be516562375f8a64dc59bd18364dc8dfb37e63e96cb95",
+      "db_action": "read-only; không sync",
+      "biography_openings": [
+        ""
+      ],
+      "monk_blocks": 1,
+      "applied": false,
+      "candidate_id": "A015708"
+    },
+    {
+      "case": 3,
+      "file": "TS-Dot-Khong-Tri-Ban.ttl",
+      "name_vi": "Đột Không Trí Bản",
+      "exists": true,
+      "status": "chưa xác minh DILA — bỏ qua sửa",
+      "dila_id": null,
+      "proposed_uri": "dot_khong_tri_ban",
+      "generation_action": "giữ nguyên; chưa đủ 3 chứng cứ độc lập",
+      "note": "File dùng URI bach_van_khong_do, tên Đột Không Trí Bản, đời61. Chưa tìm được ID cho 突空智板; A020174 突空昇 là người khác, không dùng. Chuỗi Di Phong → Trí Bản → Vô Tận là dữ liệu TTL chưa chứng nhận quốc tế. Bỏ qua sửa.",
+      "evidence_links": [
+        "https://authority.dila.edu.tw/person/search.php?aid=A020174"
+      ],
+      "current_lines": [
+        {
+          "line": 6,
+          "text": "<ex:monk/bach_van_khong_do> a <bkg:Monk> ;"
+        },
+        {
+          "line": 7,
+          "text": "rdfs:label \"Đột Không Trí Bản\"@vi ;"
+        },
+        {
+          "line": 8,
+          "text": "crm:P1_is_identified_by <ex:monk/bach_van_khong_do> ;"
+        },
+        {
+          "line": 11,
+          "text": "bkg:birthEvent <ex:monk/bach_van_khong_do_birthEvent> ;"
+        },
+        {
+          "line": 12,
+          "text": "bkg:deathEvent <ex:monk/bach_van_khong_do_deathEvent> ;"
+        },
+        {
+          "line": 15,
+          "text": "bkg:generationOrder 61;"
+        },
+        {
+          "line": 16,
+          "text": "bkg:hasTeacher <ex:monk/di_phong_kinh_ninh> ;"
+        },
+        {
+          "line": 17,
+          "text": "bkg:hasDisciple <ex:monk/vo_tan_tue_hai> ;"
+        },
+        {
+          "line": 20,
+          "text": "<ex:monk/vo_tan_tue_hai> rdfs:label \"Vô Tận Tuệ Hải\"@vi ."
+        },
+        {
+          "line": 21,
+          "text": "<ex:monk/di_phong_kinh_ninh> rdfs:label \"Di Phong Kính Ninh\"@vi ."
+        }
+      ],
+      "before_sha256": "2c364a8468289e26b7dd1fa0712db2c2ff4126434fdb0c060046ea2ac257f30d",
+      "db_action": "read-only; không sync",
+      "biography_openings": [
+        ""
+      ],
+      "monk_blocks": 1,
+      "applied": false
+    },
+    {
+      "case": 4,
+      "file": "TS-Dai-Ninh-Dao-Khoan.ttl",
+      "name_vi": "Đại Ninh Đạo Khoan",
+      "exists": true,
+      "status": "đã bổ sung định danh trong TTL; DB chưa cập nhật",
+      "dila_id": "A020545",
+      "proposed_uri": "dai_ninh_dao_khoan",
+      "generation_action": "giữ nguyên; chưa đủ 3 chứng cứ độc lập",
+      "note": "DILA A020545 có alias 大寧道寬, hoạt động 洪州大寧/同安, thầy A001439 楚圓; khớp tiểu sử Việt. TS-Dao-Ninh-Dao-Khoan.ttl là bản trùng cùng người/cùng URI, không phải người khác chiếm URI. Giữ dao_ninh_dao_khoan để không tạo thêm một người hoặc phá tham chiếu. Bổ sung owl:sameAs/nhãn Hán/nguồn trong file đích, giữ đời45. Chưa hợp nhất hai file hoặc đổi URI hàng loạt.",
+      "evidence_links": [
+        "https://authority.dila.edu.tw/person/search.php?aid=A020545",
+        "https://authority.dila.edu.tw/person/search.php?aid=A001439"
+      ],
+      "current_lines": [
+        {
+          "line": 6,
+          "text": "<ex:monk/dao_ninh_dao_khoan> a <bkg:Monk> ;"
+        },
+        {
+          "line": 7,
+          "text": "rdfs:label \"Đại Ninh Đạo Khoan\"@vi ;"
+        },
+        {
+          "line": 8,
+          "text": "crm:P1_is_identified_by <ex:monk/dao_ninh_dao_khoan> ;"
+        },
+        {
+          "line": 88,
+          "text": "bkg:birthEvent <ex:monk/dao_ninh_dao_khoan_birthEvent> ;"
+        },
+        {
+          "line": 89,
+          "text": "bkg:deathEvent <ex:monk/dao_ninh_dao_khoan_deathEvent> ;"
+        },
+        {
+          "line": 92,
+          "text": "bkg:generationOrder 45;"
+        },
+        {
+          "line": 93,
+          "text": "bkg:hasTeacher <ex:monk/thach_suong_so_vien> ;"
+        },
+        {
+          "line": 97,
+          "text": "<ex:monk/linh_an_duc_chuong> rdfs:label \"Linh Ẩn Đức Chương\"@vi ."
+        },
+        {
+          "line": 98,
+          "text": "<ex:monk/quang_phap_nguyen> rdfs:label \"Quảng Pháp Nguyên\"@vi ."
+        },
+        {
+          "line": 99,
+          "text": "<ex:monk/huong_son_uan_luong> rdfs:label \"Hương Sơn Uẩn Lương\"@vi ."
+        },
+        {
+          "line": 100,
+          "text": "<ex:monk/bach_truong_duy_chinh> rdfs:label \"Bách Trượng Duy Chính\"@vi ."
+        },
+        {
+          "line": 101,
+          "text": "<ex:monk/linh_son_ban_ngon> rdfs:label \"Linh Sơn Bản Ngôn\"@vi ."
+        },
+        {
+          "line": 102,
+          "text": "<ex:monk/tuong_son_bao_tam> rdfs:label \"Tương Sơn Bảo Tâm\"@vi ."
+        },
+        {
+          "line": 103,
+          "text": "<ex:monk/song_phong_tinh_hoi> rdfs:label \"Song Phong Tỉnh Hồi\"@vi ."
+        },
+        {
+          "line": 104,
+          "text": "<ex:monk/dao_ngo_ngo_chan> rdfs:label \"Đạo Ngô Ngộ Chân\"@vi ."
+        },
+        {
+          "line": 105,
+          "text": "<ex:monk/dao_ninh_dao_khoan> rdfs:label \"Đại Ninh Đạo Khoan\"@vi ."
+        },
+        {
+          "line": 106,
+          "text": "<ex:monk/vo_tuyen_son_chinh> rdfs:label \"Võ Tuyền Sơn Chính\"@vi ."
+        },
+        {
+          "line": 107,
+          "text": "<ex:monk/khanh_thien_tong_chan> rdfs:label \"Khánh Thiện Tông Chấn\"@vi ."
+        },
+        {
+          "line": 108,
+          "text": "<ex:monk/tuong_son_giac_hai> rdfs:label \"Tương Sơn Giác Hải\"@vi ."
+        },
+        {
+          "line": 109,
+          "text": "<ex:monk/quy_phong_tu_quynh> rdfs:label \"Quy Phong Tử Quỳnh\"@vi ."
+        },
+        {
+          "line": 110,
+          "text": "<ex:monk/thach_mon_nha> rdfs:label \"Thạch Môn Nhã\"@vi ."
+        },
+        {
+          "line": 111,
+          "text": "<ex:monk/dai_quy_duc_can> rdfs:label \"Đại Quy Đức Càn\"@vi ."
+        },
+        {
+          "line": 112,
+          "text": "<ex:monk/nam_phong_duy_quang> rdfs:label \"Nam Phong Duy Quảng\"@vi ."
+        }
+      ],
+      "before_sha256": "414aa0a81c31a3ea011314182f9bafcca16b80a811979a145311afb4e6834bc0",
+      "db_action": "read-only; không sync",
+      "prepared_file": "prepared/TS-Dai-Ninh-Dao-Khoan.ttl",
+      "after_sha256": "45f2bb0854c80b365173fa6ef546baf7ee6e054e9e3cebb9621c68f94e1808ac",
+      "biography_openings": [
+        "Thiền sư Đạo Khoan ở Đại ninh\n\nThiền sư Đạo Khoan ở Đại ninh tại Hồng châu. Có vị Tăng hỏi:\n– Tôn giả Ca-diếp thấy chư Phật là thấy cái gì? Mà Đức Như Lai vừa nắm cành hoa liền mỉm cười?\n\nSư đáp:\n– Nhẫn tuấn chẳng cấm.\n\n"
+      ],
+      "monk_blocks": 1,
+      "applied": true
+    },
+    {
+      "case": 5,
+      "file": "TS-Dai-Xa-Nhu-Truong.ttl",
+      "name_vi": "Đại Xá Như Trường",
+      "exists": true,
+      "status": "chưa xác minh DILA — bỏ qua sửa",
+      "dila_id": null,
+      "proposed_uri": "dai_xa_nhu_truong",
+      "generation_action": "giữ nguyên; chưa đủ 3 chứng cứ độc lập",
+      "note": "Có hai khối Monk cùng URI phong_huyet_dien_chieu và nhãn Nam Viện Huệ Ngung, cùng tiểu sử Phong Huyệt. Đời60/70, thầy To Đức/Tuyết Đậu và trò Giới Hải/Minh Hoằng trộn lẫn. Chưa khóa ID DILA cho Đại Xa/Đại Xá Như Trường (các biến thể 如長/如杖 chưa đủ). Không chọn số đời hoặc thầy theo khối cuối.",
+      "evidence_links": [],
+      "current_lines": [
+        {
+          "line": 7,
+          "text": "<ex:monk/phong_huyet_dien_chieu> a <bkg:Monk> ;"
+        },
+        {
+          "line": 8,
+          "text": "rdfs:label \"Nam Viện Huệ Ngung\"@vi ;"
+        },
+        {
+          "line": 9,
+          "text": "crm:P1_is_identified_by <ex:monk/phong_huyet_dien_chieu> ;"
+        },
+        {
+          "line": 456,
+          "text": "bkg:birthEvent <ex:monk/nam_vien_hue_ngung_birthEvent> ;"
+        },
+        {
+          "line": 457,
+          "text": "bkg:deathEvent <ex:monk/nam_vien_hue_ngung_deathEvent> ;"
+        },
+        {
+          "line": 460,
+          "text": "bkg:generationOrder  60;"
+        },
+        {
+          "line": 461,
+          "text": "bkg:hasTeacher <ex:monk/to_duc_bao_tang> ;"
+        },
+        {
+          "line": 462,
+          "text": "bkg:hasDisciple <ex:monk/gioi_hai_vinh_tu> ;"
+        },
+        {
+          "line": 465,
+          "text": "<ex:monk/lam_te_nghia_huyen> rdfs:label \"Lâm Tế Nghĩa Huyền\"@vi ."
+        },
+        {
+          "line": 466,
+          "text": "<ex:monk/nam_vien_hue_ngung> rdfs:label \"Nam Viện Huệ Ngung\"@vi ."
+        },
+        {
+          "line": 467,
+          "text": "<ex:monk/thu_son_tinh_niem> rdfs:label \"Thủ Sơn Tỉnh Niệm\"@vi ."
+        },
+        {
+          "line": 473,
+          "text": "<ex:monk/phong_huyet_dien_chieu> a <bkg:Monk> ;"
+        },
+        {
+          "line": 474,
+          "text": "rdfs:label \"Nam Viện Huệ Ngung\"@vi ;"
+        },
+        {
+          "line": 475,
+          "text": "crm:P1_is_identified_by <ex:monk/phong_huyet_dien_chieu> ;"
+        },
+        {
+          "line": 922,
+          "text": "bkg:birthEvent <ex:monk/nam_vien_hue_ngung_birthEvent> ;"
+        },
+        {
+          "line": 923,
+          "text": "bkg:deathEvent <ex:monk/nam_vien_hue_ngung_deathEvent> ;"
+        },
+        {
+          "line": 926,
+          "text": "bkg:generationOrder 70;"
+        },
+        {
+          "line": 927,
+          "text": "bkg:hasTeacher <ex:monk/tuyet_dau_chon_phac> ;"
+        },
+        {
+          "line": 928,
+          "text": "bkg:hasDisciple <ex:monk/minh_hoang_tu_dung> ;"
+        },
+        {
+          "line": 931,
+          "text": "<ex:monk/lam_te_nghia_huyen> rdfs:label \"Lâm Tế Nghĩa Huyền\"@vi ."
+        },
+        {
+          "line": 932,
+          "text": "<ex:monk/nam_vien_hue_ngung> rdfs:label \"Nam Viện Huệ Ngung\"@vi ."
+        },
+        {
+          "line": 933,
+          "text": "<ex:monk/thu_son_tinh_niem> rdfs:label \"Thủ Sơn Tỉnh Niệm\"@vi ."
+        }
+      ],
+      "before_sha256": "c7a141ecab2cd8eda797bc25cc0c97e321e7d281e68b48fd292cff8e4e249041",
+      "db_action": "read-only; không sync",
+      "biography_openings": [
+        "THIỀN SƯ PHONG HUYỆT DIÊN CHlỂU ở NHỮ CHÂU\nPHÁP TỰ ĐỜI THỨ BẢY của NAM NHẠC HOÀI NHƯỢNG\nPHÁP TỰ của HÒA THƯỢNG NAM VIỆN ở NHỮ CHÂU\nSư người Hàng Châu. Ban đầu, sư phát tích nơi đại sư Cảnh Thanh\nThuận Đức ở Việt Châu, nh",
+        "THIỀN SƯ PHONG HUYỆT DIÊN CHlỂU ở NHỮ CHÂU\nPHÁP TỰ ĐỜI THỨ BẢY của NAM NHẠC HOÀI NHƯỢNG\nPHÁP TỰ của HÒA THƯỢNG NAM VIỆN ở NHỮ CHÂU\nSư người Hàng Châu. Ban đầu, sư phát tích nơi đại sư Cảnh Thanh\nThuận Đức ở Việt Châu, nh"
+      ],
+      "monk_blocks": 2,
+      "applied": false
+    },
+    {
+      "case": 6,
+      "file": "TS-Minh-Hoang-Tu-Dung.ttl",
+      "name_vi": "Minh Hoằng Tử Dung",
+      "exists": true,
+      "status": "chưa xác minh DILA — bỏ qua sửa",
+      "dila_id": null,
+      "proposed_uri": "minh_hoang_tu_dung",
+      "generation_action": "giữ nguyên; chưa đủ 3 chứng cứ độc lập",
+      "note": "Có hai khối Phong Huyệt/Nam Viện, đời60/71, thầy/trò của hai người trộn lẫn. Tài liệu chính thức Order of Interbeing xác nhận Minh Hoằng 明弘, hiệu Tử Dung 子融, thầy của Liễu Quán. Chưa tìm được ID DILA tương ứng; A043469 明宏/梅芳 có hành trạng khác, không dùng. Quan hệ Đại Xá → Tử Dung chưa chứng nhận DILA.",
+      "evidence_links": [
+        "https://orderofinterbeing.org/docs/TNH-Tradition-Lineage.pdf"
+      ],
+      "current_lines": [
+        {
+          "line": 7,
+          "text": "<ex:monk/phong_huyet_dien_chieu> a <bkg:Monk> ;"
+        },
+        {
+          "line": 8,
+          "text": "rdfs:label \"Nam Viện Huệ Ngung\"@vi ;"
+        },
+        {
+          "line": 9,
+          "text": "crm:P1_is_identified_by <ex:monk/phong_huyet_dien_chieu> ;"
+        },
+        {
+          "line": 456,
+          "text": "bkg:birthEvent <ex:monk/nam_vien_hue_ngung_birthEvent> ;"
+        },
+        {
+          "line": 457,
+          "text": "bkg:deathEvent <ex:monk/nam_vien_hue_ngung_deathEvent> ;"
+        },
+        {
+          "line": 460,
+          "text": "bkg:generationOrder  60;"
+        },
+        {
+          "line": 461,
+          "text": "bkg:hasTeacher <ex:monk/to_duc_bao_tang> ;"
+        },
+        {
+          "line": 462,
+          "text": "bkg:hasDisciple <ex:monk/gioi_hai_vinh_tu> ;"
+        },
+        {
+          "line": 465,
+          "text": "<ex:monk/lam_te_nghia_huyen> rdfs:label \"Lâm Tế Nghĩa Huyền\"@vi ."
+        },
+        {
+          "line": 466,
+          "text": "<ex:monk/nam_vien_hue_ngung> rdfs:label \"Nam Viện Huệ Ngung\"@vi ."
+        },
+        {
+          "line": 467,
+          "text": "<ex:monk/thu_son_tinh_niem> rdfs:label \"Thủ Sơn Tỉnh Niệm\"@vi ."
+        },
+        {
+          "line": 473,
+          "text": "<ex:monk/phong_huyet_dien_chieu> a <bkg:Monk> ;"
+        },
+        {
+          "line": 474,
+          "text": "rdfs:label \"Nam Viện Huệ Ngung\"@vi ;"
+        },
+        {
+          "line": 475,
+          "text": "crm:P1_is_identified_by <ex:monk/phong_huyet_dien_chieu> ;"
+        },
+        {
+          "line": 922,
+          "text": "bkg:birthEvent <ex:monk/nam_vien_hue_ngung_birthEvent> ;"
+        },
+        {
+          "line": 923,
+          "text": "bkg:deathEvent <ex:monk/nam_vien_hue_ngung_deathEvent> ;"
+        },
+        {
+          "line": 926,
+          "text": "bkg:generationOrder 71;"
+        },
+        {
+          "line": 927,
+          "text": "bkg:hasTeacher <ex:monk/dai_xa_nhu_truong> ;"
+        },
+        {
+          "line": 928,
+          "text": "bkg:hasDisciple <ex:monk/thiet_dieu_lieu_quan> ;"
+        },
+        {
+          "line": 931,
+          "text": "<ex:monk/lam_te_nghia_huyen> rdfs:label \"Lâm Tế Nghĩa Huyền\"@vi ."
+        },
+        {
+          "line": 932,
+          "text": "<ex:monk/nam_vien_hue_ngung> rdfs:label \"Nam Viện Huệ Ngung\"@vi ."
+        },
+        {
+          "line": 933,
+          "text": "<ex:monk/thu_son_tinh_niem> rdfs:label \"Thủ Sơn Tỉnh Niệm\"@vi ."
+        }
+      ],
+      "before_sha256": "8cb24b03d328f9dfd61b7a0160759b799346b4c461e733738fa17fb5df18a81f",
+      "db_action": "read-only; không sync",
+      "biography_openings": [
+        "THIỀN SƯ PHONG HUYỆT DIÊN CHlỂU ở NHỮ CHÂU\nPHÁP TỰ ĐỜI THỨ BẢY của NAM NHẠC HOÀI NHƯỢNG\nPHÁP TỰ của HÒA THƯỢNG NAM VIỆN ở NHỮ CHÂU\nSư người Hàng Châu. Ban đầu, sư phát tích nơi đại sư Cảnh Thanh\nThuận Đức ở Việt Châu, nh",
+        "THIỀN SƯ PHONG HUYỆT DIÊN CHlỂU ở NHỮ CHÂU\nPHÁP TỰ ĐỜI THỨ BẢY của NAM NHẠC HOÀI NHƯỢNG\nPHÁP TỰ của HÒA THƯỢNG NAM VIỆN ở NHỮ CHÂU\nSư người Hàng Châu. Ban đầu, sư phát tích nơi đại sư Cảnh Thanh\nThuận Đức ở Việt Châu, nh"
+      ],
+      "monk_blocks": 2,
+      "applied": false
+    },
+    {
+      "case": 7,
+      "file": "TS-Tuyet-Giau-Chon-Phac.ttl",
+      "name_vi": "Tuyết Giàu Chơn Phác",
+      "exists": true,
+      "status": "chưa xác minh DILA — bỏ qua sửa",
+      "dila_id": null,
+      "proposed_uri": "tuyet_giau_chon_phac",
+      "generation_action": "giữ nguyên; chưa đủ 3 chứng cứ độc lập",
+      "note": "Có hai khối Phong Huyệt/Nam Viện, đời60/69. A000960 真樸 có alias 雪槱真樸, thầy A001513 木陳道忞. Là ứng viên đáng kiểm; chưa chứng minh tên Việt Tuyết Giàu trong file này chính là 雪槱 (không phải 雪竇 Tuyết Đậu). DILA không liệt kê Đại Xá trong các quan hệ của record này. Tạo TTL ứng viên chỉ cho A000960 ở ngoài thư mục import, không gắn owl:sameAs vào URI Tuyết Giàu.",
+      "evidence_links": [
+        "https://authority.dila.edu.tw/person/search.php?aid=A000960",
+        "https://authority.dila.edu.tw/person/search.php?aid=A001513"
+      ],
+      "current_lines": [
+        {
+          "line": 7,
+          "text": "<ex:monk/phong_huyet_dien_chieu> a <bkg:Monk> ;"
+        },
+        {
+          "line": 8,
+          "text": "rdfs:label \"Nam Viện Huệ Ngung\"@vi ;"
+        },
+        {
+          "line": 9,
+          "text": "crm:P1_is_identified_by <ex:monk/phong_huyet_dien_chieu> ;"
+        },
+        {
+          "line": 456,
+          "text": "bkg:birthEvent <ex:monk/nam_vien_hue_ngung_birthEvent> ;"
+        },
+        {
+          "line": 457,
+          "text": "bkg:deathEvent <ex:monk/nam_vien_hue_ngung_deathEvent> ;"
+        },
+        {
+          "line": 460,
+          "text": "bkg:generationOrder  60;"
+        },
+        {
+          "line": 461,
+          "text": "bkg:hasTeacher <ex:monk/to_duc_bao_tang> ;"
+        },
+        {
+          "line": 462,
+          "text": "bkg:hasDisciple <ex:monk/gioi_hai_vinh_tu> ;"
+        },
+        {
+          "line": 465,
+          "text": "<ex:monk/lam_te_nghia_huyen> rdfs:label \"Lâm Tế Nghĩa Huyền\"@vi ."
+        },
+        {
+          "line": 466,
+          "text": "<ex:monk/nam_vien_hue_ngung> rdfs:label \"Nam Viện Huệ Ngung\"@vi ."
+        },
+        {
+          "line": 467,
+          "text": "<ex:monk/thu_son_tinh_niem> rdfs:label \"Thủ Sơn Tỉnh Niệm\"@vi ."
+        },
+        {
+          "line": 473,
+          "text": "<ex:monk/phong_huyet_dien_chieu> a <bkg:Monk> ;"
+        },
+        {
+          "line": 474,
+          "text": "rdfs:label \"Nam Viện Huệ Ngung\"@vi ;"
+        },
+        {
+          "line": 475,
+          "text": "crm:P1_is_identified_by <ex:monk/phong_huyet_dien_chieu> ;"
+        },
+        {
+          "line": 922,
+          "text": "bkg:birthEvent <ex:monk/nam_vien_hue_ngung_birthEvent> ;"
+        },
+        {
+          "line": 923,
+          "text": "bkg:deathEvent <ex:monk/nam_vien_hue_ngung_deathEvent> ;"
+        },
+        {
+          "line": 926,
+          "text": "bkg:generationOrder 69;"
+        },
+        {
+          "line": 927,
+          "text": "bkg:hasTeacher <ex:monk/dao_man_moc_tran> ;"
+        },
+        {
+          "line": 928,
+          "text": "bkg:hasDisciple <ex:monk/dai_xa_nhu_truong> ;"
+        },
+        {
+          "line": 931,
+          "text": "<ex:monk/lam_te_nghia_huyen> rdfs:label \"Lâm Tế Nghĩa Huyền\"@vi ."
+        },
+        {
+          "line": 932,
+          "text": "<ex:monk/nam_vien_hue_ngung> rdfs:label \"Nam Viện Huệ Ngung\"@vi ."
+        },
+        {
+          "line": 933,
+          "text": "<ex:monk/thu_son_tinh_niem> rdfs:label \"Thủ Sơn Tỉnh Niệm\"@vi ."
+        }
+      ],
+      "before_sha256": "c3c7a449378e6a1e60e124162f20a8b8d037750521337c7ed9c6ade6cb72e397",
+      "db_action": "read-only; không sync",
+      "biography_openings": [
+        "THIỀN SƯ PHONG HUYỆT DIÊN CHlỂU ở NHỮ CHÂU\nPHÁP TỰ ĐỜI THỨ BẢY của NAM NHẠC HOÀI NHƯỢNG\nPHÁP TỰ của HÒA THƯỢNG NAM VIỆN ở NHỮ CHÂU\nSư người Hàng Châu. Ban đầu, sư phát tích nơi đại sư Cảnh Thanh\nThuận Đức ở Việt Châu, nh",
+        "THIỀN SƯ PHONG HUYỆT DIÊN CHlỂU ở NHỮ CHÂU\nPHÁP TỰ ĐỜI THỨ BẢY của NAM NHẠC HOÀI NHƯỢNG\nPHÁP TỰ của HÒA THƯỢNG NAM VIỆN ở NHỮ CHÂU\nSư người Hàng Châu. Ban đầu, sư phát tích nơi đại sư Cảnh Thanh\nThuận Đức ở Việt Châu, nh"
+      ],
+      "monk_blocks": 2,
+      "applied": false,
+      "candidate_id": "A000960"
+    },
+    {
+      "case": 8,
+      "file": "TS-Linh-Cuu.ttl",
+      "name_vi": "Linh Cưu",
+      "exists": false,
+      "status": "file không tồn tại; bác bỏ đổi Thạch Cữu thành Linh Cưu",
+      "dila_id": null,
+      "proposed_uri": "linh_cuu",
+      "generation_action": "giữ nguyên; chưa đủ 3 chứng cứ độc lập",
+      "note": "Đường dẫn TS-Linh-Cuu.ttl không tồn tại lúc kiểm. TS-Thach-Cuu.ttl tồn tại, nhãn Thạch Cữu, URI thach_cuu; DILA A019919 石臼, thầy A003623 道一 phù hợp Thạch Cữu. Không tái tạo Linh Cưu từ tiểu sử Thạch Cữu hoặc gán A019919 cho Linh Cưu. DB còn ttl_filename TS-Linh-Cuu cho thach_cuu: cần sửa provenance riêng sau đối chiếu.",
+      "evidence_links": [
+        "https://authority.dila.edu.tw/person/search.php?aid=A019919",
+        "https://authority.dila.edu.tw/person/search.php?aid=A003623"
+      ],
+      "current_lines": [],
+      "before_sha256": null,
+      "db_action": "read-only; không sync"
+    }
+  ],
+  "summary": {
+    "checked": 8,
+    "ttl_updates_prepared": 2,
+    "unconfirmed_existing": 5,
+    "missing": 1,
+    "candidate_only": 1,
+    "db_writes": 0,
+    "generation_changes": 0,
+    "ttl_updates_applied": 2
+  },
+  "tests": {
+    "rdf_existing": "7/7 PASS",
+    "rdf_prepared_and_candidate": "3/3 PASS",
+    "pipeline": {
+      "exit": 1,
+      "t203_pass": 25,
+      "t203_fail": 2
+    },
+    "tester_agent": {
+      "exit": 1,
+      "passed": [
+        "lint",
+        "test",
+        "e2e-static"
+      ],
+      "failed": [
+        "PlaceVN runtime"
+      ]
+    },
+    "db_snapshot_unchanged": true,
+    "rollback_dry_run": true
+  }
+}

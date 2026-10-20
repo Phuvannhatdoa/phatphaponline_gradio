@@ -1,0 +1,5 @@
+db_name_zh_repr='金總持'
+db_bytes=e98791e7b8bde68c81
+xml_name_zh=金總持
+xml_bytes=e98791e7b8bde68c81
+True

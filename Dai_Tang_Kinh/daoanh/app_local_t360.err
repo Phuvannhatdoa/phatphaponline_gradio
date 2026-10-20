@@ -1,0 +1,378 @@
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [12/Oct/2026 15:06:50] "GET /daoanh/api/persons/A033489 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:05] "GET /daoanh/api/places/PL000000023255 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:05] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:11] "GET /daoanh/admin/person.html?id=A033489 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:11] "GET /daoanh/admin/person-ttl-draft.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:12] "GET /daoanh/api/dila/persons/adjacent?id=A033489 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:12] "GET /daoanh/login.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:13] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [12/Oct/2026 15:07:13] "GET /daoanh/api/persons/A033489 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:21] "GET /daoanh/places.html?id=PL000000023255 HTTP/1.1" 404 -
+127.0.0.1 - - [12/Oct/2026 15:07:21] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [12/Oct/2026 15:07:45] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:45] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:58] "GET /daoanh/api/monk-resolve?name=Thiếu%20Lâm HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:58] "GET /daoanh/api/places/search?q=Thiếu%20Lâm&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:58] "GET /daoanh/api/places/search?q=Thiếu%20Lâm&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:58] "GET /daoanh/api/monk-resolve?name=Thiếu%20Lâm HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:07:59] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:00] "GET /daoanh/api/places/PL000000023255/pali HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:00] "GET /daoanh/api/entity/PL000000023255/web-enrichments HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:01] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:02] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:02] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:03] "GET /daoanh/api/places/PL000000023255/pali HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:03] "GET /daoanh/api/entity/PL000000023255/web-enrichments HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:05] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:05] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:05] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+[2026-10-12 15:08:06,143] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+127.0.0.1 - - [12/Oct/2026 15:08:06] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:07] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+[2026-10-12 15:08:07,109] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:07,110] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:08:10,277] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:10,277] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:08:10,430] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:10,431] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:08:11,043] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:11,044] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:08:12,434] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:12,434] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:08:13,366] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:13,367] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:08:13] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+[2026-10-12 15:08:13,402] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:13,402] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:08:15,486] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:15,488] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:08:15] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+[2026-10-12 15:08:16,638] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:08:16,640] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:08:16] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+127.0.0.1 - - [12/Oct/2026 15:08:25] "GET /daoanh/api/monk-resolve?name=Linh%20Sơn HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:25] "GET /daoanh/api/monk-resolve?name=Linh%20Sơn HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:26] "GET /daoanh/api/places/search?q=Linh%20Sơn&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:26] "GET /daoanh/api/places/search?q=Linh%20Sơn&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:26] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A025835 HTTP/1.1" 422 -
+127.0.0.1 - - [12/Oct/2026 15:08:28] "GET /daoanh/api/monk/A025835/graph HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:28] "GET /daoanh/api/monk/A025835/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:28] "GET /daoanh/api/monk/A025835/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:29] "GET /daoanh/api/monk/A025835/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:29] "GET /daoanh/api/person/A025835/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:29] "GET /daoanh/api/persons/A025835 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:30] "GET /daoanh/api/dila/persons/adjacent?id=A000035 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:30] "GET /daoanh/api/evidence/A025835 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:30] "GET /daoanh/api/ttl/anchor-by-dila?ids=A010683,A000174,A025835 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:31] "GET /daoanh/api/person/A025835/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:31] "GET /daoanh/api/person/A025835/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:31] "GET /daoanh/api/persons/A000035 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:31] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:31] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:32] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:08:33] "GET /daoanh/api/monk/A025835/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:09:01] "GET /daoanh/api/dila/persons/adjacent?id=A020314 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:09:03] "GET /daoanh/api/persons/A020314 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:09:03] "GET /daoanh/api/person/A020314/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:09:03] "GET /daoanh/api/person/A020314/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:09:04] "GET /daoanh/api/person/A020314/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:00] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:00] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:06] "GET /daoanh/api/places/search?q=Thiếu%20Lâm&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:06] "GET /daoanh/api/monk-resolve?name=Thiếu%20Lâm HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:07] "GET /daoanh/api/places/search?q=Thiếu%20Lâm&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:07] "GET /daoanh/api/monk-resolve?name=Thiếu%20Lâm HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:07] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:08] "GET /daoanh/api/places/PL000000023255/pali HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:08] "GET /daoanh/api/entity/PL000000023255/web-enrichments HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:08] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:08] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:08] "GET /daoanh/api/places/PL000000023255/pali HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:08] "GET /daoanh/api/entity/PL000000023255/web-enrichments HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:08] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:08] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:09] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:10] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+[2026-10-12 15:10:12,152] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+127.0.0.1 - - [12/Oct/2026 15:10:12] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:12] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+[2026-10-12 15:10:12,980] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:12,980] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:10:14,654] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:14,654] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:10:15,180] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:15,180] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:10:15,328] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:15,328] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+127.0.0.1 - - [12/Oct/2026 15:10:16] "GET /daoanh/api/monk-resolve?name=Thiếu%20Lâm%20TThieu%20Lamự HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:17] "GET /daoanh/api/places/search?q=Thiếu%20Lâm%20TThieu%20Lamự&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:17] "GET /daoanh/api/places/search?q=Thiếu%20Lâm%20TThieu%20Lamự&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:17] "GET /daoanh/api/monk-resolve?name=Thiếu%20Lâm%20TThieu%20Lamự HTTP/1.1" 200 -
+[2026-10-12 15:10:18,633] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:18,633] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:10:19,050] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:19,050] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:10:19,313] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:19,314] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:10:19] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+[2026-10-12 15:10:21,871] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:21,874] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:10:21] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+[2026-10-12 15:10:22,328] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:22,329] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:10:22] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+127.0.0.1 - - [12/Oct/2026 15:10:24] "GET /daoanh/api/places/search?q=Thieu%20Lam%20Tu&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:24] "GET /daoanh/api/monk-resolve?name=Thieu%20Lam%20Tu HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:24] "GET /daoanh/api/places/search?q=Thieu%20Lam%20Tu&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:24] "GET /daoanh/api/monk-resolve?name=Thieu%20Lam%20Tu HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:25] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:25] "GET /daoanh/api/places/PL000000023255/pali HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:25] "GET /daoanh/api/entity/PL000000023255/web-enrichments HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:25] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:26] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:27] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+[2026-10-12 15:10:29,675] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:29,676] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:10:30,300] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:30,300] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:10:31,471] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:31,471] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:10:31,884] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:31,884] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:10:33,743] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:33,743] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:10:33] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+[2026-10-12 15:10:34,136] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:10:34,137] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:10:34] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+127.0.0.1 - - [12/Oct/2026 15:10:44] "GET /daoanh/api/persons/A000035 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:10:58] "GET /daoanh/api/dila/persons/adjacent?id=A000035 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:00] "GET /daoanh/api/persons/A000035 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:00] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:01] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:02] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:11] "GET /daoanh/api/dila/persons/adjacent?id=A000001 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:12] "GET /daoanh/api/persons/A000001 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:12] "GET /daoanh/api/person/A000001/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:12] "GET /daoanh/api/person/A000001/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:13] "GET /daoanh/api/person/A000001/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:20] "GET /daoanh/api/places/search?q=&cate=&limit=800&offset=0 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:20] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:23] "GET /daoanh/api/places/search?q=Thieu%20Lam%20Tu&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:24] "GET /daoanh/api/monk-resolve?name=Thieu%20Lam%20Tu HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:24] "GET /daoanh/api/places/search?q=Thieu%20Lam%20Tu&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:24] "GET /daoanh/api/monk-resolve?name=Thieu%20Lam%20Tu HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:24] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:24] "GET /daoanh/api/entity/PL000000023255/web-enrichments HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:24] "GET /daoanh/api/places/PL000000023255/pali HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:24] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:25] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:26] "GET /daoanh/api/places/PL000000023255/pali HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:26] "GET /daoanh/api/entity/PL000000023255/web-enrichments HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:26] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:26] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:27] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:27] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:28] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+[2026-10-12 15:11:29,457] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:29,863] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:29,863] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+127.0.0.1 - - [12/Oct/2026 15:11:29] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+[2026-10-12 15:11:31,268] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:31,268] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:11:32,695] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:32,695] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:11:32,700] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:32,700] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:11:33,760] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:33,760] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:11:35,164] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:35,164] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:11:35,650] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:35,651] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:11:35] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+[2026-10-12 15:11:36,081] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:36,082] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:11:36] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+[2026-10-12 15:11:37,294] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:11:37,295] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:11:37] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+127.0.0.1 - - [12/Oct/2026 15:11:37] "GET /daoanh/api/monk-resolve?name=Lieu%20Nhien HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:37] "GET /daoanh/api/places/search?q=Lieu%20Nhien&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:38] "GET /daoanh/api/monk-resolve?name=Lieu%20Nhien HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:38] "GET /daoanh/api/places/search?q=Lieu%20Nhien&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:47] "GET /daoanh/api/monk-resolve?name=Lieu%20Nhien HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:48] "GET /daoanh/api/places/search?q=Lieu%20Nhien&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:48] "GET /daoanh/api/places/search?q=Lieu%20Nhien&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:11:48] "GET /daoanh/api/monk-resolve?name=Lieu%20Nhien HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:00] "GET /daoanh/api/monk-resolve?name=Lieu%20Nhien HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:00] "GET /daoanh/api/places/search?q=Lieu%20Nhien&limit=10 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:00] "GET /daoanh/api/places/search?q=Lieu%20Nhien&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:00] "GET /daoanh/api/monk-resolve?name=Lieu%20Nhien HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:08] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A000035 HTTP/1.1" 422 -
+127.0.0.1 - - [12/Oct/2026 15:12:08] "GET /daoanh/api/monk/A000035/graph HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:08] "GET /daoanh/api/monk/A000035/cbeta-mentions HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:10] "GET /daoanh/api/evidence/A000035 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:11] "GET /daoanh/api/monk/A000035/lineage-tree?up=2&down=2&include_single=1 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:11] "GET /daoanh/api/persons/A000035 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:12] "GET /daoanh/api/ttl/anchor-by-dila?ids=A001140,A020314,A000035,A001637,A012614,A012633,A012637,A014716,A016919 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:13] "GET /daoanh/api/monk/A000035/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:14] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:15] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:15] "GET /daoanh/api/entity/PL000000023255/unified HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:15] "GET /daoanh/api/places/PL000000023255/pali HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:15] "GET /daoanh/api/entity/PL000000023255/web-enrichments HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:15] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:15] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:17] "GET /daoanh/api/person/A000035/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:18] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:19] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:19] "GET /daoanh/api/monk/A000035/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:19] "GET /daoanh/api/ttl/anchor-by-dila?ids=A042476,A001318,A000148,A001963,A002406,A000294,A001899,A009590,A004177,A001307,A001563,A001660,A012377,A012385,A012394,A010042,A010916,A000756,A000252,A001140,A020314,A000035,A001637,A012614,A012633,A012637,A014716,A016919 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:12:21] "GET /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+[2026-10-12 15:12:24,676] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:12:24,676] WARNING in app: [T73] 429 — retry 1/2 sau 0.5s
+[2026-10-12 15:12:24,679] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+127.0.0.1 - - [12/Oct/2026 15:12:24] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 200 -
+[2026-10-12 15:12:26,581] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:12:26,581] WARNING in app: [T73] 429 — retry 2/2 sau 1.0s
+[2026-10-12 15:12:29,017] WARNING in style_constitution: [T178 persist_prompt_metrics] insert lỗi: no such table: translation_prompt_metrics
+[2026-10-12 15:12:29,018] WARNING in app: [T73] 429 hết retry (2/2)
+127.0.0.1 - - [12/Oct/2026 15:12:29] "POST /daoanh/api/place/PL000000023255/translate HTTP/1.1" 503 -
+127.0.0.1 - - [12/Oct/2026 15:13:55] "GET /daoanh/api/person/A020314/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:55] "GET /daoanh/api/person/A020314/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:55] "GET /daoanh/api/monk/A020314/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:55] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A020314 HTTP/1.1" 422 -
+127.0.0.1 - - [12/Oct/2026 15:13:56] "GET /daoanh/api/person/A020314/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:56] "GET /daoanh/api/person/A020314/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:58] "GET /daoanh/api/person/A020314/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:58] "GET /daoanh/api/monk/A020314/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:58] "GET /daoanh/api/person/A020314/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:58] "GET /daoanh/api/person/A020314/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:13:59] "GET /daoanh/api/person/A020314/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:00] "GET /daoanh/api/person/A020314/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:00] "GET /daoanh/api/person/A020314/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:00] "GET /daoanh/api/monk/A020314/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:00] "GET /daoanh/api/person/A020314/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:00] "GET /daoanh/api/person/A020314/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:00] "GET /daoanh/api/person/A020314/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:00] "GET /daoanh/api/person/A020314/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:01] "GET /daoanh/api/person/A020314/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:01] "GET /daoanh/api/person/A020314/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:49] "GET /daoanh/api/person/A001318/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:49] "GET /daoanh/api/person/A001318/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:49] "GET /daoanh/api/monk/A001318/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:49] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A001318 HTTP/1.1" 422 -
+127.0.0.1 - - [12/Oct/2026 15:14:51] "GET /daoanh/api/person/A001318/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:14:51] "GET /daoanh/api/person/A001318/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:14] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:14] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:14] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A000035 HTTP/1.1" 422 -
+127.0.0.1 - - [12/Oct/2026 15:15:14] "GET /daoanh/api/monk/A000035/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:15] "GET /daoanh/api/person/A000035/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:15] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:15] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:15] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:15] "GET /daoanh/api/monk/A000035/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:16] "GET /daoanh/api/monk/A000035/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:16] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:16] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:17] "GET /daoanh/api/person/A000035/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:18] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:18] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:18] "GET /daoanh/api/monk/A000035/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:18] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:19] "GET /daoanh/api/person/A000035/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:19] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:20] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:20] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:20] "GET /daoanh/api/monk/A000035/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:21] "GET /daoanh/api/person/A000035/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:21] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:22] "GET /daoanh/api/person/A000035/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:23] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:30] "GET /daoanh/api/person/A000035/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:30] "GET /daoanh/api/person/A000035/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:30] "GET /daoanh/api/monk/A000035/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:30] "GET /daoanh/api/person/A000035/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:30] "GET /daoanh/api/person/A000035/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:37] "GET /daoanh/api/places/PL000000023255/persons HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:40] "GET /daoanh/api/monk-resolve?name=Lieu%20Nhien HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:15:40] "GET /daoanh/api/places/search?q=Lieu%20Nhien&limit=20 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:48:20] "GET /daoanh/api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 15:48:55] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 16:24:33] "GET /daoanh/admin/places.html?mode=lineage&focus=A009460 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 16:25:05] "GET /daoanh/api/admin/ttl_v2/generation/calculate/A009460 HTTP/1.1" 422 -
+127.0.0.1 - - [12/Oct/2026 16:36:15] "GET /daoanh/admin/placevn.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 16:36:18] "GET /daoanh/login.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 16:36:31] "GET /daoanh/admin/placevn.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 16:36:32] "GET /daoanh/login.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 16:48:55] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 17:48:55] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 18:48:55] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 19:48:55] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:11] "GET /daoanh/api/ttl/anchor-by-dila?ids=A010251,A004218,A009460,A010616,A020035,A020036,A020037,A020038,A025957,A025958 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:12] "GET /daoanh/api/person/A009460/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:12] "GET /daoanh/api/monk/A009460/ancestor-path?root=A001719 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:12] "GET /daoanh/api/places/search?q=&limit=200 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:13] "GET /daoanh/api/person/A009460/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:26] "GET /daoanh/api/monk/A009460/ancestor-spine?max_hops=80 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:26] "GET /daoanh/api/ttl/anchor-by-dila?ids=A002799,A002188,A003861,A008803,A002397,A008802,A008801,A008800,A008799,A000443,A008798,A004176,A001003,A004471,A001482,A001207,A008796,A008795,A019997,A002857,A008793,A005159,A008792,A008791,A008790,A008789,A008788,A004683,A001361,A003881,A001601,A003654,A003867,A006310,A010049,A010050,A010051,A010251,A004218,A009460,A010616,A020035,A020036,A020037,A020038,A025957,A025958 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:34] "GET /daoanh/api/person/A009460/translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:04:34] "GET /daoanh/api/person/A009460/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:09:37] "GET /daoanh/api/dila/persons/adjacent?id=A000004 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:09:42] "GET /daoanh/api/persons/A000004 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:09:43] "GET /daoanh/api/person/A000004/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:09:43] "GET /daoanh/api/person/A000004/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:09:45] "GET /daoanh/api/person/A000004/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:11:03] "GET /daoanh/api/dila/persons/adjacent?id=A000004 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:11:13] "GET /daoanh/api/persons/A000004 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:11:13] "GET /daoanh/api/person/A000004/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:11:13] "GET /daoanh/api/person/A000004/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:11:14] "GET /daoanh/api/person/A000004/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:36:51] "GET /daoanh/api/dila/persons/adjacent?id=A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:36:57] "GET /daoanh/api/persons/A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:36:57] "GET /daoanh/api/person/A000074/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:36:57] "GET /daoanh/api/person/A000074/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:36:58] "GET /daoanh/api/person/A000074/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:18] "GET /daoanh/api/dila/persons/adjacent?id=A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:18] "GET /daoanh/api/persons/A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:18] "GET /daoanh/api/person/A000074/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:18] "GET /daoanh/api/person/A000074/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:19] "GET /daoanh/api/person/A000074/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:57] "GET /daoanh/api/dila/persons/adjacent?id=A000036 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:57] "GET /daoanh/api/persons/A000036 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:57] "GET /daoanh/api/person/A000036/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:37:57] "GET /daoanh/api/person/A000036/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:38:13] "GET /daoanh/api/dila/persons/adjacent?id=A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:38:14] "GET /daoanh/api/persons/A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:38:14] "GET /daoanh/api/person/A000074/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:38:14] "GET /daoanh/api/person/A000074/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:38:15] "GET /daoanh/api/person/A000074/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:39:48] "GET /daoanh/api/dila/persons/adjacent?id=A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:39:49] "GET /daoanh/api/persons/A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:39:49] "GET /daoanh/api/person/A000074/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:39:49] "GET /daoanh/api/person/A000074/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:39:50] "GET /daoanh/api/person/A000074/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:43:45] "GET /daoanh/api/person/A000074/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:43:46] "GET /daoanh/api/persons/A000074 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:43:46] "GET /daoanh/api/person/A000074/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:46:20] "GET /daoanh/api/dila/persons/adjacent?id=A010291 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:46:22] "GET /daoanh/api/persons/A010291 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:46:22] "GET /daoanh/api/person/A010291/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:46:22] "GET /daoanh/api/person/A010291/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:46:23] "GET /daoanh/api/person/A010291/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:46:48] "GET /daoanh/api/person/A000074/dila_full HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:46:48] "GET /daoanh/api/person/A000074/dila-axis HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:46:49] "GET /daoanh/api/person/A000074/dila_translate HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:48:56] "GET /daoanh/api/progress/dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 20:48:57] "GET /daoanh/api/dashboard/stats HTTP/1.1" 200 -
+[2026-10-12 20:48:59,006] ERROR in app: api_dila_persons_search error: no such table: person_hanviet_debug
+127.0.0.1 - - [12/Oct/2026 20:48:59] "GET /daoanh/api/dila/persons?q=&sect=&dynasty=&status=&hv_status=&limit=50&offset=0 HTTP/1.1" 500 -
+127.0.0.1 - - [12/Oct/2026 20:48:59] "GET /daoanh/api/dila/persons/stats HTTP/1.1" 200 -
+[2026-10-12 20:48:59,607] ERROR in app: api_dila_hv_stats error: no such table: person_hanviet_debug
+127.0.0.1 - - [12/Oct/2026 20:48:59] "GET /daoanh/api/dila/hv/stats HTTP/1.1" 500 -
+127.0.0.1 - - [12/Oct/2026 20:54:46] "GET /daoanh/api/person/A000074/dila_full HTTP/1.1" 200 -

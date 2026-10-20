@@ -1,0 +1,3 @@
+warning: in the working copy of 'Dai_Tang_Kinh/daoanh/docs/ROLLBACK.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Dai_Tang_Kinh/daoanh/docs/sessions/2026-09-28_t188-t171-spec-logic-fixes.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Dai_Tang_Kinh/daoanh/tasks/T188-t171-spec-logic-fixes.md', LF will be replaced by CRLF the next time Git touches it

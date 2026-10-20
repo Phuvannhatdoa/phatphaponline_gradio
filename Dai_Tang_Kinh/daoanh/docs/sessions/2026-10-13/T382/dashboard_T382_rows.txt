@@ -1,0 +1,8 @@
+T382 pending critical 3 / 10 "Bảo mật & phát hành an toàn — kế hoạch từ Architecture Revi
+T383 pending critical 0 / 10 "Chặn auth tập trung: before_request cho mọi route ghi và /a
+T384 pending critical 0 / 9 "Đóng endpoint nguy hiểm: tắt run_etl_gen, sửa path traversa
+T385 pending critical 0 / 9 "Tắt deploy tự động theo push; deploy chỉ chạy tay sau khi t
+T386 blocked critical 0 / 10 "Login admin bằng Google ID token (thay đăng nhập bằng chuỗi
+T387 pending high 0 / 8 "Backup DB bằng SQLite backup API; sync VPS upload tên mới +
+T388 pending medium 0 / 8 "Dashboard JSON bị nginx chặn trên VPS + allowlist file tĩnh
+T389 pending high 0 / 8 "Engine số đời cũ (etl_gen_compute, +37): backup trước DROP,

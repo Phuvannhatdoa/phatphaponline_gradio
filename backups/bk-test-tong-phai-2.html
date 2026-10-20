@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cây truyền thừa Thiền Tông</title>
+  <script src="https://unpkg.com/vis-network@10.0.1/standalone/umd/vis-network.min.js"></script>
+  <style>
+    html, body { 
+      height: 100%;
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f2f5; 
+      color: #333;
+      overflow: hidden;
+    }
+    body { 
+      display: flex;
+      flex-direction: column;
+      padding: 10px; 
+      box-sizing: border-box; 
+    }
+    h3 { text-align: center; color: #1a73e8; margin: 10px 0; font-size: 2em; font-weight: 600; flex-shrink: 0;}
+    .controls {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 10px;
+      padding: 15px; background: #ffffff; border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .controls label { font-size: 17px; font-weight: 500; color: #555; }
+    .controls select, .controls input[type="text"] {
+      padding: 10px 15px; border: 1px solid #ccc; border-radius: 8px;
+      font-size: 16px; transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none;
+    }
+    .controls select:focus, .controls input[type="text"]:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 5px rgba(26,115,232,0.3);
+    }
+    .controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background-color: #1a73e8;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.1s;
+    }
+    .controls button:hover { background-color: #155bb3; }
+    .controls button:active { transform: scale(0.98); }
+    #mynetwork {
+      width: 100%;
+      flex-grow: 1;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      background: #ffffff;
+      margin-top: 10px;
+    }
+    .search-container { position: relative; }
+    #search-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-top: none;
+      z-index: 10;
+      max-height: 200px;
+      overflow-y: auto;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    #search-suggestions li {
+      padding: 10px 15px;
+      cursor: pointer;
+      list-style-type: none;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    #search-suggestions li:hover { background-color: #f0f2f5; }
+  </style>
+</head>
+<body>
+
+<h3>Cây Truyền Thừa Thiền Tông</h3>
+
+<div class="controls">
+    <label for="lineage-select">Chọn Dòng Thiền:</label>
+    <select id="lineage-select">
+        <option value="">-- Tất cả Dòng Thiền --</option>
+    </select>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Tìm kiếm theo tên..." />
+        <ul id="search-suggestions"></ul>
+    </div>
+    <button id="search-button">Tìm Kiếm</button>
+    <button id="reset-button">Tải lại Biểu đồ</button>
+</div>
+
+<div id="mynetwork"></div>
+
+<script>
+/* ====== CÁC HẰNG VÀ BIẾN TOÀN CỤC ====== */
+const MONK_NODE_COLOR = "#b3d8ff";
+const LINEAGE_NODE_COLOR = "#007BFF";
+const HIGHLIGHT_NODE_COLOR = "#ffa500";
+const NORMAL_EDGE_COLOR = "#999999";
+const HIGHLIGHT_EDGE_COLOR = "#ff8c00";
+
+let network = null;
+let allNodesData = [];
+let allEdgesData = [];
+let lineageToFounderMap = new Map();
+let founderToLineageMap = new Map();
+let teacherToStudentsMap = new Map();
+let allLineageHierarchyNodes = [];
+let allLineageHierarchyEdges = [];
+
+/* ====== Xử lý dữ liệu từ file JSON và xây dựng cây ====== */
+function processGraphData(graphItems) {
+  const nodes = [];
+  const edges = [];
+  const nodesMap = {};
+
+  lineageToFounderMap.clear();
+  founderToLineageMap.clear();
+  teacherToStudentsMap.clear();
+  allLineageHierarchyNodes = [];
+  allLineageHierarchyEdges = [];
+
+  graphItems.forEach(item => {
+    const id = item["@id"];
+    const labelValue = item["rdfs:label"] ? item["rdfs:label"].value : id.split('/').pop().replace(/_/g,' ');
+
+    if (item["@type"] === "bkg:DharmaLineage") {
+      const node = { id: id, label: labelValue, group: 'lineage', color: LINEAGE_NODE_COLOR };
+      nodes.push(node);
+      nodesMap[id] = node;
+      allLineageHierarchyNodes.push({ ...node });
+
+      if (item["bkg:hasFounder"] && item["bkg:hasFounder"]["@id"]) {
+        const founderId = item["bkg:hasFounder"]["@id"];
+        lineageToFounderMap.set(id, founderId);
+        founderToLineageMap.set(founderId, id);
+      }
+
+      if (item["bkg:isSubLineageOf"] && item["bkg:isSubLineageOf"]["@id"]) {
+        allLineageHierarchyEdges.push({
+          from: item["bkg:isSubLineageOf"]["@id"],
+          to: id,
+          arrows: "to",
+          color: { color: '#008080' },
+          group: 'lineageHierarchy'
+        });
+      }
+    } 
+    else if (item["@type"] === "bkg:Monk") {
+      const node = { id: id, label: labelValue, group: 'monk', color: MONK_NODE_COLOR };
+      nodes.push(node);
+      nodesMap[id] = node;
+      
+      if (item["bkg:hasTeacher"] && item["bkg:hasTeacher"]["@id"]) {
+        const teacherId = item["bkg:hasTeacher"]["@id"];
+        if (!teacherToStudentsMap.has(teacherId)) {
+          teacherToStudentsMap.set(teacherId, []);
+        }
+        teacherToStudentsMap.get(teacherId).push(id);
+      }
+    }
+  });
+
+  graphItems.forEach(item => {
+    const id = item["@id"];
+    const itemType = item["@type"];
+
+    if (itemType === "bkg:DharmaLineage") {
+      const founderId = lineageToFounderMap.get(id);
+      if (founderId && nodesMap[founderId] && nodesMap[id]) {
+        edges.push({
+          from: founderId,
+          to: id,
+          arrows: "to",
+          label: 'Khai tổ',
+          color: { color: '#007BFF' },
+          group: 'founderToLineage'
+        });
+      }
+    } else if (itemType === "bkg:Monk") {
+      if (item["bkg:hasTeacher"] && item["bkg:hasTeacher"]["@id"]) {
+        const teacherId = item["bkg:hasTeacher"]["@id"];
+        if (nodesMap[teacherId] && nodesMap[id]) {
+          edges.push({
+            from: teacherId,
+            to: id,
+            arrows: "to",
+            label: 'Đệ tử',
+            color: { color: '#6C757D' },
+            group: 'teacherToStudent'
+          });
+        }
+      }
+    }
+  });
+
+  return { nodes, edges };
+}
+
+/* ====== Lấy dữ liệu biểu đồ để hiển thị ====== */
+function getGraphDataForDisplay(lineageId) {
+    if (lineageId) {
+        const founderId = lineageToFounderMap.get(lineageId);
+        if (!founderId) {
+            return { nodes: [], edges: [] };
+        }
+        const nodesToDisplay = new Set();
+        const edgesToDisplay = new Set();
+        const queue = [founderId];
+        
+        nodesToDisplay.add(lineageId);
+        allEdgesData.forEach(edge => {
+            if (edge.from === founderId && edge.to === lineageId && edge.group === 'founderToLineage') {
+                edgesToDisplay.add(edge);
+            }
+        });
+        let head = 0;
+        while(head < queue.length) {
+            const currentId = queue[head++];
+            if (!nodesToDisplay.has(currentId)) {
+                nodesToDisplay.add(currentId);
+            }
+            const students = teacherToStudentsMap.get(currentId) || [];
+            students.forEach(studentId => {
+                if (!nodesToDisplay.has(studentId)) {
+                    queue.push(studentId);
+                    allEdgesData.forEach(edge => {
+                        if (edge.from === currentId && edge.to === studentId && edge.group === 'teacherToStudent') {
+                            edgesToDisplay.add(edge);
+                        }
+                    });
+                }
+            });
+        }
+        const filteredNodes = allNodesData.filter(node => nodesToDisplay.has(node.id))
+                                      .map(node => ({ ...node, color: node.group === 'lineage' ? LINEAGE_NODE_COLOR : MONK_NODE_COLOR }));
+        const filteredEdges = Array.from(edgesToDisplay);
+        return { nodes: filteredNodes, edges: filteredEdges };
+    } else {
+        const nodes = allLineageHierarchyNodes.map(node => ({ ...node, color: LINEAGE_NODE_COLOR }));
+        const edges = allLineageHierarchyEdges;
+        const missingParentNodes = new Set();
+        edges.forEach(edge => {
+          if (!nodes.some(node => node.id === edge.from)) {
+            const parentNode = allNodesData.find(node => node.id === edge.from && node.group === 'monk');
+            if (parentNode) {
+              missingParentNodes.add({ ...parentNode, group: 'monk_as_lineage_parent', color: MONK_NODE_COLOR });
+            }
+          }
+        });
+        return { nodes: [...nodes, ...Array.from(missingParentNodes)], edges: edges };
+    }
+}
+
+
+/* ====== Hàm vẽ biểu đồ chính ====== */
+function drawNetwork(lineageId = null) {
+  if (network) {
+    network.destroy();
+    network = null;
+  }
+  
+  const header = document.querySelector('h3');
+  const controls = document.querySelector('.controls');
+  const mynetworkDiv = document.getElementById("mynetwork");
+  
+  if (header && controls && mynetworkDiv) {
+    const headerHeight = header.offsetHeight;
+    const controlsHeight = controls.offsetHeight;
+    const paddingBody = 20;
+    const mynetworkMarginTop = 10;
+    
+    const availableHeight = window.innerHeight - headerHeight - controlsHeight - paddingBody - mynetworkMarginTop;
+    mynetworkDiv.style.height = `${availableHeight}px`;
+  } else {
+    mynetworkDiv.style.height = '600px';
+  }
+
+  const { nodes: currentNodes, edges: currentEdges } = getGraphDataForDisplay(lineageId);
+
+  const data = {
+    nodes: new vis.DataSet(currentNodes),
+    edges: new vis.DataSet(currentEdges)
+  };
+  
+  const container = document.getElementById("mynetwork");
+  let currentOptions = JSON.parse(JSON.stringify(defaultOptions));
+
+  if (!lineageId) {
+    currentOptions.layout.hierarchical.enabled = true;
+    currentOptions.layout.hierarchical.direction = "UD";
+    currentOptions.layout.hierarchical.sortMethod = "directed";
+    // Tăng khoảng cách cho chế độ "Tất cả Dòng Thiền"
+    currentOptions.layout.hierarchical.levelSeparation = 400; 
+    currentOptions.layout.hierarchical.nodeSpacing = 300;
+    currentOptions.physics.enabled = false;
+    currentOptions.nodes.font.size = 20; // Giảm kích thước chữ
+    currentOptions.nodes.color = LINEAGE_NODE_COLOR;
+    currentOptions.interaction.zoomSpeed = 1;
+  } else {
+    currentOptions.layout.hierarchical.enabled = true;
+    // Tăng khoảng cách cho chế độ xem chi tiết
+    currentOptions.layout.hierarchical.levelSeparation = 400; 
+    currentOptions.layout.hierarchical.nodeSpacing = 300;
+    currentOptions.physics.enabled = false;
+    currentOptions.nodes.font.size = defaultOptions.nodes.font.size;
+    currentOptions.nodes.color = MONK_NODE_COLOR;
+    currentOptions.interaction.zoomSpeed = 1;
+  }
+
+  network = new vis.Network(container, data, currentOptions);
+  network.fit();
+}
+
+/* ====== Cấu hình Biểu đồ mặc định ====== */
+const defaultOptions = {
+  nodes: {
+    shape: "box",
+    size: 40,
+    font: {
+      size: 32,
+      color: "#333",
+      bold: { color: '#000' },
+      face: 'Segoe UI',
+      multi: false
+    },
+    borderWidth: 2,
+    color: MONK_NODE_COLOR,
+    fixed: {
+        x: false,
+        y: false
+    },
+    shadow: { enabled: true, color: 'rgba(0,0,0,0.15)', size: 8, x: 2, y: 2 }
+  },
+  edges: {
+    width: 3,
+    arrows: {
+      to: { enabled: true, scaleFactor: 1.2, type: "arrow" }
+    },
+    color: { color: NORMAL_EDGE_COLOR, highlight: '#737373', hover: '#737373', inherit: 'from', opacity: 1.0 },
+    smooth: {
+      enabled: true,
+      type: 'cubicBezier',
+      forceDirection: "vertical",
+      roundness: 0.7
+    },
+    hoverWidth: 0,
+    selectionWidth: 0
+  },
+  interaction: {
+    hover: true,
+    tooltipDelay: 300,
+    hideEdgesOnDrag: true,
+    zoomView: true,
+    navigationButtons: true,
+    zoomSpeed: 1
+  },
+  layout: {
+    hierarchical: {
+      enabled: true,
+      levelSeparation: 350,
+      nodeSpacing: 450,
+      direction: "UD",
+      sortMethod: "directed",
+      parentCentralization: true,
+      edgeMinimization: true
+    }
+  },
+  physics: {
+    enabled: false
+  }
+};
+
+/* ====== Các hàm phụ trợ (tìm kiếm, reset) ====== */
+function searchAndHighlight(label) {
+  resetHighlights();
+  const nodesToHighlight = allNodesData.filter(n => n.label.toLowerCase().includes(label.toLowerCase()));
+  if (nodesToHighlight.length > 0) {
+    const ids = nodesToHighlight.map(n => n.id);
+    const currentlyDisplayedNodes = network.body.data.nodes.getIds();
+    const actualIdsToHighlight = ids.filter(id => currentlyDisplayedNodes.includes(id));
+    if (actualIdsToHighlight.length > 0) {
+      network.selectNodes(actualIdsToHighlight);
+      network.fit({ nodes: actualIdsToHighlight, animation: { duration: 500, easingFunction: "easeInCubic" } });
+      actualIdsToHighlight.forEach(id => {
+        let node = network.body.data.nodes.get(id);
+        node.color = HIGHLIGHT_NODE_COLOR;
+        network.body.data.nodes.update(node);
+      });
+    }
+  }
+}
+
+function resetHighlights() {
+  const currentNodes = network.body.data.nodes.get();
+  const updatedNodes = currentNodes.map(n => {
+    let color = n.color;
+    if (n.group === 'lineage') {
+      color = LINEAGE_NODE_COLOR;
+    } else if (n.group === 'monk' || n.group === 'monk_as_lineage_parent') {
+      color = MONK_NODE_COLOR;
+    }
+    return { ...n, color: color };
+  });
+  network.body.data.nodes.update(updatedNodes);
+  network.unselectAll();
+}
+
+/* ====== Xử lý sự kiện giao diện người dùng ====== */
+document.addEventListener("DOMContentLoaded", () => {
+  const lineageSelect = document.getElementById("lineage-select");
+  const searchInput = document.getElementById("search-input");
+  const searchButton = document.getElementById("search-button");
+  const suggestionsList = document.getElementById("search-suggestions");
+  const resetButton = document.getElementById("reset-button");
+
+  fetch("lineage_graph.jsonld")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Lỗi khi tải file: " + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      const graphItems = data["@graph"];
+      const { nodes, edges } = processGraphData(graphItems);
+      allNodesData = nodes;
+      allEdgesData = edges;
+
+      const allLineages = allLineageHierarchyNodes
+        .filter(node => node.group === 'lineage')
+        .sort((a, b) => a.label.localeCompare(b.label, 'vi'));
+
+      allLineages.forEach(node => {
+          const option = document.createElement("option");
+          option.value = node.id;
+          option.textContent = node.label;
+          lineageSelect.appendChild(option);
+      });
+
+      drawNetwork();
+      
+      window.addEventListener('resize', () => {
+        drawNetwork(lineageSelect.value);
+      });
+    })
+    .catch(error => {
+      console.error("Lỗi khi tải dữ liệu:", error);
+      document.getElementById("mynetwork").innerHTML = "Không thể tải dữ liệu biểu đồ. Vui lòng kiểm tra file lineage_graph.jsonld và đường dẫn.";
+    });
+
+  lineageSelect.addEventListener("change", (e) => {
+      const selectedLineageId = e.target.value;
+      drawNetwork(selectedLineageId);
+      resetHighlights();
+      searchInput.value = "";
+  });
+
+  searchInput.addEventListener("input", (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    suggestionsList.innerHTML = "";
+    if (term.length > 1) {
+      const matches = allNodesData.filter(n => n.label.toLowerCase().includes(term));
+      matches.slice(0, 10).forEach(n => {
+        const li = document.createElement("li");
+        li.textContent = n.label;
+        li.addEventListener("click", () => {
+          searchInput.value = n.label;
+          suggestionsList.innerHTML = "";
+          searchAndHighlight(n.label);
+        });
+        suggestionsList.appendChild(li);
+      });
+    }
+  });
+
+  searchButton.addEventListener("click", () => {
+    const txt = document.getElementById("search-input").value;
+    suggestionsList.innerHTML = "";
+    searchAndHighlight(txt);
+  });
+
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") searchButton.click();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest('.search-container')) suggestionsList.innerHTML = "";
+  });
+
+  resetButton.addEventListener("click", () => {
+    lineageSelect.value = "";
+    searchInput.value = "";
+    resetHighlights();
+    drawNetwork();
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lineage Conflict Resolver — T109</title>
+<style>
+:root {
+  --bg: #f8f9fa; --card: #fff; --border: #e2e8f0; --text: #1e293b;
+  --muted: #64748b; --accent: #d97706; --ok: #16a34a; --warn: #b45309;
+  --err: #dc2626; --radius: 10px; --font: system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f172a; --card: #1e293b; --border: #334155; --text: #f1f5f9;
+          --muted: #94a3b8; }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 13px; padding: 16px; }
+h1 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+.subtitle { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+.toolbar select { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--card); color: var(--text); font-size: 12px; }
+.toolbar button { padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer;
+  background: var(--accent); color: #fff; font-weight: 600; font-size: 12px; }
+.stats { font-size: 11px; color: var(--muted); }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 12px 14px; }
+.card.resolved { border-left: 3px solid var(--ok); opacity: .65; }
+.header { display: flex; align-items: flex-start; gap: 8px; }
+.title { font-size: 14px; font-weight: 700; color: var(--text); flex: 1; }
+.meta { font-size: 10px; color: var(--muted); margin-top: 4px; }
+.chip { display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 9px; font-weight: 600;
+  background: #e2e8f0; color: var(--muted); }
+.chip.ok { background: #dcfce7; color: #15803d; }
+.chip.warn { background: #fef3c7; color: #92400e; }
+.chip.info { background: #dbeafe; color: #1d4ed8; }
+.evidence { margin-top: 8px; padding: 6px 10px; background: var(--bg); border-radius: 6px;
+  font-size: 10px; color: var(--muted); white-space: pre-wrap; word-break: break-all; max-height: 120px; overflow-y: auto; }
+.actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.btn-action { padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer;
+  background: var(--card); color: var(--text); font-size: 11px; font-weight: 600; }
+.btn-action:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-action.active-ok { background: var(--ok); color: #fff; border-color: var(--ok); }
+.btn-action.active-warn { background: var(--warn); color: #fff; border-color: var(--warn); }
+.notes-row { display: flex; gap: 6px; margin-top: 6px; }
+.notes-row input { flex: 1; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg); color: var(--text); font-size: 11px; }
+.pagination { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
+.pagination button { padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--card); color: var(--text); cursor: pointer; font-size: 12px; }
+.pagination button:disabled { opacity: .4; cursor: default; }
+.msg { padding: 8px 12px; border-radius: 6px; font-size: 11px; margin-bottom: 8px;
+  background: #dcfce7; color: #15803d; display: none; }
+.loading { text-align: center; color: var(--muted); padding: 32px; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>⚡ Lineage Conflict Resolver — T109 · T136</h1>
+<p class="subtitle">Thẩm định tranh chấp DILA ↔ Marcus. Phán quyết: chọn nguồn / giữ cả hai (merge) / bác bỏ cả hai (reject) → en_audit_log (Lean, Zero-ALTER).</p>
+
+<div class="toolbar">
+  <select id="filterType" onchange="load(0)">
+    <option value="">Tất cả loại</option>
+    <option value="teacher_set">teacher_set (Thầy)</option>
+    <option value="student_set">student_set (Trò)</option>
+  </select>
+  <button onclick="load(0)">Lọc</button>
+  <span id="statsText" class="stats"></span>
+</div>
+
+<div id="msg" class="msg"></div>
+<div id="list" class="list"><div class="loading">Đang tải…</div></div>
+<div class="pagination">
+  <button id="btnPrev" onclick="prev()" disabled>← Trước</button>
+  <span id="pageInfo" style="font-size:12px;color:var(--muted);padding:6px 0"></span>
+  <button id="btnNext" onclick="next()">Sau →</button>
+</div>
+
+<p style="text-align:center;font-size:10px;color:var(--muted);margin-top:24px">T109 · Zero-ALTER · Audit: en_audit_log · ETL: entity_claims_audit (audit_id)</p>
+
+<script>
+var BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5000' : '';
+var _offset = 0, _total = 0;
+var LIMIT = 25;
+// T136: Authority Score theo source_authority (read-only map, DILA 100 > MARCUS 60).
+var _SRC_SCORE = { DILA: 100, MARCUS: 60 };
+
+function typeChip(t) {
+  var cls = t === 'teacher_set' ? 'info' : t === 'student_set' ? 'warn' : '';
+  var lbl = t === 'teacher_set' ? 'Thầy' : t === 'student_set' ? 'Trò' : t;
+  return '<span class="chip ' + cls + '">' + lbl + '</span>';
+}
+
+function verdictChip(v) {
+  if (!v) return '<span class="chip">Chưa xử lý</span>';
+  var cls = v === 'verified' ? 'ok' : 'warn';
+  var lbl = v === 'verified' ? '✓ Verified' : v;
+  return '<span class="chip ' + cls + '">' + lbl + '</span>';
+}
+
+function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+function load(offset) {
+  _offset = offset || 0;
+  var type = document.getElementById('filterType').value;
+  var url = BASE + '/daoanh/api/admin/lineage-conflicts?limit=' + LIMIT + '&offset=' + _offset;
+  if (type) url += '&type=' + encodeURIComponent(type);
+
+  document.getElementById('list').innerHTML = '<div class="loading">Đang tải…</div>';
+  fetch(url).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.status !== 'ok') { document.getElementById('list').innerHTML = '<div class="loading">Lỗi: ' + esc(d.message || d.status) + '</div>'; return; }
+    _total = d.total_open;
+    document.getElementById('statsText').textContent = d.total_open + ' conflict chưa xử lý';
+    document.getElementById('pageInfo').textContent = d.count ? (_offset + 1) + '–' + Math.min(_offset + LIMIT, _total) + ' / ' + _total : '';
+    document.getElementById('btnPrev').disabled = _offset <= 0;
+    document.getElementById('btnNext').disabled = _offset + LIMIT >= _total;
+
+    if (!d.conflicts.length) {
+      document.getElementById('list').innerHTML = '<div class="loading">Không có conflict nào — tuyệt vời!</div>';
+      return;
+    }
+    document.getElementById('list').innerHTML = d.conflicts.map(renderCard).join('');
+  }).catch(function(e) {
+    document.getElementById('list').innerHTML = '<div class="loading">Lỗi kết nối: ' + esc(e.message) + '</div>';
+  });
+}
+
+function renderCard(c) {
+  var idSafe = 'c' + c.id;
+  var dilaN = c.dila_count != null ? c.dila_count : '?';
+  var marcusN = c.marcus_count != null ? c.marcus_count : '?';
+  var lastLine = c.last_verdict
+    ? '<div class="meta" style="margin-top:4px">Lần duyệt cuối: ' + verdictChip(c.last_verdict)
+      + ' by ' + esc(c.last_editor || '—')
+      + (c.last_reviewed_at ? ' · ' + esc(c.last_reviewed_at) : '') + '</div>'
+    : '';
+
+  return '<div class="card" id="' + idSafe + '">'
+    + '<div class="header">'
+    +   '<div style="flex:1">'
+    +     '<div class="title">' + esc(c.name_vi || c.label || c.person_id) + '</div>'
+    +     '<div class="meta" style="margin-top:2px;display:flex;gap:4px;flex-wrap:wrap">'
+    +       typeChip(c.conflict_type)
+    +       ' <span class="chip">ID: ' + esc(c.person_id) + '</span>'
+    +       ' <span class="chip">DILA · ' + dilaN + ' · score ' + _SRC_SCORE.DILA + '</span>'
+    +       ' <span class="chip">Marcus · ' + marcusN + ' · score ' + _SRC_SCORE.MARCUS + '</span>'
+    +       ' <span class="chip">record: ' + esc(c.id) + '</span>'
+    +     '</div>'
+    +     lastLine
+    +   '</div>'
+    + '</div>'
+    + '<div class="evidence" title="ghi chú unresolved">Ghi chú: ' + esc(c.notes || '(không có)') + '</div>'
+    + '<div class="actions">'
+    +   '<button class="btn-action active-ok" onclick="resolveConflict(' + c.id + ',\'dila\',\'' + idSafe + '\',\'pick\')">✓ Dùng DILA</button>'
+    +   '<button class="btn-action" onclick="resolveConflict(' + c.id + ',\'marcus\',\'' + idSafe + '\',\'pick\')">✓ Dùng Marcus</button>'
+    +   '<button class="btn-action" onclick="resolveConflict(' + c.id + ',\'both\',\'' + idSafe + '\',\'merge\')">⟷ Giữ cả hai</button>'
+    +   '<button class="btn-action active-warn" onclick="resolveConflict(' + c.id + ',\'none\',\'' + idSafe + '\',\'reject\')">✗ Bác bỏ cả hai</button>'
+    + '</div>'
+    + '<div class="notes-row">'
+    +   '<input type="text" id="reason-' + idSafe + '" placeholder="Lý do phán quyết (chọn nguồn / gộp / bác bỏ — tùy chọn)">'
+    + '</div>'
+    + '</div>';
+}
+
+function resolveConflict(id, winner, idSafe, resolutionType) {
+  resolutionType = resolutionType || 'pick';
+  var reasonEl = document.getElementById('reason-' + idSafe);
+  var reason = reasonEl ? reasonEl.value : '';
+  fetch(BASE + '/daoanh/api/admin/lineage-conflicts/' + id + '/resolve', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({resolution_type: resolutionType, winner_source_id: winner, editor: 'admin', reason: reason})
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.status === 'ok') {
+      var lbl = d.resolution_type === 'merge' ? 'giữ cả hai (merge)'
+        : d.resolution_type === 'reject' ? 'bác bỏ cả hai (reject)'
+        : 'dùng ' + winner;
+      showMsg('✓ Conflict #' + id + ' ' + lbl + ' (audit #' + (d.audit_log_id || '?') + ')');
+      var card = document.getElementById(idSafe);
+      if (card) card.className = 'card resolved';
+    } else {
+      showMsg('Lỗi: ' + (d.message || d.status), true);
+    }
+  }).catch(function(e) { showMsg('Lỗi kết nối: ' + e.message, true); });
+}
+
+function showMsg(text, isErr) {
+  var el = document.getElementById('msg');
+  el.textContent = text;
+  el.style.display = 'block';
+  el.style.background = isErr ? '#fee2e2' : '#dcfce7';
+  el.style.color = isErr ? '#b91c1c' : '#15803d';
+  setTimeout(function() { el.style.display = 'none'; }, 3000);
+}
+
+function prev() { if (_offset > 0) load(Math.max(0, _offset - LIMIT)); }
+function next() { if (_offset + LIMIT < _total) load(_offset + LIMIT); }
+
+load(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+# PHASE 0 — Person Import: Kiểm chứng báo cáo Cline (T253)
+
+> **Ngày:** 2026-10-06 · **HEAD khi đo:** `ea50089d08afc4ebb02dbc3b5f3ccaad58f845fa`
+> **Task:** [`tasks/T253-person-import-phase0-audit.md`](../../../tasks/T253-person-import-phase0-audit.md)
+> **Scope tài liệu này:** docs-only — **0 sửa code, 0 ghi DB.**
+>
+> **Mục đích:** đối chiếu từng claim của báo cáo Phase 0 do Cline đề xuất
+> (tính năng import người từ XML DILA authority → DB, trang `admin/person_import.html`),
+> ghi phần **đúng**, đính chính phần **sai**, chốt 2 blocker **P0-1 / P0-2**
+> trước khi cho phép Phase 1 build. Mọi số liệu dưới đây **tái chạy được** (§9).
+
+---
+
+## 1. Kết luận nhanh
+
+| Hạng mục | Kết quả |
+|---|---|
+| Claim của Cline kiểm chứng là **đúng** | **13** (§2) |
+| **Đính chính** | **6** — S1…S6 (§3) |
+| **Blocker cần Admin chốt** | **2** — P0-1 (§4), P0-2 (§5) |
+| 2 câu hỏi Cline hỏi lại | đã trả lời (§6) |
+| Checklist ràng buộc Phase 1 | (§7) |
+| Kiểm thử phiên này | `guard` ✅ · `lint` ✅ · `audit:honesty` ✅ 7/7 · `dup:ids` ❌ **3 ID trùng CÓ SẴN, không phải của T253** (§8) |
+
+---
+
+## 2. Claim của Cline — kiểm chứng là ĐÚNG (13)
+
+| # | Claim | Bằng chứng (HEAD `ea50089`) |
+|---|---|---|
+| 1 | Đã có route xem 1 người | `app.py:19016` → `@app.route('/daoanh/api/persons/<person_id>')`, trả 404 `{"ok": False}` khi không thấy |
+| 2 | Đã có route `dila_full` | `app.py:20072` → `/daoanh/api/person/<person_id>/dila_full` |
+| 3 | Đã có route `dila_translate` | `app.py:19475` → GET + POST `/daoanh/api/person/<person_id>/dila_translate` |
+| 4 | Đã có route láng giềng dòng họ | `app.py:8548` → `/daoanh/api/dila/persons/adjacent` |
+| 5 | Trang admin static được serve | `app.py:2109` → `@app.route('/daoanh/admin/<path:path>')` |
+| 6 | `app.py` không serialize XML bằng `ET.tostring` | **0** match (`grep -c ET.tostring app.py` = 0) |
+| 7 | Không có file schema `.xsd`/`.rng` kèm nguồn import | **0** file `.xsd`/`.rng` dưới `data/dila_import/` |
+| 8 | File XML person authority tồn tại, đọc được | `data/dila_import/Authority-Databases/authority_person/Buddhist_Studies_Person_Authority.xml` = **51.070.872 byte** (48,7 MB) |
+| 9 | `keyword_import.html` là React 18 (CDN) | `admin/keyword_import.html` |
+| 10 | `person.html` là Tailwind CDN + vanilla JS, có tiền lệ JS ngoài `person-ttl-draft.js` | `admin/person.html` |
+| 11 | `tests/run-tests.js` hiện là placeholder | test thật nối qua script con trong `package.json` (`test:t226`, `test:t227`, `test:t232`, `test:t233`, …) |
+| 12 | **Không** route nào `INSERT INTO people` | mọi POST admin hiện có chỉ **UPDATE người đã tồn tại**: `bio_vi` `app.py:19724`, `dila_vi` `:19824`, `name_vi` `:19913`, `revalidate-hv` `:19948` (nhánh ghi qua `verify_session`) |
+| 13 | Schema 2 bảng đích | `vn_person_authority` 16 cột (`id, ttl_filename, name_vi, name_zh, dharma_title, dharma_lineage, generation_order, is_lineage_founder, gender, biographical_note_vi, birth_year, death_year, appellations, dila_id, status, created_at`) — **`dila_id` KHÔNG unique**; `people` 14 cột (`id, name_zh, name_vi, name_en, name_ja, sect, dynasty, birth_year, death_year, bio, source_origin, created_at, latin_source, source_id, bio_vi`) |
+
+---
+
+## 3. S1…S6 — ĐÍNH CHÍNH
+
+### S1 — Số dòng `app.py`: Cline **đúng** (đính chính lại chính audit trước)
+
+| phép đo | kết quả |
+|---|---|
+| `(Get-Content app.py).Count` = **tổng số dòng** | **24.221** ← khớp claim của Cline |
+| dòng có ít nhất 1 ký tự (kể cả space/tab) | 22.487 (`Measure-Object -Line`) |
+| dòng không rỗng sau Trim | 22.230 |
+| dòng trống hoàn toàn | 1.734 (= 24.221 − 22.487) |
+
+**Đính chính vòng 2:** phiên audit trước ghi *"22.487 dòng — con số 24.221 của Cline sai"*;
+phép đo đó dùng `Measure-Object -Line` (bỏ dòng trống) nên **sai hướng**.
+Khi trích dẫn dùng **24.221 (tổng dòng)** và ghi rõ phương pháp đo.
+
+### S2 — Import `xml.etree`: **5 chỗ**, không phải 3; `_t148_ET` ở `:5635` (không phải ~5304)
+
+```
+111  : import xml.etree.ElementTree as ET
+126  : import xml.etree.ElementTree as ET
+5635 : import xml.etree.ElementTree as _t148_ET
+10304: import xml.etree.ElementTree as ET
+10465: import xml.etree.ElementTree as ET
+```
+
+### S3 — P0-1: ràng buộc *"app.py KHÔNG đụng"* mâu thuẫn với chính yêu cầu → xem §4
+
+### S4 — P0-2: cách check trùng *"browser GET từng người"* KHÔNG làm được → xem §5
+
+### S5 — Quy ước tên file trang import
+
+Repo đang có **2 kiểu**: `keyword_import.html` (gạch dưới) và `cbeta-import.html` (gạch ngang).
+**Chốt:** nhận đề xuất của Cline là **`admin/person_import.html`** (underscore, cùng kiểu với
+`keyword_import.html`); ghi rõ quy ước này vào task để các trang import sau không trộn 2 kiểu.
+
+### S6 — *"Mọi lệnh shell exit 1"* là lỗi môi trường của Cline, không phải repo
+
+Ở phiên này **chạy được**: `npm run guard` exit 0, `npm run lint` exit 0,
+`npm run audit:honesty` exit 0 (PASS 7/7). Lệnh duy nhất exit 1 là `npm run dup:ids`
+vì **3 ID trùng có sẵn** (§8) — lỗi thật của repo, nhưng có từ trước, không liên quan T253.
+
+---
+
+## 4. P0-1 (blocker) — *"Không được sửa `app.py`"* vs. tính năng cần đường ghi
+
+**Mâu thuẫn:** tính năng import phải được gọi từ trình duyệt ⇒ cần **POST route**;
+route chỉ tồn tại trong `app.py`; và §2 #12 đã xác nhận **không** route nào tạo người mới.
+Ràng buộc "không đụng `app.py`" nếu hiểu cứng sẽ **chặn luôn tính năng**.
+
+| | Phương án (a) — **ADDITIVE route** (khuyến nghị) | Phương án (b) — offline script |
+|---|---|---|
+| Cách làm | Thêm 1 route POST mới trong `app.py` (chỉ **+**, không sửa route cũ), logic import nằm trong script ngoài `scripts/`, trang `admin/person_import.html` gọi API + hiển thị tiến trình | `scripts/t253_person_import.py` chạy tay trên server; trang HTML chỉ validate/tải file |
+| Tiền lệ sẵn có trong repo | **Có** — `POST /daoanh/api/admin/cbeta/import-xml` (`app.py:10167`) load module ngoài bằng `importlib` (`:10193` → `data/cbeta/import_cbeta.py`); frontend `cbeta-import.html` fetch (`:263`) + refresh sau 1,2 s (`:270`) | Có (các script ETL kiểu T203/T251) |
+| Trách nhiệm an toàn | Route mỏng + `verify_session` + guard: sau khi thêm, `git diff app.py` **chỉ có dòng `+`** | Không đụng `app.py` = 0 rủi ro regression route |
+| Nhược điểm | Vẫn phải đụng `app.py` (nhưng additive, diff kiểm được) | Không có tiến trình import live cho Admin bấm |
+
+**Cần Admin chốt (a) hay (b) trước khi mở Phase 1.** Khuyến nghị **(a)**:
+đã có tiền lệ giống hệt, Admin giữ được UI tiến trình như `cbeta-import.html`.
+
+---
+
+## 5. P0-2 (blocker) — Check trùng `dila_id` phải là backend batch read-only
+
+- **Hiện trạng:** không route nào trả `vn_person_authority` theo lô ⇒ cách
+  *"mỗi người browser gọi 1 GET `persons/<id>`"* (N+1) **không thực hiện được**.
+- **`dila_id` không unique:** T200 đo **33 nhóm** trùng 2–3 dòng; tie-break
+  `VNPA_STATUS_RANK` (`vnpa_lookup.py`) chỉ chọn *tên hiển thị*, **không** gộp dòng.
+  **T223 (blocked)** = Admin phân loại 29 nhóm.
+- **Chốt:** duplicate check = **1 endpoint read-only backend** (batch, đọc DB,
+  trả về group theo `dila_id` kèm status đã xếp theo `VNPA_STATUS_RANK`),
+  **KHÔNG auto-merge, KHÔNG ghi DB** — kết quả chỉ để Admin quyết (gắn với T223).
+  Browser chỉ render kết quả.
+
+---
+
+## 6. Trả lời 2 câu hỏi của Cline
+
+1. **Tên file trang import?** → **`admin/person_import.html`** — chấp nhận (§ S5).
+2. **Check trùng ở backend hay browser?** → **backend** (batch read-only, §5);
+   browser chỉ render.
+
+---
+
+## 7. Checklist bắt buộc cho Phase 1 (rút từ bài học repo)
+
+1. **Chỉ thêm** route/file mới; không sửa route có sẵn — nghiệm thu bằng `git diff` trên `app.py` (P0-1(a)).
+2. Logic import để trong script ngoài `scripts/`; `app.py` chỉ route mỏng; **test nối vào `package.json`** (mẫu `test:t226` / `test:t227` → thêm `test:t253`).
+3. UI: **1 trang = 1 framework** (không trộn React của `keyword_import.html` vào trang Tailwind vanilla kiểu `person.html`).
+4. **Viết test / câu query acceptance TRƯỚC khi build** — acceptance phải chạy lại được (bài học T234: `audit_data_honesty.py`).
+5. Duplicate = backend batch read-only theo §5; không auto-merge.
+6. XML nguồn là **bất biến** — import ghi vào DB, không sửa XML gốc; có backup DB + manifest trước khi ghi (AGENTS §2, §14).
+7. Quản trị: đã đăng ký task (frontmatter `id: T253`) + session log + `tasktodo.md` + `ROLLBACK.md` + regen `data/progress_data.json`; **`npm run pipeline` phải xanh trước khi xin review** (AGENTS §11) — xem blocker §8.
+
+---
+
+## 8. Kiểm thử phiên này & blocker pipeline CÓ SẴN
+
+Chạy tại `Dai_Tang_Kinh/daoanh` (HEAD `ea50089`):
+
+| lệnh | kết quả |
+|---|---|
+| `npm run guard` | ✅ exit 0 — SSOT root đúng, không có `.git` lồng trong `daoanh/` |
+| `npm run lint` | ✅ exit 0 — 7 script block syntax OK |
+| `npm run audit:honesty` | ✅ exit 0 — **PASS 7/7** |
+| `npm run dup:ids` | ❌ exit 1 — **3 ID trùng có sẵn** (xem dưới) |
+| `npm run pipeline` | ❌ FAIL ở bước `dup:ids` (bước 2) — do 3 ID trùng bên dưới, **không phải do T253** |
+
+**3 ID trùng có sẵn** (chưa ai sửa theo AGENTS §16 — ngoài phạm vi phiên này):
+
+```
+T188: tasks/T188-t171-spec-logic-fixes.md  ↔  docs/integration/T188-canonical-reference-integration.md
+T237: tasks/T237-cbeta-corpus-search-reader.md  ↔  tasks/T237-gate-vpa-admin-confirmed-only.md
+T238: tasks/T238-cbeta-text-browser-toc.md  ↔  tasks/T238-reject-ttl-mismatch-button.md
+```
+
+Theo AGENTS §16 phải đổi số bên **footprint nhỏ nhất** (ưu tiên status kết thúc, ít tham
+chiếu, có `former_ids`). **→ Đã xử lý ngay sau phiên này qua T254** (`T188-canonical… → T255`,
+`gate-vpa → T256`, `reject-ttl → T257`; `former_ids` + cập nhật tham chiếu T189/T239/T240) ⇒
+`npm run dup:ids` PASS, pipeline chạy qua bước 2.
+
+---
+
+## 9. Lệnh tái kiểm chứng (copy/paste)
+
+```powershell
+cd <visjs-app>/Dai_Tang_Kinh/daoanh
+# S1 — số dòng app.py
+(Get-Content app.py).Count                       # 24221
+# S2 — 5 chỗ import xml.etree
+Select-String -Path app.py -Pattern 'import xml.etree.ElementTree' | % LineNumber   # 111 126 5635 10304 10465
+# 6, 7
+(Select-String -Path app.py -Pattern 'ET.tostring' | Measure-Object).Count          # 0
+(Get-ChildItem data/dila_import -Recurse -Include *.xsd,*.rng | Measure-Object).Count # 0
+# 8 — XML nguồn
+(Get-Item data/dila_import/Authority-Databases/authority_person/Buddhist_Studies_Person_Authority.xml).Length  # 51070872
+# tiền lệ route import (P0-1a)
+Select-String -Path app.py -Pattern "cbeta/import-xml" | % LineNumber               # 10167
+# gate
+npm run guard; npm run lint; npm run audit:honesty; npm run dup:ids
+```
+
+---
+
+**Revert tài liệu này:** `git revert --no-edit <sha_T253>` (docs-only — xóa report, task,
+session, các entry tasktodo/ROLLBACK/dashboard; **0 code, 0 DB**).

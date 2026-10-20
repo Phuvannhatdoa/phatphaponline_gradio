@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đại Tạng Kinh Việt Nam — Tra Cứu Bản Dịch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #020617;
+  --surface:  #0f172a;
+  --card:     #1e293b;
+  --border:   #334155;
+  --gold:     #d97706;
+  --gold-lt:  #fbbf24;
+  --text:     #e2e8f0;
+  --muted:    #64748b;
+  --green:    #10b981;
+  --yellow:   #f59e0b;
+  --blue:     #3b82f6;
+  --gray:     #475569;
+  --red:      #ef4444;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: Inter, sans-serif; min-height: 100vh; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #0c1a2e 0%, #1a2744 50%, #0c1a2e 100%);
+  border-bottom: 1px solid var(--gold);
+  padding: 24px 32px 20px;
+}
+.header-top { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+.lotus { font-size: 32px; }
+.header h1 { font-size: 26px; font-weight: 700; color: var(--gold-lt); }
+.header h1 span { font-family: 'Noto Serif TC', serif; font-size: 18px; color: var(--muted); margin-left: 12px; }
+.header-sub { color: var(--muted); font-size: 14px; margin-left: 48px; }
+
+/* Stats bar */
+.stats-bar {
+  display: flex; gap: 12px; padding: 16px 32px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.stat-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 14px; font-size: 13px;
+}
+.stat-chip .dot { width: 8px; height: 8px; border-radius: 50%; }
+.stat-chip .num { font-weight: 700; color: var(--gold-lt); }
+
+/* Toolbar */
+.toolbar {
+  display: flex; gap: 10px; padding: 14px 32px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  flex-wrap: wrap; align-items: center;
+}
+.toolbar input {
+  flex: 1; min-width: 200px; max-width: 400px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); padding: 8px 14px; font-size: 14px;
+}
+.toolbar input:focus { outline: none; border-color: var(--gold); }
+.toolbar select {
+  background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); padding: 8px 12px; font-size: 14px; cursor: pointer;
+}
+.toolbar select:focus { outline: none; border-color: var(--gold); }
+.toolbar label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); cursor: pointer; }
+.toolbar input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
+.result-count { margin-left: auto; font-size: 13px; color: var(--muted); white-space: nowrap; }
+
+/* Table */
+.tbl-wrap { padding: 0 32px 80px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+thead th {
+  background: var(--surface); border-bottom: 2px solid var(--gold);
+  padding: 10px 12px; text-align: left; font-size: 11px;
+  text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+  white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid var(--border); transition: background .12s; }
+tbody tr:hover { background: #ffffff08; }
+td { padding: 10px 12px; vertical-align: top; }
+.col-sigla  { width: 90px; font-family: monospace; font-size: 12px; color: var(--muted); }
+.col-title  { min-width: 200px; }
+.col-dynasty{ width: 90px; font-size: 12px; color: var(--muted); }
+.col-juans  { width: 60px; font-size: 12px; color: var(--muted); text-align: right; }
+.col-status { width: 110px; }
+.col-pct    { width: 130px; }
+.col-action { width: 90px; }
+
+.title-vi { font-weight: 600; font-size: 14px; line-height: 1.4; }
+.title-vi a { color: var(--text); text-decoration: none; }
+.title-vi a:hover { color: var(--gold-lt); }
+.title-zh { font-family: 'Noto Serif TC', serif; font-size: 11px; color: var(--muted); margin-top: 2px; }
+.author-zh { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Badges */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 600;
+  white-space: nowrap;
+}
+.b-hoan-thanh { background: #05311e; color: var(--green); border: 1px solid #10b98155; }
+.b-dang-dich  { background: #2d1f00; color: var(--yellow); border: 1px solid #f59e0b55; }
+.b-cho-dich   { background: #0c1a2e; color: var(--blue);   border: 1px solid #3b82f655; }
+.b-chua-co    { background: #1a1a1a; color: var(--muted);  border: 1px solid var(--border); }
+
+/* Progress bar */
+.prog-wrap { display: flex; align-items: center; gap: 6px; }
+.prog-bar { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 3px; background: var(--green); }
+.prog-fill.partial { background: var(--yellow); }
+.prog-pct { font-size: 11px; color: var(--muted); min-width: 36px; text-align: right; }
+
+/* Button */
+.btn-read {
+  display: inline-block; padding: 4px 12px;
+  background: var(--gold); color: #000; border-radius: 6px;
+  font-size: 12px; font-weight: 600; text-decoration: none; border: none;
+  cursor: pointer; white-space: nowrap;
+}
+.btn-read:hover { background: var(--gold-lt); }
+.btn-read:disabled, .btn-read.disabled {
+  background: var(--border); color: var(--muted); cursor: not-allowed;
+}
+
+/* Pager */
+.pager {
+  display: flex; align-items: center; gap: 10px; padding: 16px 32px;
+  background: var(--surface); border-top: 1px solid var(--border);
+  position: sticky; bottom: 0;
+}
+.pager button {
+  background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text); padding: 6px 14px; font-size: 13px; cursor: pointer;
+}
+.pager button:disabled { opacity: .4; cursor: not-allowed; }
+.pager button:not(:disabled):hover { border-color: var(--gold); }
+.pager-info { font-size: 13px; color: var(--muted); }
+
+/* Modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: #00000099; z-index: 100; overflow-y: auto;
+}
+.modal-overlay.open { display: flex; justify-content: center; padding: 40px 16px; }
+.modal {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  max-width: 820px; width: 100%; padding: 28px 32px; position: relative;
+  max-height: 85vh; overflow-y: auto;
+}
+.modal-close {
+  position: sticky; top: 0; float: right; margin-bottom: -24px;
+  background: var(--border); border: none; color: var(--text);
+  border-radius: 50%; width: 28px; height: 28px; font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--red); }
+.modal h2 { font-size: 20px; color: var(--gold-lt); margin-bottom: 4px; }
+.modal .modal-meta { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.passage-block {
+  border-bottom: 1px solid var(--border); padding: 14px 0;
+}
+.passage-loc { font-size: 11px; color: var(--muted); margin-bottom: 6px; font-family: monospace; }
+.passage-zh { font-family: 'Noto Serif TC', serif; color: #94a3b8; font-size: 14px; line-height: 1.9; white-space: pre-wrap; margin-bottom: 8px; }
+.passage-vi { color: var(--text); font-size: 14px; line-height: 1.8; white-space: pre-wrap; }
+.passage-vi.no-trans { color: var(--muted); font-style: italic; }
+.modal-pager { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
+.modal-pager button {
+  background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text); padding: 6px 16px; font-size: 13px; cursor: pointer;
+}
+.modal-pager button:hover:not(:disabled) { border-color: var(--gold); }
+.modal-pager button:disabled { opacity: .4; }
+
+/* Spinner */
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Loading row */
+.loading-row td { color: var(--muted); text-align: center; padding: 40px; }
+
+@media (max-width: 700px) {
+  .header { padding: 16px; }
+  .stats-bar, .toolbar, .tbl-wrap, .pager { padding-left: 16px; padding-right: 16px; }
+  .col-dynasty, .col-juans, .col-pct { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="lotus">🪷</span>
+    <h1>Đại Tạng Kinh Việt Nam <span>大藏經</span></h1>
+  </div>
+  <div class="header-sub">Tra cứu 3.122 bộ kinh Hán truyền — xem bản dịch Tiếng Việt theo từng đoạn văn</div>
+</div>
+
+<div class="stats-bar" id="stats-bar">
+  <div class="stat-chip"><span class="dot" style="background:var(--muted)"></span> <span id="s-total">…</span> bộ kinh <span class="num" style="font-weight:400;color:var(--muted)">tổng</span></div>
+  <div class="stat-chip"><span class="dot" style="background:var(--green)"></span> <span class="num" id="s-done">…</span> có bản dịch</div>
+  <div class="stat-chip"><span class="dot" style="background:var(--yellow)"></span> Đang dịch dần</div>
+  <div class="stat-chip"><span class="dot" style="background:var(--muted)"></span> Phần lớn chờ bản dịch</div>
+</div>
+
+<div class="toolbar">
+  <input id="q-inp" type="text" placeholder="🔍  Tìm tên bộ kinh, tác giả, dịch giả…" oninput="debounce()">
+  <select id="series-sel" onchange="loadPage(0)">
+    <option value="">Tất cả bộ</option>
+  </select>
+  <label>
+    <input type="checkbox" id="has-tr-chk" onchange="loadPage(0)">
+    Chỉ bộ có bản dịch
+  </label>
+  <span class="result-count" id="res-count">…</span>
+</div>
+
+<div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-sigla">Ký hiệu</th>
+        <th class="col-title">Tên bộ kinh</th>
+        <th class="col-dynasty">Triều đại</th>
+        <th class="col-juans">Cuốn</th>
+        <th class="col-status">Trạng thái</th>
+        <th class="col-pct">Tiến độ dịch</th>
+        <th class="col-action">Đọc</th>
+      </tr>
+    </thead>
+    <tbody id="tbl-body">
+      <tr class="loading-row"><td colspan="7"><span class="spinner"></span> Đang tải…</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="pager">
+  <button id="btn-prev" onclick="loadPage(_offset - LIMIT)" disabled>‹ Trước</button>
+  <span class="pager-info" id="pager-info">Trang 1</span>
+  <button id="btn-next" onclick="loadPage(_offset + LIMIT)" disabled>Tiếp ›</button>
+</div>
+
+<!-- Modal đọc kinh -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 id="m-title">…</h2>
+    <div class="modal-meta" id="m-meta"></div>
+    <div id="m-body"></div>
+    <div class="modal-pager">
+      <button id="m-prev" onclick="loadPassages(_mOffset - M_LIMIT)" disabled>‹ Trước</button>
+      <span id="m-info" style="font-size:13px;color:var(--muted)"></span>
+      <button id="m-next" onclick="loadPassages(_mOffset + M_LIMIT)" disabled>Tiếp ›</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const _BASE = location.protocol === 'file:' ? 'http://localhost:8080' : '';
+const LIMIT = 50, M_LIMIT = 20;
+let _offset = 0, _total = 0, _timer = null;
+let _mSigla = '', _mOffset = 0, _mTotal = 0;
+let _seriesList = [];
+
+function debounce() {
+  clearTimeout(_timer);
+  _timer = setTimeout(() => loadPage(0), 350);
+}
+
+async function loadStats() {
+  try {
+    const d = await fetch(_BASE + '/daoanh/api/danh-sach-kinh?limit=1').then(r => r.json());
+    document.getElementById('s-total').textContent = d.stats.total_catalog.toLocaleString();
+    document.getElementById('s-done').textContent  = d.stats.has_translation.toLocaleString();
+    if (_seriesList.length === 0 && d.series_list) {
+      _seriesList = d.series_list;
+      const sel = document.getElementById('series-sel');
+      d.series_list.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s; o.textContent = 'Bộ ' + s;
+        sel.appendChild(o);
+      });
+    }
+  } catch(e) {}
+}
+
+async function loadPage(off) {
+  _offset = Math.max(0, off ?? 0);
+  const q      = document.getElementById('q-inp').value.trim();
+  const series = document.getElementById('series-sel').value;
+  const hasTr  = document.getElementById('has-tr-chk').checked ? '1' : '';
+  let url = `${_BASE}/daoanh/api/danh-sach-kinh?offset=${_offset}&limit=${LIMIT}`;
+  if (q)      url += '&q='      + encodeURIComponent(q);
+  if (series) url += '&series=' + encodeURIComponent(series);
+  if (hasTr)  url += '&has_translation=1';
+
+  const tbody = document.getElementById('tbl-body');
+  tbody.innerHTML = '<tr class="loading-row"><td colspan="7"><span class="spinner"></span> Đang tải…</td></tr>';
+
+  try {
+    const d = await fetch(url).then(r => r.json());
+    _total = d.total;
+    document.getElementById('res-count').textContent = `${_total.toLocaleString()} bộ kinh`;
+    if (_seriesList.length === 0 && d.series_list) {
+      _seriesList = d.series_list;
+      const sel = document.getElementById('series-sel');
+      d.series_list.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s; o.textContent = 'Bộ ' + s;
+        sel.appendChild(o);
+      });
+    }
+    renderRows(d.items);
+    updatePager();
+  } catch(e) {
+    tbody.innerHTML = `<tr class="loading-row"><td colspan="7" style="color:var(--red)">Lỗi kết nối server: ${e.message}</td></tr>`;
+  }
+}
+
+const STATUS_MAP = {
+  hoan_thanh: '<span class="badge b-hoan-thanh">✅ Hoàn thành</span>',
+  dang_dich:  '<span class="badge b-dang-dich">🟡 Đang dịch</span>',
+  cho_dich:   '<span class="badge b-cho-dich">🔵 Chờ dịch</span>',
+  chua_co:    '<span class="badge b-chua-co">⚫ Chưa có</span>',
+};
+
+function renderRows(items) {
+  const tbody = document.getElementById('tbl-body');
+  if (!items.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">Không tìm thấy kết quả</td></tr>';
+    return;
+  }
+  tbody.innerHTML = items.map(it => {
+    const pct   = it.pct || 0;
+    const fillCls = pct >= 100 ? '' : 'partial';
+    const progHtml = it.p_total > 0
+      ? `<div class="prog-wrap">
+           <div class="prog-bar"><div class="prog-fill ${fillCls}" style="width:${Math.min(pct,100)}%"></div></div>
+           <span class="prog-pct">${pct}%</span>
+         </div>
+         <div style="font-size:11px;color:var(--muted);margin-top:2px">${it.p_translated.toLocaleString()}/${it.p_total.toLocaleString()} đoạn</div>`
+      : '<span style="color:var(--muted);font-size:12px">—</span>';
+    const canRead = it.p_translated > 0;
+    const btnHtml = canRead
+      ? `<button class="btn-read" onclick="openModal('${it.sigla}','${escHtml(it.title_vi||it.title_zh||it.sigla)}')">📖 Đọc</button>`
+      : `<span class="btn-read disabled">Chưa có</span>`;
+    return `<tr>
+      <td class="col-sigla">${it.sigla || '—'}</td>
+      <td class="col-title">
+        <div class="title-vi">${escHtml(it.title_vi || '')}</div>
+        <div class="title-zh">${escHtml(it.title_zh || '')}</div>
+        ${it.author_zh ? `<div class="author-zh">撰: ${escHtml(it.author_zh)}</div>` : ''}
+      </td>
+      <td class="col-dynasty">${escHtml(it.dynasty_vi || '')}</td>
+      <td class="col-juans">${it.juans || '—'}</td>
+      <td class="col-status">${STATUS_MAP[it.status] || ''}</td>
+      <td class="col-pct">${progHtml}</td>
+      <td class="col-action">${btnHtml}</td>
+    </tr>`;
+  }).join('');
+}
+
+function updatePager() {
+  const pg = Math.floor(_offset / LIMIT) + 1;
+  const total_pg = Math.ceil(_total / LIMIT);
+  document.getElementById('pager-info').textContent = `Trang ${pg}/${total_pg} (${_total.toLocaleString()} bộ)`;
+  document.getElementById('btn-prev').disabled = _offset <= 0;
+  document.getElementById('btn-next').disabled = _offset + LIMIT >= _total;
+}
+
+/* ── Modal đọc kinh ── */
+async function openModal(sigla, titleTxt) {
+  _mSigla = sigla; _mOffset = 0; _mTotal = 0;
+  document.getElementById('m-title').textContent = titleTxt;
+  document.getElementById('m-meta').textContent  = sigla;
+  document.getElementById('m-body').innerHTML    = '<span class="spinner"></span> Đang tải…';
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  await loadPassages(0);
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function loadPassages(off) {
+  _mOffset = Math.max(0, off);
+  const url = `${_BASE}/daoanh/api/kinh/${encodeURIComponent(_mSigla)}/passages?offset=${_mOffset}&limit=${M_LIMIT}`;
+  try {
+    const d = await fetch(url).then(r => r.json());
+    _mTotal = d.total;
+    if (d.catalog && d.catalog.title_vi) {
+      document.getElementById('m-title').textContent = d.catalog.title_vi;
+      document.getElementById('m-meta').textContent  =
+        `${_mSigla}${d.catalog.dynasty_vi ? ' · ' + d.catalog.dynasty_vi : ''}${d.catalog.author_zh ? ' · ' + d.catalog.author_zh : ''} · ${_mTotal.toLocaleString()} đoạn văn`;
+    }
+    const pg = Math.floor(_mOffset / M_LIMIT) + 1;
+    const tot_pg = Math.ceil(_mTotal / M_LIMIT);
+    document.getElementById('m-info').textContent = `Trang ${pg}/${tot_pg}`;
+    document.getElementById('m-prev').disabled = _mOffset <= 0;
+    document.getElementById('m-next').disabled = _mOffset + M_LIMIT >= _mTotal;
+
+    if (!d.items.length) {
+      document.getElementById('m-body').innerHTML = '<p style="color:var(--muted)">Chưa có bản dịch.</p>';
+      return;
+    }
+    document.getElementById('m-body').innerHTML = d.items.map(p => `
+      <div class="passage-block">
+        <div class="passage-loc">${escHtml(p.loc_ref || '')}</div>
+        <div class="passage-zh">${escHtml(p.raw_text || '')}</div>
+        ${p.vi_text
+          ? `<div class="passage-vi">${escHtml(p.vi_text)}</div>`
+          : `<div class="passage-vi no-trans">(Đoạn này chưa có bản dịch tiếng Việt)</div>`}
+      </div>`).join('');
+  } catch(e) {
+    document.getElementById('m-body').innerHTML = `<p style="color:var(--red)">Lỗi: ${e.message}</p>`;
+  }
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* Init */
+loadStats();
+loadPage(0);
+</script>
+</body>
+</html>

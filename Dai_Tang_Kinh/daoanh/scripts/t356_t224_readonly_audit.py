@@ -1,0 +1,446 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""T356: audit T224 chỉ đọc; kết quả dẫn xuất không phải ngày/identity đã duyệt."""
+from __future__ import annotations
+
+import argparse
+import csv
+import hashlib
+import json
+import math
+import re
+import sqlite3
+import sys
+from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.parse import urlsplit
+
+DEFINITION_VERSION = "t356-t224-legacy-partition-v2"
+BATCH_SIZE = 256
+BUCKETS = ("A1", "A2", "C", "B", "D", "E")
+MARKERS = ("\u59cb\u5efa\u65bc", "\u5275\u5efa", "\u5efa\u65bc", "\u5efa\u570b")
+CONTROL_TERMS = ("\u5efa", "\u5e1d", "\u5510\u5b8b")
+HISTORICAL = {
+    "label": "historical_reference_only",
+    "measured_at": "2026-10-04",
+    "total_places_dila": 59167,
+    "bucket_counts": {"A1": 249, "A2": 3285, "C": 85, "B": 226, "D": 13336, "E": 41986},
+    "event_count": 3688,
+    "baseline_source": "dila_founding_phase2",
+    "baseline_source_count": 55,
+    "note": "Số cũ là provenance; không dùng làm hằng số nghiệm thu hiện hành.",
+}
+REQUIRED_COLUMNS = {
+    "places_dila": {"id", "name_zh", "note", "raw_xml", "geo_lat", "geo_long"},
+    "place_timeline_events": {
+        "id", "dila_id", "event_type", "year", "year_end", "source",
+        "source_ref", "confidence", "label_vi",
+    },
+    "geo_cross_ref": {"dila_id"},
+}
+MEMBERSHIP_FIELDS = (
+    "dila_id", "name_zh", "bucket", "has_any_event", "has_founding_event",
+    "has_dissolved_event", "has_wikidata_event", "has_xref", "marker_note",
+    "marker_raw_xml", "note_nonblank", "note_chars", "raw_xml_chars",
+    "source_ref_kind", "legacy_confidence_kind",
+)
+EVENT_FIELDS = (
+    "event_id", "dila_id", "event_type", "year", "year_end", "source",
+    "source_ref", "source_ref_kind", "confidence_raw",
+    "legacy_confidence_kind", "confidence_score", "source_ref_truncated",
+    "confidence_truncated", "historical_baseline_source",
+)
+_QID = re.compile(r"Q[1-9][0-9]*\Z", re.ASCII)
+_QID_PROPERTY = re.compile(r"Q[1-9][0-9]*\u00b7P[1-9][0-9]*\Z", re.ASCII)
+_NUMBER = re.compile(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\Z", re.ASCII)
+
+
+class AuditError(RuntimeError):
+    """Lỗi contract/schema: dừng audit, không tự dựng bảng hoặc migration."""
+
+
+def source_ref_kind(reference, source):
+    """Phân loại cú pháp locator; QID/URL không tự chứng minh đúng thực thể."""
+    text = ("" if reference is None else str(reference)).strip()
+    if not text:
+        return "missing"
+    if text == str(source or "").strip():
+        return "self_ref"
+    if _QID.fullmatch(text):
+        return "qid"
+    if _QID_PROPERTY.fullmatch(text):
+        return "qid_property"
+    try:
+        url = urlsplit(text)
+        if url.scheme.lower() in ("http", "https") and url.netloc:
+            return "url"
+    except ValueError:
+        pass
+    return "internal"
+
+
+def confidence_score(value):
+    """Chỉ parse số hữu hạn 0..1; không diễn giải nhãn verified thành accepted."""
+    text = ("" if value is None else str(value)).strip()
+    if not _NUMBER.fullmatch(text):
+        return None
+    number = float(text)
+    return number if math.isfinite(number) and 0 <= number <= 1 else None
+
+
+def confidence_kind(value):
+    text = ("" if value is None else str(value)).strip()
+    if not text:
+        return "missing"
+    if _NUMBER.fullmatch(text) or text.lower() in ("nan", "inf", "+inf", "-inf", "infinity"):
+        return "numeric" if confidence_score(text) is not None else "invalid_numeric"
+    return "label"
+
+
+def _authorize(action, arg1, arg2, database, trigger):
+    # PRAGMA bên dưới chỉ đọc metadata/session; query_only được bật trước authorizer.
+    read_pragmas = {"table_info", "query_only", "schema_version", "user_version", "data_version"}
+    if action == sqlite3.SQLITE_PRAGMA:
+        return sqlite3.SQLITE_OK if str(arg1).lower() in read_pragmas and (
+            arg2 is None or str(arg1).lower() == "table_info"
+        ) else sqlite3.SQLITE_DENY
+    allowed = {
+        sqlite3.SQLITE_SELECT, sqlite3.SQLITE_READ, sqlite3.SQLITE_FUNCTION,
+        sqlite3.SQLITE_TRANSACTION, getattr(sqlite3, "SQLITE_RECURSIVE", -1),
+    }
+    return sqlite3.SQLITE_OK if action in allowed else sqlite3.SQLITE_DENY
+
+
+def open_readonly(db_path):
+    path = Path(db_path).resolve(strict=True)
+    if not path.is_file():
+        raise AuditError("DB phải là file có sẵn; audit không tạo DB.")
+    conn = sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)
+    conn.row_factory = sqlite3.Row
+    # Đây là setting connection-local, không ghi DB/schema.
+    conn.execute("PRAGMA query_only = ON")
+    conn.create_function("audit_ref_kind", 2, source_ref_kind, deterministic=True)
+    conn.create_function("audit_conf_kind", 1, confidence_kind, deterministic=True)
+    conn.set_authorizer(_authorize)
+    return conn
+
+
+def select(conn, sql, params=()):
+    """Mọi truy vấn dữ liệu/metadata phải là SELECT hoặc WITH...SELECT."""
+    if not re.match(r"\s*(SELECT\b|WITH\b)", sql, re.IGNORECASE):
+        raise AuditError("Audit chỉ cho phép SELECT.")
+    return conn.execute(sql, params)
+
+
+def iter_rows(cursor):
+    while True:
+        rows = cursor.fetchmany(BATCH_SIZE)
+        if not rows:
+            return
+        yield from rows
+
+
+def schema_snapshot(conn):
+    tables = {}
+    for table, required in REQUIRED_COLUMNS.items():
+        rows = [dict(row) for row in select(
+            conn, "SELECT cid, name, type, pk FROM pragma_table_info(?) ORDER BY cid", (table,)
+        )]
+        missing = required - {row["name"] for row in rows}
+        if missing:
+            raise AuditError(f"Schema {table} thiếu cột {sorted(missing)}; dừng, không migration.")
+        tables[table] = rows
+    place_key = [row["name"] for row in tables["places_dila"] if row["pk"]]
+    if place_key != ["id"]:
+        raise AuditError("places_dila phải có primary key id; không đoán khóa ghép.")
+    objects = [dict(row) for row in select(
+        conn,
+        """SELECT type, name, tbl_name, sql FROM sqlite_master
+           WHERE tbl_name IN ('places_dila','place_timeline_events','geo_cross_ref')
+           ORDER BY type, name""",
+    )]
+    fingerprint = hashlib.sha256(
+        json.dumps({"tables": tables, "objects": objects}, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    ).hexdigest()
+    return {"tables": tables, "objects": objects, "sha256": fingerprint}
+
+
+def membership_query():
+    # instr kiểm marker như candidate; không parse XML/không đưa raw_xml ra Python.
+    marker_note = " OR ".join("instr(COALESCE(pd.note,''), ?) > 0" for _ in MARKERS)
+    marker_raw = " OR ".join("instr(COALESCE(pd.raw_xml,''), ?) > 0" for _ in MARKERS)
+    sql = f"""
+        WITH event_flags AS (
+            SELECT dila_id, COUNT(*) AS event_count,
+                   MAX(CASE WHEN event_type='founding' THEN 1 ELSE 0 END) AS founding,
+                   MAX(CASE WHEN event_type='dissolved' THEN 1 ELSE 0 END) AS dissolved,
+                   MAX(CASE WHEN source IN ('wikidata','wikidata_p571') THEN 1 ELSE 0 END) AS wikidata,
+                   GROUP_CONCAT(DISTINCT CASE WHEN length(source_ref)>2048 THEN 'truncated'
+                       ELSE audit_ref_kind(substr(source_ref,1,2048),source) END) AS ref_kinds,
+                   GROUP_CONCAT(DISTINCT CASE WHEN length(confidence)>64 THEN 'truncated'
+                       ELSE audit_conf_kind(substr(confidence,1,64)) END) AS conf_kinds
+            FROM place_timeline_events GROUP BY dila_id
+        ), flags AS (
+            SELECT pd.id AS dila_id, substr(pd.name_zh,1,128) AS name_zh,
+                   CASE WHEN COALESCE(ef.event_count,0)>0 THEN 1 ELSE 0 END AS has_any_event,
+                   COALESCE(ef.founding,0) AS has_founding_event,
+                   COALESCE(ef.dissolved,0) AS has_dissolved_event,
+                   COALESCE(ef.wikidata,0) AS has_wikidata_event,
+                   EXISTS(SELECT 1 FROM geo_cross_ref x WHERE x.dila_id=pd.id) AS has_xref,
+                   ({marker_note}) AS marker_note, ({marker_raw}) AS marker_raw_xml,
+                   CASE WHEN length(trim(COALESCE(pd.note,''),char(9)||char(10)||char(13)||' '))>0
+                        THEN 1 ELSE 0 END AS note_nonblank,
+                   COALESCE(length(pd.note),0) AS note_chars,
+                   COALESCE(length(pd.raw_xml),0) AS raw_xml_chars,
+                   COALESCE(ef.ref_kinds,'none') AS source_ref_kind,
+                   COALESCE(ef.conf_kinds,'none') AS legacy_confidence_kind
+            FROM places_dila pd LEFT JOIN event_flags ef ON ef.dila_id=pd.id
+        )
+        SELECT *, CASE
+            WHEN has_wikidata_event=1 THEN 'A1'
+            WHEN has_any_event=1 THEN 'A2'
+            WHEN has_xref=1 THEN 'C'
+            WHEN marker_note=1 OR marker_raw_xml=1 THEN 'B'
+            WHEN note_nonblank=1 THEN 'D'
+            ELSE 'E' END AS bucket
+        FROM flags ORDER BY dila_id
+    """
+    return sql, MARKERS + MARKERS
+
+
+def _nearest_rank(histogram, count, fraction):
+    if not count:
+        return 0
+    rank, cumulative = max(1, math.ceil(count * fraction)), 0
+    for length, frequency in sorted(histogram.items()):
+        cumulative += frequency
+        if cumulative >= rank:
+            return length
+    raise AuditError("Histogram không khớp số dòng.")
+
+
+def _hash_file(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(65536), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _timestamp(value):
+    if value:
+        stamp = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        if stamp.tzinfo is None:
+            raise AuditError("--timestamp phải có timezone.")
+        return stamp.isoformat()
+    return datetime.now(timezone.utc).isoformat()
+
+
+def run_audit(db_path, out_dir=None, timestamp=None, dry_run=False, command=None):
+    """Một read transaction cho summary/membership/events; output chỉ ở out_dir."""
+    if not dry_run and out_dir is None:
+        raise AuditError("Cần --out-dir rõ ràng, hoặc --dry-run để không ghi report.")
+    stamp = _timestamp(timestamp)
+    path = Path(db_path).resolve(strict=True)
+    output = Path(out_dir).resolve() if out_dir is not None else None
+    filenames = ("membership.csv", "events_audit.csv", "summary.json", "manifest.json")
+    if not dry_run:
+        for name in filenames:
+            target = output / name
+            if target == path or target.exists():
+                raise AuditError(f"Output đã có/trùng DB: {target}; không ghi đè.")
+    conn = open_readonly(path)
+    membership_stream = event_stream = None
+    try:
+        conn.execute("BEGIN")  # Read transaction; không commit/ghi dữ liệu.
+        schema = schema_snapshot(conn)
+        counts = {}
+        for table in ("places", "places_dila", "place_timeline_events", "geo_cross_ref"):
+            exists = select(conn, "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?", (table,)).fetchone()[0]
+            counts[table] = select(conn, f"SELECT COUNT(*) FROM {table}").fetchone()[0] if exists else None
+        distinct_places = select(conn, "SELECT COUNT(DISTINCT id) FROM places_dila").fetchone()[0]
+        if distinct_places != counts["places_dila"]:
+            raise AuditError("Place id không unique/khác NULL; không tạo identity tự động.")
+        sources = [dict(row) for row in iter_rows(select(
+            conn, """SELECT source, event_type, COUNT(*) AS event_count
+                     FROM place_timeline_events GROUP BY source,event_type ORDER BY source,event_type"""
+        ))]
+        if sum(row["event_count"] for row in sources) != counts["place_timeline_events"]:
+            raise AuditError("Tổng nguồn × event_type không khớp total events.")
+        baseline = dict(select(
+            conn, """SELECT COUNT(*) AS current_count,
+                     SUM(CASE WHEN length(trim(COALESCE(label_vi,'')))=0 THEN 1 ELSE 0 END) AS empty_label_vi,
+                     SUM(CASE WHEN source_ref=source THEN 1 ELSE 0 END) AS self_reference
+                     FROM place_timeline_events WHERE source='dila_founding_phase2'"""
+        ).fetchone())
+        baseline = {key: int(value or 0) for key, value in baseline.items()}
+        baseline["event_types"] = [dict(row) for row in iter_rows(select(
+            conn, """SELECT event_type,COUNT(*) AS event_count FROM place_timeline_events
+                     WHERE source='dila_founding_phase2' GROUP BY event_type ORDER BY event_type"""
+        ))]
+        coordinate_values = select(
+            conn, "SELECT COUNT(*) FROM places_dila WHERE geo_lat IS NOT NULL AND geo_long IS NOT NULL"
+        ).fetchone()[0]
+        controls = []
+        for term in CONTROL_TERMS:
+            controls.append(dict(select(
+                conn, """SELECT SUM(instr(COALESCE(note,''),?)>0) AS note_count,
+                         SUM(instr(COALESCE(raw_xml,''),?)>0) AS raw_xml_count FROM places_dila""", (term,term)
+            ).fetchone(), term=term))
+        if not dry_run:
+            output.mkdir(parents=True, exist_ok=True)
+            membership_stream = (output / "membership.csv").open("x", encoding="utf-8", newline="")
+            membership_writer = csv.DictWriter(membership_stream, fieldnames=MEMBERSHIP_FIELDS)
+            membership_writer.writeheader()
+        bucket_counts = Counter({bucket: 0 for bucket in BUCKETS})
+        flag_counts, overlaps, d_lengths = Counter(), Counter(), Counter()
+        d_chars, seen, previous = 0, 0, None
+        query, parameters = membership_query()
+        for row in iter_rows(select(conn, query, parameters)):
+            item = dict(row)
+            if item["dila_id"] == previous:
+                raise AuditError("Membership trùng id; dừng.")
+            previous, seen = item["dila_id"], seen + 1
+            bucket_counts[item["bucket"]] += 1
+            for flag in ("has_any_event", "has_founding_event", "has_dissolved_event", "has_xref",
+                         "has_wikidata_event", "marker_note", "marker_raw_xml", "note_nonblank"):
+                flag_counts[flag] += item[flag]
+            marker = bool(item["marker_note"] or item["marker_raw_xml"])
+            overlaps["any_event_and_xref"] += bool(item["has_any_event"] and item["has_xref"])
+            overlaps["any_event_and_marker"] += bool(item["has_any_event"] and marker)
+            overlaps["no_event_xref_and_marker"] += bool(not item["has_any_event"] and item["has_xref"] and marker)
+            overlaps["marker_without_founding_event"] += bool(marker and not item["has_founding_event"])
+            overlaps["any_event_without_founding"] += bool(item["has_any_event"] and not item["has_founding_event"])
+            overlaps["dissolved_without_founding"] += bool(item["has_dissolved_event"] and not item["has_founding_event"])
+            overlaps["A1_without_founding"] += bool(item["bucket"] == "A1" and not item["has_founding_event"])
+            if item["bucket"] == "D":
+                d_lengths[item["note_chars"]] += 1
+                d_chars += item["note_chars"]
+            for kind in ("source_ref_kind", "legacy_confidence_kind"):
+                item[kind] = "|".join(sorted(item[kind].split(",")))
+            if membership_stream:
+                membership_writer.writerow(item)
+        if seen != distinct_places or sum(bucket_counts.values()) != counts["places_dila"]:
+            raise AuditError("Partition tổng không khớp places_dila trong read transaction.")
+        if membership_stream:
+            membership_stream.close()
+            membership_stream = None
+        event_ref_kinds, event_conf_kinds = Counter(), Counter()
+        if not dry_run:
+            event_stream = (output / "events_audit.csv").open("x", encoding="utf-8", newline="")
+            event_writer = csv.DictWriter(event_stream, fieldnames=EVENT_FIELDS)
+            event_writer.writeheader()
+        event_seen = 0
+        for row in iter_rows(select(
+            conn, """SELECT id AS event_id,dila_id,event_type,year,year_end,source,
+                     substr(source_ref,1,2048) AS source_ref,substr(confidence,1,64) AS confidence_raw,
+                     length(COALESCE(source_ref,'')) AS source_ref_length,
+                     length(COALESCE(confidence,'')) AS confidence_length
+                     FROM place_timeline_events ORDER BY id"""
+        )):
+            item = dict(row)
+            item["source_ref_truncated"] = int(item.pop("source_ref_length") > 2048)
+            item["confidence_truncated"] = int(item.pop("confidence_length") > 64)
+            item["source_ref_kind"] = "truncated" if item["source_ref_truncated"] else source_ref_kind(item["source_ref"], item["source"])
+            item["legacy_confidence_kind"] = "truncated" if item["confidence_truncated"] else confidence_kind(item["confidence_raw"])
+            item["confidence_score"] = None if item["confidence_truncated"] else confidence_score(item["confidence_raw"])
+            item["historical_baseline_source"] = int(item["source"] == "dila_founding_phase2")
+            event_ref_kinds[item["source_ref_kind"]] += 1
+            event_conf_kinds[item["legacy_confidence_kind"]] += 1
+            event_seen += 1
+            if event_stream:
+                event_writer.writerow(item)
+        if event_stream:
+            event_stream.close()
+            event_stream = None
+        if event_seen != counts["place_timeline_events"] or conn.total_changes != 0:
+            raise AuditError("Event total/0-write contract không đạt.")
+        query_only = select(conn, "SELECT query_only FROM pragma_query_only").fetchone()[0]
+        tokens = math.ceil(d_chars / 1.6)
+        summary = {
+            "task": "T356", "definition_version": DEFINITION_VERSION,
+            "timestamp": stamp, "label": "current_read_transaction",
+            "command": command or list(sys.argv), "database_path": str(path),
+            "script_sha256": _hash_file(__file__), "sqlite_version": sqlite3.sqlite_version,
+            "schema_snapshot": schema, "database_counts": counts,
+            "membership_count": seen, "bucket_counts": dict(bucket_counts),
+            "flags": dict(flag_counts), "overlaps": dict(overlaps),
+            "sources_by_event_type": sources,
+            "source_event_total": sum(row["event_count"] for row in sources),
+            "event_source_ref_kinds": dict(event_ref_kinds),
+            "event_legacy_confidence_kinds": dict(event_conf_kinds),
+            "coordinate_values_from_places_dila": coordinate_values,
+            "baseline_55": {"historical_count": 55, "source": "dila_founding_phase2", **baseline,
+                            "excluded_from_totals": False},
+            "D_text": {"characters": d_chars, "median_nearest_rank": _nearest_rank(d_lengths, bucket_counts["D"], .5),
+                       "p90_nearest_rank": _nearest_rank(d_lengths, bucket_counts["D"], .9),
+                       "max": max(d_lengths, default=0), "estimated_tokens": tokens,
+                       "assumed_chars_per_token": 1.6, "estimated_8000_token_batches": math.ceil(tokens/8000),
+                       "note": "Heuristic để audit; không phải giá/API/context budget hoặc quyền chạy NLP."},
+            "controls": controls, "historical_reference": HISTORICAL,
+            "definition": {"precedence": list(BUCKETS), "markers": list(MARKERS),
+                           "A1": "any event source exactly wikidata/wikidata_p571; not accepted/founding proof",
+                           "A2": "any other event; not automatically an inference",
+                           "C": "xref present, no event; not verified identity",
+                           "B": "marker candidate in note or raw_xml, no event/xref; not a date",
+                           "D": "nonblank note, no earlier predicate; not automatically NLP backlog",
+                           "E": "none of those predicates; source limit, not empty identity/coordinates",
+                           "XML": "marker detection only, namespace-prefix agnostic; no XML parsed",
+                           "bounded_fields": {"name_zh": 128, "source_ref": 2048, "confidence_raw": 64},
+                           "identity": "QID syntax/name/coordinates do not auto-accept identity or lineage"},
+            "read_only_proof": {"uri_mode": "ro", "query_only": query_only,
+                                "total_changes": conn.total_changes, "authorizer": "SELECT/read metadata only",
+                                "single_read_transaction": conn.in_transaction, "batch_size": BATCH_SIZE},
+            "dry_run": bool(dry_run),
+        }
+        if not dry_run:
+            with (output / "summary.json").open("x", encoding="utf-8") as stream:
+                json.dump(summary, stream, ensure_ascii=False, indent=2, sort_keys=True)
+                stream.write("\n")
+            manifest = {
+                "task": "T356", "definition_version": DEFINITION_VERSION, "timestamp": stamp,
+                "status": "audit_complete", "schema_sha256": schema["sha256"],
+                "script_sha256": summary["script_sha256"],
+                "files": [{"path": name, "sha256": _hash_file(output/name), "bytes": (output/name).stat().st_size}
+                          for name in filenames if name != "manifest.json"],
+                "note": "Manifest không tự hash chính nó; không hash file DB có WAL thay cho logical snapshot.",
+            }
+            with (output / "manifest.json").open("x", encoding="utf-8") as stream:
+                json.dump(manifest, stream, ensure_ascii=False, indent=2, sort_keys=True)
+                stream.write("\n")
+        return summary
+    finally:
+        if membership_stream:
+            membership_stream.close()
+        if event_stream:
+            event_stream.close()
+        conn.close()  # Đóng read transaction; không commit.
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="T356: audit T224 chỉ đọc DB, xuất JSON/CSV dẫn xuất.")
+    parser.add_argument("--db-path", default=str(Path(__file__).resolve().parents[1] / "data/lineage.db"))
+    parser.add_argument("--out-dir", help="Thư mục output rõ ràng; không ghi đè report đã có.")
+    parser.add_argument("--timestamp", help="ISO 8601 có timezone; mặc định UTC hiện hành.")
+    parser.add_argument("--dry-run", action="store_true", help="Chỉ audit/stdout; không tạo file output.")
+    args = parser.parse_args(argv)
+    try:
+        report = run_audit(args.db_path, args.out_dir, args.timestamp, args.dry_run,
+                           [sys.executable, str(Path(__file__).resolve())] + (list(argv) if argv is not None else sys.argv[1:]))
+    except (AuditError, OSError, sqlite3.Error, ValueError) as error:
+        print(f"[FAIL] Audit T356 dừng an toàn: {error}", file=sys.stderr)
+        return 1
+    print(json.dumps({
+        "task": "T356", "definition_version": report["definition_version"], "timestamp": report["timestamp"],
+        "status": "READ_ONLY_AUDIT_PASS", "dry_run": report["dry_run"],
+        "database_counts": report["database_counts"], "bucket_counts": report["bucket_counts"],
+        "flags": report["flags"], "baseline_55": report["baseline_55"],
+        "read_only_proof": report["read_only_proof"], "schema_sha256": report["schema_snapshot"]["sha256"],
+        "output_directory": str(Path(args.out_dir).resolve()) if args.out_dir and not args.dry_run else None,
+    }, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

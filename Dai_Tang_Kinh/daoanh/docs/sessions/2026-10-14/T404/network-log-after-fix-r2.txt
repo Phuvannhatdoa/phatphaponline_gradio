@@ -1,0 +1,26 @@
+T404 vòng 2 — Network log sau khi sửa 3 lỗi QA nêu (Browser pane thật, route
+http://127.0.0.1:8080/daoanh/places?mode=lineage&focus=A032162&lm=tree)
+
+=== Case 1: gõ "Lâm Tế" rồi Enter ngay ===
+- Sau Enter: /daoanh/api/places/search?q=Lâm%20Tế&limit=20 và /daoanh/api/monk-resolve?name=Lâm%20Tế
+  được gọi (đây là tìm kiếm ĐẦY ĐỦ do doSearch() chạy khi Enter — đúng theo đặc tả, không phải lỗi).
+- Chờ thêm 8 giây sau Enter: đọc DOM — #autocompleteList.style.display = "none", 0 <li>, ô
+  search vẫn giữ giá trị "Lâm Tế Tông" (kết quả doSearch gán, không bị dropdown mở lại đè lên).
+  => cancelAutocomplete() tại Enter đã huỷ đúng các request autocomplete đang chờ; phản hồi đến
+  muộn (nếu có) không còn mở lại dropdown.
+- Ảnh: after-r2-enter-no-reopen.jpg
+
+=== Case 2: gõ "Thiếu L" ===
+- Request: GET /daoanh/api/public/autocomplete?q=Thi%E1%BA%BFu%20L → 200 OK
+  Response gốc (8 mục): 2x PL000000023255 "Thiếu Lâm Tự" (TRÙNG), PL000000052728 "Thiếu Lâm Cung",
+  4 mục source=marcus (A026980, A027324, A027579, A027584 — đều là NGƯỜI), 1 mục lexicon id=null
+  "- Nghi: Nghi ngờ chá" (không chứa chuỗi "Thiếu L").
+- Dropdown sau khi lọc trong places.html chỉ còn 3 mục:
+  1. "👤 Cố Thiếu Liên" (tăng nhân, từ /monk-resolve, chứa "Thiếu L")
+  2. "Thiếu Lâm Tự" PL000000023255 (1 lần duy nhất — hết trùng)
+  3. "Thiếu Lâm Cung" PL000000052728
+  => Không còn mục source=marcus bị gán nhãn địa danh, không còn mục lexicon rác, không còn trùng id.
+- Ảnh: after-r2-thieu-l-no-garbage.jpg
+
+Kết luận: cả 3 lỗi QA nêu (phản hồi muộn mở lại dropdown; marcus bị coi là địa danh; rác/trùng)
+đã được kiểm chứng bằng chứng thật trên Browser pane — không dùng JS inject để giả lập kết quả.

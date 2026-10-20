@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Check — Nguồn Dữ Liệu (T78)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Serif+TC:wght@500;600&display=swap');
+:root{
+  --primary:#d97706; --primary-hover:#b45309; --bg-page:#020617; --bg-card:#0f172a;
+  --text-main:#f8fafc; --text-muted:#94a3b8; --border:#334155; --info:#3b82f6;
+  --success:#10b981; --error:#ef4444; --warning:#f59e0b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg-page);color:var(--text-main);padding:28px;min-height:100vh}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.top h1{font-family:'Noto Serif TC',serif;font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.top h1 i{color:var(--primary)}
+.top a{color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:600}
+.top a:hover{color:var(--primary)}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:22px;max-width:820px;margin:0 auto}
+.card h2{font-size:16px;font-weight:700;margin-bottom:6px;font-family:'Noto Serif TC',serif}
+.card .sub{color:var(--text-muted);font-size:12px;margin-bottom:18px;line-height:1.6}
+label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+input{width:100%;padding:12px 14px;border-radius:8px;border:1px solid var(--border);background:#020617;color:var(--text-main);font-size:14px;outline:none}
+input:focus{border-color:var(--primary)}
+.btns{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+button{cursor:pointer;border:none;border-radius:8px;padding:12px 20px;font-weight:700;font-size:14px;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+.btn-green{background:var(--success);color:#022c22}
+.btn-green:hover{background:#059669}
+.spinner{display:none;margin-top:18px;color:var(--text-muted);font-size:13px}
+.spinner i{animation:spin 1s linear infinite;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.report{display:none;margin-top:22px}
+.section{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;background:#0b1220}
+.section h3{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section h3 i{color:var(--info)}
+.sec-a h3 i{color:var(--info)}
+.sec-b h3 i{color:var(--warning)}
+.sec-c h3 i{color:var(--success)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--text-muted);font-weight:600;padding:7px 8px;text-transform:uppercase;font-size:11px}
+td{padding:7px 8px;border-top:1px solid #1e293b;vertical-align:top}
+.pass{color:var(--success);font-weight:700}
+.warn{color:var(--warning);font-weight:700}
+.fail{color:var(--error);font-weight:700}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}
+.badge.ref{background:rgba(245,158,11,.15);color:var(--warning)}
+.badge.ing{background:rgba(16,185,129,.15);color:var(--success)}
+.badge.blk{background:rgba(239,68,68,.15);color:var(--error)}
+.badge.aud{background:rgba(59,130,246,.15);color:var(--info)}
+.recommend{background:#0b1220;border-left:4px solid var(--warning);padding:14px 16px;border-radius:8px;font-size:13px;line-height:1.7;margin-top:14px}
+.notes-box{background:#0b1220;border:1px solid var(--border);border-radius:8px;padding:12px;font-size:13px}
+.notes-box ul{list-style:none}
+.notes-box li{padding:5px 0;border-bottom:1px dashed #1e293b;color:var(--text-main);line-height:1.6}
+.notes-box li:last-child{border:none}
+.mono{font-family:'Consolas',monospace;font-size:12px;color:var(--text-muted);word-break:break-all}
+.hidden{display:none}
+.verdict{font-size:14px;font-weight:800;padding:6px 12px;border-radius:8px;display:inline-block;margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1><i class="fa-solid fa-scale-balanced"></i> Legal Check — Nguồn Dữ Liệu Mới</h1>
+  <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Về Dashboard</a>
+</div>
+
+<div class="card">
+  <h2>Kiểm tra &amp; Thêm nguồn dữ liệu</h2>
+  <div class="sub">
+    Hệ thống sẽ tự truy vấn repo <b>public</b> (GitHub, không cần token), đọc LICENSE/README,
+    đối chiếu với quy tắc pháp lý (software ≠ corpus, public ≠ free, reference ≠ copy) và
+    báo kết quả + <b>cách tích hợp</b>. Admin xem rồi bấm <b>Xác nhận thêm</b>.
+    <br><br>Trạng thái mặc định khi thêm: <span class="badge aud">AUDITING</span> — <b>không tự ACTIVE</b>; admin tự bật ACTIVE sau khi xác minh.
+  </div>
+
+  <label>👤 Nguồn tên</label>
+  <input id="name" placeholder="VD: FoJin 佛典" autocomplete="off">
+
+  <label>🔗 Repo URL (public)</label>
+  <input id="repo" placeholder="VD: https://github.com/owner/repo" autocomplete="off">
+
+  <div class="btns">
+    <button class="btn-primary" onclick="doCheck()"><i class="fa-solid fa-magnifying-glass"></i> CHECK &amp; REPORT</button>
+    <button class="btn-ghost" onclick="resetAll()"><i class="fa-solid fa-rotate-left"></i> Hủy</button>
+  </div>
+
+  <div class="spinner" id="spinner"><i class="fa-solid fa-circle-notch"></i> Đang phân tích repo...</div>
+
+  <div class="report" id="report"></div>
+</div>
+
+<script>
+const API='/daoanh/api/admin/source-check';
+const API_ADD='/daoanh/api/admin/source-add';
+let lastReport=null;
+
+function $(id){return document.getElementById(id);}
+function resetAll(){
+  lastReport=null;
+  $('report').innerHTML='';$('report').style.display='none';
+  $('spinner').style.display='none';
+  $('name').value='';$('repo').value='';
+}
+
+async function doCheck(){
+  const name=$('name').value.trim(),repo=$('repo').value.trim();
+  if(!name||!repo){alert('Vui lòng nhập Tên nguồn và Repo URL');return;}
+  $('spinner').style.display='block';
+  $('report').style.display='none';
+  try{
+    const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,repo_url:repo})});
+    const j=await res.json();
+    $('spinner').style.display='none';
+    if(!j.success){alert('Lỗi: '+(j.error||'unknown'));return;}
+    const rep=j.report;
+    if(!rep.valid){$('report').style.display='block';$('report').innerHTML='<div class="section"><h3><i class="fa-solid fa-triangle-exclamation"></i>Không thể phân tích</h3><div style="font-size:13px">'+escapeHtml(rep.reason||'')+'</div></div>';return;}
+    lastReport=rep;
+    render(rep);
+  }catch(e){$('spinner').style.display='none';alert('Lỗi kết nối: '+e);}
+}
+
+function badge(mode){
+  if(mode==='INGEST')return '<span class="badge ing">INGEST</span>';
+  if(mode==='REFERENCE_ONLY')return '<span class="badge ref">REFERENCE_ONLY (nội bộ)</span>';
+  return '<span class="badge blk">BLOCKED</span>';
+}
+
+function render(rep){
+  const f=rep.findings||[];
+  const rows=f.map(x=>'<tr><td>'+escapeHtml(x.category)+'</td><td class="'+(x.status==='PASS'?'pass':'warn')+'">'+(x.status==='PASS'?'PASS':'WARN')+'</td><td>'+escapeHtml(x.detail)+'</td></tr>').join('');
+  $('report').innerHTML=
+  '<div class="section sec-a"><h3><i class="fa-solid fa-shield-halved"></i> A. Đánh giá phù hợp (License / Rule)</h3>'+
+    '<table><tr><th>Hạng mục</th><th>Trạng thái</th><th>Chi tiết</th></tr>'+rows+'</table>'+
+    '<div style="margin-top:12px"><b>Software:</b> <span class="mono">'+escapeHtml(rep.software_license||'UNKNOWN')+'</span> &nbsp;·&nbsp; <b>Corpus:</b> <span class="mono">'+escapeHtml(rep.corpus_license_status||'UNKNOWN')+'</span></div>'+
+  '</div>'+
+  '<div class="section sec-b"><h3><i class="fa-solid fa-gavel"></i> B. Kết luận pháp lý</h3>'+
+    '<div><span class="verdict" style="color:var(--warning)">'+escapeHtml(rep.integration_mode||'REFERENCE_ONLY')+'</span> '+badge(rep.integration_mode)+'</div>'+
+    '<div style="font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.7">'+
+    (rep.corpus_operation?('Ingest vào Canonical: <b class="fail">CHƯA</b> · Redistribute: <b class="fail">CHƯA</b> · Commercial: <b class="fail">CHƯA</b>') : '')+'</div>'+
+    '<div class="recommend">'+escapeHtml(rep.recommendation||'')+'</div>'+
+  '</div>'+
+  '<div class="section sec-c"><h3><i class="fa-solid fa-clipboard-list"></i> C. Notes tích hợp đề nghị</h3>'+
+    '<div class="notes-box"><ul>'+(rep.notes||[]).map(n=>'<li>'+escapeHtml(n)+'</li>').join('')+'</ul></div>'+
+    '<div style="margin-top:12px;font-size:12px;color:var(--text-muted)">Provenance · <span class="mono">'+escapeHtml((rep.provenance_draft&&rep.provenance_draft.commit_sha)||'chưa lấy sha')+'</span> · '+escapeHtml(rep.checked_at||'')+'</div>'+
+  '</div>'+
+  '<div class="btns">'+
+    '<button class="btn-green" onclick="confirmAdd()"><i class="fa-solid fa-check"></i> XÁC NHẬN THÊM VÀO HỆ THỐNG</button>'+
+    '<button class="btn-ghost" onclick="resetAll()"><i class="fa-solid fa-xmark"></i> Hủy</button>'+
+  '</div>';
+}
+
+async function confirmAdd(){
+  if(!lastReport)return;
+  const name=$('name').value.trim(),repo=$('repo').value.trim();
+  const body={name:name,repo_url:repo,source_code:null,integration_mode:lastReport.integration_mode,notes:lastReport.notes,editor:'admin'};
+  try{
+    const res=await fetch(API_ADD,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const j=await res.json();
+    if(!j.success){alert('Lỗi thêm: '+(j.error||'unknown'));return;}
+    alert('✅ Đã thêm source "'+name+'" (legal_status=AUDITING, integration_mode='+j.integration_mode+').\nBạn có thể bật ACTIVE sau khi xác minh license.');
+    resetAll();
+  }catch(e){alert('Lỗi kết nối: '+e);}
+}
+
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+</script>
+</body>
+</html>

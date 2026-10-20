@@ -1,0 +1,28 @@
+DASHBOARD UPDATE — 2026-10-15
+==============================
+
+Thay doi can dong bo vao dashboard (dashboard_process.html / progress_data.json):
+
+1. T381 — Build 3-Source Dharma Lineage with Y-Fork Rendering (TTL + Marcus + DILA)
+   - Status: in_progress -> DONE
+   - Outcome: Inserted 393/399 TTL-only edges. 6 self-loops removed by QA round 2
+     (root cause: vn_person_authority 1:N mappings). T415 will audit mapping ambiguities.
+   - Task file: tasks/T381-build-dharma-lineage-3sources.md
+   - Log: docs/sessions/2026-10-14/T381_EXECUTION_LOG.md (muc "Final note (2026-10-15)")
+
+2. T415 — Audit vn_person_authority — fix DILA ID mapping (1:N slugs)
+   - Status: PENDING (moi tao, phat sinh tu T381 QA round 2)
+   - Dispatch: chua giao (Admin se set)
+   - Depends_on: T381 (done)
+   - Task file: tasks/T415-audit-vn-person-authority-crosswalk.md
+
+3. docs/tasktodo.md
+   - Them block <!-- T381:START/END --> (DONE) va <!-- T415:START/END --> (PENDING)
+     o cuoi file, sau block T414.
+
+Buoc dong bo tiep theo (theo quy uoc CLAUDE.md):
+   python scripts/build_progress_data.py
+   -> ghi lai daoanh/data/progress_data.json tu tasks/*.md moi nhat (T381 done, T415 pending).
+
+Khong co thay doi schema DB / API / UI o lan cap nhat docs nay — chi cap nhat trang thai
+task va tai lieu dieu phoi.

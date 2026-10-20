@@ -1,0 +1,15 @@
+@prefix pth: <http://www.phatphaponline.org/ontology/buddhist-kg#> .
+@prefix dila: <https://authority.dila.edu.tw/person/search.php?aid=> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+# CANDIDATE ONLY: chưa chứng minh Tuyết Giàu Chơn Phác = 雪槱真樸.
+# Không đưa file này vào data/ttl hay chạy import/sync.
+<urn:daoanh:draft:dila:A000960> a pth:Monk ;
+    rdfs:label "雪槱真樸"@zh-Hant ;
+    rdfs:label "Chân Phác, hiệu Tuyết Dữu (bản đọc Hán Việt đề xuất)"@vi ;
+    owl:sameAs dila:A000960 ;
+    dct:source dila:A000960 ;
+    pth:hasTeacher dila:A001513 ;
+    pth:biographicalNote "Chân Phác, hiệu 雪槱, họ Từ, người Chương Châu, pháp tự của Mộc Trần Đạo Mẫn. Niên đại sinh và mất chưa rõ. Tóm tắt từ DILA; tên Việt cần duyệt."@vi .
+# Không thêm số đời, quan hệ Đại Xá, hoặc owl:sameAs tới URI Tuyết Giàu.

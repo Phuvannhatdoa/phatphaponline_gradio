@@ -1,0 +1,144 @@
+# Đề xuất thống nhất định danh, chứng cứ và TTL cho Phật Tổ Đạo Ảnh
+
+Ngày: 2026-10-09. Trạng thái: **đề xuất, chưa triển khai hoặc apply DB**. Tiếp nối review T202; tận dụng T166/T201, T223, T226/T227, T230/T231, T232/T233, T256/T257, T259/T262. Không cấp ID task mới trong bản đề xuất này.
+
+## 1. Quyết định kiến trúc
+
+Tôi đề xuất một luồng thống nhất: **nguồn bất biến → nhận định có chứng cứ → quyết định theo từng trường → view dùng chung → API/cây/TTL**. Giữ Flask, SQLite, profile TTL v2 và các module đang có; bổ sung phần hợp đồng thiếu theo từng bước. Đây là lựa chọn tối ưu theo các ràng buộc hiện có: giảm viết lại, giảm lượt LLM, giữ lịch sử và có thể hoàn tác. Không tuyên bố là một chuẩn Phật giáo quốc tế đã được cộng đồng phê chuẩn.
+
+DB là nơi quản lý nguồn, revision và quyết định. TTL v2 là bản xuất tái sử dụng của hồ sơ đó. TTL Việt dịch cũ vẫn là nguồn tham chiếu nguyên bản, không được âm thầm thay XML DILA hoặc trở thành thẩm quyền cho toàn bộ dữ kiện.
+
+## 2. Nguyên tắc không nới
+
+- DILA là authority định danh chính trong phạm vi Hán truyền; mỗi ID phải đối chiếu chính record/tên hoặc alias Hán có phiên bản. Khớp tên là điều kiện kiểm tra, không đủ loại trừ đồng danh. Không suy ID từ tên Việt, filename, suffix hoặc duy nhất tên thầy.
+- CBETA cung cấp văn bản/định vị; Marcus cung cấp dữ liệu mạng và loại cạnh gốc. Chọn nguồn theo trường, không xếp một bảng thứ tự nguồn luôn đúng cho mọi thông tin.
+- Person có ID/URI nội bộ bền vững. Người chưa có DILA hoặc đã xác nhận khác một DILA record vẫn tồn tại và điều hướng được. Đổi tên không đổi URI; URI legacy giữ crosswalk để truy nguyên.
+- Thiếu dữ liệu giữ chưa xác định; không mặc định Nam, false khai tổ, ngày chính xác hoặc số đời.
+- AI đưa đề nghị/trích chứng cứ/phiên âm; accepted chỉ qua quyết định biên tập có kiểm chứng. Không biến điểm similarity hoặc status nguồn thành bằng chứng nhân thân.
+- Không API trả phí; dùng luồng Codex session đã có theo hạn mức, dừng khi hết quota, không fallback sang paid API.
+- Raw XML/TTL giữ bytes/hash, unknown triples và nguyên văn; xử lý từng record/file bằng iterator, truy vấn theo index, không nạp cả corpus vào RAM.
+- Tôn trọng session Admin, các gate hiện hữu, audit và quyền dữ liệu. Điều được phép ingest nội bộ không mặc nhiên được công bố lại.
+
+## 3. Tận dụng cấu trúc đã có
+
+| Thành phần | Cách tiếp nối |
+|---|---|
+| entity_hub / entity_claims | Tái sử dụng thực thể và evidence API; kiểm schema/key trước, không tạo kho người song song |
+| SourceRecord/Assertion v2 T226 | Dùng nguyên các trạng thái draft/source_asserted/accepted/disputed/rejected/legacy_unverified |
+| Kho nguồn và exporter DB→TTL T227 | Bảo toàn XML/TTL; xuất theo revision và provenance đã chọn |
+| Canonical lock T166/T201 | Sửa loại thực thể, validator và kiểm lỗi schema; tiếp tục hard guard identity |
+| T256/T257 | Giữ thao tác Pass/từ chối; bổ sung quyết định có phạm vi rõ, bỏ dùng dấu — làm quyết định chung cho mọi cặp về lâu dài |
+| T223 | Refresh các nhóm trùng từ snapshot hiện tại và tạo hồ sơ đối chiếu từng cặp |
+| T232 | Giữ engine đa hệ; siết đầu vào mapping/cạnh/mốc và bảo toàn kết quả dự kiến |
+| T233 | Cột Codex chỉ tham khảo; cache/resume theo record hash, giữ revision và provenance |
+| T259/T262 | Dùng panel chứng cứ/citation sẵn có để Admin review; không làm dashboard nguồn thứ hai |
+| T230/T231 | Registry artifact/version/license và gate quyền; nguồn mới qua adapter cùng hợp đồng |
+
+Nếu thiếu chỗ lưu quyết định typed, chỉ thêm bảng/revision cần thiết sau khi kiểm schema thực tế. Không mặc định tạo lại toàn bộ Person/Source/Assertion vốn đã có.
+
+## 4. Duyệt theo từng trường — thay đổi quan trọng nhất
+
+Tách ít nhất các quyết định sau:
+
+| Quyết định | Phạm vi khóa | Duyệt không có nghĩa |
+|---|---|---|
+| Cùng nhân vật | local entity + authority scheme/ID + source record revision | Các quan hệ và ngày tháng đều đúng |
+| Tên Việt ưu tiên | entity + type + vi + name assertion revision | Đã duyệt identity/tiểu sử/đời |
+| Việt dịch tiểu sử | nguyên văn source hash + bản dịch revision | Đã xác minh mọi nhận định lịch sử trong bản dịch |
+| Truyền pháp | thầy + trò + loại cạnh + nguồn/định vị | Mọi quan hệ teacher đều là truyền pháp |
+| Số đời | person + hệ đếm/version + mốc/path/revision | Số trong các hệ khác hoặc legacy đã được sửa |
+
+Trong code hiện đọc app.py6157–6186, gate tên còn trả kèm generation_order/dharma_lineage/biographical_note_vi và nhãn verified_direct. Đề xuất bỏ việc suy trạng thái chung từ duyệt tên; mỗi trường trả value/status/source/revision riêng. Giao diện vẫn có thể hiển thị dữ liệu nguồn chưa duyệt nhưng phải ghi đúng trạng thái.
+
+Một quyết định mapping phải chỉ rõ cặp local-person/DILA-ID; một row duyệt theo dila_id không được bật mọi TTL row cùng ID. Khi source hoặc object thay đổi, chỉ phần bị ảnh hưởng vào hàng đợi review; quyết định cũ vẫn lưu gắn snapshot cũ, không tự chuyển sang nội dung mới.
+
+## 5. Quyết định không cùng người phải được thực thi
+
+Lưu rejection theo **cặp thực thể cụ thể**, kèm lý do, chứng cứ/ngày/người duyệt/revision. Ví dụ đã chốt A000662 khác Minh Hải Pháp Bảo Chúc Thánh: resolver, đề xuất mapping, form, exporter và engine số đời đều phải đọc cùng quyết định này. Có thể vẫn truy cập hồ sơ DILA A000662 và hồ sơ local Minh Hải riêng.
+
+Dấu — ở UI hiện tại được giữ qua adapter tương thích; không tự đoán nó từ chối row nào nếu lịch sử thiếu local ID. Các rejection legacy thiếu phạm vi phải được hiển thị cần review và giữ chặn theo chính sách cũ đến khi làm rõ. Không biến một rejection mơ hồ thành hàng loạt owl:differentFrom.
+
+Cùng tên/khác chùa/chung ID local chỉ tạo ứng viên, không tạo accepted same-person/different-person. Hồ sơ minh chứng phải có tên/alias Hán, source XML/edition, bối cảnh/niên đại/hành trạng/quan hệ khi có và mapping ETL. Ba website chép cùng một nguồn không là ba chứng cứ độc lập.
+
+## 6. Resolver dùng chung cho mọi đầu ra
+
+Xây hoặc hợp nhất một service đọc view theo entity_key + policy_version + revision. Search, person, tree, namevimap, form TTL, canonical lock và export dùng cùng service hoặc cùng policy kernel. Mỗi endpoint có thể render khác nhưng không tự chọn một row bằng LIMIT1 thiếu thứ tự hoặc MAX(name)/MAX(status) độc lập.
+
+Thứ tự tên đề xuất: tên Việt được duyệt cho đúng thực thể/revision; sau đó tên phiên âm đã có và hợp lệ ghi nguồn/chưa biên tập; cuối cùng tên Hán gốc + ID. TTL chỉ được ưu tiên nếu mapping đúng cặp và tên được duyệt. Codex chưa duyệt giữ cột tham khảo, không tự đè canonical. Status-rank T200 chỉ là fallback trong tập row đã đủ điều kiện; nếu ứng viên chưa được kiểm identity thì không dùng rank để hợp thức hóa người thắng.
+
+Search hiển thị tên + Hán + triều đại nếu có + ID, gom theo thực thể chứ không theo name_vi. Người local điều hướng bằng local ID ổn định; NULL không đi vào startswith. Nếu nhiều preferred row mâu thuẫn, trả conflict/review thay vì âm thầm chọn một row. Hạn chế một preferred-name có hiệu lực theo entity/type/language, nhưng không UNIQUE dila_id lên bảng alias nhiều dòng.
+
+## 7. Validator và test phải kiểm đúng ngữ nghĩa
+
+- Xác định PERSON/PLACE bằng loại thực thể và bảng tồn tại thật; không gán cứng PLACE cho canonical_decision.
+- Tách Unicode/chuỗi hợp lệ với identity alignment. Chuỗi An không dấu vẫn có thể hợp lệ; chữ Hán hoặc mojibake không mặc nhiên là tên Việt. Dấu hỏi/ký tự thay thế/mẫu mất mã phải review; không xóa dấu hỏi hoặc đoán ký tự để tạo tên mới.
+- Fixture phản ánh schema thật; nguồn canonical chết phải hiện lỗi và không cho apply/lock giả. Ca cố ý thiếu bảng kiểm đúng lỗi riêng.
+- Khi sửa loại khiến lộ tên ngắn/tên đầy đủ khác nhau, xử lý bằng alias/policy được duyệt, không xóa nguồn để làm test xanh.
+
+Gold cases cần có: A001984 là PERSON; PL...314 là PLACE; ba tên hỏng đã probe; An; đồng danh khác triều; tên khác chùa nhưng cùng người có chứng cứ; A008471/TTL Trí Minh chưa quyết; A000662 negative mapping; nhiều TTL cùng ID; NULL/empty local identity; preferred duplicate; approve-name không approve-generation; source revision stale; nhiều loại teacher; self/cycle; đa đường ra số khác nhau; outbound OFF không network; export/import giữ nguyên text và hash.
+
+## 8. Quy tắc số đời phù hợp yêu cầu Admin
+
+Giữ engine T232, dùng hệ đếm có root/first-number/convention/version và mốc sử liệu. Mốc hoặc sửa số đời phải có tối thiểu ba gốc chứng cứ độc lập theo contract đã chốt, rationale và người/ngày duyệt; ba dữ liệu chép lại từ một nguồn không được đếm ba lần. Kiểm mốc đúng person trước khi tính. Đồng môn chỉ bổ trợ nếu chính quan hệ và hệ đếm đã xác minh, không thay thế đường truyền.
+
+Với cạnh **truyền pháp trực tiếp** được duyệt và cùng hệ: g(trò)=g(thầy)+1. Quan hệ teacher chung của DILA không tự nâng thành truyền pháp; bản nguồn giữ nguyên và chỉ dùng chế độ dự kiến có nhãn. Các hệ Thiền Tông/Lâm Tế/Dương Kỳ/Chúc Thánh/Tào Động/Vân Môn/Pháp Nhãn/Quy Ngưỡng cấu hình riêng, không cộng offset chung hoặc suy từ năm2026.
+
+Duyệt đồ thị với memoization/cache có giới hạn; không chọn thầy đầu tiên, đường ngắn nhất hoặc số nhỏ nhất để giấu xung đột. Đứt đường, mốc chưa xác nhận, cycle, ID sai hoặc nhiều đường cho số khác nhau phải dừng kết luận và trả nguyên nhân/path. Kết quả suy dẫn lưu riêng, luôn có algorithm/version/path/evidence/revision/status. Không UPDATE generationOrder TTL cũ/person_gen_computed. Muốn sửa số cũ phải có hồ sơ riêng chứng minh số cũ sai và số mới đúng theo yêu cầu ba chứng cứ.
+
+## 9. Luồng LLM và chi phí
+
+Đề xuất chế độ mặc định local-only cho các luồng thuộc đợt nâng cấp này. Nối gate vào điểm gửi request chung; P8 gate chỉ điều khiển entity alignment. Không kích hoạt/chuyển provider dịch đang dùng khi chưa có quyết định triển khai cụ thể. Mọi sửa gate phải kiểm toàn bộ caller có network, không chỉ tên hàm _t73_call_gemini.
+
+Tên Codex dùng runner T233 hiện có theo chính sách subscription-only. Kết quả nhập vào bảng riêng, kiểm JSON/schema, đối chiếu request ID/Hán/hash và lưu provenance; candidate không tự accepted. Cache theo source_record_hash + field + model/prompt/policy version; chỉ chạy mới cho record đổi hoặc ca cần review. Batch có lock, manifest, resume/pause và dừng quota; không chạy lại full48k mỗi lần. Không diễn đạt việc dùng prompt Phật học là đã fine-tune mô hình.
+
+## 10. DB, TTL và quyền tái sử dụng
+
+Phân biệt ba đầu ra: (1) archive nội bộ giữ nguồn và mọi trạng thái; (2) bản đọc phục vụ UI có nguồn/trạng thái; (3) bản release tái sử dụng chỉ chiếu facts accepted, còn nhận định chưa duyệt nếu có xuất thì nằm trong assertion có trạng thái rõ. Nhận định suy dẫn không biến thành lịch sử chỉ vì xuất được Turtle.
+
+Dùng profile2.0 hiện hữu, namespace pth và crosswalk legacy. Ghi SourceRecord/release/record_id/locator/version/hash, trích dẫn bản Việt dịch và quyết định. PROV-O phù hợp lưu derivation/editor/activity; SHACL kiểm ràng buộc RDF, không thay xác minh sử liệu. Nguồn: [PROV-O](https://www.w3.org/TR/prov-o/), [SHACL](https://www.w3.org/TR/shacl/).
+
+Chỉ dùng owl:sameAs cho URI thực thể được xác minh; URL hồ sơ tra cứu là authorityRecord/page. OWL sameAs cho phép suy thông tin của một cá thể sang cá thể kia, nên một mapping sai lan ra toàn graph: [OWL2 Primer](https://www.w3.org/TR/owl2-primer/).
+
+Không hard-code25nguồn: adapter theo contract và registry version/license. DILA/CBETA/Marcus có thể dẫn cùng nguồn gốc, phải giữ independence key. Release ngoài dự án cần manifest/checksum/profile/shapes/citation/attribution và quyền từng artifact/bản dịch. LEGACY ingest pass-through không đủ chứng minh quyền phân phối công khai. Domain/URI resolver cần bảo đảm tồn tại lâu dài trước công bố.
+
+## 11. Roadmap triển khai tối thiểu
+
+| Bước | Công việc | Hoàn tất khi |
+|---|---|---|
+| 0 | Snapshot schema/HEAD/hash, lập gold cases, inventory consumers/gates; dùng test đã có | Biết chính xác nguồn/điểm apply/điểm outbound, không có migration trùng |
+| 1 | Sửa type, validator, fixture và báo lỗi canonical; gate theo từng field | A001984 PERSON; tên hỏng bị review; approve-name không nâng đời/bio |
+| 2 | Typed mapping/name decisions, rejection theo cặp; resolver thống nhất và adapter legacy | Tất cả đầu ra cùng ID/status; A000662 không tái ghép; NULL vẫn điều hướng |
+| 3 | Refresh T223, rà URI→nhãn→mapping; dry-run rồi apply từng trường đã chứng minh | Có hồ sơ trước/sau/guard/rollback; không xóa alias đúng hoặc người chưa rõ |
+| 4 | Nối policy local-only/outbound và cache/resume T233 | OFF không network qua mock; quota không dẫn paid fallback |
+| 5 | Nối T232 với typed mapping/cạnh/mốc, TTL export theo cùng revision | Đa hệ/path có thể kiểm lại, conflict không có số accepted giả |
+| 6 | Batch audit→stage→review→release TTL v2, kiểm quyền/attribution | Roundtrip/hash đạt, API/tree/export nhất quán, có manifest và rollback rehearsal |
+
+Bước0–2 là ưu tiên sửa nền; chỉ triển khai bước3 sau khi có quyết định đúng phạm vi. Không đánh dấu corpus DONE vì chỉ sửa31nhóm từ snapshot trước. Các task đang có được tiếp nối; nếu cần task mới phải qua guard2tầng và kiểm phiên song song trước cấpID.
+
+## 12. Cách apply và rollback
+
+Migration additive, có version; tạo snapshot SQLite online đúng cách khi server còn chạy. Mỗi batch ghi trước/sau/record hash/policy/reviewer, transaction theo lô hữu hạn. Compare-and-set giá trị/revision/hash cũ trước mutation; drift thì dừng lô đó, không ghi đè quyết định session khác. Apply riêng source/assertion/row thuộc batch, không DELETE/rebuild bảng authority.
+
+Row superseded/rejected giữ lịch sử. Rollback ưu tiên inverse có guard theo run/revision; nếu dữ liệu đã được session khác sửa thì không ép restore toàn DB đang chạy. Full snapshot chỉ dùng phục hồi có phối hợp khi cần. TTL mới stage riêng, manifest/hashes; raw TTL không sửa hoặc move trong proposal. Code rollback từ commit riêng đúng file, Git root visjs-app, không stage WIP khác. Chạy tests có ngữ nghĩa và npm.cmd run pipeline trước đề nghị review bản build; pipeline PASS không được gọi100%đúng lịch sử.
+
+## 13. Dashboard cho Admin
+
+Tận dụng panel evidence/namevimap/form hiện có. Hàng đợi cho từng cặp và trường: tên/ID/Hán/triều, nguồn/locator/version, đề nghị trước→sau, lý do và phần chưa rõ. Thao tác riêng: duyệt tên, xác nhận cùng người, không cùng người, duyệt quan hệ, duyệt mốc/số đời; không dùng một nút Pass duyệt tất cả.
+
+Đo riêng syntactic-valid, identity-reviewed, translation-reviewed, relation-reviewed, generation-reviewed, rights-reviewed. Hiển thị coverage đang thiếu; trường unresolved không tính accepted. Chỉ báo những thay đổi cần xem, một quyết định cập nhật mọi view qua revision/cache invalidation có audit. Admin không phải sửa code hoặc cộng đời tay.
+
+## 14. Kiểm chứng và giới hạn của proposal
+
+Đã đọc code gate app.py6125–6187, imports/profile states trong api_ttl_profile_v2.py và src_python/ttl_profile_v2.py, generation contract trong src_python/generation_engine_v2.py; đọc task T232/T233/T256/T257/T259/T231, tasktodo hiện tại và roadmap T226. Đã đối chiếu chuẩn W3C ở các link trên. Số31nhóm/65row là snapshot review T202 trước đó trong ngày, **không đo lại ở proposal này**.
+
+Không kiểm đủ mọi consumer/runtime/schema ở bước đề xuất; không khẳng định thành phần đề xuất đã triển khai. Không sửa app, DB, TTL, tasktodo hoặc Dashboard; không chạy lại tests/pipeline vì chỉ tạo tài liệu. Bản build cần kiểm riêng từng bước. Giải pháp có chủ ý giữ unresolved khi không đủ chứng cứ; không cam kết tất cả48kID có tên/tiểu sử/thầy/đời xác minh được.
+
+
+## 15. Nhãn tên trên giao diện
+
+ID/tên/alias Hán trích record phải ghi DILA gốc. Tên Việt do hệ thống phiên âm, Admin biên tập hoặc Codex đề xuất phải ghi đúng nguồn đó, không gọi là DILA đã cung cấp bản dịch Việt. Cột hiện mang tên DILA name_vi nên ghi Tên Việt hiện tại kèm nguồn/review, còn Hán DILA và Codex tham khảo là hai cột riêng. Tên đủ tiền tố chùa/chức danh chỉ dùng khi có chứng cứ và đúng person, không tự ép mọi tên thành bốn chữ.
+
+
+## Liên kết transport ETL 2026-10-11
+
+[T357](../../tasks/T357-vnpa-etl-safety-remediation.md) là remediation safety của nhánh production ETL former T223: atomic apply, fail-closed read-only preflight, logical rowset/provenance, dates quarantine và guarded scoped rollback. T223 ontology/29 nhóm vẫn là task khác; approval T357 không xác nhận mapping ID, teacher, số đời hay nhãn. Giữ SSOT theo nguồn/subject đã xác minh; incoming NULL không đè curate, inference không thành accepted. Phần này chỉ liên kết kế hoạch, không thực thi các phương án trong tài liệu.
