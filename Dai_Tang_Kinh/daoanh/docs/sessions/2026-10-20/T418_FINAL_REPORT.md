@@ -116,6 +116,14 @@ chứng bổ sung, Admin đăng nhập thủ công vào `admin/namevimap.html` r
 - `data/backups/T418-20261019_150455/lineage.db` — backup trước khi chạy (không commit)
 - `tasks/T418-gemini-translation-incomplete.md` — task file (status: done)
 
+## Commit
+
+SHA: `dbdaaa80ed6a8c391c9122a535702f1d07aaf050` (branch `truyen-dang-the-pho-clean`)
+Scope: `scripts/t418_import_claude_xml.py`, `scripts/ai_batch_transliterate.py`,
+`docs/sessions/2026-10-19/T418/` (orphan_ids.csv, part1_manifest.json, part2_run1_stdout.log),
+`docs/sessions/2026-10-20/T418_FINAL_REPORT.md`, `tasks/T418-gemini-translation-incomplete.md`.
+Không commit `lineage.db` / `.env`.
+
 ## Rollback (nếu cần)
 
 - Part 1: `python scripts/t418_import_claude_xml.py --revert` (`DROP TABLE codex_person_name`,
