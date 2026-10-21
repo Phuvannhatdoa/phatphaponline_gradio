@@ -780,7 +780,7 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 <!-- T439:END -->
 
 <!-- T448:START -->
-> **[2026-10-21 · T448] Kế hoạch fix tuần tự bug UI/GIS — Admin phê chuẩn scan task undone** ⏳ IN_PROGRESS (thứ tự: ① T412 BUG-037 tên node cây theo TTL full name — chỉ phần code, không ghi DB → ② T416 autocomplete áp INDEXED BY hint (A) ANALYZE trình Admin riêng → ③ T406 chỉ chạy daoanh-qa giúp session khác). Mỗi bug: backup → daoanh-debugger → daoanh-qa → Admin xác nhận → mới sang bug kế. Task: `tasks/T448-fix-bug-batch-ui-gis.md`.
+> **[2026-10-21 · T448] Kế hoạch fix tuần tự bug UI/GIS — Admin phê chuẩn scan task undone** ⏳ IN_PROGRESS (① T412 BUG-037: code có sẵn + ĐÃ KIỂM (A004980 → "Hưng Hóa Tồn Tưởng"), chờ Admin xác nhận/commit → ② T416: ✅ ĐÃ SỬA + commit `b40abd67` (INDEXED BY hint, 1.7–9.3s → 0.28–0.50s; <200ms cần index DB chờ Admin) → ③ T406: code có sẵn + đã kiểm, chờ QA/Admin). Task tool abort 2 lần → coordinator tự làm T416. Task: `tasks/T448-fix-bug-batch-ui-gis.md`.
 <!-- T448:END -->
 
 <!-- T435-T438:START -->

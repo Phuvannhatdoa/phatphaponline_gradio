@@ -51,3 +51,18 @@ Admin phê chuẩn 2026-10-21: "fix tuần tự các bug này" theo đề xuất
 Thuần git: `git revert <sha-từng-bug>`. Chi tiết từng con sẽ ghi vào
 `docs/ROLLBACK.md` khi commit. T416 nếu áp (A) ANALYZE: phải backup DB + ghi
 `docs/ROLLBACK.md` trước (ANALYZE chỉ ghi sqlite_stat1, additive, không mất data).
+
+
+## Tiến độ (2026-10-21)
+
+| Bug | Trạng thái | Ghi chú |
+|---|---|---|
+| ① T412 (BUG-037) | ✅ code có sẵn + **đã kiểm chứng** | Impl do session khác (~13:44) trong app.py/places.html, chưa commit (trộn WIP). Verify: A004980 → "Hưng Hóa Tồn Tưởng" (TTL). Report: `docs/sessions/2026-10-21/T412/T412_VERIFY_REPORT.md` |
+| ② T416 | ✅ **đã sửa (code-only) + commit `b40abd67`** | INDEXED BY hint → 1.7–9.3 s còn 0.28–0.50 s. <200 ms cần index DB (chờ Admin). Report: `docs/sessions/2026-10-21/T416/T416_REPORT.md` |
+| ③ T406 | ✅ code có sẵn + **đã kiểm** (không sửa) | Guard `Number.isFinite` trong places.html; còn QA + Admin. Note: `docs/sessions/2026-10-21/T406/T406_QA_NOTE.md` |
+
+**Chờ Admin:** (a) xác nhận DONE T412/T406 (file trộn WIP session khác → quyết định commit);
+(b) duyệt thêm index DB cho T416 để đạt <200 ms.
+
+**Ghi chú điều phối:** Task tool giao `daoanh-debugger` bị abort 2 lần → coordinator tự làm T416
+(việc nhỏ, code-only) theo HARNESS_WORKFLOW.md.

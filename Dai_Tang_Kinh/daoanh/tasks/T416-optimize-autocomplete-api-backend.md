@@ -1,7 +1,7 @@
 ---
 id: T416
 title: "Tối ưu backend API `/autocomplete` (giảm 1–9 s → <500 ms)"
-status: pending
+status: in_progress
 created: 2026-10-19
 updated: 2026-10-19
 owner: ""
@@ -65,3 +65,16 @@ Tham chiếu: `tasks/T404-places-search-autocomplete-jank.md` mục "Phát hiệ
 - [ ] Kiểm lại luồng gõ-gợi ý T404 trên trình duyệt thật (nhiều case)
 - [ ] daoanh-qa kiểm độc lập
 - [ ] Admin xác nhận DONE
+
+
+## Outcome (2026-10-21)
+
+- **Đã áp đề xuất (B)** — `INDEXED BY idx_places_pending_name_zh` trong route
+  `/daoanh/api/public/autocomplete` (app.py), có helper `_t416_pending_index_hint()`
+  kiểm index tồn tại (an toàn trên VPS). Code-only, KHÔNG ghi DB.
+- **Đo lại:** `'Thiếu L'` 1695–9338 ms → **278–347 ms**; `'Nghĩa Huyền'` 1545–1948 ms →
+  **305–496 ms**; các chuỗi khác giữ nguyên tốc độ; số kết quả không đổi.
+- **Commit:** `b40abd67` (chỉ phần T416, blob dựng từ HEAD — không sweep WIP session khác).
+- **Còn lại:** mốc <200 ms cần thêm index `namevi_map_places.name_vi` / `lexicon.term`
+  (**DB write → cần Admin duyệt**) hoặc FTS5. QA + Admin xác nhận.
+- Report: `docs/sessions/2026-10-21/T416/T416_REPORT.md`.
