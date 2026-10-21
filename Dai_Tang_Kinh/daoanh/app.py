@@ -6348,6 +6348,120 @@ def _t86_resolve_display_name(conn, person_id: str, node: dict | None = None) ->
     }
 
 
+# ── T412 (BUG-037, 2026-10-21): nhãn nút cây Pháp hệ = tên đầy đủ theo TTL ──────────
+# Thứ tự ưu tiên tên hiển thị trên cây (lineage-tree / ancestor-spine / ancestor-path):
+#   (a) rdfs:label@vi của file TTL nối với DILA ID (đọc data/ttl/, CHỈ ĐỌC, index build 1 lần/process)
+#   (b) không có TTL → giữ tên phiên âm DILA/Marcus hiện có (không đổi).
+# KHÔNG dùng vn_person_authority.name_vi làm tên đầy đủ (tên ngắn / gạch dưới).
+# DILA ID nối >=2 file TTL KHÁC TÊN (không alias) → KHÔNG đoán: dùng tên DILA + ttl_conflict
+# (tooltip "nhiều hồ sơ TTL, chờ Admin chốt"). Liệt kê trong report, không ghi DB.
+import threading as _t412_threading
+
+_T412_TTL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'ttl')
+_T412_LABEL_RE = re.compile(r'rdfs:label\s+"([^"]+)"@vi')
+_T412_INDEX = None
+_T412_INDEX_LOCK = _t412_threading.Lock()
+
+
+def _t412_read_main_label(path):
+    """rdfs:label@vi ĐẦU TIÊN = nhãn nhân vật chính (subject <ex:monk/...>).
+    Chỉ đọc 8 KB đầu file (zero-RAM); các label sau thuộc tăng nhân liên quan."""
+    with open(path, 'r', encoding='utf-8', errors='replace') as f:
+        head = f.read(8192)
+    m = _T412_LABEL_RE.search(head)
+    return m.group(1).strip() if m else ''
+
+
+def _t412_build_index():
+    """dila_id -> {'label','ttl_file','ambiguous','files'}; chỉ tính link không-alias có file tồn tại."""
+    conn = get_db_connection()
+    try:
+        rows = conn.execute(
+            "SELECT dila_id, ttl_filename FROM vn_person_authority "
+            "WHERE dila_id IS NOT NULL AND dila_id!='' "
+            "AND ttl_filename IS NOT NULL AND ttl_filename!='' "
+            "AND COALESCE(status,'') NOT LIKE 'alias%'"
+        ).fetchall()
+    finally:
+        conn.close()
+    files_by_id = {}
+    for row in rows:
+        dila_id, tf = row[0], row[1]
+        fn = tf if tf.endswith('.ttl') else tf + '.ttl'
+        if os.path.isfile(os.path.join(_T412_TTL_DIR, fn)):
+            files_by_id.setdefault(dila_id, set()).add(fn)
+    index = {}
+    for dila_id, files in files_by_id.items():
+        labels = {}
+        for fn in sorted(files):
+            try:
+                lbl = _t412_read_main_label(os.path.join(_T412_TTL_DIR, fn))
+            except OSError:
+                lbl = ''
+            if lbl:
+                labels[fn] = lbl
+        if not labels:
+            continue
+        distinct = sorted(set(labels.values()))
+        if len(distinct) == 1:
+            index[dila_id] = {'label': distinct[0], 'ttl_file': sorted(labels)[0],
+                              'ambiguous': False, 'files': sorted(labels)}
+        else:
+            index[dila_id] = {'label': '', 'ttl_file': '', 'ambiguous': True,
+                              'files': sorted(labels)}
+    return index
+
+
+def _t412_get_index():
+    global _T412_INDEX
+    if _T412_INDEX is None:
+        with _T412_INDEX_LOCK:
+            if _T412_INDEX is None:
+                _T412_INDEX = _t412_build_index()
+    return _T412_INDEX
+
+
+def _t412_resolve_display_name(conn, person_id, node=None):
+    """Bọc _t86_resolve_display_name cho 3 route cây. Hàm gốc giữ nguyên cho route khác."""
+    dn = dict(_t86_resolve_display_name(conn, person_id, node))
+    node = node or {}
+    idx = _t412_get_index().get(person_id)
+    if idx and not idx['ambiguous']:
+        return {
+            'primary': idx['label'],
+            'secondary': node.get('name_zh') or dn.get('secondary') or '',
+            'authority_primary': dn.get('authority_primary', ''),
+            'authority_secondary': dn.get('authority_secondary', ''),
+            'source_type': 'ttl',
+            'source_file': idx['ttl_file'],
+            'verification_status': 'ttl_label',
+            'is_formal_name': True,
+            'name_source': 'TTL',
+            'ttl_candidates': idx['files'],
+            'ttl_conflict': [],
+        }
+    if idx and idx['ambiguous']:
+        # Nhiều hồ sơ TTL khác tên: không đoán, dùng tên DILA/Marcus phiên âm.
+        return {
+            'primary': node.get('name_vi') or dn.get('primary') or person_id,
+            'secondary': node.get('name_zh') or '',
+            'authority_primary': dn.get('authority_primary', ''),
+            'authority_secondary': dn.get('authority_secondary', ''),
+            'source_type': 'dila',
+            'source_file': '',
+            'verification_status': 'ttl_conflict',
+            'is_formal_name': False,
+            'name_source': 'DILA',
+            'ttl_candidates': idx['files'],
+            'ttl_conflict': idx['files'],
+        }
+    # Không có TTL trong index: giữ nguyên kết quả hàm gốc (DILA phiên âm / curated).
+    dn['name_source'] = 'TTL' if dn.get('is_formal_name') else 'DILA'
+    dn['ttl_candidates'] = []
+    dn['ttl_conflict'] = []
+    return dn
+
+
 def _t86_origin_place(conn, person_id):
     """Nguồn địa lý cho 'Xem trên bản đồ' — person_origin_link (sinh tại/籍貫).
 
@@ -6871,7 +6985,7 @@ def api_monk_lineage_tree(dila_id):
             nd['origin_place'] = node_origin.get(pid) or _t86_origin_place(conn, pid)
             nd['has_more_up'] = pid in up_excess
             nd['has_more_down'] = pid in down_excess
-            nd['display_name'] = _t86_resolve_display_name(conn, pid, nd)
+            nd['display_name'] = _t412_resolve_display_name(conn, pid, nd)
 
         # T138 — lọc cạnh rejected khỏi mạch chuẩn
         active_edges = [e for e in edges if not e.get('rejected')]
@@ -6990,7 +7104,7 @@ def api_monk_ancestor_spine(dila_id):
             cur_person = _t86_person_info(conn, cur)
             cur_person['conflicts'] = _t86_person_conflict(conn, cur)
             cur_person['origin_place'] = _t86_origin_place(conn, cur)
-            cur_person['display_name'] = _t86_resolve_display_name(conn, cur, cur_person)
+            cur_person['display_name'] = _t412_resolve_display_name(conn, cur, cur_person)
             nodes.setdefault(cur, cur_person)
 
             # T187: dùng consensus (có is_primary) thay vì marcus_networks
@@ -7042,7 +7156,7 @@ def api_monk_ancestor_spine(dila_id):
         last_person = _t86_person_info(conn, cur)
         last_person['conflicts'] = _t86_person_conflict(conn, cur)
         last_person['origin_place'] = _t86_origin_place(conn, cur)
-        last_person['display_name'] = _t86_resolve_display_name(conn, cur, last_person)
+        last_person['display_name'] = _t412_resolve_display_name(conn, cur, last_person)
         nodes.setdefault(cur, last_person)
 
         return jsonify({
@@ -7129,7 +7243,7 @@ def api_monk_ancestor_path(dila_id):
         path_nodes = []
         for nid in chain_ids:
             info = _t86_person_info(conn, nid)
-            info['display_name'] = _t86_resolve_display_name(conn, nid, info)
+            info['display_name'] = _t412_resolve_display_name(conn, nid, info)
             path_nodes.append(info)
 
         return jsonify({

@@ -1513,10 +1513,17 @@
                     } else {
                         document.getElementById('licenseBlock').classList.add('hidden');
                     }
-                    if (d.gps_lat && d.gps_long) {
-                        map.flyTo([d.gps_lat, d.gps_long], 10, { duration: 1.2 });
-                        _currentGps = { lat: parseFloat(d.gps_lat), lng: parseFloat(d.gps_long), name_vi: d.name_vi, name_zh: d.name_zh };
+                    // T406 — kiểm Number.isFinite trước khi flyTo: d.gps_lat/d.gps_long có thể
+                    // là null/undefined/chuỗi không hợp lệ (vd từ autocomplete hoặc record
+                    // thiếu toạ độ), truthy-check đơn thuần không chặn được NaN → Leaflet throw
+                    // "Invalid LatLng object: (NaN, NaN)". Không suy toạ độ từ nơi khác; nếu
+                    // thiếu toạ độ hợp lệ thì giữ nguyên view bản đồ hiện tại.
+                    const _dLat = parseFloat(d.gps_lat), _dLng = parseFloat(d.gps_long);
+                    if (Number.isFinite(_dLat) && Number.isFinite(_dLng)) {
+                        map.flyTo([_dLat, _dLng], 10, { duration: 1.2 });
+                        _currentGps = { lat: _dLat, lng: _dLng, name_vi: d.name_vi, name_zh: d.name_zh };
                     } else {
+                        console.info('T406: địa danh chưa có toạ độ hợp lệ, giữ nguyên view bản đồ:', d.id || id);
                         _currentGps = null;
                     }
                     // Auto-load active tab
