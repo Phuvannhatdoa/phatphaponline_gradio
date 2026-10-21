@@ -495,7 +495,13 @@ Admin không ngồi canh màn hình — tiếng kêu là dấu hiệu "xong rồ
 ```
 
 - Lệnh gọi: `pipip` (nếu đã tạo `scripts/pipip.ps1`) hoặc chạy thẳng đoạn trên.
-- Trạng thái lỗi / cần Admin quyết → **không** phát pipip (tránh báo nhầm done).
+- **CẦN ADMIN QUYẾT/CLICK → PHẢI PHÁT pipip** (Admin chốt 2026-10-20): khi agent cần
+  Admin click xác nhận Allow trong prompt quyền, hoặc đưa ra nhận định để Agent làm tiếp
+  (hỏi qua `question`, chờ duyệt plan, duyệt `--apply`...), **phải phát pipip ngay**
+  để Admin biết vào click — không im lặng chờ. Âm ngắn 2 nốt là đủ:
+  `[console]::Beep(880,150); [console]::Beep(1175,300)`
+- Trạng thái lỗi cứng (lệnh fail, data hỏng) → **không** phát pipip kiểu "done" 3 nốt;
+  thay bằng pipip 2 nốt ở trên (cần chú ý) + mô tả rõ trạng thái trong tin nhắn.
 - Nếu Admin yêu cầu âm khác, sửa đoạn này trong AGENTS.md — đây là SSOT.
 
 ## 20. BÁO "DONE" BẰNG NHÂN VẬT TRÊN DESKTOP (Admin chốt 2026-10-15)

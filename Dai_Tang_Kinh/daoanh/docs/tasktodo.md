@@ -1,5 +1,19 @@
 # TASKTODO — Active Tasks
 
+<!-- DUP-ID-NOTE:START -->
+> **⚠ NOTE CHO PLANNER HERMES — VỤ TRÙNG ID TASK SONG SONG (2026-10-20):** Session song
+> song liên tục **đổi số task khi đang chạy**: task Import Places/Districts đi từ
+> `T428` → `T430` → tách `T432` (Claude analysis) + `T434` (Gemini batch) trong cùng
+> ngày; từng gây 2 vụ trùng frontmatter `id:` (file `T432-…` ghi `id: T429`, file
+> `T433-…` ghi `id: T430` — session khác đã dời file đi, `dup:ids` hiện rc=0 OK).
+> Còn lại: `T420` là bản trùng nội dung của `T419` (BUG-041, status `deferred` —
+> frontmatter id riêng nên guard không bắt; cân nhắc gộp/hủy khi khớp lịch).
+> **Quy tắc bắt buộc khi cấp ID (AGENTS §16):** chạy 2 tầng — `npm run dup:ids` + grep
+> prose (`T\d{3}` trong tasktodo/docs) trước khi cấp; re-check `tasks/` + file này
+> NGAY TRƯỚC khi dùng ID, không tin ID đọc được từ phiên trước; ID đang
+> `in_progress/blocked` không được dùng lại; ghi `former_ids` khi đổi số.
+<!-- DUP-ID-NOTE:END -->
+
 <!-- T283:START -->
 > **[2026-10-20 · T283 — M0: Xóa chuỗi key Gemini khỏi docs/ và scripts] FIX XONG — chờ Admin xác nhận DONE.** Quét lại docs/**/*.md + scripts/*.py: chỉ còn 1 file chứa key thật — `scripts/t166_identity_audit.py` (hằng FORBIDDEN_INLINE_LLM_KEY dùng để dò key lộ trong app.py). Đã thay bằng regex mẫu `AIza[0-9A-Za-z_\-]{30,}` — bắt được MỌI key Gemini, không còn nhúng key thật trong source. Backup: `docs/sessions/2026-10-20/T283/t166_identity_audit.py.bak-before-T283` (SHA256 7BEBC433…B895). Verify: quét AIza = 0 file; ast.parse OK; test regex 3/3 PASS. `audit:t166` FAIL có sẵn (DB thiếu cột identity_status — schema T166 chưa migrate), không do thay đổi này. 0 DB/TTL/ETL/API. Revert: `git revert --no-edit 45fd624` hoặc khôi phục backup. [Task](../tasks/T283-m0-xoa-key-khoi-tai-lieu.md), [Session](sessions/2026-10-20_T283-remove-gemini-key.md), [ROLLBACK](ROLLBACK.md).
 <!-- T283:END -->
@@ -756,3 +770,15 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 <!-- T439:START -->
 > **[2026-10-20 · T439] Đồng bộ cấu hình agent .opencode theo .claude (settings/agents/skills)** ✅ DONE (opencode.json mirror permission của .claude/settings.json; 3 agent daoanh-qa/daoanh-debugger/tich-hop dạng subagent; 2 skill daoanh-task/lineage-audit đúng định dạng SKILL.md; banner đồng bộ 2 bản daoanh-task; gitignore negation cho config json. Verify: `opencode debug config` 0 lỗi, `opencode debug skill` load đúng). Task: `tasks/T439-sync-agent-config-opencode-claude.md`.
 <!-- T439:END -->
+
+<!-- T435-T438:START -->
+> **[2026-10-21 · T435, T436, T437, T438] ✅ DONE — Admin xác nhận 2026-10-21.**
+<!-- T435-T438:END -->
+
+<!-- T427-2:START -->
+> **[2026-10-21 · T427-2 — ETL load hang] ✅ DONE — đóng; trùng với T437 (Admin xác nhận 2026-10-21).** File: `tasks/T427-2-etl-load-hang.md`.
+<!-- T427-2:END -->
+
+<!-- T442-T444:START -->
+> **[2026-10-21 · T442 / T443 / T444 — Đổi ID trùng chuỗi places/districts] ⏳ PENDING (Admin duyệt 2026-10-21, chưa đánh DONE).** Đổi ID theo AGENTS §16 vì ID cũ trùng: `T432→T442` (analysis, former_ids: T432, T429) · `T433→T443` (import, former_ids: T433, T430, depends_on: [T442]) · `T434→T444` (Gemini batch, former_ids: T434, T431, depends_on: [T443, T418]). File: `tasks/T442-places-districts-claude-analysis.md`, `tasks/T443-places-districts-claude-import.md`, `tasks/T444-places-districts-gemini-batch.md`. Nội dung kỹ thuật không đổi; ID cũ còn ghi trong heading/ghi chú để không mất lịch sử. Lưu ý: T432 gốc ghi `depends_on: []` (giữ nguyên); T433 gốc ghi `depends_on: [T429]` nên đổi thành `[T442]` (không phải `[T430, T418]` như chỉ định). **T429 (Thiền Đăng):** task ID T429 giữ nguyên; các chỗ ghi "T430" cho import = T443, "T429" trong nội dung chuỗi places = T442.
+<!-- T442-T444:END -->
