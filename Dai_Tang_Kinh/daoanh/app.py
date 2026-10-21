@@ -12862,6 +12862,25 @@ Hãy trả về toàn bộ nội dung file sau khi đã chỉnh sửa, không gi
         "message": f"Đã cập nhật {file_path}. Backup: {os.path.basename(backup_path)}. Reload trang để thấy kết quả."
     })
 
+# ── T416 (2026-10-21): ép index cho places_pending LIKE trong /autocomplete ──
+# Planner bỏ qua idx_places_pending_name_zh cho LIKE '%q%' dù đã ANALYZE; ép index
+# đo được 1312 ms → 137 ms. Cache kết quả kiểm tra tồn tại index 1 lần/process.
+_T416_PENDING_IDX = None
+
+
+def _t416_pending_index_hint(conn):
+    """True nếu idx_places_pending_name_zh tồn tại (an toàn khi DB khác thiếu index)."""
+    global _T416_PENDING_IDX
+    if _T416_PENDING_IDX is None:
+        try:
+            _T416_PENDING_IDX = bool(conn.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='index' AND name='idx_places_pending_name_zh' LIMIT 1"
+            ).fetchone())
+        except Exception:
+            _T416_PENDING_IDX = False
+    return _T416_PENDING_IDX
+
+
 @app.route('/daoanh/api/public/autocomplete')
 def public_autocomplete():
     q = request.args.get('q', '').strip()
@@ -12879,8 +12898,11 @@ def public_autocomplete():
 
     if len(results) < 10:
         remaining = 10 - len(results)
+        # T416 (2026-10-21): planner bỏ qua idx_places_pending_name_zh cho LIKE '%q%' (đo được
+        # 1312 ms → 137 ms khi ép index). Chỉ ép khi index tồn tại để an toàn trên DB khác (VPS).
+        _hint = ' INDEXED BY idx_places_pending_name_zh' if _t416_pending_index_hint(conn) else ''
         pending = conn.execute(
-            "SELECT DISTINCT id, name_zh AS value, name_zh AS name_zh, 'pending' AS source FROM places_pending WHERE name_zh LIKE ? LIMIT ?",
+            f"SELECT DISTINCT id, name_zh AS value, name_zh AS name_zh, 'pending' AS source FROM places_pending{_hint} WHERE name_zh LIKE ? LIMIT ?",
             (like, remaining)
         ).fetchall()
         for r in pending:
