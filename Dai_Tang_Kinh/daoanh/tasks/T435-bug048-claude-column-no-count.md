@@ -2,9 +2,9 @@
 id: T435
 bug_id: BUG-048
 title: "Bug verify: BUG-048: Cột Claude trong namevimap.html không hiện số (done/total) như cột Gemini"
-status: done
+status: in_progress
 created: 2026-10-20
-updated: 2026-10-21
+updated: 2026-10-20
 owner: null
 module: Admin / namevimap.html
 priority: low
@@ -66,44 +66,3 @@ UI chưa có đường ống hiển thị con số này ở header.
   API mới trả 200 + đúng field done/total.
 - Edge case: API lỗi (DB lock) → header giữ rỗng, không crash JS khác
   (ví dụ Gemini vẫn hiện số bình thường — không regression).
-
-## Audit lại 2026-10-20 (vòng 2) — admin vẫn báo thiếu số, root cause THỰC SỰ khác
-
-Report vòng 1 (API + HTML span + `loadCodexColStatus`) **đã có đủ trong code hiện tại**
-(verify lại bằng grep: `app.py:16318` có route, `namevimap.html:726` có
-`<span id="codex-col-status">`, `namevimap.html:2518` có hàm `loadCodexColStatus`). Nhưng
-mở route thật bằng browser (đã login sẵn) vẫn tái hiện đúng triệu chứng admin báo: header
-CLAUDE không có số dù chờ > 10s.
-
-**Root cause thật (xác nhận bằng network log thật, không đoán):** `switchTab()`
-(`namevimap.html:1007-1052`) có 2 đường vào tab ETL:
-- Lần đầu vào tab (`etlTabLoaded === false`) → gọi `_etlFullLoad()` (dòng 1040), hàm này gọi
-  cả 5 hàm nặng: `loadEtlStats`, `loadEtlFlagLiveData`, `etlFlagQueueLoad`,
-  `loadAiColStatus`, `loadCodexColStatus` — dùng chung 1 `AbortSignal` từ
-  `_etlNewAbortSignal()`.
-- Lần sau quay lại tab ETL khi `etlTabLoaded === true` (dòng 1041-1044, nhánh `else`) →
-  **CHỈ gọi `loadEtlFlagLiveData(sig)`**, với `sig` MỚI từ `_etlNewAbortSignal()`. Hàm này
-  (dòng 1532-1534) luôn `abort()` controller cũ trước khi tạo controller mới — nếu lần vào
-  tab ETL trước đó CHƯA kịp xong `etlFlagQueueLoad`/`loadAiColStatus`/`loadCodexColStatus`,
-  cả 3 request đó bị abort vĩnh viễn và KHÔNG được gọi lại (nhánh `else` không gọi chúng).
-  `loadEtlFlagLiveData` thì luôn được gọi lại mỗi lần quay vào tab nên tự phục hồi — đúng lý
-  do admin thấy DILA name_vi/queue vẫn đúng nhưng CLAUDE/GEMINI header + "Bulk FLAG Queue"
-  trống/"Đang tải…" mãi.
-- Verify network log thật: `GET /api/admin/codex-transliterate/status` và
-  `GET /api/admin/namevi/flag-list?...` bị `net::ERR_ABORTED` một lần, sau đó KHÔNG có
-  request thay thế trong suốt phiên; trong khi 12 request `namevi-queue/<id>` cũng bị abort
-  cùng lúc nhưng có bản retry 200 OK ngay sau (do `loadEtlFlagLiveData` được gọi lại).
-
-**Kết luận:** lỗi lớp resolver/JS state (tab re-entry không đồng bộ danh sách hàm cần tải
-lại) — không phải thiếu endpoint/HTML (đã đủ từ vòng 1), không phải SQLite lock chậm (đó là
-nguyên nhân phụ quan sát ở BUG-050/T437, tái hiện được cả khi backend rảnh ở đây).
-
-**Phạm vi sửa vòng 2:** sửa nhánh `else` trong `switchTab()` (dòng 1041-1044) để gọi lại đủ
-`etlFlagQueueLoad`, `loadAiColStatus`, `loadCodexColStatus` mỗi khi quay lại tab ETL — không
-chỉ `loadEtlFlagLiveData`. Cân nhắc gộp dùng chung `_etlFullLoad()` cho cả 2 nhánh (đơn giản
-hơn, tránh lệch danh sách hàm về sau), miễn `etlSelectStep(0)` không reset state đang xem dở
-không mong muốn. Backup trước khi sửa vào `docs/sessions/2026-10-20/T435/`.
-
-## Xác nhận DONE
-
-Admin xác nhận DONE 2026-10-21.

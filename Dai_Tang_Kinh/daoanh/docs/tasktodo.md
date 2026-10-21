@@ -771,6 +771,10 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 > **[2026-10-20 · T439] Đồng bộ cấu hình agent .opencode theo .claude (settings/agents/skills)** ✅ DONE (opencode.json mirror permission của .claude/settings.json; 3 agent daoanh-qa/daoanh-debugger/tich-hop dạng subagent; 2 skill daoanh-task/lineage-audit đúng định dạng SKILL.md; banner đồng bộ 2 bản daoanh-task; gitignore negation cho config json. Verify: `opencode debug config` 0 lỗi, `opencode debug skill` load đúng). Task: `tasks/T439-sync-agent-config-opencode-claude.md`.
 <!-- T439:END -->
 
+<!-- T448:START -->
+> **[2026-10-21 · T448] Kế hoạch fix tuần tự bug UI/GIS — Admin phê chuẩn scan task undone** ⏳ IN_PROGRESS (thứ tự: ① T412 BUG-037 tên node cây theo TTL full name — chỉ phần code, không ghi DB → ② T416 autocomplete áp INDEXED BY hint (A) ANALYZE trình Admin riêng → ③ T406 chỉ chạy daoanh-qa giúp session khác). Mỗi bug: backup → daoanh-debugger → daoanh-qa → Admin xác nhận → mới sang bug kế. Task: `tasks/T448-fix-bug-batch-ui-gis.md`.
+<!-- T448:END -->
+
 <!-- T435-T438:START -->
 > **[2026-10-21 · T435, T436, T437, T438] ✅ DONE — Admin xác nhận 2026-10-21.**
 <!-- T435-T438:END -->
@@ -782,14 +786,7 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 <!-- T442-T444:START -->
 > **[2026-10-21 · T442 / T443 / T444 — Đổi ID trùng chuỗi places/districts] ⏳ PENDING (Admin duyệt 2026-10-21, chưa đánh DONE).** Đổi ID theo AGENTS §16 vì ID cũ trùng: `T432→T442` (analysis, former_ids: T432, T429) · `T433→T443` (import, former_ids: T433, T430, depends_on: [T442]) · `T434→T444` (Gemini batch, former_ids: T434, T431, depends_on: [T443, T418]). File: `tasks/T442-places-districts-claude-analysis.md`, `tasks/T443-places-districts-claude-import.md`, `tasks/T444-places-districts-gemini-batch.md`. Nội dung kỹ thuật không đổi; ID cũ còn ghi trong heading/ghi chú để không mất lịch sử. Lưu ý: T432 gốc ghi `depends_on: []` (giữ nguyên); T433 gốc ghi `depends_on: [T429]` nên đổi thành `[T442]` (không phải `[T430, T418]` như chỉ định). **T429 (Thiền Đăng):** task ID T429 giữ nguyên; các chỗ ghi "T430" cho import = T443, "T429" trong nội dung chuỗi places = T442.
 <!-- T442-T444:END -->
-<!-- T435-T438:START -->
-> **[2026-10-21 · T435, T436, T437, T438] ✅ DONE — Admin xác nhận 2026-10-21.**
-<!-- T435-T438:END -->
 
-<!-- T427-2:START -->
-> **[2026-10-21 · T427-2 — ETL load hang] ✅ DONE — đóng; trùng với T437 (Admin xác nhận 2026-10-21).** File: `tasks/T427-2-etl-load-hang.md`.
-<!-- T427-2:END -->
-
-<!-- T442-T444:START -->
-> **[2026-10-21 · T442 / T443 / T444 — Đổi ID trùng chuỗi places/districts] ⏳ PENDING (Admin duyệt 2026-10-21, chưa đánh DONE).** Đổi ID theo AGENTS §16 vì ID cũ trùng: `T432→T442` (analysis, former_ids: T432, T429) · `T433→T443` (import, former_ids: T433, T430, depends_on: [T442]) · `T434→T444` (Gemini batch, former_ids: T434, T431, depends_on: [T443, T418]). File: `tasks/T442-places-districts-claude-analysis.md`, `tasks/T443-places-districts-claude-import.md`, `tasks/T444-places-districts-gemini-batch.md`. Nội dung kỹ thuật không đổi; ID cũ còn ghi trong heading/ghi chú để không mất lịch sử. Lưu ý: T432 gốc ghi `depends_on: []` (giữ nguyên); T433 gốc ghi `depends_on: [T429]` nên đổi thành `[T442]` (không phải `[T430, T418]` như chỉ định). **T429 (Thiền Đăng):** task ID T429 giữ nguyên; các chỗ ghi "T430" cho import = T443, "T429" trong nội dung chuỗi places = T442.
-<!-- T442-T444:END -->
+<!-- T445:START -->
+> **[2026-10-21 · T445] Wizard UI cho T444 Gemini Places Translation (B0-B9 steps)** ⏳ PENDING (Admin phê chuẩn Wizard Flow plan 2026-10-21; dispatch: chờ xếp task). Nâng cấp placevn.html thành linear Wizard flow (9 steps B0→B9) thay tabbed UI; real-time WebSocket monitoring B5/B8 (không polling); tối ưu state + UX. Timeline: 2.5h. Depends on: T444 (backend Gemini batch + API endpoints). Files: `daoanh/admin/placevn.html` (React Wizard component) + `daoanh/app.py` (8 new API endpoints + WebSocket /ws/batch-monitor). Task: `tasks/T445-placevn-wizard-ui-b0-b9.md`.
+<!-- T445:END -->

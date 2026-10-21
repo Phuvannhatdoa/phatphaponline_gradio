@@ -1,6 +1,5 @@
 ---
-id: T443
-former_ids: [T433, T430]
+id: T430
 title: "T428 Part 1: Import Claude places + districts (codex_place_name + codex_district_name)"
 status: pending
 created: 2026-10-20
@@ -8,7 +7,7 @@ updated: 2026-10-20
 owner: null
 module: Data / Places / Import
 priority: high
-depends_on: [T442]
+depends_on: [T429]
 dispatch: null
 plan_approved_at: "2026-10-20 (Admin phê chuẩn: tạo bảng mới codex_place_name + codex_district_name)"
 done_when: >
@@ -30,16 +29,12 @@ done_when: >
 outcome: null
 ---
 
-# T443 — Part 1: Import Claude places + districts
-
-> ID cũ: T433 (đổi 2026-10-21; former_ids: T433, T430). "T430" trong nội dung này = T443. "T429" = T442 (analysis). Ghi chú: file gốc ghi `depends_on: [T429]` (không phải [T430, T418]) nên đổi thành `[T442]`.
+# T430 — Part 1: Import Claude places + districts
 
 Yêu cầu: T429 phân tích xong, quyết định khóa district.
 
 Viết script, dry-run, backup, apply, QA.
 
-## Quyết định Admin 2026-10-21
-
-- Liên quan: tasks/T445-claude-place-name-import.md là dry-run riêng, KHÔNG gộp; T443 vẫn là bước import có gate.
-
 ---
+
+id: T430

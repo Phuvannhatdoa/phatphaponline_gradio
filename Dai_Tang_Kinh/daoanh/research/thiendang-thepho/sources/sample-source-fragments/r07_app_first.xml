@@ -1,2 +1,0 @@
-<!-- T429 sample-source-fragment | R07: app/lem/rdg đầu tiên | re-serialized by lxml from X86n1601.xml (SHA256 0020c4847b8107260e8674233d7833fd590cccafba2210d0ac479edd88ff75eb) -->
-<app xmlns="http://www.tei-c.org/ns/1.0" xmlns:cb="http://www.cbeta.org/ns/1.0" from="#beg0318a1801" to="#end0318a1801"><lem wit="#wit.cbeta" resp="#resp3">已</lem><rdg wit="#wit.orig">巳</rdg></app>

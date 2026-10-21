@@ -1,6 +1,5 @@
 ---
-id: T444
-former_ids: [T434, T431]
+id: T431
 title: "T428 Part 2: Gemini batch transliterate places + districts (ai_place_name + ai_district_name)"
 status: pending
 created: 2026-10-20
@@ -8,7 +7,7 @@ updated: 2026-10-20
 owner: null
 module: Data / Places / Gemini
 priority: high
-depends_on: [T443, T418]
+depends_on: [T430, T418]
 dispatch: null
 plan_approved_at: "2026-10-20 (Admin phê chuẩn: Gemini script riêng, tuần tự sau T418 Part 2)"
 done_when: >
@@ -30,12 +29,12 @@ done_when: >
 outcome: null
 ---
 
-# T444 — Part 2: Gemini batch places + districts
-
-> ID cũ: T434 (đổi 2026-10-21; former_ids: T434, T431). "T431" trong nội dung này = T444. "T430" = T443 (import).
+# T431 — Part 2: Gemini batch places + districts
 
 Yêu cầu: T430 xong, T418 Part 2 hoàn tất.
 
 Tạo script riêng, test 500, resume batch, trần 3 ngày, QA.
 
 ---
+
+id: T431

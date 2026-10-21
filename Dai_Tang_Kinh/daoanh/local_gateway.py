@@ -60,30 +60,6 @@ def proxy(port: int):
             status=502,
             mimetype="application/json",
         )
-    except requests.exceptions.Timeout:
-        # BUG-049 fix (2026-10-20): trước đây chỉ bắt ConnectionError — khi backend
-        # (app.py) bị nghẽn tạm thời (vd. tab ETL bắn burst N request namevi-queue
-        # song song lúc load, xem comment T427 trong namevimap.html), request proxy
-        # vượt quá timeout=60s ném requests.exceptions.Timeout KHÔNG được bắt, Flask
-        # trả về trang lỗi 500 dạng HTML. Phía client (vd. passEtlFlag trong
-        # namevimap.html) gọi JSON.parse(txt) trên HTML đó → lỗi "non-JSON" → nút
-        # Pass chuyển đỏ (✗) dù backend có thể vẫn đang xử lý/đã xử lý xong.
-        # Trả JSON rõ ràng (504) để client phân biệt được "backend quá tải, thử lại"
-        # thay vì crash khi parse response.
-        return Response(
-            f'{{"error":"backend on port {port} timeout sau 60s — server có thể đang quá tải, thử lại"}}',
-            status=504,
-            mimetype="application/json",
-        )
-    except requests.exceptions.RequestException as e:
-        # Lưới an toàn chung cho các lỗi requests khác chưa được liệt kê ở trên
-        # (vd. lỗi kết nối bất thường) — tránh để Flask trả HTML 500 làm vỡ JSON.parse
-        # phía client (cùng nguyên nhân với nhánh Timeout ở trên).
-        return Response(
-            f'{{"error":"proxy error to backend on port {port}: {str(e)}"}}',
-            status=502,
-            mimetype="application/json",
-        )
     excluded = {"content-encoding", "transfer-encoding", "connection", "content-length"}
     headers = [(k, v) for k, v in resp.raw.headers.items() if k.lower() not in excluded]
     return Response(resp.content, status=resp.status_code, headers=headers)
