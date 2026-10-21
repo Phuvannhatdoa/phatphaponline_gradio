@@ -1,7 +1,7 @@
 ---
 id: T448
 title: "Kế hoạch fix tuần tự bug UI/GIS (BUG-037 T412 → T416 autocomplete → QA T406)"
-status: in_progress
+status: done
 created: 2026-10-21
 updated: 2026-10-21
 owner: null
