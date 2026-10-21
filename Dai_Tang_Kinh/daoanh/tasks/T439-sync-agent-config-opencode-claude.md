@@ -26,6 +26,8 @@ done_when: >
 
 # T439 — Đồng bộ cấu hình agent .opencode theo .claude
 
+**Commit:** `15b03e21` (parent `a84c8d03`, branch `truyen-dang-the-pho-clean`, 2026-10-20)
+
 ## Bối cảnh
 
 `daoanh/.claude/` có settings.json + launch.json chuẩn Claude Code (T439 trước đó

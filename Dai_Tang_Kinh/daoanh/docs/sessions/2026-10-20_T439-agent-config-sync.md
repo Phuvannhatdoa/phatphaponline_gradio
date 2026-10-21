@@ -15,7 +15,7 @@
 5. Tạo 2 skill `.opencode/skills/`: `daoanh-task/SKILL.md`, `lineage-audit/SKILL.md` (định dạng đúng — bản `.claude/skills/lineage-audit.md` phẳng không đạt chuẩn).
 6. Banner đồng bộ đầu 2 bản `daoanh-task` (phương án A).
 7. `.gitignore`: root thêm negation 3 json config (bị `*.json` nuốt); daoanh thêm `!.opencode/opencode.json`.
-8. Verify + commit (SHA thấy trong `git log --oneline -3`).
+8. Verify + commit: **`15b03e21`** (parent `a84c8d03`, branch `truyen-dang-the-pho-clean`; 15 file, +845/−20, 0 deletion file).
 
 ## Bằng chứng verify
 
