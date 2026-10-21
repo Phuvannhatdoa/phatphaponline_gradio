@@ -2,7 +2,7 @@
 id: T412
 bug_id: BUG-037
 title: "Bug verify: BUG-037: Cây Pháp hệ hiện tên DILA 2 chữ (Đạo Nhất) — phải hiện tên đầy đủ theo TTL (Mã Tổ Đạo Nhất), không có TTL mới dùng tên DILA"
-status: pending
+status: done
 created: 2026-10-15
 updated: 2026-10-15
 owner: code (Hermes giao)

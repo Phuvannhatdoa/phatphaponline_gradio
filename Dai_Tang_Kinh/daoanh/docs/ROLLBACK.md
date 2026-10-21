@@ -7,7 +7,7 @@
 
 | Date | Task | Backup | Revert |
 |------|------|--------|--------|
-| 2026-10-21 | **T416 — Tối ưu /autocomplete (INDEXED BY hint, code-only)** | Không đụng DB (chỉ sửa app.py) | `git revert <sha-T416>` — thuần code; không có thay đổi DB |
+| 2026-10-21 | **T416 — Tối ưu /autocomplete (INDEXED BY hint + 2 index DB)** | `data/backups/T416_20261021_172504/lineage.db` (quick_check=ok) | `python -X utf8 scripts/t416_add_autocomplete_indexes.py --revert` (DROP `idx_namevi_places_cover`, `idx_lexicon_term`) + `git revert <sha-T416>` |
 | 2026-10-21 | **BUG-049 — local_gateway.py proxy bắt `Timeout` (504 JSON) + `RequestException` (502 JSON) + log build 2026-10-21** (commit `12373e57e76d7761ba263584942a9da60d210fe8`) | Không đụng DB (chỉ code proxy + docs/log) | `git revert 12373e57e76d7761ba263584942a9da60d210fe8` — đưa `local_gateway.py` về bản trước (bỏ 2 nhánh except); không cần restore DB |
 | 2026-10-21 | **Đổi ID tài liệu T432→T442, T433→T443, T434→T444 (chuỗi places/districts; docs-only, không đổi DB)** | Không đụng DB (0 dữ liệu) | Đổi tên 3 file `tasks/T432-…→T442-…`, `T433-…→T443-…`, `T434-…→T444-…` và đổi `id:` + `former_ids` trong frontmatter. Revert = đổi tên lại 3 file về T432/T433/T434 và đặt lại `id:` cũ (xoá `former_ids`, khôi phục `depends_on`). |
 | 2026-10-20 | **T439 — Đồng bộ cấu hình agent .opencode theo .claude** | Không đụng DB (thuần config/docs) | `git revert <sha-commit-T439>` — hoàn nguyên toàn bộ opencode.json/agents/skills/gitignore/banner; không cần restore DB |

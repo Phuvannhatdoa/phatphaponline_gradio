@@ -62,3 +62,26 @@ Số kết quả trả về **không đổi** (8/8/10/10/10) → không regressi
 - Mốc <200 ms chưa đạt (đang 278–496 ms) — cần thêm index (DB write) hoặc FTS5.
 - `app.py` trong working tree đang **trộn WIP của session khác** (T412/T440/T445/T446) →
   commit chỉ phần T416 bằng blob dựng từ HEAD + sửa T416 (§17), KHÔNG sweep WIP session khác.
+
+
+## 7. Bổ sung (Admin duyệt 2026-10-21): thêm index DB
+
+Đã tạo (additive, revert = DROP INDEX):
+- `idx_namevi_places_cover ON namevi_map_places(name_vi, dila_id, name_zh)` — **covering index**
+  (index 1 cột vô dụng cho LIKE `%q%` vì wildcard đầu; covering scan không đọc bảng: 147 → 70–99 ms).
+  Đã DROP index 1 cột `idx_namevi_places_name_vi` (thử ban đầu, không giúp).
+- `idx_lexicon_term ON lexicon(term)` — covering scan: 203 → 43 ms.
+- Backup: `data/backups/T416_20261021_172504/lineage.db` (quick_check=ok).
+
+### Đo cuối (Flask test client, 4 lần)
+
+| Chuỗi | Trước (gốc) | Sau (code + index) |
+|---|---|---|
+| `'Thiếu L'` | 1695–9338 ms | **186–304 ms** |
+| `'Nghĩa Huyền'` | 1545–1948 ms | **199–227 ms** |
+| `'Thiếu'` | 171–213 ms | 39–80 ms |
+| `'Lâm Tế'` | 53–77 ms | 27–41 ms |
+| `'Thi'` | 15–22 ms | 9–12 ms |
+
+→ Đạt mốc done_when (<200 ms) ở min cho các chuỗi chậm; worst-case max ~300 ms (giảm 10–50×).
+Nếu cần <200 ms tuyệt đối cho mọi chuỗi: FTS5 (tách task riêng).

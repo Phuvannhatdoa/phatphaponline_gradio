@@ -78,3 +78,8 @@ Tham chiếu: `tasks/T404-places-search-autocomplete-jank.md` mục "Phát hiệ
 - **Còn lại:** mốc <200 ms cần thêm index `namevi_map_places.name_vi` / `lexicon.term`
   (**DB write → cần Admin duyệt**) hoặc FTS5. QA + Admin xác nhận.
 - Report: `docs/sessions/2026-10-21/T416/T416_REPORT.md`.
+
+- **Bổ sung (Admin duyệt 2026-10-21):** thêm 2 index DB (additive, revert `--revert`):
+  `idx_namevi_places_cover ON namevi_map_places(name_vi, dila_id, name_zh)` (covering) +
+  `idx_lexicon_term ON lexicon(term)`. Đo cuối: `'Thiếu L'` 186–304 ms, `'Nghĩa Huyền'` 199–227 ms.
+  Backup: `data/backups/T416_20261021_172504/lineage.db`. Script: `scripts/t416_add_autocomplete_indexes.py`.
