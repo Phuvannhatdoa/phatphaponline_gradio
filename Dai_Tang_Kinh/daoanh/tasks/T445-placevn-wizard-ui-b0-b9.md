@@ -1,7 +1,7 @@
 ---
 id: T445
 title: "Wizard UI cho T444 Gemini Places Translation (B0-B9)"
-status: pending
+status: in_progress
 depends_on: [T444]
 timeline:
   created: 2026-10-21
