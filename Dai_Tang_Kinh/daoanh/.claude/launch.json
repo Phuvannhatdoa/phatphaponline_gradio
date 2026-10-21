@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "app",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-X", "utf8", "app.py"],
+      "port": 5000,
+      "url": "http://127.0.0.1:8080/daoanh/"
+    },
+    {
+      "name": "gateway",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-X", "utf8", "local_gateway.py"],
+      "port": 8080,
+      "url": "http://127.0.0.1:8080/daoanh/"
+    }
+  ]
+}

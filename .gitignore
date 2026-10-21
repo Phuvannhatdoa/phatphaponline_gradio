@@ -9,6 +9,10 @@ node_modules/
 !data/master_db.json
 !data/indexed/master_index.json
 !data/indexed/fuzzy_matches.json
+# Cấu hình agent/IDE của daoanh — track đồng bộ .claude/ và .opencode/
+!Dai_Tang_Kinh/daoanh/.claude/settings.json
+!Dai_Tang_Kinh/daoanh/.claude/launch.json
+!Dai_Tang_Kinh/daoanh/.opencode/opencode.json
 thientong-V*.py
 ontology/
 

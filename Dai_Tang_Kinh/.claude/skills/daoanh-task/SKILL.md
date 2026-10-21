@@ -3,6 +3,9 @@ name: daoanh-task
 description: Điều phối công việc trong dự án Đạo Ảnh qua harness: giao agent (daoanh-debugger, tich-hop), QA độc lập bằng daoanh-qa, từ task đến khi Admin xác nhận DONE. Dùng khi người dùng nói "Bug verify: BUG-<mã>: <triệu chứng>" (kích hoạt daoanh-debugger để xác minh bug rồi daoanh-qa kiểm chứng), "điều phối qua harness", "QA bằng daoanh-qa", "điều phối", "sửa bug", "tiếp tục T<số>", "xử lý task", "list task undone", "task nào fix được ngay", "thêm tính năng trong daoanh", "tích hợp nguồn", hoặc kiểm tra lại sau khi sửa. Không dùng cho câu hỏi thuần túy không cần sửa hay điều phối.
 ---
 
+> ⚠ BẢN ĐỒNG BỘ: Bản chuẩn nằm ở `daoanh/.opencode/skills/daoanh-task/SKILL.md`.
+> Khi sửa nội dung, PHẢI sửa đồng bộ cả hai bản (.opencode và .claude) để opencode và Claude Code dùng cùng một quy trình.
+
 # Đạo Ảnh — Điều phối task
 
 Skill này quyết định ai làm gì và theo thứ tự nào. Việc sửa code do agent chuyên trách đảm nhận. Skill này không tự sửa code trừ khi cần một bước nhỏ như ghi file task.

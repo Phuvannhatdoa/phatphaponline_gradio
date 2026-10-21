@@ -14,6 +14,7 @@ src/
 !.opencode/skills/**
 !.opencode/agents/
 !.opencode/agents/**
+!.opencode/opencode.json
 # ontology/ — ignored: 48K+ files generated TTL/JSON, quá lớn để track trong git
 ontology/
 logs/

@@ -748,3 +748,7 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 <!-- T429:START -->
 > **[2026-10-20 · T429] [Thiền Đăng Thế Phổ] 禪燈世譜 (CBETA X86n1601) — dataset phả hệ, lượt 1: Giai đoạn 0–2 (khảo sát, đóng băng nguồn, giải mã cấu trúc sơ đồ)** ⏳ PENDING (dispatch: approved — Admin phê chuẩn 2026-10-20 03:46 kèm 9 điểm sửa). Chỉ vùng research/, không ghi DB; xong GĐ 2 dừng chờ Admin. Plan: `docs/plans/T429-thiendang-thepho-plan.md` · Thẩm định: `docs/reports/THIENDANG-THEPHO-PLAN-REVIEW-2026-10-20.md` · Task: `tasks/T429-thiendang-thepho-dataset-phase0-2.md`. (T428 trước bị trùng; 2026-10-20 đã đổi task import Places/Districts sang T430, T428 giữ cho BUG-046.)
 <!-- T429:END -->
+
+<!-- T439:START -->
+> **[2026-10-20 · T439] Đồng bộ cấu hình agent .opencode theo .claude (settings/agents/skills)** ✅ DONE (opencode.json mirror permission của .claude/settings.json; 3 agent daoanh-qa/daoanh-debugger/tich-hop dạng subagent; 2 skill daoanh-task/lineage-audit đúng định dạng SKILL.md; banner đồng bộ 2 bản daoanh-task; gitignore negation cho config json. Verify: `opencode debug config` 0 lỗi, `opencode debug skill` load đúng). Task: `tasks/T439-sync-agent-config-opencode-claude.md`.
+<!-- T439:END -->
