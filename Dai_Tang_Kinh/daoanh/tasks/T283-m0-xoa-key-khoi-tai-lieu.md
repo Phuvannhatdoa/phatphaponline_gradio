@@ -28,6 +28,8 @@ outcome: >
   identity_status trong translation_cache — schema T166 chưa migrate), KHÔNG do thay đổi này
   (xác nhận bằng schema PRAGMA: cols chỉ có id…updated_at). Không xoay key (việc Admin).
   Session: docs/sessions/2026-10-20_T283-remove-gemini-key.md.
+  **Commit: `45fd624`** (fix: T283 xoa key Gemini cu trong t166_identity_audit.py (regex mau) + docs;
+  ghi SHA lần 2 qua commit docs riêng). Revert: `git revert --no-edit 45fd624`.
 ---
 
 # T283 — M0 — Xóa chuỗi key Gemini khỏi docs/ và scripts/
