@@ -7,6 +7,7 @@
 
 | Date | Task | Backup | Revert |
 |------|------|--------|--------|
+| 2026-10-21 | **Đổi ID tài liệu T432→T442, T433→T443, T434→T444 (chuỗi places/districts; docs-only, không đổi DB)** | Không đụng DB (0 dữ liệu) | Đổi tên 3 file `tasks/T432-…→T442-…`, `T433-…→T443-…`, `T434-…→T444-…` và đổi `id:` + `former_ids` trong frontmatter. Revert = đổi tên lại 3 file về T432/T433/T434 và đặt lại `id:` cũ (xoá `former_ids`, khôi phục `depends_on`). |
 | 2026-10-20 | **T439 — Đồng bộ cấu hình agent .opencode theo .claude** | Không đụng DB (thuần config/docs) | `git revert <sha-commit-T439>` — hoàn nguyên toàn bộ opencode.json/agents/skills/gitignore/banner; không cần restore DB |
 | 2026-10-20 | **T432 — Import Claude XML Places (59K) + Districts (16K)** | `data/backups/T428_20261020_111026/lineage.db` (quick_check=ok) | `DELETE FROM namevi_map_places WHERE source='claude_xml_import'; DROP TABLE codex_district_name;` (208 dòng insert + 16.907 district; không UPDATE bảng gốc) |
 | 2026-10-20 | **T434 — Gemini batch places/districts (PAUSED, 16.555/59.150 + 5/16.907)** | Không cần restore DB | `DELETE FROM ai_place_name; DELETE FROM ai_district_name; DROP TABLE ai_place_name; DROP TABLE ai_district_name;` — snapshot TSV: `docs/sessions/2026-10-20/T428/ai_place_name_snapshot.tsv` |

@@ -71,3 +71,10 @@ Code: script dry-run + (sau duyệt) bổ sung trường `relation_kind` vào AP
 - [ ] (sau duyệt) ghi nhãn additive + API trả relation_kind
 - [ ] daoanh-qa kiểm độc lập
 - [ ] Admin xác nhận DONE
+
+## Quyết định Admin 2026-10-21
+
+1. **Bộ nhãn quan hệ chính thức = {noi_phap, tham_hoc, unknown}.** Nhãn `tham_hoc` thay cho `khac` ở định nghĩa done_when (1) và mọi chỗ khác trong file này (`khac` = y chỉ / tham học / giới sư / thế độ → đọc là `tham_hoc`).
+2. Nhãn `tham_hoc` trong hệ T270/T274 (label_auto) **giữ nguyên, không đụng**.
+3. **VIEW trong DB hiện còn dùng `khac`** (`v_tree_overlay`, cột `relation_kind_strongest`, xem T425). Việc đổi VIEW là **BƯỚC RIÊNG có gate** (backup lineage.db → dry-run → Admin duyệt → ghi docs/ROLLBACK.md). **Chưa làm** — chưa thực hiện trong lượt này.
+4. Không đổi status của task này (vẫn `pending`).

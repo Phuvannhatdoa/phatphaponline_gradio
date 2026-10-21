@@ -782,3 +782,14 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 <!-- T442-T444:START -->
 > **[2026-10-21 · T442 / T443 / T444 — Đổi ID trùng chuỗi places/districts] ⏳ PENDING (Admin duyệt 2026-10-21, chưa đánh DONE).** Đổi ID theo AGENTS §16 vì ID cũ trùng: `T432→T442` (analysis, former_ids: T432, T429) · `T433→T443` (import, former_ids: T433, T430, depends_on: [T442]) · `T434→T444` (Gemini batch, former_ids: T434, T431, depends_on: [T443, T418]). File: `tasks/T442-places-districts-claude-analysis.md`, `tasks/T443-places-districts-claude-import.md`, `tasks/T444-places-districts-gemini-batch.md`. Nội dung kỹ thuật không đổi; ID cũ còn ghi trong heading/ghi chú để không mất lịch sử. Lưu ý: T432 gốc ghi `depends_on: []` (giữ nguyên); T433 gốc ghi `depends_on: [T429]` nên đổi thành `[T442]` (không phải `[T430, T418]` như chỉ định). **T429 (Thiền Đăng):** task ID T429 giữ nguyên; các chỗ ghi "T430" cho import = T443, "T429" trong nội dung chuỗi places = T442.
 <!-- T442-T444:END -->
+<!-- T435-T438:START -->
+> **[2026-10-21 · T435, T436, T437, T438] ✅ DONE — Admin xác nhận 2026-10-21.**
+<!-- T435-T438:END -->
+
+<!-- T427-2:START -->
+> **[2026-10-21 · T427-2 — ETL load hang] ✅ DONE — đóng; trùng với T437 (Admin xác nhận 2026-10-21).** File: `tasks/T427-2-etl-load-hang.md`.
+<!-- T427-2:END -->
+
+<!-- T442-T444:START -->
+> **[2026-10-21 · T442 / T443 / T444 — Đổi ID trùng chuỗi places/districts] ⏳ PENDING (Admin duyệt 2026-10-21, chưa đánh DONE).** Đổi ID theo AGENTS §16 vì ID cũ trùng: `T432→T442` (analysis, former_ids: T432, T429) · `T433→T443` (import, former_ids: T433, T430, depends_on: [T442]) · `T434→T444` (Gemini batch, former_ids: T434, T431, depends_on: [T443, T418]). File: `tasks/T442-places-districts-claude-analysis.md`, `tasks/T443-places-districts-claude-import.md`, `tasks/T444-places-districts-gemini-batch.md`. Nội dung kỹ thuật không đổi; ID cũ còn ghi trong heading/ghi chú để không mất lịch sử. Lưu ý: T432 gốc ghi `depends_on: []` (giữ nguyên); T433 gốc ghi `depends_on: [T429]` nên đổi thành `[T442]` (không phải `[T430, T418]` như chỉ định). **T429 (Thiền Đăng):** task ID T429 giữ nguyên; các chỗ ghi "T430" cho import = T443, "T429" trong nội dung chuỗi places = T442.
+<!-- T442-T444:END -->

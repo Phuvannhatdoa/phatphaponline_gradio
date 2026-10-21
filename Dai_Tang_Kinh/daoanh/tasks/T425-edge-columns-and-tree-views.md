@@ -69,3 +69,11 @@ Không xoá bảng cũ. Mọi ghi DB: chạy thử trước → Admin duyệt �
 - [ ] So sánh `v_tree_overlay` với `lineage_edge_consensus` hiện có — liệt kê chênh lệch (đặc biệt cạnh BUG-038).
 - [ ] Bảng gộp cũ giữ nguyên (lưu trữ), không xoá; `dharma_lineage_unified` không dùng làm nguồn.
 - [ ] daoanh-qa kiểm; Admin xác nhận DONE.
+
+## Quyết định Admin 2026-10-21
+
+1. **Bộ nhãn quan hệ chính thức = {noi_phap, tham_hoc, unknown}** (xem T414). Nhãn `tham_hoc` thay cho `khac`. Nhãn `tham_hoc` trong hệ T270/T274 (label_auto) giữ nguyên.
+2. **Việc còn lại (gated, chưa làm):**
+   - Cập nhật CASE trong VIEW từ `khac` sang `tham_hoc`: DROP + CREATE VIEW `v_tree_overlay` / cột `relation_kind_strongest`.
+   - Điều kiện bắt buộc trước khi chạy: (a) backup `data/lineage.db` (SQLite API, ghi đường dẫn); (b) dry-run và xuất kết quả so sánh trước/sau; (c) Admin duyệt; (d) ghi lệnh revert vào `docs/ROLLBACK.md`.
+   - Ghi chú này chỉ là kế hoạch — **không thực hiện** trong lượt này. Không đổi status task.

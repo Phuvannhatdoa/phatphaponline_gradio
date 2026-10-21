@@ -1,8 +1,9 @@
 ---
 id: T427-2
 title: "T427-2: Fix tab ETL load hang (edge-case after AbortController)"
-status: pending
+status: done
 created: 2026-10-20
+updated: 2026-10-21
 owner: null
 depends_on: [T427, BUG-050, T437]
 ---
@@ -49,3 +50,14 @@ tab nhanh). Phối hợp đúng với:
 
 Dự kiến chỉ sửa `admin/namevimap.html` (logic `etlTabLoaded` / `_etlFullLoad()` /
 `_etlAbortCtrl`). Không đổi schema DB. Backup trước khi sửa vào `docs/sessions/<ngày>/`.
+
+## Đóng — trùng với T437
+
+Admin chọn đóng task này (2026-10-21) và ghi chú: **trùng với T437** (BUG-050), cùng triệu
+chứng tab ETL kẹt "Đang tải…" sau AbortController khi rời/quay lại tab giữa chừng.
+
+- Nhánh `switchTab()` đã được T437 vòng 2 sửa (cả 2 nhánh if/else gọi chung `_etlFullLoad()`,
+  `namevimap.html` dòng ~1030-1050); verify bằng browser thật 2026-10-21: chuyển tab liên tục
+  lúc đang tải, không còn kẹt, lượt tải cũ bị abort đúng và lượt mới hoàn tất.
+- Deadline/abort tách riêng cho bảng flag-queue theo T437 vòng 2 (`_etlFlagTabCtrl`).
+- Không còn task riêng cho edge-case này; mọi theo dõi về sau nằm ở `tasks/T437-bug050-namevimap-stuck-loading.md`.
