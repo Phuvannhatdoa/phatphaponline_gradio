@@ -666,3 +666,44 @@ Copy-Item "docs\sessions\2026-10-20\T283\t166_identity_audit.py.bak-before-T283"
 **Lưu ý:** `npm run audit:t166` FAIL có sẵn trước T283 (DB `lineage.db` thiếu cột
 `identity_status` trong bảng `translation_cache` — schema T166 chưa migrate), không liên quan
 commit này.
+
+---
+
+## BUG-placevn-baseurl (2026-10-20) — placevn.html dùng prod URL khi test local (1 dòng, 0 DB)
+
+**Thay đổi:** `admin/placevn.html:113` — `hostname === 'localhost' ? '' : prod` đổi thành
+protocol-based check (`http:`/`https:` → same-origin, `file://` mới fallback prod). Fix lỗi
+console `ERR_CONNECTION_REFUSED` khi test tại 127.0.0.1:8080 (127.0.0.1 không khớp branch
+localhost nên gọi thẳng phatphaponline.org, mà VPS 443 đang refused).
+
+**Backup:** `docs/sessions/2026-10-20/BUG-placevn-baseurl/placevn.html.bak-before-baseurl`.
+
+**Cách revert:**
+```powershell
+Copy-Item -LiteralPath "docs/sessions/2026-10-20/BUG-placevn-baseurl/placevn.html.bak-before-baseurl" -Destination "admin/placevn.html" -Force
+```
+
+**Mất dữ liệu?** Không (0 DB). Session log: `docs/sessions/2026-10-20_BUG-placevn-baseurl.md`.
+
+---
+
+---
+
+## BUG-pl-id-404 (2026-10-20) — namevimap.html: click Place ID PL… mở nhầm person.html (0 DB)
+
+**Thay đổi:** `admin/namevimap.html` — hàm `dilaLink(id)`: ID khớp `/^PL\d+$/i` → link
+`/daoanh/admin/placevn.html?id=<id>`; A…/T… giữ `person.html?id=`. Trước đó mọi ID (kể cả PL)
+đều vào `person.html` → `/api/persons/PL…` 404 → "Không tìm thấy".
+
+**Backup:** `docs/sessions/2026-10-20/BUG-pl-id-404/namevimap.html.bak-before-pl-link`.
+
+**Cách revert:**
+```powershell
+Copy-Item -LiteralPath "docs/sessions/2026-10-20/BUG-pl-id-404/namevimap.html.bak-before-pl-link" -Destination "admin/namevimap.html" -Force
+```
+
+**Mất dữ liệu?** Không (0 DB).
+
+**Lưu ý commit:** fix chưa commit vì `dilaLink` chỉ tồn tại trong WIP chưa commit của session
+song song (HEAD không có hàm này) — commit kèm khi session đó commit, tránh nuốt WIP (§17).
+Session log: `docs/sessions/2026-10-20_BUG-pl-id-404.md`.
