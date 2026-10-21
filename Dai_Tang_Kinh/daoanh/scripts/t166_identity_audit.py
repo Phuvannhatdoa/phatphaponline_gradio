@@ -52,7 +52,9 @@ WRITE_CACHE_TYPES = ('person_bio', 'dila_card', 'place_note', 'relation_evidence
 
 # ── 3. Admin-write routes (POST/PUT/DELETE) cần auth ─────────────────────────
 # Regex trên dòng route + hàm bên dưới. Các route thuần ĐỌC không cần.
-FORBIDDEN_INLINE_LLM_KEY = ('AIzaSyB8qS0elX9NZ7IIFpmeZSkKfvAV6WiukiE',)
+# T283: KHÔNG nhúng key thật vào source. Dò theo MẪU key Gemini (AIza + ≥30 ký tự)
+# thay vì so khớp chuỗi key cụ thể — bắt được mọi key Gemini lộ, không riêng key cũ.
+FORBIDDEN_INLINE_LLM_KEY_RE = re.compile(r'AIza[0-9A-Za-z_\-]{30,}')
 
 
 def _table_has(conn, table):
@@ -196,10 +198,9 @@ def _check_auth():
             problems.append(f'  [FAIL] {path} [{method}] không gọi verify_session')
 
     # inline API key lộ trong file (SPEC §20.2 #15)
-    for key in FORBIDDEN_INLINE_LLM_KEY:
-        if key in src:
-            # L17400+ đã dùng nhưng chỉ khi groq_key thiếu — cảnh báo, để Admin xử lý
-            problems.append(f'  [WARN] inline Gemini API key vẫn nằm trong app.py')
+    if FORBIDDEN_INLINE_LLM_KEY_RE.search(src):
+        # L17400+ đã dùng nhưng chỉ khi groq_key thiếu — cảnh báo, để Admin xử lý
+        problems.append(f'  [WARN] inline Gemini API key vẫn nằm trong app.py')
     return problems
 
 

@@ -638,3 +638,31 @@ Audit: `canonical_decision`/`en_audit_log` có 2 dòng mới (`action=edit` rồ
 `name_vi='Khoảng Tất Đạ Quốc'` rồi `POST .../approve` (tạo thêm 2 dòng audit mới, giữ lịch sử đầy
 đủ — khuyến nghị thay vì sửa tay), hoặc khôi phục `data/lineage.db` từ backup ở trên nếu cần an
 toàn tuyệt đối (sẽ mất toàn bộ thay đổi khác ghi sau thời điểm backup 2026-10-20 14:52).
+
+---
+
+## T283 (2026-10-20) — Xóa key Gemini khỏi scripts/t166_identity_audit.py (docs-only, 0 DB)
+
+**Thay đổi:** 1 file duy nhất — `scripts/t166_identity_audit.py`: hằng
+`FORBIDDEN_INLINE_LLM_KEY` (chứa key Gemini thật) thay bằng regex mẫu
+`FORBIDDEN_INLINE_LLM_KEY_RE = re.compile(r'AIza[0-9A-Za-z_\-]{30,}')` — audit vẫn dò được
+mọi key Gemini lộ trong app.py, không còn nhúng key thật trong source. 0 DB, 0 TTL, 0 API.
+
+**Backup:** `docs/sessions/2026-10-20/T283/t166_identity_audit.py.bak-before-T283`
+(SHA256 `7BEBC4337A8332947FDA892AF5159DF9C30ADE4372DD180A13508502EFB4B895`).
+
+**Cách revert (chọn 1):**
+
+```powershell
+# Cách 1 — git (không mất gì):
+git revert --no-edit <sha-cua-commit-T283>
+
+# Cách 2 — khôi phục từ backup:
+Copy-Item "docs\sessions\2026-10-20\T283\t166_identity_audit.py.bak-before-T283" "scripts\t166_identity_audit.py" -Force
+```
+
+**Mất dữ liệu?** Không. Key cũ quay lại source (kém an toàn) nhưng chức năng không đổi.
+
+**Lưu ý:** `npm run audit:t166` FAIL có sẵn trước T283 (DB `lineage.db` thiếu cột
+`identity_status` trong bảng `translation_cache` — schema T166 chưa migrate), không liên quan
+commit này.
