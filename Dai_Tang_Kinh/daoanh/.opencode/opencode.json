@@ -1,6 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["CLAUDE.md"],
+  "instructions": [
+    "CLAUDE.md"
+  ],
   "permission": {
     "external_directory": "ask",
     "read": {
@@ -76,6 +78,7 @@
       "Remove-Item -Recurse*": "deny",
       "sqlite3 * DROP *": "deny",
       "sqlite3 * DELETE *": "deny"
-    }
+    },
+    "task": "allow"
   }
 }

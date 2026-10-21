@@ -779,6 +779,10 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 > **[2026-10-20 · T439] Đồng bộ cấu hình agent .opencode theo .claude (settings/agents/skills)** ✅ DONE (opencode.json mirror permission của .claude/settings.json; 3 agent daoanh-qa/daoanh-debugger/tich-hop dạng subagent; 2 skill daoanh-task/lineage-audit đúng định dạng SKILL.md; banner đồng bộ 2 bản daoanh-task; gitignore negation cho config json. Verify: `opencode debug config` 0 lỗi, `opencode debug skill` load đúng). Task: `tasks/T439-sync-agent-config-opencode-claude.md`.
 <!-- T439:END -->
 
+<!-- T450:START -->
+> **[2026-10-21 · T450] Tối ưu autocomplete bền vững: FTS5 cho `/daoanh/api/public/autocomplete` (<200ms mọi chuỗi)** ⏳ PENDING (kế tiếp T416: B-tree không seek được cho LIKE `%q%`; cần nghiên cứu FTS5 trên bản copy DB trước, không đụng lineage.db khi chưa duyệt). Task: `tasks/T450-fts5-autocomplete-search.md`.
+<!-- T450:END -->
+
 <!-- T448:START -->
 > **[2026-10-21 · T448] Kế hoạch fix tuần tự bug UI/GIS — Admin phê chuẩn scan task undone** ✅ DONE (① T412 BUG-037: code có sẵn + đã kiểm (A004980 → "Hưng Hóa Tồn Tưởng") → DONE → ② T416: ✅ ĐÃ SỬA + commit `b40abd67` + 2 index DB (`idx_namevi_places_cover` covering + `idx_lexicon_term`): 1.7–9.3s → 186–304ms; backup `data/backups/T416_20261021_172504` → DONE → ③ T406: code có sẵn + đã kiểm → DONE). Task: `tasks/T448-fix-bug-batch-ui-gis.md`.
 <!-- T448:END -->
