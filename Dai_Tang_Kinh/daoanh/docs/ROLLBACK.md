@@ -7,6 +7,8 @@
 
 | Date | Task | Backup | Revert |
 |------|------|--------|--------|
+| 2026-10-21 | **BUG-049 — local_gateway.py proxy bắt `Timeout` (504 JSON) + `RequestException` (502 JSON) + log build 2026-10-21** (commit `12373e57e76d7761ba263584942a9da60d210fe8`) | Không đụng DB (chỉ code proxy + docs/log) | `git revert 12373e57e76d7761ba263584942a9da60d210fe8` — đưa `local_gateway.py` về bản trước (bỏ 2 nhánh except); không cần restore DB |
+| 2026-10-21 | **Đổi ID tài liệu T432→T442, T433→T443, T434→T444 (chuỗi places/districts; docs-only, không đổi DB)** | Không đụng DB (0 dữ liệu) | Đổi tên 3 file `tasks/T432-…→T442-…`, `T433-…→T443-…`, `T434-…→T444-…` và đổi `id:` + `former_ids` trong frontmatter. Revert = đổi tên lại 3 file về T432/T433/T434 và đặt lại `id:` cũ (xoá `former_ids`, khôi phục `depends_on`). |
 | 2026-10-20 | **T439 — Đồng bộ cấu hình agent .opencode theo .claude** | Không đụng DB (thuần config/docs) | `git revert <sha-commit-T439>` — hoàn nguyên toàn bộ opencode.json/agents/skills/gitignore/banner; không cần restore DB |
 | 2026-10-20 | **T432 — Import Claude XML Places (59K) + Districts (16K)** | `data/backups/T428_20261020_111026/lineage.db` (quick_check=ok) | `DELETE FROM namevi_map_places WHERE source='claude_xml_import'; DROP TABLE codex_district_name;` (208 dòng insert + 16.907 district; không UPDATE bảng gốc) |
 | 2026-10-20 | **T434 — Gemini batch places/districts (PAUSED, 16.555/59.150 + 5/16.907)** | Không cần restore DB | `DELETE FROM ai_place_name; DELETE FROM ai_district_name; DROP TABLE ai_place_name; DROP TABLE ai_district_name;` — snapshot TSV: `docs/sessions/2026-10-20/T428/ai_place_name_snapshot.tsv` |
@@ -667,6 +669,34 @@ Copy-Item "docs\sessions\2026-10-20\T283\t166_identity_audit.py.bak-before-T283"
 `identity_status` trong bảng `translation_cache` — schema T166 chưa migrate), không liên quan
 commit này.
 
+## 2026-10-21 — Dọn tasks/ : chuyển 175 task DONE vào tasks/archive_done/
+
+**Manifest:** `docs/sessions/2026-10-21/tasks-archive-manifest.txt` (tên file + sha256 + size của 175 file gốc).
+
+**Giữ lại không chuyển (nghi ngờ, chờ Admin):** `tasks/T428-bug046-claude-column-namevimap.md`,
+`tasks/T430-bug047-rangeerror-stack-overflow-search.md` — status frontmatter ghi `done` nhưng báo cáo/`done_when`
+của chính task nói rõ cần Admin xác nhận bằng mắt/browser thật trước khi chốt DONE (chưa thấy bằng chứng xác nhận đó).
+
+**Cách khôi phục (move ngược từ archive_done/ về tasks/):**
+
+```powershell
+# PowerShell — từ daoanh/
+Get-Content docs\sessions\2026-10-21\tasks-archive-manifest.txt | Select-String '\.md\t' | ForEach-Object {
+  $name = ($_ -split "`t")[0]
+  Move-Item "tasks\archive_done\$name" "tasks\$name" -Force
+}
+```
+
+```bash
+# bash — từ daoanh/
+awk -F'\t' '/\.md\t/{print $1}' docs/sessions/2026-10-21/tasks-archive-manifest.txt | while read -r f; do
+  mv "tasks/archive_done/$f" "tasks/$f"
+done
+```
+
+**Mất dữ liệu?** Không — chỉ di chuyển file (không sửa nội dung), có manifest sha256 để đối chiếu.
+Sau khi khôi phục, chạy lại `python scripts/build_progress_data.py` để đồng bộ dashboard.
+
 ---
 
 ## BUG-placevn-baseurl (2026-10-20) — placevn.html dùng prod URL khi test local (1 dòng, 0 DB)
@@ -684,8 +714,6 @@ Copy-Item -LiteralPath "docs/sessions/2026-10-20/BUG-placevn-baseurl/placevn.htm
 ```
 
 **Mất dữ liệu?** Không (0 DB). Session log: `docs/sessions/2026-10-20_BUG-placevn-baseurl.md`.
-
----
 
 ---
 
