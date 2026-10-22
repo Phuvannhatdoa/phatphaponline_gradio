@@ -1,9 +1,9 @@
 ---
 id: T408
 title: "Dropdown autocomplete/places chưa badge nguồn tên Việt (ZQ) — dễ nhầm homonym"
-status: pending
+status: done
 created: 2026-10-15
-updated: 2026-10-15
+updated: 2026-10-21
 owner: unassigned
 parent: T404
 module: UI / Places

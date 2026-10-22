@@ -1,5 +1,13 @@
 # TASKTODO — Active Tasks
 
+<!-- T148-DB-PARSE:START -->
+> **[2026-10-22 · T148 — DILA XML đọc từ DB thay vì file đĩa] ⏳ CHỜ ADMIN XÁC NHẬN.** Code `app.py` `_t148_load_dila_extra()` đã sửa: 49,361 bản ghi `ttl_v2_source_records` (kind=`DILA_XML`) → 49,361 persons, API `dila_full` trả `has_extra=true`. Chưa có task ID, chưa commit, chưa chạy pipeline, chưa kiểm UI. Chi tiết: [Handoff](Handoff-2026-10-22-t148-dila-db-parse.md).
+<!-- T148-DB-PARSE:END -->
+
+<!-- T453:START -->
+> **[2026-10-22 · T453 — DILA authority_catalog (經錄規範資料庫) tạng A + lớp dịch Việt] 🔄 IN_PROGRESS — (A) import XONG, (B) search HOME chờ duyệt.** Nguồn `data/dila_import/authority_catalog.2026-10/json/` (27/27 file trùng SHA256 GitHub DILA-edu master 2026-08-31, CC BY-SA 3.0; 5.747 bộ, 26 tạng). Luồng đã chốt: **Cloud session dịch** (prompt `docs/sessions/2026-10-22/T453/PROMPT-cloud-translate.md`) → lưu `docs/sessions/2026-10-22/T453/<tạng>.vi.json` → **coordinator** `scripts/t453_dila_catalog_import.py --dry-run/--apply --canon <tạng>`. **Tên người: DB thắng** (`people.name_vi` theo DILA ID), tên bản dịch chỉ tham khảo. **(A) đã apply** (Admin duyệt 05:54): 3 bảng mới `dila_catalog_works` 9 / `_contributors` 10 (10/10 khớp people.id) / `_places` 0 (A.json không có places) + `data_sources` DILA_CATALOG (id 16). Backup `data/backups/lineage_t453_20261022_125818.db`. 2 tên lệch → dùng DB: A001713 Huệ/Tuệ Uyển; A000457 "Lã Dì Giản" (DB, nghi sai → task chuẩn hoá tên). Năm cả 9 bộ = khung triều đại ⇒ `year_precision=dynasty_range`. **Còn:** (B) `/daoanh/api/search` thêm works DILA (chờ duyệt) · tạng B…ZW chờ Cloud dịch · daoanh-qa · Admin DONE. **Revert:** `python -X utf8 scripts/t453_dila_catalog_import.py --revert` (DROP bảng mới, mất 0 dữ liệu cũ). Task: `tasks/T453-dila-catalog-a-import-vi.md`. Liên quan: T452 (time_periods sai năm, **deferred**). Handoff: `docs/Handoff-2026-10-22-T453-dila-catalog.md`.
+<!-- T453:END -->
+
 <!-- DUP-ID-NOTE:START -->
 > **⚠ NOTE CHO PLANNER HERMES — VỤ TRÙNG ID TASK SONG SONG (2026-10-20):** Session song
 > song liên tục **đổi số task khi đang chạy**: task Import Places/Districts đi từ
@@ -779,12 +787,8 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 > **[2026-10-20 · T439] Đồng bộ cấu hình agent .opencode theo .claude (settings/agents/skills)** ✅ DONE (opencode.json mirror permission của .claude/settings.json; 3 agent daoanh-qa/daoanh-debugger/tich-hop dạng subagent; 2 skill daoanh-task/lineage-audit đúng định dạng SKILL.md; banner đồng bộ 2 bản daoanh-task; gitignore negation cho config json. Verify: `opencode debug config` 0 lỗi, `opencode debug skill` load đúng). Task: `tasks/T439-sync-agent-config-opencode-claude.md`.
 <!-- T439:END -->
 
-<!-- T450:START -->
-> **[2026-10-21 · T450] Tối ưu autocomplete bền vững: FTS5 cho `/daoanh/api/public/autocomplete` (<200ms mọi chuỗi)** ⏳ PENDING (kế tiếp T416: B-tree không seek được cho LIKE `%q%`; cần nghiên cứu FTS5 trên bản copy DB trước, không đụng lineage.db khi chưa duyệt). Task: `tasks/T450-fts5-autocomplete-search.md`.
-<!-- T450:END -->
-
 <!-- T448:START -->
-> **[2026-10-21 · T448] Kế hoạch fix tuần tự bug UI/GIS — Admin phê chuẩn scan task undone** ✅ DONE (① T412 BUG-037: code có sẵn + đã kiểm (A004980 → "Hưng Hóa Tồn Tưởng") → DONE → ② T416: ✅ ĐÃ SỬA + commit `b40abd67` + 2 index DB (`idx_namevi_places_cover` covering + `idx_lexicon_term`): 1.7–9.3s → 186–304ms; backup `data/backups/T416_20261021_172504` → DONE → ③ T406: code có sẵn + đã kiểm → DONE). Task: `tasks/T448-fix-bug-batch-ui-gis.md`.
+> **[2026-10-21 · T448] Kế hoạch fix tuần tự bug UI/GIS — Admin phê chuẩn scan task undone** ⏳ IN_PROGRESS (thứ tự: ① T412 BUG-037 tên node cây theo TTL full name — chỉ phần code, không ghi DB → ② T416 autocomplete áp INDEXED BY hint (A) ANALYZE trình Admin riêng → ③ T406 chỉ chạy daoanh-qa giúp session khác). Mỗi bug: backup → daoanh-debugger → daoanh-qa → Admin xác nhận → mới sang bug kế. Task: `tasks/T448-fix-bug-batch-ui-gis.md`.
 <!-- T448:END -->
 
 <!-- T435-T438:START -->

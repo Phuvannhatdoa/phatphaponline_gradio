@@ -1,4 +1,17 @@
+@AGENTS.md
+
 # Đạo Ảnh — Claude Code Project Context
+
+> **SSOT workflow/commit/handoff/ID rules:** xem `AGENTS.md` (cùng thư mục) — mọi quy tắc làm việc, commit, revert, handoff, cấp ID đều nằm ở đó. File này chỉ giữ bối cảnh nhanh của dự án Đạo Ảnh; không lặp lại quy tắc.
+
+## Bắt đầu session (đọc trước khi làm)
+
+1. `docs/tasktodo.md` — trạng thái task mới nhất (block có ngày gần nhất).
+2. `docs/Handoff-*.md` — file bàn giao có ngày mới nhất.
+3. `docs/integration/REALITY_CHECK.md` — số liệu DB/code thực tế.
+4. Nếu có việc đang dở: task file trong `tasks/` và `docs/ROLLBACK.md`.
+
+Không tự tạo lại schema/SQL từ đầu khi các file trên đã có.
 
 ## Kiến trúc server
 

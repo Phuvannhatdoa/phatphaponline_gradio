@@ -3,9 +3,9 @@ id: T284
 title: "M0 — Thêm @AGENTS.md vào CLAUDE.md"
 module: Nền dev & an toàn
 priority: p0
-status: pending
+status: done
 created: 2026-10-10
-updated: 2026-10-10
+updated: 2026-10-21
 owner: claude-code
 parent: docs/integration (phân tích 2026-10-10)
 depends_on: [T283]
