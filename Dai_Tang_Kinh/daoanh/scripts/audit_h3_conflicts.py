@@ -102,6 +102,8 @@ def main():
     ap.add_argument("--out", default=os.path.join(HERE, "..", "docs", "evidence"))
     ap.add_argument("--strict", action="store_true",
                     help="Phase 3: exit 1 khi con conflict (mặc định exit 0 = WARN)")
+    ap.add_argument("--force", action="store_true",
+                    help="Bypass data-level check: ghi đè file evidence mặc định KHÔNG bật")
     a = ap.parse_args()
 
     conn = sqlite3.connect("file:%s?mode=ro" % os.path.abspath(DB_PATH).replace("\\", "/"),
@@ -208,27 +210,46 @@ def main():
     print("           (ung vien suy xet sua year theo khuon W4). MOI nhom deu can nguoi ra.")
     print("-" * 70)
 
-    # ---- xuat file
+# ---- xuat file
     out_dir = os.path.abspath(a.out)
-    os.makedirs(out_dir, exist_ok=True)
     tsv = os.path.join(out_dir, "%s_T263_h3_conflicts.tsv" % DATE)
     tsv_sum = os.path.join(out_dir, "%s_T263_h3_conflicts_summary.tsv" % DATE)
-    with io.open(tsv, "w", encoding="utf-8", newline="\n") as f:
-        f.write("dila_id\tyear\tr_derived\tera_name\tn\tera_span\tgroup\tghi_chu\n")
-        for did, year, r, zh, n, span, grp, desc in sorted(conflicts):
-            f.write("%s\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n"
-                    % (did, year, r, zh, n,
-                       ("%s-%s" % span) if span else "-", grp, desc))
-    with io.open(tsv_sum, "w", encoding="utf-8", newline="\n") as f:
-        f.write("group\tcount\tmo_ta\n")
-        f.write("B\t%d\tyear trong khoang cua chinh era text neu (era trai nhieu nam)\n"
-                % grp_count.get("B", 0))
-        f.write("C\t%d\tyear thuoc era khac — nghi conflation nhieu su kien trong note\n"
-                % grp_count.get("C", 0))
-        f.write("A\t%d\tyear ngoai moi khoang niem hieu da biet — ung vien ra/sua year\n"
-                % grp_count.get("A", 0))
-    print("  TSV : %s" % tsv)
-    print("  SUM : %s" % tsv_sum)
+
+    # ---- kiem tra du lieu tai lieu da ton tai (chuan we guard)
+    existing_tsv = os.path.abspath(tsv.replace("\\", "/"))
+    existing_tsv_sum = os.path.abspath(tsv_sum.replace("\\", "/"))
+    new_data_rows = len(conflicts)  # so dong data (khong count header)
+
+    skip_write = False
+    if not a.force:
+        if os.path.exists(existing_tsv):
+            with io.open(existing_tsv, "r", encoding="utf-8", newline="\n") as f:
+                old_lines = f.read().strip().split("\n")
+            old_data_rows = max(0, len(old_lines) - 1)  # tre header
+            if old_data_rows > 0 and new_data_rows < 0.5 * old_data_rows:
+                print("[GUARD] Buon bo ghi evidence: dong moi (%d) < 50%% dong cu (%d)"
+                      % (new_data_rows, old_data_rows))
+                print("  Su dung --force de qua qua.")
+                skip_write = True
+
+    if not skip_write:
+        os.makedirs(out_dir, exist_ok=True)
+        with io.open(tsv, "w", encoding="utf-8", newline="\n") as f:
+            f.write("dila_id\tyear\tr_derived\tera_name\tn\tera_span\tgroup\tghi_chu\n")
+            for did, year, r, zh, n, span, grp, desc in sorted(conflicts):
+                f.write("%s\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n"
+                        % (did, year, r, zh, n,
+                           ("%s-%s" % span) if span else "-", grp, desc))
+        with io.open(tsv_sum, "w", encoding="utf-8", newline="\n") as f:
+            f.write("group\tcount\tmo_ta\n")
+            f.write("B\t%d\tyear trong khoang cua chinh era text neu (era trai nhieu nam)\n"
+                    % grp_count.get("B", 0))
+            f.write("C\t%d\tyear thuoc era khac — nghi conflation nhieu su kien trong note\n"
+                    % grp_count.get("C", 0))
+            f.write("A\t%d\tyear ngoai moi khoang niem hieu da biet —ung vien ra/sua year\n"
+                    % grp_count.get("A", 0))
+        print("  TSV : %s" % tsv)
+        print("  SUM : %s" % tsv_sum)
     print("-" * 70)
     print("  Vi du moi nhom (toi da 5 dong):")
     shown = {}
