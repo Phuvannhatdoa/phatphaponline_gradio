@@ -1,0 +1,6482 @@
+{
+  "B0001": {
+    "authorityID": "CA0006085",
+    "vol": "B01..B02",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "均如大師華嚴學全書",
+    "title_vi": "Quân Như Đại Sư Hoa Nghiêm Học Toàn Thư",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 20,
+    "cjk_chars": 426239,
+    "en_words": 22,
+    "byline": "均如著　金知見編",
+    "byline_vi": "Quân Như trước tác; Kim Tri Kiến biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "均如",
+        "name_vi": "Quân Như",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034207"
+      },
+      {
+        "name": "金知見",
+        "name_vi": "Kim Tri Kiến",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A032660"
+      }
+    ]
+  },
+  "B0002": {
+    "authorityID": "CA0006086",
+    "vol": "B03..B05",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "華嚴經疏論纂要",
+    "title_vi": "Hoa Nghiêm Kinh Sớ Luận Toản Yếu",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 120,
+    "cjk_chars": 1700762,
+    "byline": "道霈編",
+    "byline_vi": "Đạo Bái biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "道霈",
+        "name_vi": "Đạo Bái",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001551"
+      }
+    ]
+  },
+  "B0003": {
+    "authorityID": "CA0006087",
+    "vol": "B06",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳長部經典",
+    "title_vi": "Nam Truyền Trường Bộ Kinh Điển",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 178088,
+    "en_words": 3,
+    "byline": "江鍊百譯",
+    "byline_vi": "Giang Luyện Bách dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "江鍊百",
+        "name_vi": "Giang Luyện Bách",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000390"
+      }
+    ]
+  },
+  "B0004": {
+    "authorityID": "CA0006088",
+    "vol": "B06",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳中部經典",
+    "title_vi": "Nam Truyền Trung Bộ Kinh Điển",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 162826,
+    "en_words": 14,
+    "byline": "芝峯譯",
+    "byline_vi": "Chi Phong dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "芝峯",
+        "name_vi": "Chi Phong",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000769"
+      }
+    ]
+  },
+  "B0005": {
+    "authorityID": "CA0006089",
+    "vol": "B06",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳小部經典",
+    "title_vi": "Nam Truyền Tiểu Bộ Kinh Điển",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 235250,
+    "en_words": 2,
+    "byline": "夏丏尊譯",
+    "byline_vi": "Hạ Miện Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "夏丏尊",
+        "name_vi": "Hạ Miện Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000903"
+      }
+    ]
+  },
+  "B0006": {
+    "authorityID": "CA0006090",
+    "vol": "B06",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "泰國大藏經小部經",
+    "title_vi": "Thái Quốc Đại Tạng Kinh Tiểu Bộ Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 73982,
+    "byline": "黃謹良譯",
+    "byline_vi": "Hoàng Cẩn Lương dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "黃謹良",
+        "name_vi": "Hoàng Cẩn Lương",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A035002"
+      }
+    ]
+  },
+  "B0007": {
+    "authorityID": "CA0006091",
+    "vol": "B06",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "發趣論",
+    "title_vi": "Phát Thú Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 110941,
+    "en_words": 5,
+    "byline": "范寄東譯",
+    "byline_vi": "Phạm Ký Đông dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "范寄東",
+        "name_vi": "Phạm Ký Đông",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004850"
+      }
+    ]
+  },
+  "B0008": {
+    "authorityID": "CA0006092",
+    "vol": "B06",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大發趣論註",
+    "title_vi": "Đại Phát Thú Luận Chú",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 65574,
+    "en_words": 12,
+    "byline": "覺音造　范寄東譯",
+    "byline_vi": "Giác Âm tạo; Phạm Ký Đông dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "覺音",
+        "name_vi": "Giác Âm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A016340"
+      },
+      {
+        "name": "范寄東",
+        "name_vi": "Phạm Ký Đông",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004850"
+      }
+    ]
+  },
+  "B0009": {
+    "authorityID": "CA0006093",
+    "vol": "B06",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "冠導阿毗達磨俱舍論",
+    "title_vi": "Quán Đạo A-tì-đạt-ma Câu-xá Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 30,
+    "cjk_chars": 209404,
+    "byline": "佐伯旭雅編",
+    "byline_vi": "Tả Bá Húc Nhã biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "佐伯旭雅",
+        "name_vi": "Tả Bá Húc Nhã",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034211"
+      }
+    ]
+  },
+  "B0010": {
+    "authorityID": "CA0006094",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳轉法輪經",
+    "title_vi": "Nam Truyền Chuyển Pháp Luân Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1250,
+    "byline": "丘哌博譯",
+    "byline_vi": "Khâu 哌 Bác dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "không đọc được chữ 哌",
+    "contributors": [
+      {
+        "name": "丘哌博",
+        "name_vi": "Khâu 哌 Bác",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "name_vi_note": "không đọc được chữ 哌",
+        "id": "A034215"
+      }
+    ]
+  },
+  "B0011": {
+    "authorityID": "CA0006095",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "轉法輪經",
+    "title_vi": "Chuyển Pháp Luân Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1109,
+    "byline": "岫廬譯",
+    "byline_vi": "Tụ Lư dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "岫廬",
+        "name_vi": "Tụ Lư",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034218"
+      }
+    ]
+  },
+  "B0012": {
+    "authorityID": "CA0006096",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "三寶經",
+    "title_vi": "Tam Bảo Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1006,
+    "byline": "法舫譯",
+    "byline_vi": "Pháp Phảng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法舫",
+        "name_vi": "Pháp Phảng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007860"
+      }
+    ]
+  },
+  "B0013": {
+    "authorityID": "CA0006097",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "吉祥經",
+    "title_vi": "Cát Tường Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 333,
+    "byline": "法舫譯",
+    "byline_vi": "Pháp Phảng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法舫",
+        "name_vi": "Pháp Phảng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007860"
+      }
+    ]
+  },
+  "B0014": {
+    "authorityID": "CA0006098",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "婆羅門正法經",
+    "title_vi": "Bà-la-môn Chánh Pháp Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1552,
+    "en_words": 1,
+    "byline": "法舫譯",
+    "byline_vi": "Pháp Phảng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法舫",
+        "name_vi": "Pháp Phảng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007860"
+      }
+    ]
+  },
+  "B0015": {
+    "authorityID": "CA0006099",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳羯臘摩經",
+    "title_vi": "Nam Truyền Yết-la-ma Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 963,
+    "byline": "丘寶光．徐鄂雲同譯",
+    "byline_vi": "Khâu Bảo Quang, Từ Ngạc Vân đồng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "丘寶光",
+        "name_vi": "Khâu Bảo Quang",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034219"
+      },
+      {
+        "name": "徐鄂雲",
+        "name_vi": "Từ Ngạc Vân",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034220"
+      }
+    ]
+  },
+  "B0016": {
+    "authorityID": "CA0006100",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳大悲經",
+    "title_vi": "Nam Truyền Đại Bi Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 798,
+    "byline": "法舫譯",
+    "byline_vi": "Pháp Phảng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法舫",
+        "name_vi": "Pháp Phảng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007860"
+      }
+    ]
+  },
+  "B0017": {
+    "authorityID": "CA0006101",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳法句經",
+    "title_vi": "Nam Truyền Pháp Cú Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 14098,
+    "en_words": 124,
+    "byline": "了參譯",
+    "byline_vi": "Liễu Tham dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "了參",
+        "name_vi": "Liễu Tham",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024157"
+      }
+    ]
+  },
+  "B0018": {
+    "authorityID": "CA0006102",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳大般湼槃經",
+    "title_vi": "Nam Truyền Đại Bát-niết-bàn Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 26951,
+    "byline": "巴宙譯",
+    "byline_vi": "Ba Trụ dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "巴宙",
+        "name_vi": "Ba Trụ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A032558"
+      }
+    ]
+  },
+  "B0019": {
+    "authorityID": "CA0006103",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南傳念安般經",
+    "title_vi": "Nam Truyền Niệm An-ban Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 5632,
+    "en_words": 4,
+    "byline": "湯用彤譯",
+    "byline_vi": "Thang Dụng Đồng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "湯用彤",
+        "name_vi": "Thang Dụng Đồng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024596"
+      }
+    ]
+  },
+  "B0020": {
+    "authorityID": "CA0006104",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "隨念三寶經淺說",
+    "title_vi": "Tùy Niệm Tam Bảo Kinh Thiển Thuyết",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 9178,
+    "byline": "法尊口述　雲根記",
+    "byline_vi": "Pháp Tôn khẩu thuật; Vân Căn ký",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      },
+      {
+        "name": "雲根",
+        "name_vi": "Vân Căn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034221"
+      }
+    ]
+  },
+  "B0021": {
+    "authorityID": "CA0006105",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "毒語心經",
+    "title_vi": "Độc Ngữ Tâm Kinh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 4554,
+    "byline": "白隱慧鶴註釋　南天棒鄧州提唱",
+    "byline_vi": "Bạch Ẩn Tuệ Hạc chú thích; Nam Thiên Bổng Đặng Châu đề xướng",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "白隱慧鶴",
+        "name_vi": "Bạch Ẩn Tuệ Hạc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000308"
+      },
+      {
+        "name": "南天棒鄧州",
+        "name_vi": "Nam Thiên Bổng Đặng Châu",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A029511"
+      }
+    ]
+  },
+  "B0022": {
+    "authorityID": "CA0006106",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "新譯薄伽梵母智慧到彼岸心經詮釋",
+    "title_vi": "Tân Dịch Bạc-già-phạm Mẫu Trí Tuệ Đáo Bỉ Ngạn Tâm Kinh Thuyên Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 6316,
+    "byline": "貢噶呼圖克圖譯",
+    "byline_vi": "Cống Cát Hô Đồ Khắc Đồ dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "貢噶呼圖克圖",
+        "name_vi": "Cống Cát Hô Đồ Khắc Đồ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034224"
+      }
+    ]
+  },
+  "B0023": {
+    "authorityID": "CA0006107",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "金剛般若波羅蜜經講義",
+    "title_vi": "Kim Cương Bát-nhã Ba-la-mật Kinh Giảng Nghĩa",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 309107,
+    "byline": "江味農著",
+    "byline_vi": "Giang Vị Nông trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "江味農",
+        "name_vi": "Giang Vị Nông",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000389"
+      }
+    ]
+  },
+  "B0024": {
+    "authorityID": "CA0006108",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "佛說阿彌陀經註釋會要",
+    "title_vi": "Phật Thuyết A-di-đà Kinh Chú Thích Hội Yếu",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 49410,
+    "byline": "鳩摩羅什譯　徐珂輯",
+    "byline_vi": "Cưu Ma La Thập dịch; Từ Kha tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "鳩摩羅什",
+        "name_vi": "Cưu Ma La Thập",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001583"
+      },
+      {
+        "name": "法舫",
+        "name_vi": "Từ Kha",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007860"
+      }
+    ]
+  },
+  "B0025": {
+    "authorityID": "CA0006109",
+    "vol": "B07",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "阿毗達摩攝義論",
+    "title_vi": "A-tì-đạt-ma Nhiếp Nghĩa Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 16713,
+    "byline": "阿耨樓陀造　法舫譯",
+    "byline_vi": "A Nậu Lâu Đà tạo; Pháp Phảng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "阿耨樓陀",
+        "name_vi": "A Nậu Lâu Đà",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A005158"
+      },
+      {
+        "name": "法舫",
+        "name_vi": "Pháp Phảng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007860"
+      }
+    ]
+  },
+  "B0026": {
+    "authorityID": "CA0006110",
+    "vol": "B08",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "四分比丘尼戒本註解",
+    "title_vi": "Tứ Phần Tì-kheo-ni Giới Bản Chú Giải",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 664654,
+    "en_words": 4777,
+    "byline": "佛瑩編",
+    "byline_vi": "Phật Oánh biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "佛瑩",
+        "name_vi": "Phật Oánh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034226"
+      }
+    ]
+  },
+  "B0027": {
+    "authorityID": "CA0006111",
+    "vol": "B08",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "瑜伽師地論戒品纂釋",
+    "title_vi": "Du-già Sư Địa Luận Giới Phẩm Toản Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 89290,
+    "en_words": 9,
+    "byline": "宗喀巴釋論　湯薌銘譯纂",
+    "byline_vi": "Tông Khách Ba thích luận; Thang Hương Minh dịch, toản",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "論 không có trong bảng vai trò; phiên âm 'luận'",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "湯薌銘",
+        "name_vi": "Thang Hương Minh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024044"
+      }
+    ]
+  },
+  "B0028": {
+    "authorityID": "CA0006112",
+    "vol": "B08",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩提正道菩薩戒論",
+    "title_vi": "Bồ-đề Chánh Đạo Bồ-tát Giới Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 61910,
+    "byline": "宗喀巴造　湯薌銘譯",
+    "byline_vi": "Tông Khách Ba tạo; Thang Hương Minh dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "湯薌銘",
+        "name_vi": "Thang Hương Minh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024044"
+      }
+    ]
+  },
+  "B0029": {
+    "authorityID": "CA0006113",
+    "vol": "B08",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩薩戒品釋",
+    "title_vi": "Bồ-tát Giới Phẩm Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 68379,
+    "byline": "宗喀巴造　法尊譯",
+    "byline_vi": "Tông Khách Ba tạo; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0030": {
+    "authorityID": "CA0006114",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "現觀莊嚴論中八品七十義略解",
+    "title_vi": "Hiện Quán Trang Nghiêm Luận Trung Bát Phẩm Thất Thập Nghĩa Lược Giải",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 7512,
+    "byline": "法尊述",
+    "byline_vi": "Pháp Tôn thuật",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0031": {
+    "authorityID": "CA0006115",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "現觀莊嚴論略釋",
+    "title_vi": "Hiện Quán Trang Nghiêm Luận Lược Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 4,
+    "cjk_chars": 44025,
+    "byline": "彌勒造頌　法尊譯釋",
+    "byline_vi": "Di Lặc tạo tụng; Pháp Tôn dịch, thích",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "彌勒",
+        "name_vi": "Di Lặc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001428"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0032": {
+    "authorityID": "CA0006116",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "七十空性論科攝",
+    "title_vi": "Thất Thập Không Tính Luận Khoa Nhiếp",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 8128,
+    "en_words": 2,
+    "byline": "龍樹造　法尊譯　弘悲科攝",
+    "byline_vi": "Long Thọ tạo; Pháp Tôn dịch; Hoằng Bi khoa nhiếp",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "龍樹",
+        "name_vi": "Long Thọ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001482"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      },
+      {
+        "name": "弘悲",
+        "name_vi": "Hoằng Bi",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034237"
+      }
+    ]
+  },
+  "B0033": {
+    "authorityID": "CA0006117",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大乘修心七義論釋",
+    "title_vi": "Đại Thừa Tu Tâm Thất Nghĩa Luận Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 6468,
+    "byline": "無著賢造　慧海等譯",
+    "byline_vi": "Vô Trước Hiền tạo; Tuệ Hải cùng các vị dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "無著賢",
+        "name_vi": "Vô Trước Hiền",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A043206"
+      },
+      {
+        "name": "慧海",
+        "name_vi": "Tuệ Hải",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034238"
+      }
+    ]
+  },
+  "B0034": {
+    "authorityID": "CA0006118",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "辨法法性論",
+    "title_vi": "Biện Pháp Pháp Tính Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1517,
+    "byline": "彌勒造　法尊譯",
+    "byline_vi": "Di Lặc tạo; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "彌勒",
+        "name_vi": "Di Lặc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001428"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0035": {
+    "authorityID": "CA0006119",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "西藏傳本攝大乘論",
+    "title_vi": "Tây Tạng Truyền Bản Nhiếp Đại Thừa Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 7456,
+    "en_words": 9,
+    "byline": "無著造　呂澂譯",
+    "byline_vi": "Vô Trước tạo; Lã Trừng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "無著",
+        "name_vi": "Vô Trước",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001318"
+      },
+      {
+        "name": "呂澂",
+        "name_vi": "Lã Trừng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007178"
+      }
+    ]
+  },
+  "B0036": {
+    "authorityID": "CA0006120",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "三自性論",
+    "title_vi": "Tam Tự Tính Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1373,
+    "en_words": 38,
+    "byline": "世親造　劉孝蘭譯",
+    "byline_vi": "Thế Thân tạo; Lưu Hiếu Lan dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "世親",
+        "name_vi": "Thế Thân",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000148"
+      },
+      {
+        "name": "劉孝蘭",
+        "name_vi": "Lưu Hiếu Lan",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034239"
+      }
+    ]
+  },
+  "B0037": {
+    "authorityID": "CA0006121",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "集量論釋略抄",
+    "title_vi": "Tập Lượng Luận Thích Lược Sao",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 17151,
+    "en_words": 45,
+    "byline": "呂澂輯",
+    "byline_vi": "Lã Trừng tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "呂澂",
+        "name_vi": "Lã Trừng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007178"
+      }
+    ]
+  },
+  "B0038": {
+    "authorityID": "CA0006122",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "安慧三十唯識釋略抄",
+    "title_vi": "An Tuệ Tam Thập Duy Thức Thích Lược Sao",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 9357,
+    "en_words": 8,
+    "byline": "呂澂輯",
+    "byline_vi": "Lã Trừng tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "呂澂",
+        "name_vi": "Lã Trừng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007178"
+      }
+    ]
+  },
+  "B0039": {
+    "authorityID": "CA0006123",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "觀所緣釋論會譯",
+    "title_vi": "Quán Sở Duyên Thích Luận Hội Dịch",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 12178,
+    "en_words": 4,
+    "byline": "呂澂．印滄編",
+    "byline_vi": "Lã Trừng, Ấn Thương biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "呂澂",
+        "name_vi": "Lã Trừng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007178"
+      },
+      {
+        "name": "印滄",
+        "name_vi": "Ấn Thương",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034240"
+      }
+    ]
+  },
+  "B0040": {
+    "authorityID": "CA0006124",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "集量論略解",
+    "title_vi": "Tập Lượng Luận Lược Giải",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 6,
+    "cjk_chars": 61691,
+    "en_words": 55,
+    "byline": "陳那著　法尊譯編",
+    "byline_vi": "Trần Na trước tác; Pháp Tôn dịch, biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "陳那",
+        "name_vi": "Trần Na",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001162"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0041": {
+    "authorityID": "CA0006125",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "正理滴論（譯自梵文本）",
+    "title_vi": "Chánh Lý Trích Luận (Dịch Từ Phạn Văn Bản)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 5555,
+    "byline": "法稱著　王森譯",
+    "byline_vi": "Pháp Xưng trước tác; Vương Sâm dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法稱",
+        "name_vi": "Pháp Xưng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000734"
+      },
+      {
+        "name": "王森",
+        "name_vi": "Vương Sâm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034243"
+      }
+    ]
+  },
+  "B0042": {
+    "authorityID": "CA0006126",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "正理滴論（譯自西藏文本）",
+    "title_vi": "Chánh Lý Trích Luận (Dịch Từ Tây Tạng Văn Bản)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 7601,
+    "en_words": 160,
+    "byline": "法稱著　楊化群譯",
+    "byline_vi": "Pháp Xưng trước tác; Dương Hóa Quần dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法稱",
+        "name_vi": "Pháp Xưng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000734"
+      },
+      {
+        "name": "楊化群",
+        "name_vi": "Dương Hóa Quần",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034244"
+      }
+    ]
+  },
+  "B0043": {
+    "authorityID": "CA0006127",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "釋量論略解",
+    "title_vi": "Thích Lượng Luận Lược Giải",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 9,
+    "cjk_chars": 161186,
+    "en_words": 3,
+    "byline": "法稱著　僧成釋　法尊譯",
+    "byline_vi": "Pháp Xưng trước tác; Tăng Thành thích; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法稱",
+        "name_vi": "Pháp Xưng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000734"
+      },
+      {
+        "name": "僧成",
+        "name_vi": "Tăng Thành",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034246"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0044": {
+    "authorityID": "CA0006128",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "入中論善顯密意疏",
+    "title_vi": "Nhập Trung Luận Thiện Hiển Mật Ý Sớ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 14,
+    "cjk_chars": 134980,
+    "byline": "宗喀巴造　法尊譯",
+    "byline_vi": "Tông Khách Ba tạo; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0045": {
+    "authorityID": "CA0006129",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "入中論講記",
+    "title_vi": "Nhập Trung Luận Giảng Ký",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 51476,
+    "byline": "月稱造頌　法尊譯講",
+    "byline_vi": "Nguyệt Xưng tạo tụng; Pháp Tôn dịch, giảng",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "月稱",
+        "name_vi": "Nguyệt Xưng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A016747"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0046": {
+    "authorityID": "CA0006130",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "中論略義",
+    "title_vi": "Trung Luận Lược Nghĩa",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 5037,
+    "byline": "宗喀巴著　潭影譯",
+    "byline_vi": "Tông Khách Ba trước tác; Đàm Ảnh dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "潭影",
+        "name_vi": "Đàm Ảnh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034249"
+      }
+    ]
+  },
+  "B0047": {
+    "authorityID": "CA0006131",
+    "vol": "B09",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "中論文句釋",
+    "title_vi": "Trung Luận Văn Cú Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 31351,
+    "en_words": 62,
+    "byline": "僧成釋　常浩譯",
+    "byline_vi": "Tăng Thành thích; Thường Hạo dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "僧成",
+        "name_vi": "Tăng Thành",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034246"
+      },
+      {
+        "name": "常浩",
+        "name_vi": "Thường Hạo",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034256"
+      }
+    ]
+  },
+  "B0048": {
+    "authorityID": "CA0006132",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "辨了不了義善說藏論",
+    "title_vi": "Biện Liễu Bất Liễu Nghĩa Thiện Thuyết Tạng Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 56541,
+    "byline": "宗喀巴造　法尊譯",
+    "byline_vi": "Tông Khách Ba tạo; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0049": {
+    "authorityID": "CA0006133",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩提道炬論",
+    "title_vi": "Bồ-đề Đạo Cự Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1488,
+    "byline": "阿底霞造　超一譯",
+    "byline_vi": "A Để Hà tạo; Siêu Nhất dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "阿底霞",
+        "name_vi": "A Để Hà",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A015038"
+      },
+      {
+        "name": "超一",
+        "name_vi": "Siêu Nhất",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034269"
+      }
+    ]
+  },
+  "B0050": {
+    "authorityID": "CA0006134",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "地道建立",
+    "title_vi": "Địa Đạo Kiến Lập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 8922,
+    "byline": "三寶無畏王造　法尊譯",
+    "byline_vi": "Tam Bảo Vô Úy Vương tạo; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "三寶無畏王",
+        "name_vi": "Tam Bảo Vô Úy Vương",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034270"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0051": {
+    "authorityID": "CA0006135",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩提道次恒修教授",
+    "title_vi": "Bồ-đề Đạo Thứ Hằng Tu Giáo Thọ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 4193,
+    "byline": "札迦說　法尊譯",
+    "byline_vi": "Trát Ca thuyết; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "札迦",
+        "name_vi": "Trát Ca",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034273"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0052": {
+    "authorityID": "CA0006136",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "緣起讚",
+    "title_vi": "Duyên Khởi Tán",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1365,
+    "byline": "宗喀巴著　法尊譯",
+    "byline_vi": "Tông Khách Ba trước tác; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0053": {
+    "authorityID": "CA0006137",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "集諸學頌",
+    "title_vi": "Tập Chư Học Tụng",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 569,
+    "byline": "寂靜造　超一譯",
+    "byline_vi": "Tịch Tĩnh tạo; Siêu Nhất dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "寂靜",
+        "name_vi": "Tịch Tĩnh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034274"
+      },
+      {
+        "name": "超一",
+        "name_vi": "Siêu Nhất",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034269"
+      }
+    ]
+  },
+  "B0054": {
+    "authorityID": "CA0006138",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩提道次第論攝頌",
+    "title_vi": "Bồ-đề Đạo Thứ Đệ Luận Nhiếp Tụng",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1079,
+    "byline": "宗喀巴造　超一譯",
+    "byline_vi": "Tông Khách Ba tạo; Siêu Nhất dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "超一",
+        "name_vi": "Siêu Nhất",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034269"
+      }
+    ]
+  },
+  "B0055": {
+    "authorityID": "CA0006139",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩提道次第論極略頌",
+    "title_vi": "Bồ-đề Đạo Thứ Đệ Luận Cực Lược Tụng",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 497,
+    "en_words": 2,
+    "byline": "宗喀巴著　超一譯",
+    "byline_vi": "Tông Khách Ba trước tác; Siêu Nhất dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "超一",
+        "name_vi": "Siêu Nhất",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034269"
+      }
+    ]
+  },
+  "B0056": {
+    "authorityID": "CA0006140",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "西藏法寶貫珠",
+    "title_vi": "Tây Tạng Pháp Bảo Quán Châu",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 8566,
+    "byline": "達瓦桑杜譯英　伊文思溫慈編註　趙洪鑄譯漢",
+    "byline_vi": "Đạt Ngõa Tang Đỗ dịch; Y Văn Tư Ôn Từ biên, chú; Triệu Hồng Chú dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "達瓦桑杜",
+        "name_vi": "Đạt Ngõa Tang Đỗ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034276"
+      },
+      {
+        "name": "伊文思溫慈",
+        "name_vi": "Y Văn Tư Ôn Từ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034277"
+      },
+      {
+        "name": "趙洪鑄",
+        "name_vi": "Triệu Hồng Chú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034278"
+      }
+    ]
+  },
+  "B0057": {
+    "authorityID": "CA0006141",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "密宗道次第論",
+    "title_vi": "Mật Tông Đạo Thứ Đệ Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 46849,
+    "byline": "克主著　法尊譯",
+    "byline_vi": "Khắc Chủ trước tác; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "克主",
+        "name_vi": "Khắc Chủ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034280"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0058": {
+    "authorityID": "CA0006142",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "涅般道大手印瑜伽法要釋",
+    "title_vi": "Niết-bàn Đạo Đại Thủ Ấn Du-già Pháp Yếu Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 21490,
+    "en_words": 63,
+    "byline": "白蓮花造　光明心譯",
+    "byline_vi": "Bạch Liên Hoa tạo; Quang Minh Tâm dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "白蓮花",
+        "name_vi": "Bạch Liên Hoa",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034281"
+      },
+      {
+        "name": "光明心",
+        "name_vi": "Quang Minh Tâm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034282"
+      }
+    ]
+  },
+  "B0059": {
+    "authorityID": "CA0006143",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "明行道六成就法",
+    "title_vi": "Minh Hạnh Đạo Lục Thành Tựu Pháp",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 20147,
+    "byline": "珀瑪迦爾著　張妙定蓮菩提金剛正譯",
+    "byline_vi": "Phách Mã Ca Nhĩ trước tác; Trương Diệu Định Liên Bồ-đề Kim Cương Chánh dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "珀瑪迦爾",
+        "name_vi": "Phách Mã Ca Nhĩ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034283"
+      },
+      {
+        "name": "張妙定蓮菩提金剛正",
+        "name_vi": "Trương Diệu Định Liên Bồ-đề Kim Cương Chánh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "name_vi_note": "tên dài, có tên pháp (Bồ-đề Kim Cương); đối chiếu tên gốc",
+        "id": "A034284"
+      }
+    ]
+  },
+  "B0060": {
+    "authorityID": "CA0006144",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "頗哇心要轉識自在法",
+    "title_vi": "Phả-oa Tâm Yếu Chuyển Thức Tự Tại Pháp",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 4343,
+    "byline": "達瓦桑杜譯英　伊文思溫慈纂集　張妙定蓮菩提金剛正譯漢",
+    "byline_vi": "Đạt Ngõa Tang Đỗ dịch; Y Văn Tư Ôn Từ toản, tập; Trương Diệu Định Liên Bồ-đề Kim Cương Chánh dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "達瓦桑杜",
+        "name_vi": "Đạt Ngõa Tang Đỗ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034276"
+      },
+      {
+        "name": "伊文思溫慈",
+        "name_vi": "Y Văn Tư Ôn Từ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034277"
+      },
+      {
+        "name": "張妙定蓮菩提金剛正",
+        "name_vi": "Trương Diệu Định Liên Bồ-đề Kim Cương Chánh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "name_vi_note": "tên dài, có tên pháp (Bồ-đề Kim Cương); đối chiếu tên gốc",
+        "id": "A034284"
+      }
+    ]
+  },
+  "B0061": {
+    "authorityID": "CA0006145",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "椎擊三要訣勝法解",
+    "title_vi": "Chùy Kích Tam Yếu Quyết Thắng Pháp Giải",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 4553,
+    "byline": "大善解功德主著　貢噶傳　滿空譯",
+    "byline_vi": "Đại Thiện Giải Công Đức Chủ trước tác; Cống Cát truyền; Mãn Không dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "大善解功德主",
+        "name_vi": "Đại Thiện Giải Công Đức Chủ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034287"
+      },
+      {
+        "name": "貢噶",
+        "name_vi": "Cống Cát",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034224"
+      },
+      {
+        "name": "滿空",
+        "name_vi": "Mãn Không",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034290"
+      }
+    ]
+  },
+  "B0062": {
+    "authorityID": "CA0006146",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "貢噶上師恒河大手印直講",
+    "title_vi": "Cống Cát Thượng Sư Hằng Hà Đại Thủ Ấn Trực Giảng",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 8462,
+    "byline": "貢噶講",
+    "byline_vi": "Cống Cát giảng",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "貢噶",
+        "name_vi": "Cống Cát",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034224"
+      }
+    ]
+  },
+  "B0063": {
+    "authorityID": "CA0006147",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大密妙義深道六法引導廣論纂要",
+    "title_vi": "Đại Mật Diệu Nghĩa Thâm Đạo Lục Pháp Dẫn Đạo Quảng Luận Toản Yếu",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 9420,
+    "en_words": 17,
+    "byline": "吉祥造　鍾伯毅纂",
+    "byline_vi": "Cát Tường tạo; Chung Bá Nghị toản",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "吉祥",
+        "name_vi": "Cát Tường",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034294"
+      },
+      {
+        "name": "鍾伯毅",
+        "name_vi": "Chung Bá Nghị",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034291"
+      }
+    ]
+  },
+  "B0064": {
+    "authorityID": "CA0006148",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大圓滿",
+    "title_vi": "Đại Viên Mãn",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 11195,
+    "en_words": 252,
+    "byline": "郭元興著　慈威校註",
+    "byline_vi": "Quách Nguyên Hưng trước tác; Từ Uy hiệu chú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "郭元興",
+        "name_vi": "Quách Nguyên Hưng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034296"
+      },
+      {
+        "name": "慈威",
+        "name_vi": "Từ Uy",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034299"
+      }
+    ]
+  },
+  "B0065": {
+    "authorityID": "CA0006149",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩提道次第略論",
+    "title_vi": "Bồ-đề Đạo Thứ Đệ Lược Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 6,
+    "cjk_chars": 108168,
+    "en_words": 1,
+    "byline": "宗喀巴著　邢肅芝譯",
+    "byline_vi": "Tông Khách Ba trước tác; Hình Túc Chi dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "邢肅芝",
+        "name_vi": "Hình Túc Chi",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034300"
+      }
+    ]
+  },
+  "B0066": {
+    "authorityID": "CA0006150",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩提道次第直講",
+    "title_vi": "Bồ-đề Đạo Thứ Đệ Trực Giảng",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 6,
+    "cjk_chars": 39324,
+    "byline": "宗喀巴著　大勇口譯　智湛筆錄",
+    "byline_vi": "Tông Khách Ba trước tác; Đại Dũng khẩu dịch; Trí Trạm bút lục",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "大勇",
+        "name_vi": "Đại Dũng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004888"
+      },
+      {
+        "name": "智湛",
+        "name_vi": "Trí Trạm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034301"
+      }
+    ]
+  },
+  "B0067": {
+    "authorityID": "CA0006151",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "菩提道次第廣論",
+    "title_vi": "Bồ-đề Đạo Thứ Đệ Quảng Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 24,
+    "cjk_chars": 230806,
+    "en_words": 1,
+    "byline": "宗喀巴著　法尊譯",
+    "byline_vi": "Tông Khách Ba trước tác; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0068": {
+    "authorityID": "CA0006152",
+    "vol": "B10",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "密宗道次第廣論",
+    "title_vi": "Mật Tông Đạo Thứ Đệ Quảng Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 22,
+    "cjk_chars": 224744,
+    "byline": "宗喀巴著　法尊譯",
+    "byline_vi": "Tông Khách Ba trước tác; Pháp Tôn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "宗喀巴",
+        "name_vi": "Tông Khách Ba",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023413"
+      },
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0069": {
+    "authorityID": "CA0006153",
+    "vol": "B11",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "七系付法傳",
+    "title_vi": "Thất Hệ Phó Pháp Truyện",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 7,
+    "cjk_chars": 46879,
+    "byline": "多羅那他著　郭元興譯",
+    "byline_vi": "Đa-la-na-tha trước tác; Quách Nguyên Hưng dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "多羅那他",
+        "name_vi": "Đa-la-na-tha",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024388"
+      },
+      {
+        "name": "郭元興",
+        "name_vi": "Quách Nguyên Hưng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034296"
+      }
+    ]
+  },
+  "B0070": {
+    "authorityID": "CA0006154",
+    "vol": "B11",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "安樂妙寶",
+    "title_vi": "An Lạc Diệu Bảo",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 15110,
+    "byline": "金慧暢編",
+    "byline_vi": "Kim Tuệ Sướng biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "金慧暢",
+        "name_vi": "Kim Tuệ Sướng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034303"
+      }
+    ]
+  },
+  "B0071": {
+    "authorityID": "CA0006155",
+    "vol": "B11",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "蓮華生大士應化史略",
+    "title_vi": "Liên Hoa Sinh Đại Sĩ Ứng Hóa Sử Lược",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 15,
+    "cjk_chars": 34182,
+    "byline": "諾那呼圖克圖逞列匠磋譯",
+    "byline_vi": "Nặc Na Hô Đồ Khắc Đồ Sính Liệt Tượng Sa dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "諾那呼圖克圖逞列匠磋",
+        "name_vi": "Nặc Na Hô Đồ Khắc Đồ Sính Liệt Tượng Sa",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034304"
+      }
+    ]
+  },
+  "B0072": {
+    "authorityID": "CA0006156",
+    "vol": "B11",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "阿底峽尊者傳",
+    "title_vi": "A Để Hiệp Tôn Giả Truyện",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 32540,
+    "byline": "法尊譯述",
+    "byline_vi": "Pháp Tôn dịch thuật",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0073": {
+    "authorityID": "CA0006157",
+    "vol": "B11",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "木納記",
+    "title_vi": "Mộc Nạp Ký",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 29,
+    "cjk_chars": 104032,
+    "byline": "惹穹多傑札把著　多傑譯述　張心若筆錄",
+    "byline_vi": "Nhạ Cung Đa Kiệt Trát Bả trước tác; Đa Kiệt dịch thuật; Trương Tâm Nhược bút lục",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "惹穹多傑札把",
+        "name_vi": "Nhạ Cung Đa Kiệt Trát Bả",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034308"
+      },
+      {
+        "name": "多傑",
+        "name_vi": "Đa Kiệt",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034310"
+      },
+      {
+        "name": "張心若",
+        "name_vi": "Trương Tâm Nhược",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034311"
+      }
+    ]
+  },
+  "B0074": {
+    "authorityID": "CA0006158",
+    "vol": "B11",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "宗喀巴大師傳",
+    "title_vi": "Tông Khách Ba Đại Sư Truyện",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 36895,
+    "byline": "法尊譯述",
+    "byline_vi": "Pháp Tôn dịch thuật",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "法尊",
+        "name_vi": "Pháp Tôn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004774"
+      }
+    ]
+  },
+  "B0075": {
+    "authorityID": "CA0006159",
+    "vol": "B11",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "西藏王臣護法記",
+    "title_vi": "Tây Tạng Vương Thần Hộ Pháp Ký",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 26,
+    "cjk_chars": 97727,
+    "byline": "第五世達賴喇嘛著　郭和卿譯",
+    "byline_vi": "Đệ Ngũ Thế Đạt Lại Lạt Ma trước tác; Quách Hòa Khanh dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "第五世達賴喇嘛",
+        "name_vi": "Đệ Ngũ Thế Đạt Lại Lạt Ma",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A011029"
+      },
+      {
+        "name": "郭和卿",
+        "name_vi": "Quách Hòa Khanh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034314"
+      }
+    ]
+  },
+  "B0076": {
+    "authorityID": "CA0006160",
+    "vol": "B11",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "印度佛教史",
+    "title_vi": "Ấn Độ Phật Giáo Sử",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 44,
+    "cjk_chars": 38917,
+    "en_words": 82,
+    "byline": "達喇那他著　王沂暖譯",
+    "byline_vi": "Đạt-la-na-tha trước tác; Vương Nghi Noãn dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "達喇那他",
+        "name_vi": "Đạt-la-na-tha",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024388"
+      },
+      {
+        "name": "王沂暖",
+        "name_vi": "Vương Nghi Noãn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034315"
+      }
+    ]
+  },
+  "B0077": {
+    "authorityID": "CA0006161",
+    "vol": "B12",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "洛陽伽藍記校釋",
+    "title_vi": "Lạc Dương Già-lam Ký Hiệu Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 126741,
+    "en_words": 292,
+    "byline": "楊衒之著　周祖謨校釋",
+    "byline_vi": "Dương Huyễn Chi trước tác; Chu Tổ Mô hiệu thích",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "楊衒之",
+        "name_vi": "Dương Huyễn Chi",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001444"
+      },
+      {
+        "name": "周祖謨",
+        "name_vi": "Chu Tổ Mô",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034316"
+      }
+    ]
+  },
+  "B0078": {
+    "authorityID": "CA0006162",
+    "vol": "B12",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "洛陽伽藍記校注",
+    "title_vi": "Lạc Dương Già-lam Ký Hiệu Chú",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 102482,
+    "en_words": 28,
+    "byline": "楊衒之著　范祥雍校注",
+    "byline_vi": "Dương Huyễn Chi trước tác; Phạm Tường Ung hiệu chú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "楊衒之",
+        "name_vi": "Dương Huyễn Chi",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001444"
+      },
+      {
+        "name": "范祥雍",
+        "name_vi": "Phạm Tường Ung",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034317"
+      }
+    ]
+  },
+  "B0079": {
+    "authorityID": "CA0006163",
+    "vol": "B13",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "釋氏六帖",
+    "title_vi": "Thích Thị Lục Thiếp",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 24,
+    "cjk_chars": 557817,
+    "byline": "義楚集",
+    "byline_vi": "Nghĩa Sở tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "義楚",
+        "name_vi": "Nghĩa Sở",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001474"
+      }
+    ]
+  },
+  "B0080": {
+    "authorityID": "CA0006164",
+    "vol": "B13",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大唐西域記（校點本）",
+    "title_vi": "Đại Đường Tây Vực Ký (Hiệu Điểm Bản)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 12,
+    "cjk_chars": 109380,
+    "en_words": 8,
+    "byline": "玄奘口述　辯機編纂",
+    "byline_vi": "Huyền Tráng khẩu thuật; Biện Cơ biên toản",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "玄奘",
+        "name_vi": "Huyền Tráng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000294"
+      },
+      {
+        "name": "辯機",
+        "name_vi": "Biện Cơ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001966"
+      }
+    ]
+  },
+  "B0081": {
+    "authorityID": "CA0006165",
+    "vol": "B14",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "雙峰山曹侯溪寶林傳（殘卷）",
+    "title_vi": "Song Phong Sơn Tào Hầu Khê Bảo Lâm Truyện (Tàn Quyển)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 7,
+    "cjk_chars": 72010,
+    "byline": "智炬著",
+    "byline_vi": "Trí Cự trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "智炬",
+        "name_vi": "Trí Cự",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001267"
+      }
+    ]
+  },
+  "B0082": {
+    "authorityID": "CA0006166",
+    "vol": "B14",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "傳燈玉英集（殘卷）",
+    "title_vi": "Truyền Đăng Ngọc Anh Tập (Tàn Quyển)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 9,
+    "cjk_chars": 93269,
+    "byline": "王隨編",
+    "byline_vi": "Vương Tùy biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "王隨",
+        "name_vi": "Vương Tùy",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A017492"
+      }
+    ]
+  },
+  "B0083": {
+    "authorityID": "CA0006167",
+    "vol": "B14",
+    "type": "textbody",
+    "alt": "JB118",
+    "title": "密藏開禪師遺稿",
+    "title_vi": "Mật Tạng Khai Thiền Sư Di Cảo",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0084": {
+    "authorityID": "CA0006168",
+    "vol": "B14",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "藏逸經書標目",
+    "title_vi": "Tạng Dật Kinh Thư Tiêu Mục",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 5113,
+    "byline": "密藏編",
+    "byline_vi": "Mật Tạng biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "密藏",
+        "name_vi": "Mật Tạng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A009414"
+      }
+    ]
+  },
+  "B0085": {
+    "authorityID": "CA0006169",
+    "vol": "B14",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "憨山大師年譜疏註",
+    "title_vi": "Hàm Sơn Đại Sư Niên Phổ Sớ Chú",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 60081,
+    "byline": "福善記錄　福徵述疏",
+    "byline_vi": "Phúc Thiện ký lục; Phúc Trưng thuật sớ",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "福善",
+        "name_vi": "Phúc Thiện",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001631"
+      },
+      {
+        "name": "福徵",
+        "name_vi": "Phúc Trưng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007801"
+      }
+    ]
+  },
+  "B0086": {
+    "authorityID": "CA0006170",
+    "vol": "B14",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "南朝寺考",
+    "title_vi": "Nam Triều Tự Khảo",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 55693,
+    "byline": "劉世珩著",
+    "byline_vi": "Lưu Thế Hành trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "劉世珩",
+        "name_vi": "Lưu Thế Hành",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034323"
+      }
+    ]
+  },
+  "B0087": {
+    "authorityID": "CA0006171",
+    "vol": "B14",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "合訂天台三聖二和詩集",
+    "title_vi": "Hợp Đính Thiên Thai Tam Thánh Nhị Hòa Thi Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 52854,
+    "byline": "寒山．豐干．拾得原詩　梵琦．濟岳和",
+    "byline_vi": "Hàn Sơn, Phong Can, Thập Đắc nguyên thi; Phạm Kỳ, Tế Nhạc hòa",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "原詩 và 和 không có trong bảng vai trò; phiên âm",
+    "contributors": [
+      {
+        "name": "寒山",
+        "name_vi": "Hàn Sơn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004127"
+      },
+      {
+        "name": "豐干",
+        "name_vi": "Phong Can",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A005272"
+      },
+      {
+        "name": "拾得",
+        "name_vi": "Thập Đắc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A009211"
+      },
+      {
+        "name": "梵琦",
+        "name_vi": "Phạm Kỳ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001082"
+      },
+      {
+        "name": "濟岳",
+        "name_vi": "Tế Nhạc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001854"
+      }
+    ]
+  },
+  "B0088": {
+    "authorityID": "CA0006172",
+    "vol": "B15..B16",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "古今圖書集成選輯",
+    "title_vi": "Cổ Kim Đồ Thư Tập Thành Tuyển Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 158,
+    "cjk_chars": 2106564
+  },
+  "B0089": {
+    "authorityID": "CA0006173",
+    "vol": "B17",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "太平廣記選輯（卷八十七～一三四）",
+    "title_vi": "Thái Bình Quảng Ký Tuyển Tập (Quyển Bát Thập Thất ~ Nhất Tam Tứ)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 48,
+    "cjk_chars": 161946,
+    "byline": "李昉等編纂",
+    "byline_vi": "Lý Phỏng cùng các vị biên toản",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "李昉",
+        "name_vi": "Lý Phỏng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A019294"
+      }
+    ]
+  },
+  "B0090": {
+    "authorityID": "CA0006174",
+    "vol": "B17",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "酉陽雜俎選輯（前集、續集等六篇）",
+    "title_vi": "Dậu Dương Tạp Trở Tuyển Tập (Tiền Tập, Tục Tập đẳng Lục Thiên)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 6,
+    "cjk_chars": 21842,
+    "en_words": 209,
+    "byline": "段成式著",
+    "byline_vi": "Đoàn Thành Thức trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "段成式",
+        "name_vi": "Đoàn Thành Thức",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000850"
+      }
+    ]
+  },
+  "B0091": {
+    "authorityID": "CA0006175",
+    "vol": "B17",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "正史選輯（晉書、宋書、梁書、魏書、隋書、舊唐書、元史、明史）",
+    "title_vi": "Chính Sử Tuyển Tập (Tấn Thư, Tống Thư, Lương Thư, Ngụy Thư, Tùy Thư, Cựu Đường Thư, Nguyên Sử, Minh Sử)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 10,
+    "cjk_chars": 52988
+  },
+  "B0092": {
+    "authorityID": "CA0006176",
+    "vol": "B17",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "唐會要、五代會要、明書、明會典選輯",
+    "title_vi": "Đường Hội Yếu, Ngũ Đại Hội Yếu, Minh Thư, Minh Hội Điển Tuyển Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 8,
+    "cjk_chars": 34738
+  },
+  "B0093": {
+    "authorityID": "CA0006177",
+    "vol": "B17",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "象教皮編（六卷全）",
+    "title_vi": "Tượng Giáo Bì Biên (Lục Quyển Toàn)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 6,
+    "cjk_chars": 68316,
+    "byline": "陳士元編",
+    "byline_vi": "Trần Sĩ Nguyên biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "陳士元",
+        "name_vi": "Trần Sĩ Nguyên",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034326"
+      }
+    ]
+  },
+  "B0094": {
+    "authorityID": "CA0006178",
+    "vol": "B17",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "冊府元龜選輯",
+    "title_vi": "Sách Phủ Nguyên Quy Tuyển Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 4,
+    "cjk_chars": 26108,
+    "byline": "王欽若、楊億等著",
+    "byline_vi": "Vương Khâm Nhược, Dương Ức cùng các vị trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "王欽若",
+        "name_vi": "Vương Khâm Nhược",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A016950"
+      },
+      {
+        "name": "楊億",
+        "name_vi": "Dương Ức",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001446"
+      }
+    ]
+  },
+  "B0095": {
+    "authorityID": "CA0006179",
+    "vol": "B18",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "入唐求法巡禮行記",
+    "title_vi": "Nhập Đường Cầu Pháp Tuần Lễ Hành Ký",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 4,
+    "cjk_chars": 84137,
+    "en_words": 2,
+    "byline": "圓仁著",
+    "byline_vi": "Viên Nhân trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "圓仁",
+        "name_vi": "Viên Nhân",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001402"
+      }
+    ]
+  },
+  "B0096": {
+    "authorityID": "CA0006180",
+    "vol": "B18",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "佛教繪畫史料",
+    "title_vi": "Phật Giáo Hội Họa Sử Liệu",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 6,
+    "cjk_chars": 19998
+  },
+  "B0097": {
+    "authorityID": "CA0006181",
+    "vol": "B18",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "歸元鏡",
+    "title_vi": "Quy Nguyên Kính",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 48085,
+    "byline": "智達著",
+    "byline_vi": "Trí Đạt trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "智達",
+        "name_vi": "Trí Đạt",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034330"
+      }
+    ]
+  },
+  "B0098": {
+    "authorityID": "CA0006182",
+    "vol": "B18",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "高旻寺規約",
+    "title_vi": "Cao Mân Tự Quy Ước",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 3,
+    "cjk_chars": 196676,
+    "byline": "來果著",
+    "byline_vi": "Lai Quả trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "來果",
+        "name_vi": "Lai Quả",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023711"
+      }
+    ]
+  },
+  "B0099": {
+    "authorityID": "CA0006183",
+    "vol": "B18",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "相宗絡索",
+    "title_vi": "Tướng Tông Lạc Sách",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 17000,
+    "byline": "王夫之著",
+    "byline_vi": "Vương Phu Chi trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "王夫之",
+        "name_vi": "Vương Phu Chi",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A019145"
+      }
+    ]
+  },
+  "B0100": {
+    "authorityID": "CA0006184",
+    "vol": "B18",
+    "type": "textbody",
+    "alt": "JB325",
+    "title": "解惑編",
+    "title_vi": "Giải Hoặc Biên",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0101": {
+    "authorityID": "CA0006185",
+    "vol": "B18",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "絕觀論",
+    "title_vi": "Tuyệt Quán Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 5248,
+    "en_words": 15,
+    "byline": "菩提達磨（？）著",
+    "byline_vi": "Bồ-đề Đạt-ma (?) trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "nguyên văn có ký hiệu （？）",
+    "contributors": [
+      {
+        "name": "菩提達磨",
+        "name_vi": "Bồ-đề Đạt-ma",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001361"
+      }
+    ]
+  },
+  "B0102": {
+    "authorityID": "CA0006186",
+    "vol": "B18",
+    "type": "textbody",
+    "alt": "JB090",
+    "title": "續原教論",
+    "title_vi": "Tục Nguyên Giáo Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0103": {
+    "authorityID": "CA0006187",
+    "vol": "B19",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "禪林象器箋",
+    "title_vi": "Thiền Lâm Tượng Khí Tiên",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 30,
+    "cjk_chars": 420618,
+    "byline": "無著道忠著",
+    "byline_vi": "Vô Trước Đạo Trung trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "無著道忠",
+        "name_vi": "Vô Trước Đạo Trung",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001319"
+      }
+    ]
+  },
+  "B0104": {
+    "authorityID": "CA0006188",
+    "vol": "B20",
+    "type": "textbody",
+    "alt": "P1612",
+    "title": "諸佛世尊如來菩薩尊者名稱歌曲",
+    "title_vi": "Chư Phật Thế Tôn Như Lai Bồ-tát Tôn Giả Danh Xưng Ca Khúc",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0105": {
+    "authorityID": "CA0006189",
+    "vol": "B20",
+    "type": "textbody",
+    "alt": "JB097",
+    "title": "天樂鳴空集",
+    "title_vi": "Thiên Nhạc Minh Không Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0106": {
+    "authorityID": "CA0006190",
+    "vol": "B20",
+    "type": "textbody",
+    "alt": "JB098",
+    "title": "黃蘗無念禪師復問",
+    "title_vi": "Hoàng Bá Vô Niệm Thiền Sư Phục Vấn",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0107": {
+    "authorityID": "CA0006191",
+    "vol": "B20",
+    "type": "textbody",
+    "alt": "L1651",
+    "title": "南宋江陰軍乾明院羅漢尊號碑",
+    "title_vi": "Nam Tống Giang Âm Quân Càn Minh Viện La Hán Tôn Hiệu Bi",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0108": {
+    "authorityID": "CA0006192",
+    "vol": "B20",
+    "type": "textbody",
+    "alt": "X1235",
+    "title": "寂音尊者智證傳",
+    "title_vi": "Tịch Âm Tôn Giả Trí Chứng Truyện",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0109": {
+    "authorityID": "CA0006193",
+    "vol": "B21",
+    "type": "textbody",
+    "alt": "JB135",
+    "title": "石門文字禪",
+    "title_vi": "Thạch Môn Văn Tự Thiền",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0110": {
+    "authorityID": "CA0006194",
+    "vol": "B21",
+    "type": "textbody",
+    "alt": "JB127",
+    "title": "無依道人錄",
+    "title_vi": "Vô Y Đạo Nhân Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0111": {
+    "authorityID": "CA0006195",
+    "vol": "B21",
+    "type": "textbody",
+    "alt": "JB128",
+    "title": "普明禪師牧牛圖頌",
+    "title_vi": "Phổ Minh Thiền Sư Mục Ngưu Đồ Tụng",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0112": {
+    "authorityID": "CA0006196",
+    "vol": "B21",
+    "type": "textbody",
+    "alt": "JB129",
+    "title": "牧牛圖頌",
+    "title_vi": "Mục Ngưu Đồ Tụng",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0113": {
+    "authorityID": "CA0006197",
+    "vol": "B21",
+    "type": "textbody",
+    "alt": "JB295",
+    "title": "學佛考訓",
+    "title_vi": "Học Phật Khảo Huấn",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0114": {
+    "authorityID": "CA0006198",
+    "vol": "B21",
+    "type": "textbody",
+    "alt": "JB298",
+    "title": "艸峰憲禪師語錄",
+    "title_vi": "Thảo Phong Hiến Thiền Sư Ngữ Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0115": {
+    "authorityID": "CA0006199",
+    "vol": "B21",
+    "type": "textbody",
+    "alt": "JB299",
+    "title": "三峰藏和尚語錄",
+    "title_vi": "Tam Phong Tạng Hòa Thượng Ngữ Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0116": {
+    "authorityID": "CA0006200",
+    "vol": "B21",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "金剛般若波羅蜜經集註",
+    "title_vi": "Kim Cương Bát-nhã Ba-la-mật Kinh Tập Chú",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 78021,
+    "byline": "明成祖朱棣集註",
+    "byline_vi": "Minh Thành Tổ Chu Đệ tập chú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "明成祖朱棣",
+        "name_vi": "Minh Thành Tổ Chu Đệ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "name_vi_note": "tên gồm miếu hiệu (Minh Thành Tổ) và tên húy (Chu Đệ)",
+        "id": "A000149"
+      }
+    ]
+  },
+  "B0117": {
+    "authorityID": "CA0006201",
+    "vol": "B22",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "三藏法數",
+    "title_vi": "Tam Tạng Pháp Số",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 50,
+    "cjk_chars": 555886,
+    "en_words": 24474,
+    "byline": "一如等編　丁福保重校",
+    "byline_vi": "Nhất Như cùng các vị biên soạn; Đinh Phúc Bảo trọng hiệu",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "重 không có trong bảng vai trò; phiên âm 'trọng'",
+    "contributors": [
+      {
+        "name": "一如",
+        "name_vi": "Nhất Như",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000007"
+      },
+      {
+        "name": "丁福保",
+        "name_vi": "Đinh Phúc Bảo",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007851"
+      }
+    ]
+  },
+  "B0118": {
+    "authorityID": "CA0006202",
+    "vol": "B22",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "律宗燈譜",
+    "title_vi": "Luật Tông Đăng Phổ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 8,
+    "cjk_chars": 66183,
+    "byline": "源諒著　劉霞彩編",
+    "byline_vi": "Nguyên Lượng trước tác; Lưu Hà Thải biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "源諒",
+        "name_vi": "Nguyên Lượng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A022931"
+      },
+      {
+        "name": "劉霞彩",
+        "name_vi": "Lưu Hà Thải",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034331"
+      }
+    ]
+  },
+  "B0119": {
+    "authorityID": "CA0006203",
+    "vol": "B22",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "天然和尚年譜",
+    "title_vi": "Thiên Nhiên Hòa Thượng Niên Phổ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 42192,
+    "byline": "汪宗衍著",
+    "byline_vi": "Uông Tông Diễn trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "汪宗衍",
+        "name_vi": "Uông Tông Diễn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034907"
+      }
+    ]
+  },
+  "B0120": {
+    "authorityID": "CA0006204",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "雲棲大師遺稿",
+    "title_vi": "Vân Thê Đại Sư Di Cảo",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 3
+  },
+  "B0121": {
+    "authorityID": "CA0006205",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "雲棲大師塔銘",
+    "title_vi": "Vân Thê Đại Sư Tháp Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0122": {
+    "authorityID": "CA0006206",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "雲棲紀事",
+    "title_vi": "Vân Thê Kỷ Sự",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0123": {
+    "authorityID": "CA0006207",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "竹窗隨筆",
+    "title_vi": "Trúc Song Tùy Bút",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0124": {
+    "authorityID": "CA0006208",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "竹窗二筆",
+    "title_vi": "Trúc Song Nhị Bút",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0125": {
+    "authorityID": "CA0006209",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "竹窗三筆",
+    "title_vi": "Trúc Song Tam Bút",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0126": {
+    "authorityID": "CA0006210",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "正訛集",
+    "title_vi": "Chánh Ngoa Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0127": {
+    "authorityID": "CA0006211",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "雲棲共住規約",
+    "title_vi": "Vân Thê Cộng Trú Quy Ước",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0128": {
+    "authorityID": "CA0006212",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "直道錄",
+    "title_vi": "Trực Đạo Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0129": {
+    "authorityID": "CA0006213",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB277",
+    "title": "山房雜錄",
+    "title_vi": "Sơn Phòng Tạp Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2
+  },
+  "B0130": {
+    "authorityID": "CA0006214",
+    "vol": "B23",
+    "type": "textbody",
+    "alt": "JB348+JB120+X1641+選錄",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "靈峰宗論（部分資料暫採他本）",
+    "title_vi": "Linh Phong Tông Luận (Bộ Phận Tư Liệu Tạm Thải Tha Bản)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 10,
+    "byline": "智旭著",
+    "byline_vi": "Minh Trí Húc trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "dynasty": "明",
+    "dynasty_vi": "Minh",
+    "dynasty_src": "table",
+    "dynasty_status": "unreviewed",
+    "time_from": 1599,
+    "time_to": 1655,
+    "contributors": [
+      {
+        "name": "智旭",
+        "name_vi": "Trí Húc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001257"
+      }
+    ]
+  },
+  "B0131": {
+    "authorityID": "CA0006216",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "法海觀瀾",
+    "title_vi": "Pháp Hải Quán Lan",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 55835,
+    "byline": "智旭輯",
+    "byline_vi": "Trí Húc tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "智旭",
+        "name_vi": "Trí Húc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001257"
+      }
+    ]
+  },
+  "B0132": {
+    "authorityID": "CA0006217",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "尚直編",
+    "title_vi": "Thượng Trực Biên",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 25346,
+    "byline": "空谷景隆著",
+    "byline_vi": "Không Cốc Cảnh Long trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "空谷景隆",
+        "name_vi": "Không Cốc Cảnh Long",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001245"
+      }
+    ]
+  },
+  "B0133": {
+    "authorityID": "CA0006218",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "尚理編",
+    "title_vi": "Thượng Lý Biên",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 8236,
+    "byline": "空谷景隆著",
+    "byline_vi": "Không Cốc Cảnh Long trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "空谷景隆",
+        "name_vi": "Không Cốc Cảnh Long",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001245"
+      }
+    ]
+  },
+  "B0134": {
+    "authorityID": "CA0006219",
+    "vol": "B24",
+    "type": "textbody",
+    "alt": "JB120+B0130+選錄",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "闢邪集（部分資料暫採他本）",
+    "title_vi": "Tịch Tà Tập (Bộ Phận Tư Liệu Tạm Thải Tha Bản)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "byline": "鍾始聲著",
+    "byline_vi": "Minh Chung Thủy Thanh trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "dynasty": "明",
+    "dynasty_vi": "Minh",
+    "dynasty_src": "table",
+    "dynasty_status": "unreviewed",
+    "time_from": 1599,
+    "time_to": 1655,
+    "contributors": [
+      {
+        "name": "鍾始聲",
+        "name_vi": "Chung Thủy Thanh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001871"
+      }
+    ]
+  },
+  "B0135": {
+    "authorityID": "CA0006221",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "蒲室集",
+    "title_vi": "Bồ Thất Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 15,
+    "cjk_chars": 106400,
+    "byline": "笑隱大訢著",
+    "byline_vi": "Tiếu Ẩn Đại Hân trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "笑隱大訢",
+        "name_vi": "Tiếu Ẩn Đại Hân",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000062"
+      }
+    ]
+  },
+  "B0136": {
+    "authorityID": "CA0006222",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "選佛譜",
+    "title_vi": "Tuyển Phật Phổ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 6,
+    "cjk_chars": 61038,
+    "byline": "智旭著",
+    "byline_vi": "Trí Húc trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "智旭",
+        "name_vi": "Trí Húc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001257"
+      }
+    ]
+  },
+  "B0137": {
+    "authorityID": "CA0006223",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "正名錄",
+    "title_vi": "Chánh Danh Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 14,
+    "cjk_chars": 137397,
+    "byline": "智楷著",
+    "byline_vi": "Trí Khải trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "智楷",
+        "name_vi": "Trí Khải",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001284"
+      }
+    ]
+  },
+  "B0138": {
+    "authorityID": "CA0008618",
+    "alt": "GA0062",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "開元寺志",
+    "title_vi": "Khai Nguyên Tự Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0139": {
+    "authorityID": "CA0006224",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "獻花巖志",
+    "title_vi": "Hiến Hoa Nham Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 8753,
+    "byline": "陳沂著",
+    "byline_vi": "Trần Nghi trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "陳沂",
+        "name_vi": "Trần Nghi",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034338"
+      }
+    ]
+  },
+  "B0140": {
+    "authorityID": "CA0006225",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "雪峰志",
+    "title_vi": "Tuyết Phong Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 10,
+    "cjk_chars": 51542,
+    "byline": "徐𤊹纂輯",
+    "byline_vi": "Từ 𤊹 toản, tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "không đọc được chữ 𤊹",
+    "contributors": [
+      {
+        "name": "徐𤊹",
+        "name_vi": "Từ 𤊹",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "name_vi_note": "không đọc được chữ 𤊹",
+        "id": "A005179"
+      }
+    ]
+  },
+  "B0141": {
+    "authorityID": "CA0006226",
+    "vol": "B24",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "嵩山少林寺輯志",
+    "title_vi": "Tung Sơn Thiếu Lâm Tự Tập Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 11,
+    "cjk_chars": 115827,
+    "byline": "輯自傅梅撰《嵩書》",
+    "byline_vi": "Trích từ Phó Mai soạn «Tung Thư»",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "傅梅",
+        "name_vi": "Phó Mai",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034340"
+      }
+    ]
+  },
+  "B0142": {
+    "authorityID": "CA0006227",
+    "vol": "B25",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "新校定的敦煌寫本神會和尚遺著兩種",
+    "title_vi": "Tân Hiệu Đính Đôn Hoàng Tả Bản Thần Hội Hòa Thượng Di Trước Lưỡng Chủng",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 36347,
+    "en_words": 120,
+    "byline": "胡適校定",
+    "byline_vi": "Hồ Thích hiệu định",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "胡適",
+        "name_vi": "Hồ Thích",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023813"
+      }
+    ]
+  },
+  "B0143": {
+    "authorityID": "CA0006228",
+    "vol": "B25",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "神會和尚語錄的第三個敦煌寫本：南陽和尚問答雜徵義（劉澄集）",
+    "title_vi": "Thần Hội Hòa Thượng Ngữ Lục Đệ Tam Cá Đôn Hoàng Tả Bản: Nam Dương Hòa Thượng Vấn Đáp Tạp Trưng Nghĩa (Lưu Trừng tập)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 16853,
+    "en_words": 129,
+    "byline": "胡適校定",
+    "byline_vi": "Hồ Thích hiệu định",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "胡適",
+        "name_vi": "Hồ Thích",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023813"
+      }
+    ]
+  },
+  "B0144": {
+    "authorityID": "CA0006229",
+    "vol": "B25",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "祖堂集",
+    "title_vi": "Tổ Đường Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 20,
+    "cjk_chars": 191288,
+    "byline": "靜、筠二禪德編著",
+    "byline_vi": "Tĩnh, Quân Nhị Thiền Đức biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "二禪德 là danh xưng, phiên âm; không có trong bảng vai trò",
+    "contributors": [
+      {
+        "name": "靜",
+        "name_vi": "Tĩnh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034920"
+      },
+      {
+        "name": "筠",
+        "name_vi": "Quân",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034921"
+      }
+    ]
+  },
+  "B0145": {
+    "authorityID": "CA0006230",
+    "vol": "B25",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "天目中峰廣錄",
+    "title_vi": "Thiên Mục Trung Phong Quảng Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 30,
+    "cjk_chars": 210485,
+    "byline": "中峰明本著",
+    "byline_vi": "Trung Phong Minh Bản trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "中峰明本",
+        "name_vi": "Trung Phong Minh Bản",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000655"
+      }
+    ]
+  },
+  "B0146": {
+    "authorityID": "CA0006231",
+    "vol": "B26",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "房山雲居寺石經──經文、題記、碑銘等拓片之選輯",
+    "title_vi": "Phòng Sơn Vân Cư Tự Thạch Kinh ── Kinh Văn, Đề Ký, Bi Minh đẳng Thác Phiến Chi Tuyển Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 48488
+  },
+  "B0147": {
+    "authorityID": "CA0006232",
+    "vol": "B26",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "三階教殘卷",
+    "title_vi": "Tam Giai Giáo Tàn Quyển",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 17,
+    "cjk_chars": 170419,
+    "en_words": 23,
+    "byline": "矢吹慶輝輯",
+    "byline_vi": "Thỉ Xuy Khánh Huy tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "矢吹慶輝",
+        "name_vi": "Thỉ Xuy Khánh Huy",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034342"
+      }
+    ]
+  },
+  "B0148": {
+    "authorityID": "CA0006233",
+    "vol": "B26",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "東坡禪喜集",
+    "title_vi": "Đông Pha Thiền Hỷ Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 9,
+    "cjk_chars": 36314,
+    "byline": "徐長孺輯",
+    "byline_vi": "Từ Trường Nhụ tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "徐長孺",
+        "name_vi": "Từ Trường Nhụ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034443"
+      }
+    ]
+  },
+  "B0149": {
+    "authorityID": "CA0006234",
+    "vol": "B26",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "鳴道集說",
+    "title_vi": "Minh Đạo Tập Thuyết",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 36231,
+    "byline": "李屏山著",
+    "byline_vi": "Lý Bình Sơn trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "李屏山",
+        "name_vi": "Lý Bình Sơn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A022444"
+      }
+    ]
+  },
+  "B0150": {
+    "authorityID": "CA0006235",
+    "vol": "B26",
+    "type": "textbody",
+    "alt": "JB091+選錄",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "道餘錄（選錄「姚少師道餘錄跋」）",
+    "title_vi": "Đạo Dư Lục (Tuyển Lục «Diêu Thiếu Sư Đạo Dư Lục Bạt»)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "byline": "姚廣孝著",
+    "byline_vi": "Diêu Quảng Hiếu trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "姚廣孝",
+        "name_vi": "Diêu Quảng Hiếu",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001522"
+      }
+    ]
+  },
+  "B0151": {
+    "authorityID": "CA0006237",
+    "vol": "B27",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "新續高僧傳",
+    "title_vi": "Tân Tục Cao Tăng Truyện",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 65,
+    "cjk_chars": 389633,
+    "byline": "喻謙著",
+    "byline_vi": "Dụ Khiêm trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "喻謙",
+        "name_vi": "Dụ Khiêm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034445"
+      }
+    ]
+  },
+  "B0152": {
+    "authorityID": "CA0006238",
+    "vol": "B27",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "普濟玉琳國師語錄",
+    "title_vi": "Phổ Tế Ngọc Lâm Quốc Sư Ngữ Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 14,
+    "cjk_chars": 141450,
+    "byline": "音緯等編",
+    "byline_vi": "Âm Vĩ cùng các vị biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "音緯",
+        "name_vi": "Âm Vĩ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034447"
+      }
+    ]
+  },
+  "B0153": {
+    "authorityID": "CA0006239",
+    "vol": "B27",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "法藏碎金錄",
+    "title_vi": "Pháp Tạng Toái Kim Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 10,
+    "cjk_chars": 98593,
+    "byline": "晁逈著",
+    "byline_vi": "Triều Quýnh trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "晁逈",
+        "name_vi": "Triều Quýnh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "name_vi_note": "chữ 逈 đọc Quýnh, chưa khớp từ điển; cần rà",
+        "id": "A009420"
+      }
+    ]
+  },
+  "B0154": {
+    "authorityID": "CA0006240",
+    "vol": "B28",
+    "type": "textbody",
+    "alt": "JB110",
+    "title": "宋文憲公護法錄",
+    "title_vi": "Tống Văn Hiến Công Hộ Pháp Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0155": {
+    "authorityID": "CA0006241",
+    "vol": "B28",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "聖朝破邪集",
+    "title_vi": "Thánh Triều Phá Tà Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 8,
+    "cjk_chars": 90538,
+    "byline": "徐昌治編",
+    "byline_vi": "Từ Xương Trị biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "徐昌治",
+        "name_vi": "Từ Xương Trị",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000922"
+      }
+    ]
+  },
+  "B0156": {
+    "authorityID": "CA0006242",
+    "vol": "B28",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "佛法金湯",
+    "title_vi": "Phật Pháp Kim Thang",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 3,
+    "cjk_chars": 29306,
+    "en_words": 1,
+    "byline": "屠隆著",
+    "byline_vi": "Đồ Long trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "屠隆",
+        "name_vi": "Đồ Long",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A007025"
+      }
+    ]
+  },
+  "B0157": {
+    "authorityID": "CA0006243",
+    "vol": "B28",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "楊仁山居士遺著",
+    "title_vi": "Dương Nhân Sơn Cư Sĩ Di Trước",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 24,
+    "cjk_chars": 213074,
+    "byline": "楊文會著",
+    "byline_vi": "Dương Văn Hội trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "楊文會",
+        "name_vi": "Dương Văn Hội",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001440"
+      }
+    ]
+  },
+  "B0158": {
+    "authorityID": "CA0006244",
+    "vol": "B28",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "陰騭文圖",
+    "title_vi": "Âm Chất Văn Đồ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 25982,
+    "byline": "費丹旭繪圖　許光清集證",
+    "byline_vi": "Phí Đan Húc hội đồ; Hứa Quang Thanh tập chứng",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "繪圖 không có trong bảng vai trò; phiên âm; 證 phiên âm 'chứng'",
+    "contributors": [
+      {
+        "name": "費丹旭",
+        "name_vi": "Phí Đan Húc",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034453"
+      },
+      {
+        "name": "許光清",
+        "name_vi": "Hứa Quang Thanh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034454"
+      }
+    ]
+  },
+  "B0159": {
+    "authorityID": "CA0006245",
+    "vol": "B28",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "了凡四訓",
+    "title_vi": "Liễu Phàm Tứ Huấn",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 30565,
+    "byline": "袁了凡著",
+    "byline_vi": "Viên Liễu Phàm trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "袁了凡",
+        "name_vi": "Viên Liễu Phàm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A008362"
+      }
+    ]
+  },
+  "B0160": {
+    "authorityID": "CA0006246",
+    "vol": "B29",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "金陵梵剎志",
+    "title_vi": "Kim Lăng Phạm Sát Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 53,
+    "cjk_chars": 359621,
+    "byline": "葛寅亮著",
+    "byline_vi": "Cát Dần Lượng trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "葛寅亮",
+        "name_vi": "Cát Dần Lượng",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A004190"
+      }
+    ]
+  },
+  "B0161": {
+    "authorityID": "CA0006247",
+    "vol": "B29",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "武林梵志",
+    "title_vi": "Võ Lâm Phạm Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 12,
+    "cjk_chars": 172789,
+    "byline": "吳之鯨著",
+    "byline_vi": "Ngô Chi Kình trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "吳之鯨",
+        "name_vi": "Ngô Chi Kình",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A022597"
+      }
+    ]
+  },
+  "B0162": {
+    "authorityID": "CA0006248",
+    "vol": "B29",
+    "type": "textbody",
+    "alt": "GA0086",
+    "title": "黃檗山志",
+    "title_vi": "Hoàng Bá Sơn Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0163": {
+    "authorityID": "CA0006249",
+    "vol": "B30",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "重修曹溪通志",
+    "title_vi": "Trùng Tu Tào Khê Thông Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 8,
+    "cjk_chars": 121808,
+    "byline": "馬元、釋真樸重修",
+    "byline_vi": "Mã Nguyên, Thích Chân Phác trọng tu",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "重 không có trong bảng vai trò; phiên âm 'trọng'",
+    "contributors": [
+      {
+        "name": "馬元",
+        "name_vi": "Mã Nguyên",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034467"
+      },
+      {
+        "name": "釋真樸",
+        "name_vi": "Thích Chân Phác",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000960"
+      }
+    ]
+  },
+  "B0164": {
+    "authorityID": "CA0006250",
+    "vol": "B30",
+    "type": "textbody",
+    "alt": "GA0009",
+    "title": "普陀洛迦新志",
+    "title_vi": "Phổ-đà-lạc-già Tân Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0165": {
+    "authorityID": "CA0006251",
+    "vol": "B30",
+    "type": "textbody",
+    "alt": "GA0081",
+    "title": "清涼山志",
+    "title_vi": "Thanh Lương Sơn Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0166": {
+    "authorityID": "CA0006252",
+    "vol": "B30",
+    "type": "textbody",
+    "alt": "GA0077",
+    "title": "九華山志",
+    "title_vi": "Cửu Hoa Sơn Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0167": {
+    "authorityID": "CA0006253",
+    "vol": "B30",
+    "type": "textbody",
+    "alt": "GA0049",
+    "title": "峨眉山志",
+    "title_vi": "Nga Mi Sơn Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0168": {
+    "authorityID": "CA0006254",
+    "vol": "B30",
+    "type": "textbody",
+    "alt": "GA0089",
+    "title": "天台山方外志",
+    "title_vi": "Thiên Thai Sơn Phương Ngoại Chí",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0169": {
+    "authorityID": "CA0006255",
+    "vol": "B31",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "朝鮮寺剎史料",
+    "title_vi": "Triều Tiên Tự Sát Sử Liệu",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 317407
+  },
+  "B0170": {
+    "authorityID": "CA0006256",
+    "vol": "B31",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "朝鮮佛教通史",
+    "title_vi": "Triều Tiên Phật Giáo Thông Sử",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 3,
+    "cjk_chars": 905521,
+    "en_words": 91,
+    "byline": "李能和著",
+    "byline_vi": "Lý Năng Hòa trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "李能和",
+        "name_vi": "Lý Năng Hòa",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034473"
+      }
+    ]
+  },
+  "B0171": {
+    "authorityID": "CA0006257",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "八宗綱要鈔",
+    "title_vi": "Bát Tông Cương Yếu Sao",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 25499,
+    "byline": "凝然述",
+    "byline_vi": "Ngưng Nhiên thuật",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "凝然",
+        "name_vi": "Ngưng Nhiên",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001772"
+      }
+    ]
+  },
+  "B0172": {
+    "authorityID": "CA0006258",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "出定後語",
+    "title_vi": "Xuất Định Hậu Ngữ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 30042,
+    "en_words": 25,
+    "byline": "富永仲基著",
+    "byline_vi": "Phú Vĩnh Trọng Cơ trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "富永仲基",
+        "name_vi": "Phú Vĩnh Trọng Cơ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034474"
+      }
+    ]
+  },
+  "B0173": {
+    "authorityID": "CA0006259",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "元亨釋書",
+    "title_vi": "Nguyên Hanh Thích Thư",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 30,
+    "cjk_chars": 232628,
+    "en_words": 438,
+    "byline": "師鍊著",
+    "byline_vi": "Sư Luyện trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "師鍊",
+        "name_vi": "Sư Luyện",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000919"
+      }
+    ]
+  },
+  "B0174": {
+    "authorityID": "CA0006260",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "參天台五台山記",
+    "title_vi": "Tham Thiên Thai Ngũ Đài Sơn Ký",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 8,
+    "cjk_chars": 108871,
+    "en_words": 9,
+    "byline": "成尋著",
+    "byline_vi": "Thành Tầm trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "成尋",
+        "name_vi": "Thành Tầm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A023182"
+      }
+    ]
+  },
+  "B0175": {
+    "authorityID": "CA0006261",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "喫茶養生記",
+    "title_vi": "Khiết Trà Dưỡng Sinh Ký",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 10202,
+    "en_words": 1,
+    "byline": "榮西著",
+    "byline_vi": "Vinh Tây trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "榮西",
+        "name_vi": "Vinh Tây",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001624"
+      }
+    ]
+  },
+  "B0176": {
+    "authorityID": "CA0006262",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "四宗要文",
+    "title_vi": "Tứ Tông Yếu Văn",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 3,
+    "cjk_chars": 44098,
+    "en_words": 1,
+    "byline": "日朝著　英園纂補",
+    "byline_vi": "Nhật Triều trước tác; Anh Viên toản bổ",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "補 không có trong bảng vai trò; phiên âm 'bổ'",
+    "contributors": [
+      {
+        "name": "日朝",
+        "name_vi": "Nhật Triều",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034475"
+      },
+      {
+        "name": "英園",
+        "name_vi": "Anh Viên",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034476"
+      }
+    ]
+  },
+  "B0177": {
+    "authorityID": "CA0006263",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "本朝諸宗要集",
+    "title_vi": "Bản Triều Chư Tông Yếu Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 5,
+    "cjk_chars": 51522,
+    "en_words": 1,
+    "byline": "義觀述",
+    "byline_vi": "Nghĩa Quán thuật",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "義觀",
+        "name_vi": "Nghĩa Quán",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034478"
+      }
+    ]
+  },
+  "B0178": {
+    "authorityID": "CA0006264",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "東大寺六宗未決義",
+    "title_vi": "Đông Đại Tự Lục Tông Vị Quyết Nghĩa",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 3563,
+    "en_words": 1
+  },
+  "B0179": {
+    "authorityID": "CA0006265",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "八海含藏",
+    "title_vi": "Bát Hải Hàm Tạng",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 2265,
+    "en_words": 1,
+    "byline": "師鍊著",
+    "byline_vi": "Sư Luyện trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "師鍊",
+        "name_vi": "Sư Luyện",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000919"
+      }
+    ]
+  },
+  "B0180": {
+    "authorityID": "CA0006266",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "華嚴通關",
+    "title_vi": "Hoa Nghiêm Thông Quan",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 7579,
+    "en_words": 1,
+    "byline": "定仙著",
+    "byline_vi": "Định Tiên trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "定仙",
+        "name_vi": "Định Tiên",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034480"
+      }
+    ]
+  },
+  "B0181": {
+    "authorityID": "CA0006267",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "諸宗教理同異釋",
+    "title_vi": "Chư Tông Giáo Lý Đồng Dị Thích",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 9292,
+    "en_words": 1,
+    "byline": "賴瑜釋",
+    "byline_vi": "Lại Du thích",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "賴瑜",
+        "name_vi": "Lại Du",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001828"
+      }
+    ]
+  },
+  "B0182": {
+    "authorityID": "CA0006268",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "內典塵露章",
+    "title_vi": "Nội Điển Trần Lộ Chương",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 13404,
+    "en_words": 1,
+    "byline": "凝然述",
+    "byline_vi": "Ngưng Nhiên thuật",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "凝然",
+        "name_vi": "Ngưng Nhiên",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001772"
+      }
+    ]
+  },
+  "B0183": {
+    "authorityID": "CA0006269",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "禪祖念佛集",
+    "title_vi": "Thiền Tổ Niệm Phật Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 22423,
+    "en_words": 1,
+    "byline": "慧中集",
+    "byline_vi": "Tuệ Trung tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "慧中",
+        "name_vi": "Tuệ Trung",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034481"
+      }
+    ]
+  },
+  "B0184": {
+    "authorityID": "CA0006270",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "顯揚正法復古集",
+    "title_vi": "Hiển Dương Chánh Pháp Phục Cổ Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 2,
+    "cjk_chars": 48255,
+    "en_words": 1,
+    "byline": "普寂著",
+    "byline_vi": "Phổ Tịch trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "普寂",
+        "name_vi": "Phổ Tịch",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001219"
+      }
+    ]
+  },
+  "B0185": {
+    "authorityID": "CA0006271",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "初學題額集",
+    "title_vi": "Sơ Học Đề Ngạch Tập",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 3,
+    "cjk_chars": 79998,
+    "en_words": 1,
+    "byline": "良山集",
+    "byline_vi": "Lương Sơn tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "良山",
+        "name_vi": "Lương Sơn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034489"
+      }
+    ]
+  },
+  "B0186": {
+    "authorityID": "CA0006272",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "三國佛法傳通緣起",
+    "title_vi": "Tam Quốc Phật Pháp Truyền Thông Duyên Khởi",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 3,
+    "cjk_chars": 23586,
+    "byline": "凝然述",
+    "byline_vi": "Ngưng Nhiên thuật",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "凝然",
+        "name_vi": "Ngưng Nhiên",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A001772"
+      }
+    ]
+  },
+  "B0187": {
+    "authorityID": "CA0006273",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "二障義",
+    "title_vi": "Nhị Chướng Nghĩa",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 26652,
+    "en_words": 1,
+    "byline": "元曉著",
+    "byline_vi": "Nguyên Hiểu trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "元曉",
+        "name_vi": "Nguyên Hiểu",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A000136"
+      }
+    ]
+  },
+  "B0188": {
+    "authorityID": "CA0006274",
+    "vol": "B32",
+    "type": "textbody",
+    "alt": "X0860",
+    "title": "判比量論",
+    "title_vi": "Phán Tỉ Lượng Luận",
+    "title_src": "ai",
+    "title_status": "unreviewed"
+  },
+  "B0189": {
+    "authorityID": "CA0006275",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大華嚴一乘法界圖註并序",
+    "title_vi": "Đại Hoa Nghiêm Nhất Thừa Pháp Giới Đồ Chú Tịnh Tự",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 4389,
+    "byline": "雪岑著",
+    "byline_vi": "Tuyết Sầm trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "雪岑",
+        "name_vi": "Tuyết Sầm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034492"
+      }
+    ]
+  },
+  "B0190": {
+    "authorityID": "CA0006276",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "華嚴經釋題",
+    "title_vi": "Hoa Nghiêm Kinh Thích Đề",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 6045,
+    "byline": "雪岑著",
+    "byline_vi": "Tuyết Sầm trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "雪岑",
+        "name_vi": "Tuyết Sầm",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034492"
+      }
+    ]
+  },
+  "B0191": {
+    "authorityID": "CA0006277",
+    "vol": "B32",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "義相法師法性偈",
+    "title_vi": "Nghĩa Tương Pháp Sư Pháp Tính Kệ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 2310,
+    "byline": "有聞科註　聖奎證正",
+    "byline_vi": "Hữu Văn khoa chú; Thánh Khuê chứng chính",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "科 và 證 không có trong bảng vai trò; phiên âm",
+    "contributors": [
+      {
+        "name": "有聞",
+        "name_vi": "Hữu Văn",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034499"
+      },
+      {
+        "name": "聖奎",
+        "name_vi": "Thánh Khuê",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034500"
+      }
+    ]
+  },
+  "B0192": {
+    "authorityID": "CA0006278",
+    "vol": "B33",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "釋文紀",
+    "title_vi": "Thích Văn Kỷ",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 45,
+    "cjk_chars": 554181,
+    "byline": "梅鼎祚輯",
+    "byline_vi": "Mai Đỉnh Tộ tập",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "梅鼎祚",
+        "name_vi": "Mai Đỉnh Tộ",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034504"
+      }
+    ]
+  },
+  "B0193": {
+    "authorityID": "CA0006279",
+    "vol": "B34",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "吳都法乘",
+    "title_vi": "Ngô Đô Pháp Thừa",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 30,
+    "cjk_chars": 778988,
+    "byline": "周永年編",
+    "byline_vi": "Chu Vĩnh Niên biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "周永年",
+        "name_vi": "Chu Vĩnh Niên",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A018586"
+      }
+    ]
+  },
+  "B0194": {
+    "authorityID": "CA0006280",
+    "vol": "B35",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "中華大藏經總目錄",
+    "title_vi": "Trung Hoa Đại Tạng Kinh Tổng Mục Lục",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 8,
+    "cjk_chars": 300420,
+    "en_words": 8982,
+    "byline": "蔡念生編",
+    "byline_vi": "Sái Niệm Sinh biên soạn",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "蔡念生",
+        "name_vi": "Sái Niệm Sinh",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A010533"
+      }
+    ]
+  },
+  "B0195": {
+    "authorityID": "CA0006281",
+    "vol": "B35",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "頓悟大乘政理決",
+    "title_vi": "Đốn Ngộ Đại Thừa Chánh Lý Quyết",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 19297,
+    "en_words": 355,
+    "byline": "王錫著",
+    "byline_vi": "Vương Tích trước tác",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "王錫",
+        "name_vi": "Vương Tích",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034507"
+      }
+    ]
+  },
+  "B0196": {
+    "authorityID": "CA0006282",
+    "vol": "B35",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大乘中宗見解",
+    "title_vi": "Đại Thừa Trung Tông Kiến Giải",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 3143,
+    "en_words": 2770
+  },
+  "B0197": {
+    "authorityID": "CA0006283",
+    "vol": "B36",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "摩訶婆羅多的故事",
+    "title_vi": "Ma-ha-bà-la-đa Đích Cố Sự",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 185323,
+    "en_words": 342,
+    "byline": "拉賈戈帕拉查理改寫　唐季雍譯　金克木校",
+    "byline_vi": "Lạp Giả Qua Pha Lạp Tra Lý cải tả; Đường Quý Ung dịch; Kim Khắc Mộc hiệu",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "byline_note": "改寫 không có trong bảng vai trò; phiên âm 'cải tả'",
+    "contributors": [
+      {
+        "name": "拉賈戈帕拉查理",
+        "name_vi": "Lạp Giả Qua Pha Lạp Tra Lý",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "name_vi_note": "tên phiên âm từ tiếng nước ngoài; cần rà chữ 帕",
+        "id": "A034514"
+      },
+      {
+        "name": "唐季雍",
+        "name_vi": "Đường Quý Ung",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A034515"
+      }
+    ]
+  },
+  "B0198": {
+    "authorityID": "CA0006284",
+    "vol": "B36",
+    "type": "textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "博伽梵歌",
+    "title_vi": "Bác-già-phạm Ca",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 18,
+    "cjk_chars": 378125,
+    "en_words": 23158,
+    "byline": "雅蘇瑪蒂書達．踏薩譯",
+    "byline_vi": "Nhã Tô Ma Đế Thư Đạt, Đạp Tát dịch",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "雅蘇瑪蒂書達．踏薩",
+        "name_vi": "Nhã Tô Ma Đế Thư Đạt, Đạp Tát",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "name_vi_note": "nguyên văn ghép hai tên bằng ．",
+        "id": "A034521"
+      }
+    ]
+  },
+  "Ba001": {
+    "authorityID": "CA0008573",
+    "vol": "B00",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編．出版說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên: Xuất Bản Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 2082,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba002": {
+    "authorityID": "CA0008574",
+    "vol": "B00",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編．全書內容簡介",
+    "title_vi": "Đại Tạng Kinh Bổ Biên: Toàn Thư Nội Dung Giản Giới",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 21635,
+    "en_words": 18,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba003": {
+    "authorityID": "CA0008575",
+    "vol": "B03",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第三冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Tam Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1659,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba004": {
+    "authorityID": "CA0008576",
+    "vol": "B06",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第六冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Lục Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 746,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba005": {
+    "authorityID": "CA0008577",
+    "vol": "B07",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第七冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thất Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 561,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba006": {
+    "authorityID": "CA0008578",
+    "vol": "B08",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第八冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Bát Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 467,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba007": {
+    "authorityID": "CA0008579",
+    "vol": "B09",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第九冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Cửu Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 605,
+    "en_words": 2,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba008": {
+    "authorityID": "CA0008580",
+    "vol": "B10",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第十冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thập Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 613,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba009": {
+    "authorityID": "CA0008581",
+    "vol": "B11",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第十一冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thập Nhất Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 627,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba010": {
+    "authorityID": "CA0008582",
+    "vol": "B12",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "洛陽伽藍記解題",
+    "title_vi": "Lạc Dương Già-lam Ký Giải Đề",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1643,
+    "en_words": 1,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba011": {
+    "authorityID": "CA0008583",
+    "vol": "B13",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "釋氏六帖解題",
+    "title_vi": "Thích Thị Lục Thiếp Giải Đề",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 814,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba012": {
+    "authorityID": "CA0008584",
+    "vol": "B13",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大唐西域記解題",
+    "title_vi": "Đại Đường Tây Vực Ký Giải Đề",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 2063,
+    "en_words": 41,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba013": {
+    "authorityID": "CA0008585",
+    "vol": "B14",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第十四冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thập Tứ Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 590,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba014": {
+    "authorityID": "CA0008586",
+    "vol": "B15",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第十五冊．編輯說明（上）",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thập Ngũ Sách: Biên Tập Thuyết Minh (Thượng)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 878,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba015": {
+    "authorityID": "CA0008587",
+    "vol": "B16",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第十六冊．編輯說明（下）",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thập Lục Sách: Biên Tập Thuyết Minh (Hạ)",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 368,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba016": {
+    "authorityID": "CA0008588",
+    "vol": "B17",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第十七冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thập Thất Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 1329,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba017": {
+    "authorityID": "CA0008589",
+    "vol": "B18",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第十八冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thập Bát Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 795,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba018": {
+    "authorityID": "CA0008590",
+    "vol": "B19",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第十九冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Thập Cửu Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 611,
+    "en_words": 2,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba019": {
+    "authorityID": "CA0008592",
+    "vol": "B20",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 593,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba020": {
+    "authorityID": "CA0008593",
+    "vol": "B21",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十一冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Nhất Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 564,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba021": {
+    "authorityID": "CA0008594",
+    "vol": "B22",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十二冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Nhị Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 633,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba022": {
+    "authorityID": "CA0008595",
+    "vol": "B23",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十三冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Tam Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 672,
+    "en_words": 4,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba023": {
+    "authorityID": "CA0008596",
+    "vol": "B24",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十四冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Tứ Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 856,
+    "en_words": 2,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba024": {
+    "authorityID": "CA0008597",
+    "vol": "B25",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十五冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Ngũ Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 623,
+    "en_words": 2,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba025": {
+    "authorityID": "CA0008598",
+    "vol": "B26",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十六冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Lục Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 638,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba026": {
+    "authorityID": "CA0008599",
+    "vol": "B27",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十七冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Thất Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 706,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba027": {
+    "authorityID": "CA0008600",
+    "vol": "B28",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十八冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Bát Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 839,
+    "en_words": 2,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba028": {
+    "authorityID": "CA0008601",
+    "vol": "B29",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第二十九冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Nhị Thập Cửu Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 782,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba029": {
+    "authorityID": "CA0008602",
+    "vol": "B30",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第三十冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Tam Thập Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 646,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba030": {
+    "authorityID": "CA0008603",
+    "vol": "B31",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第三十一冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Tam Thập Nhất Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 641,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba031": {
+    "authorityID": "CA0008604",
+    "vol": "B32",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第三十二冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Tam Thập Nhị Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 890,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba032": {
+    "authorityID": "CA0008605",
+    "vol": "B33",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第三十三冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Tam Thập Tam Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 743,
+    "en_words": 1,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba033": {
+    "authorityID": "CA0008606",
+    "vol": "B34",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第三十四冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Tam Thập Tứ Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 322,
+    "en_words": 2,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba034": {
+    "authorityID": "CA0008607",
+    "vol": "B34",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "吳都法乘簡介",
+    "title_vi": "Ngô Đô Pháp Thừa Giản Giới",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 619,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba035": {
+    "authorityID": "CA0008608",
+    "vol": "B35",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第三十五冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Tam Thập Ngũ Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 637,
+    "en_words": 3,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "Ba036": {
+    "authorityID": "CA0008609",
+    "vol": "B36",
+    "type": "non-textbody",
+    "category": "新編部類",
+    "category_vi": "Tân biên bộ loại",
+    "category_src": "table",
+    "category_status": "unreviewed",
+    "title": "大藏經補編第三十六冊．編輯說明",
+    "title_vi": "Đại Tạng Kinh Bổ Biên Đệ Tam Thập Lục Sách: Biên Tập Thuyết Minh",
+    "title_src": "ai",
+    "title_status": "unreviewed",
+    "juans": 1,
+    "cjk_chars": 774,
+    "en_words": 17,
+    "byline": "藍吉富",
+    "byline_vi": "Lam Cát Phú",
+    "byline_src": "ai",
+    "byline_status": "unreviewed",
+    "contributors": [
+      {
+        "name": "藍吉富",
+        "name_vi": "Lam Cát Phú",
+        "name_vi_src": "db_pending",
+        "name_vi_status": "unreviewed",
+        "id": "A024238"
+      }
+    ]
+  },
+  "notes": [
+    "SELF-CHECK: in=234 out=234 title_empty=0 title_slash=0 byline_empty=0 name_empty=0",
+    "Chữ không đọc được (giữ nguyên trong _vi): 哌 (B0010), 𤊹 (B0140)",
+    "Dòng soạn: B0010: không đọc được chữ 哌",
+    "Dòng soạn: B0027: 論 không có trong bảng vai trò; phiên âm 'luận'",
+    "Dòng soạn: B0087: 原詩 và 和 không có trong bảng vai trò; phiên âm",
+    "Dòng soạn: B0101: nguyên văn có ký hiệu （？）",
+    "Dòng soạn: B0117: 重 không có trong bảng vai trò; phiên âm 'trọng'",
+    "Dòng soạn: B0140: không đọc được chữ 𤊹",
+    "Dòng soạn: B0144: 二禪德 là danh xưng, phiên âm; không có trong bảng vai trò",
+    "Dòng soạn: B0158: 繪圖 không có trong bảng vai trò; phiên âm; 證 phiên âm 'chứng'",
+    "Dòng soạn: B0163: 重 không có trong bảng vai trò; phiên âm 'trọng'",
+    "Dòng soạn: B0176: 補 không có trong bảng vai trò; phiên âm 'bổ'",
+    "Dòng soạn: B0191: 科 và 證 không có trong bảng vai trò; phiên âm",
+    "Dòng soạn: B0197: 改寫 không có trong bảng vai trò; phiên âm 'cải tả'",
+    "Tên: B0010 丘哌博 (A034215): không đọc được chữ 哌",
+    "Tên: B0059 張妙定蓮菩提金剛正 (A034284): tên dài, có tên pháp (Bồ-đề Kim Cương); đối chiếu tên gốc",
+    "Tên: B0060 張妙定蓮菩提金剛正 (A034284): tên dài, có tên pháp (Bồ-đề Kim Cương); đối chiếu tên gốc",
+    "Tên: B0116 明成祖朱棣 (A000149): tên gồm miếu hiệu (Minh Thành Tổ) và tên húy (Chu Đệ)",
+    "Tên: B0140 徐𤊹 (A005179): không đọc được chữ 𤊹",
+    "Tên: B0153 晁逈 (A009420): chữ 逈 đọc Quýnh, chưa khớp từ điển; cần rà",
+    "Tên: B0197 拉賈戈帕拉查理 (A034514): tên phiên âm từ tiếng nước ngoài; cần rà chữ 帕",
+    "Tên: B0198 雅蘇瑪蒂書達．踏薩 (A034521): nguyên văn ghép hai tên bằng ．"
+  ]
+}
