@@ -4,6 +4,7 @@ __pycache__/
 node_modules/
 .env
 *.json
+!Dai_Tang_Kinh/daoanh/package.json
 !AGENTS.md
 !data/processed/monk_names.json
 !data/master_db.json
