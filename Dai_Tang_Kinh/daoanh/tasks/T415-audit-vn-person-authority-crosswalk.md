@@ -75,6 +75,9 @@ outcome: >
   khi có thể apply bất kỳ UPDATE nào.
 ---
 
+## Mô tả
+Audit bảng vn_person_authority để tìm ánh xạ slug→dila_id sai (36 trường hợp N:1 gây self-loop ở T381) và 229 slug TTL thiếu dila_id. Task chỉ liệt kê và trình Admin, không tự sửa dila_id theo tên. Hai case A000108 và A014491 đã dừng, không UPDATE, vì bằng chứng chưa đủ; Admin cần quyết hướng xử lý trước khi sửa.
+
 # T415 — Audit `vn_person_authority` crosswalk (slug → dila_id)
 
 ## Nguồn gốc
@@ -124,7 +127,7 @@ tại sao thiếu (data entry thiếu, hay slug đánh sai).
 - [x] Viết báo cáo audit, trình Admin — `docs/sessions/2026-10-19/T415_audit_phase/T415_AUDIT_SUMMARY.md`
 - [x] Chờ Admin duyệt từng trường hợp sửa — Admin đã duyệt "Option 1" (2026-10-19) cho 2 case
   A000108/A014491, 4 case còn lại tách sang T419.
-- [ ] Script sửa (`--dry-run`/`--apply`, backup tự động, idempotent) — **CHƯA chạy UPDATE nào**.
+- [x] Script sửa (`--dry-run`/`--apply`, backup tự động, idempotent) — **CHƯA chạy UPDATE nào**.
   Đã điều tra sâu bằng raw TTL + entity/entity_claims (xem `outcome` 2026-10-19 phần 2): phát
   hiện giả định "pending=sai, auto_ttl=đúng" sai cho case A014491 (bằng chứng cho thấy có thể
   ngược lại — `an_hoa_van_nhat` mới là dòng sai, không phải `long_khanh_khanh_nhan`), và không
@@ -137,3 +140,8 @@ tại sao thiếu (data entry thiếu, hay slug đánh sai).
 ## Attribution
 
 Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+
+
+## Build 2026-10-26
+
+- Script sửa `scripts/t415_fix_vn_person_authority.py` đã viết (dry-run mặc định, CHƯA chạy --apply — chưa UPDATE nào lên DB). Audit report: `docs/sessions/2026-10-26_T415_audit_report.txt`. Chờ Admin quyết hướng case A014491 (xem outcome) trước khi giao lệnh apply.

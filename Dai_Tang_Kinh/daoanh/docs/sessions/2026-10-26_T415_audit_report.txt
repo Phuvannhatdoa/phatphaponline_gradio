@@ -1,0 +1,149 @@
+# T415 Audit Report - vn_person_authority DILA ID Mapping
+Generated: 2026-10-26 14:29:55
+
+## Tóm tắt
+- Tổng số case N:1: 35
+- Tổng số orphan TTL slugs: 204
+- Số mapping trong dila_catalog_people: 0
+
+## Chi tiết các case N:1
+### dila_id: A026824
+- Số slug: 3
+- Các slug: duong_chau_tue_giac, lang_nha_tue_giac, linh_thuu_tue_giac
+
+### dila_id: A021395
+- Số slug: 3
+- Các slug: alias_A021395, bao_an_phap_dien, tu_to_phap_dien
+
+### dila_id: A010511
+- Số slug: 3
+- Các slug: dam_chau_bao_cai_uoc, nam_nhac_huyen_thai, the_nham_ton_tho
+
+### dila_id: A047679
+- Số slug: 2
+- Các slug: phu_son_duc_tuyen, quang_tue_duc_tuyen
+
+### dila_id: A045639
+- Số slug: 2
+- Các slug: phap_nhu, van_cu_phap_nhu
+
+### dila_id: A045400
+- Số slug: 2
+- Các slug: ngu_dai_tri_thong, tho_chau_tri_thong
+
+### dila_id: A044094
+- Số slug: 2
+- Các slug: thieu_chau_phap_hai, alias_A044094
+
+### dila_id: A043535
+- Số slug: 2
+- Các slug: alias_A043535, ky_ngan_pho_minh
+
+### dila_id: A043012
+- Số slug: 2
+- Các slug: hoang_ba_vinh_thai, tue_nhat_minh
+
+### dila_id: A038615
+- Số slug: 2
+- Các slug: thai_tu_dao_nhat, thai_tu_dong_quang
+
+### dila_id: A038165
+- Số slug: 2
+- Các slug: nguu_dau_hue_phuong, so_an_hue_phuong
+
+### dila_id: A030596
+- Số slug: 2
+- Các slug: chung_son_dao_long, hoa_nghiem_dao_long
+
+### dila_id: A025951
+- Số slug: 2
+- Các slug: dam_chau_hoa_lam, kinh_trieu_thi_loi
+
+### dila_id: A024897
+- Số slug: 2
+- Các slug: cuu_danh_to, long_hoa_dao_so
+
+### dila_id: A023045
+- Số slug: 2
+- Các slug: alias_A023045, duc_vuong_phap_dat
+
+### dila_id: A021350
+- Số slug: 2
+- Các slug: dong_son_te_vi, giac_a
+
+### dila_id: A021326
+- Số slug: 2
+- Các slug: pho_minh_duc_dung, song_lam_duc_dung
+
+### dila_id: A021291
+- Số slug: 2
+- Các slug: dai_hong_to_chung, lao_na_tu_dang_dai_hoang
+
+### dila_id: A021084
+- Số slug: 2
+- Các slug: tho_ninh_thien_tu, tinh_do_thien_tu
+
+### dila_id: A020681
+- Số slug: 2
+- Các slug: ngu_phong_ban, ngu_phong_thuong_quan
+
+### dila_id: A020647
+- Số slug: 2
+- Các slug: alias_A020647, thien_dong_pho_giao
+
+### dila_id: A020456
+- Số slug: 2
+- Các slug: alias_A020456, thiet_phat_tri_tung
+
+### dila_id: A020120
+- Số slug: 2
+- Các slug: dam_chau_trung_van_cai, alias_A020120
+
+### dila_id: A020018
+- Số slug: 2
+- Các slug: dam_chau_dai_xuyen, phung_tuong_phat_da
+
+### dila_id: A014617
+- Số slug: 2
+- Các slug: tang_chu_pho_dung, tri_hai_dao_binh
+
+### dila_id: A010534
+- Số slug: 2
+- Các slug: vu_chau_huyen_sach, alias_A010534
+
+### dila_id: A009478
+- Số slug: 2
+- Các slug: ngu_dai_an_phong, thach_cung_hue_tang
+
+### dila_id: A009319
+- Số slug: 2
+- Các slug: tung_son_pho_tich, alias_A009319
+
+### dila_id: A008792
+- Số slug: 2
+- Các slug: ca_ty_ma_la, ma_noa_la
+
+### dila_id: A008471
+- Số slug: 2
+- Các slug: hoang_dinh_kien, hoang_long_tri_minh
+
+### dila_id: A004981
+- Số slug: 2
+- Các slug: phong_huyet_dien_chieu, nam_vien_hue_ngung
+
+### dila_id: A003636
+- Số slug: 2
+- Các slug: phuc_chau_dai_an, phuoc_chau_dai_an
+
+### dila_id: A003627
+- Số slug: 2
+- Các slug: lam_te_nghia_huyen, alias_A003627
+
+### dila_id: A002653
+- Số slug: 2
+- Các slug: bien_dam_hieu_lieu, tay_vuc_quat_da_tam_tang
+
+### dila_id: A002188
+- Số slug: 2
+- Các slug: da_da_xa_da, ma_ha_ca_diep
+
