@@ -747,3 +747,97 @@ file `.js` tạm, chạy `node --check` cho cả 2 → exit code 0, không lỗi
 **Trạng thái:** ✅ DONE (2026-10-20) — Gemini ai_person_name = 48,673/48,673 (100%), Claude codex_person_name = 49,335 rows. Cả 2 cột hiện đầy đủ trên namevimap.html. QA xác nhận 2026-10-20.
 
 ---
+
+## BUG-048 — Cột Claude trong namevimap.html không hiện số đếm (done/total)
+
+**Route/URL:** `http://127.0.0.1:8080/daoanh/admin/namevimap.html` → TAB 3 "🔧 TTL ETL" — header cột "Claude" của bảng Bulk FLAG Queue (`#etl-flag-queue-table`)
+**Task:** `tasks/T435-bug048-claude-column-no-count.md`
+**Thời gian phát hiện:** 2026-10-20 (suy từ thư mục backup `docs/sessions/2026-10-20/T435/`; báo cáo không ghi giờ phát hiện — Admin xác nhận; Admin xác nhận DONE 2026-10-26)
+**Expected:** Header cột Claude hiện số đếm `(done/total)` giống cột Gemini, ví dụ `CLAUDE (48,646/48,673)`.
+**Actual:** Header "Claude" trống, không có số. Endpoint `GET /api/admin/codex-transliterate/status` chưa tồn tại (404).
+**Root cause:** Lỗi contract ở 3 lớp, không phải lỗi dữ liệu:
+  1. API: `app.py` chỉ có `ai_transliterate_status()` (đếm `ai_person_name` = Gemini), không có route đếm `codex_person_name` (Claude).
+  2. Renderer: header `<th class="codex-name-header">` (`namevimap.html:728`) không có `<span>` để JS ghi số, trong khi header Gemini có `<span id="ai-col-status">`.
+  3. JS: không có hàm fetch cho Claude (chỉ có `loadAiColStatus()`).
+  Đếm trần `COUNT(*)` không JOIN sẽ cho 49,335 > 48,673 (101%) — sai, nên phải JOIN `people` (xem Evidence).
+**Evidence (SQL trên `data/lineage.db`, đo khi audit):**
+  - `SELECT COUNT(*) FROM codex_person_name WHERE name_vi IS NOT NULL AND name_vi != ''` → 49,335 (không dùng, vì không JOIN)
+  - `SELECT COUNT(DISTINCT c.dila_id) FROM codex_person_name c JOIN people p ON p.id = c.dila_id WHERE c.name_vi IS NOT NULL AND c.name_vi != '' AND p.name_zh IS NOT NULL AND p.name_zh != ''` → 48,646 (con số dùng)
+  - `SELECT COUNT(*) FROM people WHERE name_zh IS NOT NULL AND name_zh != ''` → 48,673 (mẫu số)
+**Changed files:**
+  - `daoanh/app.py` — thêm route `codex_transliterate_status()` (~dòng 16286), cùng pattern auth + JSON với `ai_transliterate_status()`
+  - `daoanh/admin/namevimap.html` — dòng ~728 (thêm `<span id="codex-col-status">`), ~2394 (hàm `loadCodexColStatus()`), ~1074 (gọi sau `loadAiColStatus()`)
+**Test evidence:**
+  - `python -m py_compile app.py` → OK
+  - Gọi API không token → 403 `{"error":"Unauthorized","ok":false}`
+  - Gọi API với `X-Session-Token` hợp lệ → 200 `{"ok":true,"done":48646,"total":48673,"pct":99.9}`
+  - Token sai (edge) → 403, server không crash
+  - UI (trình duyệt thật, namevimap.html, tab TTL ETL): header "CLAUDE (48,646/48,673)"; cột Gemini vẫn "GEMINI (48,673/48,673)" (không regression)
+  - Network: `/api/admin/codex-transliterate/status` → 200 OK (2 lần qua gateway 8080)
+  - **Chưa test:** case DB lock thật. Báo cáo chỉ dựa vào việc code bọc try/except theo pattern của endpoint Gemini. Ghi rõ là chưa test trực tiếp.
+**Trạng thái:** ✅ DONE (2026-10-26) — Admin xác nhận DONE; code đã sửa và test đạt, xem báo cáo nguồn.
+**Nguồn:** `docs/T435_BUG048_FINAL_REPORT.md`
+
+---
+
+## BUG-049 — namevimap.html TAB ETL — button Pass không chạy, hiện nút đỏ X
+
+**Route/URL:** `http://127.0.0.1:8080/daoanh/admin/namevimap.html` → TAB 3 "🔧 TTL ETL"
+**Task:** `tasks/T436-bug049-etl-pass-button-error.md`
+**Thời gian phát hiện:** 2026-10-20 (Admin báo)
+**Expected:** Click `✓ Pass` (hàm `passEtlFlag(this)`) → lưu `name_vi_final` vào DB, ẩn row, network trả 200.
+**Actual:** Có lúc nút chuyển đỏ (class `.err`, text `✗`) trong 3s rồi quay lại `✓ Pass`, không lưu DB, không ẩn row.
+**Root cause:** KHÔNG phải lỗi ở `passEtlFlag()` (namevimap.html:1840-1871) hay endpoint `POST /api/admin/namevi-map/update` (app.py:15803-15880) — cả hai đã audit và hoạt động đúng (verify nhiều lần: 200 OK, `success:true`). Lỗi thực nằm ở lớp proxy dev local `daoanh/local_gateway.py::proxy()`: chỉ bắt `requests.exceptions.ConnectionError`, KHÔNG bắt `requests.exceptions.Timeout`. Khi backend `app.py` bị chậm tạm thời (ETL tab mở → `loadEtlFlagLiveData()` bắn burst N request `GET /api/admin/namevi-queue/<id>` song song, đã ghi nhận trong T427 "có lúc 7-27s, flag-list tới ~94s khi máy tải nặng"), request proxy vượt `timeout=60` ném `Timeout` không được bắt → Flask trả HTML lỗi 500 mặc định thay vì JSON → `JSON.parse()` phía client crash → `passEtlFlag()` rơi vào catch ngoài cùng → nút hiện `✗`. Bằng chứng trực tiếp: `gateway_local.log` ghi `TimeoutError: timed out` lặp 5 lần (14:30:17–14:32:03) trên endpoint `flag-list` cùng lớp proxy, cùng điều kiện tải với `namevi-map/update` — tính ngẫu nhiên khớp triệu chứng admin báo "không phải lần nào cũng lỗi".
+**Scope:** Sửa `daoanh/local_gateway.py::proxy()` — thêm `except requests.exceptions.Timeout` (trả JSON 504) và `except requests.exceptions.RequestException` (trả JSON 502) thay vì để Flask crash ra HTML không parse được. Không sửa `app.py`/`namevimap.html` vì 2 lớp đó không có lỗi. Không thay đổi kiến trúc burst-request của `loadEtlFlagLiveData()` (trade-off đã chấp nhận ở T427, ngoài phạm vi BUG-049).
+**Backup:** `daoanh/docs/sessions/2026-10-20/BUG-049/local_gateway.py.bak` (trước khi sửa).
+**Test:** Click Pass ngay sau khi mở tab ETL (trong cửa sổ burst) → 200 OK, row ẩn, counter tăng. Double-click Pass liên tiếp → không lỗi, không duplicate-crash. Regression: tab Xác Minh, tab Place vẫn hoạt động bình thường. `python -m py_compile local_gateway.py` OK.
+**Trạng thái:** ✅ DONE (2026-10-26) — Admin xác nhận DONE. Báo cáo chi tiết gốc (2026-10-20): `docs/BUG-049_ETL_PASS_BUTTON_FIX_REPORT.md`.
+**Verify lại (2026-10-21, T436):** Mở browser thật tại `http://127.0.0.1:8080/daoanh/admin/namevimap.html` → Tab ETL → click `✓ Pass` trên row A046539 (Long Thọ): `POST /api/admin/namevi-map/update` → 200 OK (`success:true`), row ẩn khỏi bảng ngay. Double-click Pass trên row A001003 (Mã Minh): 2 request đều 200 OK, không duplicate/crash, không nút đỏ `✗`. Fix T436 vẫn hoạt động đúng, không cần sửa thêm. Chi tiết: `docs/T436_T437_VERIFY_FIX_REPORT.md`.
+
+---
+
+## BUG-050 — namevimap.html Tab ETL — bảng "Bulk FLAG Queue" kẹt "Đang tải…" vĩnh viễn
+
+**Route/URL:** `http://127.0.0.1:8080/daoanh/admin/namevimap.html` → TAB 3 "🔧 TTL ETL"
+**Task:** `tasks/T437-bug050-namevimap-stuck-loading.md`
+**Thời gian phát hiện:** 2026-10-20 (Admin báo)
+**Expected:** Bảng "Bulk FLAG Queue" load xong, không kẹt "Đang tải…" dù Admin chuyển tab qua lại trong lúc đang tải.
+**Actual (audit vòng 2, trước fix):** Rời tab ETL rồi quay lại TRƯỚC KHI lượt tải trước xong → nhánh `else` trong `switchTab()` chỉ gọi `loadEtlFlagLiveData()`, trong khi `_etlNewAbortSignal()` đã abort vĩnh viễn `etlFlagQueueLoad`/`loadAiColStatus`/`loadCodexColStatus` của lượt trước mà không ai gọi lại → bảng kẹt "Đang tải…" mãi mãi (không phải do timeout 45s, mà do request bị huỷ không có request thay thế).
+**Root cause xác nhận lại (2026-10-21, T437):** Đã audit code hiện tại — phần sửa `switchTab()` gọi `_etlFullLoad()` ở CẢ 2 nhánh if/else (namevimap.html dòng 1030-1050, comment ghi rõ "T435/BUG-048 vòng 2") **đã được một phiên trước đó áp dụng xong** trước khi phiên này bắt đầu. Verify bằng browser thật: reload trang → chuyển tab đi/về nhiều lần liên tiếp ngay trong lúc đang tải → request cũ bị `net::ERR_ABORTED` nhưng luôn có request thay thế bắn lại ngay, bảng không kẹt, cuối cùng vẫn load đủ 311/311 FLAG. Không cần sửa thêm phần này.
+**Việc còn lại đã làm (T437, Hướng A — progressive load):** Theo yêu cầu redesign của Admin, thay cơ chế "1 API per_page=50, chờ cả lượt rồi render 1 lần, lỗi cứng 45s xoá sạch bảng" bằng tải tuần tự theo trang nhỏ, render ngay từng trang:
+- `_ETL_FLAG_PER_PAGE`: 50 → 30.
+- Hàm mới `etlFlagQueueLoadAll()` + `_etlFlagLoadPageSeq()`: gọi tuần tự `page=1,2,3,...` (không đổi API/backend — `per_page` đã là query param có sẵn), mỗi trang render ngay khi về (`appendChild`, không `innerHTML=''` cả bảng).
+- Badge "Đang tải trang N…" hiển thị ở cuối bảng trong lúc chờ trang kế.
+- Deadline RIÊNG 15s/trang (so với 45s chung cả lượt trước đây) — hết giờ 1 trang → badge lỗi + nút "Thử lại" CHỈ ở trang đó, các trang đã tải trước vẫn hiển thị nguyên vẹn, không xoá sạch bảng.
+- Tất cả điểm gọi "tải lại từ đầu" (nút Load, checkbox Ẩn đã duyệt, tìm kiếm, sort theo Tin cậy, reload sau Bulk Pass, `_etlFullLoad()`) đổi từ `etlFlagQueueLoad(1)` sang `etlFlagQueueLoadAll()`.
+**Scope:** Chỉ sửa `daoanh/admin/namevimap.html` (JS trong 1 file, không đổi `app.py`/API/DB/schema). Không đụng Tab Place Claude/Gemini placeholder (ngoài phạm vi, đang chờ Admin quyết định riêng).
+**Backup:** `daoanh/docs/sessions/2026-10-21/T437/namevimap.html.bak` (trước phiên này), `namevimap.html.before_progressive_load.bak` (trước khi sửa progressive load).
+**Test:** `node --check` script JS trích xuất OK. Browser thật: tải lần đầu → network log xác nhận 11 request `flag-list?page=1..11&per_page=30` tuần tự, đều 200 OK, badge "311/311 FLAG" đúng tổng. Chuyển tab đi/về liên tục nhiều lần ngay trong lúc đang tải (2 vòng) → request cũ `ERR_ABORTED`, request mới luôn chạy tiếp, bảng không kẹt, cuối cùng vẫn 311/311. Cột Claude/Gemini header giữ đúng số (48,646/48,673 · 48,673/48,673) sau nhiều lần chuyển tab. Regression: tab Xác Minh (338 mục), tab Place (59,167 địa danh, Claude/Gemini vẫn placeholder "—" đúng spec), route `/daoanh/places` (map load bình thường, không console error) đều hoạt động bình thường.
+**Trạng thái:** ✅ DONE (2026-10-26) — Admin xác nhận DONE. Báo cáo chi tiết: `docs/T436_T437_VERIFY_FIX_REPORT.md`.
+
+---
+
+## BUG-051 — /daoanh/places: cây Truyền Thừa không hiện mũi tên, canvas đen trống
+
+**Route/URL:** `http://127.0.0.1:8080/daoanh/places` → tìm "Nghĩa Huyền" (A003627) hoặc "Mã Tổ Đạo Nhất" (A038890) → tab Truyền Thừa
+**Task:** `tasks/T438-bug051-places-lineage-arrows-missing.md`
+**Thời gian phát hiện:** không ghi trong báo cáo; backup 2026-10-20 (`docs/sessions/2026-10-20/BUG-051/`) — Admin xác nhận; Admin xác nhận DONE 2026-10-26
+**Expected:** Cây truyền thừa hiện node và mũi tên thầy → trò (ví dụ Hi Vận → Nghĩa Huyền), không có nền đen.
+**Actual:** Canvas vis.Network trống (pixel tại tâm `rgba(0,0,0,0)`). Đo trước sửa: `#lineage-inspector` rộng 437.48px (flex-basis khai báo 300px); `#lineage-canvas` chỉ 172.5 × 430px. Camera đứng ở x=4920 trong khi node trung tâm ở x=0.
+**Root cause:** Lớp renderer/layout, 2 nguyên nhân độc lập (dữ liệu và API đều đúng, 80 node / 79 edge):
+  - A (CSS, luôn xảy ra): `#lineage-inspector` có `flex:0 0 300px` nhưng thiếu `min-width:0`. Flex item mặc định `min-width:auto`, nội dung không ngắt dòng (bio DILA dài, URL không khoảng trắng) đẩy panel rộng ra, bóp canvas.
+  - B (race, lộ rõ với cây lớn > 50 đời sau khi T152 merge spine): trong `_renderHierarchyTree()`, `focus()` gọi qua biến module-level `_lineageNetwork` chưa được gán khi sự kiện `afterDrawing` bắn; và layout hierarchical (blockShifting/edgeMinimization) còn dịch node sau lần focus đầu.
+**Evidence:** Đo JS console trước sửa — inspector 437.48px, canvas 172.5×430px, pixel tâm trong suốt; camera x=4920 so với node x=0.
+**Changed files:** `daoanh/places.html`
+  - dòng ~745: `#lineage-inspector` thêm `min-width:0;max-width:300px;overflow-x:hidden`
+  - dòng ~6864–6886: `focus()` dùng closure `network` (instance vừa tạo) thay biến module-level; thêm `setTimeout(..., 150)` focus lại một lần, chỉ khi `_lineageNetwork === network`
+**Test evidence:**
+  - Case yêu cầu: "Nghĩa Huyền" trên tab Truyền Thừa → hiện "Hi Vận" → mũi tên trắng → "Nghĩa Huyền", cả khi view mặc định lẫn sau khi ancestor-spine (T152) merge (6–9s) — PASS
+  - Fallback monk khác: "Mã Tổ Đạo Nhất" → "Thiên Chân Tự Tính" → mũi tên xanh → "Mã Tổ Đạo Nhất" — PASS
+  - Regression: "Phả hệ mở rộng" (network mode) của Mã Tổ Đạo Nhất → cây + mũi tên đúng, inspector 300px cố định — PASS
+  - Console/Network: không có lỗi JS mới (chỉ warning "development build")
+**Trạng thái:** ✅ DONE (2026-10-26) — Admin xác nhận DONE; code đã sửa và test đạt, xem báo cáo nguồn.
+**Rủi ro còn lại:** fix B dùng timeout cố định 150ms thay vì chờ `stabilizationIterationsDone`. Có thể không đủ với cây > 100 node hoặc máy chậm. Chưa test cây > 100 node.
+**Nguồn:** `docs/BUG-051_PLACES_LINEAGE_ARROWS_REPORT.md`
+
+---
