@@ -1,0 +1,104 @@
+# FULL PROMPT — Cloud dịch toàn bộ 26 file kinh lục DILA (T453, chốt 2026-10-22)
+
+Nguồn có **26 file** (không phải 29): A, B, C, CC, D, F, G, GA, GB, I, J, K, L, LC, M, N, P, S, T, TX, U, X, Y, YP, ZS, ZW
+(tổng 5.747 bộ). Kết quả: 26 file `<X>.vi.json` cùng tên gốc. A, B đã có bản đạt QA trên local — Cloud vẫn có thể
+làm lại để bộ 26 file đồng nhất; coordinator sẽ chọn bản tốt hơn khi QA.
+
+Dán nguyên văn khối dưới cho Cloud session.
+
+---
+
+```
+NHIỆM VỤ
+Dịch toàn bộ kinh lục DILA authority_catalog (經錄規範資料庫, CC BY-SA 3.0) sang tiếng Việt cho dự án Phật học.
+Đây là PHIÊN ÂM Hán Việt tên sách / tên người / dòng tác giả, không phải dịch nghĩa nội dung kinh.
+Làm hết 26 file, không hỏi lại giữa chừng.
+
+NGUỒN — 26 FILE
+Tải từ https://raw.githubusercontent.com/DILA-edu/Authority-Databases/master/authority_catalog/json/<X>.json
+Thứ tự làm (nhỏ trước, lớn sau):
+M(1) ZS(1) GB(2) S(2) U(2) CC(6) LC(7) A(9) K(9) C(11) P(13) L(21) TX(21) F(27) YP(32) N(38) Y(42)
+GA(51) D(64) G(65) I(101) ZW(202) B(234) J(658) X(1671) T(2457)
+
+CHIA LÔ — BẮT BUỘC
+- Mỗi file chia lô 50 bộ theo thứ tự khóa (file ≤ 50 bộ = 1 lô).
+- Dịch xong lô nào kiểm lô đó, rồi mới sang lô sau.
+- Hết các lô của một file → GỘP thành MỘT file <X>.vi.json (tên trùng file gốc, thêm ".vi"), giữ đúng thứ tự khóa gốc.
+- Không để file nào thiếu bộ: số bộ trong <X>.vi.json = số bộ trong <X>.json.
+
+CÁCH DỊCH
+- Tự đọc và VIẾT TAY bản dịch theo nghĩa, như người học Phật thông Hán văn. Script chỉ dùng để tải, ghép bản dịch
+  vào bản ghi, gộp lô và tự kiểm. KHÔNG phiên âm bằng bảng tra từng chữ (charmap).
+- Chữ đa âm (般, 若, 藏, 長, 行, 梵, 數, 樂, 說, 傳, 重, 調, 降…) quyết định theo nghĩa trong cụm, không lấy cách đọc đầu.
+
+ĐỊNH DẠNG ĐẦU RA MỖI FILE
+- JSON hợp lệ UTF-8: đủ mọi bộ, cùng khóa, cùng thứ tự, GIỮ NGUYÊN 100% trường gốc (không đổi, không xoá,
+  không định dạng lại). Chỉ THÊM trường mới. Cuối object thêm khóa "notes": [...].
+- Trường thêm cho mỗi bộ:
+  title → title_vi, title_src, title_status   (phiên âm đủ mọi chữ, VIẾT HOA CHỮ ĐẦU MỌI TỪ)
+  category → category_vi, category_src, category_status
+  dynasty → dynasty_vi, dynasty_src, dynasty_status   (chỉ khi gốc có dynasty)
+  byline → byline_vi, byline_src, byline_status
+  contributors[i].name → name_vi, name_vi_src, name_vi_status   (phiên âm đúng chữ trong file)
+  *_src = "table" nếu lấy từ bảng dưới, ngược lại "ai". Mọi *_status = "unreviewed".
+  Trường gốc không có (vd. dynasty, places) → không thêm.
+
+BỐN LỆNH CẤM (vi phạm = làm lại lô đó)
+1. Không để trống title_vi, byline_vi (khi byline có chữ), name_vi. Chữ hiếm vẫn phải đọc
+   (俎 trở · 箋 tiên · 騭 chất · 喫 khiết · 并 tịnh · 丏 miện · 霈 bái · 逈 quýnh). Chữ thật sự không đọc được →
+   giữ nguyên chữ Hán trong _vi và ghi *_note.
+2. Không dùng "/" hay liệt kê nhiều cách đọc. Cố định: 般若 Bát-nhã · 波羅蜜 Ba-la-mật · 涅槃 Niết-bàn ·
+   菩薩 Bồ-tát · 比丘 Tỳ-kheo · 毘奈耶 Tỳ-nại-da · 阿含 A-hàm · 瑜伽 Du-già · 彌陀 Di-đà · 長部/長阿含 Trường ·
+   長老 Trưởng lão · 大藏/藏經/三藏 Tạng · 法句 Pháp Cú · 疏 Sớ (không đọc "Sơ") · 鈔 Sao · 記 Ký · 義 Nghĩa ·
+   論 Luận · 梵 Phạm · 數 Số · 說 Thuyết · 行 Hành/Hạnh theo nghĩa (修行 tu hành, 行願 hạnh nguyện) ·
+   樂 Lạc/Nhạc theo nghĩa · 傳 Truyện (sách)/Truyền (truyền thừa). Không chắc → chọn cách thông dụng nhất
+   trong văn bản Phật giáo Việt Nam và ghi title_note.
+3. Không đổi id, authorityID, vol, số, năm. Không bịa năm, triều đại, nơi chốn.
+4. Không ghi note chung chung ("tên người nước ngoài…", "cần xác nhận"). Chỉ ghi *_note khi có điều CỤ THỂ cần rà.
+
+BYLINE
+[triều đại nếu byline có] + tên + vai trò, dùng đúng từ trong bảng, giữ thứ tự gốc.
+Nhiều người/vế ngăn bởi "　" "．" "、" → nối bằng "; ". Byline chỉ có tên → chỉ ghi tên.
+Vai trò: 著 trước tác · 譯 dịch · 造 tạo · 編 biên · 述 thuật · 撰 soạn · 集 tập · 輯 tập · 釋 thích ·
+註/注 chú · 疏 sớ · 記 ký · 錄 lục · 講 giảng · 說 thuyết · 校 hiệu · 校釋 hiệu thích · 集註 tập chú · 纂 toản ·
+編纂 biên toản · 編修 biên tu · 筆錄 bút lục · 修 tu · 譯註 dịch chú · 講述 giảng thuật · 同譯 đồng dịch ·
+口述 khẩu thuật · 提唱 đề xướng · 造頌 tạo tụng · 補 bổ · 證 chứng · 重 trùng · 等 đẳng. Khác → phiên âm Hán Việt.
+Ví dụ: 唐 慧菀述 → "Đường Tuệ Uyển thuật"; 均如著　金知見編 → "Quân Như trước tác; Kim Tri Kiến biên".
+
+BẢNG BỘ LOẠI
+事彙部類 Sự vựng bộ loại · 新編部類 Tân biên bộ loại · 大集部類 Đại tập bộ loại · 律部類 Luật bộ loại ·
+論集部類 Luận tập bộ loại · 瑜伽部類 Du-già bộ loại · 阿含部類 A-hàm bộ loại · 華嚴部類 Hoa Nghiêm bộ loại ·
+般若部類 Bát-nhã bộ loại · 法華部類 Pháp Hoa bộ loại · 寶積部類 Bảo Tích bộ loại · 涅槃部類 Niết-bàn bộ loại ·
+經集部類 Kinh tập bộ loại · 密教部類 Mật giáo bộ loại · 禪宗部類 Thiền tông bộ loại · 淨土宗部類 Tịnh Độ tông bộ loại ·
+史傳部類 Sử truyện bộ loại · 本緣部類 Bản duyên bộ loại · 中觀部類 Trung quán bộ loại · 毘曇部類 Tì-đàm bộ loại ·
+諸宗部類 Chư tông bộ loại · 印度撰述 Ấn Độ soạn thuật. Nhiều giá trị cách dấu phẩy → dịch từng cái, giữ dấu phẩy.
+Ngoài bảng → tự dịch, _src "ai".
+
+BẢNG TRIỀU ĐẠI
+東漢/後漢 Đông Hán · 三國 Tam Quốc · 吳 Ngô · 曹魏 Tào Ngụy · 西晉 Tây Tấn · 東晉 Đông Tấn · 前秦 Tiền Tần ·
+後秦 Hậu Tần · 北涼 Bắc Lương · 劉宋 Lưu Tống · 蕭齊 Tiêu Tề · 梁 Lương · 陳 Trần · 北魏 Bắc Ngụy · 東魏 Đông Ngụy ·
+北齊 Bắc Tề · 北周 Bắc Chu · 隋 Tùy · 唐 Đường · 五代 Ngũ Đại · 宋 Tống · 遼 Liêu · 西夏 Tây Hạ · 金 Kim · 元 Nguyên ·
+明 Minh · 清 Thanh · 民國 Dân Quốc · 新羅 Tân La · 高麗 Cao Ly · 朝鮮 Triều Tiên · 日本 Nhật Bản. Khác → tự dịch.
+
+TỰ KIỂM MỖI FILE (bắt buộc, trước khi sang file sau)
+Dòng đầu notes của <X>.vi.json:
+"SELF-CHECK: file=<X> in=N out=N batches=B title_empty=0 title_slash=0 byline_empty=0 name_empty=0 polyphonic_reviewed=K"
+Chưa đạt → sửa lô lỗi rồi kiểm lại. Các dòng notes sau: chỗ cụ thể cần Admin rà.
+
+ĐẦU RA CUỐI
+- 26 file: A.vi.json, B.vi.json, C.vi.json, CC.vi.json, D.vi.json, F.vi.json, G.vi.json, GA.vi.json, GB.vi.json,
+  I.vi.json, J.vi.json, K.vi.json, L.vi.json, LC.vi.json, M.vi.json, N.vi.json, P.vi.json, S.vi.json, T.vi.json,
+  TX.vi.json, U.vi.json, X.vi.json, Y.vi.json, YP.vi.json, ZS.vi.json, ZW.vi.json
+  trong thư mục vn_dila_authority_catalog/, nén thành vn_dila_authority_catalog.zip để tải về.
+- BATCH-REPORT.md: mỗi file một dòng (file, in, out, số lô, SELF-CHECK đạt?, số notes) + dòng tổng (5.747).
+- Hết giới hạn phiên trước khi xong: trả NGAY zip các file đã đạt + BATCH-REPORT.md ghi rõ file đã xong và file
+  đang dở (đến lô/khóa nào). Khi tôi nói "tiếp tục" → làm tiếp từ chỗ dở, không làm lại file đã đạt.
+```
+
+---
+
+## Coordinator (local) khi nhận zip
+1. Giải nén vào `data/dila_import/authority_catalog.2026-10/vn_dila_authority_catalog/`
+   (A.vi.json, B.vi.json hiện có đã đạt QA — giữ bản cũ thành `*.vi.json.local` để so).
+2. `python -X utf8 scripts/t453_dila_catalog_import.py --dry-run --canon <X>` cho từng tạng → bảng QA tổng.
+3. Admin duyệt một lần → `--apply` gom tạng, 1 lần backup.
