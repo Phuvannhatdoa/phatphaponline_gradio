@@ -59,7 +59,7 @@
       "git checkout*": "ask",
       "git restore *": "ask",
       "git update-ref*": "ask",
-      "git update-index *": "ask",
+      "git update-index *": "allow",
       "git stash*": "ask",
       "git rebase*": "ask",
       "git merge*": "ask",
