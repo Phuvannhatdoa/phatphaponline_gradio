@@ -16,6 +16,7 @@
 
 <!-- T453:START -->
 > **[2026-10-22 · T453 — DILA authority_catalog (經錄規範資料庫) 26 tạng + lớp dịch Việt + tìm kiếm HOME] 🔄 chờ Admin xác nhận DONE.** Đã nạp **đủ 5.747 bộ / 5.589 lượt người / 765 nơi dịch** (QA độc lập bằng code riêng: đúng 5.747, 0 lệch). Bản dịch: Cloud session (prompt v4 `docs/sessions/2026-10-22/T453/PROMPT-cloud-full-26.md`), file `data/dila_import/authority_catalog.2026-10/vn_dila_authority_catalog/<X>.vi.json`, mọi trường `unreviewed`; tên người hiển thị theo `people.name_vi` (DB thắng). HOME `/daoanh/`: search ra thẻ người (vd. Huyền Trang A000294 · 78 tác phẩm · 1.341 quyển · nơi dịch) + nút "Xem tất cả" (`/daoanh/api/public/dila_works`) + danh sách kinh có badge nguồn. Backup cuối: `data/backups/lineage_t453_20261022_152039.db`. **Revert:** `python -X utf8 scripts/t453_dila_catalog_import.py --revert`. Task con: **T454** (tên địa danh "_ Huý"), **T455** (chuẩn hoá tên người: 794 lệch + 532 sót chữ Hán). T452 deferred. Task: `tasks/T453-dila-catalog-a-import-vi.md`.
+> **Admin chốt 2026-10-26: lấy bản ghi mới nhất làm chuẩn** (nguồn: `tasks/T453-dila-catalog-a-import-vi.md` — nhật ký 2026-10-25 16:00, Admin Notes 2026-10-25 18:33; mtime file 2026-10-26 13:50). Trạng thái T453 theo đó: (A)+(B) đã xong, 26 tạng đã nạp (5.747 bộ), chờ Admin xác nhận DONE.
 <!-- T453:END -->
 
 <!-- DUP-ID-NOTE:START -->

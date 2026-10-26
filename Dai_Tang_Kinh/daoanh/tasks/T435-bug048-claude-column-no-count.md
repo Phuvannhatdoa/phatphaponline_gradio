@@ -66,3 +66,5 @@ UI chưa có đường ống hiển thị con số này ở header.
   API mới trả 200 + đúng field done/total.
 - Edge case: API lỗi (DB lock) → header giữ rỗng, không crash JS khác
   (ví dụ Gemini vẫn hiện số bình thường — không regression).
+
+**Admin xác nhận DONE (2026-10-26).** Báo cáo: docs/T435_BUG048_FINAL_REPORT.md (BUG-048). Trạng thái DONE đã ghi trong docs/bugs.md (commit b1832c7f).
