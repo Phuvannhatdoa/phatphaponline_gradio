@@ -15643,21 +15643,28 @@ def admin_progress_task_status(task_id):
 def api_compliance_dashboard():
     """GET /daoanh/api/compliance/dashboard - Compliance Meter (SCHEMA_DESIGN M7.2).
     Đọc data/design_compliance.json (sinh bởi scripts/verify_design_compliance.py, read-only).
-    Truyền ?regenerate=1 để chạy lại script sinh dữ liệu mới."""
+    Truyền ?regenerate=1 để chạy lại script sinh dữ liệu mới.
+    Cổng hai tầng: exit 1 = có contract fail (coverage gap vẫn exit 0). Khi JSON mới
+    đọc được thì luôn 200 kèm báo cáo; chỉ 500 khi script crash / không ghi được JSON."""
     compliance_json = os.path.join(DATA_DIR, 'design_compliance.json')
     regenerate = request.args.get('regenerate') in ('1', 'true', 'yes')
 
     if regenerate or not os.path.isfile(compliance_json):
         script_path = os.path.join(BASE_DIR, 'scripts', 'verify_design_compliance.py')
+        started = time.time()
         try:
             import subprocess
             run = subprocess.run([_sys.executable, script_path], cwd=BASE_DIR,
                                  capture_output=True, text=True, encoding='utf-8',
                                  errors='replace', timeout=60)
-            if run.returncode != 0:
-                return jsonify({'success': False, 'error': run.stderr[-500:] or 'Script lỗi'}), 500
         except Exception as e:
             return jsonify({'success': False, 'error': f'Không chạy được script: {e}'}), 500
+        # rc 0 = đạt; rc 1 = có contract fail (báo cáo vẫn được ghi) → KHÔNG phải lỗi server.
+        # rc khác 0/1, hoặc không có JSON mới (mtime cũ hơn lúc chạy) = script lỗi thật.
+        if (run.returncode not in (0, 1) or not os.path.isfile(compliance_json)
+                or os.path.getmtime(compliance_json) < started):
+            return jsonify({'success': False, 'error': (run.stderr or '')[-500:] or 'Script lỗi',
+                            'returncode': run.returncode}), 500
 
     if not os.path.isfile(compliance_json):
         return jsonify({'success': False, 'error': 'design_compliance.json chưa được tạo'}), 500
@@ -15665,10 +15672,18 @@ def api_compliance_dashboard():
     try:
         with open(compliance_json, encoding='utf-8') as f:
             data = json.load(f)
-        data['regenerated'] = regenerate
-        return jsonify(data)
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
+    # Khoá cũ giữ nguyên; chỉ THÊM các khoá gate mới.
+    metrics = data.get('metrics') or []
+    failed = [m for m in metrics if m.get('status') == 'fail']
+    data['regenerated'] = regenerate
+    data['has_failures'] = bool(failed)
+    data['contract_failures'] = [m.get('id') for m in failed if m.get('gate_class') == 'contract']
+    data['coverage_gaps'] = [m.get('id') for m in failed if m.get('gate_class') == 'coverage']
+    data['gate_policy'] = data.get('gate_policy') or (data.get('summary') or {}).get('gate_policy')
+    return jsonify(data)
 
 @app.route('/api/name_vi/<path:dila_id>', methods=['GET'])
 def api_name_vi_lookup(dila_id):
