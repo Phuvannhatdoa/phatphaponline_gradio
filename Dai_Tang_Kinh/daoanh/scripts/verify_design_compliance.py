@@ -200,20 +200,23 @@ def main():
     payload = compute()
     if RAW_ONLY:
         print(json.dumps(payload, ensure_ascii=False, indent=2))
-        return
-    out = io.open(OUT_PATH, 'w', encoding='utf-8', newline='\n')
-    out.write(json.dumps(payload, ensure_ascii=False, indent=2))
-    out.close()
-    print('[OK] Đã tạo %s' % OUT_PATH)
-    print('    %d metric (pass=%d · warn=%d · fail=%d) · %d bảng' % (
-        payload['summary']['total_metrics'],
-        payload['summary']['pass_metrics'],
-        payload['summary']['warn_metrics'],
-        payload['summary']['fail_metrics'],
-        payload['total_tables'],
-    ))
-    for m_ in payload['metrics']:
-        print('    %-24s %6.2f%%  %s  (goal>=%s)' % (m_['label'], m_['percent'], m_['status'], m_['goal']))
+    else:
+        out = io.open(OUT_PATH, 'w', encoding='utf-8', newline='\n')
+        out.write(json.dumps(payload, ensure_ascii=False, indent=2))
+        out.close()
+        print('[OK] Đã tạo %s' % OUT_PATH)
+        print('    %d metric (pass=%d · warn=%d · fail=%d) · %d bảng' % (
+            payload['summary']['total_metrics'],
+            payload['summary']['pass_metrics'],
+            payload['summary']['warn_metrics'],
+            payload['summary']['fail_metrics'],
+            payload['total_tables'],
+        ))
+        for m_ in payload['metrics']:
+            print('    %-24s %6.2f%%  %s  (goal>=%s)' % (m_['label'], m_['percent'], m_['status'], m_['goal']))
+    # Có metric 'fail' => exit 1 (warn không chặn). Sau khi đã in/ghi output.
+    if payload['summary']['fail_metrics'] > 0:
+        sys.exit(1)
 
 
 if __name__ == '__main__':

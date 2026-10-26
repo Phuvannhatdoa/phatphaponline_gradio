@@ -8,7 +8,9 @@ mode: subagent
 temperature: 0.1
 model: opencode-go/glm-5.3-flash
 permission:
-  edit: allow
+  edit:
+    "*": deny
+    "docs/**": allow
   bash:
     "*": ask
 ---

@@ -14,6 +14,10 @@ permission:
     "git status*": allow
     "git diff*": allow
     "git log*": allow
+    "sqlite3 * INSERT*": deny
+    "sqlite3 * UPDATE*": deny
+    "sqlite3 * DELETE*": deny
+    "sqlite3 * DROP*": deny
   webfetch: ask
   doom_loop: ask
   external_directory:
