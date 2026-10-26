@@ -9,6 +9,13 @@ KHÔNG sửa database. Sinh data/design_compliance.json để dashboard hiển t
 Cách chạy:
     python scripts/verify_design_compliance.py            # in summary + ghi JSON
     python scripts/verify_design_compliance.py --json     # in raw JSON ra stdout
+    python scripts/verify_design_compliance.py --strict   # mọi fail (contract + coverage) → exit 1
+
+CHÍNH SÁCH EXIT (cổng hai tầng, Admin duyệt 2026-10-26):
+    contract  = lỗi cấu trúc/hợp đồng (thiếu bảng/cột, SQL lỗi) → exit 1 luôn (chặn review)
+    coverage  = mức phủ dữ liệu chưa đạt goal → exit 0, in khối cảnh báo + ghi báo cáo
+    --strict  = mọi fail → exit 1 (dùng khi phát hành / đánh giá dữ liệu)
+    Metric sai vẫn ghi status='fail' — chỉ đổi chính sách exit, không đổi nhãn.
 
 Output schema (data/design_compliance.json):
     {generated_at, db_path, read_only, total_tables, metrics: [{id,label,formula,
@@ -20,6 +27,7 @@ import io
 import sys
 import json
 import sqlite3
+import argparse
 from datetime import datetime
 
 if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
@@ -31,8 +39,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 DB_PATH = os.path.join(DATA_DIR, 'lineage.db')
 OUT_PATH = os.path.join(DATA_DIR, 'design_compliance.json')
-
-RAW_ONLY = '--json' in sys.argv
 
 # Baseline 2026-09-08 (SCHEMA_DESIGN M7.2 — trước T109/T110) → goal là "hiện trạng"
 # đã chốt sau T109/T110; thêm chuẩn bootstrap >= 1% cho metrics chưa khởi động.
@@ -133,6 +139,23 @@ METRICS = [
     },
 ]
 
+# Phân loại cổng hai tầng (Admin duyệt 2026-10-26).
+# Mọi metric hiện tại đều là % phủ dữ liệu so với goal → 'coverage' (cảnh báo, không chặn review).
+# Lỗi cấu trúc (thiếu bảng/cột, SQL lỗi) được bắt trong compute() → 'contract' (exit 1).
+# Nguyên tắc an toàn: metric lưỡng tính → xếp 'contract'. Hiện không có metric nào lưỡng tính.
+GATE_CLASS = {m['id']: 'coverage' for m in METRICS}
+
+# Task sở hữu gợi ý để in trong khối cảnh báo (suy ra từ docs/tasktodo.md). Không biết → không ghi.
+OWNER_TASK = {
+    'claims_assertion_level': 'T113/T133 (HITL: người review điền assertion_level, bot không điền)',
+    'claims_reviewed': 'T119 (bulk review)',
+    'claims_verified': 'T119 (bulk review)',
+    'conflicts_resolved': 'T109/T136 (conflict workflow)',
+    'events_provenance': 'T109 (provenance)',
+    'claims_with_audit': 'T109 (provenance)',
+    'glossary_vi_coverage': 'T110 (glossary VI)',
+}
+
 
 def count(cur, sql):
     """Zero-RAM: aggregate COUNT của SQLite — không nạp hàng vào Python."""
@@ -146,13 +169,18 @@ def open_conn():
     return conn
 
 
-def compute():
+def compute(strict=False):
     conn = open_conn()
     cur = conn.cursor()
     out_metrics = []
     for m in METRICS:
-        passed = count(cur, m['passed_sql'])
-        total = count(cur, m['total_sql'])
+        contract_error = None
+        try:
+            passed = count(cur, m['passed_sql'])
+            total = count(cur, m['total_sql'])
+        except sqlite3.Error as e:
+            # Lỗi cấu trúc (thiếu bảng/cột) = contract: không tính ratio giả, status = fail, chặn review
+            passed, total, contract_error = 0, 0, str(e)
         ratio = (passed / total) if total else 0.0
         percent = round(ratio * 100, 2)
         goal = m['goal']
@@ -168,6 +196,9 @@ def compute():
             'goal': goal,
             'baseline_2026-09-08': m['baseline'],
             'status': status,
+            'gate_class': 'contract' if contract_error else GATE_CLASS.get(m['id'], 'coverage'),
+            'owner_task': OWNER_TASK.get(m['id']),
+            'contract_error': contract_error,
             'note': 'Sau T109/T110' if m['id'] in ('claims_with_audit', 'events_provenance', 'glossary_vi_coverage') else (
                 'Bootstrap: %s đã duyệt' % passed if passed else 'Chưa review'
             ),
@@ -177,11 +208,19 @@ def compute():
     ).fetchone()[0]
     conn.close()
 
+    # Tách fail thành contract (chặn) và coverage (cảnh báo). status vẫn giữ nguyên 'fail'.
+    contract_fail = [m_['id'] for m_ in out_metrics
+                     if m_['status'] == 'fail' and m_['gate_class'] == 'contract']
+    coverage_fail = [m_['id'] for m_ in out_metrics
+                     if m_['status'] == 'fail' and m_['gate_class'] != 'contract']
     summary = {
         'pass_metrics': sum(1 for m_ in out_metrics if m_['status'] == 'pass'),
         'warn_metrics': sum(1 for m_ in out_metrics if m_['status'] == 'warn'),
         'fail_metrics': sum(1 for m_ in out_metrics if m_['status'] == 'fail'),
         'total_metrics': len(out_metrics),
+        'contract_fail_metrics': contract_fail,
+        'coverage_fail_metrics': coverage_fail,
+        'gate_policy': 'strict' if strict else 'two-tier: contract=block, coverage=warn',
     }
     payload = {
         'generated_at': datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
@@ -196,9 +235,29 @@ def compute():
     return payload
 
 
+def _print_coverage_block(payload, strict):
+    by_id = {m_['id']: m_ for m_ in payload['metrics']}
+    bar = '!' * 72
+    head = ('⚠ COVERAGE GAPS — --strict: CHẶN (exit 1)' if strict else
+            '⚠ COVERAGE GAPS — dữ liệu chưa đủ, KHÔNG chặn review (theo quy định dự án)')
+    print(bar)
+    print(head)
+    for mid in payload['summary']['coverage_fail_metrics']:
+        m_ = by_id[mid]
+        owner = m_.get('owner_task') or '(chưa gán task)'
+        print('  - %s: %d/%d (%.2f%%)  goal>=%s%%  [task sở hữu: %s]' % (
+            mid, m_['passed'], m_['total'], m_['percent'], m_['goal'], owner))
+    print('Cổng cứng: npm run test:compliance:strict   (mọi fail → exit 1)')
+    print(bar)
+
+
 def main():
-    payload = compute()
-    if RAW_ONLY:
+    ap = argparse.ArgumentParser(description='Compliance Meter — cổng hai tầng (contract chặn, coverage cảnh báo)')
+    ap.add_argument('--json', action='store_true', help='in raw JSON ra stdout (không ghi file)')
+    ap.add_argument('--strict', action='store_true', help='mọi fail (contract + coverage) → exit 1')
+    args = ap.parse_args()
+    payload = compute(strict=args.strict)
+    if args.json:
         print(json.dumps(payload, ensure_ascii=False, indent=2))
     else:
         out = io.open(OUT_PATH, 'w', encoding='utf-8', newline='\n')
@@ -214,9 +273,22 @@ def main():
         ))
         for m_ in payload['metrics']:
             print('    %-24s %6.2f%%  %s  (goal>=%s)' % (m_['label'], m_['percent'], m_['status'], m_['goal']))
-    # Có metric 'fail' => exit 1 (warn không chặn). Sau khi đã in/ghi output.
-    if payload['summary']['fail_metrics'] > 0:
-        sys.exit(1)
+        if payload['summary']['coverage_fail_metrics']:
+            _print_coverage_block(payload, args.strict)
+    # Chính sách exit (cổng hai tầng). Sau khi đã in/ghi output.
+    s = payload['summary']
+    if s['contract_fail_metrics']:
+        code, verdict = 1, 'BLOCK: contract fail'
+    elif args.strict and s['coverage_fail_metrics']:
+        code, verdict = 1, 'BLOCK: strict + coverage fail'
+    else:
+        code = 0
+        verdict = 'PASS (có coverage gap — cảnh báo)' if s['coverage_fail_metrics'] else 'PASS'
+    if not args.json:
+        print('EXIT POLICY [%s]: contract_fail=%d · coverage_fail=%d → exit %d (%s)' % (
+            s['gate_policy'], len(s['contract_fail_metrics']), len(s['coverage_fail_metrics']), code, verdict))
+    if code:
+        sys.exit(code)
 
 
 if __name__ == '__main__':
