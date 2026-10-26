@@ -151,10 +151,19 @@ def columns(conn, table):
 
 
 def backup():
-    if os.path.exists(BACKUP_PATH):
-        os.remove(BACKUP_PATH)
-    shutil.copy2(DB_PATH, BACKUP_PATH)
-    return BACKUP_PATH
+    """Tạo backup trước khi ALTER — nền cho --undo, sử dụng T387 safe helper."""
+    from scripts.db_safe_backup import backup_to
+    BACKUP_PATH = r'data/lineage_backup_t78.db'
+    bak_path = backup_to(DB_PATH, BACKUP_PATH, compress=False)
+    if bak_path:
+        return bak_path
+    else:
+        # Fallback: legacy shutil.copy2 (chỉ khi server dừng)
+        import shutil
+        if os.path.exists(BACKUP_PATH):
+            os.remove(BACKUP_PATH)
+        shutil.copy2(DB_PATH, BACKUP_PATH)
+        return BACKUP_PATH
 
 
 def do_apply(conn, dry_run):
@@ -223,23 +232,36 @@ def do_apply(conn, dry_run):
     return 0
 
 
-def do_undo(conn, dry_run):
+def do_undo(conn, dry_run, i_know_server_is_stopped=False):
     print('=== [T78] UNDO — khôi phục từ backup ===')
+    from scripts.db_safe_backup import backup_to
+    BACKUP_PATH = r'data/lineage_backup_t78.db'
     if not os.path.exists(BACKUP_PATH):
         print('  [error] không tìm thấy backup, không thể undo.')
         return 1
     if dry_run:
         print(f'  [dry-run] sẽ khôi phục DB từ {BACKUP_PATH}')
+        # Chỉ đọc/kiểm backup — KHÔNG ghi đè lên chính bản backup.
+        from scripts.db_safe_backup import verify_backup
+        ok, detail = verify_backup(BACKUP_PATH)
+        print(f'  [dry-run] verify backup: {"OK" if ok else "FAIL"} ({detail})')
+        if not ok:
+            print('  [warning] backup hiện không đạt quick_check — undo thật sẽ bị từ chối.')
         return 0
+    # Restore = copy đè DB → chỉ hợp lệ khi server đã dừng.
     conn.close()
-    shutil.copy2(BACKUP_PATH, DB_PATH)
+    from scripts.db_safe_backup import restore_from
+    if not restore_from(BACKUP_PATH, DB_PATH,
+                        i_know_server_is_stopped=i_know_server_is_stopped):
+        print('  [error] restore bị từ chối (cần --i-know-server-is-stopped).')
+        return 1
     print(f'  [~] đã khôi phục DB từ {BACKUP_PATH} — trả về trạng thái trước T78.')
     return 0
 
 
-def run(dry_run=False, undo=False):
+def run(dry_run=False, undo=False, i_know_server_is_stopped=False):
     if undo:
-        return do_undo(connect(), dry_run)
+        return do_undo(connect(), dry_run, i_know_server_is_stopped)
     return do_apply(connect(), dry_run)
 
 
@@ -247,5 +269,8 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser(description='T78 — LEGAL/LICENSE FIREWALL (data_sources)')
     ap.add_argument('--dry-run', action='store_true', help='chỉ in ra, không thay đổi')
     ap.add_argument('--undo', action='store_true', help='khôi phục từ backup (revert)')
+    ap.add_argument('--i-know-server-is-stopped', action='store_true',
+                    help='xác nhận app.py/server.py đã dừng trước khi restore đè DB')
     args = ap.parse_args()
-    sys.exit(run(dry_run=args.dry_run, undo=args.undo))
+    sys.exit(run(dry_run=args.dry_run, undo=args.undo,
+                 i_know_server_is_stopped=args.i_know_server_is_stopped))

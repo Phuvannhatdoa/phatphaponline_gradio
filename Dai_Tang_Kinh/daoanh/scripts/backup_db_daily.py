@@ -47,29 +47,46 @@ else:
         print("[ERR] Cannot create backup dir: %s" % str(e))
         sys.exit(1)
 
-    # === PHASE 3: Copy DB file ===
-    print("\n[PHASE3] Backup database")
+    # === PHASE 3: Create online backup using T387 helper ===
+    print("\n[PHASE3] Online backup database (T387 safe)")
     try:
         if not DB_PATH.exists():
             print("[ERR] Source DB not found: %s" % DB_PATH)
             sys.exit(1)
 
-        # Get file size
-        db_size_mb = DB_PATH.stat().st_size / (1024 * 1024)
-        print("[DB] Source size: %.1f MB" % db_size_mb)
+        # Use T387 safe online backup helper instead of shutil.copy2
+        from scripts.db_safe_backup import backup_to
+        today = datetime.now().strftime("%Y-%m-%d")
+        backup_filename = "lineage_%s.db" % today
+        backup_path = BACKUPS_DIR / backup_filename
 
-        # Copy with progress
-        print("[COPY] Copying to %s..." % backup_filename)
+        # Online backup (không lock DB, Zero-RAM)
+        print("[COPY] Creating online backup via sqlite3.Connection.backup()...")
         start_time = time.time()
-        shutil.copy2(str(DB_PATH), str(backup_path))
+        result = backup_to(str(DB_PATH), str(backup_path), compress=False)
         elapsed = time.time() - start_time
 
-        # Verify
-        if backup_path.exists():
-            backup_size_mb = backup_path.stat().st_size / (1024 * 1024)
-            print("[OK] Backup created: %.1f MB (%.1f seconds)" % (backup_size_mb, elapsed))
+        if result:
+            # Verify
+            if backup_path.exists():
+                backup_size_mb = backup_path.stat().st_size / (1024 * 1024)
+                print("[OK] Online backup created: %.1f MB (%.1f seconds)" % (backup_size_mb, elapsed))
+            else:
+                print("[ERR] Backup file not created after helper call")
+                sys.exit(1)
+        elif '--i-know-server-is-stopped' in sys.argv:
+            print("[WARN] Online backup failed → legacy copy (server stopped confirmed)")
+            shutil.copy2(str(DB_PATH), str(backup_path))
+            elapsed = time.time() - start_time
+            if backup_path.exists():
+                backup_size_mb = backup_path.stat().st_size / (1024 * 1024)
+                print("[OK] Legacy backup created: %.1f MB (%.1f seconds)" % (backup_size_mb, elapsed))
+            else:
+                print("[ERR] Legacy backup also failed")
+                sys.exit(1)
         else:
-            print("[ERR] Backup file not created")
+            print("[ERR] Online backup failed. Không copy file thô khi server còn chạy — "
+                  "dừng app.py rồi thêm --i-know-server-is-stopped.")
             sys.exit(1)
     except Exception as e:
         print("[ERR] Backup failed: %s" % str(e))

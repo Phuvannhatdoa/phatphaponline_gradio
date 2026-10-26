@@ -206,6 +206,8 @@ def main():
     parser.add_argument('--radius', type=float, default=0.5, help='Match radius in km (default 0.5)')
     parser.add_argument('--verbose', action='store_true')
     parser.add_argument('--fill-gps', action='store_true', help='Also fill missing GPS for no-GPS DILA places')
+    parser.add_argument('--i-know-server-is-stopped', action='store_true',
+                        help='cho phép fallback copy file thô (chỉ khi app.py/server.py đã dừng)')
     args = parser.parse_args()
 
     print(f"=== BGIS Spatial Join ETL  (radius={args.radius}km) ===")
@@ -257,12 +259,21 @@ def main():
         return
 
     # ── Backup ────────────────────────────────────────────────────────────────
+    from scripts.db_safe_backup import backup_to
     today = datetime.date.today().isoformat()
     backup = DB_PATH + f'.bak.{today}'
     if not os.path.exists(backup):
-        import shutil
-        shutil.copy(DB_PATH, backup)
-        print(f"\n[5] Backup created: {backup}")
+        result = backup_to(DB_PATH, backup, compress=False)
+        if result:
+            print(f"\n[5] Backup created: {result}")
+        elif getattr(args, 'i_know_server_is_stopped', False):
+            import shutil
+            shutil.copy(DB_PATH, backup)
+            print(f"\n[5] Backup created (legacy, server stopped): {backup}")
+        else:
+            raise SystemExit(
+                "\n[STOP] Online backup thất bại. Không copy file thô khi server còn chạy; "
+                "dừng app.py rồi thêm --i-know-server-is-stopped.")
     else:
         print(f"\n[5] Backup already exists: {backup}")
 

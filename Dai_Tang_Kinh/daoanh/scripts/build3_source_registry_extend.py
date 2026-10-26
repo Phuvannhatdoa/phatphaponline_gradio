@@ -106,20 +106,30 @@ def columns(conn, table):
     return [d[1] for d in conn.execute(f'PRAGMA table_info({table})')]
 
 
-def run(dry_run=False, undo=False):
+def run(dry_run=False, undo=False, i_know_server_is_stopped=False):
     conn = connect()
     try:
-        return do_undo(conn, dry_run) if undo else do_apply(conn, dry_run)
+        if undo:
+            return do_undo(conn, dry_run, i_know_server_is_stopped)
+        return do_apply(conn, dry_run)
     finally:
         conn.close()
 
 
 def backup():
-    """Tạo backup trước khi ALTER — nền cho --undo."""
-    if os.path.exists(BACKUP_PATH):
-        os.remove(BACKUP_PATH)
-    shutil.copy2(DB_PATH, BACKUP_PATH)
-    return BACKUP_PATH
+    """Tạo backup trước khi ALTER — nền cho --undo, sử dụng T387 safe helper."""
+    from scripts.db_safe_backup import backup_to
+    BACKUP_PATH = r'data/lineage_backup_t77.db'
+    bak_path = backup_to(DB_PATH, BACKUP_PATH, compress=False)
+    if bak_path:
+        return bak_path
+    else:
+        # Fallback: legacy shutil.copy2 (chỉ khi server dừng)
+        import shutil
+        if os.path.exists(BACKUP_PATH):
+            os.remove(BACKUP_PATH)
+        shutil.copy2(DB_PATH, BACKUP_PATH)
+        return BACKUP_PATH
 
 
 def do_apply(conn, dry_run):
@@ -187,7 +197,7 @@ def do_apply(conn, dry_run):
     return 0
 
 
-def do_undo(conn, dry_run):
+def do_undo(conn, dry_run, i_know_server_is_stopped=False):
     print('=== [T77] UNDO — khôi phục từ backup ===')
     if not os.path.exists(BACKUP_PATH):
         print('  [error] không tìm thấy backup, không thể undo.')
@@ -196,7 +206,11 @@ def do_undo(conn, dry_run):
         print(f'  [dry-run] sẽ khôi phục DB từ {BACKUP_PATH}')
         return 0
     conn.close()
-    shutil.copy2(BACKUP_PATH, DB_PATH)
+    from scripts.db_safe_backup import restore_from
+    if not restore_from(BACKUP_PATH, DB_PATH,
+                        i_know_server_is_stopped=i_know_server_is_stopped):
+        print('  [error] restore bị từ chối (cần --i-know-server-is-stopped).')
+        return 1
     print(f'  [~] đã khôi phục DB từ {BACKUP_PATH} — trả về trạng thái trước T77.')
     return 0
 
@@ -205,5 +219,9 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser(description='T77 — Mở rộng Source Registry (data_sources)')
     ap.add_argument('--dry-run', action='store_true', help='chỉ in ra, không thay đổi')
     ap.add_argument('--undo', action='store_true', help='khôi phục từ backup (revert)')
+    ap.add_argument('--i-know-server-is-stopped', action='store_true',
+                    help='xác nhận app.py/server.py đã dừng trước khi restore đè DB')
     args = ap.parse_args()
-    sys.exit(run(dry_run=args.dry_run, undo=args.undo))
+    if args.undo:
+        sys.exit(do_undo(connect(), args.dry_run, args.i_know_server_is_stopped))
+    sys.exit(run(dry_run=args.dry_run, undo=False))

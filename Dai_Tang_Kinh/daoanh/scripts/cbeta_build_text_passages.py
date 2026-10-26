@@ -183,13 +183,27 @@ def cmd_dry_run(work_id, target, min_seg=25):
     print('\nKhông ghi gì (dry-run).')
 
 
-def cmd_apply(work_id, target, min_seg, do_backup, do_backfill):
+def cmd_apply(work_id, target, min_seg, do_backup, do_backfill,
+              i_know_server_is_stopped=False):
     if do_backup:
+        from scripts.db_safe_backup import backup_to
         ts = datetime.now().strftime('%Y%m%d_%H%M%S')
         bak = os.path.join(BACK_DIR, f'lineage.db.backup_t95_{ts}')
         print(f'Backup → {bak}')
-        shutil.copy2(DB_PATH, bak)
-        print(f'  OK — {os.path.getsize(bak) // (1024 * 1024)} MB')
+        result = backup_to(DB_PATH, bak, compress=False)
+        if result:
+            size_mb = os.path.getsize(result) // (1024 * 1024)
+            print(f'  OK — {size_mb} MB')
+        elif i_know_server_is_stopped:
+            # Copy file thô — chỉ khi server đã dừng.
+            import shutil
+            bak2 = os.path.join(BACK_DIR, f'lineage.db.backup_t95_legacy_{ts}')
+            shutil.copy2(DB_PATH, bak2)
+            print(f'  Legacy backup created: {bak2}')
+        else:
+            print('  ERROR — online backup thất bại. Không copy file thô khi server '
+                  'còn chạy; dừng app.py rồi thêm --i-know-server-is-stopped.')
+            raise SystemExit(1)
 
     con = _con()
     ensure_runs_table(con)
@@ -364,10 +378,12 @@ if __name__ == '__main__':
         min_seg = int(args[args.index('--min-seg') + 1])
     do_backup = '--no-backup' not in args
     do_backfill = '--skip-backfill' not in args
+    server_stopped = '--i-know-server-is-stopped' in args
     if '--dry-run' in args:
         cmd_dry_run(work_id, target, min_seg)
     elif '--apply' in args:
-        cmd_apply(work_id, target, min_seg, do_backup, do_backfill)
+        cmd_apply(work_id, target, min_seg, do_backup, do_backfill,
+                  i_know_server_is_stopped=server_stopped)
     elif '--stats' in args:
         cmd_stats(work_id)
     elif '--verify' in args:

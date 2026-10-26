@@ -78,15 +78,30 @@ def ensure_claims_table(conn):
         print(f"Schema OK: {len(cols)} columns")
 
 
-def backup_db():
-    """Create backup before ETL runs."""
-    import shutil
-    bak_path = DB_PATH.replace('.db', f'.bak_{time.strftime("%Y%m%d_%H%M%S")}')
+def backup_db(i_know_server_is_stopped=False):
+    """Create backup before ETL runs using T387 safe helper."""
+    from scripts.db_safe_backup import backup_to
+    ts = time.strftime("%Y%m%d_%H%M%S")
+    bak_path = f"data/backups/lineage_bak_{ts}.db"
     try:
-        shutil.copy2(DB_PATH, bak_path)
-        print(f"Backup created: {bak_path}")
+        result = backup_to(DB_PATH, bak_path, compress=False)
+        if result:
+            print(f"Backup created: {result}")
+        elif i_know_server_is_stopped:
+            # Fallback copy file thô — chỉ khi server đã dừng.
+            import shutil
+            bak_path2 = DB_PATH.replace('.db', f'.bak_{ts}')
+            shutil.copy2(DB_PATH, bak_path2)
+            print(f"Legacy backup created: {bak_path2}")
+        else:
+            print("ERROR: Online backup failed. Không dùng copy file thô khi server "
+                  "còn chạy — dừng app.py rồi thêm --i-know-server-is-stopped.")
+            raise SystemExit(1)
+    except SystemExit:
+        raise
     except Exception as e:
-        print(f"Warning: Could not create backup: {e}")
+        print(f"Warning: Backup error: {e}")
+        raise SystemExit(1)
 
 
 def phase_coordinate(conn):
@@ -177,11 +192,13 @@ def main():
                         default='all', help='Chạy phase cụ thể')
     parser.add_argument('--backup', action='store_true',
                         help='Tạo backup DB trước khi chạy')
+    parser.add_argument('--i-know-server-is-stopped', action='store_true',
+                        help='cho phép fallback copy file thô (chỉ khi app.py/server.py đã dừng)')
     args = parser.parse_args()
     
     # Backup nếu được yêu cầu
     if args.backup:
-        backup_db()
+        backup_db(i_know_server_is_stopped=args.i_know_server_is_stopped)
     
     conn = get_db()
     
