@@ -1159,15 +1159,66 @@ function handleSearch(e) {
   }
   const placesUrl = '/daoanh/places?q=' + encodeURIComponent(q);
   // T453: tra kinh lục DILA trước; không có kết quả (hoặc lỗi) → đi trang địa danh như cũ.
+  // BUG-052/T467: endpoint /daoanh/api/search trả về {monks, places, works}
+  // (+ T453: dila_works/dila_people/dila_works_total — xem docstring api_global_search
+  // trong app.py). Trước đây code đọc nhầm field đó nên LUÔN rỗng và luôn redirect
+  // sang trang địa danh, kể cả khi monks có kết quả đúng (vd "Khuy Cơ" A001019).
+  // Sửa: đọc đúng field thật, dùng renderer đơn giản khớp đúng shape dữ liệu.
+  // T467 vòng 2 (QA CHƯA ĐẠT, hướng b — thay đổi tối thiểu): nếu API trả về
+  // d.places (địa danh), KHÔNG render inline — giữ hành vi cũ redirect sang
+  // /daoanh/places?q=... để không mất kết quả địa danh (trước khi sửa vòng 1
+  // là hành vi mặc định; vd "Long Môn" trả cả 4 monks + 10 places, nếu chỉ
+  // render monks ở trang chủ thì 10 địa danh bị mất). Chỉ ở lại trang chủ
+  // render card khi có monks/works MÀ KHÔNG có places (đúng case "Khuy Cơ").
   fetch('/daoanh/api/search?q=' + encodeURIComponent(q))
     .then(r => r.ok ? r.json() : null)
     .then(d => {
-      const works = (d && d.dila_works) || [];
-      const people = (d && d.dila_people) || [];
-      if (!works.length && !people.length) { window.location.href = placesUrl; return; }
-      renderDilaWorks(works, q, placesUrl, people, d.dila_works_total);
+      // T453 (khôi phục theo Admin 2026-10-26 "đưa tên Kinh/Người lên home"): kinh lục DILA trước.
+      const dWorks = (d && d.dila_works) || [];
+      const dPeople = (d && d.dila_people) || [];
+      if (dWorks.length || dPeople.length) { renderDilaWorks(dWorks, q, placesUrl, dPeople, d.dila_works_total); return; }
+      const monks = (d && d.monks) || [];
+      const works = (d && d.works) || [];
+      const places = (d && d.places) || [];
+      if (places.length) { window.location.href = placesUrl; return; }
+      if (!monks.length && !works.length) { window.location.href = placesUrl; return; }
+      renderSearchResults(monks, works, q, placesUrl);
     })
     .catch(() => { window.location.href = placesUrl; });
+}
+
+/* T467: renderer khớp đúng shape thật của /daoanh/api/search (monks: id/name_vi/
+   name_zh từ bảng people; works: title_vi/title_zh/author/era từ cbeta_catalog_vn).
+   Nhánh kinh/người DILA (dila_works/dila_people, T453) dùng renderDilaWorks ở trên;
+   renderSearchResults chỉ là nhánh monks/works khi KHÔNG có kết quả DILA. */
+function renderSearchResultsMonks(monks) {
+  // T467 vòng 2 (QA CHƯA ĐẠT, vấn đề phụ): bỏ badge cứng "ZQ" — endpoint
+  // /daoanh/api/search không trả entity_claims.source_id (QA xác minh
+  // A001019/A041315 không có claim nào), nên không có cách xác định nguồn
+  // tên Việt thật từ response này (CLAUDE.md §ZQ: phải badge đúng nguồn,
+  // không gán bừa DILA=1/ZQLOCAL=5 khi chưa rõ). Chỉ render badge nếu
+  // p.source (hoặc p.source_id) có giá trị thật từ API trong tương lai.
+  return monks.map(p => `<div class="dw-item dw-person-card">
+      <div>🧘 <span class="dw-title">${_esc(p.name_vi || p.name_zh)}</span> <span class="dw-han">${_esc(p.name_zh)}</span>
+        ${p.source ? `<span class="dw-badge" title="Nguồn tên">${_esc(p.source)}</span>` : ''}</div>
+      ${_line('🆔', 'DILA ID', `<span class="dw-badge dila" style="margin-left:0">${_esc(p.id)}</span>`)}
+    </div>`).join('');
+}
+function renderSearchResultsWorks(works) {
+  return works.map(w => `<div class="dw-item">
+      <div>📖 <span class="dw-title">${_esc(w.title_vi || w.title_zh)}</span></div>
+      ${_line('🀄', 'Tên Hán', _esc(w.title_zh))}
+      ${_line('✍️', 'Soạn dịch', _esc(w.author))}
+      ${_line('🕰️', 'Niên đại', _esc(w.era))}
+    </div>`).join('');
+}
+function renderSearchResults(monks, works, q, placesUrl) {
+  const box = document.getElementById('dilaWorks');
+  const countText = `${_esc(monks.length + works.length)} kết quả cho “${_esc(q)}”`;
+  box.innerHTML = `<div class="dw-head"><span>${countText}</span>
+    <a href="${placesUrl}">Tìm địa danh →</a></div>${renderSearchResultsMonks(monks)}${renderSearchResultsWorks(works)}`;
+  box.hidden = false;
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 /* ── T453: hiển thị kinh lục DILA (badge nguồn từng lớp) ── */
