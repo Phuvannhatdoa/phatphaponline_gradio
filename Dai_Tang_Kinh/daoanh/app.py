@@ -13228,11 +13228,78 @@ def api_global_search():
             ORDER BY LENGTH(title_vi) ASC LIMIT 10
         """, (like, like)).fetchall()
 
+        # T453: kinh lục DILA (dila_catalog_works) — additive key, không đổi 3 key cũ.
+        # Tên Hán/năm: DILA; title_vi/byline_vi: bản dịch Cloud (unreviewed);
+        # tên người: people.name_vi (ZQLOCAL) — badge theo từng nguồn ở UI.
+        dila_works = []
+        dila_works_total = 0
+        try:
+            dw_where = """
+                WHERE w.title_zh LIKE ? OR w.title_vi LIKE ? OR w.byline_zh LIKE ? OR w.byline_vi LIKE ?
+                   OR w.cbeta_id = ? COLLATE NOCASE
+                   OR w.cbeta_id IN (SELECT c.cbeta_id FROM dila_catalog_contributors c
+                                     WHERE c.name_zh LIKE ? OR c.name_vi LIKE ?)"""
+            dw_args = (like, like, like, like, q, like, like)
+            # Tổng thật để UI ghi "hiển thị 10 / N" (danh sách vẫn giới hạn 10).
+            dila_works_total = conn.execute(
+                "SELECT COUNT(*) FROM dila_catalog_works w" + dw_where, dw_args).fetchone()[0]
+            rows = conn.execute("""
+                SELECT w.cbeta_id, w.authority_id, w.title_zh, w.title_vi, w.byline_zh, w.byline_vi,
+                       w.dynasty_vi, w.category_vi, w.juans, w.time_from, w.time_to, w.year_precision,
+                       w.vi_source, w.vi_status, w.vol, w.cjk_chars, w.category AS category_zh,
+                       json_extract(w.raw_json, '$.orig_category') AS orig_category_zh,
+                       json_extract(w.vi_json, '$.orig_category_vi') AS orig_category_vi,
+                       (SELECT GROUP_CONCAT(COALESCE(m.name_vi, pl.name_zh), ', ')
+                        FROM dila_catalog_places pl LEFT JOIN namevi_map_places m ON m.dila_id = pl.place_id
+                        WHERE pl.cbeta_id = w.cbeta_id) AS places_vi
+                FROM dila_catalog_works w""" + dw_where + """
+                ORDER BY LENGTH(COALESCE(w.title_vi, w.title_zh)) ASC LIMIT 10
+            """, dw_args).fetchall()
+            for r in rows:
+                d = dict(r)
+                d["contributors"] = [dict(c) for c in conn.execute(
+                    "SELECT c.person_id, c.name_zh, COALESCE(p.name_vi, c.name_vi) AS name_vi, c.name_vi_src "
+                    "FROM dila_catalog_contributors c LEFT JOIN people p ON p.id = c.person_id "
+                    "WHERE c.cbeta_id = ? ORDER BY c.seq", (d["cbeta_id"],)).fetchall()]
+                d["source"] = "DILA_CATALOG"
+                dila_works.append(d)
+        except sqlite3.OperationalError:
+            dila_works = []  # bảng T453 chưa có (DB chưa import) → bỏ qua
+
+        # T453: thẻ người — ai trong kinh lục DILA khớp q (tên Việt DB/tên Hán), kèm tổng tác phẩm và nơi dịch.
+        dila_people = []
+        try:
+            prows = conn.execute("""
+                SELECT c.person_id, p.name_vi, p.name_zh,
+                       COUNT(DISTINCT c.cbeta_id) AS works, SUM(w.juans) AS juans
+                FROM dila_catalog_contributors c
+                JOIN dila_catalog_works w ON w.cbeta_id = c.cbeta_id
+                LEFT JOIN people p ON p.id = c.person_id
+                WHERE c.person_id IN (SELECT person_id FROM dila_catalog_contributors
+                                      WHERE name_vi LIKE ? OR name_zh LIKE ?)
+                GROUP BY c.person_id ORDER BY works DESC LIMIT 3
+            """, (like, like)).fetchall()
+            for r in prows:
+                d = dict(r)
+                d["places"] = [dict(x) for x in conn.execute("""
+                    SELECT pl.place_id, pl.name_zh, m.name_vi, COUNT(DISTINCT pl.cbeta_id) AS works
+                    FROM dila_catalog_places pl
+                    JOIN dila_catalog_contributors c ON c.cbeta_id = pl.cbeta_id
+                    LEFT JOIN namevi_map_places m ON m.dila_id = pl.place_id
+                    WHERE c.person_id = ? GROUP BY pl.place_id ORDER BY works DESC LIMIT 5
+                """, (d["person_id"],)).fetchall()]
+                dila_people.append(d)
+        except sqlite3.OperationalError:
+            dila_people = []
+
         resp = {
             "success": True,
             "monks": [dict(r) for r in monks],
             "places": [dict(r) for r in places],
             "works": [dict(r) for r in works],
+            "dila_works": dila_works,
+            "dila_works_total": dila_works_total,
+            "dila_people": dila_people,
         }
         if lang in ('pa', 'sa'):
             # Additive: cho UI biết query đã được resolve qua pali_place_ref,
@@ -13245,6 +13312,37 @@ def api_global_search():
         return jsonify({"success": False, "error": str(e)}), 500
     finally:
         conn.close()
+
+@app.route('/daoanh/api/public/dila_works')
+def public_dila_works():
+    """T453: toàn bộ tác phẩm kinh lục DILA của một người (nút "Xem tất cả" trên HOME).
+    GET ?person_id=A000294&sort=juans|year|title"""
+    pid = request.args.get('person_id', '').strip()
+    sort = request.args.get('sort', 'juans')
+    if not pid:
+        return jsonify({"success": False, "error": "person_id required"}), 400
+    # Năm chỉ là khung triều đại → xếp sau các bộ có năm cụ thể.
+    order = {"year": "w.time_from IS NULL, w.year_precision = 'dynasty_range', w.time_from, w.cbeta_id",
+             "title": "COALESCE(w.title_vi, w.title_zh)"}.get(sort, "COALESCE(w.juans, 0) DESC, w.cbeta_id")
+    conn = get_db_connection()
+    try:
+        rows = conn.execute(f"""
+            SELECT w.cbeta_id, w.title_zh, w.title_vi, w.byline_zh, w.byline_vi, w.dynasty_vi,
+                   w.juans, w.time_from, w.time_to, w.year_precision,
+                   (SELECT GROUP_CONCAT(COALESCE(m.name_vi, pl.name_zh), ', ')
+                    FROM dila_catalog_places pl LEFT JOIN namevi_map_places m ON m.dila_id = pl.place_id
+                    WHERE pl.cbeta_id = w.cbeta_id) AS places_vi
+            FROM dila_catalog_works w
+            WHERE w.cbeta_id IN (SELECT cbeta_id FROM dila_catalog_contributors WHERE person_id = ?)
+            ORDER BY {order}
+        """, (pid,)).fetchall()
+        return jsonify({"success": True, "person_id": pid, "sort": sort,
+                        "count": len(rows), "works": [dict(r) for r in rows]})
+    except sqlite3.OperationalError:
+        return jsonify({"success": True, "person_id": pid, "count": 0, "works": []})
+    finally:
+        conn.close()
+
 
 @app.route('/daoanh/api/public/search')
 def public_search():
