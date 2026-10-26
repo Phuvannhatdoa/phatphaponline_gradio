@@ -834,7 +834,9 @@
             Danh sách gốc là <code>places_dila</code> (59.167 địa danh). DILA chỉ có tên Hán —
             <strong style="color:var(--primary)">không có tên Việt</strong>; cột "name_vi hiện tại" là tên do
             ZQ phiên âm tự động / Admin sửa tay / TTL xác nhận (badge nguồn ở mỗi dòng, quy tắc ZQ).
-            Cột Claude/Gemini đang trống (giai đoạn 2, chưa triển khai).
+            Cột Claude lấy từ bảng <code>codex_place_name</code>, JOIN qua <code>dila_id</code> (T465 —
+            thay cho <code>codex_district_name</code> dùng sai namespace ID ở T440).
+            Cột Gemini đang trống (giai đoạn 2, chưa triển khai).
         </div>
 
         <div class="search-bar">
@@ -858,7 +860,7 @@
                     <th>Place ID</th>
                     <th>Hán tự</th>
                     <th>name_vi hiện tại</th>
-                    <th title="Giai đoạn 2 — chưa triển khai">Claude</th>
+                    <th title="Nguồn: codex_place_name.name_vi (JOIN qua dila_id, T465)">Claude</th>
                     <th title="Giai đoạn 2 — chưa triển khai">Gemini</th>
                     <th>TTL</th>
                     <th>Từ điển</th>
@@ -2370,7 +2372,7 @@
                         <span class="place-namevi-text">${_esc(item.name_vi || '—')}</span><br>
                         ${_placeSourceBadge(item.source_badge)}
                     </td>
-                    <td style="color:var(--text-faint);font-size:12px">—</td>
+                    <td style="font-size:12px;color:${item.claude_name_vi ? 'var(--success)' : 'var(--text-faint)'}">${_esc(item.claude_name_vi || '—')}</td>
                     <td style="color:var(--text-faint);font-size:12px">—</td>
                     <td style="font-size:12px;color:${item.ttl_name_vi ? 'var(--success)' : 'var(--text-faint)'}">${_esc(item.ttl_name_vi || '—')}</td>
                     <td style="font-size:11px;color:${item.dictionary_definition ? '#7ab8d4' : 'var(--text-faint)'}" title="${_esc(item.dictionary_definition || '')}">${item.dictionary_definition ? '✓' : '—'}</td>

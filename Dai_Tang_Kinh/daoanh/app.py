@@ -12013,6 +12013,7 @@ def api_places_vi_map_list():
         base_from = """
             FROM places_dila pd
             LEFT JOIN namevi_map_places m ON m.dila_id = pd.id
+            LEFT JOIN codex_place_name c ON c.dila_id = pd.id
         """
         where = []
         params = []
@@ -12052,7 +12053,8 @@ def api_places_vi_map_list():
             SELECT pd.id AS place_id, pd.name_zh AS name_zh,
                    m.name_vi AS name_vi, m.source AS source,
                    m.vn_name_status AS vn_name_status, m.confidence AS confidence,
-                   m.needs_review AS needs_review
+                   m.needs_review AS needs_review,
+                   c.name_vi AS claude_name_vi
             {base_from}
             {where_sql}
             ORDER BY pd.id
@@ -12108,7 +12110,7 @@ def api_places_vi_map_list():
                 'vn_name_status': r['vn_name_status'],
                 'confidence': r['confidence'],
                 'needs_review': r['needs_review'],
-                'claude_name_vi': None,   # Giai đoạn 2 — chưa có bảng ai_place_name
+                'claude_name_vi': r['claude_name_vi'],  # T465 — JOIN codex_place_name.dila_id (T443 applied 2026-10-23)
                 'gemini_name_vi': None,   # Giai đoạn 2 — chưa có bảng codex_place_name
                 'ttl_name_vi': ttl_map.get(r['place_id']),
                 'dictionary_definition': lex_map.get(r['name_zh']),
