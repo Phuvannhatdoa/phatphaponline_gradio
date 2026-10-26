@@ -244,6 +244,28 @@ input { font-family: inherit; }
 .search-btn:hover { opacity: 0.88; }
 .search-btn svg { width: 16px; height: 16px; }
 
+/* T469: dropdown gợi ý khi gõ (autocomplete trang chủ, 2 nhóm) */
+.search-form { position: relative; }
+.sr-suggest {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px;
+  box-shadow: var(--shadow); max-height: 420px; overflow-y: auto; z-index: 50;
+  text-align: left; padding: 6px 0;
+}
+.sr-suggest[hidden] { display: none; }
+.sr-suggest-group-title {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--gold); padding: 8px 16px 4px;
+}
+.sr-suggest-item {
+  display: flex; flex-direction: column; gap: 2px; padding: 8px 16px; cursor: pointer;
+}
+.sr-suggest-item:hover, .sr-suggest-item.active { background: var(--gold-dim); }
+.sr-suggest-name { color: var(--text-hi); font-size: 14px; font-weight: 500; }
+.sr-suggest-han { font-family: 'Noto Serif SC', serif; color: var(--text-mid); margin-left: 6px; font-weight: 400; }
+.sr-suggest-meta { font-size: 12px; color: var(--text-lo); }
+.sr-suggest-empty { padding: 10px 16px; color: var(--text-lo); font-size: 13px; }
+
 /* ── Search result panel ─────────────────────────── */
 .sr-wrap {
   max-width: 760px;
@@ -923,17 +945,21 @@ input { font-family: inherit; }
     <div class="hero-eyebrow">Kho dữ liệu Phật học · Đại Tạng Kinh Việt Nam</div>
     <h1 class="hero-title">Tra cứu Kinh Văn,<br>Địa Danh & Tăng Nhân</h1>
     <p class="hero-sub">Hệ thống tích hợp CBETA, DILA, Marcus SNA và 8,000+ địa danh Phật giáo toàn cầu</p>
-    <form class="search-wrap" onsubmit="handleSearch(event)">
-      <input class="search-input" id="heroSearch" type="search"
-        placeholder="Tìm kinh văn, tăng nhân, địa danh... (vd: Tâm Kinh, Thiếu Lâm, Huyền Trang)">
-      <button class="search-btn" type="submit">
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="8.5" cy="8.5" r="5.5"/>
-          <path d="M15 15l-3.5-3.5" stroke-linecap="round"/>
-        </svg>
-        Tìm
-      </button>
-    </form>
+    <div class="search-form">
+      <form class="search-wrap" onsubmit="handleSearch(event)">
+        <input class="search-input" id="heroSearch" type="search" autocomplete="off"
+          role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="searchSuggest"
+          placeholder="Tìm kinh văn, tăng nhân, địa danh... (vd: Tâm Kinh, Thiếu Lâm, Huyền Trang)">
+        <button class="search-btn" type="submit">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="8.5" cy="8.5" r="5.5"/>
+            <path d="M15 15l-3.5-3.5" stroke-linecap="round"/>
+          </svg>
+          Tìm
+        </button>
+      </form>
+      <div class="sr-suggest" id="searchSuggest" role="listbox" hidden></div>
+    </div>
     <div class="search-tags">
       <span class="search-tag" onclick="showPlaceDemo()">Thiếu Lâm Tự</span>
       <span class="search-tag" onclick="setSearch('Huyền Trang')">Huyền Trang</span>
@@ -1151,6 +1177,7 @@ btn.addEventListener('click', () => {
 /* ── Search ────────────────────────────────────── */
 function handleSearch(e) {
   e.preventDefault();
+  closeSuggest(); // T469: Enter/"Tìm" luôn đóng dropdown gợi ý trước khi tra cứu
   const q = document.getElementById('heroSearch').value.trim();
   if (!q) return;
   if (q.includes('Thiếu Lâm') || q.includes('少林')) {
@@ -1186,6 +1213,168 @@ function handleSearch(e) {
     })
     .catch(() => { window.location.href = placesUrl; });
 }
+
+/* ── T469: autocomplete gợi ý trang chủ (debounce 250ms, 2 nhóm) ──────────
+   Endpoint mới /daoanh/api/search/suggest (app.py, KHÔNG đổi format của
+   /daoanh/api/search hiện có — xem docstring api_search_suggest()). Điều
+   hướng dùng pattern URL đã có sẵn trong trang: /daoanh/places.html?select=
+   (xem ví dụ "Thiếu Lâm Tự" trong sr-wrap phía trên) cho nhân vật, và route
+   /daoanh/dai-tang-kinh (đã có, app.py t182_dai_tang_kinh) cho kinh sách. */
+let _sgTimer = null;
+let _sgItems = [];     // flatten: {type:'person'|'work', data}
+let _sgActive = -1;    // index đang highlight
+let _sgAbort = null;
+
+function _sgEsc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+}
+
+function closeSuggest() {
+  const box = document.getElementById('searchSuggest');
+  box.hidden = true;
+  box.innerHTML = '';
+  _sgItems = [];
+  _sgActive = -1;
+  document.getElementById('heroSearch').setAttribute('aria-expanded', 'false');
+}
+
+function _sgPersonMeta(p) {
+  // Phụ chú phân biệt tên trùng: triều đại + năm (nếu có) + DILA ID.
+  const parts = [];
+  if (p.dynasty) parts.push(p.dynasty);
+  if (p.birth_year != null || p.death_year != null) {
+    parts.push(`${p.birth_year != null ? p.birth_year : '?'}–${p.death_year != null ? p.death_year : '?'}`);
+  }
+  parts.push('DILA ' + p.id);
+  return parts.join(' · ');
+}
+
+function _sgWorkMeta(w) {
+  const parts = [];
+  if (w.translator) parts.push('Dịch/soạn: ' + w.translator);
+  if (w.era) parts.push(w.era);
+  return parts.join(' · ');
+}
+
+function renderSuggest(persons, works, q) {
+  const box = document.getElementById('searchSuggest');
+  _sgItems = [];
+  let html = '';
+
+  if (!persons.length && !works.length) {
+    html = `<div class="sr-suggest-empty">Không có gợi ý cho “${_sgEsc(q)}”. Nhấn Enter để tìm đầy đủ.</div>`;
+  } else {
+    if (persons.length) {
+      html += '<div class="sr-suggest-group-title">Nhân vật</div>';
+      persons.forEach(p => {
+        const idx = _sgItems.length;
+        _sgItems.push({ type: 'person', data: p });
+        html += `<div class="sr-suggest-item" data-idx="${idx}" role="option">
+            <div><span class="sr-suggest-name">${_sgEsc(p.name_vi || p.name_zh)}</span><span class="sr-suggest-han">${_sgEsc(p.name_zh)}</span></div>
+            <div class="sr-suggest-meta">${_sgEsc(_sgPersonMeta(p))}</div>
+          </div>`;
+      });
+    }
+    if (works.length) {
+      html += '<div class="sr-suggest-group-title">Kinh sách / Dịch giả</div>';
+      works.forEach(w => {
+        const idx = _sgItems.length;
+        _sgItems.push({ type: 'work', data: w });
+        html += `<div class="sr-suggest-item" data-idx="${idx}" role="option">
+            <div><span class="sr-suggest-name">${_sgEsc(w.title_vi || w.title_zh)}</span><span class="sr-suggest-han">${_sgEsc(w.title_zh)}</span></div>
+            <div class="sr-suggest-meta">${_sgEsc(_sgWorkMeta(w))}</div>
+          </div>`;
+      });
+    }
+  }
+
+  box.innerHTML = html;
+  box.hidden = false;
+  _sgActive = -1;
+  document.getElementById('heroSearch').setAttribute('aria-expanded', 'true');
+  box.querySelectorAll('.sr-suggest-item').forEach(el => {
+    el.addEventListener('mousedown', ev => {
+      // mousedown (không phải click) để chạy trước blur/outside-click handler
+      ev.preventDefault();
+      _sgSelect(parseInt(el.dataset.idx, 10));
+    });
+  });
+}
+
+function _sgSetActive(idx) {
+  const box = document.getElementById('searchSuggest');
+  const els = box.querySelectorAll('.sr-suggest-item');
+  els.forEach(el => el.classList.remove('active'));
+  if (idx >= 0 && idx < els.length) {
+    els[idx].classList.add('active');
+    els[idx].scrollIntoView({ block: 'nearest' });
+  }
+  _sgActive = idx;
+}
+
+function _sgSelect(idx) {
+  const it = _sgItems[idx];
+  if (!it) return;
+  closeSuggest();
+  if (it.type === 'person') {
+    // Pattern URL đã có sẵn trong trang (xem sr-btn "Xem chi tiết" phía trên):
+    // /daoanh/places.html?select=<DILA id>
+    window.location.href = '/daoanh/places.html?select=' + encodeURIComponent(it.data.id);
+  } else {
+    // Chưa có trang chi tiết từng bộ kinh theo ID (chỉ có route liệt kê
+    // /daoanh/dai-tang-kinh, đã tồn tại sẵn trong app.py). Điều hướng tới đó
+    // kèm ?q=<tên kinh> (cùng tên tham số 'q' đang dùng ở nơi khác trong
+    // trang này) để Admin/người dùng tự lọc tiếp trong ô tìm của trang đó.
+    const title = it.data.title_vi || it.data.title_zh || '';
+    window.location.href = '/daoanh/dai-tang-kinh?q=' + encodeURIComponent(title);
+  }
+}
+
+function _sgFetch(q) {
+  if (_sgAbort) { try { _sgAbort.abort(); } catch (e) {} }
+  _sgAbort = new AbortController();
+  fetch('/daoanh/api/search/suggest?q=' + encodeURIComponent(q), { signal: _sgAbort.signal })
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      if (!d || !d.success) { closeSuggest(); return; }
+      renderSuggest(d.persons || [], d.works || [], q);
+    })
+    .catch(err => { if (err.name !== 'AbortError') closeSuggest(); });
+}
+
+function initSearchSuggest() {
+  const input = document.getElementById('heroSearch');
+  const box = document.getElementById('searchSuggest');
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    clearTimeout(_sgTimer);
+    if (q.length < 2) { closeSuggest(); return; } // T469: bỏ qua khi <2 ký tự (client)
+    _sgTimer = setTimeout(() => _sgFetch(q), 250); // debounce ~250ms
+  });
+
+  input.addEventListener('keydown', e => {
+    if (box.hidden || !_sgItems.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      _sgSetActive(Math.min(_sgActive + 1, _sgItems.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      _sgSetActive(Math.max(_sgActive - 1, 0));
+    } else if (e.key === 'Enter') {
+      if (_sgActive >= 0) { e.preventDefault(); _sgSelect(_sgActive); }
+      // nếu chưa highlight dòng nào, để submit form chạy handleSearch() như cũ
+    } else if (e.key === 'Escape') {
+      closeSuggest();
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-form')) closeSuggest();
+  });
+}
+document.addEventListener('DOMContentLoaded', initSearchSuggest);
 
 /* T467: renderer khớp đúng shape thật của /daoanh/api/search (monks: id/name_vi/
    name_zh từ bảng people; works: title_vi/title_zh/author/era từ cbeta_catalog_vn).
@@ -1315,6 +1504,7 @@ function renderDilaWorks(works, q, placesUrl, people, total) {
   box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 function setSearch(val) {
+  closeSuggest(); // T469: tag gợi ý sẵn (vd "Huyền Trang") không mở dropdown autocomplete
   document.getElementById('heroSearch').value = val;
   document.getElementById('heroSearch').focus();
 }

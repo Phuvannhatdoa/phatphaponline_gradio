@@ -13315,6 +13315,134 @@ def api_global_search():
     finally:
         conn.close()
 
+# ── T469: lazy in-memory cache cho autocomplete trang chủ ──────────────────
+# Lý do dùng cache thay vì SQLite scalar function 'normalize_text' gọi trực
+# tiếp trong WHERE: đã đo (xem report T469) — gọi hàm Python qua ctypes cho
+# từng dòng trong lúc SCAN 48,673 dòng của 'people' tốn 2.8–6s/lần, KHÔNG đạt
+# mục tiêu <1s. Build cache 1 lần (~1.8s, chỉ xảy ra ở request đầu/sau khi
+# process khởi động lại) rồi lọc substring trên chuỗi đã chuẩn hoá sẵn trong
+# RAM cho kết quả ~15-35ms — đạt mục tiêu "ấm" của task. Không phải DB
+# migration/index: chỉ là cache cấp ứng dụng, cùng kiểu với _LEX_EXACT/
+# _LEX_LIST ở trên (dòng ~185) đã có sẵn trong file này. Không sửa DB.
+_PERSON_SUGGEST_CACHE = None   # list[dict] — xây 1 lần từ bảng people
+_WORK_SUGGEST_CACHE = None     # list[dict] — xây 1 lần từ bảng cbeta_catalog_vn
+
+def _get_person_suggest_cache():
+    global _PERSON_SUGGEST_CACHE
+    if _PERSON_SUGGEST_CACHE is None:
+        conn = get_db_connection()
+        try:
+            rows = conn.execute("""
+                SELECT id, name_vi, name_zh, dynasty, birth_year, death_year
+                FROM people
+            """).fetchall()
+        finally:
+            conn.close()
+        cache = []
+        for r in rows:
+            name_vi = r['name_vi'] or ''
+            name_zh = r['name_zh'] or ''
+            cache.append({
+                'id': r['id'], 'name_vi': name_vi, 'name_zh': name_zh,
+                'dynasty': r['dynasty'], 'birth_year': r['birth_year'], 'death_year': r['death_year'],
+                '_norm_vi': normalize_text(name_vi), '_norm_zh': name_zh.lower(),
+            })
+        _PERSON_SUGGEST_CACHE = cache
+    return _PERSON_SUGGEST_CACHE
+
+def _get_work_suggest_cache():
+    global _WORK_SUGGEST_CACHE
+    if _WORK_SUGGEST_CACHE is None:
+        conn = get_db_connection()
+        try:
+            rows = conn.execute("""
+                SELECT id, title_vi, title_zh, translator_vi AS translator, dynasty_vi AS era, sigla
+                FROM cbeta_catalog_vn
+            """).fetchall()
+        finally:
+            conn.close()
+        cache = []
+        for r in rows:
+            title_vi = r['title_vi'] or ''
+            title_zh = r['title_zh'] or ''
+            cache.append({
+                'id': r['id'], 'title_vi': title_vi, 'title_zh': title_zh,
+                'translator': r['translator'], 'era': r['era'], 'sigla': r['sigla'],
+                '_norm_vi': normalize_text(title_vi), '_norm_zh': title_zh.lower(),
+            })
+        _WORK_SUGGEST_CACHE = cache
+    return _WORK_SUGGEST_CACHE
+
+@app.route('/daoanh/api/search/suggest')
+def api_search_suggest():
+    """GET /daoanh/api/search/suggest?q=<text> — T469: homepage autocomplete,
+    grouped by entity type. NEW endpoint, additive — does NOT change
+    /daoanh/api/search's response shape (that one is still consumed elsewhere,
+    see its docstring above).
+
+    Trả 2 nhóm:
+      persons -> people.id/name_vi/name_zh/dynasty/birth_year/death_year (bảng
+                 'people', cùng nguồn "monks" mà api_global_search() dùng) —
+                 kèm dynasty/birth_year/death_year làm phụ chú phân biệt tên
+                 trùng (vd Huyền Trang có 4 id A000294/A002949/A009306/A014708).
+      works   -> cbeta_catalog_vn.title_vi/title_zh/translator_vi/dynasty_vi.
+                 translator_vi ĐÃ CÓ SẴN trong cbeta_catalog_vn (đã kiểm schema
+                 bằng sqlite_master.sql: cột translator_vi tồn tại, và
+                 api_global_search() ở trên cũng SELECT nó làm w.author) —
+                 KHÔNG cần JOIN dila_catalog_contributors/dila_catalog_works.
+
+    Nhận diện có dấu/không dấu: tái dùng normalize_text() (định nghĩa ở đầu
+    file, dòng ~102, đã dùng cho lexicon/TTL) để chuẩn hoá cả câu query và
+    tên/tiêu đề trong cache — không viết lại thuật toán bỏ dấu.
+
+    EXPLAIN QUERY PLAN cho câu SELECT xây cache (đo 2026-10-26, xem report
+    T469): SCAN people / SCAN cbeta_catalog_vn — full scan, giống hệt tình
+    trạng hiện có của monks/works trong api_global_search() ở trên (cũng
+    SCAN TABLE, không index trên name_vi/name_zh/title_vi/title_zh). KHÔNG
+    tạo index/đổi schema ở đây — xây cache 1 lần trong RAM (xem trên) để đạt
+    mục tiêu <1s ở trạng thái "ấm" mà không cần động tới DB.
+    """
+    q = request.args.get('q', '').strip()
+    if len(q) < 2:
+        return jsonify({"success": True, "persons": [], "works": []})
+    try:
+        nq = normalize_text(q)
+
+        t0 = time.perf_counter()
+        persons_cache = _get_person_suggest_cache()
+        persons = []
+        for r in persons_cache:
+            if nq in r['_norm_vi'] or nq in r['_norm_zh']:
+                persons.append({k: v for k, v in r.items() if not k.startswith('_')})
+                if len(persons) >= 8:
+                    break
+        t_persons_ms = (time.perf_counter() - t0) * 1000
+
+        t1 = time.perf_counter()
+        works_cache = _get_work_suggest_cache()
+        works = []
+        for r in works_cache:
+            if nq in r['_norm_vi'] or nq in r['_norm_zh']:
+                works.append({k: v for k, v in r.items() if not k.startswith('_')})
+                if len(works) >= 8:
+                    break
+        t_works_ms = (time.perf_counter() - t1) * 1000
+
+        app.logger.info(
+            f"api_search_suggest q={q!r} persons={len(persons)} ({t_persons_ms:.1f}ms) "
+            f"works={len(works)} ({t_works_ms:.1f}ms)"
+        )
+
+        return jsonify({
+            "success": True,
+            "persons": persons,
+            "works": works,
+            "_timing_ms": {"persons": round(t_persons_ms, 1), "works": round(t_works_ms, 1)},
+        })
+    except Exception as e:
+        app.logger.error(f"api_search_suggest error: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
 @app.route('/daoanh/api/public/dila_works')
 def public_dila_works():
     """T453: toàn bộ tác phẩm kinh lục DILA của một người (nút "Xem tất cả" trên HOME).
