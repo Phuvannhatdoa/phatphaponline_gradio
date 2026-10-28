@@ -1,5 +1,6 @@
 ---
-id: T429
+id: T442
+former_ids: [T432, T429]
 title: "T428 Part 0: Phân tích XML/TSV places + districts (chỉ đọc)"
 status: pending
 created: 2026-10-20
@@ -28,7 +29,9 @@ done_when: >
 outcome: null
 ---
 
-# T429 — Part 0: Phân tích XML/TSV places + districts
+# T442 — Part 0: Phân tích XML/TSV places + districts
+
+> ID cũ: T432 (đổi 2026-10-21; former_ids: T432, T429). "T429" trong nội dung này = T442, KHÔNG phải Thiền Đăng T429.
 
 ## Mục tiêu
 
@@ -54,5 +57,3 @@ Phân tích dữ liệu XML/TSV từ nhánh Claude trước khi viết script im
 - Quyết định khóa district: theo place_id hay chuỗi Hán?
 
 ---
-
-id: T429

@@ -1,4 +1,4 @@
-# Handoff 2026-10-20 — Places/Districts: Claude XML import + Gemini batch (T432/T434)
+# Handoff 2026-10-20 — Places/Districts: Claude XML import + Gemini batch (T443/T444; ID cũ T432/T434)
 
 ## 1. Thông tin đọc nhanh
 
@@ -7,7 +7,7 @@
 | Ngày bàn giao | 2026-10-20 ~16:20 |
 | HEAD trước session commit | `20d30c1` (T428 Part 1 commit) |
 | Task gốc | `tasks/T428-places-districts-claude-gemini-import.md` (đã được session song song đổi số) |
-| Task hiện hành | **T432** (analysis/Claude import), **T434** (Gemini batch) — file `tasks/T432-places-districts-claude-analysis.md`, `tasks/T434-places-districts-gemini-batch.md` |
+| Task hiện hành | **T442** (analysis), **T443** (Claude import), **T444** (Gemini batch) — file `tasks/T442-places-districts-claude-analysis.md`, `tasks/T443-places-districts-claude-import.md`, `tasks/T444-places-districts-gemini-batch.md` (ID cũ T432/T433/T434 — đổi 2026-10-21) |
 | Trạng thái Part 1 (Claude XML) | ✅ DONE, đã commit `20d30c1` |
 | Trạng thái Part 2 (Gemini) | ⏸ **PAUSED theo Admin** — chờ session T427 xong (tránh ghi đè DB) |
 | Backup Part 1 | `data/backups/T428_20261020_111026/lineage.db` (quick_check=ok) |
@@ -30,12 +30,12 @@
 
 **3 việc Admin cần làm/quyết**
 1. Xác nhận T427 đã xong (session kia) rồi cho resume Part 2.
-2. Quyết định spec `ai_district_name`: spec T434 ghi khóa theo **chuỗi district**, bản đã chạy khóa theo `dila_id` (PLA######).
+2. Quyết định spec `ai_district_name`: spec T444 (ID cũ T434) ghi khóa theo **chuỗi district**, bản đã chạy khóa theo `dila_id` (PLA######).
 3. Quyết định có đổi tên script theo spec (`ai_batch_transliterate_place.py`, log `logs/ai_transliterate_place.log`) hay giữ tên hiện tại.
 
 ## 3. Chi tiết từng phần
 
-### Part 1 — Claude XML import (T432)
+### Part 1 — Claude XML import (T443)
 - Script: `scripts/t428_import_claude_xml.py` (`--dry-run` mặc định, `--apply`, `--verify`).
 - Nguồn: nhánh `claude/sleepy-tesla-qsx17b`
   - places: 21.694.532 B, SHA256 `736f5ec6…52a56b`
@@ -44,7 +44,7 @@
 - Verify: `namevi_map_places` có name_vi 118.298; `codex_district_name` 16.907/16.907.
 - Manifest: `docs/sessions/2026-10-20/T428/t428_manifest_20261020_111705.txt`.
 
-### Part 2 — Gemini batch (T434)
+### Part 2 — Gemini batch (T444)
 - Bảng: `ai_place_name(dila_id PK, name_vi_ai, model, created_at)`, `ai_district_name(dila_id PK, ...)`.
 - Script: `scripts/ai_batch_transliterate_places_districts.py` (`--element place|district`, `--limit`, `--reset`).
 - Wrapper chạy nền: `scripts/t428_run_ai_full.py` (place → district, tuần tự).
@@ -63,9 +63,9 @@
 
 | Task | Lệnh | Mất dữ liệu? |
 |---|---|---|
-| T432 (Claude XML) | `python -X utf8 scripts/t428_import_claude_xml.py --revert` **hoặc** restore `data/backups/T428_20261020_111026/lineage.db` | Không (208 dòng insert + 41 lệch không ghi) |
-| T432 revert thủ công | `DELETE FROM namevi_map_places WHERE source='claude_xml_import'; DROP TABLE codex_district_name;` | Mất 208 tên mới + 16.907 district (tái tạo được từ XML) |
-| T434 (Gemini) | `DELETE FROM ai_place_name; DELETE FROM ai_district_name;` rồi `DROP TABLE` | Mất kết quả AI; **snapshot TSV vẫn còn** để reload |
+| T443 (Claude XML) | `python -X utf8 scripts/t428_import_claude_xml.py --revert` **hoặc** restore `data/backups/T428_20261020_111026/lineage.db` | Không (208 dòng insert + 41 lệch không ghi) |
+| T443 revert thủ công | `DELETE FROM namevi_map_places WHERE source='claude_xml_import'; DROP TABLE codex_district_name;` | Mất 208 tên mới + 16.907 district (tái tạo được từ XML) |
+| T444 (Gemini) | `DELETE FROM ai_place_name; DELETE FROM ai_district_name;` rồi `DROP TABLE` | Mất kết quả AI; **snapshot TSV vẫn còn** để reload |
 
 ## 6. File tạo/sửa trong session
 
