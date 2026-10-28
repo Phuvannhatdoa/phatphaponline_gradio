@@ -747,3 +747,12 @@ Session log: `docs/sessions/2026-10-20_BUG-pl-id-404.md`.
 - Lệnh revert: `python -X utf8 scripts/t166_identity_migrate.py --revert`.
 - Đường dẫn backup: `Dai_Tang_Kinh/daoanh/data/backups/lineage_t166_20261028_112541.db`.
 - Ghi chú: additive, không mất dữ liệu cũ. Số dòng `translation_cache` (1771) và `translation_rules` (140) bằng nhau trước/sau apply. Cột mới ở các dòng cũ là NULL (legacy).
+
+## T200 — dòng canonical A001984 (2026-10-28)
+
+| Migration | Lệnh revert | Backup | Ngày |
+|---|---|---|---|
+| T200 canonical row A001984 | `python -X utf8 scripts/t200_canonical_name_row.py --revert` (DELETE đúng 1 dòng `id='canonical_A001984'` AND `dila_id='A001984'`; KHÔNG đụng dòng `alias_A001984`) | `Dai_Tang_Kinh/daoanh/data/backups/lineage_t200_20261028_115712.db` | 2026-10-28 |
+
+- Lệnh apply: `python -X utf8 scripts/t200_canonical_name_row.py --apply` (INSERT 1 dòng vào `vn_person_authority`: id `canonical_A001984`, name_vi `Quy Sơn Linh Hựu` (= `people.name_vi`), name_zh `靈祐`, dila_id `A001984`, status `auto_ttl`, ttl_filename `TS-Quy-Son-Linh-Huu` (lấy từ dòng alias), entity_type `monk`).
+- Ghi chú: additive, +1 dòng (1511 → 1512), dữ liệu cũ không mất; dòng `alias_A001984` giữ nguyên. Admin đã duyệt riêng cho A001984 (gỡ cổng `test:t200`). Không sửa bảng `people`.
