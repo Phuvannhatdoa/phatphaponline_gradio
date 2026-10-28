@@ -155,14 +155,62 @@ def test_e_license_not_backfilled(db_copy):
     assert non_null == 0, f'Không nên backfill license khi license_verified=0, got {non_null} non-null rows'
 
 
+# Danh sách nguồn Admin đã xác minh license; thêm nguồn mới phải có quyết định Admin + cập nhật danh sách này.
+# CBETA: Admin xác nhận license ngày 2026-10-22 (cbeta.org/copyright, CC-BY-NC-SA-4.0, phi thương mại).
+VERIFIED_SOURCES = {'CBETA'}
+
+
 def test_e_all_sources_license_unverified(db_copy):
-    """E: Tất cả sources có license_verified=0 — REVIEW_REQUIRED."""
+    """E: Gate license theo chính sách hiện hành (dự án GIÁO DỤC, PHI THƯƠNG MẠI).
+
+    Lý do đổi (2026-10-28): Admin đã xác nhận license CBETA ngày 2026-10-22, nên
+    assert cũ "mọi nguồn license_verified=0" bị vỡ đúng theo quyết định đó.
+
+    Bất biến mới:
+      1. Tập nguồn license_verified=1 == VERIFIED_SOURCES (đúng danh sách Admin duyệt).
+      2. Mỗi nguồn đã xác minh phải phi thương mại: noncommercial=1, data_commercial=0.
+      3. Không nguồn nào vừa verified vừa cho phép thương mại (chặn an toàn chính).
+      4. Mọi nguồn NGOÀI danh sách đã duyệt: license_verified=0 VÀ các cột license NULL
+         (REVIEW_REQUIRED, không backfill).
+    """
     c = sqlite3.connect(db_copy)
-    verified = c.execute(
-        'SELECT COUNT(*) FROM data_sources WHERE license_verified=1'
-    ).fetchone()[0]
-    c.close()
-    assert verified == 0, 'Chưa có source nào verified — REVIEW_REQUIRED'
+    try:
+        rows = c.execute(
+            'SELECT source_code, license_verified, noncommercial, data_commercial, '
+            'data_license, corpus_license, license_spdx, license_url FROM data_sources'
+        ).fetchall()
+    finally:
+        c.close()
+    cols = ['source_code', 'license_verified', 'noncommercial', 'data_commercial',
+            'data_license', 'corpus_license', 'license_spdx', 'license_url']
+    by_code = {r[0]: dict(zip(cols, r)) for r in rows}
+
+    # 1. Tập verified phải đúng danh sách Admin duyệt.
+    verified = {code for code, r in by_code.items() if r['license_verified'] == 1}
+    assert verified == VERIFIED_SOURCES, (
+        f'Nguồn verified {sorted(verified)} != danh sách Admin duyệt {sorted(VERIFIED_SOURCES)}'
+    )
+
+    # 2. Nguồn đã xác minh phải phi thương mại.
+    for code in VERIFIED_SOURCES:
+        r = by_code[code]
+        assert r['noncommercial'] == 1 and r['data_commercial'] == 0, (
+            f'{code} verified nhưng không phải phi thương mại: '
+            f'noncommercial={r["noncommercial"]}, data_commercial={r["data_commercial"]}'
+        )
+
+    # 3. Không nguồn nào vừa verified vừa cho phép thương mại.
+    bad = sorted(code for code, r in by_code.items()
+                 if r['license_verified'] == 1 and r['data_commercial'] == 1)
+    assert bad == [], f'Nguồn verified mà cho phép thương mại (cấm): {bad}'
+
+    # 4. Nguồn ngoài danh sách: chưa verified và license NULL (REVIEW_REQUIRED).
+    for code, r in by_code.items():
+        if code in VERIFIED_SOURCES:
+            continue
+        assert r['license_verified'] == 0, f'{code} verified=1 nhưng chưa có trong VERIFIED_SOURCES'
+        for col in ('data_license', 'corpus_license', 'license_spdx', 'license_url'):
+            assert r[col] is None, f'{code}.{col} đã backfill khi chưa verified: {r[col]!r}'
 
 
 # ── Case F: source_id không tồn tại → gate chặn ────────────────────────────

@@ -52,3 +52,4 @@
 | Ngày gỡ | Cổng | Commit (SHA) | Mô tả 1 dòng |
 |---|---|---|---|
 | 2026-10-28 | `test:t232` | `ef997748` | `test_09_missing_parent_is_incomplete` khớp hợp đồng BUG-032 (candidate + issue `unresolved_parent_branch`); `test_t232_generation_engine.py` PASS. |
+| 2026-10-28 | `test:gov` → `test_e_all_sources_license_unverified` | xem `git log` (commit "test: co gate license theo chinh sach hien hanh") | Assert cũ "mọi nguồn license_verified=0" vỡ do Admin xác nhận license CBETA 2026-10-22. Thay bằng: tập verified == `VERIFIED_SOURCES={'CBETA'}`; nguồn verified phải phi thương mại (`noncommercial=1, data_commercial=0`); không nguồn verified nào cho phép thương mại; nguồn ngoài danh sách có license NULL. Bằng chứng: `docs/sessions/2026-10-26/gov-gate/` (pytest 18/18, probe bắt 5/5 lỗi giả lập). |
