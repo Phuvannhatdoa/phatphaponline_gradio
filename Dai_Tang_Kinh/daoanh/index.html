@@ -1200,15 +1200,19 @@ function handleSearch(e) {
   fetch('/daoanh/api/search?q=' + encodeURIComponent(q))
     .then(r => r.ok ? r.json() : null)
     .then(d => {
-      // T453 (khôi phục theo Admin 2026-10-26 "đưa tên Kinh/Người lên home"): kinh lục DILA trước.
+      // T453 (Admin 2026-10-26 "đưa tên Kinh/Người lên home") + T467 (BUG-052): hiển thị CẢ panel Kinh/Người (T453) LẪN thẻ monk (T467) — không bỏ kết quả nào.
       const dWorks = (d && d.dila_works) || [];
       const dPeople = (d && d.dila_people) || [];
-      if (dWorks.length || dPeople.length) { renderDilaWorks(dWorks, q, placesUrl, dPeople, d.dila_works_total); return; }
       const monks = (d && d.monks) || [];
       const works = (d && d.works) || [];
       const places = (d && d.places) || [];
       if (places.length) { window.location.href = placesUrl; return; }
-      if (!monks.length && !works.length) { window.location.href = placesUrl; return; }
+      document.getElementById('dilaWorks').innerHTML = ''; // xóa kết quả tìm trước (2 renderer dùng chung khung #dilaWorks)
+      if (dWorks.length || dPeople.length) renderDilaWorks(dWorks, q, placesUrl, dPeople, d.dila_works_total);
+      if (!monks.length && !works.length) {
+        if (!dWorks.length && !dPeople.length) window.location.href = placesUrl; // không có gì để hiện → đi trang địa danh như cũ
+        return;
+      }
       renderSearchResults(monks, works, q, placesUrl);
     })
     .catch(() => { window.location.href = placesUrl; });
@@ -1404,8 +1408,9 @@ function renderSearchResultsWorks(works) {
 function renderSearchResults(monks, works, q, placesUrl) {
   const box = document.getElementById('dilaWorks');
   const countText = `${_esc(monks.length + works.length)} kết quả cho “${_esc(q)}”`;
-  box.innerHTML = `<div class="dw-head"><span>${countText}</span>
-    <a href="${placesUrl}">Tìm địa danh →</a></div>${renderSearchResultsMonks(monks)}${renderSearchResultsWorks(works)}`;
+  // Dùng beforeend (không ghi đè): panel Kinh/Người DILA có thể đã render trước vào cùng khung #dilaWorks.
+  box.insertAdjacentHTML('beforeend', `<div class="dw-head"><span>${countText}</span>
+    <a href="${placesUrl}">Tìm địa danh →</a></div>${renderSearchResultsMonks(monks)}${renderSearchResultsWorks(works)}`);
   box.hidden = false;
   box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
