@@ -30,15 +30,30 @@ H5  `source_ref` không được tự tham chiếu (`source_ref = source`)
 H6  `time_periods` era/dynasty phải có `start_year` (chính là lỗi T14)
 H7  mọi `dila_id` phải tồn tại trong `places_dila.id` (FK logic — bảng không khai FK)
 
+CƠ CHẾ RATCHET (2026-10-28, Admin duyệt)
+=======================================
+Số vi phạm HIỆN CÓ được ghi làm CƠ SỞ (baseline) trong
+`docs/audit-honesty-baseline.json`. Mặc định (không cờ):
+  · v <= cơ sở  → "NỢ ĐÃ BIẾT": không làm FAIL, in rõ trong bảng + khối tóm tắt.
+  · v >  cơ sở  → "VI PHẠM MỚI": FAIL, exit 1 (chặn pipeline).
+  · check không có trong cơ sở, hoặc không có file cơ sở → coi như vi phạm mới.
+  · LỖI chạy check → luôn FAIL.
+Cơ sở KHÔNG tự hạ: khi task sửa xong, người cập nhật file JSON bằng tay, có bằng chứng.
+`--strict` = cổng cứng: mọi FAIL (kể cả nợ đã biết) đều exit 1.
+
 Usage
 -----
-  python -X utf8 scripts/audit_data_honesty.py            # tất cả
+  python -X utf8 scripts/audit_data_honesty.py            # ratchet (mặc định, dùng cho pipeline)
+  python -X utf8 scripts/audit_data_honesty.py --strict   # cổng cứng: mọi vi phạm đều FAIL
+  python -X utf8 scripts/audit_data_honesty.py --baseline <file.json>   # đổi file cơ sở
   python -X utf8 scripts/audit_data_honesty.py --h1       # chỉ 1 kiểm tra
   python -X utf8 scripts/audit_data_honesty.py --list
-Exit: 0 = sạch · 1 = có FAIL · 2 = chỉ WARN (không chặn)
+Exit: 0 = không có vi phạm MỚI (hoặc strict không có FAIL) · 1 = vi phạm mới vượt cơ sở,
+      lỗi chạy, file cơ sở hỏng, hoặc --strict có FAIL.
 """
 
 import argparse
+import json
 import os
 import re
 import sqlite3
@@ -46,6 +61,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(HERE, "..", "data", "lineage.db")
+BASELINE_PATH = os.path.join(HERE, "..", "docs", "audit-honesty-baseline.json")
 
 CN = {"一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7,
       "八": 8, "九": 9, "十": 10, "百": 100, "千": 1000, "零": 0, "〇": 0}
@@ -374,12 +390,44 @@ CHECKS = [
 ]
 
 
+def load_baseline(path):
+    """(checks, err). File KHÔNG tồn tại => (None, None): không có cơ sở ⇒ mọi
+    fail đều là vi phạm mới (không để mất file mà im cảnh báo).
+    File có nhưng HỎNG => (None, err): báo lỗi, exit 1 (không im lặng bỏ qua)."""
+    if not os.path.exists(path):
+        return None, None
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        return {k: int(v) for k, v in data["checks"].items()}, None
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as e:
+        return None, "%s: %s" % (type(e).__name__, e)
+
+
+def classify(v, base):
+    """(tag, delta). tag: OK = không vi phạm · NO = nợ đã biết (0 < v <= cơ sở)
+    · NEW = vi phạm mới (v > cơ sở, hoặc không có cơ sở)."""
+    if v == 0:
+        if base:
+            return "OK", "giảm %d (tốt)" % base
+        return "OK", "0"
+    if base is None:
+        return "NEW", "không có cơ sở"
+    if v > base:
+        return "NEW", "+%d" % (v - base)
+    if v == base:
+        return "NO", "0 (nợ đã biết)"
+    return "NO", "giảm %d (tốt)" % (base - v)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--strict", action="store_true",
-                    help="FAIL => exit 1 ( dung cho pipeline chan ). "
-                         "Khong co co => report, luon exit 0.")
+                    help="Cổng cứng: mọi FAIL (kể cả nợ đã biết) => exit 1.")
+    ap.add_argument("--baseline", default=BASELINE_PATH,
+                    help="File cơ sở JSON (mặc định docs/audit-honesty-baseline.json). "
+                         "Không có file => không có cơ sở.")
     for c in CHECKS:
         ap.add_argument("--" + c[0].lower(), action="store_true")
     a = ap.parse_args()
@@ -390,34 +438,71 @@ def main():
     only = [c for c in CHECKS if getattr(a, c[0].lower())]
     run = only or CHECKS
 
+    base_all, berr = load_baseline(a.baseline)
+    if berr:
+        print("[LOI ] file co so hong: %s — %s" % (a.baseline, berr))
+        return 1
+    has_base = base_all is not None
+    show_path = "docs/audit-honesty-baseline.json" if a.baseline == BASELINE_PATH else a.baseline
+
     conn = sqlite3.connect("file:%s?mode=ro" % os.path.abspath(DB_PATH).replace("\\", "/"),
                            uri=True)
     print("=" * 68)
     print("T234 DATA HONESTY GATE — read-only, %d kiem tra" % len(run))
+    print("CHE DO: %s" % ("--strict (moi FAIL deu chan)" if a.strict
+                          else "ratchet (chi vi pham MOI vuot co so moi FAIL)"))
+    print("CO SO : %s%s" % (show_path, "" if has_base else
+                            "  (KHONG CO FILE — moi FAIL deu la vi pham moi)"))
     print("=" * 68)
-    nfail = 0
+    print("  %-4s %-3s %-46s %7s %7s  %s" % ("TAG", "KT", "MO TA", "HIEN", "CO SO", "CHENH LECH"))
+    label = {"OK": " OK ", "NO": "NỢ  ", "NEW": "FAIL", "ERR": "LỖI "}
+    rows = []                                        # (key, tag, v, base, delta, msg)
     for key, fn, desc in run:
+        base = base_all.get(key) if has_base else None
         try:
             n, msg = fn(conn)
         except Exception as e:                       # gate phai bao loi chu duot
-            print("  [LOI ] %s  %s" % (key, e))
-            nfail += 1
+            print("  [%s] %s %-46s %s" % (label["ERR"], key, desc, e))
+            rows.append((key, "ERR", None, base, str(e), ""))
             continue
+        tag, delta = classify(n, base)
+        print("  [%s] %s %-46s %7d %7s  %s" % (label[tag], key, desc, n,
+                                               "—" if base is None else base, delta))
         if n:
-            print("  [FAIL] %s  %-46s %d" % (key, desc, n))
             print("         %s" % msg)
-            nfail += 1
-        else:
-            print("  [ OK ] %s  %s" % (key, desc))
+        rows.append((key, tag, n, base, delta, msg))
     conn.close()
+
+    new = [r for r in rows if r[1] in ("NEW", "ERR")]          # chặn ở cả 2 chế độ
+    debt = [r for r in rows if r[1] == "NO"]                   # nợ đã biết
+    down = [r for r in rows if r[3] is not None and r[2] is not None and r[2] < r[3]]
     print("-" * 68)
-    if nfail:
-        print("[BAO CAO] FAIL %d/%d — du lieu BI DANG/SAI." % (nfail, len(run)))
-        if a.strict:
-            print("[STRICT] pipeline bi chan.")
-            return 1
-        print("[REPORT] khong chan pipeline (thieu --strict). Xem 'npm run"
-              " audit:honesty:strict' de chan.")
+    if down:
+        print("↓ GIẢM SO VỚI CƠ SỞ (tốt): " + ", ".join(
+            "%s %d→%d" % (r[0], r[3], r[2]) for r in down))
+        print("  → cơ sở CHƯA tự hạ. Cập nhật %s bằng tay khi đã có bằng chứng." % show_path)
+    if debt:
+        print("⚠ NỢ DỮ LIỆU ĐÃ BIẾT (theo %s): %s"
+              % (show_path, ", ".join("%s %d" % (r[0], r[2]) for r in debt)))
+        if not a.strict and not new:
+            print("  → cổng PASS vì KHÔNG có vi phạm MỚI vượt cơ sở. Cổng cứng: npm run audit:honesty:strict")
+    if new:
+        print("[BAO CAO] VI PHẠM MỚI vượt cơ sở — FAIL, pipeline bị chặn:")
+        for r in new:
+            if r[1] == "ERR":
+                print("   - %s: LỖI chạy kiểm tra (%s)" % (r[0], r[4]))
+            elif r[3] is None:
+                print("   - %s: %d (không có cơ sở)" % (r[0], r[2]))
+            else:
+                print("   - %s: hiện %d > cơ sở %d (chênh lệch %s)" % (r[0], r[2], r[3], r[4]))
+        return 1
+    if a.strict and debt:
+        print("[STRICT] cổng cứng: còn %d kiểm tra FAIL (nợ đã biết) — pipeline bị chặn."
+              % len(debt))
+        return 1
+    if debt:
+        print("PASS (ratchet) %d/%d — không vi phạm MỚI; nợ đã biết: %d kiểm tra."
+              % (len(run), len(run), len(debt)))
         return 0
     print("PASS %d/%d — khong phat hien du lieu bia dat" % (len(run), len(run)))
     return 0

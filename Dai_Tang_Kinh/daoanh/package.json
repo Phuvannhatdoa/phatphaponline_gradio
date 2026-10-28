@@ -33,7 +33,7 @@
     "tester:agent": "node scripts/tester-agent.mjs",
     "docs:serve": "honkit serve ./ --port 4000",
     "docs:build": "honkit build ./",
-    "pipeline": "npm run guard && npm run dup:ids && npm run audit:honesty:strict && npm run audit:h3 && npm run lint && npm run test && npm run test:t226 && npm run test:t227 && npm run test:t232 && npm run test:t233 && npm run test:t253 && npm run test:t242 && npm run test:t243 && npm run test:t244 && npm run test:translation && npm run test:uat && npm run test:compliance && npm run test:gov && npm run audit:t166 && npm run e2e && npm run e2e:runtime && echo '\n✅ PIPELINE COMPLETE: All checks passed!' || (echo '\n❌ PIPELINE FAILED!' && exit 1)",
+    "pipeline": "npm run guard && npm run dup:ids && npm run audit:honesty && npm run audit:h3 && npm run lint && npm run test && npm run test:t226 && npm run test:t227 && npm run test:t232 && npm run test:t233 && npm run test:t253 && npm run test:t242 && npm run test:t243 && npm run test:t244 && npm run test:translation && npm run test:uat && npm run test:compliance && npm run test:gov && npm run audit:t166 && npm run e2e && npm run e2e:runtime && echo '\n✅ PIPELINE COMPLETE: All checks passed!' || (echo '\n❌ PIPELINE FAILED!' && exit 1)",
     "audit:t204": "python -X utf8 scripts/t204_ttl_preflight.py --report 2>&1",
     "test:t207": "python -X utf8 tests/test_t207_db_mojibake.py",
     "test:t208": "python -X utf8 tests/test_t208_lexicon_altkey.py",

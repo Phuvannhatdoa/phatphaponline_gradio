@@ -15,6 +15,7 @@
 - Dự án yêu cầu `npm run pipeline` xanh mới được review. Cổng **ngoài scope** (không thuộc task đang làm) được ghi ở sổ này và **không chặn DONE của task khác** (tiền lệ T390, Admin nghiệm thu 2026-10-15).
 - Mọi cổng trong sổ này đều có **task sở hữu** và **tiêu chí gỡ** rõ ràng (cột bên dưới).
 - Cổng cứng (`--strict`) **không** được bật trong `npm run pipeline` mặc định — xem khuyến nghị ở `docs/sessions/2026-10-26/gate2-tiers/REPORT.md`.
+- **Cổng `audit:honesty` — cơ chế RATCHET (Admin duyệt 2026-10-28):** so với cơ sở `docs/audit-honesty-baseline.json` (đo 2026-10-28: H1 41 · H2 96 · H3 969 · H4 745 · H5 55 · H6 0 · H7 0). **Vi phạm mới vượt cơ sở mới FAIL** (exit 1, chặn pipeline); nợ đã biết (≤ cơ sở) không chặn nhưng được in rõ. `--strict` (`npm run audit:honesty:strict`) = cổng cứng: mọi FAIL đều chặn. Cơ sở **không tự hạ** — người sửa task hạ tay khi có bằng chứng.
 
 ## 2. Bảng cổng đang đỏ
 
