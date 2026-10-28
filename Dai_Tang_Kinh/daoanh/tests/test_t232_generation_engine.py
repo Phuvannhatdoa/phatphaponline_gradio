@@ -36,8 +36,11 @@ class Tests(unittest.TestCase):
   self.graph([(4,3)]);c=self.config();c['anchors'].append(self.anchor(4,8));r=self.compute(c=c);self.assertIsNone(r['number']);self.assertIn(r['status'],('unreachable','incomplete'));self.assertTrue(any(i['type']=='checkpoint_not_connected_to_root' for i in r['issues']))
  def test_08_cycle_and_self_block(self):
   self.graph([(1,2),(2,3),(3,2)]);self.assertEqual(self.compute()['status'],'conflict');self.graph([(1,2),(2,2)]);self.assertEqual(self.compute(2)['status'],'conflict')
- def test_09_missing_parent_is_incomplete(self):
-  self.graph([(1,2),(4,2)]);r=self.compute(2);self.assertEqual(r['status'],'incomplete');self.assertIsNone(r['number']);self.assertEqual(r['candidates'],[2])
+ def test_09_missing_parent_is_candidate_with_audit_issue(self):
+  # Hợp đồng BUG-032 (generation_engine_v2.py ~dòng 329): nếu có candidates thì vẫn trả number,
+  # issues ở nhánh khác chỉ để audit. Task T232 không định nghĩa status 'incomplete' → kỳ vọng cũ đã lỗi thời.
+  # Việc thiếu cha vẫn phải được ghi nhận qua issue 'unresolved_parent_branch'.
+  self.graph([(1,2),(4,2)]);r=self.compute(2);self.assertEqual(r['status'],'candidate');self.assertEqual(r['number'],2);self.assertEqual(r['candidates'],[2]);self.assertTrue(any(i['type']=='unresolved_parent_branch' and i['person_id']==self.aid(2) for i in r['issues']))
  def test_10_no_marcus_or_ttl_mixing(self):
   self.c.execute('UPDATE lineage_edge_assertions SET source_code=? WHERE id=?',('MARCUS',2));self.c.commit();self.assertEqual(self.compute()['status'],'unreachable')
  def test_11_xml_edge_not_present_blocked(self):
