@@ -18,7 +18,6 @@ os.chdir(BASE)
 CHAIN = ["d58ac475", "bdcf4fa4", "873e7dcc", "32e1d2d7", "8242fbd1",
          "38ffb5f4", "a5d2ec25", "2686da0a", "01ee030f"]
 BASE_COMMIT = "01ee030f"          # commit đầu chuỗi
-HEAD_SHA = "d73fbc7b"             # commit cuối chuỗi (tính lại khi có commit mới!)
 LABEL = {
     "d58ac475": "pipeline log + known-failing-gates",
     "bdcf4fa4": "handoff tong chuoi N4",
@@ -59,6 +58,8 @@ print("worktree: %s\n" % TMP)
 
 # ---------- A) revert 1 lệnh cả range ----------
 print("=== A) REVERT 1 LENH (ca range) ===")
+# HEAD động — không hardcode, để script dùng được sau mọi commit mới
+HEAD_SHA = git(["rev-parse", "HEAD"])[1].decode().strip()[:8]
 rng = "%s^..%s" % (BASE_COMMIT, HEAD_SHA)
 rc, out, err = git(["revert", "--no-commit", "-n", rng], cwd=TMP)
 if rc != 0:
