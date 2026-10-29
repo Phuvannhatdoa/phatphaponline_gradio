@@ -1,5 +1,6 @@
 # app_gradio.py
 import gradio as gr
+import os
 import sys
 from fastapi import FastAPI
 import uvicorn
@@ -66,15 +67,22 @@ def query_and_answer(user_input):
     except Exception as e:
         return f"Lỗi khi xử lý: {str(e)}"
 
+TIEU_THIEN_IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "tieu_thien.webp")
+
 # Tạo giao diện Gradio
-iface = gr.Interface(
-    fn=query_and_answer,
-    inputs=gr.Textbox(label="Nhập câu hỏi về Kinh điển", placeholder="Ví dụ: Năm sanh pháp là gì?", lines=2),
-    outputs=gr.Textbox(label="Kết quả", lines=10),
-    title="📜 Tra cứu Kinh điển Phật giáo (RAG + Chatling AI)",
-    description="Hệ thống sử dụng ChromaDB + Chatling AI để trả lời câu hỏi từ dữ liệu Kinh Phật. Vui lòng đợi chút khi ứng dụng khởi động lần đầu.",
-    theme="soft"
-)
+with gr.Blocks(title="Tra cứu Kinh điển Phật giáo", theme="soft") as iface:
+    gr.Image(value=TIEU_THIEN_IMAGE_PATH, show_label=False, interactive=False, container=False, height=260)
+    gr.Markdown(
+        "# 📜 Tra cứu Kinh điển Phật giáo (RAG + Chatling AI)\n"
+        "Hệ thống sử dụng ChromaDB + Chatling AI để trả lời câu hỏi từ dữ liệu Kinh Phật. "
+        "Vui lòng đợi chút khi ứng dụng khởi động lần đầu."
+    )
+    question = gr.Textbox(label="Nhập câu hỏi về Kinh điển", placeholder="Ví dụ: Năm sanh pháp là gì?", lines=2)
+    answer = gr.Textbox(label="Kết quả", lines=10)
+    ask_button = gr.Button("Tra cứu", variant="primary")
+
+    ask_button.click(query_and_answer, inputs=question, outputs=answer)
+    question.submit(query_and_answer, inputs=question, outputs=answer)
 
 # Tạo FastAPI app và mount Gradio app vào
 app = FastAPI()
