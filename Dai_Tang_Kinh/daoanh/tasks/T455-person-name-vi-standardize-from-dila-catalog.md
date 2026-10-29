@@ -1,9 +1,9 @@
 ---
 id: T455
 title: Chuẩn hoá tên Việt người (people.name_vi, ZQ) dựa trên đối chiếu kinh lục DILA (794 lệch + 532 sót chữ Hán)
-status: pending
+status: in_progress
 created: 2026-10-22
-updated: 2026-10-22
+updated: 2026-10-29
 owner: daoanh-debugger
 module: Data / Persons
 priority: high
@@ -52,3 +52,16 @@ Chuẩn hoá `people.name_vi` (nguồn ZQLOCAL=5) theo bằng chứng kinh lục
 ## Câu hỏi cho Admin
 1. Đã có task chuẩn hoá tên người đang chạy chưa (Admin nhắc "task khác đang chuẩn hoá từng tên")? Nếu có → gộp T455 vào đó.
 2. Ưu tiên lô nào trước: người xuất hiện nhiều trong kinh lục (cột so_lan) hay nhóm sót chữ Hán?
+
+### Nhật ký 2026-10-29 — ĐÃ PHÂN LOẠI 794 DÒNG (chờ Admin duyệt lô, CHƯA ghi DB)
+- **Phân loại tự động** (`scripts/classify_t455.py`, chỉ đọc CSV `docs/sessions/2026-10-22/T453/name_vi_mismatch_ALL.csv`):
+  | Lô | Số dòng | Quy tắc | File CSV | Hành động |
+  |----|---------|---------|----------|-----------|
+  | **A** | **24** | `name_vi` ZQ sai rõ (tên Anh/Hán lệch chuẩn DILA) | `docs/sessions/2026-10-28-t455/name_vi_mismatch_A.csv` | **sửa** theo tên chuẩn |
+  | **B** | **534** | alias/biệt hiệu cùng người (ZQ name_vi ≈ Cloud) | `docs/sessions/2026-10-28-t455/name_vi_mismatch_B.csv` | **giữ nguyên**, ghi alias |
+  | **C** | **236** | khác quy ước chính tả / thiếu Hán | `docs/sessions/2026-10-28-t455/name_vi_mismatch_C.csv` | **sửa** đúng quy tắc |
+  | | **794** | tổng | | |
+- **Chưa ghi DB** (0 UPDATE). Script apply dự kiến: `scripts/t455_name_vi_fix.py` — chỉ chạy sau khi Admin duyệt từng lô.
+- **Quy tắc bắt buộc**: tên Việt luôn `source_id=5` (ZQLOCAL) — **không** gán tên Việt cho nguồn DILA (source_id=1). Không sửa `people.name_zh`.
+- **Câu hỏi còn chờ Admin**: Q3b (ưu tiên lô nào: theo `so_lan` hay nhóm sót Hán?), Q3c (duyệt bảng lịch sử additive `people_name_vi_history` không?), mẫu 20 dòng/lô để duyệt.
+- **Bàn giao**: `docs/Handoff-2026-10-28-t455.md`.
