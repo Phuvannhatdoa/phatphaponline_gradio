@@ -1,0 +1,7 @@
+T457 dry-run (staging_final)
+total_records: 21740
+books (11): 11
+total_with_year: 7066
+percent_with_year: 32.5%
+duplicate_composite_key: 0 (theo manifest)
+assertions: PASS

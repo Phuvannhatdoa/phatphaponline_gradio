@@ -1,0 +1,28 @@
+{
+  "task": "T457",
+  "description": "DILA Bio Nexus staging parse",
+  "source_commit": "4e82453",
+  "source_dir": "E:\\Backup 2025\\QuaiTieuTu\\Anan Son\\phatphaponline_gradio\\truyenthua\\visjs-app\\Dai_Tang_Kinh\\daoanh\\data\\dila_import\\biographies.2024-01\\nexus_src",
+  "output_jsonl": "E:\\Backup 2025\\QuaiTieuTu\\Anan Son\\phatphaponline_gradio\\truyenthua\\visjs-app\\Dai_Tang_Kinh\\daoanh\\data\\staging_v4\\t457_dila_bio_nexus.jsonl",
+  "report_path": "E:\\Backup 2025\\QuaiTieuTu\\Anan Son\\phatphaponline_gradio\\truyenthua\\visjs-app\\Dai_Tang_Kinh\\daoanh\\docs\\reports\\T457-dry-run-v4.md",
+  "manifest_path": "E:\\Backup 2025\\QuaiTieuTu\\Anan Son\\phatphaponline_gradio\\truyenthua\\visjs-app\\Dai_Tang_Kinh\\daoanh\\docs\\manifests\\T457-manifest.json",
+  "total_files": 11,
+  "total_records": 21740,
+  "total_with_year": 7066,
+  "total_anchor_blocks": 43480,
+  "duplicate_nexus_ids": 0,
+  "book": "Buxu_GSZ",
+  "jd_conversion": "if jd >= 2299161: Gregorian else: Julian (verified with known mốc)",
+  "created": "2026-10-29T09:34:30.324627",
+  "checksum": {
+    "source_sha256": "f391f38a02bae10c0d2be982480c7e2216183b6213ab457215b17d802da745a0",
+    "jsonl_records": 21740
+  },
+  "validation": {
+    "duplicate_nexus_ids": 0,
+    "book_null_when_has_value": 0,
+    "year_out_of_range_500_3000": 1068,
+    "empty_text_zh": 0,
+    "nexus_id_always_present": true
+  }
+}

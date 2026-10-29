@@ -1,9 +1,9 @@
 ---
 id: T457
 title: "Tích hợp BIO DILA (高僧傳): import nguồn nexus + lớp Việt chung (gộp T74b, T266)"
-status: pending
+status: done
 created: 2026-10-22
-updated: 2026-10-22
+updated: 2026-10-29
 owner: tich-hop
 module: Data / Biographies
 priority: high
@@ -70,3 +70,18 @@ Dòng thời gian từng vị thầy: năm · nơi · cùng ai · đoạn văn g
   "published under a CC (Attribution Share-Alike) License" ⇒ markup DILA = CC BY-SA; văn bản CBETA = CC BY-NC-SA 4.0
   ⇒ bản phái sinh theo điều kiện chặt hơn: **CC BY-NC-SA 4.0** (PTDA phi thương mại — Admin xác nhận). Bỏ trạng thái AUDITING.
   Gói 名僧傳抄 trên trang DILA (2018-12-06, 37 file, 188 linkGrp) trùng số lượng với bản GitHub commit 4e82453 (2024) → dùng bản GitHub (mới hơn).
+
+### Nhật ký 2026-10-29 — ĐÃ IMPORT (A2, additive), Admin xác nhận DONE
+- **Quyết định A2**: JSONL lưu **đầy đủ** `person_ids` / `place_ids` (array) thay vì 1 id đầu tiên — đổi `scripts/t457_staging_v4.py` (dùng `re.findall` thay `pers[0]`).
+- **Dry-run** (`--dry-run`): 21.740 nexus / **11 sách** / 7.066 có năm (32,5%) / `duplicate_composite_key=0`.
+  - Tang_GSZ 5.446 · Song_GSZ 5.242 · Buxu_GSZ 3.971 · Xinxu_GSZ 2.955 · Liang_GSZ 1.819 · biQiuNi 373 · chuSanZangJiJi 473 · Ming_GSZ 587 · Jushi_Zhuan 523 · Mingsengzhuanchao 188 · OtherSources 163
+- **Apply** (3 bảng additive, KHÔNG đụng `nexus_events` cũ 10.458 dòng):
+  - `dila_bio_nexus` = **21.740 dòng**
+  - `dila_bio_nexus_person` = **36.049 link**
+  - `dila_bio_nexus_place` = **13.930 link**
+  - index: `idx_bn_book`, `idx_bn_person`, `idx_bn_year`, `idx_bn_place`
+- **Backup trước apply**: `data/backups/lineage_t457_20261029_094901.db`.
+- **Script**: `scripts/t457_dila_bio_nexus_import.py` (`--stats` / `--dry-run` / `--apply` / `--revert`), verify: `scripts/t457_verify.py`.
+- **ROLLBACK**: dòng 2026-10-29 trong `docs/ROLLBACK.md` — `DROP TABLE` 3 bảng + 4 index (additive, 0 mất dữ liệu cũ).
+- **Manifest**: `docs/manifests/T457-manifest.json` (SHA-256 11 file nguồn).
+- **Bàn giao**: `docs/Handoff-2026-10-28-t457.md`.
