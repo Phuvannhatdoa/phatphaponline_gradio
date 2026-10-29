@@ -4,6 +4,22 @@
 > **[2026-10-24 · T461 — Điều phối task undone và QA theo lô] 🔄 IN_PROGRESS.** Admin phê chuẩn danh sách ưu tiên: QA/đóng T417, T410, T453, T424, T425; tiếp theo T406/T408; profile T416; kiểm soát T418 và T429/T458; audit T415/T275/T273; hạ tầng T385/T387. Dashboard có checklist local review, không tự đổi trạng thái task hoặc production. Chi tiết: `tasks/T461-undone-task-triage-execution-plan.md`.
 <!-- T461:END -->
 
+<!-- T454:START -->
+> **[2026-10-29 · T454 — làm sạch hậu tố "_ Huý"/"_ Ngoa" trong `namevi_map_places.name_vi`] ✅ DONE.** 5 dòng đã sửa (hậu tố chuyển sang `note_vi`, không mất thông tin; không đụng `places_dila`). Backup `data/backups/lineage_t454_20261028_201150.db`. Verify: `python -X utf8 scripts/t454_verify_state.py` → dòng còn hậu tố thật = **0** (phải dùng `LIKE '%\_ Huý%' ESCAPE '\'`; `LIKE '%_ Huý%'` cho 2 false-positive). Commit `01ee030f`. Revert: `python -X utf8 scripts/t454_cleanup_suffix.py --revert` | `git revert 01ee030f`. Task: `tasks/T454-namevi-places-suffix-huy-cleanup.md`.
+<!-- T454:END -->
+
+<!-- T455:START -->
+> **[2026-10-29 · T455 — chuẩn hoá tên người Việt (794 lệch + 532 sót Hán)] 🔄 IN_PROGRESS — đã phân loại, chờ Admin duyệt lô (CHƯA ghi DB).** Phân loại tự động 794 dòng (`scripts/classify_t455.py`): **Lô A = 24** (ZQ sai rõ → sửa) · **Lô B = 534** (alias cùng người → giữ, ghi alias) · **Lô C = 236** (khác quy ước chính tả → sửa). CSV: `docs/sessions/2026-10-28-t455/name_vi_mismatch_{A,B,C}.csv`. Quy tắc bắt buộc: tên Việt luôn `source_id=5` (ZQLOCAL), **không** gán tên Việt cho nguồn DILA (`source_id=1`); không sửa `people.name_zh`. Còn chờ Admin: Q3b (thứ tự lô), Q3c (duyệt bảng lịch sử additive `people_name_vi_history`), mẫu 20 dòng/lô. Commit `a5d2ec25`. Task: `tasks/T455-person-name-vi-standardize-from-dila-catalog.md`.
+<!-- T455:END -->
+
+<!-- T456:START -->
+> **[2026-10-29 · T456 — autocomplete ô Search HOME (gợi ý kinh lục DILA / người / địa danh)] ⏳ PENDING — blocked bởi T455.** Thứ tự N4: T454 ✅ → T457 ✅ → T455 (đang phân loại) → T456. Phụ thuộc `depends_on: [T453, T416, T450]` — T453 đã nạp đủ 5.747 bộ (chờ Admin xác nhận DONE), T416/T450 (autocomplete + FTS) đã có. Cần Admin duyệt phương án triển khai trước khi sửa `index.html` + route mới. Commit `38ffb5f4`. Task: `tasks/T456-home-search-autocomplete-dila-catalog.md`.
+<!-- T456:END -->
+
+<!-- T457:START -->
+> **[2026-10-29 · T457 — import DILA bio nexus (A2: array đầy đủ person+place)] ✅ DONE.** Dry-run: 21.740 nexus / 11 sách / 7.066 có năm (32,5%). Apply 3 bảng additive (`nexus_events` cũ 10.458 dòng **không** đụng): `dila_bio_nexus` = 21.740 dòng · `dila_bio_nexus_person` = 36.049 link · `dila_bio_nexus_place` = 13.930 link; index `idx_bn_book`/`idx_bn_person`/`idx_bn_year`/`idx_bn_place`. Backup `data/backups/lineage_t457_20261029_094901.db`. Manifest SHA-256: `docs/manifests/T457-manifest.json`. Commit `2686da0a`. Revert: `python -X utf8 scripts/t457_dila_bio_nexus_import.py --revert` (DROP 3 bảng + 4 index) | `git revert 2686da0a`. Task: `tasks/T457-dila-biographies-nexus-import.md`.
+<!-- T457:END -->
+
 <!-- T148-DB-PARSE:START -->
 > **[2026-10-22 · T148 — DILA XML đọc từ DB thay vì file đĩa] ⏳ CHỜ ADMIN XÁC NHẬN.** Code `app.py` `_t148_load_dila_extra()` đã sửa: 49,361 bản ghi `ttl_v2_source_records` (kind=`DILA_XML`) → 49,361 persons, API `dila_full` trả `has_extra=true`. Chưa có task ID, chưa commit, chưa chạy pipeline, chưa kiểm UI. Chi tiết: [Handoff](Handoff-2026-10-22-t148-dila-db-parse.md).
 <!-- T148-DB-PARSE:END -->
