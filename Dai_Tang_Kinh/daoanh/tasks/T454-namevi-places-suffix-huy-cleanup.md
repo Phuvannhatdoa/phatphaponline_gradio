@@ -1,9 +1,9 @@
 ---
 id: T454
 title: Làm sạch tên địa danh Việt có hậu tố "_ Huý"/"_ Ngoa" trong namevi_map_places
-status: pending
+status: done
 created: 2026-10-22
-updated: 2026-10-22
+updated: 2026-10-29
 owner: daoanh-debugger
 module: Data / Places
 priority: medium
@@ -48,3 +48,13 @@ Chỉ 8 dòng trên (và dòng mới cùng mẫu nếu đo lại phát hiện). 
 
 ## Câu hỏi cho Admin
 1. Hậu tố là ghi chú hợp lệ cần giữ (chuyển sang cột khác) hay rác cần xoá?
+
+### Nhật ký 2026-10-29 — ĐÃ XỬ LÝ (Admin xác nhận DONE)
+- **Đo lại**: `namevi_map_places` có **8 dòng** `name_vi` chứa hậu tố (2026-10-22) → **5 dòng** có mẫu `_ Huý`/`_ Ngoa` cần sửa (CSV: `docs/sessions/2026-10-28-t454/t454_namevi_suffixed_20261028_190704.csv`).
+- **Cách sửa (Admin duyệt)**: bỏ hậu tố khỏi `name_vi`, **giữ hậu tố nguyên văn trong `note_vi`** (không mất thông tin). Không đụng `places_dila` (raw DILA).
+- **Backup trước khi ghi**: `data/backups/lineage_t454_<ts>.db` (auto trong script).
+- **Script**: `scripts/t454_cleanup_suffix.py` (`--stats` / `--apply` / `--revert`).
+- **Verify sau apply** (`scripts/t454_verify_state.py`): dòng có hậu tố thật = **0**.
+  - Lưu ý: `LIKE '%_ Huý%'` **không** escape `_` nên trả về 2 dòng giả ("Ải Ngoan Trại", "Ải Ngoan Sỡ") — phải dùng `LIKE '%\_ Huý%' ESCAPE '\'`.
+- **ROLLBACK**: dòng 2026-10-28 trong `docs/ROLLBACK.md` (UPDATE ngược từ CSV giá trị gốc).
+- **Bàn giao**: `docs/Handoff-2026-10-28-t454.md`.
