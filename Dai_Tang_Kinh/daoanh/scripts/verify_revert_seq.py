@@ -11,9 +11,11 @@ BASE = r"E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\vis
 TMP = r"C:\Users\Nam Thien\AppData\Local\Temp\opencode\revert-seq"
 os.chdir(BASE)
 
-# thứ tự ngược: 873e7dcc → 32e1d2d7 → 8242fbd1 → 38ffb5f4 → a5d2ec25 → 2686da0a → 01ee030f
-SEQ = ["873e7dcc", "32e1d2d7", "8242fbd1", "38ffb5f4", "a5d2ec25", "2686da0a", "01ee030f"]
+# thứ tự ngược: d58ac475 → bdcf4fa4 → 873e7dcc → 32e1d2d7 → 8242fbd1 → 38ffb5f4 → a5d2ec25 → 2686da0a → 01ee030f
+SEQ = ["d58ac475", "bdcf4fa4", "873e7dcc", "32e1d2d7", "8242fbd1", "38ffb5f4", "a5d2ec25", "2686da0a", "01ee030f"]
 LABEL = {
+    "d58ac475": "pipeline log + known-failing-gates",
+    "bdcf4fa4": "handoff tong chuoi N4",
     "873e7dcc": "fix UTF-16 logs -> UTF-8",
     "32e1d2d7": "tasktodo markers T454-T457",
     "8242fbd1": "ROLLBACK backup path fix",
