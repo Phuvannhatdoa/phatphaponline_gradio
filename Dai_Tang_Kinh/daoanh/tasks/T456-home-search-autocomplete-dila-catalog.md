@@ -3,7 +3,7 @@ id: T456
 title: Autocomplete cho ô Search HOME (/daoanh/) — gợi ý kinh lục DILA, người, địa danh khi gõ
 status: pending
 created: 2026-10-22
-updated: 2026-10-22
+updated: 2026-10-29
 owner: daoanh-debugger
 module: Frontend / Search
 priority: high
@@ -51,3 +51,8 @@ Admin yêu cầu gợi ý ngay khi gõ (2026-10-22).
 
 ## Câu hỏi cho Admin
 1. Tạo bảng FTS5 mới cho kinh lục (ghi DB, additive) hay chỉ dùng LIKE prefix (không ghi DB, chậm hơn)?
+
+### Trạng thái 2026-10-29 — CHƯA BẮT ĐẦU (blocked bởi T455)
+- Thứ tự N4: **T454 ✅ → T457 ✅ → T455 (đang phân loại) → T456**.
+- Phụ thuộc: `depends_on: [T453, T416, T450]`. T453 đã nạp đủ 5.747 bộ (chờ Admin xác nhận DONE); T416/T450 (autocomplete / FTS) đã có.
+- Cần Admin duyệt phương án triển khai trước khi sửa `index.html` + route mới.
