@@ -1,0 +1,1786 @@
+
+> daoanh@1.0.0 pipeline
+> npm run guard && npm run dup:ids && npm run audit:honesty && npm run audit:h3 && npm run lint && npm run test && npm run test:t226 && npm run test:t227 && npm run test:t232 && npm run test:t233 && npm run test:t253 && npm run test:t242 && npm run test:t243 && npm run test:t244 && npm run test:translation && npm run test:uat && npm run test:compliance && npm run test:gov && npm run audit:t166 && npm run e2e && npm run e2e:runtime && echo '
+> ✅ PIPELINE COMPLETE: All checks passed!' || (echo '
+> ❌ PIPELINE FAILED!' && exit 1)
+
+
+> daoanh@1.0.0 guard
+> python -X utf8 scripts/repo_guard.py
+
+[OK] SSOT repo root = E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app
+[OK] Khong co .git that trong Dai_Tang_Kinh/daoanh/
+
+> daoanh@1.0.0 dup:ids
+> python -X utf8 scripts/build_progress_data.py --check-dup-ids
+
+─────────────────────────────────────────────
+[DUP-ID] tasks/*.md + docs/**/*.md (đã loại trừ _book/)
+[INFO] 10 ID có bản X- superseded (hợp lệ theo quy ước):
+   T165: tasks/T165-dash-regen-t130-closure.md
+   T166: tasks/T166-dashboard-hygiene-batch.md
+   T168: tasks/T168-t165-spec-v2-review-accepted.md
+   T169: tasks/T169-t165-engine-build.md
+   T172: docs/Mimo-Flash/T172-hanviet-charwise-debug.md
+   T173: docs/Mimo-Flash/T173-person-lineage-tab-merge.md
+   T174: docs/Mimo-Flash/T174-t158-phase0-reuse-first-canonical-guard.md
+   T175: docs/Mimo-Flash/T175-phase0c-canonical-person-identity-audit.md
+   T176: docs/Mimo-Flash/T176-phase0c-rev2-canonical-person-identity-audit.md
+   T220: tasks/T220-vnpa-etl-preserve-relations.md
+[INFO] 1 ID có bản docs/ gắn liền task (`task: tasks/...`):
+   T199: 2 file phụ
+[OK] Không có task ID trùng thật.
+
+> daoanh@1.0.0 audit:honesty
+> python -X utf8 scripts/audit_data_honesty.py 2>&1
+
+====================================================================
+T234 DATA HONESTY GATE — read-only, 7 kiem tra
+CHE DO: ratchet (chi vi pham MOI vuot co so moi FAIL)
+CO SO : docs/audit-honesty-baseline.json
+====================================================================
+  TAG  KT  MO TA                                             HIEN   CO SO  CHENH LECH
+  [NỢ  ] H1 event_evidence.event_id khop event_type             41      41  0 (nợ đã biết)
+         event_evidence khong khop event_type hien tai cua place_timeline_events
+  [NỢ  ] H2 time_mentions.time_authority_id tro tai that        96      96  0 (nợ đã biết)
+         authority goc placeholder reign_era_dict: 96 | authority sai dinh danh khac: 0
+  [NỢ  ] H3 nam suy ra duoc tu note hoac bang trieu dai        969     969  0 (nợ đã biết)
+         khong suy ra duoc (969) + ngoai khoang trieu dai (0) | W1a legacy note 0 + W1a nghiem note 0/label 0 + W1b 0 + W1c 0 | QID 253 + midpoint co nhan 1538; midpoint khong hien khoang (6) va year ngoai khoang (0) van FAIL; vi du: [('PL000000000173', 467), ('PL000000000177', 467), ('PL000000000180', 467)]
+  [NỢ  ] H4 nhan '(N年建)' co khop nguon                         745     745  0 (nợ đã biết)
+         nhan '(N年建)' ma N khong co trong note (menh lenh bia): 745
+  [NỢ  ] H5 source_ref khong tu tham chieu                      55      55  0 (nợ đã biết)
+         source_ref tu tham chieu (source_ref = source)
+  [ OK ] H6 time_periods era/dynasty co start_year               0       0  0
+  [ OK ] H7 dila_id ton tai trong places_dila                    0       0  0
+--------------------------------------------------------------------
+⚠ NỢ DỮ LIỆU ĐÃ BIẾT (theo docs/audit-honesty-baseline.json): H1 41, H2 96, H3 969, H4 745, H5 55
+  → cổng PASS vì KHÔNG có vi phạm MỚI vượt cơ sở. Cổng cứng: npm run audit:honesty:strict
+PASS (ratchet) 7/7 — không vi phạm MỚI; nợ đã biết: 5 kiểm tra.
+
+> daoanh@1.0.0 audit:h3
+> python -X utf8 scripts/audit_h3_conflicts.py 2>&1
+
+======================================================================
+T263 H3 CONFLICTS — read-only phan loai 'pass noi' (r != year)
+======================================================================
+  W1a-legacy pass (note suy ra era-year trong khoang): 0
+    trong do r == year  (bang chung dung nam):          0
+    trong do r != year  (CONFLICT — nam chua du chung):  0
+----------------------------------------------------------------------
+  Nhom B: 0
+  Nhom C: 0
+  Nhom A: 0
+----------------------------------------------------------------------
+  QUYET DINH (timeline_year_support) — tinh theo cap (dila_id, year):
+    Nhom B: 0/0 cap da co quyet dinh · chua co quyet dinh: 0
+    Nhom C: 0/0 cap da co quyet dinh · chua co quyet dinh: 0
+    Nhom A: 0/0 cap da co quyet dinh · chua co quyet dinh: 0
+----------------------------------------------------------------------
+  Y NGHIA: B = year nam trong khoang era text neu (ok, ghi ro support);
+           C = year thuoc era khac (nghi conflation); A = year ngoai moi khoang
+           (ung vien suy xet sua year theo khuon W4). MOI nhom deu can nguoi ra.
+----------------------------------------------------------------------
+[GUARD] Buon bo ghi evidence: dong moi (0) < 50% dong cu (406)
+  Su dung --force de qua qua.
+----------------------------------------------------------------------
+  Vi du moi nhom (toi da 5 dong):
+SACH: khong con dong pass noi r != year — co the chuyen WARN -> STRICT.
+
+> daoanh@1.0.0 lint
+> node scripts/lint-check.js
+
+Running lint checks...
+Checking placevn.html...
+  Script block 1: Syntax OK
+  Script block 2: Syntax OK
+  Script block 3: JSX (skip)
+Checking index.html...
+  Script block 1: Syntax OK
+Checking zenlineage_review.html...
+  Script block 1: Syntax OK
+Checking dila_person_index.html...
+  Script block 1: Syntax OK
+Checking person.html...
+  Script block 1: Syntax OK
+
+Lint checks passed (7 script blocks validated)
+
+> daoanh@1.0.0 test
+> node tests/run-tests.js 2>&1
+
+✅ Tests passed
+
+> daoanh@1.0.0 test:t226
+> python -X utf8 tests/test_t226_ttl_profile.py
+
+
+> daoanh@1.0.0 test:t227
+> python -X utf8 tests/test_t227_db_ttl_export.py
+
+
+> daoanh@1.0.0 test:t232
+> python -B -X utf8 tests/test_t232_generation_engine.py
+
+
+> daoanh@1.0.0 test:t233
+> python -B -X utf8 tests/test_t233_codex_namevi.py
+
+
+> daoanh@1.0.0 test:t253
+> python -X utf8 tests/test_t253_person_import.py 2>&1
+
+  ✓ test_t253_commit_and_fields
+  ✓ test_t253_idempotent_no_duplicate
+  ✓ test_t253_revert_and_list_runs
+  ✓ test_t253_validate
+T253 PASS 4/4
+
+> daoanh@1.0.0 test:t242
+> python -X utf8 tests/test_t242_vn_places_etl.py 2>&1
+
+  ✓ test_t242_bbox
+  ✓ test_t242_geocode_candidates
+  ✓ test_t242_id_namespace
+  ✓ test_t242_merge_apply
+  ✓ test_t242_merge_idempotent
+  ✓ test_t242_parser_disantongiao
+  ✓ test_t242_parser_overpass
+  ✓ test_t242_parser_sparql
+  ✓ test_t242_revert
+T242 PASS 9/9
+
+> daoanh@1.0.0 test:t243
+> python -X utf8 tests/test_t243_place_name_normalize.py 2>&1
+
+T243 PASS 9/9
+
+> daoanh@1.0.0 test:t244
+> python -X utf8 tests/test_t244_matching.py 2>&1
+
+{
+  "n_labeled": 3,
+  "tp": 1,
+  "fp": 1,
+  "fn": 1,
+  "precision": 0.5,
+  "coverage": 0.5,
+  "threshold": "raw auto (trước VN gate)"
+}
+T244 PASS 15/15
+
+> daoanh@1.0.0 test:translation
+> npm run test:t165 && npm run test:t166 && npm run test:t178 && npm run test:t179 && npm run test:t200 && npm run test:t167 && npm run test:t169 && npm run test:t170 && npm run test:t74 && npm run test:t203 && npm run test:t207 && npm run test:t208 && npm run test:t211 && npm run test:t449
+
+
+> daoanh@1.0.0 test:t165
+> python -X utf8 tests/test_t165_style_constitution.py 2>&1
+
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?)
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?)
+✅ test_extract_match_terms
+✅ test_hash_equality_app_t50
+✅ test_hash_invariant_rule_text_edit
+✅ test_hash_label_json_mode_5b
+✅ test_invalidate_no_null_delete_4
+✅ test_invalidate_soft_idempotent_t198
+✅ test_lookup_dual_key
+✅ test_pre_migration_guards_16
+✅ test_select_rules_selector_13
+✅ test_select_rules_terms_filter_10
+✅ test_style_lock_resolver_hash_post_merge_5a
+✅ test_write_cache_insert_unchanged_no_invalidated_row_t198
+✅ test_write_cache_overwrite_invalidated_row_idempotent_t198
+✅ test_write_cache_overwrite_invalidated_row_t198
+✅ test_write_edited_not_replaced_3
+
+T165 style_constitution tests: 15/15 PASS
+
+> daoanh@1.0.0 test:t166
+> python -X utf8 tests/test_t166_canonical_lock.py 2>&1
+
+[canonical_lock] nguon chet do loi schema: no such column: pd.id | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such column: pd.id | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such column: pd.id | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such column: pd.id | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such column: pd.id | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such column: pd.id | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+✅ test_build_canonical_lock_candidate_person
+✅ test_build_canonical_lock_conflict
+✅ test_build_canonical_lock_glossary_term
+✅ test_build_canonical_lock_locked_person
+✅ test_build_canonical_lock_locked_place
+✅ test_build_canonical_lock_mojibake_rejected
+✅ test_build_lock_prompt_section
+✅ test_canonical_invention_detect
+✅ test_common_word_not_invention
+✅ test_extract_maximal_han_runs
+✅ test_is_valid_vi
+✅ test_normalize_compare_fail
+✅ test_normalize_compare_pass
+✅ test_normalize_vi
+✅ test_pre_assert_p_partial
+✅ test_pre_assert_p_stop
+✅ test_pre_assert_uncontrolled_proper_name_stops_both_policies
+✅ test_t166_lock_fingerprint
+
+T166 canonical_lock tests: 18/18 PASS
+
+> daoanh@1.0.0 test:t178
+> python -X utf8 tests/test_t178_gap_d3.py 2>&1
+
+==================================================================
+T178 — gap D3/D8 (T165 SPEC §8 mục 13–17)
+==================================================================
+
+=== Gap 13: persist prompt_tokens (SPEC §8 mục 13) ===
+  PASS  13a persist 1 row
+  PASS  13a prompt_tokens = 3422 (baseline T177 D7)  [got 3422]
+  PASS  13a total_tokens = 3630  [got 3630]
+  PASS  13a source_len đo đúng  [got 160]
+  PASS  13a cache_hit=0 (MISS → có gọi LLM)
+  PASS  13a constitution_hash ghi
+  PASS  13b log_prompt_metrics persist khi có conn  [1→2]
+  PASS  13b return dict giữ nguyên contract  [{'prompt_tokens': 3400, 'completion_tokens': 200, 'total_tokens': 3600}]
+  PASS  13c call site cũ (conn=None) không persist, không crash  [rows=2]
+  PASS  13d bảng chưa migrate → no-op False (không raise)
+  PASS  13e 429 ghi row token=0 (đếm được số lần xịt)
+  PASS  13f KHÔNG hard-gate 150–250 (row >250 vẫn lưu)  [2 row >250]
+  PASS  13g append-only (rows tăng dần, không REPLACE)  [3 rows]
+
+=== Gap 13: retry/backoff 429 config (app.py) ===
+  PASS  13h _T73_429_MAX_RETRY = 2
+  PASS  13i _T73_429_BACKOFF_BASE là số > 0 (tune được, không cố định)  [base=0.5]
+  PASS  13i-bis backoff LŨY THỪA (2 ** (attempt-1))
+  PASS  13j 429 có time.sleep(backoff)
+  PASS  13k 429 hết retry vẫn trả rate_limit (giữ contract)
+  PASS  13l KHÔNG có so sánh hard-gate 250 token trong _t73_call_gemini
+  PASS  13m 429 persist metrics token=0
+
+=== Gap 14: rules_outdated (SPEC §8 mục 14) ===
+  PASS  14a row edited → rules_outdated=True
+  PASS  14b write_cache trả replaced=False khi row edited
+  PASS  14b bản human được giữ nguyên  [got tự nhiên]
+  PASS  14c auto + hash khớp → outdated=False
+  PASS  14d auto + hash lệch → outdated=True
+  PASS  14e constitution_hash NULL → outdated=True (badge hiện, không im lặng)
+  PASS  14f row None → False
+
+=== Gap 15: invalidate batch giới hạn (SPEC §8 mục 15) ===
+  PASS  15a setup 20 row chưa invalidated  [20]
+  PASS  15b limit=5 → chỉ invalidate 5 row  [5]
+  PASS  15c còn lại 15 row (không mass 20)  [15]
+  PASS  15d full (limit=0) → invalidate hết (tương thích cũ)  [15]
+  PASS  15e source_type + limit=2 → đúng 2 row person_bio  [rc=2 total=2]
+  PASS  15f app.py nhận param limit
+  PASS  15g app.py trả limited + limit trong response
+  PASS  15h limit phải >= 0 (validate)
+
+=== Gap 16: badge rules_outdated + hash cols (SPEC §8 mục 16) ===
+  PASS  16a write_cache ghi constitution_hash
+  PASS  16b write_cache ghi selected_rule_codes (CSV)  [got R_NATURAL,NO_ADDITION]
+  PASS  16c write_cache ghi glossary_hash
+  PASS  16d selected_rule_codes round-trip list
+  PASS  16e row mới → outdated=False (hash khớp)
+  PASS  16f rules_outdated hardcode False chỉ còn initializer (không phải read site)  [2 chỗ]
+  PASS  16g app.py dùng _t165_is_rules_outdated ở read site  [6 site]
+
+=== Gap 16: phân biệt 3 trạng thái badge ===
+  PASS  16h0 bản sửa tay → outdated  [expected True, got True]
+  PASS  16h1 hash NULL → chưa xác minh (outdated=True theo is_rules_outdated)  [expected True, got True]
+  PASS  16h2 hash khớp → ok  [expected False, got False]
+  PASS  16i server trả outdated_reason
+  PASS  16j UI phân biệt edited / mismatch / unverified
+  PASS  16k unverified dùng badge xám (không cảnh báo giả)
+  PASS  16l UI có ô giới hạn batch (gap 15)
+  PASS  16m UI gửi limit khi invalidate
+
+=== BUG-001: route /daoanh/api/admin/translate/invalidate ===
+  PASS  BUG-001 @app.route có trong source
+    [T130+T131] routes additive da dang ky
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+  PASS  BUG-001 route đã đăng ký vào url_map  [392 routes]
+  PASS  BUG-001 GET admin/translation-cache có trong url_map
+
+=== Gap 17: Test Case 2 fixture THẬT A009460 丹霞天然 (§8 mục 17) ===
+  PASS  17a fixture A009460 có trong vn_person_authority
+  PASS  17b name_zh = 丹霞天然  [丹霞天然]
+  PASS  17c name_vi = Thiên Nhiên  [Thiên Nhiên]
+  PASS  17d status = verified  [verified]
+  PASS  17e source A (có 天然) chọn R_NATURAL  [['R_NATURAL', 'NO_ADDITION']]
+  PASS  17f source B (không 天然) KHÔNG chọn R_NATURAL  [['NO_ADDITION']]
+  PASS  17g source B vẫn chọn rule static NO_ADDITION  [['NO_ADDITION']]
+  PASS  17h dòng A HIT khi hash khớp (from_cache, 0 call LLM)
+  PASS  17i dòng A selected_rule_codes chỉ R_NATURAL
+  PASS  17j Case 2: dòng A (dính rule đã sửa) → MISS  [got None]
+  PASS  17k ĐÍNH CHÍNH: sửa rule mà B KHÔNG chọn ⇒ hash THẬT của B không đổi  [378ff63564e99fc4 -> 378ff63564e99fc4]
+  PASS  17k-bis sửa rule mà A CÓ chọn ⇒ hash THẬT của A đổi  [3847e24a1cfa05cd -> 835df6dc1795f093]
+  PASS  17l Case 2b: sửa rule static → dòng B cũng MISS (tất cả MISS)  [got None]
+  PASS  17m Case 2c: thêm rule 汴京 KHÔNG match source A (select_rules đúng)  [['R_NATURAL', 'NO_ADDITION']]
+  PASS  17m-bis Case 2c (ĐÍNH CHÍNH): thêm rule không match KHÔNG làm đổi hash A THẬT  [7f770c1973da8585 -> 7f770c1973da8585]
+  PASS  17n không dùng fixture bịa 達磨/面壁
+
+==================================================================
+KẾT QUẢ: 69/69 PASS
+==================================================================
+
+> daoanh@1.0.0 test:t179
+> python -X utf8 tests/test_t179_phase8.py 2>&1
+
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: canonical_decision | sql=SELECT COALESCE(pd.name_zh, pj.name_zh, cd.entity_ref) AS sf, cd.canonical_name_vi, cd.entity_ref, cd.authority_rank, cd
+[canonical_lock] nguon chet do loi schema: no such table: person_display_names | sql=SELECT COALESCE(display_name_zh, authority_name_zh) AS sf, COALESCE(authority_name_vi, display_name_vi) AS cvi, COALESCE
+[canonical_lock] nguon chet do loi schema: no such table: vn_person_authority | sql=SELECT name_zh, name_vi, dila_id FROM vn_person_authority WHERE status = 'verified' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: person_name_correction | sql=SELECT name_zh, current_vi, person_id FROM person_name_correction WHERE status = 'applied' AND name_zh IN (?,?,?)
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_final, dila_id, approved_by FROM name_vi_map WHERE name_vi_final IS NOT NULL AND name_zh IN (?,?
+[canonical_lock] nguon chet do loi schema: no such table: name_vi_map | sql=SELECT name_zh, name_vi_auto FROM name_vi_map WHERE name_vi_auto IS NOT NULL AND name_vi_final IS NULL AND name_zh IN (?
+[canonical_lock] nguon chet do loi schema: no such table: namevi_map_places | sql=SELECT name_zh, name_vi, dila_id, confidence FROM namevi_map_places WHERE vn_name_status = 'reviewed' AND name_zh IN (?,
+[canonical_lock] nguon chet do loi schema: no such table: people | sql=SELECT name_zh, name_vi, id, source_origin FROM people WHERE name_vi IS NOT NULL AND name_zh IN (?,?,?)
+======================================================================
+T179 — T165 Phase 8 + ĐÍNH CHÍNH kết luận "KNOWN ARCH GAP" của T178
+======================================================================
+
+=== A–C. §8 mục 2/2b/2c — dùng constitution_hash THẬT ===
+  PASS  A0 A chọn 2 rule, B chỉ chọn static  [A=['NO_ADDITION', 'R_NATURAL'] B=['NO_ADDITION']]
+  PASS  A1 fast path: A HIT
+  PASS  A2 fast path: B HIT
+  PASS  §8.2 [nguồn sự thật] sửa rule R ⇒ hash của A ĐỔI
+  PASS  §8.2 [đính chính] sửa rule R (B KHÔNG chọn) ⇒ hash của B **KHÔNG đổi**  [378ff63564e99fc4 -> 378ff63564e99fc4]
+  PASS  §8.2a dòng A (DÌNH rule bị sửa) → MISS
+  PASS  §8.2b dòng B (KHÔNG dính rule bị sửa) → **HIT**  [got B dịch]
+  PASS  §8.2b-1 sửa rule static ⇒ A MISS
+  PASS  §8.2b-2 sửa rule static ⇒ B MISS (mọi dòng dùng static đều miss)
+  PASS  §8.2b-3 hash của B ĐÃ đổi (static luôn được chọn)
+  PASS  §8.2c-1 thêm rule 汴京 KHÔNG match A ⇒ không vào selection  [['NO_ADDITION', 'R_NATURAL']]
+  PASS  §8.2c-2 thêm rule không liên quan ⇒ hash KHÔNG đổi ⇒ A HIT 100%, 0 call LLM
+  PASS  §8.2c-3 tương tự B HIT
+
+=== D–E. §8 mục 3 (glossary) + 5b (label/json) — KHÔNG được nới ===
+  PASS  D0 glossary 天然 được inject (source A chứa 天然)  [['天然']]
+  PASS  D1 fast path HIT
+  PASS  D2 đổi glossary ĐÃ inject ⇒ MISS
+  PASS  D3 glossary KHÔNG inject vào B ⇒ B vẫn HIT (lọc đúng)
+  PASS  E1 cùng label ⇒ HIT
+  PASS  E2 đổi prompt_label ⇒ MISS
+  PASS  E3 đổi json_mode ⇒ MISS
+
+=== F. Phase 8a: XML boundary + version bump ===
+  PASS  F0 PROMPT_FORMAT_VERSION = t165-v2  [t165-v2]
+  PASS  F1 có thẻ <rules>
+  PASS  F1 có thẻ </rules>
+  PASS  F1 có thẻ <glossary>
+  PASS  F1 có thẻ </glossary>
+  PASS  F1 có thẻ <exemplars>
+  PASS  F1 có thẻ </exemplars>
+  PASS  F1 có thẻ <source>
+  PASS  F1 có thẻ </source>
+  PASS  F2 <source> chứa NGUYÊN BẢN
+  PASS  F3 chỉ dẫn đóng trước <source>
+  PASS  F4 escape & < > (không phá thẻ)
+  PASS  F5 json_mode giữ yêu cầu JSON duy nhất
+  PASS  F6 json_mode KHÔNG bọc kết quả trong thẻ giả
+  PASS  F7 xml=False → khung v1 (đo token so sánh)
+
+=== G. Phase 8b: Trie/Aho-Corasick có gate ===
+  PASS  G0 TRIE_MIN_TERMS = 1000  [1000]
+  PASS  G1 25 term (<1000) ⇒ mode = substring  [substring]
+  PASS  G2 trie ≡ substring (kết quả giống hệt)  [['上堂', '嘉州', '天然', '居士', '慧可', '江西']]
+  PASS  G3 bắt đúng 6 term trong fixture  [['上堂', '嘉州', '天然', '居士', '慧可', '江西']]
+  PASS  G4 không bắt nhầm term không có
+  PASS  G5 1.200 term ⇒ mode = trie (auto-bật)  [trie]
+  PASS  G6 trie 1.200 term tìm đúng
+  PASS  G7 matcher rỗng an toàn
+  PASS  G8 select_rules thật (76-term) vẫn chọn đúng
+  PASS  G9 1.000 term thật trong DB ⇒ match thì chọn
+  PASS  G10 1.000 term ⇒ không match thì loại
+
+=== H. Phase 8c: đo token trước/sau XML ===
+  v1 (không XML): 1106 token | v2 (XML): 955 token | chênh -151 (-13.7%)
+  cơ sở đo: ƯỚC LƯỢNG (Hán 2×, ASCII 1×) — không có tiktoken
+  PASS  H1 đo được cả 2 khung  [v1=1106 v2=955]
+  PASS  H2 XML không làm prompt dài hơn quá nhiều  [-13.7%]
+  PASS  H3 ghi data/t179_token_measure.json
+
+======================================================================
+KẾT QUẢ: 49/49 PASS
+======================================================================
+
+> daoanh@1.0.0 test:t200
+> python -X utf8 tests/test_t200_vnpa_tiebreak.py 2>&1
+
+=== 1) Thu tu uu tien status dung chu ky te ===
+   OK   rank verified = 0
+   OK   rank pending = 1
+   OK   rank auto_ttl = 2
+   OK   rank alias_vi_suffix = 3
+   OK   rank alias_zh_match = 4
+   OK   ORDER BY co tie-break id ASC
+
+=== 2) lookup chon dung dong theo thu tu status ===
+   OK   A1 -> dong status=verified
+   OK   A1 -> dong status=pending
+   OK   A1 -> dong status=auto_ttl
+   OK   A1 -> dong status=alias_vi_suffix
+   OK   A1 -> dong status=alias_zh_match
+
+=== 3) TIE-BREAK: cung status -> phai chon theo id ASC (deterministic) ===
+   OK   4 dong cung status -> id nho nhat (id_aa)
+
+=== 4) DETERMINISM: chay 50 lan phai ra cung ket qua ===
+   OK   50 lan x 5 nhom -> chi 1 ket qua duy nhat
+
+=== 5) map_dila_to_name: 1 nhom nhieu dong -> chi giu 1 dong ===
+   OK   A3 -> 'Pending Name' (pending > auto_ttl > alias)
+   OK   A4 -> 'Lon' (bo dong rong)
+   OK   dila_id rong bi lo
+   OK   map deterministic
+
+=== 6) Bien edge: input rong / khong ton tai / bang thieu cot ===
+   OK   dila_id=None -> None
+   OK   dila_id='' -> None
+   OK   bang khong ton tai -> None (khong nem)
+   OK   map tren bang khong ton tai -> {} rong
+   OK   has_duplicate_dila tren bang khong ton tai -> (False, 0)
+
+=== 7) DB that (read-only): A001984 + dem nhom trung ===
+   OK   A001984 tra dung (chi 1 dong)
+   info: con 36 nhom dila_id trung (tie-break da xac dinh)
+   OK   map_dila_to_name tren DB that deterministic
+   OK   map khong rong
+
+============================================================
+T200 tie-break test: 25/25 PASS
+============================================================
+
+> daoanh@1.0.0 test:t167
+> python -X utf8 tests/test_t167_benchmark.py 2>&1 && python -X utf8 tests/test_t167_gold.py 2>&1
+
+=== TEST BUDDHIST-HAN-VI-BENCH (Phase 7) ===
+-- 1) Déterminisme select --
+✅ Chọn 500/500 passage thật (seed=20260925) → E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\benchmark\buddhist_han_vi_bench.json
+   Phân bố: {'verse': 50, 'repetitive_canonical': 50, 'titles': 50, 'context_dependent': 50, 'long_syntax': 50, 'person_names': 50, 'place_names': 50, 'buddhist_terminology': 50, 'polysemy': 50, 'ordinary_classical': 50}
+✅ Chọn 500/500 passage thật (seed=20260925) → E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\benchmark\buddhist_han_vi_bench.json
+   Phân bố: {'verse': 50, 'repetitive_canonical': 50, 'titles': 50, 'context_dependent': 50, 'long_syntax': 50, 'person_names': 50, 'place_names': 50, 'buddhist_terminology': 50, 'polysemy': 50, 'ordinary_classical': 50}
+  ✅ seed cố định → cùng 500 passage
+-- 2) Dữ liệu thật --
+  ✅ đủ 500 items
+  ✅ passage độc nhất
+  ✅ đúng 10 category trong set
+  ✅ mỗi passage có features dict đầy đủ
+  ✅ meta tổng passage thật = 9316
+  ✅ all items thuộc T50n2060
+-- 3) Phân bố category --
+  ✅ mỗi category ≥ 40
+  ✅ tổng = 500
+-- 4) Khớp DB thật --
+  ✅ số passage trong DB khớp meta
+-- 5) load_set / JSON round-trip --
+  ✅ file benchmark tồn tại và 500 items
+-- 6) score_all --
+✅ Scored 500 items → C:\Users\NAMTHI~1\AppData\Local\Temp\t167_bench_9eo9y6bs\scored_test.json
+   total: 500
+   with_translation: 2
+   terminology_accuracy_avg: None
+   terminology_accuracy_n: 0
+   canonical_names_accuracy_avg: None
+   canonical_names_accuracy_n: 0
+   omission_addition_dist: {'PASS': 2, 'REVIEW': 0, 'FAIL': 0}
+  ✅ scored có 500 items
+  ✅ scored meta kế thừa size=500
+  ✅ human metrics luôn None (không bịa)
+  ✅ item có bản dịch → chạy validator
+
+PASS=15 FAIL=0
+=== TEST GOLD EXPORT (Phase 8) ===
+-- fixture thật: daoanh:cbeta:T50n2060:0425b:p0001 | polysemy | seq 1 --
+-- 1) no human score --
+  ✅ export 0 GOLD row khi không có human score
+  ✅ summary ghi nhận skip đúng
+  ✅ summary consistent
+-- 2) approved passage --
+  ✅ 1 GOLD row cho passage approved
+  ✅ record có source
+  ✅ record có final_translation (Văn bản Việt không rỗng)
+  ✅ record có provenance passage_id/seq
+  ✅ record có ruleset_id/version
+  ✅ record có review đầy đủ → human_acceptance=5
+  ✅ no draft fields leak (source_type cbeta)
+-- 3) acceptance < ngưỡng --
+  ✅ 0 GOLD row khi acceptance < ngưỡng
+  ✅ skip reason nổi rõ
+-- 4) approved nhưng chưa có bản dịch --
+  ✅ 0 GOLD row cho approved passage chưa có bản dịch
+  ✅ skip reason có translation chưa có
+-- 5) deterministic --
+  ✅ chạy 2 lần cùng kết quả
+
+PASS=15 FAIL=0
+
+> daoanh@1.0.0 test:t169
+> python -X utf8 tests/test_t169_classify_diff.py 2>&1
+
+=== T169 classify_diff — 3 fixture bắt buộc (SPEC §3.9) ===
+  ✅ fixture 降魔窟: Giáng Ma Quật vs Hàng Ma Quật → POLYPHONIC_CHAR
+  ✅ fixture 白馬寺: Bạch Mã Tự vs Chùa Bạch Mã → TAXONOMY_VARIANT
+  ✅ fixture 少林寺: Thiếu Lâm Tự vs Thiếu Lâm Tự → NONE
+
+=== Extra: word-boundary TAXONOMY (P1-2 — không substring) ===
+  ✅ same text → NONE (không false taxonomy)
+  ✅ 寺 tự↔chùa → TAXONOMY_VARIANT
+  ✅ POLYPHONIC ưu tiên trước TAXONOMY
+  ✅ Tự↔Chùa cùng chữ 寺 → TAXONOMY
+
+=== Extra: giữ nguyên cặp nest bị cấm (P1-2) ===
+  ✅ không có cặp nest viện/tự viện
+
+=== Extra: PHONETIC_MISMATCH fallback ===
+  ✅ lệch phiên âm (không đa âm) → PHONETIC_MISMATCH
+  ✅ 長 đa âm trường↔tràng → POLYPHONIC_CHAR
+
+=== Extra: validate input ===
+  ✅ name_zh không Hán → raise
+
+T169 classify_diff: 11 PASS · 0 FAIL
+
+> daoanh@1.0.0 test:t170
+> python -X utf8 tests/test_t170_person_classify.py 2>&1 && python -X utf8 tests/test_t170_verify_pipeline.py 2>&1
+
+=== T170 R2 — split_brackets (stack lồng) ===
+  ✅ R2 lồng: clean_zh="一行"
+  ✅ R2 lồng: meta giữ cả 2 span
+  ✅ R2 lồng: is_uncertain=0
+  ✅ R2 chưa đóng ngoặc → is_uncertain=1
+  ✅ R2 chưa đóng ngoặc: clean sạch
+
+=== T170 R3 — fold_cjk ===
+  ✅ R3 惠→慧
+  ✅ R3 không đổi khi canonical
+
+=== T170 R4 — extract_vi_core (title loop multi-token) ===
+  ✅ R4 prefix: "Tam Tạng Pháp Sư Huyền Trang" → "huyen trang"
+  ✅ R4 suffix: "Huệ Năng Thiền Sư" → "hue nang"
+  ✅ R4 không cắt khi không có title
+
+=== T170 classify_person_diff — ưu tiên Sanskrit / title / fallback ===
+  ✅ Sanskrit khớp → NONE + auto_verified_sanskrit
+  ✅ Sanskrit reading lệch → SANSKRIT_VARIANT
+  ✅ indicator 菩提 không khớp registry → SANSKRIT_UNMAPPED (needs_lexicon_review)
+  ✅ core bằng nhau khác title → TITLE_VARIANT + auto_title_aligned
+  ✅ fallback R1: đa âm 降 giáng↔hàng → POLYPHONIC_CHAR
+  ✅ format-only lệch → FORMAT_NORMALIZED + auto_verified
+  ✅ đồng nhất → NONE
+
+T170 classify_person_diff: 17 PASS · 0 FAIL
+=== T170 R6 — red-team parse (flat/nested/fence/regex/empty) ===
+  ✅ R6 fence+flat → trích "Khai Nguyên Tự"
+  ✅ R6 nested dict → trích "Đàm Loan"
+  ✅ R6 JSON hỏng → regex salvage 
+  ✅ R6 rỗng → empty_response (API_EMPTY_RESPONSE)
+  ✅ R6 không trans_vi → ok=False
+
+=== T170 R5 — connection pragma (bỏ WAL, busy_timeout=10000) ===
+  ✅ R5 busy_timeout = 10000
+  ✅ R5 journal_mode KHÔNG còn WAL (write-mode)
+
+=== T170 fix regression — TAXONOMY self-match (T169) ===
+  ✅ cặp 殿 điện/điện self-match → NONE (không false conflict)
+  ✅ Tự↔Chùa thật → TAXONOMY_VARIANT (bảo toàn)
+
+=== T170 pipeline — place INTEGER cursor + G4 de-dupe (--force) ===
+🚀 T170 verify — entity=place (ĐỊA DANH (places_dila)) · model=qwen/qwen3.8-27b · mock=ON · limit=3
+   batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 (R7) · parse trans_vi flat (R6)
+
+=== RUN XONG (entity=place · batch_id=t169-20261029_194331) ===
+  Processed: 3 · thời gian 0.0 phút · avg RPM 12983.2
+  diff_type/status:
+    NONE: 3
+    verified: 3
+  Tokens: prompt 30 · completion 15 · total 45
+  Window max 45/60s (TPM 6000) ✅ dưới
+  Chạy típ: --force để xử lý lại conflict/api_error/pending; verified/approved_dict không bao giờ.
+  ✅ place run 1: 3 verified (INTEGER id > 0)
+🚀 T170 verify — entity=place (ĐỊA DANH (places_dila)) · model=qwen/qwen3.8-27b · mock=ON · limit=3
+   batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 (R7) · parse trans_vi flat (R6)
+
+=== RUN XONG (entity=place · batch_id=t169-20261029_194331) ===
+  Processed: 0 · thời gian 0.0 phút · avg RPM 0.0
+  diff_type/status:
+  Tokens: prompt 0 · completion 0 · total 0
+  Window max 0/60s (TPM 6000) ✅ dưới
+  Chạy típ: --force để xử lý lại conflict/api_error/pending; verified/approved_dict không bao giờ.
+  ✅ place run 2: 0 (G4 skip kể cả --force)
+
+=== T170 pipeline — person side-car extras + de-dupe ===
+🚀 T170 verify — entity=person (NHÂN VẬT (people)) · model=qwen/qwen3.8-27b · mock=ON · limit=5
+   batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 (R7) · parse trans_vi flat (R6)
+
+=== RUN XONG (entity=person · batch_id=t170-20261029_194331) ===
+  Processed: 4 · thời gian 0.0 phút · avg RPM 20829.6
+  diff_type/status:
+    NONE: 4
+    auto_verified: 1
+    auto_verified_sanskrit: 3
+  Tokens: prompt 40 · completion 20 · total 60
+  Window max 60/60s (TPM 6000) ✅ dưới
+  Chạy típ: --force để xử lý lại conflict/api_error/pending; verified/approved_dict không bao giờ.
+  ✅ person run 1: 4 rows
+  ✅ R2 meta ghi vào side-car: clean_zh=一行, meta=俗名張遂, uncertain=0
+  ✅ person auto status: A000002 = auto_verified_sanskrit
+🚀 T170 verify — entity=person (NHÂN VẬT (people)) · model=qwen/qwen3.8-27b · mock=ON · limit=5
+   batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 (R7) · parse trans_vi flat (R6)
+
+=== RUN XONG (entity=person · batch_id=t170-20261029_194331) ===
+  Processed: 0 · thời gian 0.0 phút · avg RPM 0.0
+  diff_type/status:
+  Tokens: prompt 0 · completion 0 · total 0
+  Window max 0/60s (TPM 6000) ✅ dưới
+  Chạy típ: --force để xử lý lại conflict/api_error/pending; verified/approved_dict không bao giờ.
+  ✅ person run 2: 0 (G4 skip auto_* kể cả --force)
+
+T170 verify pipeline (red-team): 15 PASS · 0 FAIL
+
+> daoanh@1.0.0 test:t74
+> python -X utf8 tests/test_t74_groq_translate_places.py 2>&1
+
+=== T74 unit — guard Hán / normalize / prompt ===
+  ✅ is_han phát hiện "塔瑞"
+  ✅ is_han bỏ qua tiếng Việt
+  ✅ normalize bỏ fence + nhãn "Bản dịch:"
+  ✅ output còn Hán → still_han (giữ bản gốc)
+  ✅ rỗng → empty
+  ✅ prompt chứa name_zh/name_vi/category/note
+
+=== T74 stats trước ===
+  ✅ stats: total 5 · pending 4 (dila_note_zh) · done 1 (t74_groq)
+
+=== T74 resume marker — mock run limit=2 ===
+ℹ  dila_note_zh (chưa dịch): 4 row · t74_groq luôn skip (chạy --force để lại).
+🚀 T74 place-desc VI · model=qwen/qwen3.8-27b · mock=ON · limit=2 · force=off
+   batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 · guard Hán còn → huỷ
+  ✓ [1] PL0001 Tháp Thụy → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Tháp Thụy
+  ✓ [2] PL0002 A Dục Vương Trụ → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh A Dục Vươ
+
+=== RUN XONG (T74 · batch 20261029_194336) ===
+  Processed 2 · 0.0 phút · avg 4777.1 RPM
+   translated: 2
+  Tokens: prompt 43 · completion 46
+  Rerun tiếp: row còn lại tự resume (skip t74_groq). Revert: UPDATE place_desc_vi_draft SET desc_vi_draft=d.note, desc_source="dila_note_zh" FROM places_dila d WHERE d.id=place_desc_vi_draft.place_id AND place_desc_vi_draft.desc_source="t74_groq".
+  ✅ 2 row được dịch → t74_groq
+  ✅ pending còn 2
+  ✅ bản dịch mock không còn Hán + char_count>0 + desc_source=t74_groq
+
+=== T74 resume — run lại dịch nốt (skip t74_groq) ===
+ℹ  dila_note_zh (chưa dịch): 2 row · t74_groq luôn skip (chạy --force để lại).
+🚀 T74 place-desc VI · model=qwen/qwen3.8-27b · mock=ON · limit=all · force=off
+   batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 · guard Hán còn → huỷ
+  ✓ [1] PL0003 Thiếu Lâm Tự → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Thiếu Lâm
+  ✓ [2] PL0005 Vùng Tarai → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Vùng Tara
+
+=== RUN XONG (T74 · batch 20261029_194336) ===
+  Processed 2 · 0.0 phút · avg 9446.6 RPM
+   translated: 2
+  Tokens: prompt 46 · completion 45
+  Rerun tiếp: row còn lại tự resume (skip t74_groq). Revert: UPDATE place_desc_vi_draft SET desc_vi_draft=d.note, desc_source="dila_note_zh" FROM places_dila d WHERE d.id=place_desc_vi_draft.place_id AND place_desc_vi_draft.desc_source="t74_groq".
+  ✅ resume: dịch 2 row còn lại → done=5, pending=0
+  ✅ row tiếng Anh cũng được dịch (không giữ nguyên bản gốc Eng)
+  ✅ run lại: 0 row (skip hết, không gọi API)
+
+=== T74 --force single-pass (guard loop vô hạn) ===
+🚀 T74 place-desc VI · model=qwen/qwen3.8-27b · mock=ON · limit=5 · force=ON
+   batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 · guard Hán còn → huỷ
+  ✓ [1] PL0001 Tháp Thụy → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Tháp Thụy
+  ✓ [2] PL0002 A Dục Vương Trụ → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh A Dục Vươ
+  ✓ [3] PL0003 Thiếu Lâm Tự → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Thiếu Lâm
+  ✓ [4] PL0004 Khai Nguyên Tự → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Khai Nguy
+  ✓ [5] PL0005 Vùng Tarai → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Vùng Tara
+
+=== RUN XONG (T74 · batch 20261029_194336) ===
+  Processed 5 · 0.0 phút · avg 34478.5 RPM
+   translated: 5
+  Tokens: prompt 173 · completion 114
+  Rerun tiếp: row còn lại tự resume (skip t74_groq). Revert: UPDATE place_desc_vi_draft SET desc_vi_draft=d.note, desc_source="dila_note_zh" FROM places_dila d WHERE d.id=place_desc_vi_draft.place_id AND place_desc_vi_draft.desc_source="t74_groq".
+  ✅ force: xử lý lại row đã t74_groq, đúng single-pass (không lặp)
+
+=== T74 guard UPDATE không ghi đè desc_source lạ ===
+  ✅ UPDATE với desc_source=other → 0 row affected (bảo vệ dữ liệu)
+
+=== T74 revert SQL — khôi phục bản gốc từ places_dila.note ===
+  ✅ revert: tất cả quay về dila_note_zh
+  ✅ revert: nội dung khớp note gốc (Hán)
+  ✅ revert: trả lại tiếng Anh gốc
+
+T74 groq translate places (red-team): 18 PASS · 0 FAIL
+
+> daoanh@1.0.0 test:t203
+> python -X utf8 tests/test_t203_ttl_guard.py 2>&1
+
+=== 1) classifier L1/L2 ===
+   OK   L1 + L2 > 0 (phai bat duoc loi hien tai)
+   OK   TIER-3 > 0 (danh xung hop le duoc giu lai)
+   OK   khong file nao vua TIER-3 vua MOVE
+
+=== 2) match_person: uu tien Han truoc tail, tail >= 3 tu ===
+   OK   co Han -> dung Han, KHONG dung tail
+   OK   khong co Han + ten 4 tu -> tail3 khong khop tail2
+  [build_lookup] Bỏ qua 4232 tên Việt + 3638 tên Hán ambiguous (nhiều vị cùng tên)
+   OK   dila_id nhieu slug GIAM sau khi sua thu tu (7 -> 3)
+   OK   con lai <= 8 nhom
+
+=== 3) preflight ===
+   OK   preflight CHAN (co L1/L2)
+   OK   L3 da ve 0 — moi file TTL parse duoc (T205)
+   OK   con L1 va L2 (nhan sai — Admin tu chinh)
+   OK   canh bao chi co ma L4/L5
+   OK   L5 chi dem slug non-alias (alias la co y)
+   OK   exit code: BLOCK=1 WARN=2 CLEAN=0
+
+=== 4) T206 mojibake Ð (U+00D0) ===
+   OK   L4 da ve 0 — het ky tu Ð trong TTL
+   OK   BAD = U+00D0 (LATIN CAPITAL LETTER ETH)
+   OK   GOOD = U+0110 (LATIN CAPITAL LETTER D WITH STROKE)
+   OK   co guard vi tri cau truc (URI/prefix/slug/zh)
+   OK   thay the chi dung ky tu loi
+   OK   khong dung Han tu
+--- VERIFY ---
+   con Ð : 0
+   corpus parse: 1035 OK / 0 loi
+   => PASS
+   OK   corpus parse 0 loi (1035 file)
+
+=== 5) sync DB idempotent ===
+   OK   mọi dòng DB đều khớp hoặc đã được đánh dấu cần sửa
+   OK   ứng viên DB > 0
+   (ứng viên DB: 11 đã đúng / 10 CẦN SỬA nhãn / 1 file chưa có trong DB) — 10 dòng cần chạy: python -X utf8 scripts/t203_sync_vnpa_name.py --apply
+
+=== 6) T209 — L6 file rỗng / L7 subject trùng giữa các file ===
+   OK   L6 bat duoc file 0 byte
+   OK   L6 khong bao loi tren file tot
+   OK   L7 bat duoc subject trung 2 file
+   OK   L7 khong bao loi khi moi slug la duy nhat
+   OK   L7 chi lay subject DAU TIEN (khoi phu khong bi dem)
+
+==================================================================
+T203/T204 test: 27/27 PASS
+==================================================================
+
+> daoanh@1.0.0 test:t207
+> python -X utf8 tests/test_t207_db_mojibake.py
+
+=== 1) hàm normalize_text lấy từ app.py (AST) khớp bản gốc ===
+   OK   app.py có hàm normalize_text()
+   OK   AST lấy đúng thân hàm (chứa .replace Đ)
+   OK   normalize_text("Đoạn lạc") == "doan lac"
+   OK   normalize_text("Ðoạn lạc") == "ðoan lac" (sai — đây là lỗi gốc)
+
+=== 2) TRƯỚC khi sửa ===
+   OK   fixture có ký tự Ð
+   OK   tra cứu chữ Đ HỎNG trước khi sửa (0 row)
+
+=== 3) --apply ===
+   OK   cả 5 row lexicon fixture đều có Ð (thiết kế)
+   OK   lexicon row sửa = 5
+   OK   key_norm tính lại = 5
+   OK   text row sửa > 0
+
+=== 4) SAU khi sửa ===
+   OK   0 ký tự Ð còn lại (20 cột + lexicon + FTS)
+   OK   tra cứu chữ Đ KHỚP sau khi sửa (>=1 row)
+   OK   round-trip key_norm cho TỪNG row đã sửa (5 row)
+   OK   FTS5 integrity-check rank=1 (index khớp bảng nội dung)
+   OK   không có rowid ghi trùng trong FTS index
+   OK   số ký tự CJK không đổi
+   OK   tổng row 11 bảng không đổi
+   OK   PRAGMA integrity_check = ok
+   OK   Hán tự giữ nguyên sau khi thêm
+
+=== 5) REVERT khôi phục đúng ===
+   OK   sau revert, ký tự Ð quay lại đúng số lượng cũ
+   OK   sau revert, tra cứu lại HỎNG như cũ (0 row)
+
+==================================================================
+T207 test: 21/21 PASS
+==================================================================
+
+> daoanh@1.0.0 test:t208
+> python -X utf8 tests/test_t208_lexicon_altkey.py
+
+=== 1) TRƯỚC migration ===
+   OK   chưa có cột key_norm_alt
+   OK   số row lexicon = 9
+   kế hoạch: +2 khoá phụ, bỏ 5 mơ rồng
+   OK   chỉ 2 row hỏng-duy-nhất được thêm khoá phụ
+   OK   không thêm khoá phụ cho các cặp mơ rồng
+
+=== 2) --apply (additive) ===
+   OK   đã có cột key_norm_alt
+   OK   key_norm KHÔNG bị sửa (additive thuần)
+   OK   số row không đổi
+
+=== 3) LỚP CHẶN 1 — không bao giờ trả sai ===
+   OK   Tứ Độ KHÔNG bị trả nhầm Tự Do (Tứ Độ ≠ Tự Do)
+   OK   Tam Đức KHÔNG bị trả nhầm Tam Dục (Tam Đức ≠ Tam Dục)
+   OK   Đại Tu / Đại Từ / Đại Tự mơ rồng → KHÔNG trả kết quả sai
+
+=== 4) LỚP CHẶN 2 — không trùng khoá của term khác ===
+   OK   0 khoá phụ trùng khoá hiện có của term khác
+   OK   mọi khoá phụ trỏ tới đúng 1 term
+
+=== 5) HÀNH VI HIỆN TẠI KHÔNG ĐỔI + tra cứu mới ===
+   OK   mục ĐÃ tìm được vẫn tìm bằng key_norm (không đổi đường)
+   OK   mục HỎNG trước đây giờ tìm được qua key_norm_alt
+   OK   Vô Ni cũng tìm được qua khoá phụ
+
+=== 6) --revert = DROP COLUMN, mất 0 dữ liệu ===
+   OK   cột đã bị DROP
+   OK   key_norm sau revert y hệt trước migration
+   OK   số row sau revert không đổi
+   OK   PRAGMA integrity_check = ok
+
+==================================================================
+T208 test: 19/19 PASS
+==================================================================
+
+> daoanh@1.0.0 test:t211
+> python -X utf8 tests/test_t211_wrong_subject_uri.py
+
+   OK   nhóm AN TOÀN có đúng 1 file
+   OK   nhóm CẦN ADMIN có TS-Di-Phong-Kinh-Ninh.ttl
+   OK   file có URI đúng không bị xếp nhầm vào nhóm sửa
+   OK   URI mới = slug theo tên file
+
+--- repair() chỉ đổi URI, giữ cấu trúc ---
+   OK   nội dung đổi (không phải no-op)
+   OK   subject đã đổi URI
+   OK   P1_is_identified_by cũng đồng bộ (không còn URI cũ)
+   OK   nhãn giữ nguyên
+   OK   file parse được sau khi sửa
+   OK   số triple KHÔNG đổi (3)
+
+--- revert ---
+   OK   revert khôi phục ĐÚNG nội dung gốc
+   OK   file parse được sau revert
+
+--- URI mới không va chạm slug đang có ---
+   OK   URI mới khác URI cũ
+   OK   URI mới không trùng slug nào khác trong thư mục
+
+--- corpus THẬT: nhóm an toàn đã hết chưa ---
+   OK   corpus thật: không còn file URI sai ở nhóm an toàn
+   nhóm CẦN ADMIN còn 0 file (chờ Admin quyết)
+
+==================================================================
+T211 test: 15/15 PASS
+==================================================================
+
+> daoanh@1.0.0 test:t449
+> python -X utf8 tests/test_t449_audit_h3_guard.py 2>&1
+
+  OK. A1 exit 0 (WARN, không fail pipeline)
+  OK. A2 in canh bao [GUARD]
+  OK. A3 khong ghi de tsv (SHA256 giu nguyen)
+  OK. A4 khong ghi de summary (SHA256 giu nguyen)
+  OK. A5 khong sot file .tmp
+  OK. B1 exit 0
+  OK. B2 khong in [GUARD]
+  OK. B3 tsv duoc ghi lai (khac file fake 400 dong)
+  OK. B4 khong con .tmp
+  OK. B5 summary ghi lai theo so lieu that
+  OK. C1 exit 0
+  OK. C2 tao tsv dung ten DATE hard-code
+  OK. C3 tao summary dung ten
+  OK. C4 khong co .tmp
+  OK. D1 DB khong bi ghi (SHA256 giu nguyen)
+
+T449 guard tests: 15 PASS / 0 FAIL
+
+> daoanh@1.0.0 test:uat
+> python -X utf8 scripts/uat_persona_test.py 2>&1
+
+  [PASS] Cử nhân (L1 verified-only) — L1 verified-only (18/19), answer sạch log
+  [PASS] Tiến sĩ (citation CSL/BibTeX + SIG) — BibTeX+SIG hợp lệ + HTTP self-consistent
+  [PASS] Negative (NOT INDEXED → honest + gap log) — 0 hit cho token không tồn tại; data_gap_requests sẵn sàng
+──────────────────────────────
+3 / 3 PASS · fail=0
+✅ UAT ALL PASSED — E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\uat_report.json
+
+> daoanh@1.0.0 test:compliance
+> python -X utf8 scripts/verify_design_compliance.py 2>&1
+
+[OK] Đã tạo E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\design_compliance.json
+    9 metric (pass=7 · warn=0 · fail=2) · 198 bảng
+    claims_with_source       100.00%  pass  (goal>=100.0)
+    claims_with_confidence   100.00%  pass  (goal>=100.0)
+    claims_reviewed            9.83%  pass  (goal>=1.0)
+    claims_verified            9.83%  pass  (goal>=1.0)
+    claims_assertion_level     0.00%  fail  (goal>=1.0)
+    claims_with_audit        100.00%  pass  (goal>=100.0)
+    events_provenance        100.00%  pass  (goal>=100.0)
+    conflicts_resolved         0.00%  fail  (goal>=1.0)
+    glossary_vi_coverage      75.54%  pass  (goal>=75.5)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+⚠ COVERAGE GAPS — dữ liệu chưa đủ, KHÔNG chặn review (theo quy định dự án)
+  - claims_assertion_level: 15/447885 (0.00%)  goal>=1.0%  [task sở hữu: T113/T133 (HITL: người review điền assertion_level, bot không điền)]
+  - conflicts_resolved: 0/17999 (0.00%)  goal>=1.0%  [task sở hữu: T109/T136 (conflict workflow)]
+Cổng cứng: npm run test:compliance:strict   (mọi fail → exit 1)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+EXIT POLICY [two-tier: contract=block, coverage=warn]: contract_fail=0 · coverage_fail=2 → exit 0 (PASS (có coverage gap — cảnh báo))
+
+> daoanh@1.0.0 test:gov
+> python -X utf8 -m pytest tests/test_b25_authority_contract.py -v 2>&1
+
+============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.1.1, pluggy-1.6.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh
+plugins: anyio-4.13.0
+collecting ... collected 18 items
+
+tests/test_b25_authority_contract.py::test_a_dila_source_exists PASSED   [  5%]
+tests/test_b25_authority_contract.py::test_b_multi_source_entity PASSED  [ 11%]
+tests/test_b25_authority_contract.py::test_c_unknown_source_blocked_for_derive PASSED [ 16%]
+tests/test_b25_authority_contract.py::test_c_unknown_source_blocked_for_ingest PASSED [ 22%]
+tests/test_b25_authority_contract.py::test_d_lineage_conflicts_exist PASSED [ 27%]
+tests/test_b25_authority_contract.py::test_e_license_not_backfilled PASSED [ 33%]
+tests/test_b25_authority_contract.py::test_e_all_sources_license_unverified PASSED [ 38%]
+tests/test_b25_authority_contract.py::test_f_unknown_source_id_blocked PASSED [ 44%]
+tests/test_b25_authority_contract.py::test_g_duplicate_source_records PASSED [ 50%]
+tests/test_b25_authority_contract.py::test_h_two_source_claims_not_merged PASSED [ 55%]
+tests/test_b25_authority_contract.py::test_i_default_adapter_health_unknown PASSED [ 61%]
+tests/test_b25_authority_contract.py::test_i_default_get_license_review_required PASSED [ 66%]
+tests/test_b25_authority_contract.py::test_j_source_version_null_means_unknown PASSED [ 72%]
+tests/test_b25_authority_contract.py::test_conflict_recorder_insert PASSED [ 77%]
+tests/test_b25_authority_contract.py::test_p2_can_display_auditing PASSED [ 83%]
+tests/test_b25_authority_contract.py::test_p2_can_quote_auditing_blocked PASSED [ 88%]
+tests/test_b25_authority_contract.py::test_m1_legacy_quote_does_not_verify_rights PASSED [ 94%]
+tests/test_b25_authority_contract.py::test_p3_extracted_evidence_license_fields PASSED [100%]
+
+============================= 18 passed in 26.74s =============================
+
+> daoanh@1.0.0 audit:t166
+> python -X utf8 scripts/t166_identity_audit.py 2>&1
+
+═══ T166 Identity Audit ═══
+=== T166 identity status distribution ===
+  (NULL=legacy)              1771
+
+── Kết quả ──
+✅ T166 audit: PASS — schema đủ, app guard đầy đủ, auth ok, data hợp lệ
+
+> daoanh@1.0.0 e2e
+> node scripts/e2e-test.js 2>&1
+
+
+🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍
+🚀 E2E TESTING STARTING
+🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍
+
+📂 Project root: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh
+
+
+📋 Testing: placevn.html
+📂 Path: admin/placevn.html
+  ✅ Script block 1: Syntax OK
+  ✅ Script block 2: Syntax OK
+✅ placevn.html: All checks passed
+
+📋 Testing: index.html
+📂 Path: admin/index.html
+  ✅ Script block 1: Syntax OK
+  ⚠️  Found 26 inline onclick handler(s). Consider using addEventListener.
+✅ index.html: All checks passed
+
+📋 Testing: editor-dashboard.html
+📂 Path: admin/editor-dashboard.html
+  ✅ Script block 1: Syntax OK
+✅ editor-dashboard.html: All checks passed
+
+📋 Testing: dashboard_process.html
+📂 Path: dashboard/dashboard_process.html
+  ✅ Script block 1: Syntax OK
+  ✅ Script block 2: Syntax OK
+  ✅ Script block 3: Syntax OK
+  ⚠️  Found 28 inline onclick handler(s). Consider using addEventListener.
+✅ dashboard_process.html: All checks passed
+
+📋 Testing: place_update.html
+📂 Path: admin/place_update.html
+  ✅ Script block 1: Syntax OK
+✅ place_update.html: All checks passed
+
+============================================================
+📊 E2E TEST SUMMARY
+============================================================
+
+✅ All pages passed E2E checks!
+
+
+> daoanh@1.0.0 e2e:runtime
+> node scripts/run-runtime-tests.cjs
+
+Runtime artifacts: docs\reports\runtime-tests\run-PwUxQf
+
+Running 2 tests using 1 worker
+
+🚀 Testing placevn.html...
+✅ Page loaded
+📷 Screenshot saved
+⚠️ Mapping Tên Việt button not found
+  ✓  1 [chromium] › tests\e2e-runtime.spec.js:45:5 › PlaceVN Admin - Runtime Error Check › placevn.html - no JS errors on load and click (6.8s)
+🔍 Testing API endpoints...
+  ✓  2 [chromium] › tests\e2e-runtime.spec.js:104:5 › PlaceVN Admin - Runtime Error Check › placevn.html - API returns valid JSON (5.1s)
+
+  2 passed (18.1s)
+'
+test_17_save_requires_auth (__main__.APITests.test_17_save_requires_auth) ... ok
+test_18_save_only_staging_idempotent (__main__.APITests.test_18_save_only_staging_idempotent) ... ok
+test_19_client_cannot_claim_license (__main__.APITests.test_19_client_cannot_claim_license) ... ok
+test_20_bad_json_returns_422 (__main__.APITests.test_20_bad_json_returns_422) ... ok
+test_21_dila_mapping_without_artifact_not_accepted (__main__.APITests.test_21_dila_mapping_without_artifact_not_accepted) ... ok
+test_22_import_broken_turtle_not_saved (__main__.APITests.test_22_import_broken_turtle_not_saved) ... ok
+test_23_real_dila_full_record_no_auto_accept (__main__.LocalAuthorityTests.test_23_real_dila_full_record_no_auto_accept) ... ok
+test_24_id_same_record_name_guard (__main__.LocalAuthorityTests.test_24_id_same_record_name_guard) ... ok
+test_25_local_cbeta_marcus_preserve_raw_types (__main__.LocalAuthorityTests.test_25_local_cbeta_marcus_preserve_raw_types) ... ok
+test_01_unicode_roundtrip (__main__.ProfileTests.test_01_unicode_roundtrip) ... ok
+test_02_draft_is_not_fact (__main__.ProfileTests.test_02_draft_is_not_fact) ... ok
+test_03_only_accepted_projected (__main__.ProfileTests.test_03_only_accepted_projected) ... ok
+test_04_generation_no_mirror_count (__main__.ProfileTests.test_04_generation_no_mirror_count) ... ok
+test_05_generation_requires_scheme_rationale (__main__.ProfileTests.test_05_generation_requires_scheme_rationale) ... ok
+test_06_self_relation_rejected (__main__.ProfileTests.test_06_self_relation_rejected) ... ok
+test_07_dharma_cycle_rejected (__main__.ProfileTests.test_07_dharma_cycle_rejected) ... ok
+test_08_profile_page_not_sameAs (__main__.ProfileTests.test_08_profile_page_not_sameAs) ... ok
+test_09_legacy_unknown_triples_preserved (__main__.ProfileTests.test_09_legacy_unknown_triples_preserved) ... ok
+test_10_graph_payload_tamper_rejected (__main__.ProfileTests.test_10_graph_payload_tamper_rejected) ... ok
+test_11_public_registry_gate (__main__.ProfileTests.test_11_public_registry_gate) ... ok
+test_12_secret_not_exported (__main__.ProfileTests.test_12_secret_not_exported) ... ok
+test_13_malformed_fields_not_crash (__main__.ProfileTests.test_13_malformed_fields_not_crash) ... ok
+test_14_date_expression_not_guessed (__main__.ProfileTests.test_14_date_expression_not_guessed) ... ok
+test_15_review_date_invalid (__main__.ProfileTests.test_15_review_date_invalid) ... ok
+test_16_schema_and_shacl_positive_negative (__main__.ProfileTests.test_16_schema_and_shacl_positive_negative) ... ok
+test_26_sameAs_literal_rejected_by_application_and_shacl (__main__.ProfileTests.test_26_sameAs_literal_rejected_by_application_and_shacl) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 8.591s
+
+OK
+test_01_source_counts_and_raw_BOM (__main__.DBTests.test_01_source_counts_and_raw_BOM) ... ok
+test_02_import_idempotent_and_base_unchanged (__main__.DBTests.test_02_import_idempotent_and_base_unchanged) ... ok
+test_03_export_reads_DB_without_original_files (__main__.DBTests.test_03_export_reads_DB_without_original_files) ... ok
+test_04_stable_exact_identity (__main__.DBTests.test_04_stable_exact_identity) ... ok
+test_05_generation_preserved_not_verified_or_increased (__main__.DBTests.test_05_generation_preserved_not_verified_or_increased) ... ok
+test_06_self_edge_preserved_only_snapshot (__main__.DBTests.test_06_self_edge_preserved_only_snapshot) ... ok
+test_07_teacher_direction_not_dharma (__main__.DBTests.test_07_teacher_direction_not_dharma) ... ok
+test_08_unverified_mapping_does_not_merge_people (__main__.DBTests.test_08_unverified_mapping_does_not_merge_people) ... ok
+test_09_alias_mismatch_blocks_merge (__main__.DBTests.test_09_alias_mismatch_blocks_merge) ... ok
+test_10_DB_updates_appear_in_export (__main__.DBTests.test_10_DB_updates_appear_in_export) ... ok
+test_11_readonly_batch_zip_and_template_report (__main__.DBTests.test_11_readonly_batch_zip_and_template_report) ... ok
+test_12_api_DB_load_and_download (__main__.DBTests.test_12_api_DB_load_and_download) ... ok
+test_13_api_auth_gate_and_bad_identifier (__main__.DBTests.test_13_api_auth_gate_and_bad_identifier) ... ok
+test_14_DB_authority_accept_without_archive (__main__.DBTests.test_14_DB_authority_accept_without_archive) ... ok
+test_15_tampered_raw_DB_blocked (__main__.DBTests.test_15_tampered_raw_DB_blocked) ... ok
+test_16_async_batch_authenticated (__main__.DBTests.test_16_async_batch_authenticated) ... ok
+test_17_bad_cached_template_returns_422 (__main__.DBTests.test_17_bad_cached_template_returns_422) ... ok
+test_18_completed_job_survives_blueprint_restart (__main__.DBTests.test_18_completed_job_survives_blueprint_restart) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 6.800s
+
+OK
+test_01_chain_and_full_witness (__main__.Tests.test_01_chain_and_full_witness) ... ok
+test_02_multiple_systems_independent (__main__.Tests.test_02_multiple_systems_independent) ... ok
+test_03_same_length_paths_agree (__main__.Tests.test_03_same_length_paths_agree) ... ok
+test_04_different_lengths_conflict (__main__.Tests.test_04_different_lengths_conflict) ... ok
+test_05_conflicting_checkpoint_propagates (__main__.Tests.test_05_conflicting_checkpoint_propagates) ... ok
+test_06_matching_checkpoint_keeps_root_path (__main__.Tests.test_06_matching_checkpoint_keeps_root_path) ... ok
+test_07_disconnected_checkpoint_not_membership (__main__.Tests.test_07_disconnected_checkpoint_not_membership) ... ok
+test_08_cycle_and_self_block (__main__.Tests.test_08_cycle_and_self_block) ... ok
+test_09_missing_parent_is_candidate_with_audit_issue (__main__.Tests.test_09_missing_parent_is_candidate_with_audit_issue) ... ok
+test_10_no_marcus_or_ttl_mixing (__main__.Tests.test_10_no_marcus_or_ttl_mixing) ... ok
+test_11_xml_edge_not_present_blocked (__main__.Tests.test_11_xml_edge_not_present_blocked) ... ok
+test_12_names_and_identity_hash_locked (__main__.Tests.test_12_names_and_identity_hash_locked) ... ok
+test_13_three_roots_no_mirror (__main__.Tests.test_13_three_roots_no_mirror) ... ok
+test_14_reviewed_transmission_not_auto_accepted (__main__.Tests.test_14_reviewed_transmission_not_auto_accepted) ... ok
+test_15_registry_append_and_compare_swap (__main__.Tests.test_15_registry_append_and_compare_swap) ... ok
+test_16_source_drift_requires_new_review (__main__.Tests.test_16_source_drift_requires_new_review) ... ok
+test_17_malformed_xml_metadata_clean_error (__main__.Tests.test_17_malformed_xml_metadata_clean_error) ... ok
+test_18_resource_guard_no_partial_number (__main__.Tests.test_18_resource_guard_no_partial_number) ... ok
+test_19_ttl_computed_draft_roundtrip (__main__.Tests.test_19_ttl_computed_draft_roundtrip) ... ok
+test_20_invalid_target_without_registry (__main__.Tests.test_20_invalid_target_without_registry) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.898s
+
+OK
+test_01_prepare_all_includes_exact_names (__main__.Tests.test_01_prepare_all_includes_exact_names) ... ok
+test_02_draft_results_do_not_change_authority (__main__.Tests.test_02_draft_results_do_not_change_authority) ... ok
+test_03_idempotent_receive (__main__.Tests.test_03_idempotent_receive) ... ok
+test_04_unknown_id_rejects_entire_group (__main__.Tests.test_04_unknown_id_rejects_entire_group) ... ok
+test_05_duplicate_id (__main__.Tests.test_05_duplicate_id) ... ok
+test_06_missing_id (__main__.Tests.test_06_missing_id) ... ok
+test_07_zh_mismatch (__main__.Tests.test_07_zh_mismatch) ... ok
+test_08_invented_title_review (__main__.Tests.test_08_invented_title_review) ... ok
+test_09_uncertain_marked (__main__.Tests.test_09_uncertain_marked) ... ok
+test_10_source_changed_rolls_back_group (__main__.Tests.test_10_source_changed_rolls_back_group) ... ok
+test_11_manifest_tamper_rejects (__main__.Tests.test_11_manifest_tamper_rejects) ... ok
+test_12_wrong_model_and_refusal_reject (__main__.Tests.test_12_wrong_model_and_refusal_reject) ... ok
+test_13_resume_skips_current_only (__main__.Tests.test_13_resume_skips_current_only) ... ok
+test_14_null_and_nonhan_no_fake_translation (__main__.Tests.test_14_null_and_nonhan_no_fake_translation) ... ok
+test_15_api_auth_and_limit (__main__.Tests.test_15_api_auth_and_limit) ... ok
+test_16_api_paginated_and_stale (__main__.Tests.test_16_api_paginated_and_stale) ... ok
+test_17_output_types (__main__.Tests.test_17_output_types) ... ok
+test_18_input_hash_ignores_existing_vi (__main__.Tests.test_18_input_hash_ignores_existing_vi) ... ok
+test_19_session_job_has_no_paid_endpoint (__main__.Tests.test_19_session_job_has_no_paid_endpoint) ... ok
+test_20_session_real_provenance_and_canonical_preserved (__main__.Tests.test_20_session_real_provenance_and_canonical_preserved) ... ok
+test_21_session_api_key_mode_and_wrong_model_rejected (__main__.Tests.test_21_session_api_key_mode_and_wrong_model_rejected) ... ok
+test_22_session_artifact_tampered_and_wrong_transport_rejected (__main__.Tests.test_22_session_artifact_tampered_and_wrong_transport_rejected) ... ok
+test_23_session_stale_source_rolls_back_all (__main__.Tests.test_23_session_stale_source_rolls_back_all) ... ok
+test_24_paid_api_disabled_even_if_key_present (__main__.Tests.test_24_paid_api_disabled_even_if_key_present) ... ok
+test_25_session_env_excludes_paid_credentials (__main__.Tests.test_25_session_env_excludes_paid_credentials) ... ok
+test_26_cli_api_auth_is_not_accepted (__main__.Tests.test_26_cli_api_auth_is_not_accepted) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 3.856s
+
+OK
