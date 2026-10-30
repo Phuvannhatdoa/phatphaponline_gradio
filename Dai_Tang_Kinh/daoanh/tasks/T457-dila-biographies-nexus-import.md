@@ -3,7 +3,7 @@ id: T457
 title: "Tích hợp BIO DILA (高僧傳): import nguồn nexus + lớp Việt chung (gộp T74b, T266)"
 status: done
 created: 2026-10-22
-updated: 2026-10-29
+updated: 2026-10-30
 owner: tich-hop
 module: Data / Biographies
 priority: high
@@ -85,3 +85,8 @@ Dòng thời gian từng vị thầy: năm · nơi · cùng ai · đoạn văn g
 - **ROLLBACK**: dòng 2026-10-29 trong `docs/ROLLBACK.md` — `DROP TABLE` 3 bảng + 4 index (additive, 0 mất dữ liệu cũ).
 - **Manifest**: `docs/manifests/T457-manifest.json` (SHA-256 11 file nguồn).
 - **Bàn giao**: `docs/Handoff-2026-10-28-t457.md`.
+
+### Admin xác nhận DONE (2026-10-30)
+- Admin xác nhận DONE sau khi review báo cáo `docs/Handoff-2026-10-28-t457.md` + manifest `docs/manifests/T457-manifest.json`.
+- Số liệu apply: `dila_bio_nexus` 21.740 · `dila_bio_nexus_person` 36.049 · `dila_bio_nexus_place` 13.930 · 11 sách · 7.066 có năm.
+- Revert nếu cần: `python -X utf8 scripts/t457_dila_bio_nexus_import.py --revert` | `git revert 2686da0a`.

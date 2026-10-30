@@ -3,7 +3,7 @@ id: T455
 title: Chuẩn hoá tên Việt người (people.name_vi, ZQ) dựa trên đối chiếu kinh lục DILA (794 lệch + 532 sót chữ Hán)
 status: in_progress
 created: 2026-10-22
-updated: 2026-10-29
+updated: 2026-10-30
 owner: daoanh-debugger
 module: Data / Persons
 priority: high
@@ -65,3 +65,23 @@ Chuẩn hoá `people.name_vi` (nguồn ZQLOCAL=5) theo bằng chứng kinh lục
 - **Quy tắc bắt buộc**: tên Việt luôn `source_id=5` (ZQLOCAL) — **không** gán tên Việt cho nguồn DILA (source_id=1). Không sửa `people.name_zh`.
 - **Câu hỏi còn chờ Admin**: Q3b (ưu tiên lô nào: theo `so_lan` hay nhóm sót Hán?), Q3c (duyệt bảng lịch sử additive `people_name_vi_history` không?), mẫu 20 dòng/lô để duyệt.
 - **Bàn giao**: `docs/Handoff-2026-10-28-t455.md`.
+
+### Báo cáo phân tích 2026-10-30 (đã trình Admin — chờ quyết phương án)
+
+Báo cáo đầy đủ: **`docs/reports/T455-analysis-794-mismatch.md`** (bằng chứng + số đo + 3 phương án).
+
+**Tóm tắt:**
+| Lô | Số | Bản chất | Có thể tự quyết? |
+|---|---|---|---|
+| A | 24 | ZQ hỏng rõ: để tên Anh / để nguyên chữ Hán hiến (`昰 竑 玘 霰 丏 讕` không có trong `hanviet_char_map`) → **17/24 còn sót Hán** | ✅ tra từ điển |
+| B | 534 | **Không phải lỗi kỹ thuật** mà là khác *quy ước đọc cả từ*: ZQ đọc theo nghĩa chữ (`Long Thụ`, `Bàn Nhược`, `Vô Trứ`) vs Cloud đọc theo cách gọi quen thuộc VN (`Long Thọ`, `Bát Nhã`, `Vô Trước`). 478/534 sai ≤ 1 từ · 64/534 chỉ khác dấu gạch nối · **0/534** còn sót Hán | ⚠️ **không** — charmap không phân định được (269 ZQ vs 314 Cloud vs 113 hòa) |
+| C | 236 | ZQ thiếu/sai 1 chữ, hay thiếu tiền tố tôn kính `釋` (Thích) → charmap (bảng chuẩn dự án) **nghiêng Cloud 188/236 (80 %)** | ✅ có bằng chứng máy |
+
+**3 phương án để Admin chọn:**
+- **(A) Khuyến nghị** — sửa **260 dòng** (lô A 24 + lô C 236), giữ 534 dòng lô B và ghi chú alias. Ít xâm lấn, có bằng chứng khách quan, không cần người duyệt 534 dòng. Lô B mở task riêng để làm dần theo `so_lan`.
+- **(B)** — sửa cả **794** theo Cloud. Đồng bộ hết nhưng Cloud cũng có lỗi riêng (vd `實叉難陀` → "Thật" thay vì "Thực") và là bản dịch unreviewed.
+- **(C)** — sửa lô A + C theo Cloud, lô B tra từ điển theo lô `so_lan` (ưu tiên ~50 người xuất hiện ≥ 20 lần). Chính xác nhất nhưng chậm, cần người duyệt.
+
+**Quy tắc bất biến**: tên Việt luôn `source_id=5` (ZQLOCAL) — không gán tên Việt cho nguồn DILA (`source_id=1`); không sửa `people.name_zh`; additive (giữ giá trị cũ trong bảng lịch sử); backup + dòng `ROLLBACK.md`.
+
+**Việc cần làm tiếp**: Admin chọn phương án → mới chạy `scripts/t455_name_vi_fix.py` (backup tự động → apply theo lô → verify → `ROLLBACK.md`).

@@ -3,7 +3,7 @@ id: T454
 title: Làm sạch tên địa danh Việt có hậu tố "_ Huý"/"_ Ngoa" trong namevi_map_places
 status: done
 created: 2026-10-22
-updated: 2026-10-29
+updated: 2026-10-30
 owner: daoanh-debugger
 module: Data / Places
 priority: medium
@@ -58,3 +58,8 @@ Chỉ 8 dòng trên (và dòng mới cùng mẫu nếu đo lại phát hiện). 
   - Lưu ý: `LIKE '%_ Huý%'` **không** escape `_` nên trả về 2 dòng giả ("Ải Ngoan Trại", "Ải Ngoan Sỡ") — phải dùng `LIKE '%\_ Huý%' ESCAPE '\'`.
 - **ROLLBACK**: dòng 2026-10-28 trong `docs/ROLLBACK.md` (UPDATE ngược từ CSV giá trị gốc).
 - **Bàn giao**: `docs/Handoff-2026-10-28-t454.md`.
+
+### Admin xác nhận DONE (2026-10-30)
+- Admin xác nhận DONE sau khi review báo cáo `docs/Handoff-2026-10-28-t454.md`.
+- Verify cuối: `python -X utf8 scripts/t454_verify_state.py` → dòng còn hậu tố thật = **0**.
+- Revert nếu cần: `python -X utf8 scripts/t454_cleanup_suffix.py --revert` | `git revert 01ee030f`.
