@@ -1,7 +1,7 @@
 ---
 id: T455
 title: Chuẩn hoá tên Việt người (people.name_vi, ZQ) dựa trên đối chiếu kinh lục DILA (794 lệch + 532 sót chữ Hán)
-status: in_progress
+status: done
 created: 2026-10-22
 updated: 2026-10-30
 owner: daoanh-debugger
@@ -109,3 +109,12 @@ Báo cáo đầy đủ: **`docs/reports/T455-analysis-794-mismatch.md`** (bằng
 1. **405 tên còn sót chữ Hán** — nhóm "532 tên sót Hán" trong task này, **không** nằm trong danh sách 794 (không có bản Cloud để đối chiếu) → cần task riêng.
 2. **534 alias lô B** — đã ghi trong bảng lịch sử; mở task riêng để tra từ điển theo `so_lan` (không chặn T456).
 3. **T456** — autocomplete ô Search HOME.
+
+### Admin xác nhận DONE (2026-10-30) — task đóng, phần còn lại tách task riêng
+- Admin xác nhận DONE sau khi review `docs/reports/T455-apply-planA-report.md` (phương án A).
+- **Đã hoàn thành**: phân loại 794 dòng thành 3 lô · apply 258 dòng (lô A 22 + lô C 236) · 534 alias lô B ghi chú trong bảng lịch sử · bảng lịch sử `people_name_vi_history` 794 dòng · backup + dòng `ROLLBACK.md` · `npm run pipeline` exit 0 · `dup:ids` PASS.
+- **Phần còn lại tách thành task riêng** (không chặn task khác):
+  - **`T501`** — 405 tên còn sót chữ Hán (nhóm "532 tên sót Hán" — không có bản Cloud để đối chiếu) → `tasks/T501-person-name-vi-han-residue-405.md`
+  - **`T502`** — 534 alias lô B cần tra từ điển theo `so_lan` → `tasks/T502-person-name-vi-alias-lotB-534.md`
+- **Sổ việc còn treo**: `docs/reports/UNDONE-2026-10-30.md`.
+- **Tiếp theo**: `T456` — autocomplete ô Search HOME.
