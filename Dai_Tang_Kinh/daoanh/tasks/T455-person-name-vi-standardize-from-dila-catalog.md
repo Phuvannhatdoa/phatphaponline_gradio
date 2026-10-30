@@ -85,3 +85,27 @@ Báo cáo đầy đủ: **`docs/reports/T455-analysis-794-mismatch.md`** (bằng
 **Quy tắc bất biến**: tên Việt luôn `source_id=5` (ZQLOCAL) — không gán tên Việt cho nguồn DILA (`source_id=1`); không sửa `people.name_zh`; additive (giữ giá trị cũ trong bảng lịch sử); backup + dòng `ROLLBACK.md`.
 
 **Việc cần làm tiếp**: Admin chọn phương án → mới chạy `scripts/t455_name_vi_fix.py` (backup tự động → apply theo lô → verify → `ROLLBACK.md`).
+
+### APPLY phương án A — 2026-10-30 (Admin đã chọn phương án A)
+
+**Đã ghi DB** (batch `T455-planA-20261030`), backup `data/backups/lineage_t455_20261030_144710.db`:
+
+| Hạng mục | Kết quả |
+|---|---|
+| Bảng lịch sử mới `people_name_vi_history` | **794 dòng** (additive) — 258 `updated` / 534 `kept_alias` / 1 `unchanged` / 1 `skipped_kept` |
+| `people.name_vi` được UPDATE | **258 dòng** (lô A 22 + lô C 236) |
+| Lô B (534 dòng) | **không đổi** — chỉ ghi chú alias trong bảng lịch sử |
+| `people.name_vi` còn sót chữ Hán | 422 → **405** (−17) |
+| `people.name_zh` / `people.source_id` | **không đổi** |
+
+- **2 dòng đặc biệt**: `A000142` sửa tay (`頙` không có trong bảng đọc → "Chân Tĩnh Thiên Trác") · `A001428` bỏ qua (DB đã là "Di Lặc Bồ Tát" tốt hơn Cloud "Di Lặc").
+- **Quy tắc giữ nguyên**: tên Việt `source_id=5` (ZQLOCAL), không gán tên Việt cho DILA; không sửa `name_zh`; additive (giá trị cũ ở `name_vi_old`).
+- **Script**: `scripts/t455_apply_planA.py` (`--dry-run` / `--apply` / `--revert`) · verify: `scripts/t455_verify_apply.py`.
+- **Báo cáo**: `docs/reports/T455-apply-planA-report.md` · đề xuất: `docs/sessions/2026-10-30-t455-apply/t455_proposal_planA.csv`.
+- **Revert**: `python -X utf8 scripts/t455_apply_planA.py --revert` | dòng `ROLLBACK.md` 2026-10-30.
+- **Pipeline sau apply**: `npm run pipeline` **exit 0** ✅
+
+**Còn lại (chưa làm)**:
+1. **405 tên còn sót chữ Hán** — nhóm "532 tên sót Hán" trong task này, **không** nằm trong danh sách 794 (không có bản Cloud để đối chiếu) → cần task riêng.
+2. **534 alias lô B** — đã ghi trong bảng lịch sử; mở task riêng để tra từ điển theo `so_lan` (không chặn T456).
+3. **T456** — autocomplete ô Search HOME.

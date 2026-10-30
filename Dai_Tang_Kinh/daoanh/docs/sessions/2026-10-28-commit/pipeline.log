@@ -1120,7 +1120,7 @@ T200 tie-break test: 25/25 PASS
 -- 5) load_set / JSON round-trip --
   ✅ file benchmark tồn tại và 500 items
 -- 6) score_all --
-✅ Scored 500 items → C:\Users\NAMTHI~1\AppData\Local\Temp\t167_bench_qrco7n85\scored_test.json
+✅ Scored 500 items → C:\Users\NAMTHI~1\AppData\Local\Temp\t167_bench_vu67s0ma\scored_test.json
    total: 500
    with_translation: 2
    terminology_accuracy_avg: None
@@ -1233,8 +1233,8 @@ T170 classify_person_diff: 17 PASS · 0 FAIL
 🚀 T170 verify — entity=place (ĐỊA DANH (places_dila)) · model=qwen/qwen3.8-27b · mock=ON · limit=3
    batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 (R7) · parse trans_vi flat (R6)
 
-=== RUN XONG (entity=place · batch_id=t169-20261030_131014) ===
-  Processed: 3 · thời gian 0.0 phút · avg RPM 134.1
+=== RUN XONG (entity=place · batch_id=t169-20261030_145333) ===
+  Processed: 3 · thời gian 0.0 phút · avg RPM 15150.7
   diff_type/status:
     NONE: 3
     verified: 3
@@ -1245,7 +1245,7 @@ T170 classify_person_diff: 17 PASS · 0 FAIL
 🚀 T170 verify — entity=place (ĐỊA DANH (places_dila)) · model=qwen/qwen3.8-27b · mock=ON · limit=3
    batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 (R7) · parse trans_vi flat (R6)
 
-=== RUN XONG (entity=place · batch_id=t169-20261030_131016) ===
+=== RUN XONG (entity=place · batch_id=t169-20261030_145333) ===
   Processed: 0 · thời gian 0.0 phút · avg RPM 0.0
   diff_type/status:
   Tokens: prompt 0 · completion 0 · total 0
@@ -1257,8 +1257,8 @@ T170 classify_person_diff: 17 PASS · 0 FAIL
 🚀 T170 verify — entity=person (NHÂN VẬT (people)) · model=qwen/qwen3.8-27b · mock=ON · limit=5
    batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 (R7) · parse trans_vi flat (R6)
 
-=== RUN XONG (entity=person · batch_id=t170-20261030_131016) ===
-  Processed: 4 · thời gian 0.0 phút · avg RPM 2631.8
+=== RUN XONG (entity=person · batch_id=t170-20261030_145333) ===
+  Processed: 4 · thời gian 0.0 phút · avg RPM 19331.2
   diff_type/status:
     NONE: 4
     auto_verified: 1
@@ -1272,7 +1272,7 @@ T170 classify_person_diff: 17 PASS · 0 FAIL
 🚀 T170 verify — entity=person (NHÂN VẬT (people)) · model=qwen/qwen3.8-27b · mock=ON · limit=5
    batch_size=25 · rpm-adaptive (≤5 → 3.0s, else 2.2s) · retries=3 · max_tokens=2048 (R7) · parse trans_vi flat (R6)
 
-=== RUN XONG (entity=person · batch_id=t170-20261030_131016) ===
+=== RUN XONG (entity=person · batch_id=t170-20261030_145333) ===
   Processed: 0 · thời gian 0.0 phút · avg RPM 0.0
   diff_type/status:
   Tokens: prompt 0 · completion 0 · total 0
@@ -1303,8 +1303,8 @@ T170 verify pipeline (red-team): 15 PASS · 0 FAIL
   ✓ [1] PL0001 Tháp Thụy → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Tháp Thụy
   ✓ [2] PL0002 A Dục Vương Trụ → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh A Dục Vươ
 
-=== RUN XONG (T74 · batch 20261030_131018) ===
-  Processed 2 · 0.0 phút · avg 3848.1 RPM
+=== RUN XONG (T74 · batch 20261030_145340) ===
+  Processed 2 · 0.0 phút · avg 9759.9 RPM
    translated: 2
   Tokens: prompt 43 · completion 46
   Rerun tiếp: row còn lại tự resume (skip t74_groq). Revert: UPDATE place_desc_vi_draft SET desc_vi_draft=d.note, desc_source="dila_note_zh" FROM places_dila d WHERE d.id=place_desc_vi_draft.place_id AND place_desc_vi_draft.desc_source="t74_groq".
@@ -1319,8 +1319,8 @@ T170 verify pipeline (red-team): 15 PASS · 0 FAIL
   ✓ [1] PL0003 Thiếu Lâm Tự → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Thiếu Lâm
   ✓ [2] PL0005 Vùng Tarai → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Vùng Tara
 
-=== RUN XONG (T74 · batch 20261030_131018) ===
-  Processed 2 · 0.0 phút · avg 905.4 RPM
+=== RUN XONG (T74 · batch 20261030_145340) ===
+  Processed 2 · 0.0 phút · avg 10272.6 RPM
    translated: 2
   Tokens: prompt 46 · completion 45
   Rerun tiếp: row còn lại tự resume (skip t74_groq). Revert: UPDATE place_desc_vi_draft SET desc_vi_draft=d.note, desc_source="dila_note_zh" FROM places_dila d WHERE d.id=place_desc_vi_draft.place_id AND place_desc_vi_draft.desc_source="t74_groq".
@@ -1337,8 +1337,8 @@ T170 verify pipeline (red-team): 15 PASS · 0 FAIL
   ✓ [4] PL0004 Khai Nguyên Tự → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Khai Nguy
   ✓ [5] PL0005 Vùng Tarai → Mo ta duoc dich sang tieng Viet tu nguon DILA (mock, khong goi API) cho dia danh Vùng Tara
 
-=== RUN XONG (T74 · batch 20261030_131018) ===
-  Processed 5 · 0.0 phút · avg 4606.8 RPM
+=== RUN XONG (T74 · batch 20261030_145340) ===
+  Processed 5 · 0.0 phút · avg 33321.6 RPM
    translated: 5
   Tokens: prompt 173 · completion 114
   Rerun tiếp: row còn lại tự resume (skip t74_groq). Revert: UPDATE place_desc_vi_draft SET desc_vi_draft=d.note, desc_source="dila_note_zh" FROM places_dila d WHERE d.id=place_desc_vi_draft.place_id AND place_desc_vi_draft.desc_source="t74_groq".
@@ -1365,7 +1365,7 @@ T74 groq translate places (red-team): 18 PASS · 0 FAIL
 === 2) match_person: uu tien Han truoc tail, tail >= 3 tu ===
    OK   co Han -> dung Han, KHONG dung tail
    OK   khong co Han + ten 4 tu -> tail3 khong khop tail2
-  [build_lookup] Bỏ qua 4232 tên Việt + 3638 tên Hán ambiguous (nhiều vị cùng tên)
+  [build_lookup] Bỏ qua 4225 tên Việt + 3638 tên Hán ambiguous (nhiều vị cùng tên)
    OK   dila_id nhieu slug GIAM sau khi sua thu tu (7 -> 3)
    OK   con lai <= 8 nhom
 
@@ -1550,7 +1550,7 @@ T449 guard tests: 15 PASS / 0 FAIL
 > python -X utf8 scripts/verify_design_compliance.py 2>&1
 
 [OK] Đã tạo E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\design_compliance.json
-    9 metric (pass=7 · warn=0 · fail=2) · 198 bảng
+    9 metric (pass=7 · warn=0 · fail=2) · 202 bảng
     claims_with_source       100.00%  pass  (goal>=100.0)
     claims_with_confidence   100.00%  pass  (goal>=100.0)
     claims_reviewed            9.83%  pass  (goal>=1.0)
@@ -1597,7 +1597,7 @@ tests/test_b25_authority_contract.py::test_p2_can_quote_auditing_blocked PASSED 
 tests/test_b25_authority_contract.py::test_m1_legacy_quote_does_not_verify_rights PASSED [ 94%]
 tests/test_b25_authority_contract.py::test_p3_extracted_evidence_license_fields PASSED [100%]
 
-======================= 18 passed in 131.02s (0:02:11) ========================
+============================= 18 passed in 38.35s =============================
 
 > daoanh@1.0.0 audit:t166
 > python -X utf8 scripts/t166_identity_audit.py 2>&1
@@ -1660,7 +1660,7 @@ tests/test_b25_authority_contract.py::test_p3_extracted_evidence_license_fields 
 > daoanh@1.0.0 e2e:runtime
 > node scripts/run-runtime-tests.cjs
 
-Runtime artifacts: docs\reports\runtime-tests\run-9hpgN3
+Runtime artifacts: docs\reports\runtime-tests\run-cCS5bw
 
 Running 2 tests using 1 worker
 
@@ -1668,11 +1668,11 @@ Running 2 tests using 1 worker
 ✅ Page loaded
 📷 Screenshot saved
 ⚠️ Mapping Tên Việt button not found
-  ✓  1 [chromium] › tests\e2e-runtime.spec.js:45:5 › PlaceVN Admin - Runtime Error Check › placevn.html - no JS errors on load and click (5.2s)
+  ✓  1 [chromium] › tests\e2e-runtime.spec.js:45:5 › PlaceVN Admin - Runtime Error Check › placevn.html - no JS errors on load and click (14.0s)
 🔍 Testing API endpoints...
-  ✓  2 [chromium] › tests\e2e-runtime.spec.js:104:5 › PlaceVN Admin - Runtime Error Check › placevn.html - API returns valid JSON (4.5s)
+  ✓  2 [chromium] › tests\e2e-runtime.spec.js:104:5 › PlaceVN Admin - Runtime Error Check › placevn.html - API returns valid JSON (8.7s)
 
-  2 passed (14.4s)
+  2 passed (1.1m)
 '
 test_17_save_requires_auth (__main__.APITests.test_17_save_requires_auth) ... ok
 test_18_save_only_staging_idempotent (__main__.APITests.test_18_save_only_staging_idempotent) ... ok
@@ -1702,7 +1702,7 @@ test_16_schema_and_shacl_positive_negative (__main__.ProfileTests.test_16_schema
 test_26_sameAs_literal_rejected_by_application_and_shacl (__main__.ProfileTests.test_26_sameAs_literal_rejected_by_application_and_shacl) ... ok
 
 ----------------------------------------------------------------------
-Ran 26 tests in 48.201s
+Ran 26 tests in 9.316s
 
 OK
 test_01_source_counts_and_raw_BOM (__main__.DBTests.test_01_source_counts_and_raw_BOM) ... ok
@@ -1725,7 +1725,7 @@ test_17_bad_cached_template_returns_422 (__main__.DBTests.test_17_bad_cached_tem
 test_18_completed_job_survives_blueprint_restart (__main__.DBTests.test_18_completed_job_survives_blueprint_restart) ... ok
 
 ----------------------------------------------------------------------
-Ran 18 tests in 7.151s
+Ran 18 tests in 8.465s
 
 OK
 test_01_chain_and_full_witness (__main__.Tests.test_01_chain_and_full_witness) ... ok
@@ -1750,7 +1750,7 @@ test_19_ttl_computed_draft_roundtrip (__main__.Tests.test_19_ttl_computed_draft_
 test_20_invalid_target_without_registry (__main__.Tests.test_20_invalid_target_without_registry) ... ok
 
 ----------------------------------------------------------------------
-Ran 20 tests in 2.039s
+Ran 20 tests in 2.445s
 
 OK
 test_01_prepare_all_includes_exact_names (__main__.Tests.test_01_prepare_all_includes_exact_names) ... ok
@@ -1781,6 +1781,6 @@ test_25_session_env_excludes_paid_credentials (__main__.Tests.test_25_session_en
 test_26_cli_api_auth_is_not_accepted (__main__.Tests.test_26_cli_api_auth_is_not_accepted) ... ok
 
 ----------------------------------------------------------------------
-Ran 26 tests in 3.467s
+Ran 26 tests in 3.956s
 
 OK

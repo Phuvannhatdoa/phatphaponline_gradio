@@ -1,0 +1,795 @@
+﻿lot,person_id,name_zh_catalog,name_vi_old_ZQ,name_vi_new,action,reason,so_lan
+A,A000095,不空,Amoghavajra,Bất Không,updated,,183
+A,A000529,沙囉巴,Sa La Ba,Sa La Ba,unchanged,Cloud chung thu tu ZQ (chi khac dau gach noi) — giu nguyen,6
+A,A010057,函昰,Hàm 昰,Hàm Thị,updated,,4
+A,A001310,焦竑,Tiêu 竑,Tiêu Hoành,updated,,4
+A,A001316,阿質達霰,A Chất Đạt 霰,A Chất Đạt Tản,updated,,3
+A,A000334,如玘,Như 玘,Như Kỉ,updated,,3
+A,A000903,夏丏尊,Hạ 丏 Tôn,Hạ Miện Tôn,updated,,1
+A,A034215,丘哌博,Khâu 哌 Bác,Khâu Bái Bác,updated,,1
+A,A034554,楊仙鸖,Dương Tiên 鸖,Dương Tiên Hạc,updated,,1
+A,A018215,潘瑊,Phan Giam,Phan Kiêm,updated,,1
+A,A037277,超晙,Siêu 晙,Siêu Tuấn,updated,,1
+A,A001774,屾峰憲,屾 Phong Hiến,Sơn Phong Hiến,updated,,1
+A,A037520,開溈,Khai Vy,Khai Vi,updated,,1
+A,A009287,本僼,Bản 僼,Bản Phân,updated,,1
+A,A019631,暉州昊,Huy Chòng 旲,Huy Châu Hạo,updated,,1
+A,A000760,空蜞,Không 蜞,Không Kỳ,updated,,1
+A,A000754,知周,Tri Chu,Trí Chu,updated,,1
+A,A000142,天頙,Chân Tĩnh Thiên 頙,Thiên 頙,skip,Cloud van con chu Han — can tra tu dien,1
+A,A000047,于頔,Vu 頔,Vu Địch,updated,,1
+A,A000688,法璹,Pháp 璹,Pháp Thục,updated,,1
+A,A000622,延輝,Dang Huy,Diên Huy,updated,,1
+A,A000225,可橖,Khả 橖,Khả Đường,updated,,1
+A,A001187,彭希涑,Bành Hơi 涑,Bành Hi Tốc,updated,,1
+A,A034791,隆蓮法師,Long Sen,Long Liên Pháp Sư,updated,,1
+C,A001301,智顗,Trí Ỷ,Trí Khải,updated,,45
+C,A001394,袾宏,Vân Thê Châu Hoằng,Chu Hoằng,updated,,25
+C,A004819,釋太虛,Thái Hư,Thích Thái Hư,updated,,20
+C,A000332,地婆訶羅,Divākara,Địa Bà Ha La,updated,,19
+C,A001606,實叉難陀,Śikṣānanda,Thật Xoa Nan Đà,updated,,18
+C,A001113,釋淨源,Tịnh Nguồn,Thích Tịnh Nguyên,updated,,14
+C,A000008,釋一行,Nhất Hàng,Thích Nhất Hành,updated,,13
+C,A034821,侯沖,Hậu Khem,Hầu Trùng,updated,,13
+C,A000282,延壽,Vĩnh Minh Diên Thọ,Diên Thọ,updated,,12
+C,A002000,慧遠,Nhị Đế,Tuệ Viễn,updated,,10
+C,A001428,彌勒,Di Lắc Bồ Tát,Di Lặc,updated,,9
+C,A000993,般若,Prajñā,Bát Nhã,updated,,8
+C,A000935,書玉,Nghi Khiết Thư Ngọc,Thư Ngọc,updated,,7
+C,A000149,明成祖朱棣,Châu Lệ,Minh Thành Tổ Chu Đệ,updated,,6
+C,A024085,通妙,Ngô Lão Trạch,Thông Diệu,updated,,5
+C,A000212,胤禛,Ái Tân Giác La Dận Chân,Dận Chân,updated,,4
+C,A001245,空谷景隆,Cảnh Long,Không Cốc Cảnh Long,updated,,3
+C,A001019,釋窺基,Khuy Cơ,Thích Khuy Cơ,updated,,3
+C,A000374,成正,Bác Sơn Hòa Thượng Tham Thiền Cảnh Ngữ,Thành Chính,updated,,3
+C,A019373,符,Huyền Phù,Phù,updated,,3
+C,A001064,惟則,Thiên Như Duy Tắc,Duy Tắc,updated,,3
+C,A001842,闍那耶舍,Jinayaśa,Xà Na Da Xá,updated,,3
+C,A000432,廣和,Hiểu Nhu,Quảng Hòa,updated,,3
+C,A000820,咫觀,Trịnh Ứng Phòng,Chỉ Quán,updated,,3
+C,A034284,張妙定蓮菩提金剛正,Trương Diệu Định,Trương Diệu Định Liên Bồ Đề Kim Cương Chính,updated,,2
+C,A001522,姚廣孝,Đạo Diễn,Diêu Quảng Hiếu,updated,,2
+C,A001893,頤藏,Thủ Trách,Di Tạng,updated,,2
+C,A001993,釋觀衡,Quán Hành,Thích Quán Hành,updated,,2
+C,A001337,釋善珠,Thiện Châu,Thích Thiện Châu,updated,,2
+C,A034584,釋高範,Cao Phạm,Thích Cao Phạm,updated,,2
+C,A022419,通理大師,Hằng Sách,Thông Lý Đại Sư,updated,,2
+C,A011235,法海,Tuyết Đường Đạo Hạnh,Pháp Hải,updated,,2
+C,A016623,釋湛祐,Trạm Hữu,Thích Trạm Hựu,updated,,2
+C,A001257,大朗,Trí Húc,Đại Lãng,updated,,2
+C,A000360,守堅,Vân Môn Khuông Chơn Thiền Sư Quảng Lục,Thủ Kiên,updated,,2
+C,A004078,行觀,Hàng Quán,Hành Quan,updated,,2
+C,A016193,行謐,Hàng Mật,Hành Mịch,updated,,2
+C,A019288,徹,Huyền Tổng,Triệt,updated,,2
+C,A000153,幻敏,Ảo Mẫn,Huyễn Mẫn,updated,,2
+C,A019267,洪暹,Suyền Xiêm,Hồng Tiêm,updated,,2
+C,A000371,安慧菩薩,An Tuệ,An Tuệ Bồ Tát,updated,,2
+C,A010119,永嘉玄覺,Huyền Giác,Vĩnh Gia Huyền Giác,updated,,2
+C,A001769,鄭澄德,Diệu Không,Trịnh Trừng Đức,updated,,2
+C,A001960,道隆,Chương Kính Hoài Huy,Đạo Long,updated,,2
+C,A019007,慧海,Đại Châu Tuệ Hải,Tuệ Hải,updated,,2
+C,A024157,了參,Diệp Quân,Liễu Tham,updated,,1
+C,A000308,白隱慧鶴,Tuệ Hạc,Bạch Ẩn Tuệ Hạc,updated,,1
+C,A034280,克主,Khắc Chúa Kiệt·cách Lắc Ba Tang,Khắc Chủ,updated,,1
+C,A034281,白蓮花,Ngưng Nhiên,Bạch Liên Hoa,updated,,1
+C,A034287,大善解功德主,Ba Sở Nhân Ba Thiết,Đại Thiện Giải Công Đức Chủ,updated,,1
+C,A034300,邢肅芝,Lạc Tang Trân Châu,Hình Túc Chi,updated,,1
+C,A034301,智湛,Trí Đậm Cư Sĩ,Trí Trạm,updated,,1
+C,A034304,諾那呼圖克圖逞列匠磋,Nặc Na Hô Đồ Khắc Đồ,Nặc Na Hô Đồ Khắc Đồ Sính Liệt Tượng Tha,updated,,1
+C,A011029,第五世達賴喇嘛,La Tang Gia Thố,Đệ Ngũ Thế Đạt Lại Lạt Ma,updated,,1
+C,A009414,密藏,Đạo Khai,Mật Tạng,updated,,1
+C,A007801,福徵,Viên Phúc Trưng,Phúc Trưng,updated,,1
+C,A023711,來果,Thích Lai Quả,Lai Quả,updated,,1
+C,A001319,無著道忠,Đạo Trung,Vô Trước Đạo Trung,updated,,1
+C,A000062,笑隱大訢,Đại Hân,Tiếu Ẩn Đại Hân,updated,,1
+C,A001284,智楷,Duy Trực,Trí Khải,updated,,1
+C,A005179,徐𤊹,Từ𤊹,Từ Đính,updated,,1
+C,A000655,中峰明本,Minh Bản,Trung Phong Minh Bản,updated,,1
+C,A034443,徐長孺,Chờ Trưởng Nhọ,Từ Trường Nhụ,updated,,1
+C,A000960,釋真樸,Chân Phác,Thích Chân Phác,updated,,1
+C,A001219,普寂,Nhất Hành,Phổ Tịch,updated,,1
+C,A023405,觀空,Thích Quan Không,Quán Không,updated,,1
+C,A034559,釋慧融,Tuệ Dung,Thích Tuệ Dung,updated,,1
+C,A034561,釋思聰,Tư Thông,Thích Tư Thông,updated,,1
+C,A034568,釋圓耳,Viên Nhĩ,Thích Viên Nhĩ,updated,,1
+C,A034569,釋弘演,Hoằng Diễn,Thích Hoằng Diễn,updated,,1
+C,A001496,釋運敞,Vận Sưởng,Thích Vận Sưởng,updated,,1
+C,A034572,釋其甲,Kỳ Giáp,Thích Kỳ Giáp,updated,,1
+C,A001657,釋廣伸,Quảng Thân,Thích Quảng Thân,updated,,1
+C,A034579,釋實順,Thực Thuận,Thích Thật Thuận,updated,,1
+C,A001839,釋叡尊,Duệ Tôn,Thích Duệ Tôn,updated,,1
+C,A034585,釋龍謙,Long Khiêm,Thích Long Khiêm,updated,,1
+C,A034586,釋良光,Lương Quang,Thích Lương Quang,updated,,1
+C,A000961,釋真興,Chân Hưng,Thích Chân Hưng,updated,,1
+C,A000876,釋貞舜,Trinh Thuấn,Thích Trinh Thuấn,updated,,1
+C,A000535,釋良忠,Lương Trung,Thích Lương Trung,updated,,1
+C,A001831,弁阿,Biện A Thánh Quang,Biện A,updated,,1
+C,A000584,釋妙超,Tông Phong,Thích Diệu Siêu,updated,,1
+C,A034599,釋空誓,Không Thệ,Thích Không Thệ,updated,,1
+C,A034600,釋海島,Hải Đảo,Thích Hải Đảo,updated,,1
+C,A034601,釋惠然,Huệ Nhiên,Thích Huệ Nhiên,updated,,1
+C,A000077,釋無學,Tổ Nguyên,Thích Vô Học,updated,,1
+C,A000478,釋妙環,Diệu Hoàn,Thích Diệu Hoàn,updated,,1
+C,A000061,釋大惠,Đại Huệ,Thích Đại Huệ,updated,,1
+C,A008470,釋祖心,Tổ Tâm,Thích Tổ Tâm,updated,,1
+C,A000808,釋信瑞,Tín Thụy,Thích Tín Thụy,updated,,1
+C,A034604,釋冲絢,Xung Huyến,Thích Trùng Huyễn,updated,,1
+C,A032738,法藏,고봉법장,Pháp Tạng,updated,,1
+C,A001499,道元,Vĩnh Bình Quảng Lục,Đạo Nguyên,updated,,1
+C,A001758,瑩山,Oánh Sơn Thiệu Cẩn,Oánh Sơn,updated,,1
+C,A023620,守培,Thích Thủ Bồi,Thủ Bồi,updated,,1
+C,A007237,釋畹荃,Uyển Thuyên,Thích Uyển Thuyên,updated,,1
+C,A012265,釋德介,Đức Giới,Thích Đức Giới,updated,,1
+C,A019486,釋超乾,Siêu Càn,Thích Siêu Càn,updated,,1
+C,A010969,沈鑅彪,Trầm Lỏng Bưu,Thẩm Cự Tiêu,updated,,1
+C,A010962,釋廣賓,Quảng Tân,Thích Quảng Tân,updated,,1
+C,A022321,釋𧧌湛,Tịch Trạm,Thích Vụ Trạm,updated,,1
+C,A043045,釋明倫,Minh Luân,Thích Minh Luân,updated,,1
+C,A022322,釋通淵,Thông Uyên,Thích Thông Uyên,updated,,1
+C,A022323,釋實懿,Thực Ý,Thích Thật Ý,updated,,1
+C,A043768,釋智一,Trí Nhất,Thích Trí Nhất,updated,,1
+C,A043771,程嘉燧,Hải Năng,Trình Gia Toại,updated,,1
+C,A014641,釋行海,Hàng Hải,Thích Hành Hải,updated,,1
+C,A021782,釋明賢,Minh Hiền,Thích Minh Hiền,updated,,1
+C,A004055,釋義菴,Minh Khiêm,Thích Nghĩa Am,updated,,1
+C,A045594,釋然叢,Nhiên Tùng,Thích Nhiên Tùng,updated,,1
+C,A045600,釋明慧,Long Chiếu,Thích Minh Tuệ,updated,,1
+C,A000135,釋元賢,Nguyên Hiền,Thích Nguyên Hiền,updated,,1
+C,A010589,錢邦,Đại Thác,Tiền Bang,updated,,1
+C,A003591,性幽獨往,Tính U,Tính U Độc Vãng,updated,,1
+C,A007274,釋傳燈,Truyền Đăng,Thích Truyền Đăng,updated,,1
+C,A000589,釋宗淨,Tông Tịnh,Thích Tông Tịnh,updated,,1
+C,A015404,不動金剛,Đảm Ba,Bất Động Kim Cương,updated,,1
+C,A016559,僧鑑,Hiểu Thanh,Tăng Giám,updated,,1
+C,A004475,從諗,Triệu Châu Trà,Tòng Thẩm,updated,,1
+C,A016456,天岸昇,Bản Thăng,Thiên Ngạn Thăng,updated,,1
+C,A000392,元,Hàng Nguyên,Nguyên,updated,,1
+C,A018935,斌雅,Siêu Giám,Bân Nhã,updated,,1
+C,A016202,笑堂和尚,Hàng Minh,Tiếu Đường Hòa Thượng,updated,,1
+C,A019011,芝巖秀,Siêu Tú,Chi Nham Tú,updated,,1
+C,A016419,懶石聆,Giác Linh,Lãn Thạch Linh,updated,,1
+C,A010152,圓䂐,Viên䂐,Viên Huýnh,updated,,1
+C,A026198,觀誰,Quán Thuỳ,Quan Thùy,updated,,1
+C,A016480,山暉,Hoàn Bích,Sơn Huy,updated,,1
+C,A016401,月幢了,Triệt Liễu,Nguyệt Tràng Liễu,updated,,1
+C,A010142,鐵眉三巴掌,Tuệ Lệ,Thiết Mi Tam Ba Chưởng,updated,,1
+C,A016482,斷愚智,Chân Trí,Đoạn Ngu Trí,updated,,1
+C,A037493,羅開麟,Mộc Chùm,La Khai Lân,updated,,1
+C,A012041,壇溪梓舟船,Siêu Thuyền,Đàn Khê Tử Chu Thuyền,updated,,1
+C,A012696,洪希,Suyền Hơi,Hồng Hi,updated,,1
+C,A019275,靈樹遠,Tăng Viễn,Linh Thụ Viễn,updated,,1
+C,A019286,內紹種,Trí Chõng,Nội Thiệu Chủng,updated,,1
+C,A016465,雲叟住,Bản Trú,Vân Tẩu Trụ,updated,,1
+C,A007940,青原愚者智,Đại Trí,Ngu Giả Trí,updated,,1
+C,A037519,興磬,Hưng㲈,Hưng Khánh,updated,,1
+C,A001669,聖可,Đức Ngọc,Thánh Khả,updated,,1
+C,A016277,淨斯,Tể Lôn Siêu Vĩnh,Tịnh Tư,updated,,1
+C,A016439,寂光豁,Ấn Khoát,Tịch Quang Hoát,updated,,1
+C,A016553,古宿尊,Hồ Tôn,Cổ Túc Tôn,updated,,1
+C,A016581,華巖還初佛,Quang Phật,Hoa Nham Hoàn Sơ Phật,updated,,1
+C,A016267,三塔主峰,Viên Pháp,Tam Tháp Chủ Phong,updated,,1
+C,A037576,智旭,Tịnh Nhân,Trí Húc,updated,,1
+C,A019611,晦嶽旭,Trí Húc,Hối Nhạc Húc,updated,,1
+C,A016352,林我,Lâm Ngã Giám,Lâm Ngã,updated,,1
+C,A016402,石關,Hàng Lăng,Thạch Quan,updated,,1
+C,A016594,香嚴,Phương Quế,Hương Nghiêm,updated,,1
+C,A016498,古林,Cổ Lâm Trí,Cổ Lâm,updated,,1
+C,A019617,體宗寧,Đạo Ninh,Thể Tông Ninh,updated,,1
+C,A037592,續清,Khánh Pháp,Tục Thanh,updated,,1
+C,A021755,伏獅義公,Siêu Kha,Phục Sư Nghĩa Công,updated,,1
+C,A016343,燈炳,Biệt Am Tánh Thống,Đăng Bính,updated,,1
+C,A016597,大笑崇,Tính Sùng,Đại Tiếu Sùng,updated,,1
+C,A001010,大博乾,Hàng Càn,Đại Bác Kiền,updated,,1
+C,A019779,別牧純,Minh Đạo,Biệt Mục Thuần,updated,,1
+C,A037634,慧澤,Thiên Mục Trung Phong Hòa Thượng Quảng Lục,Tuệ Trạch,updated,,1
+C,A000005,鑑堂一,Giám Đường,Giám Đường Nhất,updated,,1
+C,A014573,翠崖必,Thuý Nhai,Thúy Nhai Tất,updated,,1
+C,A012957,斗南暐,Thôi Tung,Đẩu Nam Vĩ,updated,,1
+C,A000933,時蔚,Thì Uý,Thời Úy,updated,,1
+C,A016516,鶴山,Tế Ngộ,Hạc Sơn,updated,,1
+C,A000358,守其,Thú Kì,Thủ Kỳ,updated,,1
+C,A024094,關世謙,Thích Hội Tĩnh,Quan Thế Khiêm,updated,,1
+C,A001785,法勇,Vô Kiệt,Pháp Dũng,updated,,1
+C,A000992,般剌蜜帝,Bàn Lạt Mật Đế,Bát Lạt Mật Đế,updated,,1
+C,A000044,三昧蘇嚩羅,Tô Phược La,Tam Muội Tô Phạ La,updated,,1
+C,A000853,毗舍佉,Bì Xá Khư,Tì Xá Khư,updated,,1
+C,A000088,尸陀槃尼,Thây Đà Bàn Ni,Thi Đà Bàn Ni,updated,,1
+C,A000414,行矩,Hàng Củ,Hành Cự,updated,,1
+C,A001690,瞿那末底,Guṇamati,Cù Na Mạt Để,updated,,1
+C,A001921,釋寶亮,Thích Bảo Lượng,Bảo Lượng,updated,,1
+C,A000094,不可思議,Diệu Giác,Bất Khả Tư Nghị,updated,,1
+C,A001497,道𭮨,Đạo㲀,Đạo 𭮨,updated,,1
+C,A001198,九頂慧泉,Tuệ Tuyền,Cửu Đỉnh Tuệ Tuyền,updated,,1
+C,A001475,義遠,Giác Lãng Đạo Thạnh,Nghĩa Viễn,updated,,1
+C,A001601,鑑智僧璨,Tăng Xán,Giám Trí Tăng Xán,updated,,1
+C,A001891,魏源,Nguỵ Nguồn,Ngụy Nguyên,updated,,1
+C,A001841,闍那多迦,Đồ Na Đa Ca,Xà Na Đa Ca,updated,,1
+C,A000480,宋孝宗,Triệu Thận,Tống Hiếu Tông,updated,,1
+C,A001618,實觀,Dược Sư Bổn Nguyện Công Đức Kinh,Thực Quán,updated,,1
+C,A000229,古德法師,Cổ Đức,Cổ Đức Pháp Sư,updated,,1
+C,A001429,慈航智願,Trí Nguyện,Từ Hàng Trí Nguyện,updated,,1
+C,A001489,葛䵻,Cát䵻,Cát Đề,updated,,1
+C,A000857,洪蓮,Suyền Sen,Hồng Liên,updated,,1
+C,A000354,存吾,Trần Tồn Ngô,Tồn Ngô,updated,,1
+C,A000074,大顛祖師,Bảo Thông,Đại Điên Tổ Sư,updated,,1
+C,A000296,玄惲,Đạo Thế,Huyền Uẩn,updated,,1
+C,A000555,天溪,Thụ Đăng,Thiên Khê,updated,,1
+C,A000937,海眼,Đại Quán,Hải Nhãn,updated,,1
+C,A036834,般若,Nhất Thừa Đốn Ngộ,Bát Nhã,updated,,1
+C,A000011,一念,Nhất Niệm Cư Sĩ,Nhất Niệm,updated,,1
+C,A000665,明教,Trương Minh Giáo,Minh Giáo,updated,,1
+C,A018267,覺明菩薩,Diệu Hàng,Giác Minh Bồ Tát,updated,,1
+C,A000680,果能,Nghiêm Đức,Quả Năng,updated,,1
+C,A000892,乘戒,Định Tuệ,Thừa Giới,updated,,1
+C,A001362,虗一,Phương Giác,Hư Nhất,updated,,1
+C,A012839,知訥,Trí Nột Diệu Không,Tri Nột,updated,,1
+C,A022466,覺,Thập Thân Giác,Giác,updated,,1
+C,A000080,子和,Tí Hoà,Tử Hòa,updated,,1
+C,A036842,法演,Phật Nhãn Thanh Viễn,Pháp Diễn,updated,,1
+C,A001646,齊己,Tày Kỉ,Tề Kỷ,updated,,1
+C,A001938,覺心,Cổ Tôn Túc Ngữ Lục,Giác Tâm,updated,,1
+C,A001706,慧行,Huệ Hàng,Tuệ Hành,updated,,1
+C,A000263,正因,Viên Cụ,Chính Nhân,updated,,1
+C,A036846,圓澄,Bắc Nhàn Cư Giản,Viên Trừng,updated,,1
+C,A000131,元靖,Vận Am Phổ Nham,Nguyên Tĩnh,updated,,1
+C,A001060,惟一,Hoàn Khê Duy Nhất,Duy Nhất,updated,,1
+C,A000280,永仁,Bạch Vân Huệ Hiểu,Vĩnh Nhân,updated,,1
+C,A000856,洪喬祖,Cao Phong Nguyên Diệu,Hồng Kiều Tổ,updated,,1
+C,A000433,住顯,Thạch Khê Tâm Nguyệt,Trụ Hiển,updated,,1
+C,A036850,慧忠,Bồ Đề,Tuệ Trung,updated,,1
+C,A036851,慧觀,Huệ Quan,Tuệ Quán,updated,,1
+C,A001740,慧鏡,Huệ Kẻng,Tuệ Kính,updated,,1
+C,A027405,丁元公,Nguyện Am Tịnh Y,Đinh Nguyên Công,updated,,1
+C,A009472,一行慧覺,Huệ Giác,Nhất Hành Tuệ Giác,updated,,1
+C,A001972,讀體,Độc Thể,Tri Lễ,updated,,1
+C,A000756,知禮,Tri Lễ,Độc Thể,updated,,1
+C,A001317,無寄,Vân Mặc,Vô Ký,updated,,1
+C,A001771,黎眉,Quách Ngưng Chi,Lê Mi,updated,,1
+C,A000157,心圓,Châu Tâm Viên,Tâm Viên,updated,,1
+C,A000201,火蓮,Bình Thánh Đài,Hỏa Liên,updated,,1
+C,A001778,曇秀,Pháp Chi,Đàm Tú,updated,,1
+C,A008261,圓悟,Khô Nhai Hòa Thượng Mạn Lục,Viên Ngộ,updated,,1
+C,A001003,馬鳴菩薩,Mã Minh,Mã Minh Bồ Tát,updated,,1
+C,A031993,惠辯禪師,Huệ Biện,Huệ Biện Thiền Sư,updated,,1
+C,A017001,寂天菩薩,Tịch Thiên,Tịch Thiên Bồ Tát,updated,,1
+C,A034790,傑操大師,Giả Tào·đạt Mã Nhân Khâm,Kiệt Thao Đại Sư,updated,,1
+C,A001640,宋太宗,Triệu Quýnh,Tống Thái Tông,updated,,1
+C,A000946,宋真宗,Triệu Đức Xương,Tống Chân Tông,updated,,1
+C,A006606,宋仁宗,Triệu Trinh,Tống Nhân Tông,updated,,1
+C,A014328,釋祖照,Đạo Hoà,Thích Tổ Chiếu,updated,,1
+C,A000129,釋元照,Nguyên Chiếu,Thích Nguyên Chiếu,updated,,1
+C,A032510,釋剛曉,Cương Hiểu,Thích Cương Hiểu,updated,,1
+B,A001583,鳩摩羅什,Cưu Ma La Thập,Cưu Ma La Thập,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",54
+B,A033779,方廣錩,Phương Quảng Xuổng,Phương Quảng Cẩn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",43
+B,A001844,闍那崛多,Đồ Na Quật Đa,Xà Na Quật Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",36
+B,A000527,求那跋陀羅,Cầu Na Bạt Đà La,Cầu Na Bạt Đà La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",33
+B,A001357,菩提流支,Bồ Đề Lưu Chi,Bồ Đề Lưu Chi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",31
+B,A001358,菩提流志,Bồ Đề Lưu Chí,Bồ Đề Lưu Chí,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",26
+B,A001342,善無畏,Thiện Vô Uý,Thiện Vô Úy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",26
+B,A001482,龍樹,Long Thụ,Long Thọ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",24
+B,A004896,灌頂,Quán Đỉnh,Quán Đảnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",21
+B,A000996,般若流支,Bàn Nhược Lưu Chi,Bát Nhã Lưu Chi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",16
+B,A001318,無著,Vô Trứ,Vô Trước,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",14
+B,A023413,宗喀巴,Tông Khách Ba,Tông Khách Ba,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",13
+B,A001572,達摩笈多,Đạt Ma Cấp Đa,Đạt Ma Cấp Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",12
+B,A000163,支婁迦讖,Chi Lâu Ca Sấm,Chi Lâu Ca Sấm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",12
+B,A001588,僧伽婆羅,Tăng Già Bà La,Tăng Già Bà La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",12
+B,A000545,那連提黎耶舍,Na Liên Đề Lê Gia Xá,Na Liên Đề Lê Da Xá,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",11
+B,A000218,求那跋摩,Cầu Na Bạt Ma,Cầu Na Bạt Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",10
+B,A001152,通理,Thông Lí,Thông Lý,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",10
+B,A001188,彭際清,Bành Thiệu Thăng,Bành Tế Thanh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",10
+B,A000085,子璿,Tử Tuyền,Tử Toàn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",9
+B,A000441,佛馱跋陀羅,Phật Đà Bạt Đà La,Phật Đà Bạt Đà La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",9
+B,A001673,德洪,Đức Suyền,Đức Hồng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",8
+B,A000138,允堪,Duẫn Kham,Doãn Kham,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",8
+B,A001361,菩提達磨,Bồ Đề Đạt Ma,Bồ Đề Đạt Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",7
+B,A000440,佛陀扇多,Phật Đà Phiến Đa,Phật Đà Phiến Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",7
+B,A001786,曇摩蜜多,Đàm Ma Mật Đa,Đàm Ma Mật Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",7
+B,A001210,提雲般若,Đề Vân Bàn Nhược,Đề Vân Bát Nhã,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",7
+B,A001057,從義,Tòng Nghĩa,Tùng Nghĩa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",7
+B,A034625,李際寧,Lí Tế Ninh,Lý Tế Ninh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",7
+B,A000421,行策,Hàng Sách,Hành Sách,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",6
+B,A000439,佛陀耶舍,Phật Đà Gia Xá,Phật Đà Da Xá,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",6
+B,A000852,毗目智仙,Bì Mục Trí Tiên,Tì Mục Trí Tiên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",6
+B,A001207,迦那提婆,Ca Na Đề Bà,Ca Na Đề Bà,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",6
+B,A001803,曇曠,Đàm Khoảng,Đàm Khoáng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",6
+B,A016610,宗上,Ôn Thượng,Tông Thượng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",5
+B,A001589,僧伽提婆,Tăng Già Đề Bà,Tăng Già Đề Bà,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",5
+B,A001883,聶道真,Niếp Đạo Chân,Nhiếp Đạo Chân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",5
+B,A000328,吉迦夜,Cát Ca Dạ,Cát Ca Dạ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",5
+B,A001350,善熹,Thiện Hy,Thiện Hi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",5
+B,A000560,周理,Chu Lí,Chu Lý,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",4
+B,A001592,僧伽跋摩,Tăng Già Bạt Ma,Tăng Già Bạt Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",4
+B,A001552,道暹,Đạo Xiêm,Đạo Tiêm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",4
+B,A000417,行敏,Hàng Mẫn,Hành Mẫn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",4
+B,A043785,張磊,Trương Lối,Trương Lỗi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",4
+B,A034224,貢噶呼圖克圖,Cống Gắt Hô Đồ Khắc Đồ,Cống Cáp Hô Đồ Khắc Đồ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000850,段成式,Đoạn Thành Thức,Đoàn Thành Thức,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000525,釋杜順,Pháp Thuận,Thích Đỗ Thuận,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A004777,釋印光,Ấn Quang Đại Sư,Thích Ấn Quang,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A001513,道忞,Đạo Mân,Đạo Mẫn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A001157,通醉,Thông Tuý,Thông Túy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000406,行舟,Hàng Chu,Hành Chu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A019630,照水,Chiếu Héo,Chiếu Thủy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A001593,僧伽跋澄,Tăng Già Bạt Trừng,Tăng Già Bạt Trừng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A001013,曼陀羅仙,Mạn Đà La Tiên,Mạn Đà La Tiên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000089,尸羅達摩,Thi La Đạt Ma,Thi La Đạt Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000686,波羅頗迦羅蜜多羅,Ba La Phả Ca La Mật Đa La,Ba La Phả Ca La Mật Đa La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000438,佛陀波利,Phật Đà Ba Lợi,Phật Đà Ba Lợi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000436,佛陀什,Phật Đà Thập,Phật Đà Thập,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000882,迦栴延子,Ca Chiên Duyên Tí,Ca Chiên Diên Tử,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000408,行秀,Hàng Tú,Hành Tú,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A001587,僧祐,Tăng Hữu,Tăng Hựu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000170,文軌,Văn Quẫy,Văn Quỹ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000924,徐槐廷,Từ Hoè Đình,Từ Hòe Đình,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A001539,道楷,Đạo Giai,Đạo Khải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000423,行滿,Hành Mãn,Hạnh Mãn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A000487,希迪,Hơi Địch,Hi Địch,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A034632,徐紹強,Chờ Thiệu Càng,Từ Thiệu Cường,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",3
+B,A004850,范寄東,Phạm Cổ Nông,Phạm Ký Đông,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A005158,阿耨樓陀,A Na Luật,A Nậu Lâu Đà,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A024044,湯薌銘,Thang Trú Tâm,Thang Hương Minh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A015038,阿底霞,A Để Hạp,A Để Hà,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A034276,達瓦桑杜,Đạt Ngoã Tang Đỗ,Đạt Oa Tang Đỗ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A034277,伊文思溫慈,Y Văn Tư ． Ôn Từ,Y Văn Tư Ôn Từ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A024388,多羅那他,Đa La Na Tha,Đa La Na Tha,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001871,鍾始聲,Chung Thuỷ Thanh,Chung Thủy Thanh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A018586,周永年,Chu Vĩnh Nên,Chu Vĩnh Niên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000619,帛尸梨密多羅,Bạch Thi Lê Mật Đa La,Bạch Thi Lê Mật Đa La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001304,儼法師,Trí Nghiễm,Nghiễm Pháp Sư,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A007866,倓虛,Đảm Hư,Đàm Hư,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A020627,嚴大參,Nghiêm Đại Tam,Nghiêm Đại Tham,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A019187,法璽印,Chính Ấn,Pháp Tỉ Ấn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A016535,宗宏,Ôn Hoằng,Tông Hoằng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001501,道正,Ấn Chính,Đạo Chính,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000411,行省,Hàng Tỉnh,Hành Tỉnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A015946,濟璣,Tế Ky,Tế Cơ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A012025,藍理,Lam Lí,Lam Lý,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000243,弘瀚,Hoằng Hãn,Hoằng Hàn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000160,支法度,Chi Pháp Kiền,Chi Pháp Độ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000526,求那毗地,Cầu Na Bì Địa,Cầu Na Tì Địa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000851,毘尼多流支,Bì Ni Đa Lưu Chi,Tì Ni Đa Lưu Chi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000999,祇多蜜,Kỳ Đa Mật,Kì Đa Mật,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001795,曇摩流支,Đàm Ma Lưu Chi,Đàm Ma Lưu Chi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000004,畺良耶舍,Cương Lương Gia Xá,Cương Lương Da Xá,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000546,那提,Na Đề,Na Đề,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001796,曇摩耶舍,Đàm Ma Gia Xá,Đàm Ma Da Xá,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000872,若羅嚴,Nhược La Nghiêm,Nhược La Nghiêm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000781,阿旺扎什,A Vượng Trát Thập,A Vượng Trát Thập,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001570,薩穆丹達爾吉,Tát Mục Đan Đạt Nhãi Cát,Tát Mục Đan Đạt Nhĩ Cát,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000449,伽梵達摩,Già Phạm Đạt Ma,Già Phạm Đạt Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001355,菩提㗚使,Bồ Đề㗚sứ,Bồ Đề Lệ Sử,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001012,勒那摩提,Lắc Na Ma Đề,Lặc Na Ma Đề,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000003,鬱楞迦,Uất Lăng Già,Uất Lăng Già,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000348,如惺,Như Tỉnh,Như Tinh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001228,普瑞,Phổ Thuỵ,Phổ Thụy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000424,行霆,Hàng Đình,Hành Đình,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000132,元粹,Nguyên Tuý,Nguyên Túy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000267,正相,Chính Tương,Chính Tướng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001980,靈椉,Linh Thừa,Linh Thặng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001719,慧能,Huệ Năng,Tuệ Năng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000921,徐行善,Chờ Hàng Thiện,Từ Hành Thiện,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000607,宗鏡,Tông Kẻng,Tông Kính,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000482,孚佑帝君,Phu Hựu Đấy Quân,Phù Hựu Đế Quân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001870,謝觀光,Tạ Quán Quang,Tạ Quan Quang,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A004672,洪恩,Suyền Ân,Hồng Ân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000347,如理,Như Lí,Như Lý,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001449,源清,Nguồn Thanh,Nguyên Thanh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A036835,慧光,Huệ Quang,Tuệ Quang,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000477,妙蓮,Diệu Sen,Diệu Liên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001166,陳熙願,Trần Hy Nguyện,Trần Hi Nguyện,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000562,周思仁,Chu Mộng Nhan,Chu Tư Nhân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000259,本瑞,Bản Thuỵ,Bản Thụy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000407,行佑,Hàng Hựu,Hành Hựu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000912,師坦,Sư Đất,Sư Thản,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A001213,普和,Phổ Hoà,Phổ Hòa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000488,希革,Hơi Cách,Hy Cách,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000385,朱時恩,Châu Thì Ân,Chu Thời Ân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A034626,蘇軍,To Quân,Tô Quân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A005957,信行,Tín Hàng,Tín Hành,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A034813,侯旭東,Hậu Hóc Đông,Hầu Húc Đông,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A043779,曹淩,Tào Lâng,Tào Lăng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",2
+B,A000457,呂夷簡,Lã Dì Giản,Lã Di Giản,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016340,覺音,Phật Âm,Giác Âm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034211,佐伯旭雅,Tá Bá Hóc Nhã,Tả Bá Hủy Nhã,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034220,徐鄂雲,Chờ Ngạc Vân,Từ Ngạc Vân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A029511,南天棒鄧州,Đặng Châu Toàn Trung,Nam Thiên Bổng Đặng Châu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000389,江味農,Giang Diệu Hú,Giang Vị Nông,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043206,無著賢,Vô Trứ Hiền,Vô Trước Hiền,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034243,王森,Vương Chùm,Vương Sâm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034244,楊化群,Dương Hoá Quần,Dương Hóa Quần,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034249,潭影,Đằm Ảnh,Đàm Ảnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034270,三寶無畏王,Tam Bảo Vô Uý Vương,Tam Bảo Vô Úy Vương,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034273,札迦,Trát Ca,Trát Ca,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034278,趙洪鑄,Triệu Suyền Chú,Triệu Hồng Chú,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034283,珀瑪迦爾,Phách Mã Ca Nhãi,Bác Ma Ca Nhĩ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034303,金慧暢,Kim Huệ Sướng,Kim Tuệ Sướng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034308,惹穹多傑札把,Nhạ Khum Đa Kiệt Trát Bã,Nhạ Cung Đa Kiệt Trát Bả,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034310,多傑,Đa Kiệt,Đa Kiệt,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034314,郭和卿,Quách Hoà Khanh,Quách Hòa Khanh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034315,王沂暖,Vương Nghị Noãn,Vương Nghi Noãn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034317,范祥雍,Phạm Tường Ủng,Phạm Tường Ung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A017492,王隨,Vương Tuỳ,Vương Tùy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019294,李昉,Lý Phưởng,Lý Phảng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A022931,源諒,Nguồn Lượng,Nguyên Lượng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034331,劉霞彩,Lưu Hà Thái,Lưu Hà Thải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034338,陳沂,Trần Nghị,Trần Nghi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034342,矢吹慶輝,Thi Xuy Khánh Huy,Thỉ Xuy Khánh Huy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A009420,晁逈,Trào Quýnh,Triều Quýnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A008362,袁了凡,Viên Hoàng,Viên Liễu Phàm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034473,李能和,Lý Năng Hoà,Lý Năng Hòa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034474,富永仲基,Phú Vắng Trọng Cơ,Phú Vĩnh Trọng Cơ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034478,義觀,Nghĩa Quan,Nghĩa Quán,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034481,慧中,Tuệ Trung,Huệ Trung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A010533,蔡念生,Sái Niệm Sinh,Thái Niệm Sinh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034507,王錫,Vương Thiếc,Vương Tích,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034514,拉賈戈帕拉查理,Lạp Giả Qua Mạt Lạp Tra Lí,La Già Cô Ba La Tra Lí,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034515,唐季雍,Đường Quí Ủng,Đường Quý Ung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034521,雅蘇瑪蒂書達．踏薩,Nhã To Mã Đế Thư Đạt ． Đạp Tát,"Nhã Tô Mã Đế Thư Đạt, Đạp Tát",kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001143,處觀,Xử Quan,Xứ Quan,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A048439,夏蓮居,Hạ Kế Tuyền,Hạ Liên Cư,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A012804,釋慧空,Tuyết Phong Tuệ Không,Thích Tuệ Không,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A011850,唐時,Đường Thì,Đường Thời,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A007335,王芥庵,Vương Tại Công,Vương Giới Am,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000420,行琳,Hàng Lâm,Hành Lâm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A046450,李翊灼,Lí Dực Chước,Lý Dực Chước,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A048442,張建木,Trương Khắc Cường,Trương Kiến Mộc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A007230,郭子章,Quách Tí Chương,Quách Tử Chương,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A003575,李翥,Lý Chứ,Lý Chữ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043764,汪孟鋗,Uông Mạnh Huyên,Uông Mạnh Kiềm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A010967,厲鶚,Lẹ Ngạc,Lệ Ngạc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043766,張熷,Trương Tưng,Trương Hốt,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043769,朱文藻,Châu Văn Tảo,Chu Văn Tảo,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043770,章庭棫,Chương Đình Vực,Chương Đình Dực,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043772,蘇先,To Tiên,Tô Tiên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A018138,葉昌熾,Diệp Xương Sí,Diệp Xương Xí,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A006923,岑學呂,Sầm Bá Củ,Sầm Học Lữ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A024004,釋寄塵,Thích Gửi Trần,Thích Ký Trần,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A045601,朱諫,Châu Gián,Chu Gián,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A045602,胡汝寧,Hồ Nhớ Ninh,Hồ Nhữ Ninh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A003855,如瑩,Như Học,Như Oánh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A022492,沈士榮,Đắm Sĩ Vinh,Thẩm Sĩ Vinh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037255,鮑宗肇,Bảo Tông Triệu,Bào Tông Triệu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037641,程啟用,Trình Khởi Dụng,Trình Khải Dụng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A011343,了彙,Liễu Vị,Liễu Hối,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A003703,文偃,Văn Ễnh,Văn Yển,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037261,慧省,Huệ Tỉnh,Tuệ Tỉnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000854,洪如,Suyền Như,Hồng Như,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037264,陶汝鼐,Đào Nhớ Nãi,Đào Nhữ Nại,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037266,董行,Đổng Hàng,Đổng Hành,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037267,行宗,Hàng Tông,Hành Tông,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037268,行古,Hàng Cổ,Hành Cổ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037269,行猷,Hàng Du,Hành Du,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A018988,行正,Hàng Chính,Hành Chính,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016290,行瑋,Hàng Vĩ,Hành Vĩ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A026449,行浚,Hàng Tuấn,Hành Tuấn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A018992,大休珠,Tịnh Châu,Đại Hưu Châu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037271,廣熙,Quảng Hây,Quảng Hi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A010007,雲峨喜,Hàng Hỷ,Vân Nga Hỷ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037276,超源,Siêu Nguồn,Siêu Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A018938,永濟融,Vắng Tế Dung,Vĩnh Tế Dung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037467,師住,Sư Trú,Sư Trụ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A018946,行剛,Hàng Cương,Hành Cương,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A018939,季總徹,Hàng Triệt,Quý Tổng Triệt,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037475,海瑞,Hải Thuỵ,Hải Thụy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037480,道沖,Đạo Khem,Đạo Xung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016230,真理,Chân Lí,Chân Lý,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A010711,一初元,Ngộ Nguyên,Nhất Sơ Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019189,耳庵嵩,Đăng Tung,Nhĩ Am Tung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037488,徐善,Chờ Thiện,Từ Thiện,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019256,如璽,Như Tỷ,Như Tỉ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A004551,元長,Nguyên Trưởng,Nguyên Trường,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019261,法通,Thông Pháp,Pháp Thông,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A010037,行澤,Hàng Trạch,Hành Trạch,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037500,宏怤,Hoằng Phu,Hoằng Sách,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016227,自閒覺,Hàng Giác,Tự Nhàn Giác,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A013482,行導,Hàng Đạo,Hành Đạo,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000427,行韜,Hàng Thao,Hành Thao,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001977,顯裕,Hiển Dịu,Hiển Dụ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A015972,大然,Thiên Nhiên,Đại Nhiên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037526,如暐,Như Vĩ,Như Huy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016508,普重,Phổ Trùng,Phổ Trọng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037535,方拱乾,Phương Củng Càn,Phương Củng Kiền,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037537,真慧,Chân Huệ,Chân Tuệ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016279,行聞,Hàng Văn,Hành Văn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A012051,行海,Hàng Hải,Hành Hải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019496,行日,Hàng Nhật,Hành Nhật,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019546,寂納,Tịch Nột,Tịch Nạp,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037545,法棟,Pháp Nhắm,Pháp Đống,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019487,如乾,Như Càn,Như Kiền,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A014466,允汾,Duẫn Phần,Duẫn Phân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016512,智操,Trí Thao,Trí Tháo,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019548,善酇,Thiện Toản,Thiện Toàn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037556,序燈,Tựa Đăng,Tự Đăng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037557,序璋,Tựa Chương,Tự Chương,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019549,啟真誠,Khởi Chân Thành,Khải Chân Thành,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016588,行植,Hàng Thực,Hành Thực,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037565,慧岱,Tuệ Đại,Tuệ Đãi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037569,今又,Kim Lại,Kim Hựu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016380,蓮峰素,Sen Phong Tố,Liên Phong Tố,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037571,如惺,Như Tỉnh,Như Tinh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016487,黃蓮東巖,Đông Nham Chân Xán,Hoàng Liên Đông Nham,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037573,機琇,Cơ Tú,Cơ Tựu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037579,續彌,Tục Nỉ,Tục Di,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019612,半水元,Phát Nguyên,Bán Thủy Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037583,華嚴玉,Hoa Nham Ngọc,Hoa Nghiêm Ngọc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037590,正繼,Chánh Kế,Chính Kế,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037591,正燈,Chánh Đăng,Chính Đăng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037593,清尚,Thanh Chuộng,Thanh Thượng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037595,弘源,Hoằng Nguồn,Hoằng Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037597,高以永,Cao Dĩ Vắng,Cao Dĩ Vĩnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016444,玄億,Đăng Ức,Huyền Ức,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037602,燈洪,Đăng Suyền,Đăng Hồng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019623,玉眉亮,Đăng Lượng,Ngọc Mi Lượng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037606,張廷勱,Trương Đình Mại,Trương Đình Lặc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019627,超啟,Siêu Khởi,Siêu Khải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037609,廣和,Quảng Hoà,Quảng Hòa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A021486,寂源,Tịch Nguồn,Tịch Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016410,行高,Hàng Cao,Hành Cao,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016222,行臻,Hàng Trăn,Hành Trăn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016564,德楷,Đức Giai,Đức Khải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037625,行悟,Hàng Ngộ,Hành Ngộ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037626,學正,Học Chánh,Học Chính,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000426,行謙,Hàng Khiêm,Hành Khiêm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001031,寂乾,Tịch Kiền,Tịch Càn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037635,性湛,Tính Đậm,Tính Trạm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037639,明慧,Minh Huệ,Minh Tuệ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A037640,杜允貞,Đỗ Duẫn Trinh,Đỗ Doãn Trinh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001231,普潤,Phổ Nhuần,Phổ Nhuận,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A019780,樸夫拙,Thực Chuyết,Phác Phu Chuyết,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000386,朱道則,Châu Đạo Tắc,Chu Đạo Tắc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000222,可洪,Khả Suyền,Khả Hồng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000239,弘歇,Hoằng Hết,Hoằng Yết,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A016400,行岳,Hàng Nhạc,Hành Nhạc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000419,行森,Hàng Sâm,Hành Sâm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001412,圓瀞,Viên Tịnh,Viên Thịnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001879,瞿曇法智,Cù Đàm Pháp Trí,Cù Đàm Pháp Trí,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000881,迦留陀迦,Ca Lưu Đà Ca,Ca Lưu Đà Ca,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001590,僧伽斯那,Tăng Già Tư Na,Tăng Già Tư Na,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001324,無羅叉,Vô Xoa La,Vô La Xoa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001793,曇摩蜱,Đàm Ma Tỳ,Đàm Ma Tì,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001794,曇摩迦陀耶舍,Đàm Ma Ca Đà Gia Xá,Đàm Ma Ca Đà Da Xá,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000304,白延,Bạch Duyên,Bạch Diên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000161,支施侖,Chi Thi Lỏn,Chi Thi Luân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001741,慧嚴,Huệ Nghiêm,Tuệ Nghiêm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000871,若那跋陀羅,Nhược Na Bạt Đà La,Nhược Na Bạt Đà La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000723,法場,Pháp Trường,Pháp Tràng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000443,佛陀蜜多,Phật Đà Mật Đa,Phật Đà Mật Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001992,觀無畏,Quan Vô Uý,Quán Vô Úy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000140,勿提提羼魚,Vật Đề Đề Sạn Ngư,Vật Đề Đề Sàn Ngư,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000883,攝摩騰,Nhép Ma Đằng,Nhiếp Ma Đằng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001360,菩提登,Bồ Đề Đăng,Bồ Đề Đăng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000437,佛陀多羅,Phật Đà Đa La,Phật Đà Đa La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000780,阿地瞿多,A Địa Cù Đa,A Địa Cù Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001574,達摩栖那,Đạt Ma Thê Na,Đạt Ma Tê Na,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000523,杜行顗,Đỗ Hàng Ỷ,Đỗ Hạnh Nghĩ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000870,若那,Nhược Na,Nhược Na,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000391,牟尼室利,Mưu Ni Thất Lợi,Mâu Ni Thất Lợi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000766,難提,Nan Đề,Nan Đề,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000863,耶舍崛多,Gia Xá Quật Đa,Da Xá Quật Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001492,解脫師子,Giải Thoát Sư Tí,Giải Thoát Sư Tử,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000518,李無諂,Lí Vô Siểm,Lý Vô Siểm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A024116,金剛福壽,Kim Cang Phúc Thọ,Kim Cương Phúc Thọ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001876,瞿多,Cù Đa,Cù Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000994,般若力,Bàn Nhược Lực,Bát Nhã Lực,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000772,金俱吒,Kim Câu Cha,Kim Câu Trá,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001377,跋馱木阿,Bạt Đà Mộc A,Bạt Đà Mộc A,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000247,弗若多羅,Phất Nhược Đa La,Phất Nhược Đa La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000246,弗陀多羅多,Phất Đà Đa La Đa,Phất Đà Đa La Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001591,僧伽跋陀羅,Tăng Già Bạt Đà La,Tăng Già Bạt Đà La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001021,婆素跋陀,Bà Tố Bạt Đà,Bà Tô Bạt Đà,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001584,鳩摩羅佛提,Cưu Ma La Phật Đề,Cưu Ma La Phật Đề,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000219,功德施,Công Đức Thi,Công Đức Thí,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001573,達摩菩提,Đạt Ma Bồ Đề,Đạt Ma Bồ Đề,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A002402,舍利弗,Xá Lợi Phất,Xá Lợi Phất,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000053,目犍連,Mục Kiền Liên,Mục Kiền Liên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001208,提婆設摩,Đề Bà Thết Ma,Đề Bà Thiết Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001359,菩提耶舍,Bồ Đề Gia Xá,Bồ Đề Da Xá,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000941,浮陀跋摩,Phù Đà Bạt Ma,Phù Đà Bạt Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001797,曇摩崛多,Đàm Ma Quật Đa,Đàm Ma Quật Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001184,尊婆須蜜,Tôn Bà Tua Mật,Tôn Bà Tu Mật,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001846,優波扇多,Ưu Ba Phiến Đa,Ưu Ba Thiện Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001878,瞿沙,Cù Sa,Cù Sa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001424,塞建地羅,Tắc Kiến Địa La,Tắc Kiến Địa La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001025,婆藪開士,Bà Tẩu Khai Sĩ,Bà Tu Khai Sĩ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001209,提婆羅,Đề Bà La,Đề Bà La,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001175,最勝子,Tối Thắng Tí,Tối Thắng Tử,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001014,商羯羅主,Thương Yết La Chúa,Thương Yết La Chủ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001363,訶梨跋摩,Ha Lê Bạt Ma,Ha Lê Bạt Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001024,婆藪跋摩,Bà Sú Bạt Ma,Bà Tẩu Bạt Ma,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001845,優波底沙,Ưu Ba Để Sa,Ưu Ba Để Sa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001762,蓮華戒,Sen Hoa Giới,Liên Hoa Giới,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001329,筏提摩多,Phẹt Đề Ma Đa,Phạt Đề Ma Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001749,摩咥里制吒,Ma Chối Lý Chế Tra,Ma Đát Lý Chế Tra,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000508,曷利沙伐彈那,Hạt Lợi Sa Phạt Đàn Na,Yết Lợi Sa Phạt Đạn Na,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001633,管主八,Quản Chúa Bát,Quản Chủ Bát,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001393,琮湛,Tông Đậm,Tông Trạm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000670,明皛,Minh Hịch,Minh Hạo,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001564,道鏡,Đạo Kẻng,Đạo Kính,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000465,妙協,Diệu Hiếp,Diệu Hiệp,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000476,妙源,Diệu Nguồn,Diệu Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001364,費長房,Phí Trưởng Phòng,Phí Trường Phòng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001798,曇摩難提,Đàm Ma Nan Đề,Đàm Ma Nan Đề,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001724,慧皎,Tuệ Hiệu,Tuệ Hạo,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000620,延一,Duyên Nhất,Diên Nhất,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001122,盛熙明,Thịnh Hy Minh,Thịnh Hi Minh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001650,劉謐,Lưu Mật,Lưu Mịch,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000492,希麟,Hơi Lân,Hi Lân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001594,僧怛多櫱多,Tăng Đắn Đa Nghiệt Đa,Tăng Đát Đa Nghiệt Đa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000687,波羅瞿那彌捨沙,Ba La Cù Na Di Xả Sa,Ba La Cù Na Di Xá Sa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001702,慧月,Huệ Nguyệt,Tuệ Nguyệt,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000649,拂多誕,Phất Đa Đản,Phất Đa Đản,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000657,明佺,Minh Toàn,Minh Thuyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001042,常曉,Thường Hẻo,Thường Hiểu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001405,圓行,Viên Hàng,Viên Hành,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001626,榮穩,Vinh Ủn,Vinh Ổn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000286,永超,Vắng Siêu,Vĩnh Siêu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001293,智慧山,Trí Huệ Sơn,Trí Tuệ Sơn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001632,福慧,Phúc Huệ,Phúc Tuệ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001860,禪那崛多別,Thiền Na Quật Đa Biết,Thiền Na Quật Đa Biệt,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001473,義雲法金剛,Nghĩa Vân Pháp Kim Cang,Nghĩa Vân Pháp Kim Cương,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001816,縛日羅枳惹曩,Phược Nhật La Chỉ Nhạ Nán,Phược Nhật La Chỉ Nhạ Nang,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000925,徐鍔,Chờ Ngạc,Từ Ngạc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A008962,惟慤,Duy Xác,Duy Khác,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001872,鍾惺,Chung Tỉnh,Chung Tinh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000893,乘旹,Thặng Thì,Thừa Thì,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001855,濟時,Tế Thì,Tế Thời,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A006310,智嚴,Trí Nham,Trí Nghiêm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001486,聖德太子,Thánh Đức Thái Tí,Thánh Đức Thái Tử,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000553,受汰,Thụ Vè,Thụ Thái,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001768,鄭澄源,Trịnh Trừng Nguồn,Trịnh Trừng Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A036502,永隆,Vắng Long,Vĩnh Long,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001036,屠垠,Đồ Hằn,Đồ Ngân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000065,大韻,Đại Thiều,Đại Vận,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000072,大璸,Đại Tân,Đại Mai,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000083,子真,Tí Chân,Tử Chân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001495,迹刪鷲,Thành Thứu,Tích San Thứu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001974,龔穊綵,Cung Cấy Thái,Cung Trĩ Thải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A017925,成蓮,Thành Sen,Thành Liên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A036746,提婆,Đề Bà,Đề Bà,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000313,仲希,Trọng Hơi,Trọng Hi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001140,處咸,Xử Hàm,Xứ Hàm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000804,亮潤,Lượng Nhuần,Lượng Nhuận,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A036505,守篤,Thú Đốc,Thủ Đốc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000735,法銑,Pháp Ten,Pháp Tiển,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001705,慧因,Huệ Nhân,Tuệ Nhân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001745,慧顯,Huệ Hiển,Tuệ Hiển,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001548,道標,Đạo Bêu,Đạo Tiêu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001779,曇延,Đàm Duyên,Đàm Diên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000460,均正,Quân Chánh,Quân Chính,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001735,慧影,Huệ Ảnh,Tuệ Ảnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001055,從芳,Tòng Phương,Tùng Phương,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000708,法盈,Pháp Dềnh,Pháp Doanh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001732,慧暉,Huệ Huy,Tuệ Huy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001011,乾淑,Kiền Thục,Càn Thục,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001138,處元,Xử Nguyên,Xứ Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001142,處謙,Xử Khiêm,Xứ Khiêm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000934,時舉,Thì Cử,Thời Cử,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A036507,宗頴,Tông Nhánh,Tông Dĩnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001375,跋折羅菩提,Bạt Chiết La Bồ Đề,Bạt Chiết La Bồ Đề,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001034,寂暹,Tịch Xiêm,Tịch Tiêm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001078,惟顯,Hoài Hiển,Duy Hiển,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000811,俊芿,Tuấn Nhăng,Tuấn Nhưng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000410,行枝,Hàng Chi,Hành Chi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000375,成時,Thành Thì,Thành Thời,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001551,道霑,Đạo Bái,Đạo Chiêm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000813,俞行敏,Du Hàng Mẫn,Du Hành Mẫn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001044,常攝,Thường Nhép,Thường Nhiếp,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000531,沈善登,Trầm Thiện Đăng,Thẩm Thiện Đăng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001692,德潤,Đức Nhuần,Đức Nhuận,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000168,文冲,Văn Khem,Văn Xung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000606,宗賾,Tông Di,Tông Trách,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000412,行悅,Hàng Duyệt,Hành Duyệt,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000418,行盛,Hàng Thịnh,Hành Thịnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001370,超記,Siêu Kí,Siêu Ký,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000413,行海,Hàng Hải,Hành Hải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000285,永盛,Héo Thịnh,Vĩnh Thịnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000081,子昇,Tí Thăng,Tử Thăng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000885,重顯,Trùng Hiển,Trọng Hiển,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000084,子淳,Tí Thuần,Tử Thuần,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A014695,一辯,Hơi Biện,Nhất Biện,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001750,樓頴,Lầu Dĩnh,Lâu Dĩnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001726,慧弼,Huệ Bật,Tuệ Bật,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000113,介諶,Giới Kham,Giới Thâm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001141,處凝,Xử Ngưng,Xứ Ngưng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000380,有宗,Hữu Bộ,Hữu Tông,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A025113,子文,Tí Văn,Tử Văn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000974,祖淳,Tổ Choang,Tổ Thuần,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000737,法慧,Pháp Huệ,Pháp Tuệ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000530,沈孟柈,Đắm Mạnh Bán,Thẩm Mạnh Bàn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000171,文郁,Văn Uất,Văn Úc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000621,延俊,Dang Tuấn,Diên Tuấn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000363,守愿,Thú Nguyện,Thủ Nguyện,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001675,德紀,Đức Kỉ,Đức Kỷ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000574,宗和,Tông Hoà,Tông Hòa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A036844,慧雲,Huệ Vân,Tuệ Vân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000276,正賢,Chánh Hiền,Chính Hiền,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000575,宗坦,Tông Đất,Tông Thản,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001295,智瑾,Trí Cấn,Trí Cẩn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000503,志諶,Chí Thầm,Chí Thẩm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001507,道冲,Đạo Trùng,Đạo Xung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001259,智沂,Trí Nghị,Trí Nghi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000425,行彌,Hàng Di,Hành Di,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000133,元樞,Nguyên Xu,Nguyên Khu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000705,法洪,Pháp Suyền,Pháp Hồng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001016,唯道,Dõi Đạo,Duy Đạo,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000404,至慧,Chí Huệ,Chí Tuệ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000025,了垠,Liễu Hằn,Liễu Ngân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000271,正從,Chánh Tòng,Chính Tòng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000394,自永,Tự Vắng,Tự Vĩnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000364,守靜,Thú Tĩnh,Thủ Tĩnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A036849,宗永,Tông Vắng,Tông Vĩnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000265,正定,Chánh Định,Chính Định,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001736,慧澄,Huệ Trừng,Tuệ Trừng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001770,銳彰,Nhuệ Chương,Duệ Chương,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001714,慧恭,Huệ Cung,Tuệ Cung,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001934,繼燖,Kế Tầm,Kế Tuân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000082,子昶,Tí Sưởng,Tử Sưởng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000123,元勗,Nguyên Úc,Nguyên Húc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000916,師楷,Sư Giai,Sư Khải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000387,汝均,Nhớ Quân,Nhữ Quân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001139,處林,Xử Lâm,Xứ Lâm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000489,希陵,Hơi Lăng,Hy Lăng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000415,行純,Hàng Thuần,Hành Thuần,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000839,持正,Trì Chánh,Trì Chính,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001095,清澤,Thanh Rạch,Thanh Trạch,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000585,宗茙,Tông Ngồng,Tông Tư,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000283,永珍,Vắng Trân,Vĩnh Trân,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000976,祖森,Tổ Chùm,Tổ Sâm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000141,及藏主,Cập Tạng Chúa,Cập Tạng Chủ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001689,德粹,Đức Tuý,Đức Túy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001243,景行,Cảnh Hàng,Cảnh Hạnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000189,文闡,Văn Xén,Văn Xiển,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001852,應槐,Ứng Hoè,Ứng Hòe,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000388,汝現,Nhớ Hiện,Nhữ Hiện,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001715,慧朗,Huệ Lãng,Tuệ Lãng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000565,宗亘,Tông Tuyên,Tông Cẩn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000616,居頂,Cư Đỉnh,Cư Đính,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000586,宗寄,Tông Gửi,Tông Ký,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001717,慧浩,Huệ Hạo,Tuệ Hạo,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000835,思齊,Tư Tày,Tư Tề,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001722,慧啟,Huệ Khải,Tuệ Khải,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000176,文晟,Văn Thạnh,Văn Thịnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000272,正隆,Chánh Long,Chính Long,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000269,正參,Chánh Tham,Chính Tham,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000268,正除,Chánh Trừ,Chính Trừ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000491,希顏,Hơi Nhan,Hy Nhan,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001924,寶盈,Bảo Dềnh,Bảo Doanh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000534,良玓,Lương Đích,Lương Thích,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000914,師皎,Sư Hiệu,Sư Hạo,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001351,善隨,Thiện Tuỳ,Thiện Tùy,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000202,王子成,Vương Tí Thành,Vương Tử Thành,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000262,正止,Chánh Chỉ,Chính Chỉ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001861,禪修,Thích Thiền,Thiền Tu,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000641,性磊,Tính Lối,Tính Lỗi,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001504,道行,Đạo Hàng,Đạo Hành,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001877,瞿汝稷,Cù Nhớ Tắc,Cù Nhữ Tắc,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001881,聶先,Niếp Tiên,Nhiếp Tiên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000843,施沛,Thi Phái,Thi Bái,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001643,際源,Tế Nguồn,Tế Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000861,紀蔭,Kỉ Ấm,Kỷ Ấm,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000456,吳侗,Ngô Thống,Ngô Đồng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001004,高承埏,Cao Thừa Duyên,Cao Thừa Diên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A009005,無慍,Vô Uấn,Vô Uẩn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000384,朴永善,Phắc Vắng Thiện,Phác Vĩnh Thiện,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001116,淨慧,Tịnh Huệ,Tịnh Tuệ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A000097,中野達慧,Trung Dã Đạt Huệ,Trung Dã Đạt Tuệ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A001721,慧堅,Huệ Kiên,Tuệ Kiên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034241,杜斗城,Đỗ Đấu Thành,Đỗ Đẩu Thành,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034731,大德安法師,Đại Đức An Pháp Sư,Đại Đức An Pháp Sư,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034740,張曉娟,Trương Hẻo Quyên,Trương Hiểu Quyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034744,烏瑪斯伐蒂,Ô Mã Tư Phạt Đế,Ô Ma Tư Phạt Đế,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034748,程恭讓,Trình Cung Nhường,Trình Cung Nhượng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034757,袁德領,Viên Đức Lãnh,Viên Đức Lĩnh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034956,齊藤隆信,Tày Đằng Long Tín,Tề Đằng Long Tín,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A032551,末木文美士,Mạt Mộc Văn Mỉ Sĩ,Mạt Mộc Văn Mỹ Sĩ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034984,通源,Thông Nguồn,Thông Nguyên,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A034990,克什曼德拉,Khắc Thập Man Đức Lấp,Khắc Thập Mạn Đức Lạp,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043608,韓鏡清,Hàn Kẻng Thanh,Hàn Kính Thanh,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043830,張曉麗,Trương Hẻo Lệ,Trương Hiểu Lệ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043832,李鐵華,Lí Thiết Hoa,Lý Thiết Hoa,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043833,梶浦晉,Vả Phố Tấn,Kiêm Phố Tấn,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043834,柳富鉉,Liễu Phú Huyễn,Liễu Phú Huyền,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043835,侯溥,Hậu Phổ,Hầu Phổ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043837,曾曉紅,Tằng Hẻo Hồng,Tằng Hiểu Hồng,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
+B,A043838,中村一紀,Trung Thôn Nhất Kỉ,Trung Thôn Nhất Kỷ,kept_alias,"alias - da doi chieu, giu theo ZQ (khac quy uoc doc ca tu)",1
