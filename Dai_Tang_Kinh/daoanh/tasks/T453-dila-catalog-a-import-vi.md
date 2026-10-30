@@ -3,7 +3,7 @@ id: T453
 title: Import DILA authority_catalog tạng A (A.json) + lớp dịch Việt + tra cứu trên HOME
 status: done
 created: 2026-10-22
-updated: 2026-10-22
+updated: 2026-10-30
 owner: coordinator
 module: Data / DILA Catalog
 priority: high
@@ -126,3 +126,4 @@ Thêm 1 dòng `data_sources` `DILA_CATALOG` (CC BY-SA 3.0, AUDITING) — cũng c
 
 ## Admin Notes
 - [2026-10-25 18:33] giao Tester xem Done chưa
+- [2026-10-30] **Admin xác nhận DONE** — đã nạp đủ 5.747 bộ / 5.589 lượt người / 765 nơi dịch; marker `docs/tasktodo.md` đã đổi từ "chờ Admin xác nhận DONE" sang DONE. Bàn giao: `docs/Handoff-2026-10-22-T453-dila-catalog.md`.
