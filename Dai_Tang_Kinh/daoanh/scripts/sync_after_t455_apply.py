@@ -21,11 +21,12 @@ with open(wt, encoding="utf-8", errors="replace") as f:
 nl = "\r\n" if "\r\n" in cur else "\n"
 
 blocks = []
-for tid in ["T453", "T454", "T455", "T456", "T457"]:
+TIDS = ["T453", "T454", "T455", "T456", "T457", "T501", "T502"]
+for tid in TIDS:
     m = re.search(r"<!-- %s:START -->.*?<!-- %s:END -->" % (tid, tid), head, re.DOTALL)
     if m:
         blocks.append(m.group(0))
-for tid in ["T453", "T454", "T455", "T456", "T457"]:
+for tid in TIDS:
     cur = re.sub(r"\n?<!-- %s:START -->.*?<!-- %s:END -->\n?" % (tid, tid), "\n", cur, flags=re.DOTALL)
 anchor = "<!-- T461:END -->"
 assert anchor in cur
