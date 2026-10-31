@@ -841,3 +841,19 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 <!-- T445:START -->
 > **[2026-10-21 · T445] Wizard UI cho T444 Gemini Places Translation (B0-B9 steps)** ⏳ IN_PROGRESS (Admin phê chuẩn Wizard Flow plan 2026-10-21; dispatch: OpenCode code, Claude QA verify). Nâng cấp placevn.html thành linear Wizard flow (9 steps B0→B9) thay tabbed UI; real-time WebSocket monitoring B5/B8 (không polling); tối ưu state + UX. Timeline: 2.5h. Depends on: T444 (backend Gemini batch + API endpoints). Files: `daoanh/admin/placevn.html` (React Wizard component) + `daoanh/app.py` (8 new API endpoints + WebSocket /ws/batch-monitor). Task: `tasks/T445-placevn-wizard-ui-b0-b9.md`. [Summary](plans/T445-TASK-SUMMARY.md).
 <!-- T445:END -->
+
+<!-- T374:START -->
+> **[2026-10-13 · T374 — Kiểm tra sức khỏe git + quy trình chuẩn hoàn tác một bản sửa] ⏳ IN_PROGRESS (housekeeping, Admin duyệt qua chat; chờ Admin ✔ Done).** Task: `tasks/T374-git-health-and-revert-procedure.md`. Bàn giao: `docs/Handoff-2026-10-13-housekeeping.md`.
+<!-- T374:END -->
+
+<!-- T376:START -->
+> **[2026-10-13 · T376 — Thu gọn tasktodo.md: chuyển mục DONE sang docs/archive/tasktodo-done-2026.md] ⏳ IN_PROGRESS (housekeeping, Admin duyệt qua chat; chờ Admin ✔ Done).** Task: `tasks/T376-tasktodo-archive-done.md`. Bàn giao: `docs/Handoff-2026-10-13-housekeeping.md`.
+<!-- T376:END -->
+
+<!-- T377:START -->
+> **[2026-10-13 · T377 — Dọn thư mục gốc daoanh vào _archive/2026-10-13-root-cleanup/] ⏳ IN_PROGRESS (housekeeping, Admin duyệt qua chat; chờ Admin ✔ Done).** Task: `tasks/T377-root-cleanup-archive.md`. Bàn giao: `docs/Handoff-2026-10-13-housekeeping.md`.
+<!-- T377:END -->
+
+<!-- T378:START -->
+> **[2026-10-13 · T378 — Tách app.py bước 1: nhóm route zenlineage sang blueprint (con của T364)] ⏳ IN_PROGRESS (housekeeping, Admin duyệt qua chat; chờ Admin ✔ Done).** Task: `tasks/T378-app-split-zenlineage-blueprint.md`. Bàn giao: `docs/Handoff-2026-10-13-housekeeping.md`.
+<!-- T378:END -->
