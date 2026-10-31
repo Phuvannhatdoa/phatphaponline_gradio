@@ -82,7 +82,7 @@ py_compile + pyflakes OK; dashboard không đổi. Tên endpoint đổi `zenline
 |---|---|---|---|
 | T374 | `git revert --no-edit <sha_T374>` | chép lại `housekeeping/AGENTS.md.bak-before-T374`, `CLAUDE.md.bak-before-T374`; bỏ 2 file docs mới | Không (docs) |
 | T375 | `git revert --no-edit <sha_T375>` | `python -X utf8 docs/sessions/2026-10-13/housekeeping/t375_archive_dup_ids.py --restore` | Không (chỉ di chuyển) |
-| T376 | `git revert --no-edit <sha_T376>` | chép `housekeeping/tasktodo.md.bak-before-T376` → `docs/tasktodo.md`; bỏ `docs/archive/tasktodo-done-2026.md` | Không |
+| T376 | `a4397c2a` (mốc gom, không revert riêng được) + `git revert --no-edit 45b2b5ec` (phần sửa L1) | chép `housekeeping/tasktodo.md.bak-before-T376` → `docs/tasktodo.md`; bỏ `docs/archive/tasktodo-done-2026.md` | Không |
 | T377 | `git revert --no-edit <sha_T377>` + `t377_root_cleanup.py --restore` (22 file ignore) | `t377_root_cleanup.py --restore` | Không |
 | T378 | `git revert --no-edit <sha_T378>` rồi restart app.py | chép `housekeeping/app.py.bak-before-T378` → `app.py`; bỏ `api_zenlineage.py` | Không (0 DB) |
 | Đăng ký | `git revert --no-edit <sha_REG>` | bỏ 5 task file + 5 khối cuối tasktodo | Không |

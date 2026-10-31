@@ -10,7 +10,7 @@ Phiên Claude Code (Remote Control từ dự án PPOL), Admin duyệt 5 việc q
 | (đăng ký) | 5 task file + 5 dòng tasktodo | xong | `<sha_REG>` |
 | T374 | git health + `docs/process/REVERT_ONE_FIX.md` + mục trỏ AGENTS/CLAUDE | xong, **phần AGENTS/CLAUDE mất do sự cố — chạy lại bằng reapply** | `<sha_T374>` |
 | T375 | 8/9 ID trùng: 13 bản cũ → `_archive/2026-10-13-dup-ids/` | xong (T274 chờ Admin) | `<sha_T375>` |
-| T376 | 74 mục DONE → `docs/archive/tasktodo-done-2026.md` | xong, **tasktodo.md mất do sự cố — chạy lại bằng reapply** | `<sha_T376>` |
+| T376 | 74 mục DONE → `docs/archive/tasktodo-done-2026.md` | xong, **tasktodo.md mất do sự cố — chạy lại bằng reapply** | `a4397c2a` + `45b2b5ec` |
 | T377 | 60 file gốc → `_archive/2026-10-13-root-cleanup/` | xong | `<sha_T377>` |
 | T378 | 5 route zenlineage → `api_zenlineage.py` | xong, **app.py mất do sự cố — chạy lại bằng reapply** | `<sha_T378>` |
 

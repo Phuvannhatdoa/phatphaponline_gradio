@@ -847,7 +847,7 @@ Audit 100% marker → GAP THẤT (places.html: badge TL1/TL2/TL3 + verified HAS,
 <!-- T374:END -->
 
 <!-- T376:START -->
-> **[2026-10-13 · T376 — Thu gọn tasktodo.md: chuyển mục DONE sang docs/archive/tasktodo-done-2026.md] ⏳ IN_PROGRESS (housekeeping, Admin duyệt qua chat; chờ Admin ✔ Done).** Task: `tasks/T376-tasktodo-archive-done.md`. Bàn giao: `docs/Handoff-2026-10-13-housekeeping.md`.
+> **[2026-10-13 · T376 — Thu gọn tasktodo.md: chuyển mục DONE sang docs/archive/tasktodo-done-2026.md] ✅ DONE — Admin xác nhận DONE 2026-11-01.** Task: `tasks/T376-tasktodo-archive-done.md`. Bàn giao: `docs/Handoff-2026-10-13-housekeeping.md`.
 <!-- T376:END -->
 
 <!-- T377:START -->
