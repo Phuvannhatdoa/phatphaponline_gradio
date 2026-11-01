@@ -1,0 +1,52 @@
+[
+ {
+  "path": "Dai_Tang_Kinh/daoanh/_archive/2026-10-25-junk-cleanup/db/lineage_backup_t77.db.tmp",
+  "sha256": "1c41350838331f0f43518cc0c499ae06cf3e1ff1f05300debf11647c44616569",
+  "bytes": 685043712
+ },
+ {
+  "path": "Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/claude_place_name_dryrun.csv",
+  "sha256": "68472631f063f2a3e14ccc1c7bdb21a9269386a7af47fefc91b85ff6c5362f34",
+  "bytes": 6262391
+ },
+ {
+  "path": "Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-26/dila_json_reconcile.csv",
+  "sha256": "cff4c432dda103794e7f5a9feed4a4ab264ad729df06b78466c98f79ca48d351",
+  "bytes": 43182045
+ },
+ {
+  "path": "Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-26/dila_json_reconcile_after.csv",
+  "sha256": "0bb6a23defcc9f6948725bacf79ba31f6de23afc073fa1c2423bd5009ad08bff",
+  "bytes": 43181175
+ },
+ {
+  "path": "Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-26/dila_json_reconcile_after_v2.csv",
+  "sha256": "cff4c432dda103794e7f5a9feed4a4ab264ad729df06b78466c98f79ca48d351",
+  "bytes": 43182045
+ },
+ {
+  "path": "Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-26/dila_json_reconcile_after_v3.csv",
+  "sha256": "8ade1f5b7388c5fd454916a2e0eec7eddca3830774b091cce402a29f34cbffb7",
+  "bytes": 43310118
+ },
+ {
+  "path": "Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-28-tokenbench/cbm/bin/codebase-memory-mcp.exe",
+  "sha256": "39f6a789cd858d7428561ac5afaefb9a47b018dcba0ad6fa41ae71a45e0ed656",
+  "bytes": 333716480
+ },
+ {
+  "path": "Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-28-tokenbench/cbm/cbm-win.zip",
+  "sha256": "4e4e0f16b45233af5c757a1fcbe3c3b16e9056375b1fbe2ce020b6de75dedcc0",
+  "bytes": 48508123
+ },
+ {
+  "path": "docs/sessions/2026-10-26/pkg-json/ignored-json.csv",
+  "sha256": "4a497139e347a4513de3af82d942c921ccb5d8fbe99dd514fb2dab00c6e4f3de",
+  "bytes": 12929912
+ },
+ {
+  "path": "python /opt/phatphaponline_gradio/main_processing_script.py .html",
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "bytes": 0
+ }
+]

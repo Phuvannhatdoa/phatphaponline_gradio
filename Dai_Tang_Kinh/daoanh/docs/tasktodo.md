@@ -1,6 +1,14 @@
 # TASKTODO — Active Tasks
 
 <!-- T461:START -->
+<!-- T500:START -->
+> **[2026-10-31 · T500 — Quan hệ quyển CBETA: work_volumes / volume_files / work_alias] ✅ **DONE (Admin xác nhận 2026-11-01)**.** Đã ghi work_volumes 21.513 dòng, volume_files 21.513 dòng (sửa 2.054 dòng theo XML cục bộ, T0220 đúng 3 file), work_alias 18 dòng (bỏ 6 alias tự trỏ). W1: phương án A áp dụng cho cả 64 dòng của X0714, L1557, GA0037 (Admin chọn). QA đạt (2026-10-31); tester PASS_WITH_WARNINGS. Backup: `data/backups/lineage_pre_t500_*.db`. Task: `tasks/T500-cbeta-catalog-volume-relations.md`.
+<!-- T500:END -->
+
+<!-- T301:START -->
+> **[2026-10-10 · T301 — M2 kiểm 148 claims Wikidata chỉ là EXTERNAL_ID] ✅ **DONE (Admin xác nhận 2026-11-01)**.** QA đạt từ 2026-10-12: 148/148 claims chỉ là `same_as` mã Q. Task: `tasks/T301-m2-kiem-wikidata-chi-id.md`.
+<!-- T301:END -->
+
 > **[2026-10-24 · T461 — Điều phối task undone và QA theo lô] 🔄 IN_PROGRESS.** Admin phê chuẩn danh sách ưu tiên: QA/đóng T417, T410, T453, T424, T425; tiếp theo T406/T408; profile T416; kiểm soát T418 và T429/T458; audit T415/T275/T273; hạ tầng T385/T387. Dashboard có checklist local review, không tự đổi trạng thái task hoặc production. Chi tiết: `tasks/T461-undone-task-triage-execution-plan.md`.
 <!-- T461:END -->
 
