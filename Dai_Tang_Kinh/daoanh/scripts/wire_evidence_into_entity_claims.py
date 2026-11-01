@@ -23,6 +23,48 @@ LOG_PATH = ROOT / 'data' / 't69_wire_log.json'
 
 DRY_RUN = '--dry-run' in sys.argv
 
+# T287 — nối LicenseGate (mẫu: scripts/etl_entity_claims.py dòng 26-29)
+sys.path.insert(0, str(ROOT))
+try:
+    from gate.license import LicenseGate
+    _gate = LicenseGate(db_path=str(DB_PATH))
+except ImportError:
+    _gate = None
+
+
+def _log_gate_reject(conn, source_id, operation, reason):
+    """Ghi en_audit_log khi LicenseGate từ chối (T287 — nhánh từ chối ghi audit)."""
+    try:
+        conn.execute(
+            """INSERT INTO en_audit_log
+               (entity_ref, action, field_name, old_value, new_value,
+                evidence_sources, authority_rank, editor, verification_status, created_at)
+               VALUES (?,?,?,?,?,?,?,?,?,?)""",
+            (
+                None, 'gate_reject', 'entity_claims', None, reason,
+                json.dumps({'source_id': source_id, 'operation': operation, 'script': 'wire_evidence_into_entity_claims.py'}, ensure_ascii=False),
+                None, 'LicenseGate', 'rejected', datetime.now().isoformat(),
+            ),
+        )
+        conn.commit()
+    except Exception as e:
+        print(f"  [WARN] Không ghi được en_audit_log cho gate_reject: {e}")
+
+
+def _gate_check(conn, source_id, operation='INGEST'):
+    """Gọi LicenseGate trước khi ghi entity_claims. Ném PermissionError nếu bị từ chối
+    (và ghi en_audit_log trước khi ném)."""
+    if _gate is None:
+        print(f"  [WARN] LicenseGate không tải được — bỏ qua kiểm tra source_id={source_id}")
+        return
+    result = _gate.checkSourcePermission(source_id, operation)
+    if not result['allowed']:
+        reason = f"[LicenseGate] Từ chối source_id={source_id} op={operation}: {result['reason']}"
+        _log_gate_reject(conn, source_id, operation, reason)
+        raise PermissionError(reason)
+    print(f"  [Gate OK] source_id={source_id} status={result['status']} op={operation}")
+
+
 # data_sources.source_id
 SRC_CBETA  = 3
 SRC_MARCUS = 4
@@ -207,6 +249,14 @@ def run():
     if DRY_RUN:
         print('\n[DRY-RUN] No DB changes.')
     else:
+        # T287 — LicenseGate trước khi ghi entity_claims, chỉ kiểm nguồn thật sự có claim.
+        if stats['cbeta'] > 0:
+            _gate_check(conn, SRC_CBETA, 'INGEST')
+        if stats['marcus'] > 0:
+            _gate_check(conn, SRC_MARCUS, 'INGEST')
+        if stats['wikidata'] > 0:
+            _gate_check(conn, wiki_src, 'INGEST')
+
         print('[T69] Inserting...')
         conn.executemany("""
             INSERT OR IGNORE INTO entity_claims
