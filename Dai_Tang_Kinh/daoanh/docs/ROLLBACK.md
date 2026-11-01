@@ -785,3 +785,17 @@ cột mới additive để đánh dấu).
 - Ghi chú: additive thuần (1 cột mới, 1 UPDATE đúng 1 dòng). Không đụng bảng khác, không đụng
   dòng `nam_vien_hue_ngung`. Chưa có consumer code đọc cột `superseded_by` — xem
   `docs/db_schema.md` §9.2b. Chi tiết đầy đủ: `tasks/T507-ttl-tree-4char-dila-name.md`.
+
+## 2026-11-01 — commit theo nhóm, revert từng commit
+Chuỗi commit trên nhánh truyen-dang-the-pho-clean, sau 5cbbd86b (HEAD cũ). Mỗi commit là một nhóm độc lập để revert riêng.
+| Commit | Nội dung |
+|---|---|
+| a1d64073 | dashboard/ (agent_team, serve.py) |
+| e055113e | admin-ui: tab Catalog, Xác Minh Tác Giả, menu, sync_log, places tree-source |
+| 0c630ce8 | backend: route dịch lại T447, sửa cạnh DILA-only T506 (app.py, local_gateway.py) |
+| e9a0c024 | scripts + tests khôi phục |
+| ab113e02 | tasks + docs khôi phục, log và tool 2026-11-01 |
+| 22936957 | sync_cbeta_refs.py và phần còn lại |
+| 24b2aee5 | opencode.json: chặn ssh/scp/rclone |
+Hoàn tác một nhóm: git revert --no-edit <sha>. Revert theo thứ tự ngược từ commit mới nhất nếu cần nhiều nhóm. Nếu revert xung đột với sửa sau đó, dừng và báo, không ép.
+Bản sao lưu ngoài repo: C:/Users/Nam Thien/.claude/wip-unsnapshotted-20261101 (10 file lớn, có manifest sha256); nhánh WIP đầy đủ: wip/2026-11-01 (5ea88f6d).
