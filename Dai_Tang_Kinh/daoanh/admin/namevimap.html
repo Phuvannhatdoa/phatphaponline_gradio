@@ -217,6 +217,8 @@
         <button class="da-tab active" onclick="switchTab('etl',   this)">🔧 TTL ETL</button>
         <button class="da-tab"        onclick="switchTab('xcm',   this)" id="xcm-tab-btn">🔍 Xác Minh <span id="xcm-tab-count" style="background:#d97706;color:#020617;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;margin-left:4px;display:none"></span></button>
         <button class="da-tab"        onclick="switchTab('place', this)" id="place-tab-btn">🗺️ Place</button>
+        <button class="da-tab"        onclick="switchTab('catalog', this)" id="catalog-tab-btn">📚 Catalog</button>
+        <button class="da-tab"        onclick="switchTab('workverify', this)" id="workverify-tab-btn">✍️ Xác minh tác giả</button>
     </div>
 
     <div class="success-message" id="success-msg"></div>
@@ -700,11 +702,11 @@
                    style="flex:1;min-width:180px;background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:7px 11px;color:var(--text-main);font-size:13px"
                    oninput="etlFlagQueueSearch()" />
             <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);cursor:pointer">
-                <input type="checkbox" id="etl-flag-hide-done" checked onchange="etlFlagQueueLoad(1)"
+                <input type="checkbox" id="etl-flag-hide-done" checked onchange="etlFlagQueueLoadAll()"
                        style="accent-color:var(--primary)">
                 Ẩn đã duyệt
             </label>
-            <button onclick="etlFlagQueueLoad(1)"
+            <button onclick="etlFlagQueueLoadAll()"
                     style="background:var(--primary);color:#fff;border:none;border-radius:5px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer">
                 Load
             </button>
@@ -834,13 +836,19 @@
             Danh sách gốc là <code>places_dila</code> (59.167 địa danh). DILA chỉ có tên Hán —
             <strong style="color:var(--primary)">không có tên Việt</strong>; cột "name_vi hiện tại" là tên do
             ZQ phiên âm tự động / Admin sửa tay / TTL xác nhận (badge nguồn ở mỗi dòng, quy tắc ZQ).
+            Cột Gemini lấy từ bảng <code>ai_place_name</code> (~16.665/59.167 địa danh có dữ liệu).
             Cột Claude lấy từ bảng <code>codex_place_name</code>, JOIN qua <code>dila_id</code> (T465 —
             thay cho <code>codex_district_name</code> dùng sai namespace ID ở T440).
-            Cột Gemini đang trống (giai đoạn 2, chưa triển khai).
         </div>
 
         <div class="search-bar">
             <input type="search" id="place-search" placeholder="🔍 Tìm theo Place ID (PL...), Hán tự, hoặc tên Việt…" oninput="placeSearchDebounce()">
+        </div>
+
+        <!-- T446: khối số liệu đối chiếu sống Claude vs Gemini vs namevi_map, gần tiêu đề
+             bảng. Gọi async khi mở tab, không chặn render bảng. Lỗi fetch -> ẩn khối này,
+             bảng vẫn hiển thị bình thường (xem placeLoadCompareSummary()). -->
+        <div id="place-compare-summary" style="display:none;margin-bottom:10px;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text-muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center">
         </div>
 
         <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
@@ -850,6 +858,10 @@
             <button class="btn btn-sm place-filter-btn" data-filter="no_claude"    onclick="placeSetFilter('no_claude')" style="background:transparent;">⬜ Thiếu Claude <span id="place-cnt-no_claude"></span></button>
             <button class="btn btn-sm place-filter-btn" data-filter="no_gemini"    onclick="placeSetFilter('no_gemini')" style="background:transparent;">⬜ Thiếu Gemini <span id="place-cnt-no_gemini"></span></button>
             <button class="btn btn-sm place-filter-btn" data-filter="no_ttl"       onclick="placeSetFilter('no_ttl')" style="background:transparent;">⬜ Thiếu TTL <span id="place-cnt-no_ttl"></span></button>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);cursor:pointer">
+                <input type="checkbox" id="place-hide-done" checked onchange="placeLoad(1)" style="accent-color:var(--primary)">
+                Ẩn đã Pass
+            </label>
             <span id="place-total-label" style="color:#94a3b8;font-size:12px;padding:4px 8px;"></span>
         </div>
 
@@ -861,10 +873,13 @@
                     <th>Hán tự</th>
                     <th>name_vi hiện tại</th>
                     <th title="Nguồn: codex_place_name.name_vi (JOIN qua dila_id, T465)">Claude</th>
-                    <th title="Giai đoạn 2 — chưa triển khai">Gemini</th>
-                    <th>TTL</th>
+                    <th title="Nguồn: ai_place_name.name_vi_ai">Gemini</th>
                     <th>Từ điển</th>
-                    <th>Tin cậy</th>
+                    <th title="% khớp Claude/Gemini/Từ điển/Nam Vi — click để sắp xếp"
+                        style="cursor:pointer;white-space:nowrap;user-select:none"
+                        onclick="placeSortByConfidence()">
+                        Tin cậy <span id="place-conf-sort-arrow" style="font-size:10px;opacity:.6">↕</span>
+                    </th>
                     <th>Kết luận</th>
                     <th>Sửa</th>
                 </tr>
@@ -878,6 +893,108 @@
         <div id="place-pagination" style="display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
 
     </div><!-- /tab-place -->
+
+    <!-- ════════════════════════════════════════
+         TAB 6: CATALOG (T484) — đối chiếu tên Kinh (dila_catalog_works, 5.747 tác phẩm).
+         Các cột: phiên âm Claude, Gemini Free, HVDic, Mục Lục Nguyễn Minh Tiến, lexicon.
+         Pass ghi vào dila_catalog_works (vi_json.admin_pass), không dùng bảng địa danh.
+         ════════════════════════════════════════ -->
+    <div id="tab-catalog" class="tab-panel">
+
+        <div style="background:var(--bg-sidebar);border:1px solid var(--border);border-left:3px solid #d97706;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.6">
+            <strong style="color:var(--text-main)">Đối chiếu tên Kinh (5.747 tác phẩm DILA).</strong>
+            Mỗi dòng so sánh theo thứ tự: Hán tự, HVDic (Hán Nôm), Gemini Free, Claude phiên âm,
+            Lexicon và Mục Lục Nguyễn Minh Tiến. Admin Pass bằng tay; tên đã Pass
+            được lưu trong <code>dila_catalog_works</code> và hiển thị ở cột Đã Pass.
+        </div>
+
+        <div class="search-bar">
+            <input type="search" id="catalog-search" placeholder="🔍 Tìm theo mã tác phẩm (A…), Hán tự…" oninput="catalogSearchDebounce()">
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+            <span id="catalog-total-label" style="color:#94a3b8;font-size:12px;padding:4px 8px;"></span>
+            <button class="btn btn-sm" onclick="catalogGeminiRun()">▶ Dịch Gemini cả trang (lần lượt)</button>
+            <span id="catalog-gemini-status" style="color:#94a3b8;font-size:12px;"></span>
+        </div>
+
+        <div style="overflow-x:auto;margin-bottom:8px">
+        <table class="etl-ba-table" id="catalog-table">
+            <thead>
+                <tr>
+                    <th>Mã</th>
+                    <th>Hán tự</th>
+                    <th title="HVDic — phiên âm Hán Nôm (hvdic.thivien.net)">HVDic</th>
+                    <th title="Gemini Free dịch (file nháp T484)">Gemini Free</th>
+                    <th title="Claude phiên âm (dila_catalog_works.title_vi)">Claude</th>
+                    <th title="Số mục lexicon chứa tên Hán">Lexicon</th>
+                    <th title="Mục Lục Đại Tạng Kinh — Nguyễn Minh Tiến">Nguyễn Minh Tiến</th>
+                    <th>Đã Pass</th>
+                </tr>
+            </thead>
+            <tbody id="catalog-body">
+                <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:20px">Đang tải…</td></tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div id="catalog-pagination" style="display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
+
+    </div><!-- /tab-catalog -->
+
+    <!-- ════════════════════════════════════════
+         TAB 7: XÁC MINH TÁC GIẢ (T486) — contributor name_vi lệch
+         giữa DB và file vn_dila_authority_catalog/*.vi.json.
+         ════════════════════════════════════════ -->
+    <div id="tab-workverify" class="tab-panel">
+
+        <div style="background:var(--bg-sidebar);border:1px solid var(--border);border-left:3px solid #d97706;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.6">
+            <strong style="color:var(--text-main)">Đối chiếu tên người dịch/soạn (794 người, 1.870 dòng contributor lệch).</strong>
+            Mỗi dòng là 1 người: cột "Tên hiện tại (DB)" là <code>people.name_vi</code> hiện có,
+            cột "Tên đề xuất (file)" lấy từ <code>vn_dila_authority_catalog/*.vi.json</code> — sửa tay
+            trước khi Pass nếu cần. Nhóm A = khác hoa/dấu, B = còn chữ Hán sót, C = khác nội dung
+            (cần soát kỹ nhất). Pass ghi vào <code>name_vi_map</code> + đồng bộ <code>people.name_vi</code>.
+        </div>
+
+        <div class="search-bar" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+            <input type="search" id="wv-search" placeholder="🔍 Tìm theo mã người (A…), Hán tự, tên…" oninput="wvSearchDebounce()" style="flex:1;min-width:220px">
+            <div class="ttl-filter-row" style="margin:0">
+                <div class="seg">
+                    <button class="active" data-wv-group="ALL" onclick="wvSetGroup('ALL', this)">Tất cả</button>
+                    <button data-wv-group="A" onclick="wvSetGroup('A', this)">A — hoa/dấu</button>
+                    <button data-wv-group="B" onclick="wvSetGroup('B', this)">B — Hán sót</button>
+                    <button data-wv-group="C" onclick="wvSetGroup('C', this)">C — khác nội dung</button>
+                </div>
+            </div>
+            <span id="wv-total-label" style="color:#94a3b8;font-size:12px;padding:4px 8px"></span>
+        </div>
+
+        <div id="wv-warning" style="display:none;color:#f87171;font-size:12px;margin-bottom:10px"></div>
+
+        <div style="overflow-x:auto;margin-bottom:8px">
+        <table class="etl-ba-table" id="wv-table">
+            <thead>
+                <tr>
+                    <th>Mã người</th>
+                    <th>Hán</th>
+                    <th title="Độ tin cậy mapping: so khớp số ký tự Hán với số từ tiếng Việt ở cột DB và File">Tin Cậy</th>
+                    <th>Tên hiện tại (DB)</th>
+                    <th>Tên đề xuất (file)</th>
+                    <th>Nhóm</th>
+                    <th>Số tác phẩm</th>
+                    <th>Tác phẩm tiêu biểu</th>
+                    <th>Pass</th>
+                </tr>
+            </thead>
+            <tbody id="wv-body">
+                <tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:20px">Đang tải…</td></tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div id="wv-pagination" style="display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
+
+    </div><!-- /tab-workverify -->
 
     <!-- ── Edit Modal ── -->
     <div class="modal" id="edit-modal">
@@ -1014,6 +1131,12 @@
             _etlAbortCtrl.abort();
             _etlAbortCtrl = null;
         }
+        // T437/BUG-050 round 2: _etlFlagTabCtrl là signal RIÊNG cho flag-queue (tách khỏi
+        // _etlAbortCtrl/deadline 45s — xem _etlNewAbortSignal()), vẫn phải abort khi rời tab.
+        if (name !== 'etl' && _etlFlagTabCtrl) {
+            _etlFlagTabCtrl.abort();
+            _etlFlagTabCtrl = null;
+        }
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.da-tab').forEach(b => b.classList.remove('active'));
         document.getElementById('tab-' + name).classList.add('active');
@@ -1056,6 +1179,16 @@
         }
         if (name === 'place') {
             if (!_placeLoaded) { _placeLoaded = true; placeLoad(1); }
+            // T446: gọi lại số liệu đối chiếu Claude/Gemini/namevi_map MỖI LẦN mở tab
+            // (không chỉ lần đầu) vì Gemini dịch dần theo quota -> số liệu cũ nhanh lỗi
+            // thời. Async, không chặn render bảng (placeLoad ở trên không đợi hàm này).
+            placeLoadCompareSummary();
+        }
+        if (name === 'catalog') {
+            if (!_catalogLoaded) { _catalogLoaded = true; catalogLoad(1); }
+        }
+        if (name === 'workverify') {
+            if (!_wvLoaded) { _wvLoaded = true; wvLoad(1); }
         }
     }
 
@@ -1537,26 +1670,29 @@
     // tab ETL, để giải phóng connection pool (6/origin) ngay cho tab vừa mở (ví dụ Place),
     // thay vì bắt tab mới phải chờ 12+ request cũ tự chạy xong.
     let _etlAbortCtrl = null;
+    let _etlFlagTabCtrl = null; // T437/BUG-050 round 2: signal RIÊNG cho flag-queue, KHÔNG dùng chung deadline 45s dưới đây
     function _etlNewAbortSignal() {
         if (_etlAbortCtrl) _etlAbortCtrl.abort();
         _etlAbortCtrl = new AbortController();
         const ctrl = _etlAbortCtrl;
         // BUG-050 fix (2026-10-20): khi backend quá tải (nhiều request cùng origin
         // xếp hàng sau connection pool 6/origin, hoặc server xử lý chậm bất thường),
-        // fetch có thể không bao giờ resolve/reject — bảng FLAG queue kẹt mãi ở
-        // "Đang tải…" (BUG-050), không có cách nào cho Admin biết là lỗi hay vẫn
-        // đang chạy. Đặt deadline cứng 45s cho MỖI lượt tải tab ETL: hết giờ → abort
-        // toàn bộ fetch đang treo. Một số hàm (vd etlFlagQueueLoad) coi AbortError là
-        // "Admin rời tab", im lặng không ghi đè UI — nên phải tự ghi thông báo lỗi rõ
-        // ràng ở đây cho các bảng vẫn còn hiện "Đang tải…" sau khi hết giờ.
+        // fetch có thể không bao giờ resolve/reject — một số bảng có thể kẹt mãi ở
+        // "Đang tải…", không có cách nào cho Admin biết là lỗi hay vẫn đang chạy. Đặt
+        // deadline cứng 45s cho MỖI lượt tải tab ETL: hết giờ → abort toàn bộ fetch
+        // đang treo dùng signal này (loadEtlStats/loadEtlFlagLiveData/AI+Codex status).
+        //
+        // T437/BUG-050 round 2 (2026-10-21): bảng "Bulk FLAG Queue" (etl-flag-queue-body)
+        // KHÔNG còn dùng signal này nữa (xem _etlFlagTabCtrl trong _etlFullLoad() + hàm
+        // etlFlagQueueLoadAll()/_etlFlagLoadPageSeq()) — nó đã có deadline RIÊNG 15s/trang
+        // + nút "Thử lại" per-page. Trước đây timer 45s này abort() luôn kéo theo abort
+        // request flag-list đang chạy (qua outerSignal chung) rồi ghi đè flagBody.innerHTML
+        // bất kể các trang trước đã tải xong — xoá sạch bảng dù chỉ 1 trang chậm (lỗi QA
+        // round 2 ghi nhận). Vì flag-queue giờ độc lập hoàn toàn với ctrl/timer này, không
+        // còn cần (và không còn đúng) để timer này ghi đè etl-flag-queue-body nữa.
         setTimeout(() => {
             if (_etlAbortCtrl !== ctrl) return; // đã có lượt tải mới hơn, hoặc đã rời tab — bỏ qua
             ctrl.abort();
-            const timeoutMsg = 'Lỗi: quá thời gian chờ (45s) — server đang quá tải, thử lại';
-            const flagBody = document.getElementById('etl-flag-queue-body');
-            if (flagBody && flagBody.textContent.includes('Đang tải')) {
-                flagBody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--danger);padding:16px">' + timeoutMsg + '</td></tr>';
-            }
         }, 45000);
         return ctrl.signal;
     }
@@ -1570,7 +1706,12 @@
         const sig = _etlNewAbortSignal();
         loadEtlStats(sig);
         loadEtlFlagLiveData(sig);
-        etlFlagQueueLoad(1, sig);
+        // T437/BUG-050 round 2: flag-queue dùng signal RIÊNG (_etlFlagTabCtrl), không
+        // dùng `sig` (có deadline 45s) — xem ghi chú trong _etlNewAbortSignal(). Vẫn abort
+        // lượt cũ trước khi tạo lượt mới, để giữ hành vi "rời/quay lại tab abort request dở".
+        if (_etlFlagTabCtrl) _etlFlagTabCtrl.abort();
+        _etlFlagTabCtrl = new AbortController();
+        etlFlagQueueLoadAll(_etlFlagTabCtrl.signal);
         loadAiColStatus(sig);
         loadCodexColStatus(sig);
     }
@@ -1724,14 +1865,16 @@
 
     // ── Bulk FLAG Queue ──
     let _etlFlagPage = 1;
-    const _ETL_FLAG_PER_PAGE = 50;
+    // T437/BUG-050 Hướng A (2026-10-21): giảm 50→30 — trang nhỏ hơn giúp mỗi lượt fetch
+    // nhanh hơn, phù hợp tải tuần tự progressive (xem etlFlagQueueLoadAll bên dưới).
+    const _ETL_FLAG_PER_PAGE = 30;
     let _etlFlagSearchTimer = null;
     let _etlFlagSortBy  = '';      // '' = mặc định (p.id), 'confidence_cross' = sort theo Tin cậy
     let _etlFlagSortDir = 'desc';  // 'desc' | 'asc'
 
     function etlFlagQueueSearch() {
         clearTimeout(_etlFlagSearchTimer);
-        _etlFlagSearchTimer = setTimeout(() => etlFlagQueueLoad(1), 400);
+        _etlFlagSearchTimer = setTimeout(() => etlFlagQueueLoadAll(), 400);
     }
 
     function etlFlagSortConfidence() {
@@ -1746,7 +1889,7 @@
         if (arrow) arrow.textContent = _etlFlagSortDir === 'desc' ? '↓' : '↑';
         const th = document.getElementById('th-confidence');
         if (th) th.style.color = 'var(--primary)';
-        etlFlagQueueLoad(1);
+        etlFlagQueueLoadAll();
     }
 
     // ── Bulk Pass ──
@@ -1801,11 +1944,161 @@
             document.getElementById('bulk-pass-preview').textContent = `✅ Đã xong: ${d.count.toLocaleString()} entries`;
             document.getElementById('bulk-pass-confirm-area').style.display = 'none';
             // Reload queue để cập nhật
-            setTimeout(() => etlFlagQueueLoad(1), 800);
+            setTimeout(() => etlFlagQueueLoadAll(), 800);
         } catch(e) {
             progEl.textContent = '❌ ' + e.message;
             confBtn.disabled = false;
         }
+    }
+
+    // Dựng 1 <tr> cho bảng Bulk FLAG Queue — dùng chung bởi etlFlagQueueLoad() (nhảy
+    // trang/tìm kiếm/sắp xếp — single page) và etlFlagQueueLoadAll() (tải tuần tự nhiều
+    // trang, progressive — T437/BUG-050 Hướng A) để tránh lệch HTML giữa 2 đường tải.
+    function _etlFlagBuildRow(item) {
+        // T238: isRejected khi admin đánh dấu TTL ≠ DILA (name_vi_final='—')
+        const isRejected = item.name_vi_final === '—';
+        const isDone    = !!item.name_vi_final && !isRejected;
+        const dilaVal   = isDone ? item.name_vi_final : (item.dila_name_vi || '');
+        const confCross = item.confidence_cross ?? 0;
+        const tr = document.createElement('tr');
+        tr.dataset.dilaId     = item.dila_id;
+        tr.dataset.confidence = confCross;
+        // TTL name cell: nếu đã reject → show "✗ Không cùng người", còn lại show tên + nút "—"
+        const ttlNameCell = isRejected
+            ? `<td style="font-size:12px;white-space:nowrap"><span style="color:#ef4444;font-weight:600" title="Admin đã xác nhận: TTL này và DILA là 2 vị khác nhau">✗ Không cùng người</span></td>`
+            : `<td style="color:var(--text-muted);font-size:12px;white-space:nowrap">${_esc(item.ttl_name_vi)}${item.ttl_name_vi ? ` <button onclick="rejectEtlFlag(this)" title="Đánh dấu: TTL '${_esc(item.ttl_name_vi)}' và DILA '${_esc(item.dila_name_vi||'')}' là 2 vị KHÁC NHAU — tree sẽ dùng tên DILA" style="margin-left:3px;background:transparent;border:1px solid #475569;color:#94a3b8;border-radius:3px;padding:1px 6px;cursor:pointer;font-size:10px;line-height:1.4">—</button>` : ''}</td>`;
+        tr.innerHTML = `
+            <td style="font-family:monospace;font-size:11px;">${dilaLink(item.dila_id)}</td>
+            <td style="font-size:15px">${item.name_zh || '—'}</td>
+            <td class="etl-dila-cell" contenteditable="${isRejected ? 'false' : 'true'}"
+                data-original="${_esc(dilaVal)}"
+                style="color:${isDone ? 'var(--success)' : isRejected ? 'var(--text-muted)' : 'var(--text-main)'}"
+                oninput="onEtlFlagEdit(this)">${_esc(dilaVal)}</td>
+            <td class="codex-name-cell" style="color:#67e8f9;font-size:12px">${_esc(item.codex_name_vi || '—')}</td>
+            <td class="ai-name-cell" style="font-size:12px;color:${item.ai_name_vi ? '#a78bfa' : 'var(--text-faint)'};cursor:${item.ai_name_vi ? 'copy' : 'default'}" title="${item.ai_name_vi ? 'Click để copy vào ô tên' : 'Chưa có AI — chạy batch trước'}" onclick="${item.ai_name_vi ? `applyAiName(this,'${_esc(item.ai_name_vi)}')` : ''}">${item.ai_name_vi || '—'}</td>
+            ${ttlNameCell}
+            <td style="font-size:11px;color:${item.lexicon_source ? '#7ab8d4' : 'var(--text-faint)'}">${item.lexicon_source || '—'}</td>
+            <td style="text-align:center">${_confBadge(confCross)}</td>
+            <td style="white-space:nowrap;display:flex;gap:4px">
+                <button class="etl-flag-pass${isDone ? ' ok' : ''}" onclick="passEtlFlag(this)" title="Xác nhận phiên âm đúng — lưu tên hiện tại" ${isRejected ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>${isDone ? '✓' : '✓ Pass'}</button>
+                <button class="etl-flag-save${isDone ? ' ok' : ''}" onclick="saveEtlFlag(this)" ${isRejected ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>${isDone ? 'Done' : 'Lưu'}</button>
+            </td>`;
+        return tr;
+    }
+
+    // T437/BUG-050 Hướng A (2026-10-21) — tải tuần tự theo trang nhỏ (progressive load).
+    // Trước đây etlFlagQueueLoad(1) gọi 1 API per_page=50, chờ CẢ lượt xong mới render 1
+    // lần ("tất cả hoặc không gì") — nếu backend chậm, Admin nhìn thấy "Đang tải…" đứng
+    // yên hàng chục giây rồi mất sạch bảng khi lỗi. Đổi sang: gọi tuần tự nhiều trang nhỏ
+    // (per_page=30), mỗi trang về tới đâu render ngay tới đó — Admin thấy dòng xuất hiện
+    // dần. Mỗi trang có deadline RIÊNG 15s (nhỏ hơn deadline 45s cũ của cả lượt). Nếu 1
+    // trang lỗi/timeout: CHỈ trang đó dừng với badge lỗi + nút "Thử lại" — các trang đã
+    // tải trước đó vẫn hiển thị nguyên vẹn, không xoá sạch bảng.
+    let _etlFlagLoadToken  = 0; // tăng mỗi lượt tải mới — lượt cũ tự nhận ra đã lỗi thời và dừng giữa chừng
+    let _etlFlagOuterSignal = null; // AbortSignal của lượt tải tab ETL hiện tại (rời tab → abort hết)
+
+    async function etlFlagQueueLoadAll(outerSignal) {
+        const token = ++_etlFlagLoadToken;
+        _etlFlagOuterSignal = outerSignal || null;
+        const tbody   = document.getElementById('etl-flag-queue-body');
+        const totalEl = document.getElementById('etl-flag-total');
+        const pagEl   = document.getElementById('etl-flag-pagination');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        if (pagEl) pagEl.innerHTML = '';
+        if (totalEl) totalEl.textContent = '';
+        _etlFlagPage = 1;
+        await _etlFlagLoadPageSeq(1, token, 0);
+    }
+
+    async function _etlFlagLoadPageSeq(page, token, loadedSoFar, retried = false) {
+        if (token !== _etlFlagLoadToken) return; // đã có lượt tải mới hơn (search/sort/reload) — bỏ qua
+        const outerSignal = _etlFlagOuterSignal;
+        if (outerSignal && outerSignal.aborted) return; // Admin đã rời tab ETL trước khi trang này kịp bắn
+
+        const tbody    = document.getElementById('etl-flag-queue-body');
+        const totalEl  = document.getElementById('etl-flag-total');
+        const q        = (document.getElementById('etl-flag-search')?.value || '').trim();
+        const hideDone = document.getElementById('etl-flag-hide-done')?.checked !== false;
+        if (!tbody) return;
+
+        // Badge "Đang tải trang N…" ở cuối bảng trong lúc chờ trang này
+        const badgeRow = document.createElement('tr');
+        badgeRow.id = 'etl-flag-page-badge';
+        badgeRow.innerHTML = `<td colspan="9" style="text-align:center;color:var(--text-muted);padding:12px">Đang tải trang ${page}…</td>`;
+        tbody.appendChild(badgeRow);
+
+        // Deadline RIÊNG cho trang này: 15s (không chặn các trang đã tải trước đó)
+        const pageCtrl = new AbortController();
+        const onOuterAbort = () => pageCtrl.abort();
+        if (outerSignal) outerSignal.addEventListener('abort', onOuterAbort);
+        const deadline = setTimeout(() => pageCtrl.abort(), 15000);
+
+        try {
+            const params = new URLSearchParams({
+                page, per_page: _ETL_FLAG_PER_PAGE,
+                hide_done: hideDone ? 'true' : 'false',
+            });
+            if (q) params.set('q', q);
+            if (_etlFlagSortBy) { params.set('sort_by', _etlFlagSortBy); params.set('sort_dir', _etlFlagSortDir); }
+
+            const r = await fetch(API + '/api/admin/namevi/flag-list?' + params, {
+                headers: { 'X-Session-Token': getToken() },
+                signal: pageCtrl.signal
+            });
+            clearTimeout(deadline);
+            if (outerSignal) outerSignal.removeEventListener('abort', onOuterAbort);
+            if (token !== _etlFlagLoadToken) return;
+
+            const d = await r.json();
+            if (!d.ok) throw new Error(d.error || 'API lỗi');
+
+            const badge = document.getElementById('etl-flag-page-badge');
+            if (badge) badge.remove();
+
+            if (page === 1 && !d.items.length) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">${q ? 'Không tìm thấy kết quả' : 'Không còn FLAG cần xử lý'}</td></tr>`;
+                if (totalEl) totalEl.textContent = `0 FLAG${hideDone ? ' (chưa duyệt)' : ''}`;
+                return;
+            }
+
+            d.items.forEach(item => tbody.appendChild(_etlFlagBuildRow(item)));
+            const newLoaded = loadedSoFar + d.items.length;
+            if (totalEl) totalEl.textContent = `${newLoaded.toLocaleString()}/${d.total.toLocaleString()} FLAG${hideDone ? ' (chưa duyệt)' : ''}`;
+            _etlFlagPage = page;
+
+            const hasMore = d.items.length === _ETL_FLAG_PER_PAGE && page < d.pages;
+            if (hasMore) await _etlFlagLoadPageSeq(page + 1, token, newLoaded);
+        } catch (e) {
+            clearTimeout(deadline);
+            if (outerSignal) outerSignal.removeEventListener('abort', onOuterAbort);
+            if (token !== _etlFlagLoadToken) return;
+            if (outerSignal && outerSignal.aborted) return; // Admin rời tab ETL — không phải lỗi thật, im lặng
+            if (e.name === 'AbortError' && !retried) {
+                // Server đang bận (vd. request song song): thử lại tự động một lần trước khi báo lỗi
+                document.getElementById('etl-flag-page-badge')?.remove();
+                await new Promise(res => setTimeout(res, 1500));
+                if (token !== _etlFlagLoadToken) return;
+                return _etlFlagLoadPageSeq(page, token, loadedSoFar, true);
+            }
+
+            const msg = e.name === 'AbortError'
+                ? `Lỗi: quá thời gian chờ (15s) ở trang ${page} — server đang chậm`
+                : `Lỗi tải trang ${page}: ${e.message}`;
+            const html = `<td colspan="9" style="text-align:center;color:var(--danger);padding:12px">${msg}
+                <button onclick="_etlFlagRetryPage(${page},${token},${loadedSoFar})" style="margin-left:8px;background:var(--primary);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:11px;cursor:pointer">Thử lại</button></td>`;
+            const badge = document.getElementById('etl-flag-page-badge');
+            if (badge) { badge.removeAttribute('id'); badge.innerHTML = html; }
+            else { const tr = document.createElement('tr'); tr.innerHTML = html; tbody.appendChild(tr); }
+        }
+    }
+
+    function _etlFlagRetryPage(page, token, loadedSoFar) {
+        if (token !== _etlFlagLoadToken) return; // đã có lượt tải mới hơn (Admin đã Load lại) — nút cũ vô hiệu
+        // Xoá row lỗi hiện tại trước khi thử lại (tránh 2 row lỗi chồng nhau)
+        const tbody = document.getElementById('etl-flag-queue-body');
+        if (tbody && tbody.lastElementChild) tbody.lastElementChild.remove();
+        _etlFlagLoadPageSeq(page, token, loadedSoFar);
     }
 
     async function etlFlagQueueLoad(page, signal) {
@@ -1843,37 +2136,7 @@
             }
 
             tbody.innerHTML = '';
-            d.items.forEach(item => {
-                // T238: isRejected khi admin đánh dấu TTL ≠ DILA (name_vi_final='—')
-                const isRejected = item.name_vi_final === '—';
-                const isDone    = !!item.name_vi_final && !isRejected;
-                const dilaVal   = isDone ? item.name_vi_final : (item.dila_name_vi || '');
-                const confCross = item.confidence_cross ?? 0;
-                const tr = document.createElement('tr');
-                tr.dataset.dilaId     = item.dila_id;
-                tr.dataset.confidence = confCross;
-                // TTL name cell: nếu đã reject → show "✗ Không cùng người", còn lại show tên + nút "—"
-                const ttlNameCell = isRejected
-                    ? `<td style="font-size:12px;white-space:nowrap"><span style="color:#ef4444;font-weight:600" title="Admin đã xác nhận: TTL này và DILA là 2 vị khác nhau">✗ Không cùng người</span></td>`
-                    : `<td style="color:var(--text-muted);font-size:12px;white-space:nowrap">${_esc(item.ttl_name_vi)}${item.ttl_name_vi ? ` <button onclick="rejectEtlFlag(this)" title="Đánh dấu: TTL '${_esc(item.ttl_name_vi)}' và DILA '${_esc(item.dila_name_vi||'')}' là 2 vị KHÁC NHAU — tree sẽ dùng tên DILA" style="margin-left:3px;background:transparent;border:1px solid #475569;color:#94a3b8;border-radius:3px;padding:1px 6px;cursor:pointer;font-size:10px;line-height:1.4">—</button>` : ''}</td>`;
-                tr.innerHTML = `
-                    <td style="font-family:monospace;font-size:11px;">${dilaLink(item.dila_id)}</td>
-                    <td style="font-size:15px">${item.name_zh || '—'}</td>
-                    <td class="etl-dila-cell" contenteditable="${isRejected ? 'false' : 'true'}"
-                        data-original="${_esc(dilaVal)}"
-                        style="color:${isDone ? 'var(--success)' : isRejected ? 'var(--text-muted)' : 'var(--text-main)'}"
-                        oninput="onEtlFlagEdit(this)">${_esc(dilaVal)}</td>
-                    <td class="codex-name-cell" style="color:#67e8f9;font-size:12px">${_esc(item.codex_name_vi || '—')}</td>
-                    <td class="ai-name-cell" style="font-size:12px;color:${item.ai_name_vi ? '#a78bfa' : 'var(--text-faint)'};cursor:${item.ai_name_vi ? 'copy' : 'default'}" title="${item.ai_name_vi ? 'Click để copy vào ô tên' : 'Chưa có AI — chạy batch trước'}" onclick="${item.ai_name_vi ? `applyAiName(this,'${_esc(item.ai_name_vi)}')` : ''}">${item.ai_name_vi || '—'}</td>
-                    ${ttlNameCell}
-                    <td style="font-size:11px;color:${item.lexicon_source ? '#7ab8d4' : 'var(--text-faint)'}">${item.lexicon_source || '—'}</td>
-                    <td style="text-align:center">${_confBadge(confCross)}</td>
-                    <td style="white-space:nowrap;display:flex;gap:4px">
-                        <button class="etl-flag-pass${isDone ? ' ok' : ''}" onclick="passEtlFlag(this)" title="Xác nhận phiên âm đúng — lưu tên hiện tại" ${isRejected ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>${isDone ? '✓' : '✓ Pass'}</button>
-                        <button class="etl-flag-save${isDone ? ' ok' : ''}" onclick="saveEtlFlag(this)" ${isRejected ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>${isDone ? 'Done' : 'Lưu'}</button>
-                    </td>`;
-                tbody.appendChild(tr);
-            });
+            d.items.forEach(item => tbody.appendChild(_etlFlagBuildRow(item)));
 
             // Pagination
             if (pagEl && d.pages > 1) {
@@ -1904,7 +2167,12 @@
 
     function dilaLink(id) {
         if (!id || id === '-') return id || '-';
-        return '<a href="/daoanh/admin/person.html?id=' + id + '" target="_blank" class="dila-link">' + id + '</a>';
+        // PL###### = địa danh (place), KHÔNG phải person (A######). person.html chỉ gọi /api/persons/<id>
+        // nên PL sẽ 404. Route theo tiền tố: PL -> placevn.html?id= (editor tên Việt địa danh, đã có API ai_judge/claims).
+        var href = /^PL\d+$/i.test(String(id))
+            ? '/daoanh/admin/placevn.html?id=' + encodeURIComponent(id)
+            : '/daoanh/admin/person.html?id=' + id;
+        return '<a href="' + href + '" target="_blank" class="dila-link">' + id + '</a>';
     }
 
     function _esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -2259,6 +2527,52 @@
     // TAB 5 — PLACE (T427, giai đoạn 1)
     // ════════════════════════════════════
     let _placeLoaded = false, _placePage = 1, _placeQ = '', _placeFilter = 'all', _placeSearchTimer = null;
+    // T446 bổ sung Admin: sort theo cột Tin cậy (% khớp), cùng pattern _etlFlagSortBy/_etlFlagSortDir.
+    let _placeSortBy = '', _placeSortDir = 'desc';
+
+    // T446: khối số liệu đối chiếu sống Claude (vn_place_name_vi.xml) vs Gemini
+    // (ai_place_name) vs namevi_map_places. Gọi mỗi khi mở tab, KHÔNG chặn render bảng
+    // (không await ở nơi gọi). Lỗi fetch/API hoặc XML chưa có -> ẩn khối, bảng vẫn
+    // hiển thị bình thường như cũ.
+    async function placeLoadCompareSummary() {
+        const box = document.getElementById('place-compare-summary');
+        if (!box) return;
+        try {
+            const r = await fetch(API + '/api/admin/places-claude-compare/summary', {
+                headers: {'X-Session-Token': getToken()}
+            });
+            const d = await r.json();
+            if (!d.ok) { box.style.display = 'none'; return; }
+            const fmt = n => (typeof n === 'number') ? n.toLocaleString() : '—';
+            box.innerHTML = `
+                <strong style="color:var(--text-main)">Đối chiếu Claude sống${d.cache_hit ? ' (cache)' : ''}:</strong>
+                <span>Tổng ${fmt(d.total)}</span>
+                <span>· Có Gemini ${fmt(d.have_gemini)}</span>
+                <span>· Thiếu Gemini ${fmt(d.missing_gemini)}</span>
+                <span>· Khác Gemini ${fmt(d.diff_gemini)}</span>
+                <span>· Khác Name_Vi hiện tại ${fmt(d.diff_namevi_map)}</span>
+                <span>· ID mới ${fmt(d.new_ids)}</span>
+                <span style="color:var(--text-faint)">— tính lúc ${_placeFmtTs(d.computed_at)}</span>`;
+            box.style.display = 'flex';
+        } catch (e) {
+            // Lỗi mạng/parse -> ẩn khối số liệu, KHÔNG động vào bảng Tab Place.
+            box.style.display = 'none';
+        }
+    }
+
+    // T446 bổ sung Admin: mũi tên sắp xếp lên/xuống cột Tin cậy — cùng pattern
+    // etlFlagSortConfidence() (toggle asc/desc khi click lại, reset sang desc khi đổi cột).
+    function placeSortByConfidence() {
+        if (_placeSortBy === 'confidence') {
+            _placeSortDir = (_placeSortDir === 'desc') ? 'asc' : 'desc';
+        } else {
+            _placeSortBy = 'confidence';
+            _placeSortDir = 'desc';
+        }
+        const arrow = document.getElementById('place-conf-sort-arrow');
+        if (arrow) arrow.textContent = _placeSortDir === 'desc' ? '↓' : '↑';
+        placeLoad(1);
+    }
     // T427 round 3 follow-up (lỗi 3 — race condition): gõ nhanh nhiều ký tự liên tiếp có
     // thể tạo nhiều request chồng lấn; request cũ trả về SAU request mới sẽ đè nhầm kết
     // quả đúng. _placeReqSeq tăng mỗi lần gọi placeLoad(); chỉ response có seq khớp seq
@@ -2331,7 +2645,7 @@
         const tbody = document.getElementById('place-body');
         const pagEl = document.getElementById('place-pagination');
         const totEl = document.getElementById('place-total-label');
-        if (tbody) tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:16px">Đang tải…</td></tr>';
+        if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">Đang tải…</td></tr>';
         if (pagEl) pagEl.innerHTML = '';
 
         // T427 round 3 follow-up (lỗi 3): huỷ request cũ còn treo + đánh số request này.
@@ -2339,8 +2653,10 @@
         if (_placeAbortCtrl) { try { _placeAbortCtrl.abort(); } catch(e) {} }
         _placeAbortCtrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
 
-        const params = new URLSearchParams({ page, size: 50, filter: _placeFilter });
+        const hideDone = document.getElementById('place-hide-done')?.checked !== false;
+        const params = new URLSearchParams({ page, size: 50, filter: _placeFilter, hide_done: hideDone ? 'true' : 'false' });
         if (_placeQ) params.set('q', _placeQ);
+        if (_placeSortBy) { params.set('sort_by', _placeSortBy); params.set('sort_dir', _placeSortDir); }
 
         try {
             const r = await fetch(API + '/daoanh/api/places/vi-map?' + params, {
@@ -2357,7 +2673,7 @@
             if (totEl) totEl.textContent = `${d.total.toLocaleString()} địa danh`;
 
             if (!d.items.length) {
-                tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:16px">${_placeQ ? 'Không tìm thấy' : 'Không có dòng nào khớp bộ lọc này'}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">${_placeQ ? 'Không tìm thấy' : 'Không có dòng nào khớp bộ lọc này'}</td></tr>`;
                 return;
             }
 
@@ -2373,11 +2689,10 @@
                         ${_placeSourceBadge(item.source_badge)}
                     </td>
                     <td style="font-size:12px;color:${item.claude_name_vi ? 'var(--success)' : 'var(--text-faint)'}">${_esc(item.claude_name_vi || '—')}</td>
-                    <td style="color:var(--text-faint);font-size:12px">—</td>
-                    <td style="font-size:12px;color:${item.ttl_name_vi ? 'var(--success)' : 'var(--text-faint)'}">${_esc(item.ttl_name_vi || '—')}</td>
+                    <td style="font-size:12px;color:${item.gemini_name_vi ? 'var(--success)' : 'var(--text-faint)'}">${_esc(item.gemini_name_vi || '—')}</td>
                     <td style="font-size:11px;color:${item.dictionary_definition ? '#7ab8d4' : 'var(--text-faint)'}" title="${_esc(item.dictionary_definition || '')}">${item.dictionary_definition ? '✓' : '—'}</td>
                     <td style="font-size:11px;color:var(--text-muted)">${item.confidence != null ? Math.round(item.confidence * 100) + '%' : '—'}</td>
-                    <td>${_placeConfBadge(item.vn_name_status, item.source, item.editor, item.editor_at)}</td>
+                    <td class="place-kl-cell">${_placeConfBadge(item.vn_name_status, item.source, item.editor, item.editor_at)}</td>
                     <td style="white-space:nowrap;display:flex;gap:4px">
                         <button class="etl-flag-pass${item.vn_name_status === 'reviewed' ? ' ok' : ''}" onclick="placePassRow(this)"
                             ${item.vn_name_status === 'reviewed' ? 'disabled' : ''}
@@ -2408,7 +2723,7 @@
             // Request bị abort (có request mới hơn) hoặc đã không còn mới nhất -> im lặng,
             // không ghi đè bảng bằng lỗi của request cũ.
             if (e.name === 'AbortError' || mySeq !== _placeReqSeq) return;
-            if (tbody) tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:var(--danger);padding:16px">Lỗi: ${e.message}</td></tr>`;
+            if (tbody) tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--danger);padding:16px">Lỗi: ${e.message}</td></tr>`;
         }
     }
 
@@ -2424,9 +2739,34 @@
             });
             const d = await r.json();
             if (d.ok) {
-                btn.textContent = '✓ Đã Pass'; btn.classList.add('ok');
-                const badgeCell = tr.children[8];
-                if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', null, d.editor, d.editor_at);
+                // T478: Pass trả về OK -> ẩn row khỏi hàng đợi NGAY (không xoá dữ liệu,
+                // chỉ ẩn hiển thị) khi checkbox "Ẩn đã Pass" đang checked, để ID kế tiếp
+                // tự đẩy lên đầu mà không cần filter lại/reload tay. Khi checkbox KHÔNG
+                // checked (Admin muốn vẫn thấy dòng đã Pass), giữ hành vi cũ: cập nhật
+                // badge + nút tại chỗ.
+                const hideDone = document.getElementById('place-hide-done')?.checked !== false;
+                if (hideDone) {
+                    tr.remove();
+                    const totEl = document.getElementById('place-total-label');
+                    if (totEl) {
+                        const m = totEl.textContent.match(/^([\d.,]+)/);
+                        if (m) {
+                            const n = parseInt(m[1].replace(/[.,]/g, ''), 10) - 1;
+                            if (!isNaN(n) && n >= 0) totEl.textContent = n.toLocaleString() + ' địa danh';
+                        }
+                    }
+                    const tbody = document.getElementById('place-body');
+                    if (tbody && !tbody.children.length) {
+                        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">Không có dòng nào khớp bộ lọc này</td></tr>';
+                    }
+                } else {
+                    btn.textContent = '✓ Đã Pass'; btn.classList.add('ok');
+                    // T478 vong 2: dung selector theo class, KHONG dung tr.children[8]
+                    // (o index 8 la "Sua"/nut Pass, index 7 moi la "Ket luan" — dung
+                    // index cung se de vo lai khi co session khac doi so cot).
+                    const badgeCell = tr.querySelector('.place-kl-cell');
+                    if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', null, d.editor, d.editor_at);
+                }
             } else {
                 btn.textContent = '✓ Pass'; btn.disabled = false;
                 alert('Lỗi: ' + (d.error || 'Không thể lưu'));
@@ -2478,7 +2818,8 @@
             const d = await r.json();
             if (d.ok) {
                 cell.innerHTML = `<span class="place-namevi-text">${_esc(d.name_vi)}</span><br>${_placeSourceBadge('Admin sửa tay')}`;
-                const badgeCell = tr.children[8];
+                // T478 vong 2: dung selector theo class (xem placePassRow)
+                const badgeCell = tr.querySelector('.place-kl-cell');
                 if (badgeCell) badgeCell.innerHTML = _placeConfBadge('reviewed', 'manual', d.editor, d.editor_at);
                 const passBtn = tr.querySelector('.etl-flag-pass');
                 if (passBtn) { passBtn.textContent = '✓ Đã Pass'; passBtn.classList.add('ok'); passBtn.disabled = true; }
@@ -2504,6 +2845,358 @@
         // Flash màu để báo hiệu
         aiCell.style.background = 'rgba(167,139,250,0.18)';
         setTimeout(() => { aiCell.style.background = ''; }, 800);
+    }
+
+    // ════════════════════════════════════
+    // TAB 6 — CATALOG (T484): đối chiếu tên Kinh theo dila_catalog_works.
+    // ════════════════════════════════════
+    let _catalogLoaded = false, _catalogPage = 1, _catalogQ = '', _catalogSearchTimer = null;
+    let _catalogReqSeq = 0, _catalogAbortCtrl = null;
+
+    function catalogSearchDebounce() {
+        clearTimeout(_catalogSearchTimer);
+        _catalogSearchTimer = setTimeout(() => {
+            _catalogQ = (document.getElementById('catalog-search')?.value || '').trim();
+            catalogLoad(1);
+        }, 350);
+    }
+
+    function _catalogCell(text) {
+        const v = (text === null || text === undefined || text === '') ? '—' : text;
+        return `<td style="font-size:12px;max-width:240px">${_esc(String(v))}</td>`;
+    }
+
+    async function catalogLoad(page) {
+        _catalogPage = page;
+        const tbody = document.getElementById('catalog-body');
+        const pagEl = document.getElementById('catalog-pagination');
+        const totEl = document.getElementById('catalog-total-label');
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:20px">Đang tải…</td></tr>';
+        pagEl.innerHTML = '';
+        const mySeq = ++_catalogReqSeq;
+        if (_catalogAbortCtrl) { try { _catalogAbortCtrl.abort(); } catch(e) {} }
+        _catalogAbortCtrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+        const params = new URLSearchParams({ page: String(page), size: '50' });
+        if (_catalogQ) params.set('q', _catalogQ);
+        try {
+            const r = await fetch(API + '/daoanh/api/admin/catalog-works?' + params, {
+                signal: _catalogAbortCtrl ? _catalogAbortCtrl.signal : undefined
+            });
+            const d = await r.json();
+            if (mySeq !== _catalogReqSeq) return;
+            if (!d.ok) { tbody.innerHTML = `<tr><td colspan="8" style="color:#f87171;padding:14px">Lỗi: ${_esc(d.error || '')}</td></tr>`; return; }
+            totEl.textContent = `${d.total.toLocaleString('vi-VN')} tác phẩm`;
+            if (!d.items.length) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:16px">${_catalogQ ? 'Không tìm thấy' : 'Không có dòng nào'}</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = d.items.map(it => {
+                const pass = it.admin_pass
+                    ? `<span style="color:#22c55e;font-size:12px">✓ ${_esc(it.admin_pass.name_vi)}</span><div style="font-size:10px;color:var(--text-muted)">${_esc(it.admin_pass.editor)} · ${_esc(it.admin_pass.at)}</div>`
+                    : `<input type="text" class="catalog-pass-input" value="${_esc(it.phien_am_claude || '')}" style="width:200px;font-size:12px"> <button class="etl-flag-pass" onclick="catalogPassWork(this)">✓ Pass</button>`;
+                const nmt = (it.muc_luc_nmt && it.muc_luc_nmt.length) ? it.muc_luc_nmt.join(' · ') : '';
+                return `<tr data-cbeta-id="${_esc(it.cbeta_id)}">
+                    <td style="font-family:monospace;font-size:11px">${_esc(it.cbeta_id)}</td>
+                    <td style="font-size:14px">${_esc(it.title_zh)}</td>
+                    ${_catalogCell(it.hvdic)}
+                    ${_catalogGeminiCell(it.cbeta_id, it.gemini_free)}
+                    ${_catalogCell(it.phien_am_claude)}
+                    ${_catalogCell(it.lexicon_hits)}
+                    ${_catalogCell(nmt)}
+                    <td>${pass}</td>
+                </tr>`;
+            }).join('');
+            const mkBtn = (label, p, active) => {
+                const b = document.createElement('button');
+                b.className = 'btn btn-sm' + (active ? ' active' : '');
+                b.textContent = label;
+                if (p !== null) b.onclick = () => catalogLoad(p);
+                return b;
+            };
+            if (d.pages > 1) {
+                if (_catalogPage > 1) pagEl.appendChild(mkBtn('‹ Trước', _catalogPage - 1, false));
+                const s = Math.max(1, _catalogPage - 2), e = Math.min(d.pages, _catalogPage + 2);
+                for (let i = s; i <= e; i++) pagEl.appendChild(mkBtn(i, i, i === _catalogPage));
+                if (_catalogPage < d.pages) pagEl.appendChild(mkBtn('Sau ›', _catalogPage + 1, false));
+            }
+        } catch(e) {
+            if (e.name === 'AbortError' || mySeq !== _catalogReqSeq) return;
+            tbody.innerHTML = `<tr><td colspan="8" style="color:#f87171;padding:14px">Lỗi kết nối: ${_esc(e.message)}</td></tr>`;
+        }
+    }
+
+    // Ô Gemini: có bản dịch thì hiện chữ; chưa có thì hiện nút dịch từng tên.
+    function _catalogGeminiCell(cbetaId, vi) {
+        const inner = vi
+            ? `<span>${_esc(vi)}</span>`
+            : `<button class="etl-flag-pass catalog-gemini-btn" onclick="catalogGeminiRow(this)">Dịch Gemini</button>`;
+        return `<td style="font-size:12px;max-width:240px" data-gemini-cell>${inner}</td>`;
+    }
+
+    // Gọi Gemini free cho 1 tên Kinh. Server ghi file nháp; trả về { ok, gemini_vi, error }.
+    async function catalogGeminiCall(cbetaId) {
+        const r = await fetch(API + '/daoanh/api/admin/catalog-works/' + encodeURIComponent(cbetaId) + '/gemini', {
+            method: 'POST',
+            headers: {'X-Session-Token': getToken()}
+        });
+        return r.json();
+    }
+
+    function _catalogSetGeminiCell(tr, vi) {
+        const td = tr.querySelector('[data-gemini-cell]');
+        if (td) td.innerHTML = `<span>${_esc(vi)}</span>`;
+    }
+
+    async function catalogGeminiRow(btn) {
+        const tr = btn.closest('tr');
+        btn.disabled = true; btn.textContent = '…';
+        try {
+            const d = await catalogGeminiCall(tr.dataset.cbetaId);
+            if (!d.ok) throw new Error(d.error || 'Gemini không trả kết quả');
+            _catalogSetGeminiCell(tr, d.gemini_vi);
+        } catch(e) {
+            btn.disabled = false; btn.textContent = 'Dịch Gemini';
+            alert('Lỗi Gemini: ' + e.message);
+        }
+    }
+
+    // Dịch lần lượt các tên còn trống trên trang hiện tại, nghỉ giữa các yêu cầu để không chạm hạn mức.
+    let _catalogGeminiBusy = false;
+    async function catalogGeminiRun() {
+        if (_catalogGeminiBusy) return;
+        const status = document.getElementById('catalog-gemini-status');
+        const rows = [...document.querySelectorAll('#catalog-body tr[data-cbeta-id]')]
+            .filter(tr => tr.querySelector('.catalog-gemini-btn'));
+        if (!rows.length) { status.textContent = 'Trang này đã có đủ Gemini.'; return; }
+        _catalogGeminiBusy = true;
+        let done = 0;
+        try {
+            for (const tr of rows) {
+                done++;
+                status.textContent = `Đang dịch ${done}/${rows.length}…`;
+                const d = await catalogGeminiCall(tr.dataset.cbetaId);
+                if (!d.ok) { status.textContent = `Dừng ở ${done}/${rows.length}: ${d.error || 'lỗi'}`; return; }
+                _catalogSetGeminiCell(tr, d.gemini_vi);
+                await new Promise(res => setTimeout(res, 6500));
+            }
+            status.textContent = `Xong ${rows.length} tên.`;
+        } catch(e) {
+            status.textContent = `Dừng ở ${done}/${rows.length}: ${e.message}`;
+        } finally {
+            _catalogGeminiBusy = false;
+        }
+    }
+
+    // Pass tên Kinh: gửi tên đang nằm trong ô (Admin có thể sửa trước khi Pass).
+    async function catalogPassWork(btn) {
+        const tr = btn.closest('tr');
+        const cbetaId = tr.dataset.cbetaId;
+        const name = (tr.querySelector('.catalog-pass-input')?.value || '').trim();
+        if (!name) { alert('Tên Việt không được rỗng'); return; }
+        btn.disabled = true; btn.textContent = '…';
+        try {
+            const r = await fetch(API + '/daoanh/api/admin/catalog-works/' + encodeURIComponent(cbetaId) + '/pass', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({ name_vi: name })
+            });
+            const d = await r.json();
+            if (!d.ok) throw new Error(d.error || 'Không lưu được');
+            catalogLoad(_catalogPage);
+        } catch(e) {
+            btn.disabled = false; btn.textContent = '✓ Pass';
+            alert('Lỗi: ' + e.message);
+        }
+    }
+
+    // ════════════════════════════════════
+    // TAB 7 — XÁC MINH TÁC GIẢ (T486): contributor name_vi lệch DB vs file vi.json.
+    // ════════════════════════════════════
+    let _wvLoaded = false, _wvPage = 1, _wvQ = '', _wvGroup = 'ALL', _wvSearchTimer = null;
+    let _wvReqSeq = 0, _wvAbortCtrl = null;
+
+    function wvSearchDebounce() {
+        clearTimeout(_wvSearchTimer);
+        _wvSearchTimer = setTimeout(() => {
+            _wvQ = (document.getElementById('wv-search')?.value || '').trim();
+            wvLoad(1);
+        }, 350);
+    }
+
+    function wvSetGroup(g, btn) {
+        _wvGroup = g;
+        document.querySelectorAll('#tab-workverify .seg button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        wvLoad(1);
+    }
+
+    function _wvWorksCell(works) {
+        if (!works || !works.length) return '—';
+        return works.map(w => `<span style="font-family:monospace;font-size:11px" title="${_esc(w.title_zh || '')}">${_esc(w.cbeta_id)}</span>`).join(', ');
+    }
+
+    // Đếm số chữ Hán có nghĩa (CJK unified ideographs + mở rộng A/compat) trong chuỗi.
+    function _wvCountHanChars(han) {
+        if (!han) return 0;
+        const m = String(han).match(/[㐀-鿿豈-﫿]/g);
+        return m ? m.length : 0;
+    }
+
+    // Đếm số từ/âm tiết tiếng Việt (tách theo khoảng trắng, bỏ chuỗi rỗng).
+    function _wvCountViWords(name) {
+        if (!name) return 0;
+        const cleaned = String(name).trim().replace(/\s+/g, ' ');
+        return cleaned ? cleaned.split(' ').length : 0;
+    }
+
+    // Tính độ tin cậy mapping dựa trên so khớp số ký tự Hán với số từ Việt (DB + file).
+    // Thiếu Hán hoặc thiếu 1 trong 2 tên Việt → không đủ dữ liệu để so khớp → N/A.
+    function wvComputeTrust(han, viDb, viFile) {
+        const hanCount = _wvCountHanChars(han);
+        const dbCount = _wvCountViWords(viDb);
+        const fileCount = _wvCountViWords(viFile);
+        const title = `Hán: ${hanCount} ký tự | DB: ${dbCount} từ | File: ${fileCount} từ`;
+        if (!hanCount || !dbCount || !fileCount) {
+            return { score: null, title };
+        }
+        const dbMatch = dbCount === hanCount;
+        const fileMatch = fileCount === hanCount;
+        let score;
+        if (dbMatch && fileMatch) score = 95;
+        else if (dbMatch || fileMatch) score = 70;
+        else score = 30;
+        return { score, title };
+    }
+
+    function _wvTrustBadge(han, viDb, viFile) {
+        const { score, title } = wvComputeTrust(han, viDb, viFile);
+        if (score === null) {
+            return `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;background:#334155;color:#94a3b8" title="${_esc(title)}">N/A</span>`;
+        }
+        let bg, fg;
+        if (score >= 80) { bg = '#14532d'; fg = '#4ade80'; }
+        else if (score >= 50) { bg = '#422006'; fg = '#facc15'; }
+        else { bg = '#450a0a'; fg = '#f87171'; }
+        return `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;background:${bg};color:${fg}" title="${_esc(title)}">${score}%</span>`;
+    }
+
+    async function wvLoad(page) {
+        _wvPage = page;
+        const tbody = document.getElementById('wv-body');
+        const pagEl = document.getElementById('wv-pagination');
+        const totEl = document.getElementById('wv-total-label');
+        const warnEl = document.getElementById('wv-warning');
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:20px">Đang tải…</td></tr>';
+        pagEl.innerHTML = '';
+        warnEl.style.display = 'none';
+        const mySeq = ++_wvReqSeq;
+        if (_wvAbortCtrl) { try { _wvAbortCtrl.abort(); } catch(e) {} }
+        _wvAbortCtrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+        const params = new URLSearchParams({ page: String(page), size: '50', group: _wvGroup });
+        if (_wvQ) params.set('q', _wvQ);
+        try {
+            const r = await fetch(API + '/daoanh/api/admin/work-verify?' + params, {
+                signal: _wvAbortCtrl ? _wvAbortCtrl.signal : undefined
+            });
+            const d = await r.json();
+            if (mySeq !== _wvReqSeq) return;
+            if (!d.ok) { tbody.innerHTML = `<tr><td colspan="9" style="color:#f87171;padding:14px">Lỗi: ${_esc(d.error || '')}</td></tr>`; return; }
+            if (d.warning) { warnEl.textContent = d.warning; warnEl.style.display = 'block'; }
+            totEl.textContent = `${d.total.toLocaleString('vi-VN')} người`;
+            if (!d.items.length) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:16px">${_wvQ ? 'Không tìm thấy' : 'Không có dòng nào'}</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = d.items.map(it => {
+                const variantsNote = (it.name_file_variants && it.name_file_variants.length)
+                    ? `<div style="font-size:10px;color:var(--text-muted)">khác: ${it.name_file_variants.map(_esc).join(' / ')}</div>` : '';
+                // T505: cột "Tên hiện tại (DB)" giờ sửa trực tiếp được (inline edit)
+                // — hợp nhất với ô Name cũ của nút Pass (T503). Khi chưa Pass: input
+                // khởi tạo = name_db, Admin gõ đè lên đây rồi bấm Pass thẳng, không
+                // cần ô Name riêng nữa. Khi đã Pass (it.passed): giữ dạng text tĩnh.
+                const dbNameCell = it.passed
+                    ? `${_esc(it.name_db || '—')}`
+                    : `<input type="text" class="wv-dbname-input" value="${_esc(it.name_db || '')}" data-orig="${_esc(it.name_db || '')}" title="Sửa trực tiếp tên hiện tại trong DB — bấm Pass sẽ lưu đúng giá trị đang hiện ở đây. Để nguyên = giữ tên cũ." style="width:150px;font-size:12px">`;
+                const pass = it.passed
+                    ? `<span style="color:#22c55e;font-size:12px">✓ ${_esc(it.name_db)}</span>`
+                    : `<button class="etl-flag-pass" onclick="wvPassPerson(this)">✓ Pass</button>`;
+                return `<tr data-person-id="${_esc(it.person_id)}">
+                    <td style="font-family:monospace;font-size:11px">${dilaLink(it.person_id)}</td>
+                    <td style="font-size:14px">${_esc(it.name_zh || '—')}</td>
+                    <td style="text-align:center">${_wvTrustBadge(it.name_zh, it.name_db, it.name_file)}</td>
+                    <td style="font-size:12px">${dbNameCell}</td>
+                    <td style="font-size:12px">${_esc(it.name_file || '—')}${variantsNote}</td>
+                    <td style="font-size:11px">${_esc(it.group || '—')}</td>
+                    <td style="font-size:12px;text-align:center">${it.work_count}</td>
+                    <td style="font-size:11px;max-width:260px">${_wvWorksCell(it.works)}</td>
+                    <td>${pass}</td>
+                </tr>`;
+            }).join('');
+            const mkBtn = (label, p, active) => {
+                const b = document.createElement('button');
+                b.className = 'btn btn-sm' + (active ? ' active' : '');
+                b.textContent = label;
+                if (p !== null) b.onclick = () => wvLoad(p);
+                return b;
+            };
+            if (d.pages > 1) {
+                if (_wvPage > 1) pagEl.appendChild(mkBtn('‹ Trước', _wvPage - 1, false));
+                const s = Math.max(1, _wvPage - 2), e = Math.min(d.pages, _wvPage + 2);
+                for (let i = s; i <= e; i++) pagEl.appendChild(mkBtn(i, i, i === _wvPage));
+                if (_wvPage < d.pages) pagEl.appendChild(mkBtn('Sau ›', _wvPage + 1, false));
+            }
+        } catch(e) {
+            if (e.name === 'AbortError' || mySeq !== _wvReqSeq) return;
+            tbody.innerHTML = `<tr><td colspan="9" style="color:#f87171;padding:14px">Lỗi kết nối: ${_esc(e.message)}</td></tr>`;
+        }
+    }
+
+    // (T505) Giữ lại tên hàm wvToggleBtn để không vỡ markup cũ còn sót trong
+    // cache trình duyệt của Admin (oninput cũ, nếu còn), nhưng không còn gọi
+    // từ markup mới — nút Pass không còn bị disable/enable theo nội dung ô.
+    function wvToggleBtn(input) {
+        const btn = input.nextElementSibling;
+        if (btn) btn.disabled = false;
+    }
+
+    // Pass tên người: (T505) hợp nhất ô Name cũ (T503) vào thẳng cột "Tên hiện
+    // tại (DB)" — không còn ô Name riêng. Lấy giá trị hiện tại của input
+    // `.wv-dbname-input` (Admin có thể đã sửa đè lên, hoặc để nguyên = tên DB
+    // cũ do wvLoad() khởi tạo sẵn) và gửi đúng giá trị đó làm name_vi. Chỉ
+    // chặn (alert) khi ô này rỗng (Admin xoá hết, không còn tên nào để lưu).
+    async function wvPassPerson(btn) {
+        const tr = btn.closest('tr');
+        const personId = tr.dataset.personId;
+        const input = tr.querySelector('.wv-dbname-input');
+        const name = (input?.value || '').trim();
+        if (!name) { alert('Ô "Tên hiện tại (DB)" đang trống — vui lòng nhập tên Việt trước khi Pass.'); return; }
+        btn.disabled = true; btn.textContent = '…';
+        try {
+            const r = await fetch(API + '/daoanh/api/admin/work-verify/' + encodeURIComponent(personId) + '/pass', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Session-Token': getToken()},
+                body: JSON.stringify({ name_vi: name })
+            });
+            const d = await r.json();
+            if (!d.ok) throw new Error(d.error || 'Không lưu được');
+            // T503: sau khi API xác nhận thành công, ẩn NGAY dòng này khỏi
+            // danh sách (remove() — không để lại khoảng trống/placeholder
+            // rỗng, các dòng còn lại tự dồn lên). Không gọi lại wvLoad() —
+            // tránh round-trip thừa và tránh hiển thị lại dòng dạng
+            // "✓ tên" (đã Pass nhưng vẫn chiếm chỗ trong danh sách chờ).
+            tr.remove();
+            const totEl = document.getElementById('wv-total-label');
+            if (totEl) {
+                const m = /^(\d[\d.,]*)/.exec(totEl.textContent || '');
+                if (m) {
+                    const n = parseInt(m[1].replace(/[.,]/g, ''), 10);
+                    if (!isNaN(n) && n > 0) totEl.textContent = `${(n - 1).toLocaleString('vi-VN')} người`;
+                }
+            }
+        } catch(e) {
+            btn.disabled = false; btn.textContent = '✓ Pass';
+            alert('Lỗi: ' + e.message);
+        }
     }
 
     // ── AI Transliterate — chạy batch và theo dõi progress ──
@@ -2556,7 +3249,7 @@
                 if (s && s.done >= s.total) {
                     clearInterval(_aiPollTimer);
                     if (btn) { btn.textContent = '✓ Đã xong'; btn.disabled = false; }
-                    etlFlagQueueLoad(_etlFlagPage || 1); // reload để hiện AI names
+                    etlFlagQueueLoadAll(); // T437/BUG-050 round 2: reload đủ (progressive, không chỉ 1 trang cũ) để hiện AI names
                 }
             }, 10000);
         } catch(e) {

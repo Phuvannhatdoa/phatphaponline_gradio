@@ -3735,10 +3735,32 @@ ov.querySelector('#da-daitang-reader-report').addEventListener('click', () => {
             html += '<div style="margin-top:14px;margin-bottom:14px">';
             html += '<div class="da-block-label">📚 MỤC LỤC ĐẠI TẠNG KINH TIẾNG VIỆT</div>';
             html += '<div style="font-size:11px;color:var(--da-muted);margin-bottom:6px;font-style:italic">Tác phẩm tiếng Việt có nhắc đến <b style="color:var(--da-text)">' + _escHtml(ent.name_vi || ent.name_zh || '') + '</b>.</div>';
-            html += '<div id="dt-nmt-list" style="font-size:11px;color:var(--da-muted);font-style:italic">Đang khảo cứu — chưa có dữ liệu trong hệ thống.</div>';
+            html += '<div id="dt-nmt-list" style="font-size:11px;color:var(--da-muted);font-style:italic">Đang tải…</div>';
             html += '</div>';
 
             ct.innerHTML = html;
+
+            // Mục lục Đại Tạng Kinh tiếng Việt (Nguyễn Minh Tiến): khớp tên tiếng Việt nguyên văn
+            const nmtBox = document.getElementById('dt-nmt-list');
+            if (nmtBox && ent.name_vi) {
+                fetch(baseUrl + '/daoanh/api/nmt-works?q=' + encodeURIComponent(ent.name_vi))
+                    .then(r => r.json())
+                    .then(d => {
+                        if (!d.ok) throw new Error(d.error || 'API lỗi');
+                        if (!d.items.length) {
+                            nmtBox.textContent = 'Chưa có tác phẩm trong mục lục Nguyễn Minh Tiến nhắc đến địa danh này.';
+                            return;
+                        }
+                        nmtBox.innerHTML = d.items.map(w =>
+                            '<div style="padding:6px 0;border-bottom:1px solid var(--da-border)">' +
+                            '<div style="font-size:12px;color:var(--da-text)">' + _escHtml(w.title_vi || '') +
+                            (w.title_zh ? ' <span style="color:var(--da-muted)">· ' + _escHtml(w.title_zh) + '</span>' : '') + '</div>' +
+                            '<div style="font-size:10px;color:var(--da-muted)">Dịch: ' + _escHtml(w.translator_vi || '—') +
+                            (w.dynasty_vi ? ' · ' + _escHtml(w.dynasty_vi) : '') + '</div></div>'
+                        ).join('');
+                    })
+                    .catch(() => { nmtBox.textContent = 'Không tải được mục lục Nguyễn Minh Tiến.'; });
+            }
 
             // Async: populate Người Sáng Lập + Liên Quan từ related API
             fetch(baseUrl + '/daoanh/api/entity/' + encodeURIComponent(ent.id) + '/related')
@@ -6159,9 +6181,17 @@ ov.querySelector('#da-daitang-reader-report').addEventListener('click', () => {
         }
         function _t86NodeLabel(n){
             // Prefer TTL verified formal name when available
+            var base;
             if (n.display_name && n.display_name.is_formal_name && n.display_name.primary)
-                return n.display_name.primary;
-            return _fmtPersonName(n.name_zh, n.name_vi) || n.id;
+                base = n.display_name.primary;
+            else
+                base = _fmtPersonName(n.name_zh, n.name_vi) || n.id;
+            // T507: CHỈ tab Cây TTL — đánh dấu nhân vật chưa có tên đầy đủ 4 chữ TTL.
+            if (typeof window !== 'undefined' && window._currentTreeSource === 'ttl'
+                && !(n.display_name && n.display_name.name_source === 'TTL')) {
+                base += ' ⚠';
+            }
+            return base;
         }
 
         // T140: AbortController chống race click A→B→C (loadLineageTree / centerLineageOn không abort trước đó)
@@ -6275,12 +6305,19 @@ ov.querySelector('#da-daitang-reader-report').addEventListener('click', () => {
             if (hdrEl) hdrEl.innerHTML = '<span style="color:var(--da-muted)">Pháp hệ</span> <span style="color:var(--da-gold,#e6b422)">›</span> <strong style="color:var(--da-dim)">đang tải…</strong>';
             try {
                 // T426: build tree source params
+                // BUG-T502 fix (2026-10-30): _currentTreeSource trước đây khai báo bằng
+                // `let` bên trong IIFE khác (wiring nút chọn nguồn cây, ~dòng 8801) —
+                // loadLineageTree() không cùng scope nên typeof-check luôn 'undefined',
+                // khiến bấm Cây Marcus/TTL/Chồng cây không đổi query thật (luôn fetch
+                // consensus mặc định dù nút "Cây DILA" hiển thị active). Chuyển sang
+                // window._currentTreeSource để chia sẻ đúng 1 state thật giữa nút bấm
+                // và mọi nơi gọi lineage-tree API (3 chỗ: load/expand/collapse).
                 let treeParams = 'up=2&down=2&include_single=1';
-                if (typeof _currentTreeSource !== 'undefined' && _currentTreeSource !== 'consensus') {
-                    if (_currentTreeSource === 'overlay') {
+                if (typeof window._currentTreeSource !== 'undefined' && window._currentTreeSource !== 'consensus') {
+                    if (window._currentTreeSource === 'overlay') {
                         treeParams += '&overlay=1';
                     } else {
-                        treeParams += '&trees=' + _currentTreeSource;
+                        treeParams += '&trees=' + window._currentTreeSource;
                     }
                 }
                 const res = await fetch('/daoanh/api/monk/' + encodeURIComponent(dilaId) + '/lineage-tree?' + treeParams, { signal: ctrl.signal });
@@ -6543,13 +6580,13 @@ ov.querySelector('#da-daitang-reader-report').addEventListener('click', () => {
             const b = document.getElementById('lineage-sidebar-title');
             b.innerText = 'Đang tải...';
             try {
-                // T426: build tree source params
+                // T426: build tree source params (BUG-T502 fix: dùng window._currentTreeSource, xem ghi chú ở loadLineageTree)
                 let treeParams = 'up=2&down=2&include_single=1';
-                if (typeof _currentTreeSource !== 'undefined' && _currentTreeSource !== 'consensus') {
-                    if (_currentTreeSource === 'overlay') {
+                if (typeof window._currentTreeSource !== 'undefined' && window._currentTreeSource !== 'consensus') {
+                    if (window._currentTreeSource === 'overlay') {
                         treeParams += '&overlay=1';
                     } else {
-                        treeParams += '&trees=' + _currentTreeSource;
+                        treeParams += '&trees=' + window._currentTreeSource;
                     }
                 }
                 const res = await fetch('/daoanh/api/monk/' + encodeURIComponent(pid) + '/lineage-tree?' + treeParams, { signal: ctrl.signal });
@@ -6596,13 +6633,13 @@ ov.querySelector('#da-daitang-reader-report').addEventListener('click', () => {
             const prevText = b ? b.innerText : '';
             if (b) b.innerText = 'Đang tải thêm...';
             try {
-                // T426: build tree source params
+                // T426: build tree source params (BUG-T502 fix: dùng window._currentTreeSource, xem ghi chú ở loadLineageTree)
                 let treeParams = 'up=' + newUp + '&down=' + newDown + '&include_single=1';
-                if (typeof _currentTreeSource !== 'undefined' && _currentTreeSource !== 'consensus') {
-                    if (_currentTreeSource === 'overlay') {
+                if (typeof window._currentTreeSource !== 'undefined' && window._currentTreeSource !== 'consensus') {
+                    if (window._currentTreeSource === 'overlay') {
                         treeParams += '&overlay=1';
                     } else {
-                        treeParams += '&trees=' + _currentTreeSource;
+                        treeParams += '&trees=' + window._currentTreeSource;
                     }
                 }
                 const res = await fetch('/daoanh/api/monk/' + encodeURIComponent(pid) +
@@ -6672,7 +6709,18 @@ ov.querySelector('#da-daitang-reader-report').addEventListener('click', () => {
             else { vi = n.name_vi || ''; han = n.name_zh || ''; }
             if (!vi && !han) return { vi: String(n.id || ''), han: '' };
             if (vi === han) han = '';
-            return { vi: vi || han, han: han && han !== vi ? han : '' };
+            const viOut = vi || han;
+            // T507: CHỈ tab Cây TTL — đánh dấu rõ nhân vật CHƯA có tên đầy đủ 4 chữ trong
+            // dictionary TTL (display_name.name_source !== 'TTL'), để Admin biết cần bổ
+            // sung dictionary — KHÔNG tự suy đoán/ghép tên. Không đổi tab DILA/Marcus
+            // (điều kiện window._currentTreeSource === 'ttl' chặn mọi tab khác).
+            const missing4 = (typeof window !== 'undefined' && window._currentTreeSource === 'ttl'
+                && !(n.display_name && n.display_name.name_source === 'TTL'));
+            return {
+                vi: missing4 ? (viOut + ' ⚠') : viOut,
+                han: han && han !== vi ? han : '',
+                missing4: missing4
+            };
         };
         function _t127NodeColor(n, ctx) {
             // ctx: {center, selected, role:'ancestor'|'mainChain'|'subBranch'|'descendant', conflict}
@@ -6804,8 +6852,17 @@ ov.querySelector('#da-daitang-reader-report').addEventListener('click', () => {
         // options: {canvas, nodes, edges, mode, ancestorBar?, controls?, onNodeClick?}
         // T275 bước 2: gắn số đời TTL vào nhãn nút (chỉ đọc, lớp phụ). Không đoán:
         // nút không khớp hoặc xung đột được ghi 'TTL ?' kèm lý do trong tooltip.
+        // T506 (2026-10-31): hàm này gọi KHÔNG điều kiện trước đây -> tab "Cây DILA"
+        // và "Cây Marcus" (đơn nguồn, theo yêu cầu nghiệp vụ) vẫn bị gắn badge/tooltip
+        // "TTL <gen>" / "TTL ?" vào MỌI node, kể cả nút trung tâm — Admin báo bug
+        // "Nút trung tâm hiện 'TTL ?'" khi đang ở tab Cây DILA. Badge TTL chỉ hợp lý khi
+        // đang xem tab Cây TTL hoặc Chồng cây (overlay — đa nguồn theo thiết kế).
         async function _t275ApplyTtl(ds) {
             try {
+                // Mặc định 'dila' nếu chưa wire (khớp nút "Cây DILA" active sẵn trong HTML tĩnh,
+                // dòng ~712) — không suy đoán sang 'ttl'/'overlay' khi biến chưa khởi tạo.
+                const _ts506 = window._currentTreeSource || 'dila';
+                if (_ts506 !== 'ttl' && _ts506 !== 'overlay') return;
                 const ids = ds.getIds().filter(function (id) { return typeof id === 'string' && /^A\d+$/.test(id); });
                 if (!ids.length) return;
                 const r = await fetch('/daoanh/api/ttl/anchor-by-dila?ids=' + encodeURIComponent(ids.join(',')));
@@ -8776,10 +8833,17 @@ ov.querySelector('#da-daitang-reader-report').addEventListener('click', () => {
             modeBtns.forEach(b => b.addEventListener('click', () => _renderLineageMode(b.getAttribute('data-lm'))));
             // T426: tree source selector (Cây DILA / Marcus / TTL / Chồng cây)
             const treeSourceBtns = document.querySelectorAll('#lineage-tree-source .lineage-tree-btn');
-            let _currentTreeSource = 'consensus'; // 'consensus' | 'dila' | 'marcus' | 'ttl' | 'overlay'
+            // BUG-T502 fix (2026-10-30): trước đây khai báo `let _currentTreeSource` cục bộ
+            // trong IIFE này — loadLineageTree()/loadMoreLineage()/collapse (3 nơi khác scope)
+            // không đọc được biến này (typeof luôn 'undefined'), nên bấm Cây DILA/Marcus/TTL/
+            // Chồng cây KHÔNG đổi query thật (luôn fetch consensus mặc định, dù UI hiển thị nút
+            // nào đang active). Chuyển sang window._currentTreeSource để chia sẻ đúng 1 state.
+            // Mặc định 'dila' khớp với nút "Cây DILA" được style active sẵn trong HTML tĩnh
+            // (dòng ~712) — trước đây style tĩnh và state JS mặc định ('consensus') không khớp.
+            window._currentTreeSource = window._currentTreeSource || 'dila'; // 'consensus' | 'dila' | 'marcus' | 'ttl' | 'overlay'
             treeSourceBtns.forEach(b => b.addEventListener('click', () => {
                 const ts = b.getAttribute('data-ts');
-                _currentTreeSource = ts;
+                window._currentTreeSource = ts;
                 treeSourceBtns.forEach(x => {
                     const active = x.getAttribute('data-ts') === ts;
                     x.style.background = active ? (x === treeSourceBtns[0] ? 'var(--edge-dila,#38bdf8)' :
