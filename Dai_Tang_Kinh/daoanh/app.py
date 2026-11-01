@@ -6160,7 +6160,7 @@ def _t86_person_conflict(conn, person_id):
     return result
 
 
-def _t138_edge_assertions(conn, subject_id, object_id):
+def _t138_edge_assertions(conn, subject_id, object_id, source_code=None):
     """T138 — các source assertion độc lập của 1 cạnh truyền thừa (subject→object)
     từ bảng DERIVED lineage_edge_assertions. Trả về [ {source_code, raw_relation_type,
     ref, mapping_verified, trust_level, status, direction_mismatch}, ... ] + trust_level
@@ -6168,22 +6168,32 @@ def _t138_edge_assertions(conn, subject_id, object_id):
     Kiểm tra HAI chiều: forward (sub→obj) + reversed (obj→sub). Assertion tìm thấy
     ở chiều ngược (DILA lưu student→teacher, Marcus teacher→student) được gắn
     direction_mismatch=True và KHÔNG contribute vào trust_level (đây là conflict,
-    không phải confirmation)."""
+    không phải confirmation).
+
+    T506 (2026-11-01): source_code=None (mặc định) giữ hành vi cũ — trả MỌI
+    nguồn, dùng cho consensus/ancestor-spine (nơi trộn nguồn là thiết kế đúng).
+    Khi gọi cho tab Cây DILA/Marcus/TTL (VIEW T425 đơn nguồn), PHẢI truyền
+    source_code='DILA'|'MARCUS'|'TTL' để sources/ref/trust_level/rejected chỉ
+    tính trên đúng 1 nguồn đang xem — tránh lộ assertion của nguồn khác."""
     order = {'L1': 4, 'L2': 3, 'L3': 2, 'L4': 1}
     inv = {v: k for k, v in order.items()}
 
+    src_filter_sql = " AND source_code=?" if source_code else ""
+
     # Forward direction (same as Marcus convention)
+    params_fwd = (subject_id, object_id) if not source_code else (subject_id, object_id, source_code)
     rows_fwd = conn.execute(
         "SELECT source_code, raw_relation_type, ref, mapping_verified, trust_level, status "
         "FROM lineage_edge_assertions WHERE subject_person_id=? AND object_person_id=? "
-        "AND status!='rejected' ORDER BY source_code", (subject_id, object_id)
+        "AND status!='rejected'" + src_filter_sql + " ORDER BY source_code", params_fwd
     ).fetchall()
 
     # Reversed direction (DILA stores student→teacher, flipped)
+    params_rev = (object_id, subject_id) if not source_code else (object_id, subject_id, source_code)
     rows_rev = conn.execute(
         "SELECT source_code, raw_relation_type, ref, mapping_verified, trust_level, status "
         "FROM lineage_edge_assertions WHERE subject_person_id=? AND object_person_id=? "
-        "AND status!='rejected' ORDER BY source_code", (object_id, subject_id)
+        "AND status!='rejected'" + src_filter_sql + " ORDER BY source_code", params_rev
     ).fetchall()
 
     if not rows_fwd and not rows_rev:
@@ -6227,13 +6237,28 @@ def _t138_edge_assertions(conn, subject_id, object_id):
         # direction_mismatch: KHÔNG contribute vào trust_level
         # (DILA says opposite direction = conflict, not confirmation)
 
+    rej_params = (subject_id, object_id) if not source_code else (subject_id, object_id, source_code)
     is_rej = bool(conn.execute(
         "SELECT 1 FROM lineage_edge_assertions WHERE subject_person_id=? AND object_person_id=? "
-        "AND status='rejected' LIMIT 1", (subject_id, object_id)).fetchone())
+        "AND status='rejected'" + src_filter_sql + " LIMIT 1", rej_params).fetchone())
     return {
         'sources': sources,
         'trust_level': inv.get(best),
         'rejected': is_rej,
+    }
+
+
+def _t506_edge_row_for_view(view_name):
+    """T506 (2026-11-01) — _t426_neighbors_view() trả hàng từ v_tree_dila/marcus/ttl
+    KHÔNG có 3 cột dila_asserted/marcus_asserted/ttl_asserted (chỉ VIEW đa nguồn/
+    consensus mới có). Gọi calculate_edge_color_and_divergence() trực tiếp với hàng
+    đó luôn ra 0/0/0 -> token 'unknown' SAI cho mọi cạnh, dù view_name đã xác định
+    chắc chắn đúng 1 nguồn. Chỉ dùng cho view đơn nguồn ('dila'|'marcus'|'ttl');
+    KHÔNG dùng cho 'overlay' (overlay đa nguồn theo thiết kế, giữ nbv gốc)."""
+    return {
+        'dila_asserted': view_name == 'dila',
+        'marcus_asserted': view_name == 'marcus',
+        'ttl_asserted': view_name == 'ttl',
     }
 
 
@@ -6460,6 +6485,47 @@ def _t412_resolve_display_name(conn, person_id, node=None):
     dn['ttl_candidates'] = []
     dn['ttl_conflict'] = []
     return dn
+
+
+def _t506_dila_only_display_name(conn, person_id, node=None):
+    """T506 (2026-11-01, Admin chốt) — Tab Cây DILA (lineage-tree?trees=dila)
+    CHỈ hiển thị tên có nguồn DILA, KHÔNG BAO GIỜ lấy tên từ TTL hay Marcus.
+
+    _t412_resolve_display_name() (hàm dùng chung cho cả 3 tab cây đơn nguồn)
+    luôn tra TTL trước (TTL full-name index qua _t412_get_index(), rồi
+    person_display_names/vn_person_authority trong _t86_resolve_display_name)
+    — đúng cho tab Cây TTL nhưng SAI cho tab Cây DILA: node trung tâm A003627
+    (Nghĩa Huyền) bị gắn "Lâm Tế Nghĩa Huyền ★" nguồn TS-Lam-Te-Nghia-Huyen.ttl
+    dù đang xem tab chỉ-DILA.
+
+    Nguồn DUY NHẤT ở đây: bảng `people` (DILA authority, entity_claims.source_id=1).
+    Không tra person_display_names, vn_person_authority, _t412 TTL index, hay
+    marcus_reference. Nếu person không có name_vi DILA, fallback về node đã có
+    sẵn (name_vi/name_zh do _t86_person_info gắn — cũng không suy từ TTL cho
+    node có mặt trong view v_tree_dila), cuối cùng fallback về chính person_id
+    (chuỗi DILA ID gốc) — nhất quán với cách _t86_resolve_display_name xử lý
+    tên thiếu ở các route khác, không để trống gây lỗi render."""
+    node = node or {}
+    prow = conn.execute(
+        "SELECT name_vi, name_zh FROM people WHERE id=?", (person_id,)
+    ).fetchone()
+    auth_vi = (prow['name_vi'] if prow else None) or node.get('name_vi') or ''
+    auth_zh = (prow['name_zh'] if prow else None) or node.get('name_zh') or ''
+    primary = auth_vi or auth_zh or person_id
+    secondary = auth_zh if auth_vi and auth_zh != auth_vi else ''
+    return {
+        'primary': primary,
+        'secondary': secondary,
+        'authority_primary': auth_vi,
+        'authority_secondary': auth_zh,
+        'source_type': 'dila',
+        'source_file': '',
+        'verification_status': 'dila_raw',
+        'is_formal_name': False,
+        'name_source': 'DILA',
+        'ttl_candidates': [],
+        'ttl_conflict': [],
+    }
 
 
 def _t86_origin_place(conn, person_id):
@@ -6766,6 +6832,10 @@ def api_monk_lineage_tree(dila_id):
         up_excess = set()
         down_excess = set()
         node_origin = {}
+        # T506: dùng ở bước "enrich nodes" bên dưới để quyết định resolver tên
+        # hiển thị — chỉ 'dila' mới ép tên nguồn DILA thuần, None (nhánh
+        # consensus mặc định, không truyền trees=) giữ hành vi cũ.
+        view_name = None
 
         if use_view:
             # T426: BFS dùng VIEW T425
@@ -6790,8 +6860,12 @@ def api_monk_lineage_tree(dila_id):
                         nodes.setdefault(nid, _t86_person_info(conn, nid))
                         node_origin.setdefault(nid, _t86_origin_place(conn, nid))
                         # edge assertions từ lineage_edge_assertions để lấy màu/by source
-                        _e138 = _t138_edge_assertions(conn, nid, pid)
-                        _yfork = calculate_edge_color_and_divergence(nbv)
+                        # T506: view đơn nguồn (dila/marcus/ttl) -> lọc source_code, không
+                        # trộn assertion của nguồn khác; overlay giữ hành vi cũ (đa nguồn).
+                        _e138_src = view_name.upper() if view_name in ('dila', 'marcus', 'ttl') else None
+                        _e138 = _t138_edge_assertions(conn, nid, pid, source_code=_e138_src)
+                        _row_for_color = _t506_edge_row_for_view(view_name) if view_name in ('dila', 'marcus', 'ttl') else nbv
+                        _yfork = calculate_edge_color_and_divergence(_row_for_color)
                         edges.append({
                             "from": nid, "to": pid, "direction": "teacher",
                             "relation_type": "dharma_transmission",
@@ -6832,8 +6906,10 @@ def api_monk_lineage_tree(dila_id):
                         depth[nid] = depth[pid] + 1
                         nodes.setdefault(nid, _t86_person_info(conn, nid))
                         node_origin.setdefault(nid, _t86_origin_place(conn, nid))
-                        _e138 = _t138_edge_assertions(conn, pid, nid)
-                        _yfork = calculate_edge_color_and_divergence(nbv)
+                        _e138_src = view_name.upper() if view_name in ('dila', 'marcus', 'ttl') else None
+                        _e138 = _t138_edge_assertions(conn, pid, nid, source_code=_e138_src)
+                        _row_for_color = _t506_edge_row_for_view(view_name) if view_name in ('dila', 'marcus', 'ttl') else nbv
+                        _yfork = calculate_edge_color_and_divergence(_row_for_color)
                         edges.append({
                             "from": pid, "to": nid, "direction": "student",
                             "relation_type": "dharma_transmission",
@@ -6985,7 +7061,15 @@ def api_monk_lineage_tree(dila_id):
             nd['origin_place'] = node_origin.get(pid) or _t86_origin_place(conn, pid)
             nd['has_more_up'] = pid in up_excess
             nd['has_more_down'] = pid in down_excess
-            nd['display_name'] = _t412_resolve_display_name(conn, pid, nd)
+            # T506 (Admin chốt 2026-11-01): tab Cây DILA (trees=dila) CHỈ được
+            # hiện tên nguồn DILA — _t412_resolve_display_name tra TTL trước
+            # (đúng cho tab Cây TTL, SAI cho tab DILA). Tab Marcus/TTL/overlay
+            # và nhánh consensus mặc định (view_name is None) giữ nguyên hành
+            # vi cũ — ngoài phạm vi T506 (không đổi).
+            if view_name == 'dila':
+                nd['display_name'] = _t506_dila_only_display_name(conn, pid, nd)
+            else:
+                nd['display_name'] = _t412_resolve_display_name(conn, pid, nd)
 
         # T138 — lọc cạnh rejected khỏi mạch chuẩn
         active_edges = [e for e in edges if not e.get('rejected')]
@@ -21274,6 +21358,308 @@ def _t166_has_col(conn, table, col):
         return any(r[1] == col for r in conn.execute(f"PRAGMA table_info({table})").fetchall())
     except Exception:
         return False
+
+
+# ============================================================
+#  T447 — Cổng dịch AI thống nhất (translate_han_vi)
+#  Chép từ core.py/routes_translate.py sang app.py (2026-11-01, lệnh Admin)
+#  để route /daoanh/api/admin/translate/retranslate chạy được trên server
+#  thật (app.py, cổng 5000). Các helper mà app.py đã có sẵn (verify_session,
+#  get_db_connection, _t73_source_hash, _t73_style_lock, _t73_build_style_prompt,
+#  _t73_call_gemini, _call_gemini, _t166_has_col, _t165_write_cache,
+#  _t166_post_check_translation, _t166_identity_lock_policy) được DÙNG NGUYÊN
+#  bản có sẵn, không chép đè.
+# ============================================================
+
+def _t447_append_translation_history(conn, old_row):
+    """Giữ bản dịch cũ lại trong lịch sử trước khi 'Dịch lại' ghi đè (append-only,
+    cột history_json — T447 migration). Pre-migration DB (cột chưa tồn tại) → no-op,
+    KHÔNG làm hỏng luồng 'Dịch lại' (mất lịch sử nhưng vẫn dịch lại được)."""
+    if old_row is None or not _t166_has_col(conn, 'translation_cache', 'history_json'):
+        return
+    try:
+        raw = old_row['history_json']
+    except (IndexError, KeyError):
+        raw = None
+    try:
+        hist = json.loads(raw) if raw else []
+        if not isinstance(hist, list):
+            hist = []
+    except Exception:
+        hist = []
+    hist.append({
+        'translated_text': old_row['translated_text'],
+        'model_id': old_row['model_id'],
+        'rules_version': old_row['rules_version'],
+        'status': old_row['status'],
+        'created_at': old_row['created_at'],
+        'superseded_at': datetime.now().isoformat(),
+    })
+    try:
+        conn.execute(
+            "UPDATE translation_cache SET history_json=? WHERE id=?",
+            (json.dumps(hist, ensure_ascii=False), old_row['id'])
+        )
+    except Exception as e:
+        app.logger.warning(f"[T447] không ghi được history_json cho id={old_row['id']}: {e}")
+
+
+def translate_han_vi(conn, source_text, source_type, entity_id=None, label='văn bản',
+                     json_mode=False, force=False, purpose=None, pre_commit_check=None):
+    """T447 — Cổng dịch Hán→Việt thống nhất.
+
+    Mọi lệnh dịch Hán→Việt (nút DỊCH AI, endpoint dịch đoạn văn, gợi ý tên,
+    nút 'Dịch lại' của admin) PHẢI gọi hàm này thay vì gọi AI trực tiếp.
+
+    Chính sách cache (SPEC T447, khớp done_when):
+      - force=False + đã có bản dịch (bất kể rules_version khớp hay không)
+        → trả về NGAY bản trong cache, KHÔNG gọi AI. Nếu rules đã đổi so với
+          lúc dịch (rules_version lệch, hoặc status='edited') → rules_outdated=True
+          để UI gắn nhãn "dịch theo quy tắc cũ". KHÔNG tự dịch lại.
+      - Chưa có bản dịch nào (cache miss thật) → gọi AI qua _t73_call_gemini
+        (có rules), ghi cache với rules_version hiện tại.
+      - force=True (admin bấm 'Dịch lại') → bỏ qua cache, luôn gọi AI với rules
+        hiện tại; bản cũ (nếu có) được copy vào history_json rồi mới ghi đè
+        (giữ lịch sử, không xoá — SPEC §4 plan).
+
+    pre_commit_check (T447 vòng sửa lỗi 2026-11-01 — khớp luồng chính
+    `/daoanh/api/person/<id>/translate`): callable(translated_text) -> dict
+    dạng {'ok': bool, ...} (ví dụ kết quả của `_t166_post_check_translation`).
+    Nếu được truyền, chạy NGAY SAU khi AI trả bản dịch, TRƯỚC khi invalidate
+    dòng cache cũ (force=True) và TRƯỚC khi ghi dòng cache mới. Nếu check trả
+    ok=False → trả ngay {'ok': False, 'error_type': 'REVIEW_REQUIRED',
+    'precheck': <kết quả check>, ...} — KHÔNG invalidate dòng cũ, KHÔNG ghi
+    dòng mới (dòng cache cũ, nếu có, giữ nguyên trạng — giống luồng chính khi
+    bị T166 chặn thì không ghi cache). Nếu check ok=True, kết quả check được
+    gắn vào return dict ở khóa 'precheck' để caller tái dùng (không gọi lại
+    check lần 2).
+
+    Trả dict: {ok, translated_text, model_id, rules_version, constitution_hash,
+    cache_hit, rules_outdated, status, source_hash, cache_id, used_fallback, forced}
+    hoặc {ok: False, error} khi dịch thất bại (cache miss + AI lỗi hẳn).
+    """
+    text_in = (source_text or '').strip()
+    if not text_in:
+        return {'ok': False, 'error': 'empty_source'}
+
+    src_hash = _t73_source_hash(text_in)
+    lock = _t73_style_lock(conn, source_text=text_in, prompt_label=purpose or label,
+                           json_mode=json_mode)
+    rules_version = lock.get('rules_version')
+    c_hash = lock.get('constitution_hash')
+
+    existing = conn.execute(
+        "SELECT * FROM translation_cache WHERE source_hash=? AND source_type=? "
+        "AND status != 'invalidated' ORDER BY id DESC LIMIT 1",
+        (src_hash, source_type)
+    ).fetchone()
+
+    def _outdated(row):
+        if row is None:
+            return False
+        try:
+            if (row['status'] or '') == 'edited':
+                return True
+        except (IndexError, KeyError):
+            pass
+        try:
+            row_rv = row['rules_version']
+        except (IndexError, KeyError):
+            row_rv = None
+        return row_rv != rules_version
+
+    if existing and not force:
+        return {
+            'ok': True, 'translated_text': existing['translated_text'],
+            'model_id': existing['model_id'], 'rules_version': existing['rules_version'],
+            'constitution_hash': c_hash, 'cache_hit': True,
+            'rules_outdated': _outdated(existing), 'status': existing['status'],
+            'source_hash': src_hash, 'cache_id': existing['id'], 'forced': False,
+        }
+
+    # Cache miss thật, hoặc force=True ("Dịch lại") → gọi AI qua cổng (có rules).
+    prompt = _t73_build_style_prompt(text_in, lock, label=label, json_mode=json_mode)
+    text_out, model_id, err = _t73_call_gemini(
+        prompt, source_type=source_type, source_text=text_in, conn=conn,
+        constitution_hash=c_hash)
+    used_fallback = False
+    if not text_out:
+        # Dự phòng: hàm AI trực tiếp cũ (không có rules) khi cổng lỗi hẳn —
+        # GIỮ nguyên theo yêu cầu, không xoá _call_gemini.
+        text_out = _call_gemini(prompt, timeout=15)
+        used_fallback = bool(text_out)
+        if used_fallback:
+            model_id = model_id or GROQ_MODEL
+    if not text_out:
+        return {'ok': False, 'error': err or 'translate_failed', 'source_hash': src_hash,
+               'rules_version': rules_version}
+
+    # T447 vòng sửa lỗi 2026-11-01 — chạy post-check TRƯỚC khi invalidate dòng
+    # cũ / ghi dòng mới, giống luồng chính. Nếu bị chặn: không đụng tới cache,
+    # trả lỗi cho caller tự quyết (422), không để lọt cache rác hoặc mất bản cũ tốt.
+    precheck_result = None
+    if pre_commit_check is not None:
+        precheck_result = pre_commit_check(text_out)
+        if not precheck_result.get('ok'):
+            return {
+                'ok': False, 'error': 'pre_commit_check_blocked',
+                'error_type': 'REVIEW_REQUIRED', 'precheck': precheck_result,
+                'translated_text': text_out, 'model_id': model_id,
+                'source_hash': src_hash, 'rules_version': rules_version,
+            }
+
+    if force and existing:
+        _t447_append_translation_history(conn, existing)
+        conn.execute(
+            "UPDATE translation_cache SET status='invalidated', updated_at=datetime('now') "
+            "WHERE id=?", (existing['id'],)
+        )
+
+    write_kwargs = {}
+    if _t166_has_col(conn, 'translation_cache', 'constitution_hash'):
+        write_kwargs['constitution_hash'] = c_hash
+        write_kwargs['selected_rule_codes'] = lock.get('codes')
+        write_kwargs['glossary_hash'] = lock.get('glossary_hash')
+    # T447 vòng sửa lỗi 2026-11-01 — nếu pre_commit_check đã chạy (và ok=True),
+    # ghi luôn identity_status/identity_issues/identity_lock_hash vào dòng mới
+    # trong CÙNG lượt ghi cache (giống luồng chính), thay vì caller phải UPDATE
+    # lại sau — tránh một khoảng hở giữa INSERT và UPDATE.
+    if precheck_result is not None and _t166_has_col(conn, 'translation_cache', 'identity_status'):
+        write_kwargs['identity_status'] = precheck_result.get('identity_status')
+        write_kwargs['identity_issues'] = precheck_result.get('identity_issues')
+        write_kwargs['identity_lock_hash'] = precheck_result.get('identity_lock_hash')
+    cache_id, _written = _t165_write_cache(
+        conn, src_hash, source_type, entity_id, text_in, text_out, model_id,
+        rules_version, status='auto', **write_kwargs)
+    conn.commit()
+    return {
+        'ok': True, 'translated_text': text_out, 'model_id': model_id,
+        'rules_version': rules_version, 'constitution_hash': c_hash,
+        'cache_hit': False, 'rules_outdated': False, 'status': 'auto',
+        'source_hash': src_hash, 'cache_id': cache_id,
+        'used_fallback': used_fallback, 'forced': bool(force),
+        'precheck': precheck_result,
+    }
+
+
+# T447 vòng 2 (QA lỗi 2) — source_type mà cổng translate_han_vi() KHÔNG xử lý đúng:
+# 'dila_card' hash theo JSON toàn bộ source_data (sort_keys=True) nhưng source_text
+# lưu trong translation_cache lại là JSON KHÁC (không sort_keys, bị cắt [:5000]) —
+# gọi translate_han_vi() trên dòng này sẽ tính lại hash KHÔNG khớp hash đã lưu, nên
+# không tìm thấy/invalidate đúng dòng cũ mà sinh dòng cache rác mới; prompt/format
+# JSON (relations_vi...) của dila_card cũng không tương thích với prompt generic của
+# cổng. Chặn rõ, không âm thầm tạo rác — Admin dùng nút "Dịch lại" riêng của tab đó
+# (ví dụ /daoanh/api/person/<id>/dila_translate?force=1).
+_T447_RETRANSLATE_UNSUPPORTED_SOURCE_TYPES = {'dila_card'}
+
+
+@app.route('/daoanh/api/admin/translate/retranslate', methods=['POST'])
+def api_admin_translate_retranslate():
+    """T447 — POST /daoanh/api/admin/translate/retranslate
+    Nút "Dịch lại" MỘT bản dịch cụ thể trong Cpanel (admin/translation_cache.html).
+    Body: {id: <translation_cache.id>}. Nhận `cache_id` của dòng đang xem (không
+    tính lại hash từ text ở client) — tra đúng dòng theo id, lấy source_hash/
+    source_type đã lưu sẵn trong dòng đó.
+    Bỏ qua cache, gọi cổng translate_han_vi(force=True) với quy tắc HIỆN TẠI; bản dịch
+    cũ được copy vào history_json (cột T447 migration) trước khi bị ghi đè — giữ lịch sử,
+    không xoá (SPEC plan §4). Nếu cột history_json chưa migrate, dịch lại vẫn chạy được
+    (chỉ không giữ được lịch sử — xem log cảnh báo).
+
+    T447 vòng 2 (QA lỗi 2 + lỗi 3):
+    - source_type thuộc `_T447_RETRANSLATE_UNSUPPORTED_SOURCE_TYPES` → 422, không
+      âm thầm tạo dòng cache rác (xem comment ở hằng số trên).
+    - TRƯỚC khi gọi translate_han_vi() (sửa lỗi 2026-11-01, QA a4012b79): tính lại
+      hash của `row['source_text'].strip()` bằng đúng cách cổng dùng
+      (`_t73_source_hash`), so với `source_hash` đã lưu của dòng cache này. Lệch
+      → 422 HASH_MISMATCH NGAY, KHÔNG gọi AI, KHÔNG đụng DB.
+    - source_type='person_bio' → cổng `translate_han_vi()` chạy
+      `_t166_post_check_translation` (qua tham số `pre_commit_check`) giống
+      luồng chính (`/daoanh/api/person/<id>/translate`), và chạy TRƯỚC khi
+      invalidate dòng cũ / ghi dòng mới. Nếu bị chặn (identity HARD) → 422
+      REVIEW_REQUIRED, KHÔNG đụng cache.
+    """
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({"ok": False, "error": "Unauthorized"}), 403
+    body = request.get_json(silent=True) or {}
+    try:
+        cache_id = int(body.get('id'))
+    except (TypeError, ValueError):
+        return jsonify({"ok": False, "error": "Thiếu hoặc sai 'id'"}), 400
+    conn = get_db_connection()
+    try:
+        row = conn.execute(
+            "SELECT * FROM translation_cache WHERE id=?", (cache_id,)
+        ).fetchone()
+        if not row:
+            return jsonify({"ok": False, "error": "Không tìm thấy bản dịch id=" + str(cache_id)}), 404
+
+        src_type = row['source_type']
+        if src_type in _T447_RETRANSLATE_UNSUPPORTED_SOURCE_TYPES:
+            return jsonify({
+                "ok": False,
+                "error_type": "UNSUPPORTED_SOURCE_TYPE",
+                "error": (f"source_type='{src_type}' chưa được cổng translate_han_vi "
+                          "hỗ trợ đúng cách (hash/định dạng khác cấu trúc văn bản "
+                          "thường của cổng) — dùng nút 'Dịch lại' riêng của tab đó, "
+                          "không dùng nút chung này."),
+            }), 422
+
+        stored_hash = row['source_hash']
+        recomputed_hash = _t73_source_hash((row['source_text'] or '').strip())
+        if recomputed_hash != stored_hash:
+            return jsonify({
+                "ok": False,
+                "error_type": "HASH_MISMATCH",
+                "error": (f"Hash tính lại từ source_text không khớp source_hash đã lưu "
+                          f"của dòng cache gốc (id={cache_id}) — KHÔNG gọi AI, KHÔNG "
+                          "đụng dòng cache cũ, tránh tạo cache rác. Cần xử lý riêng cho "
+                          f"source_type='{src_type}'."),
+                "old_id": cache_id,
+            }), 422
+
+        pre_commit_check = None
+        if src_type == 'person_bio':
+            pre_commit_check = lambda translated_text: _t166_post_check_translation(
+                conn, row['source_text'], translated_text or '',
+                policy=_t166_identity_lock_policy(conn))
+        result = translate_han_vi(
+            conn, row['source_text'], src_type, entity_id=row['entity_id'],
+            force=True, purpose='admin_retranslate', pre_commit_check=pre_commit_check)
+        if result.get('error_type') == 'REVIEW_REQUIRED':
+            precheck = result.get('precheck') or {}
+            return jsonify({
+                "ok": False, "error_type": "REVIEW_REQUIRED",
+                "error": "T166 Identity Lock chặn bản dịch lại — tên nhân vật bị "
+                         "biến đổi so với chính pháp.",
+                "identity_issues": precheck.get('identity_issues'),
+                "old_id": cache_id,
+            }), 422
+        if not result.get('ok'):
+            return jsonify({"ok": False, "error": result.get('error') or 'Dịch lại thất bại'}), 502
+
+        if result.get('source_hash') != stored_hash:
+            return jsonify({
+                "ok": False,
+                "error_type": "HASH_MISMATCH",
+                "error": (f"Hash tính lại không khớp dòng cache gốc (id={cache_id}) — "
+                          "dòng cũ KHÔNG được invalidate để tránh tạo cache rác. "
+                          f"Cần xử lý riêng cho source_type='{src_type}'."),
+            }), 422
+
+        precheck = result.get('precheck') or {}
+        identity_status = precheck.get('identity_status')
+        identity_issues = precheck.get('identity_issues')
+
+        return jsonify({
+            "ok": True, "id": result.get('cache_id'), "old_id": cache_id,
+            "translated_text": result.get('translated_text'),
+            "model_id": result.get('model_id'), "rules_version": result.get('rules_version'),
+            "used_fallback": result.get('used_fallback', False),
+            "identity_status": identity_status, "identity_issues": identity_issues,
+        })
+    finally:
+        conn.close()
 
 
 @app.route('/daoanh/api/admin/person/<person_id>/bio_vi', methods=['POST'])
