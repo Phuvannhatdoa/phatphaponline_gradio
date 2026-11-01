@@ -77,7 +77,13 @@
       "rm -rf *": "deny",
       "Remove-Item -Recurse*": "deny",
       "sqlite3 * DROP *": "deny",
-      "sqlite3 * DELETE *": "deny"
+      "sqlite3 * DELETE *": "deny",
+      "ssh *": "deny",
+      "scp *": "deny",
+      "sftp *": "deny",
+      "rclone *": "deny",
+      "ssh vps*": "deny",
+      "scp -*": "deny"
     },
     "task": "allow"
   }
