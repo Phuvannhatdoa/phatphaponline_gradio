@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiến Độ Dịch — Gemini</title>
+<style>
+  :root { --bg:#020617; --card:#0f172a; --line:#1e293b; --text:#e2e8f0; --muted:#94a3b8; --gold:#d97706; --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.5 Inter,system-ui,sans-serif; padding:16px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .sub { color:var(--muted); font-size:12px; margin-bottom:14px; }
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-bottom:14px; }
+  .tile { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .tile b { display:block; font-size:20px; color:var(--gold); font-variant-numeric:tabular-nums; }
+  .tile span { font-size:11px; color:var(--muted); }
+  .bar { height:8px; background:var(--line); border-radius:4px; overflow:hidden; margin:6px 0 14px; }
+  .bar > div { height:100%; background:var(--gold); }
+  .log { background:#020617; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font:11px/1.45 ui-monospace,Consolas,monospace; color:var(--muted); max-height:160px; overflow:auto; white-space:pre-wrap; margin-bottom:14px; }
+  .toolbar { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:10px; }
+  .btn { background:transparent; color:var(--text); border:1px solid var(--line); border-radius:6px; padding:5px 10px; font-size:12px; cursor:pointer; }
+  .btn.active, .btn:hover { border-color:var(--gold); color:var(--gold); }
+  .btn.ok { background:var(--ok); color:#052e16; border-color:var(--ok); font-weight:700; }
+  .btn[disabled] { opacity:.5; cursor:default; }
+  .tbl-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:8px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.04em; background:var(--card); }
+  .han { font-family:"Noto Serif TC",serif; font-size:16px; }
+  .note { font-size:11px; color:var(--muted); max-width:340px; white-space:pre-wrap; }
+  .mono { font-family:ui-monospace,Consolas,monospace; font-size:11px; color:var(--muted); }
+  .badge { font-size:10px; padding:2px 6px; border-radius:4px; border:1px solid var(--line); color:var(--muted); }
+  .badge.ok { border-color:var(--ok); color:var(--ok); }
+  .badge.wait { border-color:var(--warn); color:var(--warn); }
+  input.name { width:100%; min-width:160px; background:#020617; border:1px solid var(--line); color:var(--text); border-radius:5px; padding:5px 7px; font-size:13px; }
+  .pager { display:flex; gap:6px; align-items:center; justify-content:center; margin-top:12px; font-size:12px; color:var(--muted); }
+  .err { color:var(--bad); font-size:12px; margin:8px 0; }
+  .nav { font-size:12px; margin-bottom:10px; }
+  .nav a { color:var(--gold); text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="nav"><a href="index.html">← Thống kê admin</a></div>
+<h1>Tiến Độ Dịch — Gemini</h1>
+<div class="sub">Gemini phiên âm tên địa danh Hán → Việt theo đợt chạy. Chấp thuận một dòng = ghi vào DB để trang HOME hiển thị. Mọi lần chấp thuận được ghi nhật ký để hoàn tác.</div>
+
+<div id="err" class="err"></div>
+
+<div class="tiles">
+  <div class="tile"><b id="t-total">—</b><span>Địa danh DILA</span></div>
+  <div class="tile"><b id="t-done">—</b><span>Gemini đã dịch</span></div>
+  <div class="tile"><b id="t-approved">—</b><span>Admin đã chấp thuận</span></div>
+  <div class="tile"><b id="t-pending">—</b><span>Chờ Admin duyệt</span></div>
+  <div class="tile"><b id="t-orphan">—</b><span>Gemini dịch nhưng không khớp địa danh DILA</span></div>
+  <div class="tile"><b id="t-last" style="font-size:13px">—</b><span>Vị trí gần nhất (ID · thời gian)</span></div>
+</div>
+<div class="bar"><div id="bar-done" style="width:0%"></div></div>
+
+<div class="log" id="log">Đang tải nhật ký…</div>
+
+<div class="toolbar">
+  <button class="btn active" data-f="all">Tất cả</button>
+  <button class="btn" data-f="pending">Chờ duyệt</button>
+  <button class="btn" data-f="approved">Đã chấp thuận</button>
+  <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="count"></span>
+</div>
+
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Place ID</th>
+      <th>Thông tin gốc (Hán + ghi chú DILA)</th>
+      <th>Gemini dịch</th>
+      <th>Tên đang dùng (HOME)</th>
+      <th>Trạng thái</th>
+      <th>Chấp thuận</th>
+    </tr>
+  </thead>
+  <tbody id="body"><tr><td colspan="6" style="color:var(--muted);text-align:center;padding:18px">Đang tải…</td></tr></tbody>
+</table>
+</div>
+<div class="pager" id="pager"></div>
+
+<script>
+const API = (window.location.protocol === 'http:' || window.location.protocol === 'https:') ? '' : 'http://localhost:8080';
+let filter = 'all', page = 1, pages = 1;
+
+function token() { try { return localStorage.getItem('admin_session') || ''; } catch (e) { return ''; } }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmt(n) { return (typeof n === 'number') ? n.toLocaleString('vi-VN') : '—'; }
+function showErr(msg) { document.getElementById('err').textContent = msg || ''; }
+
+async function load() {
+  showErr('');
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/gemini-progress?page=' + page + '&size=50&filter=' + filter,
+      { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'API lỗi');
+    const s = d.summary;
+    document.getElementById('t-total').textContent = fmt(s.total_places);
+    document.getElementById('t-done').textContent = fmt(s.gemini_done);
+    document.getElementById('t-approved').textContent = fmt(s.approved);
+    document.getElementById('t-pending').textContent = fmt(s.pending_review);
+    document.getElementById('t-orphan').textContent = fmt(s.gemini_orphan);
+    document.getElementById('t-last').textContent = s.last_dila_id ? (s.last_dila_id + ' · ' + s.last_created_at) : '—';
+    const pct = s.total_places ? (s.gemini_done * 100 / s.total_places) : 0;
+    document.getElementById('bar-done').style.width = Math.min(100, pct).toFixed(1) + '%';
+    document.getElementById('log').textContent = (s.log_tail || []).join('\n') || 'Chưa có nhật ký batch.';
+    document.getElementById('count').textContent = fmt(d.total) + ' dòng';
+    pages = d.pages || 1;
+    renderRows(d.items);
+    renderPager();
+  } catch (e) {
+    showErr('Không tải được tiến độ: ' + e.message);
+  }
+}
+
+function renderRows(items) {
+  const body = document.getElementById('body');
+  if (!items.length) { body.innerHTML = '<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:18px">Không có dòng nào</td></tr>'; return; }
+  body.innerHTML = items.map(it => {
+    const status = it.approved
+      ? '<span class="badge ok">Đã chấp thuận</span><div class="mono">' + esc(it.editor) + ' · ' + esc(it.approved_at) + '</div>'
+      : '<span class="badge wait">Chờ duyệt</span>';
+    const btn = it.approved
+      ? '<button class="btn" disabled>✓ Đã lưu</button>'
+      : '<button class="btn ok" onclick="approve(this)">Chấp thuận</button>';
+    const input = '<input class="name" value="' + esc(it.gemini_vi) + '" data-cur="' + esc(it.gemini_vi) + '">';
+    return '<tr data-id="' + esc(it.dila_id) + '">' +
+      '<td class="mono">' + esc(it.dila_id) + '</td>' +
+      '<td><div class="han">' + esc(it.name_zh) + '</div><div class="note">' + esc(it.source_note) + '</div></td>' +
+      '<td>' + input + '<div class="mono">' + esc(it.gemini_model) + ' · ' + esc(it.gemini_at) + '</div></td>' +
+      '<td>' + esc(it.approved ? it.approved_name_vi : it.current_vi) + '<div class="mono">' + esc(it.vn_status) + '</div></td>' +
+      '<td>' + status + '</td>' +
+      '<td>' + btn + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+async function approve(btn) {
+  const tr = btn.closest('tr');
+  const id = tr.dataset.id;
+  const name = tr.querySelector('input.name').value.trim();
+  if (!name) { alert('Tên Việt không được rỗng'); return; }
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/gemini-progress/approve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() },
+      body: JSON.stringify({ dila_id: id, name_vi: name })
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'Không lưu được');
+    btn.textContent = '✓ Đã lưu';
+    btn.className = 'btn';
+    btn.disabled = true;
+    load();
+  } catch (e) {
+    btn.disabled = false; btn.textContent = 'Chấp thuận';
+    alert('Lỗi: ' + e.message);
+  }
+}
+
+function renderPager() {
+  const p = document.getElementById('pager');
+  if (pages <= 1) { p.innerHTML = ''; return; }
+  p.innerHTML = '<button class="btn" ' + (page <= 1 ? 'disabled' : '') + ' onclick="go(-1)">‹ Trước</button>' +
+    '<span>Trang ' + page + ' / ' + pages + '</span>' +
+    '<button class="btn" ' + (page >= pages ? 'disabled' : '') + ' onclick="go(1)">Sau ›</button>';
+}
+function go(d) { page = Math.min(pages, Math.max(1, page + d)); load(); }
+
+document.querySelectorAll('.toolbar .btn[data-f]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.toolbar .btn[data-f]').forEach(x => x.classList.remove('active'));
+  b.classList.add('active'); filter = b.dataset.f; page = 1; load();
+}));
+
+load();
+</script>
+</body>
+</html>
