@@ -12054,8 +12054,12 @@ _GEMINI_PLACE_JOIN = "LEFT JOIN t_gem_place g ON g.pid = pd.id"
 def _ensure_gemini_temp(conn):
     # Đã kiểm 2026-11-02 (1.936 nhóm trùng pid): dòng dila_id 14 ký tự (PL + 12 số)
     # luôn là bản sửa đúng (1936/1936), MAX(name_vi_ai) cũ chọn ngẫu nhiên theo thứ
-    # tự byte -> sai 411 nhóm (vd "Trường Lâm Trường" đáng ra "Trường Lâm Tràng").
-    # Ưu tiên: (1) dila_id dài 14 ký tự, (2) created_at mới nhất. Đã thử
+    # tự byte -> 201 pid đổi tên so với MAX(name_vi_ai) cũ (đo thực tế bằng query
+    # so sánh 2 cách group trên data 2026-11-02, vd "Trường Lâm Trường" đáng ra
+    # "Trường Lâm Tràng"). Ưu tiên: (1) dila_id dài 14 ký tự, (2) created_at mới
+    # nhất. COALESCE(created_at,'')/COALESCE(name_vi_ai,'') trong khoá ghép dưới
+    # đây để một cột NULL không làm '||' trả NULL -> loại cả pid khỏi MAX(k) (dù
+    # data hiện tại 2026-11-02 không có NULL ở 2 cột này, giữ phòng hờ). Đã thử
     # ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...) nhưng ĐO THẤY CHẬM HƠN rõ
     # rệt (~1.2-4s so với ~0.45-0.68s của cách MAX(key) dưới đây, trên cùng máy,
     # cùng dữ liệu 2026-11-02) vì SQLite phải vật chất hoá + sort cho window
@@ -12074,7 +12078,7 @@ def _ensure_gemini_temp(conn):
                 SELECT printf('PL%012d', CAST(SUBSTR(dila_id, 3) AS INTEGER)) AS pid,
                        MAX(
                          (CASE WHEN LENGTH(dila_id) = 14 THEN '1' ELSE '0' END)
-                         || '|' || created_at || '|' || name_vi_ai
+                         || '|' || COALESCE(created_at, '') || '|' || COALESCE(name_vi_ai, '')
                        ) AS k
                 FROM ai_place_name GROUP BY pid
             )
@@ -17154,6 +17158,9 @@ def api_admin_work_verify_list():
     vn_dila_authority_catalog/*.vi.json — đã import nguyên văn). Phân trang
     50/trang (query 'size' tối đa 200), lọc theo 'group' (ALL|A|B|C) và tìm
     theo 'q' (mã người / Hán tự / tên Việt, không phân biệt hoa/dấu)."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
     try:
         q = (request.args.get('q') or '').strip()
         group = (request.args.get('group') or 'ALL').strip().upper()
