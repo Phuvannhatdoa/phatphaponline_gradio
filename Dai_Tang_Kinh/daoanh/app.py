@@ -12052,12 +12052,33 @@ _GEMINI_PLACE_JOIN = "LEFT JOIN t_gem_place g ON g.pid = pd.id"
 
 
 def _ensure_gemini_temp(conn):
+    # Đã kiểm 2026-11-02 (1.936 nhóm trùng pid): dòng dila_id 14 ký tự (PL + 12 số)
+    # luôn là bản sửa đúng (1936/1936), MAX(name_vi_ai) cũ chọn ngẫu nhiên theo thứ
+    # tự byte -> sai 411 nhóm (vd "Trường Lâm Trường" đáng ra "Trường Lâm Tràng").
+    # Ưu tiên: (1) dila_id dài 14 ký tự, (2) created_at mới nhất. Đã thử
+    # ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...) nhưng ĐO THẤY CHẬM HƠN rõ
+    # rệt (~1.2-4s so với ~0.45-0.68s của cách MAX(key) dưới đây, trên cùng máy,
+    # cùng dữ liệu 2026-11-02) vì SQLite phải vật chất hoá + sort cho window
+    # function. Thay bằng mẹo không cần window function: ghép 1 khoá chuỗi có thể
+    # so sánh được bằng MAX() aggregate thường (vẫn tận dụng được GROUP BY nhanh
+    # như bản cũ) — ký tự đầu '1'/'0' ưu tiên 14-ký-tự lên trước mọi created_at,
+    # phần còn lại là created_at (ISO, so sánh chuỗi đúng thứ tự thời gian) rồi
+    # tên; MAX(key) theo mỗi pid chọn đúng dòng mong muốn, sau đó tách tên ra.
     conn.execute("DROP TABLE IF EXISTS temp.t_gem_place")
     conn.execute("""
         CREATE TEMP TABLE t_gem_place AS
-        SELECT printf('PL%012d', CAST(SUBSTR(dila_id, 3) AS INTEGER)) AS pid,
-               MAX(name_vi_ai) AS name_vi_ai
-        FROM ai_place_name GROUP BY pid
+        SELECT pid, SUBSTR(rest, INSTR(rest, '|') + 1) AS name_vi_ai
+        FROM (
+            SELECT pid, SUBSTR(k, INSTR(k, '|') + 1) AS rest
+            FROM (
+                SELECT printf('PL%012d', CAST(SUBSTR(dila_id, 3) AS INTEGER)) AS pid,
+                       MAX(
+                         (CASE WHEN LENGTH(dila_id) = 14 THEN '1' ELSE '0' END)
+                         || '|' || created_at || '|' || name_vi_ai
+                       ) AS k
+                FROM ai_place_name GROUP BY pid
+            )
+        )
     """)
     conn.execute("CREATE UNIQUE INDEX temp.t_gem_place_pid ON t_gem_place(pid)")
 
@@ -17013,6 +17034,226 @@ def admin_namevi_map_places_delete():
         return jsonify({'success': False, 'error': str(e)}), 500
     finally:
         conn.close()
+
+
+# ── T486: Xác minh tác giả — contributor name_vi lệch DB (people.name_vi) vs ──
+# file vi_json (vn_dila_authority_catalog/*.vi.json, đã import nguyên văn vào
+# dila_catalog_works.vi_json — đã kiểm bằng tay 2026-11-02: nội dung contributors
+# trong cột DB và trong file *.vi.json trên đĩa giống nhau 100% cho các mẫu đã
+# tra, nên đọc từ DB là đủ, KHÔNG cần mở lại file mỗi request).
+# Route GET + POST .../pass dưới đây đang THIẾU — frontend admin/namevimap.html
+# (tab "✍️ Xác minh tác giả", dòng ~3098/3175) gọi 404 → lỗi "Unexpected token '<'".
+_WV_CACHE = {'data': None, 'ts': 0.0}
+_WV_CACHE_TTL = 20.0
+_WV_HAN_RE = re.compile(r'[一-鿿㐀-䶿豈-﫿]')
+
+
+def _wv_classify_group(name_db, name_file):
+    """A = chỉ khác hoa/dấu (so khớp sau khi bỏ dấu + hạ chữ qua normalize_text
+    đã có sẵn trong file này, dòng ~102). B = tên đề xuất (file) còn sót chữ Hán.
+    C = khác nội dung (cần soát kỹ nhất)."""
+    if _WV_HAN_RE.search(name_file or ''):
+        return 'B'
+    if normalize_text(name_db) == normalize_text(name_file):
+        return 'A'
+    return 'C'
+
+
+def _wv_build_rows(conn):
+    """Quét toàn bộ dila_catalog_works.vi_json 1 lần, gom theo person_id những
+    người có contributor name_vi (file) khác people.name_vi (DB) hiện tại.
+    Kết quả cache _WV_CACHE_TTL giây — cùng kiểu với _T427_FILTER_CACHE ở trên."""
+    people_map = {}
+    for r in conn.execute("SELECT id, name_vi, name_zh FROM people"):
+        people_map[r['id']] = {'name_vi': r['name_vi'], 'name_zh': r['name_zh']}
+
+    try:
+        works = conn.execute(
+            "SELECT cbeta_id, title_zh, vi_json FROM dila_catalog_works WHERE vi_json IS NOT NULL"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        return [], 'Bảng dila_catalog_works chưa có trên môi trường này.'
+
+    by_person = {}
+    parse_errors = 0
+    for w in works:
+        try:
+            d = json.loads(w['vi_json'])
+        except Exception:
+            parse_errors += 1
+            continue
+        for ctb in (d.get('contributors') or []):
+            pid = ctb.get('id')
+            file_name = (ctb.get('name_vi') or '').strip()
+            if not pid or not file_name:
+                continue
+            pdata = people_map.get(pid)
+            if not pdata:
+                continue
+            db_name = (pdata['name_vi'] or '').strip()
+            if not db_name or db_name == file_name:
+                continue  # không lệch -> không đưa vào danh sách cần soát
+            entry = by_person.setdefault(pid, {
+                'name_zh': ctb.get('name') or pdata['name_zh'] or '',
+                'name_db': db_name,
+                'file_names': {},
+                'works': [],
+            })
+            entry['file_names'][file_name] = entry['file_names'].get(file_name, 0) + 1
+            entry['works'].append({'cbeta_id': w['cbeta_id'], 'title_zh': w['title_zh']})
+
+    passed_map = {}
+    try:
+        for r in conn.execute(
+            "SELECT dila_id, name_vi_final FROM name_vi_map WHERE approved_by = 'work_verify_pass'"
+        ):
+            passed_map[r['dila_id']] = r['name_vi_final']
+    except sqlite3.OperationalError:
+        pass
+
+    rows = []
+    for pid, e in by_person.items():
+        sorted_names = sorted(e['file_names'].items(), key=lambda kv: (-kv[1], kv[0]))
+        name_file = sorted_names[0][0]
+        variants = [n for n, _cnt in sorted_names[1:]]
+        rows.append({
+            'person_id': pid,
+            'name_zh': e['name_zh'],
+            'name_db': e['name_db'],
+            'name_file': name_file,
+            'name_file_variants': variants,
+            'group': _wv_classify_group(e['name_db'], name_file),
+            'work_count': len(e['works']),
+            'works': e['works'][:5],
+            'passed': pid in passed_map,
+        })
+    rows.sort(key=lambda r: r['person_id'])
+    warning = (f'{parse_errors} dòng vi_json lỗi JSON, đã bỏ qua.' if parse_errors else None)
+    return rows, warning
+
+
+def _wv_get_rows(conn):
+    now = time.time()
+    cached = _WV_CACHE['data']
+    if cached is not None and (now - _WV_CACHE['ts']) < _WV_CACHE_TTL:
+        return cached
+    rows, warning = _wv_build_rows(conn)
+    _WV_CACHE['data'] = (rows, warning)
+    _WV_CACHE['ts'] = now
+    return rows, warning
+
+
+def _wv_invalidate_cache():
+    _WV_CACHE['data'] = None
+
+
+@app.route('/daoanh/api/admin/work-verify', methods=['GET'])
+def api_admin_work_verify_list():
+    """T486: danh sách người có tên contributor lệch giữa DB (people.name_vi)
+    và file vi_json (dila_catalog_works.vi_json, nguồn gốc từ
+    vn_dila_authority_catalog/*.vi.json — đã import nguyên văn). Phân trang
+    50/trang (query 'size' tối đa 200), lọc theo 'group' (ALL|A|B|C) và tìm
+    theo 'q' (mã người / Hán tự / tên Việt, không phân biệt hoa/dấu)."""
+    try:
+        q = (request.args.get('q') or '').strip()
+        group = (request.args.get('group') or 'ALL').strip().upper()
+        try:
+            page = max(1, int(request.args.get('page', 1)))
+        except Exception:
+            page = 1
+        try:
+            size = max(1, min(200, int(request.args.get('size', 50))))
+        except Exception:
+            size = 50
+
+        conn = get_db_connection()
+        rows, warning = _wv_get_rows(conn)
+        conn.close()
+
+        if group in ('A', 'B', 'C'):
+            rows = [r for r in rows if r['group'] == group]
+
+        if q:
+            nq = normalize_text(q)
+            qu = q.upper()
+
+            def _match(r):
+                if qu and r['person_id'].upper() == qu:
+                    return True
+                if q in (r['name_zh'] or ''):
+                    return True
+                if nq in normalize_text(r['name_db']) or nq in normalize_text(r['name_file']):
+                    return True
+                return False
+
+            rows = [r for r in rows if _match(r)]
+
+        total = len(rows)
+        offset = (page - 1) * size
+        page_rows = rows[offset:offset + size]
+
+        resp = {
+            'ok': True,
+            'items': page_rows,
+            'total': total,
+            'page': page,
+            'size': size,
+            'pages': max(1, (total + size - 1) // size),
+        }
+        if warning:
+            resp['warning'] = warning
+        return jsonify(resp)
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+@app.route('/daoanh/api/admin/work-verify/<person_id>/pass', methods=['POST'])
+def api_admin_work_verify_pass(person_id):
+    """T486: Admin xác nhận (Pass) tên Việt của 1 người — ghi name_vi_map
+    (approved_by='work_verify_pass', cùng kiểu upsert đã dùng ở
+    admin_namevi_bulk_pass() phía trên, dòng ~16957) + đồng bộ people.name_vi
+    (đúng như tooltip trong admin/namevimap.html dòng ~956)."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
+    try:
+        data = request.get_json(silent=True) or {}
+        name_vi = (data.get('name_vi') or '').strip()
+        if not name_vi:
+            return jsonify({'ok': False, 'error': 'name_vi không được rỗng'}), 400
+
+        conn = get_db_connection()
+        person = conn.execute("SELECT id, name_zh FROM people WHERE id = ?", (person_id,)).fetchone()
+        if not person:
+            conn.close()
+            return jsonify({'ok': False, 'error': f'Không có người {person_id} trong bảng people'}), 404
+
+        now = datetime.now().isoformat()
+        existing = conn.execute(
+            "SELECT id FROM name_vi_map WHERE dila_id = ?", (person_id,)
+        ).fetchone()
+        if existing:
+            conn.execute("""
+                UPDATE name_vi_map
+                SET name_vi_final = ?, name_vi = ?,
+                    approved_by = 'work_verify_pass', approved_at = ?
+                WHERE dila_id = ?
+            """, (name_vi, name_vi, now, person_id))
+        else:
+            conn.execute("""
+                INSERT INTO name_vi_map
+                    (dila_id, name_vi, name_vi_final, name_zh,
+                     approved_by, approved_at, confidence, created_at)
+                VALUES (?, ?, ?, ?, 'work_verify_pass', ?, 1.0, ?)
+            """, (person_id, name_vi, name_vi, person['name_zh'] or '', now, now))
+
+        conn.execute("UPDATE people SET name_vi = ? WHERE id = ?", (name_vi, person_id))
+        conn.commit()
+        conn.close()
+        _wv_invalidate_cache()
+        return jsonify({'ok': True, 'person_id': person_id, 'name_vi': name_vi})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
 
 
 # ===== VISITOR COUNTER =====
