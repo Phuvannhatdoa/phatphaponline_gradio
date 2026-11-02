@@ -1,5 +1,9 @@
 # TASKTODO — Active Tasks
 
+<!-- T458:START -->
+> **[2026-11-02 · T458 — Dịch tiếng Việt nexus tiểu sử DILA bằng gpt-6-luna] 🔄 IN_PROGRESS (chuẩn bị).** Admin phê chuẩn kế hoạch: dịch 21.740 nexus của T457 theo batch, áp dụng 139 quy tắc dịch active, dừng khi hết quota và tiếp tục hôm sau. Model: gpt-6-luna (chưa xác nhận có sẵn qua Codex). Chưa ghi DB, chưa chạy pilot; nạp DB và pilot chờ Admin duyệt. Task: `tasks/T458-dila-bio-nexus-vi-translation.md`. Bàn giao: `docs/Handoff-2026-11-02-t458.md`.
+<!-- T458:END -->
+
 <!-- T461:START -->
 <!-- T500:START -->
 > **[2026-10-31 · T500 — Quan hệ quyển CBETA: work_volumes / volume_files / work_alias] ✅ **DONE (Admin xác nhận 2026-11-01)**.** Đã ghi work_volumes 21.513 dòng, volume_files 21.513 dòng (sửa 2.054 dòng theo XML cục bộ, T0220 đúng 3 file), work_alias 18 dòng (bỏ 6 alias tự trỏ). W1: phương án A áp dụng cho cả 64 dòng của X0714, L1557, GA0037 (Admin chọn). QA đạt (2026-10-31); tester PASS_WITH_WARNINGS. Backup: `data/backups/lineage_pre_t500_*.db`. Task: `tasks/T500-cbeta-catalog-volume-relations.md`.
