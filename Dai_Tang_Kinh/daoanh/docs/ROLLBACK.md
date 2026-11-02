@@ -759,3 +759,43 @@ Session log: `docs/sessions/2026-10-20_BUG-pl-id-404.md`.
 
 - Lệnh apply: `python -X utf8 scripts/t200_canonical_name_row.py --apply` (INSERT 1 dòng vào `vn_person_authority`: id `canonical_A001984`, name_vi `Quy Sơn Linh Hựu` (= `people.name_vi`), name_zh `靈祐`, dila_id `A001984`, status `auto_ttl`, ttl_filename `TS-Quy-Son-Linh-Huu` (lấy từ dòng alias), entity_type `monk`).
 - Ghi chú: additive, +1 dòng (1511 → 1512), dữ liệu cũ không mất; dòng `alias_A001984` giữ nguyên. Admin đã duyệt riêng cho A001984 (gỡ cổng `test:t200`). Không sửa bảng `people`.
+
+## T507 — A004981 xung đột dữ liệu TTL, thêm cột `superseded_by` (additive) (2026-11-01)
+
+**Bối cảnh:** `vn_person_authority` có 2 hàng khác slug cùng trỏ `dila_id='A004981'`
+(`nam_vien_hue_ngung` tên "Nam Viện Huệ Ngung", `status='pending'` và
+`phong_huyet_dien_chieu` tên "Huệ Ngung", `status='auto_ttl'`, `ttl_filename` trỏ tới file
+TTL không tồn tại trên đĩa). Admin xác nhận (2026-11-01): giữ `nam_vien_hue_ngung`, đánh dấu
+`phong_huyet_dien_chieu` là bản đã bị thay thế — **KHÔNG xóa, KHÔNG đổi `status`** (chỉ thêm
+cột mới additive để đánh dấu).
+
+| Migration | Lệnh revert | Backup | Ngày |
+|---|---|---|---|
+| T507 `ALTER TABLE vn_person_authority ADD COLUMN superseded_by TEXT` + `UPDATE ... SET superseded_by='nam_vien_hue_ngung' WHERE id='phong_huyet_dien_chieu' AND dila_id='A004981'` | `ALTER TABLE vn_person_authority DROP COLUMN superseded_by;` (SQLite ≥ 3.35 hỗ trợ DROP COLUMN trực tiếp, mất toàn bộ cột kể cả giá trị NULL ở dòng khác — vì đây là cột mới 100% NULL trừ 1 dòng, không mất dữ liệu cũ nào khác) **hoặc** khôi phục nguyên file từ backup bên cạnh | `Dai_Tang_Kinh/daoanh/data/backups/lineage_pre_t507_a004981_20261101_005755.db` (sqlite backup API, `PRAGMA quick_check`=`ok`, size=1.825.574.912 bytes, verify TRƯỚC khi ghi) | 2026-11-01 |
+
+- Câu UPDATE đảo ngược giá trị (không drop cột, giữ cột lại cho case khác dùng sau):
+  `UPDATE vn_person_authority SET superseded_by=NULL WHERE id='phong_huyet_dien_chieu' AND dila_id='A004981';`
+- Verify sau ghi (thực đo): tổng dòng `vn_person_authority` **1.512 → 1.512** (không đổi).
+  `status` của `phong_huyet_dien_chieu` vẫn `auto_ttl`, `status` của `nam_vien_hue_ngung` vẫn
+  `pending` (không đổi). Dòng `nam_vien_hue_ngung` giữ `superseded_by IS NULL`.
+  ```
+  AFTER_ROW ('nam_vien_hue_ngung', 'A004981', 'pending', 'Nam Viện Huệ Ngung', None)
+  AFTER_ROW ('phong_huyet_dien_chieu', 'A004981', 'auto_ttl', 'Huệ Ngung', 'nam_vien_hue_ngung')
+  ```
+- Ghi chú: additive thuần (1 cột mới, 1 UPDATE đúng 1 dòng). Không đụng bảng khác, không đụng
+  dòng `nam_vien_hue_ngung`. Chưa có consumer code đọc cột `superseded_by` — xem
+  `docs/db_schema.md` §9.2b. Chi tiết đầy đủ: `tasks/T507-ttl-tree-4char-dila-name.md`.
+
+## 2026-11-01 — commit theo nhóm, revert từng commit
+Chuỗi commit trên nhánh truyen-dang-the-pho-clean, sau 5cbbd86b (HEAD cũ). Mỗi commit là một nhóm độc lập để revert riêng.
+| Commit | Nội dung |
+|---|---|
+| a1d64073 | dashboard/ (agent_team, serve.py) |
+| e055113e | admin-ui: tab Catalog, Xác Minh Tác Giả, menu, sync_log, places tree-source |
+| 0c630ce8 | backend: route dịch lại T447, sửa cạnh DILA-only T506 (app.py, local_gateway.py) |
+| e9a0c024 | scripts + tests khôi phục |
+| ab113e02 | tasks + docs khôi phục, log và tool 2026-11-01 |
+| 22936957 | sync_cbeta_refs.py và phần còn lại |
+| 24b2aee5 | opencode.json: chặn ssh/scp/rclone |
+Hoàn tác một nhóm: git revert --no-edit <sha>. Revert theo thứ tự ngược từ commit mới nhất nếu cần nhiều nhóm. Nếu revert xung đột với sửa sau đó, dừng và báo, không ép.
+Bản sao lưu ngoài repo: C:/Users/Nam Thien/.claude/wip-unsnapshotted-20261101 (10 file lớn, có manifest sha256); nhánh WIP đầy đủ: wip/2026-11-01 (5ea88f6d).

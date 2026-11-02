@@ -1,4 +1,5 @@
-> Tạo bởi phiên Claude Code theo yêu cầu M0. Cập nhật lần cuối: 2026-10-02.
+> Tạo bởi phiên Claude Code theo yêu cầu M0. Cập nhật lần cuối: 2026-11-01 (T508 — bổ sung
+> số route đo lúc runtime bằng `app.url_map`, xem mục “Số route đo lúc runtime”; **số chuẩn đã xác nhận 376**).
 
 # REALITY CHECK — Số liệu thực tế DB & code
 
@@ -11,10 +12,82 @@ Mọi spec (M0–M5) và CLAUDE.md phải tham chiếu file này, không ghi c�
 |--------|-----------------|---------------------|
 | DB size trên đĩa | 664 MB | **1.4 GB** |
 | Số bảng trong DB | 67 | **156** |
-| Số `@app.route` trong app.py | 131+ | **313** |
+| Số `@app.route` trong app.py (đếm **tĩnh**, regex `@\w*\.route(`) | 131+ | đo lại 2026-11-01: **339** (doc cũ ghi 313, đo 2026-10-02) |
+| Số route lúc **runtime** — `app.py` (cổng 5000), `len(app.url_map.iter_rules())` | chưa từng đo | **369 rule** / **368 nếu trừ rule `static`**; 344 view function — đo 2026-11-01, xem mục “Số route đo lúc runtime” |
+| Số route lúc **runtime** — `server.py` (cổng 5001), `len(app.url_map.iter_rules())` | chưa từng đo | **9 rule** / **8 nếu trừ rule `static`**; 7 view function — đo 2026-11-01, xem mục “Số route đo lúc runtime” |
+| **Số route chuẩn (Admin xác nhận 2026-11-01)** — runtime trừ `static`: `app.py` 368 + `server.py` 8 | chưa từng có | **376** |
+| **Mốc tĩnh hiện tại** — regex `@\w*\.route(` trên `app.py` + `server.py` | 437 (cũ) | **347** (339 + 8) |
 | Số hàng `data_sources` | 13 | **14** |
 
 > CLAUDE.md đã ghi 664 MB và 67 bảng — cần cập nhật sau khi xác nhận file này.
+
+## Số route đo lúc runtime bằng `app.url_map` (T508, đo 2026-11-01)
+
+> ⚠ **Số đo lúc runtime**: 369 (`app.py`) / 9 (`server.py`). **Số chuẩn Admin xác nhận**: **376** = `app.py` 368 + `server.py` 8 (trừ rule `static` của Flask). Mốc tĩnh tham chiếu: **347** = 339 (`app.py`) + 8 (`server.py`). Số cũ 437/448 **không tái lập được trên HEAD hiện tại** — xem giải thích bên dưới.
+
+**Nguồn đo**
+
+- Script: `docs/sessions/2026-11-01/T508-coder/measure_routes.py`
+  (chỉ đọc; patch `sqlite3.connect` để mọi DB ghi ra sandbox tạm, không đụng
+  `data/lineage.db` — xem `live-server-check.log` cùng thư mục).
+- Lệnh chạy (cwd = `Dai_Tang_Kinh/daoanh`):
+
+  ```powershell
+  python -X utf8 docs\sessions\2026-11-01\T508-coder\measure_routes.py both `
+      --json docs\sessions\2026-11-01\T508-coder\route-count-raw.json
+  ```
+
+- Log đầy đủ (từng rule + method): `docs/sessions/2026-11-01/T508-coder/route-count.log`
+- Môi trường: Python 3.14.3, HEAD `5cbbd86b` (branch `wt/coder-t508`); `app.py` cùng
+  nội dung với bản main repo (cùng 339 decorator) nên số không phụ thuộc worktree.
+- Không đọc được `url_map` của tiến trình live trên cổng 5000 (không có endpoint
+  chẩn đoán; thêm endpoint = sửa route code, ngoài phạm vi). Cách đo là import module
+  trong tiến trình riêng — **cùng đường đăng ký route như lúc server khởi động**.
+
+**Kết quả `len(app.url_map.iter_rules())`**
+
+| Chỉ số | `app.py` (5000) | `server.py` (5001) |
+|---|---|---|
+| Tổng số rule (`iter_rules()`) | **369** | **9** |
+| **Trừ rule nội bộ Flask `static` (số chuẩn)** | **368** | **8** |
+| **Số chuẩn tổng cộng (Admin xác nhận)** | **376** | **376** |
+| Số view function (endpoint) khác nhau | **344** | **7** |
+| Số path (rule string) khác nhau | **366** | **9** |
+| Theo method (đếm theo rule) | GET 245 · POST 124 · PUT 3 · DELETE 1 · PATCH 1 | GET 3 · POST 6 |
+
+**Đối chiếu với cách đếm tĩnh (regex `@\w*\.route(`)**
+
+| Cách đếm | `app.py` | `server.py` | Ghi chú |
+|---|---|---|---|
+| **Mốc tĩnh hiện tại (regex trên source, đo 2026-11-01)** | **339** | **8** | mỗi dòng decorator = 1 rule khai báo; **tổng 347** |
+| Runtime (`url_map`) | 369 | 9 | nhiều hơn vì Flask tách multi-path + blueprint + `add_url_rule` + `static` |
+| Chênh | +30 | +1 | xem bảng cân đối bên dưới |
+
+**Mốc tĩnh cũ 437/448 (T322) — không tái lập được**: Lúc T322 (2026-10-31) code route nằm rải trong `routes_misc.py` (96), `routes_translate.py` (80), `routes_lineage.py` (72), `routes_places.py` (49), `routes_namevi.py` (33), `routes_pages.py` (19), `routes_ttl.py` (7), `core.py` (6), `t265_routes.py` (1)... Tổng cộng ~448 decorator. Các file này **đã không còn** trong `Dai_Tang_Kinh/daoanh` (đã gộp vào `app.py` nguyên khối 25.963 dòng). Regex chạy trên HEAD hiện tại cho 339 + 8 = 347. Do đó **mốc 437/448 là lịch sử, không dùng làm tham chiếu hiện tại**.
+
+Cân đối `app.py` 339 → 369 (+30):
+
+| Nguồn | Số rule |
+|---|---|
+| `@app.route` decorator (regex bắt được) | 339 |
+| `@ app.route('/api/admin/queue/list')` — viết cách dấu `@` nên regex trượt | +1 |
+| `app.route(...)(api_cbeta_compare)` — đăng ký kiểu gọi hàm (dòng 20220) | +1 |
+| `app.add_url_rule(...)` — T130/T131 additive (3 rule) | +3 |
+| Rule từ 2 blueprint: `ttl_profile_v2` 22 (`api_ttl_profile_v2.py` 13 + `api_codex_namevi.py` 4 + `api_generation_v2.py` 5), `ttl_anchor` 2 | +24 |
+| Rule `static` Flask tự thêm | +1 |
+| **Tổng** | **369** |
+
+`server.py` 8 → 9: 8 decorator + 1 rule `static` (2 endpoint `login_verify`/`login_check`
+mỗi endpoint có 2 path `/api/...` và `/daoanh/api/...` nên 7 endpoint → 8 rule).
+
+**Đếm tĩnh toàn bộ `*.py` trong `daoanh/` (bỏ `docs/sessions` backup, `.git`,
+`node_modules`): 423 decorator / 20 file** — trong đó `app.py` 339, `server.py` 8,
+4 module blueprint 24, còn lại là các server/tooling phụ (`server_admin_extensions.py`
+10, `api_ttl_rebuild.py` 7, `src_python/` 8, `conflict_server.py` 5, `api_zenlineage.py` 5,
+`local_gateway.py` 2, `scripts/`, `tests/`…).
+
+**Nếu thêm bỏ `docs/reports`**: 419 decorator / 18 file.
+
 
 ## data_sources — 14 nguồn hiện có
 
