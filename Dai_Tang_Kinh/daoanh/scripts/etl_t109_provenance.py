@@ -30,10 +30,12 @@ content-hash (M5)
 """
 import argparse
 import hashlib
+import json
 import os
 import sqlite3
 import sys
 import time
+from datetime import datetime
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -43,6 +45,127 @@ BACKUP_DIR = os.path.join(BASE_DIR, 'data', 'backups')
 
 TS = time.strftime('%Y%m%d_%H%M%S')
 BUILT_AT = time.strftime('%Y-%m-%dT%H:%M:%S')
+
+# ── T287 — LicenseGate (T78) ────────────────────────────────────────────────
+# Script này KHÔNG INSERT vào entity_claims, nhưng GHI 2 bảng dẫn xuất từ dữ
+# liệu đã có: entity_claims_audit (hash từ entity_claims) và events_provenance
+# (gán cứng source DILA từ places_dila) → phải qua cổng pháp lý với op DERIVE.
+GATE_SCRIPT = 'scripts/etl_t109_provenance.py'
+GATE_OPERATION = 'DERIVE'
+GATE_TARGET_TABLE = 'entity_claims_audit,events_provenance'
+
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+try:
+    from gate.license import LicenseGate
+    _gate = LicenseGate(db_path=DB_PATH)
+except Exception as _gate_err:  # ImportError hoặc lỗi mở DB
+    _gate = None
+    print(f'[T109][WARN] LicenseGate không tải được ({_gate_err}) — bỏ qua kiểm tra quyền')
+
+
+def resolve_source_id(conn, source_code, fallback):
+    """Tra source_id theo source_code trong data_sources (fallback cố định)."""
+    try:
+        row = conn.execute(
+            'SELECT source_id FROM data_sources WHERE source_code = ? LIMIT 1',
+            (source_code,)).fetchone()
+    except sqlite3.Error:
+        return fallback
+    return row[0] if row else fallback
+
+
+def _gate_audit_refusal(source_id, operation, result, target_table=GATE_TARGET_TABLE):
+    """Nhánh TỪ CHỐI (T287): ghi 1 dòng en_audit_log làm bằng chứng gate đã chặn.
+
+    Trả về True nếu ghi được audit row.
+    """
+    if _gate is None:
+        return False
+    try:
+        audit = sqlite3.connect(_gate.db_path, timeout=30)
+        try:
+            audit.execute(
+                "INSERT INTO en_audit_log "
+                "(entity_ref, action, field_name, old_value, new_value, evidence_sources, "
+                " authority_rank, editor, verification_status, created_at) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?)",
+                (
+                    f'source:{source_id}',
+                    'license_gate_block',
+                    target_table,
+                    None,
+                    (result or {}).get('reason') or 'LicenseGate từ chối',
+                    json.dumps({
+                        'gate': 'LicenseGate',
+                        'operation': operation,
+                        'status': (result or {}).get('status'),
+                        'source_id': source_id,
+                        'target_table': target_table,
+                        'script': GATE_SCRIPT,
+                    }, ensure_ascii=False),
+                    None,
+                    GATE_SCRIPT,
+                    'blocked',
+                    datetime.now().isoformat(timespec='seconds'),
+                ),
+            )
+            audit.commit()
+            return True
+        finally:
+            audit.close()
+    except Exception as e:
+        print(f'  [WARN] Không ghi được en_audit_log cho lần từ chối: {e}')
+        return False
+
+
+def _gate_check(source_id, operation=GATE_OPERATION, allow_block=False,
+                target_table=GATE_TARGET_TABLE):
+    """Gọi LicenseGate trước khi ghi. Từ chối => ghi en_audit_log + PermissionError.
+
+    allow_block=True (dùng cho --dry-run): chỉ in cảnh báo, không chặn, không ghi audit.
+    """
+    if _gate is None:
+        print(f'  [GATE WARN] LicenseGate không tải được — bỏ qua kiểm tra source_id={source_id}')
+        return None
+    result = _gate.checkSourcePermission(source_id, operation)
+    if not result.get('allowed'):
+        written = False if allow_block else _gate_audit_refusal(
+            source_id, operation, result, target_table)
+        msg = (f'[LicenseGate] Từ chối ghi {target_table} từ source_id={source_id} '
+               f'(op={operation}, status={result.get("status")}): {result.get("reason")}')
+        if allow_block:
+            print(f'  [GATE BLOCK — dry-run] {msg}')
+            return result
+        print(f'  {msg}')
+        print(f'  [ABORT] Không ghi row nào. en_audit_log: '
+              f'{"đã ghi" if written else "KHÔNG ghi được"}')
+        raise PermissionError(msg)
+    print(f'  [GATE OK] source_id={source_id} status={result.get("status")} op={operation}')
+    return result
+
+
+def gate_preflight(conn, dry_run):
+    """T287 — kiểm quyền DERIVE cho mọi nguồn sẽ được dẫn xuất vào 2 bảng.
+
+    Bị từ chối => SystemExit(2), KHÔNG tạo bảng / KHÔNG ghi row nào.
+    """
+    try:
+        src_ids = sorted({r[0] for r in conn.execute('SELECT DISTINCT source_id FROM entity_claims')})
+    except sqlite3.Error as e:
+        print(f'[gate] WARN: không đọc được DISTINCT source_id ({e}) — chỉ kiểm DILA')
+        src_ids = []
+    dila = resolve_source_id(conn, 'DILA', 1)   # events_provenance gán cứng DILA
+    if dila not in src_ids:
+        src_ids.append(dila)
+    print(f'\n[gate] Kiểm quyền {GATE_OPERATION} cho source_id={src_ids}')
+    try:
+        for sid in src_ids:
+            _gate_check(sid, GATE_OPERATION, allow_block=dry_run)
+    except PermissionError as e:
+        print(f'[gate] ABORT: {e}')
+        print('[ETL] Dừng TRƯỚC khi tạo bảng/ghi dữ liệu — DB không đổi.')
+        raise SystemExit(2)
 
 
 def connect():
@@ -319,6 +442,8 @@ def main():
         if revert_mode:
             revert(conn, dry_run)
         else:
+            # T287 — LicenseGate trước khi ghi bảng dẫn xuất (op DERIVE)
+            gate_preflight(conn, dry_run)
             build_entity_claims_audit(conn, dry_run)
             build_events_provenance(conn, dry_run)
             build_views(conn, dry_run)

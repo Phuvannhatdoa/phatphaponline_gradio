@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nhật Ký Sync — Đạo Ảnh</title>
+<style>
+  body { font-family: 'Segoe UI', Inter, system-ui, sans-serif; background: #020617; color: #e2e8f0; margin: 0; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,.08); flex-wrap: wrap; }
+  h1 { font-size: 18px; margin: 0; color: #fbbf24; }
+  h2 { font-size: 14px; margin: 0 0 10px; color: #fbbf24; text-transform: uppercase; letter-spacing: .05em; }
+  main { padding: 20px 24px 40px; max-width: 1280px; margin: 0 auto; }
+  section { background: rgba(15,23,42,.8); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 16px; margin-bottom: 18px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,.06); vertical-align: top; }
+  th { color: #94a3b8; font-weight: 600; font-size: 12px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .ok { background: rgba(16,185,129,.15); color: #34d399; }
+  .fail { background: rgba(239,68,68,.15); color: #f87171; }
+  .warn { background: rgba(245,158,11,.15); color: #fbbf24; }
+  .muted { color: #64748b; }
+  pre { background: #0b1220; border: 1px solid rgba(255,255,255,.06); border-radius: 8px; padding: 10px; font-size: 12px; line-height: 1.5; max-height: 380px; overflow: auto; white-space: pre-wrap; word-break: break-word; margin: 0; }
+  a.back { color: #fbbf24; text-decoration: none; font-size: 13px; }
+  .small { font-size: 12px; color: #94a3b8; }
+  .detail { font-size: 12px; color: #cbd5e1; margin: 2px 0; }
+  .err { color: #f87171; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <a class="back" href="index.html">← Statistics Dashboard</a>
+    <h1>Nhật Ký Sync</h1>
+    <div class="small">Lịch đã đặt, lịch sử đồng bộ local → VPS, và log làm việc. Tự làm mới mỗi 60 giây.</div>
+  </div>
+  <div class="small" id="generatedAt">đang tải…</div>
+</header>
+
+<main>
+  <section>
+    <h2>Lịch đã đặt</h2>
+    <table>
+      <thead><tr><th>Việc</th><th>Tác vụ</th><th>Lịch</th><th>Trạng thái</th><th>Lần chạy gần nhất</th><th>Kết quả</th><th>Lần tới</th></tr></thead>
+      <tbody id="schedules"><tr><td colspan="7" class="muted">Đang tải…</td></tr></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Lịch sử sync VPS (mới nhất trước)</h2>
+    <table>
+      <thead><tr><th>Bắt đầu</th><th>Kết thúc</th><th>Kết quả</th><th>Các bước</th><th>Thống kê rclone</th></tr></thead>
+      <tbody id="runs"><tr><td colspan="5" class="muted">Đang tải…</td></tr></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Log sync VPS (40 dòng cuối)</h2>
+    <pre id="syncTail">Đang tải…</pre>
+  </section>
+
+  <section>
+    <h2>Log GitBook (20 dòng cuối)</h2>
+    <pre id="gitbookTail">Đang tải…</pre>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined && text !== null) n.textContent = text;
+    return n;
+  }
+
+  function resultBadge(result) {
+    if (result === 0) return el('span', 'badge ok', 'OK');
+    if (result === null || result === undefined || result === '') return el('span', 'badge warn', 'chưa có');
+    if (result === 267009) return el('span', 'badge warn', 'đang chạy');
+    if (result === 3221225786) return el('span', 'badge warn', 'đã dừng (Ctrl+C / đăng xuất)');
+    return el('span', 'badge fail', 'lỗi (' + result + ')');
+  }
+
+  function stateBadge(state) {
+    var cls = state === 'Ready' || state === 'Running' ? 'ok' : state === 'Disabled' ? 'warn' : 'fail';
+    return el('span', 'badge ' + cls, state);
+  }
+
+  function renderSchedules(list) {
+    var body = document.getElementById('schedules');
+    body.textContent = '';
+    list.forEach(function (s) {
+      var tr = el('tr');
+      tr.appendChild(el('td', null, s.name));
+      tr.appendChild(el('td', 'muted', s.task));
+      tr.appendChild(el('td', null, s.when));
+      tr.appendChild(el('td')); tr.lastChild.appendChild(stateBadge(s.state));
+      tr.appendChild(el('td', null, s.last_run ? s.last_run.replace('T', ' ') : '—'));
+      tr.appendChild(el('td')); tr.lastChild.appendChild(resultBadge(s.last_result));
+      tr.appendChild(el('td', null, s.next_run ? s.next_run.replace('T', ' ') : '—'));
+      body.appendChild(tr);
+    });
+  }
+
+  function renderRuns(runs) {
+    var body = document.getElementById('runs');
+    body.textContent = '';
+    if (!runs.length) {
+      body.appendChild(el('tr')).appendChild(el('td', 'muted', 'Chưa có lần sync nào được ghi.'));
+      return;
+    }
+    runs.forEach(function (r) {
+      var tr = el('tr');
+      tr.appendChild(el('td', null, r.start));
+      tr.appendChild(el('td', null, r.end || '—'));
+      var st = r.status === 'ok' ? el('span', 'badge ok', 'thành công')
+        : r.status === 'failed' ? el('span', 'badge fail', 'thất bại')
+        : el('span', 'badge warn', r.status === 'unfinished' ? 'chưa xong' : 'đang chạy');
+      tr.appendChild(el('td')); tr.lastChild.appendChild(st);
+      var steps = el('td');
+      (r.steps || []).forEach(function (x) { steps.appendChild(el('div', 'detail', x)); });
+      (r.errors || []).forEach(function (x) { steps.appendChild(el('div', 'detail err', x)); });
+      tr.appendChild(steps);
+      var stats = el('td');
+      (r.stats || []).forEach(function (x) { stats.appendChild(el('div', 'detail', x)); });
+      tr.appendChild(stats);
+      body.appendChild(tr);
+    });
+  }
+
+  function load() {
+    fetch('sync_log.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (d) {
+        document.getElementById('generatedAt').textContent = 'dữ liệu lúc ' + (d.generated_at || '').replace('T', ' ');
+        renderSchedules(d.schedules || []);
+        renderRuns(d.vps_sync_runs || []);
+        document.getElementById('syncTail').textContent = (d.vps_sync_tail || []).join('\n') || '(trống)';
+        document.getElementById('gitbookTail').textContent = (d.gitbook_tail || []).join('\n') || '(trống)';
+      })
+      .catch(function (e) {
+        document.getElementById('generatedAt').textContent = 'không đọc được sync_log.json: ' + e.message;
+      });
+  }
+
+  load();
+  setInterval(function () { if (!document.hidden) load(); }, 60000);
+})();
+</script>
+</body>
+</html>

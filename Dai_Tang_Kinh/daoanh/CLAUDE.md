@@ -109,3 +109,5 @@ Copy file vào `docs/sessions/YYYY-MM-DD/` trước khi edit.
 ## VPS
 
 IP: `158.220.106.183` · Path: `/opt/phatphaponline_gradio/truyenthua/visjs-app/Dai_Tang_Kinh/daoanh/`
+
+**Quy tắc (Admin chốt 2026-11-01):** local là bản chính. Mọi code, check và dev đều làm trên local (Claude Code, OpenCode). **Không sửa trực tiếp trên VPS** — VPS chỉ nhận code từ local qua `sync_daoanh.ps1` (17:00 hằng ngày). Agent không được chạy ssh/scp/rclone để ghi lên VPS.

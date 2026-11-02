@@ -1,0 +1,13 @@
+Cần sao lưu: 10 file
+OK 685043712 Dai_Tang_Kinh/daoanh/_archive/2026-10-25-junk-cleanup/db/lineage_backup_t77.db.tmp
+OK 6262391 Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/claude_place_name_dryrun.csv
+OK 43182045 Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-26/dila_json_reconcile.csv
+OK 43181175 Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-26/dila_json_reconcile_after.csv
+OK 43182045 Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-26/dila_json_reconcile_after_v2.csv
+OK 43310118 Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-26/dila_json_reconcile_after_v3.csv
+OK 333716480 Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-28-tokenbench/cbm/bin/codebase-memory-mcp.exe
+OK 48508123 Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-28-tokenbench/cbm/cbm-win.zip
+OK 12929912 docs/sessions/2026-10-26/pkg-json/ignored-json.csv
+OK 0 python /opt/phatphaponline_gradio/main_processing_script.py .html
+Xong: 10 file, manifest tại C:/Users/Nam Thien/.claude/wip-unsnapshotted-20261101/manifest.json
+done exit=0
