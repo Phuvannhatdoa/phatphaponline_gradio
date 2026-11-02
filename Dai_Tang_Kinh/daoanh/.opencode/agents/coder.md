@@ -4,7 +4,15 @@ mode: primary
 model: opencode-go/mimo-v2.6-flash
 ---
 
-<!-- Thứ tự model (Admin 2026-11-01, xác nhận): chỉ dùng 3 model OpenCode GO rẻ nhất theo bảng giá chính thức
+<!-- Thứ tự nhà cung cấp (cập nhật 2026-11-02, Admin): CODER CHÍNH LÀ CODEX.
+     Chạy qua: python -X utf8 scripts/run_coder.py --task <ID> --worktree <worktree> --request "<việc>"
+       1) Codex (codex.exe exec, workspace-write, -C worktree)  ← chính
+       2) OpenCode GO opencode-go/mimo-v2.6-flash               ← dự phòng khi Codex hết quota
+       3) OpenCode opencode/big-pickle (miễn phí)               ← dự phòng cuối
+     Chỉ chuyển bước khi lỗi là hết quota/lỗi nhà cung cấp; lỗi khác thì dừng và báo.
+     Cấu hình OpenCode dưới đây (model, OpenRouter) giữ cho trường hợp chạy trực tiếp bằng OpenCode.
+
+     Thứ tự model OpenCode GO (Admin 2026-11-01, xác nhận): chỉ dùng 3 model OpenCode GO rẻ nhất theo bảng giá chính thức
      (opencode.ai/docs/go, $/1M token vào/ra):
        1) opencode-go/mimo-v2.6-flash  ($0.14 / $0.28)
        2) opencode-go/gpt-6-luna       ($0.10 / $0.50, ≤272K token)
