@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DILA Team — Agent Dashboard</title>
+  <meta name="description" content="Dashboard đọc trực tiếp các file Markdown trong /tasks/ — không gọi agent, không tự sinh progress.">
+  <link rel="stylesheet" href="agent_team.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <h1>DILA Team <span class="brand-sub">Agent Dashboard</span></h1>
+      <p class="brand-note">Nguồn dữ liệu duy nhất: <code>/tasks/*.md</code> — chỉ đọc file, không gọi agent.</p>
+    </div>
+    <div class="header-actions">
+      <a class="btn" href="http://127.0.0.1:8080/daoanh/admin/">← Statistics Dashboard</a>
+      <span class="mode-badge" id="modeBadge" data-mode="unknown">đang kiểm tra…</span>
+      <label class="auto-refresh"><input type="checkbox" id="autoRefresh" checked> Tự làm mới 300s</label>
+      <span class="last-updated" id="lastUpdated"></span>
+      <button id="refreshBtn" class="btn btn-primary" type="button">⟳ Làm mới</button>
+    </div>
+  </header>
+
+  <section class="team-roles" aria-label="DILA Team roles">
+    <span class="role-chip role-planner" title="QA / Planner / Debugger">
+      <b>claude_code_planner</b> · QA / Planner / Debugger
+    </span>
+    <span class="role-chip role-developer" title="Developer">
+      <b>opencode_developer</b> · Developer
+    </span>
+    <span class="role-chip role-tester" title="Tester">
+      <b>openrouter_tester</b> · Tester
+    </span>
+    <span class="workflow-legend">created → planning → coding → testing → bug_found → debugging → retesting → done_pending_admin → approved / rejected</span>
+  </section>
+
+  <section class="source-bar" aria-label="Nguồn dữ liệu">
+    <div class="source-tabs" id="sourceTabs" role="tablist">
+      <button type="button" class="source-tab active" data-source="dila" role="tab" aria-selected="true">DILA tasks</button>
+      <button type="button" class="source-tab" data-source="real" role="tab" aria-selected="false">Task thật · daoanh/tasks</button>
+      <button type="button" class="source-tab" data-source="docs" role="tab" aria-selected="false">Docs thật · daoanh/docs</button>
+    </div>
+    <p class="source-note" id="sourceNote">Đang đọc nguồn dữ liệu…</p>
+    <div class="toolbar">
+      <input id="searchInput" type="search" class="search-input" autocomplete="off"
+             placeholder="Tìm mã task / tiêu đề / tên file… (vd. T461, dila, bug)">
+      <select id="statusFilter" class="status-filter" aria-label="Lọc theo status">
+        <option value="">Tất cả status</option>
+      </select>
+      <button type="button" id="clearFilter" class="btn btn-ghost btn-sm">Xoá lọc</button>
+      <div class="view-toggle" role="group" aria-label="Chế độ xem">
+        <button id="viewList" class="btn btn-sm btn-primary" type="button">Danh sách</button>
+        <button id="viewKanban" class="btn btn-sm" type="button">Kanban</button>
+      </div>
+    </div>
+    <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="Nhóm theo trạng thái"></div>
+  </section>
+
+  <main>
+    <section class="stats-bar" aria-label="Tổng quan">
+      <div class="stat"><span class="value" id="totalTasks">0</span><span class="label">Tasks</span></div>
+      <div class="stat"><span class="value" id="inProgress">0</span><span class="label">Đang xử lý</span></div>
+      <div class="stat stat-accent"><span class="value" id="awaitingAdmin">0</span><span class="label">Chờ Admin duyệt</span></div>
+      <div class="stat"><span class="value" id="totalBugs">0</span><span class="label">Bugs</span></div>
+      <div class="stat"><span class="value" id="totalBlockers">0</span><span class="label">Blockers</span></div>
+    </section>
+    <p class="stats-note" id="statsNote" aria-live="polite"></p>
+
+    <div class="tasks-container" id="tasksContainer">
+      <p class="loading">Đang đọc <code>/tasks/</code>…</p>
+    </div>
+    <div class="kanban-board" id="kanbanBoard" hidden></div>
+  </main>
+
+  <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
+
+  <footer class="site-footer">
+    <span>DILA Team Dashboard — read-only trên <code>/tasks/</code></span>
+    <span>Approve / Reject chỉ ghi đúng dòng <code>## Status</code> của file task</span>
+  </footer>
+
+  <noscript>
+    <p class="noscript">Dashboard cần JavaScript để đọc file Markdown trong <code>/tasks/</code>.</p>
+  </noscript>
+
+  <script src="agent_team.js"></script>
+</body>
+</html>

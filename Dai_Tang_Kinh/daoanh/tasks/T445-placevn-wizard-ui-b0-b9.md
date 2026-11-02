@@ -1,7 +1,7 @@
 ---
 id: T445
 title: "Wizard UI cho T444 Gemini Places Translation (B0-B9)"
-status: in_progress
+status: coding
 depends_on: [T444]
 timeline:
   created: 2026-10-21
@@ -244,3 +244,22 @@ def batch_monitor(ws):
 ⏸️ **PENDING** — Awaiting approval to start coding (Wizard Flow approved by Admin on 2026-10-21)
 
 Next: daoanh-debugger codes placevn.html Wizard + app.py endpoints
+
+## Các bước (MA giao cho coder — 2026-11-01)
+
+Trạng thái thật (kiểm 2026-11-01): `app.py` HEAD **chưa có** route nào của T445 (0/8). `admin/placevn.html` HEAD chưa có wizard; bản bổ sung (+74 dòng) chỉ có khung giao diện, chưa gọi API. Xem `docs/sessions/2026-10-25/T445-coder/REVIEW.md`.
+
+Quy tắc chung: coder chỉ viết code. **Không** chạy `--apply`, không ghi DB ngoài môi trường test, không commit. Mọi thao tác ghi DB cần dry-run và Admin duyệt riêng (HARNESS_WORKFLOW mục 3).
+
+- [ ] B0: thêm `POST /daoanh/api/admin/backup` — sqlite backup nhất quán, trả `backup_path`.
+- [ ] B1: thêm `POST /daoanh/api/admin/fix-ids` — preview 3.800 ID, xuất `sample_b1_fixed.csv`. Chỉ đọc khi preview.
+- [ ] B2: thêm `POST /daoanh/api/admin/load-schema` — thêm cột `source, needs_review, reason, updated_at` vào `ai_place_name`, idempotent. Dry-run trước, không tự apply.
+- [ ] B3: thêm `POST /daoanh/api/admin/load-dictionary` — nạp 2.446 mục từ điển, idempotent. Dry-run trước.
+- [ ] B4: thêm `POST /daoanh/api/admin/update-rules` — lưu 7 quy tắc (form inline).
+- [ ] B5: thêm `GET /daoanh/api/admin/batch-monitor` — polling trạng thái batch (thay WebSocket theo Flask 3.1).
+- [ ] B7: thêm `POST /daoanh/api/admin/approve-sample` — nạp 100 mẫu, duyệt mục chọn.
+- [ ] B9: thêm `POST /daoanh/api/admin/report` và `GET /daoanh/api/admin/export-csv?type=missing|duplicate|full`.
+- [ ] Nối giao diện: `admin/placevn.html` gọi các route trên, giữ nguyên mã cũ (chỉ thêm).
+- [ ] Kiểm cú pháp `app.py` và `placevn.html`; ghi kết quả vào `outcome`.
+
+Ghi chú: route mới đặt trước `if __name__ == '__main__':` cuối cùng của `app.py`.

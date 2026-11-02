@@ -23,6 +23,34 @@ LOG_PATH = ROOT / 'data' / 't69_wire_log.json'
 
 DRY_RUN = '--dry-run' in sys.argv
 
+# T287 — nối LicenseGate (mẫu: scripts/etl_entity_claims.py dòng 26-29)
+sys.path.insert(0, str(ROOT))
+try:
+    from gate.license import LicenseGate
+    _gate = LicenseGate(db_path=str(DB_PATH))
+except ImportError:
+    _gate = None
+
+
+def _log_gate_reject(conn, source_id, operation, reason):
+    """Ghi en_audit_log khi LicenseGate từ chối (T287 — nhánh từ chối ghi audit)."""
+    try:
+        conn.execute(
+            """INSERT INTO en_audit_log
+               (entity_ref, action, field_name, old_value, new_value,
+                evidence_sources, authority_rank, editor, verification_status, created_at)
+               VALUES (?,?,?,?,?,?,?,?,?,?)""",
+            (
+                None, 'gate_reject', 'entity_claims', None, reason,
+                json.dumps({'source_id': source_id, 'operation': operation, 'script': 'wire_evidence_into_entity_claims.py'}, ensure_ascii=False),
+                None, 'LicenseGate', 'rejected', datetime.now().isoformat(),
+            ),
+        )
+        conn.commit()
+    except Exception as e:
+        print(f"  [WARN] Không ghi được en_audit_log cho gate_reject: {e}")
+
+
 # data_sources.source_id
 SRC_CBETA  = 3
 SRC_MARCUS = 4

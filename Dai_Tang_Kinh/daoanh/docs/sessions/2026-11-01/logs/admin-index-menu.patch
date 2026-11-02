@@ -1,0 +1,32 @@
+diff --git a/Dai_Tang_Kinh/daoanh/admin/index.html b/Dai_Tang_Kinh/daoanh/admin/index.html
+index 43fd7c8c..120df741 100644
+--- a/Dai_Tang_Kinh/daoanh/admin/index.html
++++ b/Dai_Tang_Kinh/daoanh/admin/index.html
+@@ -364,6 +364,13 @@
+                 </div>
+                 <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+             </a>
++            <a href="http://127.0.0.1:8080/dashboard/agent_team.html?source=real" class="nav-btn">
++                <div style="display:flex;align-items:center;gap:8px">
++                    <i class="fa-solid fa-robot"></i>
++                    <span>DILA Team Agent Dashboard</span>
++                </div>
++                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
++            </a>
+             <a href="panorama.html" class="nav-btn">
+                 <div style="display:flex;align-items:center;gap:8px">
+                     <i class="fa-solid fa-panorama"></i>
+@@ -382,6 +389,13 @@
+ 
+         <div class="nav-section">
+             <p class="nav-label">Hệ thống</p>
++            <a href="sync_log.html" class="nav-btn">
++                <div style="display:flex;align-items:center;gap:8px">
++                    <i class="fa-solid fa-clock-rotate-left"></i>
++                    <span>Nhật Ký Sync</span>
++                </div>
++                <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
++            </a>
+             <div class="nav-btn" onclick="refreshStats()">
+                 <div style="display:flex;align-items:center;gap:8px">
+                     <i class="fa-solid fa-rotate" style="color:var(--success)"></i>
