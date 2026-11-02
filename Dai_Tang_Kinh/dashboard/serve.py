@@ -19,6 +19,8 @@ Chạy:
 """
 
 import argparse
+import csv
+import io
 import json
 import os
 import re
@@ -286,6 +288,243 @@ def build_context_index(force=False):
                              docs=n_docs, ids=len(index))
         log(f"[context] index: {len(index)} task id từ {n_docs} file docs")
         return index
+
+
+WORKTREES_ROOT = os.path.join(os.path.expanduser("~"), ".claude", "worktrees")
+CODER_TASK_RE = re.compile(r"Coder\s+(T\d+)")
+FRONTMATTER_ID_RE = re.compile(r"^id:\s*(\S+)\s*$", re.M)
+FRONTMATTER_STATUS_RE = re.compile(r"^status:\s*(\S+)\s*$", re.M)
+FRONTMATTER_TITLE_RE = re.compile(r'^title:\s*"?(.*?)"?\s*$', re.M)
+
+
+TESTER_TASK_RE = re.compile(r"Tester\s+(T\d+)")
+
+
+def _opencode_running_tasks():
+    """Liệt kê tiến trình OpenCode đang chạy "Chạy Coder <ID>" và "Chạy Tester <ID>" (chỉ đọc, Windows).
+
+    Trả (coder_running, tester_running), mỗi cái là dict {task_id: {pid, started}}.
+    """
+    # wmic nhanh hơn PowerShell Get-CimInstance nhiều trên máy này (≈6s thay vì ≈40s)
+    try:
+        proc_run = subprocess.run(
+            ["wmic", "process", "where", "name='node.exe' or name='opencode.exe'",
+             "get", "ProcessId,CommandLine,Name", "/format:csv"],
+            capture_output=True, timeout=30)
+        out = (proc_run.stdout or b"").decode("utf-8", errors="replace")
+    except (OSError, subprocess.TimeoutExpired):
+        return {}, {}
+    coder, tester = {}, {}
+    for row in csv.DictReader(io.StringIO(out)):
+        cmd = row.get("CommandLine") or ""
+        m = CODER_TASK_RE.search(cmd)
+        if m:
+            coder[m.group(1)] = {"pid": row.get("ProcessId"), "started": None}
+        m = TESTER_TASK_RE.search(cmd)
+        if m:
+            tester[m.group(1)] = {"pid": row.get("ProcessId"), "started": None}
+    return coder, tester
+
+
+def _worktree_tasks():
+    """Đọc id/status/title của mọi task trong các worktree (chỉ đọc file)."""
+    tasks = {}
+    if not os.path.isdir(WORKTREES_ROOT):
+        return tasks
+    for wt in sorted(os.listdir(WORKTREES_ROOT)):
+        # Chỉ worktree làm việc của OpenCode coder (coder-<tên>), bỏ qua worktree khác
+        if not wt.startswith("coder-"):
+            continue
+        tdir = os.path.join(WORKTREES_ROOT, wt, "Dai_Tang_Kinh", "daoanh", "tasks")
+        if not os.path.isdir(tdir):
+            continue
+        for fname in os.listdir(tdir):
+            if not fname.startswith("T") or not fname.endswith(".md"):
+                continue
+            try:
+                with open(os.path.join(tdir, fname), encoding="utf-8") as fh:
+                    head = fh.read(3000)
+            except OSError:
+                continue
+            m_id = FRONTMATTER_ID_RE.search(head)
+            m_st = FRONTMATTER_STATUS_RE.search(head)
+            if not m_id or not m_st:
+                continue
+            task_id = m_id.group(1)
+            # Chỉ tính task mà OpenCode coder đã nhận (có thư mục <ID>-coder trong session)
+            if _coder_session_dir(os.path.join(WORKTREES_ROOT, wt), task_id) is None:
+                continue
+            m_title = FRONTMATTER_TITLE_RE.search(head)
+            # Cùng 1 task có thể nằm ở nhiều worktree: lấy bản sửa gần nhất (mtime mới nhất)
+            mtime = os.path.getmtime(os.path.join(tdir, fname))
+            if task_id in tasks and tasks[task_id]["updated_ts"] >= mtime:
+                continue
+            tasks[task_id] = {
+                "task_id": task_id,
+                "title": m_title.group(1) if m_title else task_id,
+                "status": m_st.group(1),
+                "worktree": wt,
+                "tester_report": _tester_report_for(os.path.join(WORKTREES_ROOT, wt), task_id),
+                "updated_ts": mtime,
+            }
+    return tasks
+
+
+def _worktree_tasks_fast():
+    """Nhanh hơn _worktree_tasks: chỉ đọc file task mà OpenCode coder đã làm (có thư mục <ID>-coder).
+
+    Trên máy này mỗi lần mở file rất chậm, nên không quét hết ~200 file task.
+    """
+    tasks = {}
+    if not os.path.isdir(WORKTREES_ROOT):
+        return tasks
+    for wt in sorted(os.listdir(WORKTREES_ROOT)):
+        if not wt.startswith("coder-"):
+            continue
+        base = os.path.join(WORKTREES_ROOT, wt, "Dai_Tang_Kinh", "daoanh")
+        sessions = os.path.join(base, "docs", "sessions")
+        tdir = os.path.join(base, "tasks")
+        if not (os.path.isdir(sessions) and os.path.isdir(tdir)):
+            continue
+        coder_ids = set()
+        for day in os.listdir(sessions):
+            day_path = os.path.join(sessions, day)
+            if not os.path.isdir(day_path):
+                continue
+            for name in os.listdir(day_path):
+                if name.endswith("-coder"):
+                    coder_ids.add(name[:-len("-coder")])
+        if not coder_ids:
+            continue
+        task_files = {}
+        for fname in os.listdir(tdir):
+            prefix = fname.split("-", 1)[0]
+            if prefix in coder_ids and fname.endswith(".md"):
+                task_files.setdefault(prefix, fname)
+        for task_id, fname in task_files.items():
+            path = os.path.join(tdir, fname)
+            try:
+                with open(path, encoding="utf-8") as fh:
+                    head = fh.read(3000)
+                mtime = os.path.getmtime(path)
+            except OSError:
+                continue
+            m_st = FRONTMATTER_STATUS_RE.search(head)
+            if not m_st:
+                continue
+            if task_id in tasks and tasks[task_id]["updated_ts"] >= mtime:
+                continue
+            m_title = FRONTMATTER_TITLE_RE.search(head)
+            tasks[task_id] = {
+                "task_id": task_id,
+                "title": m_title.group(1) if m_title else task_id,
+                "status": m_st.group(1),
+                "worktree": wt,
+                "tester_report": _tester_report_for(os.path.join(WORKTREES_ROOT, wt), task_id),
+                "updated_ts": mtime,
+            }
+    return tasks
+
+
+def _coder_task_path(task_id):
+    """Đường dẫn file task (<ID>-*.md) trong worktree coder đã có session của coder, hoặc None."""
+    if not os.path.isdir(WORKTREES_ROOT):
+        return None
+    for wt in sorted(os.listdir(WORKTREES_ROOT)):
+        if not wt.startswith("coder-"):
+            continue
+        wt_path = os.path.join(WORKTREES_ROOT, wt)
+        if _coder_session_dir(wt_path, task_id) is None:
+            continue
+        tdir = os.path.join(wt_path, "Dai_Tang_Kinh", "daoanh", "tasks")
+        if not os.path.isdir(tdir):
+            continue
+        for fname in os.listdir(tdir):
+            if fname.split("-", 1)[0] == task_id and fname.endswith(".md"):
+                return os.path.join(tdir, fname)
+    return None
+
+
+def _coder_session_dir(wt_path, task_id):
+    """Thư mục session <ID>-coder mới nhất trong worktree, hoặc None nếu coder chưa làm task này."""
+    sessions = os.path.join(wt_path, "Dai_Tang_Kinh", "daoanh", "docs", "sessions")
+    if not os.path.isdir(sessions):
+        return None
+    for day in sorted(os.listdir(sessions), reverse=True):
+        coder_dir = os.path.join(sessions, day, task_id + "-coder")
+        if os.path.isdir(coder_dir):
+            return coder_dir
+    return None
+
+
+def _tester_report_for(wt_path, task_id):
+    """Tìm báo cáo tester có sẵn cho task (chỉ đọc tên file, không đọc nội dung)."""
+    coder_dir = _coder_session_dir(wt_path, task_id)
+    if coder_dir is None:
+        return None
+    reports = [n for n in os.listdir(coder_dir) if n.upper().startswith("TESTER-REPORT")]
+    if not reports:
+        return None
+    # Lấy báo cáo mới nhất theo thời gian sửa (không theo tên: "TESTER-REPORT.md" < "TESTER-REPORT-4.md")
+    return max(reports, key=lambda n: os.path.getmtime(os.path.join(coder_dir, n)))
+
+
+def _tester_state(task, tester_running):
+    """Trạng thái đoạn Tester: 'running' (đang test) | 'done' (đã test xong) | 'waiting' (chờ tester)."""
+    if task["task_id"] in tester_running:
+        return "running"
+    if not task.get("worktree") or not task.get("tester_report"):
+        return "waiting"
+    coder_dir = _coder_session_dir(os.path.join(WORKTREES_ROOT, task["worktree"]), task["task_id"])
+    if coder_dir is None:
+        return "waiting"
+    report_path = os.path.join(coder_dir, task["tester_report"])
+    coder_report = os.path.join(coder_dir, "CODER-REPORT.md")
+    coder_mtime = os.path.getmtime(coder_report) if os.path.exists(coder_report) else 0
+    # Báo cáo tester phải mới hơn báo cáo coder: nếu coder làm lại sau đó thì vẫn là "chờ tester"
+    return "done" if os.path.getmtime(report_path) >= coder_mtime else "waiting"
+
+
+VISUAL_CACHE = {"snapshot": None, "started": False}
+VISUAL_REFRESH_SECONDS = 8
+
+
+def _visual_refresh_loop():
+    """Luồng nền: quét tiến trình + worktree định kỳ, để request HTTP trả về ngay."""
+    while True:
+        try:
+            VISUAL_CACHE["snapshot"] = _build_visual_live()
+        except Exception as exc:  # không để luồng nền chết
+            VISUAL_CACHE["snapshot"] = {"ok": False, "error": str(exc), "tasks": []}
+        time.sleep(VISUAL_REFRESH_SECONDS)
+
+
+def get_visual_live():
+    """Trả snapshot mới nhất (luồng nền cập nhật mỗi VISUAL_REFRESH_SECONDS giây)."""
+    if not VISUAL_CACHE["started"]:
+        VISUAL_CACHE["started"] = True
+        threading.Thread(target=_visual_refresh_loop, daemon=True).start()
+    return VISUAL_CACHE["snapshot"] or {"ok": True, "loading": True,
+                                        "generated_at": "", "tasks": []}
+
+
+def _build_visual_live():
+    """Trạng thái sống: task nào OpenCode đang chạy, task nào chờ tester, task nào đã xong."""
+    running, tester_running = _opencode_running_tasks()
+    tasks = _worktree_tasks_fast()
+    for task_id in running:
+        if task_id not in tasks:
+            tasks[task_id] = {"task_id": task_id, "title": task_id, "status": "coding",
+                              "worktree": None, "tester_report": None, "updated_ts": 0}
+    rows = []
+    for task_id, t in tasks.items():
+        proc = running.get(task_id)
+        row = {**t, "running": proc is not None, "pid": proc and proc.get("pid"),
+               "started": proc and proc.get("started")}
+        row["tester_state"] = _tester_state(row, tester_running)
+        rows.append(row)
+    rows.sort(key=lambda r: (not r["running"], r["task_id"]))
+    return {"ok": True, "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"), "tasks": rows}
 
 
 def get_task_contexts(force=False):
@@ -659,6 +898,10 @@ class Handler(SimpleHTTPRequestHandler):
                               "GET /api/dashboard-health (alias /api/health)"],
             })
             return
+        if path == "/api/visual-live":
+            # Trạng thái sống cho tab Visual: tiến trình OpenCode đang chạy + status task (chỉ đọc)
+            self._json(200, get_visual_live())
+            return
         if path == "/api/task-contexts":
             qs = parse_qs(urlparse(self.path).query)
             force = (qs.get("refresh") or ["0"])[0] == "1"
@@ -702,6 +945,41 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         path = urlparse(self.path).path
+
+        if path == "/api/visual-confirm-done":
+            # Admin bấm nút "Xác nhận DONE" trên tab Visual. Chỉ đổi status task đang ở "testing"
+            # trong worktree coder (không ghi cây chính). Tích hợp về cây chính do Hermes làm sau.
+            try:
+                length = int(self.headers.get("Content-Length") or 0)
+                payload = json.loads(self.rfile.read(length).decode("utf-8") or "{}")
+            except Exception as e:
+                self._json(400, {"ok": False, "error": f"JSON không hợp lệ: {e}"})
+                return
+            task_id = str(payload.get("task_id", "")).strip()
+            if not re.fullmatch(r"T\d{1,5}", task_id):
+                self._json(400, {"ok": False, "error": f"task_id không hợp lệ: {task_id!r}"})
+                return
+            current = _worktree_tasks_fast().get(task_id)
+            if not current:
+                self._json(404, {"ok": False, "error": f"{task_id} không có trong worktree coder"})
+                return
+            if current["status"] != "testing":
+                self._json(409, {"ok": False, "error": f"{task_id} đang ở status "
+                                 f"'{current['status']}', chỉ xác nhận DONE khi 'testing'"})
+                return
+            path_task = _coder_task_path(task_id)
+            if not path_task:
+                self._json(404, {"ok": False, "error": f"không tìm thấy file task của {task_id}"})
+                return
+            try:
+                old, new = rewrite_frontmatter_status(path_task, "done")
+            except Exception as e:
+                self._json(500, {"ok": False, "error": f"ghi file thất bại: {e}"})
+                return
+            log(f"[admin-dashboard] {task_id} ({os.path.basename(path_task)}): {old} -> {new}")
+            self._json(200, {"ok": True, "task_id": task_id, "old": old, "new": new,
+                             "file": path_task})
+            return
 
         if path == "/api/real-task-status":
             try:
