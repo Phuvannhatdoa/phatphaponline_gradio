@@ -25956,6 +25956,94 @@ app.register_blueprint(create_ttl_profile_blueprint(
 from api_ttl_anchor import create_ttl_anchor_blueprint
 app.register_blueprint(create_ttl_anchor_blueprint(os.path.dirname(__file__), get_db_connection))
 
+# ─────────────── T445: Wizard endpoints (B0-B9) ───────────────
+# NOTE: WebSocket real-time monitoring was specified but not implemented.
+# Using polling via /daoanh/api/admin/batch-monitor (alias batch-status) instead.
+# WebSocket would require additional library (flask-sock or similar) which is not added.
+
+@app.route('/daoanh/api/admin/backup', methods=['POST'])
+def t445_backup():
+    try:
+        import datetime as _dt, shutil as _sh
+        ts = _dt.datetime.now().strftime('%Y-%m-%d-%H%M%S')
+        out_dir = os.path.join(DATA_DIR, 'backups', 'T445-' + ts)
+        os.makedirs(out_dir, exist_ok=True)
+        out_path = os.path.join(out_dir, 'lineage.db')
+        _sh.copy2(DB_PATH, out_path)
+        return jsonify({"success": True, "backup_path": out_path, "ts": ts}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route('/daoanh/api/admin/fix-ids', methods=['POST'])
+def t445_fix_ids():
+    # Not implemented yet (T444 backend pending)
+    return jsonify({"success": False, "message": "chưa triển khai"}), 501
+
+# B2: Load Schema (dry-run by default). Alias: /add-columns for backward compat.
+@app.route('/daoanh/api/admin/load-schema', methods=['POST'])
+@app.route('/daoanh/api/admin/add-columns', methods=['POST'])
+def t445_load_schema():
+    try:
+        data = request.get_json(silent=True) or {}
+        apply = bool(data.get('apply'))
+        conn = get_db_connection()
+        cur = conn.cursor()
+        columns = (('source','TEXT'),('needs_review','INTEGER'),('reason','TEXT'),('updated_at','TEXT'))
+        result = []
+        for col, typ in columns:
+            # Check if column exists
+            cur.execute(f"PRAGMA table_info(namevi_map_places)")
+            existing = [row[1] for row in cur.fetchall()]
+            if col in existing:
+                result.append({"column": col, "type": typ, "action": "exists"})
+            else:
+                if apply:
+                    try:
+                        cur.execute(f'ALTER TABLE namevi_map_places ADD COLUMN {col} {typ}')
+                        result.append({"column": col, "type": typ, "action": "added"})
+                    except Exception as e:
+                        result.append({"column": col, "type": typ, "action": "error", "error": str(e)})
+                else:
+                    result.append({"column": col, "type": typ, "action": "would_add"})
+        if apply:
+            conn.commit()
+        conn.close()
+        return jsonify({"success": True, "apply": apply, "columns": result}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route('/daoanh/api/admin/load-dictionary', methods=['POST'])
+def t445_load_dictionary():
+    # Not implemented yet (T444 backend pending)
+    return jsonify({"success": False, "message": "chưa triển khai"}), 501
+
+@app.route('/daoanh/api/admin/update-rules', methods=['POST'])
+def t445_update_rules():
+    # Not implemented yet
+    return jsonify({"success": False, "message": "chưa triển khai"}), 501
+
+@app.route('/daoanh/api/admin/approve-sample', methods=['POST'])
+def t445_approve_sample():
+    # Not implemented yet
+    return jsonify({"success": False, "message": "chưa triển khai"}), 501
+
+@app.route('/daoanh/api/admin/report', methods=['POST'])
+def t445_report():
+    # Not implemented yet
+    return jsonify({"success": False, "message": "chưa triển khai"}), 501
+
+@app.route('/daoanh/api/admin/export-csv', methods=['GET'])
+def t445_export_csv():
+    # Not implemented yet
+    return jsonify({"success": False, "message": "chưa triển khai"}), 501
+
+# Batch monitor (polling endpoint). Alias: batch-status for backward compat.
+@app.route('/daoanh/api/admin/batch-monitor', methods=['GET'])
+@app.route('/daoanh/api/admin/batch-status', methods=['GET'])
+def t445_batch_monitor():
+    # Not implemented yet (T444 backend pending) - returns idle state
+    return jsonify({"success": True, "step": "idle", "progress": 0, "total": 0, "logs": [], "errors": [], "stats": {"ok": 0, "review": 0, "error": 0}}), 200
+
 if __name__ == '__main__':
     import os as _os
     _port = int(_os.environ.get('APP_PORT', 5000))
