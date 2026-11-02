@@ -3096,6 +3096,7 @@
         if (_wvQ) params.set('q', _wvQ);
         try {
             const r = await fetch(API + '/daoanh/api/admin/work-verify?' + params, {
+                headers: {'X-Session-Token': getToken()},
                 signal: _wvAbortCtrl ? _wvAbortCtrl.signal : undefined
             });
             const d = await r.json();
