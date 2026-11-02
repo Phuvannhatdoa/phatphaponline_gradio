@@ -27,6 +27,89 @@ DRY_RUN = '--dry-run' in sys.argv
 SRC_CBETA  = 3
 SRC_MARCUS = 4
 
+# ── T287 — LicenseGate (T78): mọi lần ghi entity_claims phải qua cổng pháp lý ──
+GATE_SCRIPT = 'scripts/wire_evidence_into_entity_claims.py'
+GATE_TARGET_TABLE = 'entity_claims'
+GATE_OPERATION = 'INGEST'
+
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+try:
+    from gate.license import LicenseGate
+    _gate = LicenseGate(db_path=str(DB_PATH))
+except Exception as _gate_err:  # ImportError hoặc lỗi mở DB
+    _gate = None
+    print(f'[T69][WARN] LicenseGate không tải được ({_gate_err}) — bỏ qua kiểm tra quyền')
+
+
+def _gate_audit_refusal(source_id, operation, result):
+    """Nhánh TỪ CHỐI (T287): ghi 1 dòng en_audit_log làm bằng chứng gate đã chặn.
+
+    Trả về True nếu ghi được audit row.
+    """
+    if _gate is None:
+        return False
+    try:
+        audit = sqlite3.connect(str(_gate.db_path), timeout=30)
+        try:
+            audit.execute(
+                "INSERT INTO en_audit_log "
+                "(entity_ref, action, field_name, old_value, new_value, evidence_sources, "
+                " authority_rank, editor, verification_status, created_at) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?)",
+                (
+                    f'source:{source_id}',
+                    'license_gate_block',
+                    GATE_TARGET_TABLE,
+                    None,
+                    (result or {}).get('reason') or 'LicenseGate từ chối',
+                    json.dumps({
+                        'gate': 'LicenseGate',
+                        'operation': operation,
+                        'status': (result or {}).get('status'),
+                        'source_id': source_id,
+                        'target_table': GATE_TARGET_TABLE,
+                        'script': GATE_SCRIPT,
+                    }, ensure_ascii=False),
+                    None,
+                    GATE_SCRIPT,
+                    'blocked',
+                    datetime.now().isoformat(timespec='seconds'),
+                ),
+            )
+            audit.commit()
+            return True
+        finally:
+            audit.close()
+    except Exception as e:
+        print(f'  [WARN] Không ghi được en_audit_log cho lần từ chối: {e}')
+        return False
+
+
+def _gate_check(source_id, operation=GATE_OPERATION, allow_block=False):
+    """Gọi LicenseGate trước khi ghi. Từ chối => ghi en_audit_log + raise PermissionError.
+
+    allow_block=True (dùng cho --dry-run): chỉ in cảnh báo, không chặn.
+    """
+    if _gate is None:
+        print(f'  [GATE WARN] LicenseGate không tải được — bỏ qua kiểm tra source_id={source_id}')
+        return None
+    result = _gate.checkSourcePermission(source_id, operation)
+    if not result.get('allowed'):
+        # --dry-run: KHÔNG ghi audit (giữ đúng cam kết "No DB changes").
+        written = False if allow_block else _gate_audit_refusal(source_id, operation, result)
+        msg = (f'[LicenseGate] Từ chối ghi {GATE_TARGET_TABLE} từ source_id={source_id} '
+               f'(op={operation}, status={result.get("status")}): {result.get("reason")}')
+        if allow_block:
+            print(f'  [GATE BLOCK — dry-run] {msg}')
+            return result
+        print(f'  {msg}')
+        print(f'  [ABORT] Không ghi row nào. en_audit_log: '
+              f'{"đã ghi" if written else "KHÔNG ghi được"}')
+        raise PermissionError(msg)
+    print(f'  [GATE OK] source_id={source_id} status={result.get("status")} op={operation}')
+    return result
+
 
 def run():
     conn = sqlite3.connect(str(DB_PATH))
@@ -40,16 +123,9 @@ def run():
 
     stats = {'cbeta': 0, 'marcus': 0, 'wikidata': 0, 'src_ids': 0}
 
-    # ── Idempotent: delete previous T69 wire ──────────────────────────────
-    if not DRY_RUN:
-        d1 = conn.execute(
-            "DELETE FROM entity_claims WHERE source_reference LIKE 'T69:%'"
-        ).rowcount
-        d2 = conn.execute(
-            "DELETE FROM entity_source_ids WHERE verification_note LIKE 'T69%'"
-        ).rowcount
-        conn.commit()
-        print(f'[T69] Cleared: {d1} claims, {d2} source_ids (idempotent)')
+    # ── Idempotent delete (T287): DỜI xuống ngay trước bước INSERT ───────
+    # Lý do: LicenseGate phải chạy TRƯỚC khi xoá; nếu bị từ chối mà đã xoá
+    # dữ liệu T69 cũ thì sẽ mất dữ liệu oan (xem khối INSERT cuối file).
 
     # ─────────────────────────────────────────────────────────────────────
     # 1. CBETA → TEXT_EVIDENCE for PLACE entities
@@ -204,9 +280,41 @@ def run():
 
     print(f'\n[T69] Total: {len(all_claims):,} claims, {len(all_src_ids):,} entity_source_ids')
 
+    # ── T287 — LicenseGate: chạy TRƯỚC mọi thao tác xoá/ghi ──────────────
+    # Chỉ kiểm nguồn thật sự có claim để ghi (tránh chặn oan khi 0 row).
+    gate_plan = []
+    if stats['cbeta']:
+        gate_plan.append((SRC_CBETA, 'CBETA'))
+    if stats['marcus']:
+        gate_plan.append((SRC_MARCUS, 'MARCUS'))
+    if stats['wikidata']:
+        gate_plan.append((wiki_src, 'Wikidata'))
+    print('\n[T69] LicenseGate:')
+    if not gate_plan:
+        print('  (không có claim nào cần ghi — bỏ qua kiểm tra)')
+    try:
+        for src_id, src_code in gate_plan:
+            print(f'  · {src_code} (source_id={src_id})')
+            _gate_check(src_id, GATE_OPERATION, allow_block=DRY_RUN)
+    except PermissionError as e:
+        print(f'\n[ABORT] {e}')
+        print('[T69] Dừng TRƯỚC khi xoá/ghi — DB không đổi.')
+        conn.close()
+        sys.exit(2)
+
     if DRY_RUN:
         print('\n[DRY-RUN] No DB changes.')
     else:
+        # Idempotent: delete previous T69 wire (dời xuống đây — T287)
+        d1 = conn.execute(
+            "DELETE FROM entity_claims WHERE source_reference LIKE 'T69:%'"
+        ).rowcount
+        d2 = conn.execute(
+            "DELETE FROM entity_source_ids WHERE verification_note LIKE 'T69%'"
+        ).rowcount
+        conn.commit()
+        print(f'[T69] Cleared: {d1} claims, {d2} source_ids (idempotent)')
+
         print('[T69] Inserting...')
         conn.executemany("""
             INSERT OR IGNORE INTO entity_claims
