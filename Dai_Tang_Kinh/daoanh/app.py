@@ -12043,26 +12043,51 @@ _T427_FILTER_CACHE = {'data': None, 'ts': 0.0}
 _T427_FILTER_CACHE_TTL = 20.0
 
 
+# Gemini theo place: ai_place_name lưu dila_id lúc 10 chữ số (PL0000012606), còn places_dila
+# dùng 12 chữ số (PL000000012606). Chuẩn hoá về 12 chữ số rồi gom theo place (1 dòng/place).
+# Có 1.936 khóa trùng trong ai_place_name — chọn MAX tạm, chờ Admin quyết bản nào giữ.
+# Join trực tiếp vào subquery GROUP BY làm SQLite chạy lại theo từng dòng (treo >100s),
+# nên dựng bảng tạm có chỉ mục một lần cho mỗi kết nối (~0.3s).
+_GEMINI_PLACE_JOIN = "LEFT JOIN t_gem_place g ON g.pid = pd.id"
+
+
+def _ensure_gemini_temp(conn):
+    conn.execute("DROP TABLE IF EXISTS temp.t_gem_place")
+    conn.execute("""
+        CREATE TEMP TABLE t_gem_place AS
+        SELECT printf('PL%012d', CAST(SUBSTR(dila_id, 3) AS INTEGER)) AS pid,
+               MAX(name_vi_ai) AS name_vi_ai
+        FROM ai_place_name GROUP BY pid
+    """)
+    conn.execute("CREATE UNIQUE INDEX temp.t_gem_place_pid ON t_gem_place(pid)")
+
+
 def _t427_filter_counts(conn):
     import time as _time
     now = _time.time()
     cached = _T427_FILTER_CACHE['data']
     if cached is not None and (now - _T427_FILTER_CACHE['ts']) < _T427_FILTER_CACHE_TTL:
         return cached
+    _ensure_gemini_temp(conn)
     agg = conn.execute("""
         SELECT COUNT(*) AS all_n,
                SUM(CASE WHEN m.id IS NULL OR m.vn_name_status IS NULL OR m.vn_name_status != 'reviewed' THEN 1 ELSE 0 END) AS needs_review_n,
+               SUM(CASE WHEN m.vn_name_status = 'reviewed' THEN 1 ELSE 0 END) AS pass_n,
+               SUM(CASE WHEN g.pid IS NULL THEN 1 ELSE 0 END) AS no_gemini_n,
+               SUM(CASE WHEN c.dila_id IS NULL THEN 1 ELSE 0 END) AS no_claude_n,
                SUM(CASE WHEN NOT EXISTS (SELECT 1 FROM vn_person_places vp WHERE vp.place_id = pd.id) THEN 1 ELSE 0 END) AS no_ttl_n
         FROM places_dila pd
         LEFT JOIN namevi_map_places m ON m.dila_id = pd.id
+        LEFT JOIN codex_place_name c ON c.dila_id = pd.id
+        """ + _GEMINI_PLACE_JOIN + """
     """).fetchone()
     all_n = agg['all_n']
     result = {
         'all': all_n,
-        'pass100': 0,
+        'pass100': agg['pass_n'],
         'needs_review': agg['needs_review_n'],
-        'no_claude': all_n,
-        'no_gemini': all_n,
+        'no_claude': agg['no_claude_n'],
+        'no_gemini': agg['no_gemini_n'],
         'no_ttl': agg['no_ttl_n'],
     }
     _T427_FILTER_CACHE['data'] = result
@@ -12078,7 +12103,8 @@ def _t427_invalidate_filter_cache():
 @app.route('/daoanh/api/places/vi-map', methods=['GET'])
 def api_places_vi_map_list():
     """T427 (1): danh sách địa danh places_dila + name_vi hiện tại (namevi_map_places),
-    phân trang 50/trang, tìm kiếm + 6 bộ lọc. Cột Claude/Gemini luôn null (giai đoạn 2)."""
+    phân trang 50/trang, tìm kiếm + 6 bộ lọc. Cột Claude (codex_place_name) và Gemini
+    (ai_place_name, chuẩn hoá ID) lấy từ DB; mỗi place chỉ một dòng."""
     try:
         q = (request.args.get('q') or '').strip()
         filt = (request.args.get('filter') or 'all').strip()
@@ -12093,11 +12119,13 @@ def api_places_vi_map_list():
         offset = (page - 1) * size
 
         conn = get_db_connection()
+        _ensure_gemini_temp(conn)
 
         base_from = """
             FROM places_dila pd
             LEFT JOIN namevi_map_places m ON m.dila_id = pd.id
             LEFT JOIN codex_place_name c ON c.dila_id = pd.id
+            """ + _GEMINI_PLACE_JOIN + """
         """
         where = []
         params = []
@@ -12119,9 +12147,12 @@ def api_places_vi_map_list():
         elif filt == 'no_ttl':
             where.append("NOT EXISTS (SELECT 1 FROM vn_person_places vp WHERE vp.place_id = pd.id)")
         elif filt == 'pass100':
-            # Giai đoạn 1: chưa có Claude/Gemini cho địa danh -> không dòng nào đạt Pass 100%.
-            where.append("1 = 0")
-        # 'no_claude', 'no_gemini', 'all': chưa có cột AI -> toàn bộ đều "thiếu", không thêm điều kiện.
+            # Đã Admin Pass (vn_name_status = 'reviewed').
+            where.append("m.vn_name_status = 'reviewed'")
+        elif filt == 'no_gemini':
+            where.append("g.pid IS NULL")
+        elif filt == 'no_claude':
+            where.append("c.dila_id IS NULL")
 
         where_sql = (' WHERE ' + ' AND '.join(where)) if where else ''
 
@@ -12138,7 +12169,8 @@ def api_places_vi_map_list():
                    m.name_vi AS name_vi, m.source AS source,
                    m.vn_name_status AS vn_name_status, m.confidence AS confidence,
                    m.needs_review AS needs_review,
-                   c.name_vi AS claude_name_vi
+                   c.name_vi AS claude_name_vi,
+                   g.name_vi_ai AS gemini_name_vi
             {base_from}
             {where_sql}
             ORDER BY pd.id
@@ -12195,7 +12227,7 @@ def api_places_vi_map_list():
                 'confidence': r['confidence'],
                 'needs_review': r['needs_review'],
                 'claude_name_vi': r['claude_name_vi'],  # T465 — JOIN codex_place_name.dila_id (T443 applied 2026-10-23)
-                'gemini_name_vi': None,   # Giai đoạn 2 — chưa có bảng codex_place_name
+                'gemini_name_vi': r['gemini_name_vi'],  # ai_place_name (Gemini), khớp ID đã chuẩn hoá
                 'ttl_name_vi': ttl_map.get(r['place_id']),
                 'dictionary_definition': lex_map.get(r['name_zh']),
                 'editor': ed['editor'] if ed else None,
