@@ -1183,7 +1183,7 @@
     } else if (stage === 1) {
       tag = '<span class="visual-live-tag visual-live-wait">Chờ tester</span>';
     } else if (stage === 2) {
-      tag = '<span class="visual-live-tag">Chờ Admin xác nhận DONE</span>';
+      tag = '<span class="visual-live-tag">Đã DONE (Admin xác nhận)</span>';
     }
     return '<article class="visual-row">' +
       '<div class="visual-row-head"><span class="kanban-card-id">' + esc(row.task_id) + '</span> ' +

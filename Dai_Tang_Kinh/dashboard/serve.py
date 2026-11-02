@@ -291,13 +291,13 @@ def build_context_index(force=False):
 
 
 WORKTREES_ROOT = os.path.join(os.path.expanduser("~"), ".claude", "worktrees")
-CODER_TASK_RE = re.compile(r"Coder\s+(T\d+)")
+CODER_TASK_RE = re.compile(r"Coder\s+(T\d+[a-z]?)")
 FRONTMATTER_ID_RE = re.compile(r"^id:\s*(\S+)\s*$", re.M)
 FRONTMATTER_STATUS_RE = re.compile(r"^status:\s*(\S+)\s*$", re.M)
 FRONTMATTER_TITLE_RE = re.compile(r'^title:\s*"?(.*?)"?\s*$', re.M)
 
 
-TESTER_TASK_RE = re.compile(r"Tester\s+(T\d+)")
+TESTER_TASK_RE = re.compile(r"Tester\s+(T\d+[a-z]?)")
 
 
 def _opencode_running_tasks():
@@ -956,7 +956,7 @@ class Handler(SimpleHTTPRequestHandler):
                 self._json(400, {"ok": False, "error": f"JSON không hợp lệ: {e}"})
                 return
             task_id = str(payload.get("task_id", "")).strip()
-            if not re.fullmatch(r"T\d{1,5}", task_id):
+            if not re.fullmatch(r"T\d{1,5}[a-z]?", task_id):
                 self._json(400, {"ok": False, "error": f"task_id không hợp lệ: {task_id!r}"})
                 return
             current = _worktree_tasks_fast().get(task_id)
