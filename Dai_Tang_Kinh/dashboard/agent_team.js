@@ -1143,6 +1143,105 @@
     }).join('');
   }
 
+  /* Visual LIVE: lấy trạng thái sống từ /api/visual-live (tiến trình OpenCode + status task).
+     Mỗi task là một hàng 3 đoạn: OpenCode dev → Tester test → Admin xác nhận. Chỉ đọc. */
+  var VISUAL_STAGES = ['OpenCode dev', 'Tester test', 'Admin xác nhận'];
+  var VISUAL_POLL_MS = 10000;
+  var visualData = null;
+  var visualTimer = null;
+
+  function visualStageOf(row) {
+    if (row.running) return 0;
+    var s = String(row.status || '').toLowerCase();
+    if (s === 'coding' || s === 'in_progress') return 0;
+    if (s === 'testing') return 1;
+    if (s === 'done') return 2;
+    return -1;
+  }
+
+  function visualSegHTML(index, current, live) {
+    var cls = index < current ? 'visual-seg-done' : (index === current ? 'visual-seg-now' : 'visual-seg-todo');
+    if (index === current && live) cls += ' visual-seg-live';
+    return '<div class="visual-seg visual-seg-s' + index + ' ' + cls + '"><span>' + esc(VISUAL_STAGES[index]) + '</span></div>';
+  }
+
+  function visualRowHTML(row) {
+    var stage = visualStageOf(row);
+    var tag = '';
+    var testerState = row.tester_state || 'waiting';
+    var testerRunning = stage === 1 && testerState === 'running';
+    // Nút DONE chỉ hiện khi tester đã test xong (báo cáo mới hơn báo cáo coder) và không có tiến trình nào đang chạy
+    var confirmBtn = (stage === 1 && testerState === 'done' && !row.running && !testerRunning)
+      ? '<button type="button" class="btn btn-sm visual-done-btn" data-visual-done="' + esc(row.task_id) + '">DONE</button>'
+      : '';
+    if (row.running) {
+      tag = '<span class="visual-live-tag">● OpenCode đang code' + (row.pid ? ' · pid ' + esc(row.pid) : '') + '</span>';
+    } else if (testerRunning) {
+      tag = '<span class="visual-live-tag">● Tester đang test</span>';
+    } else if (stage === 1 && testerState === 'done') {
+      tag = '<span class="visual-live-tag">Đã test xong · báo cáo ' + esc(row.tester_report) + '</span>';
+    } else if (stage === 1) {
+      tag = '<span class="visual-live-tag visual-live-wait">Chờ tester</span>';
+    } else if (stage === 2) {
+      tag = '<span class="visual-live-tag">Đã DONE (Admin xác nhận)</span>';
+    }
+    return '<article class="visual-row">' +
+      '<div class="visual-row-head"><span class="kanban-card-id">' + esc(row.task_id) + '</span> ' +
+      '<span class="visual-row-title">' + esc(row.title || '') + '</span>' + tag + confirmBtn + '</div>' +
+      '<div class="visual-segs">' +
+      [0, 1, 2].map(function (i) {
+        var live = (i === 0 && !!row.running) || (i === 1 && testerRunning);
+        return visualSegHTML(i, stage, live);
+      }).join('') +
+      '</div></article>';
+  }
+
+  function drawVisual() {
+    var el = document.getElementById('visualBoard');
+    if (!el) return;
+    if (!visualData) { el.innerHTML = '<p class="loading">Đang đọc trạng thái OpenCode và tester…</p>'; return; }
+    var rows = (visualData.tasks || []).filter(function (r) { return visualStageOf(r) !== -1; });
+    var stamp = '<p class="visual-stamp">Cập nhật ' + esc(visualData.generated_at || '') + ' · tự làm mới mỗi 10 giây</p>';
+    if (!rows.length) {
+      el.innerHTML = stamp + '<p class="empty">Hiện không có task nào đang ở OpenCode hoặc tester.</p>';
+      return;
+    }
+    el.innerHTML = stamp + rows.map(visualRowHTML).join('');
+  }
+
+  function confirmVisualDone(taskId, btn) {
+    btn.disabled = true;
+    fetch('/api/visual-confirm-done', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ task_id: taskId })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (!res.ok || !res.d.ok) throw new Error(res.d.error || 'không xác nhận được');
+        toast(taskId + ' đã xác nhận DONE');
+        fetchVisualLive();
+      })
+      .catch(function (err) { btn.disabled = false; toast('Lỗi: ' + err.message); });
+  }
+
+  function fetchVisualLive() {
+    fetch('/api/visual-live', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { visualData = d; drawVisual(); })
+      .catch(function () { drawVisual(); });
+  }
+
+  function startVisualLive() {
+    if (visualTimer) return;
+    fetchVisualLive();
+    visualTimer = setInterval(function () { if (!document.hidden) fetchVisualLive(); }, VISUAL_POLL_MS);
+  }
+
+  function stopVisualLive() {
+    if (visualTimer) { clearInterval(visualTimer); visualTimer = null; }
+  }
+
   function kanbanCardHTML(task) {
     var pct = overallPercent(task);
     return '<article class="kanban-card status-' + statusClass(task.status) + '">' +
@@ -1369,6 +1468,15 @@
 
     var container = document.getElementById('tasksContainer');
     var board = document.getElementById('kanbanBoard');
+    var visualBoard = document.getElementById('visualBoard');
+    if (visualBoard && container) {
+      var visualOn = uiState.view === 'visual' && SOURCES[source].kind !== 'doc';
+      visualBoard.hidden = !visualOn;
+      if (board) board.hidden = true;
+      container.hidden = visualOn;
+      if (visualOn) { startVisualLive(); drawVisual(); return; }
+      stopVisualLive();
+    }
     if (board && container) {
       var kanban = uiState.view === 'kanban' && SOURCES[source].kind !== 'doc';
       board.hidden = !kanban;
@@ -1622,14 +1730,22 @@
     if (btn) btn.addEventListener('click', function () { refresh(); });
 
     var vList = document.getElementById('viewList'), vKanban = document.getElementById('viewKanban');
+    var vVisual = document.getElementById('viewVisual');
     function setView(v) {
       uiState.view = v;
       if (vList) vList.classList.toggle('btn-primary', v === 'list');
       if (vKanban) vKanban.classList.toggle('btn-primary', v === 'kanban');
+      if (vVisual) vVisual.classList.toggle('btn-primary', v === 'visual');
       rerender();
     }
     if (vList) vList.addEventListener('click', function () { setView('list'); });
     if (vKanban) vKanban.addEventListener('click', function () { setView('kanban'); });
+    if (vVisual) vVisual.addEventListener('click', function () { setView('visual'); });
+    var visualBoardEl = document.getElementById('visualBoard');
+    if (visualBoardEl) visualBoardEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-visual-done]');
+      if (btn) confirmVisualDone(btn.dataset.visualDone, btn);
+    });
 
     var auto = document.getElementById('autoRefresh');
     if (auto) auto.addEventListener('change', function () { setAutoRefresh(auto.checked); });
