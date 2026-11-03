@@ -36,7 +36,11 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='repla
 # ── Đường dẫn ─────────────────────────────────────────────────────────────
 HERE = os.path.dirname(os.path.abspath(__file__))
 DAOANH = os.path.dirname(HERE)
-DB_PATH = os.path.join(DAOANH, 'data', 'lineage.db')
+# T50 test-robustness (2026-11-03): cho phép override đường dẫn DB qua env
+# `T50_DB_PATH` để test khởi động có thể chạy trên fixture DB tạm khi worktree
+# chưa có `data/lineage.db` thật (data/ không được git track). Mặc định KHÔNG
+# đổi: không set env → vẫn dùng data/lineage.db như cũ.
+DB_PATH = os.environ.get('T50_DB_PATH') or os.path.join(DAOANH, 'data', 'lineage.db')
 LLM_CONFIG_PATH = os.path.join(DAOANH, 'data', 'llm_config.json')
 APP_PY = os.path.join(DAOANH, 'app.py')
 SCRIPTS_DIR = HERE

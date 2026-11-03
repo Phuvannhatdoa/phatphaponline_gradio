@@ -839,3 +839,32 @@ trình cha nhận Ctrl+C/CTRL_C_EVENT.
   merge: `git diff --name-status 7bd7054e HEAD` ra đúng 5 file nêu trên, không file nào
   khác bị đụng. `py_compile` + `tests/test_t50_startup_windows.py` (4/4 PASS) chạy lại
   thành công trong cây chính với DB thật (`data/lineage.db`, không dùng fixture).
+
+## T50 — test chịu được DB rỗng (test-robustness, 2026-11-03)
+
+**Bối cảnh:** sau khi merge `5982845f`, chạy lại `tests/test_t50_startup_windows.py`
+**trong worktree** ra `2/4 PASS`: case B (`--dry-run`) và C (`--verify`) chết với
+`sqlite3.OperationalError: no such table: passage`. Nguyên nhân không phải code fix:
+`data/` **không được git track**, worktree vừa checkout chỉ có `data/lineage.db`
+rỗng (4096 byte, 0 bảng). Cây chính có DB thật nên vẫn `4/4 PASS`.
+
+**Thay đổi (code thuần, không đụng DB/schema thật):**
+- `scripts/t50_passage_vi_backfill.py`: `DB_PATH` đọc env `T50_DB_PATH` trước, fallback
+  `data/lineage.db` — **hành vi mặc định không đổi** (không set env → y như cũ).
+  Chỉ phục vụ test/fixture.
+- `tests/test_t50_startup_windows.py`: thêm `_real_db_ready()`, `FIXTURE_SCHEMA`,
+  `_make_fixture_db()`, `_db_for_run()`, `_run_backfill()`.
+  B/C giờ: dùng **DB thật nếu có bảng `passage`**, ngược lại dựng fixture DB tạm
+  (1 passage chờ dịch gắn PLACE + PERSON, bảng `passage` cố ý **thiếu cột
+  `translation_draft`** để kiểm luôn migration additive của `ensure_schema()`).
+  Thêm assert nội dung (`DRY RUN`/`Không còn passage chờ dịch`, `== VERIFY T50 ==`)
+  để test không "xanh giả" khi script thoát sớm.
+
+| Đường tích hợp | Lệnh revert | Mất dữ liệu? |
+|---|---|---|
+| Commit trên nhánh `wt/t50-python314-windows-fix` (ghi SHA thật ngay sau khi commit; tích hợp qua `scripts/wt_integrate.py` như lần trước) | `git revert --no-edit <sha>` (khôi phục 2 file: `scripts/t50_passage_vi_backfill.py`, `tests/test_t50_startup_windows.py`) | Không — thuần code, không migration DB, không xoá dữ liệu |
+
+- Đo được (worktree, DB rỗng): `4/4 PASS` (B/C dùng fixture). Đo lại nhánh "DB thật"
+  bằng runner tạm trỏ `DB_PATH` → `data/lineage.db` cây chính: B/C `PASS`.
+- `T50_DB_PATH` **không** được set ở đâu trong code base (đã grep) — chỉ dùng trong test.
+- Không đổi prompt, logic dịch, schema, hay giá trị Hán/Việt văn.

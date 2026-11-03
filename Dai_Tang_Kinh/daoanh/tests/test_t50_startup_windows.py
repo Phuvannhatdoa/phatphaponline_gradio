@@ -11,13 +11,25 @@ Bối cảnh (Handoff-2026-11-03-T50-python314-windows.md):
     D. Helper tự-reconcile job-status chỉ đụng file khi PID khớp (race-safe),
        không tạo file mới nếu status file chưa tồn tại.
 
+Cập nhật 2026-11-03 (test chịu được DB rỗng):
+  Worktree mới checkout chỉ có `data/lineage.db` rỗng (0 bảng) vì `data/`
+  không được git track ⇒ B/C từng đỏ oan với
+  `sqlite3.OperationalError: no such table: passage`, dù lỗi khởi động mà
+  test nhắm tới đã hết. Nay B/C:
+    - Dùng DB thật nếu `data/lineage.db` đã có bảng `passage` (cây chính).
+    - Nếu chưa, tự dựng fixture DB tạm và truyền qua env `T50_DB_PATH`
+      (script hỗ trợ override, mặc định vẫn là data/lineage.db).
+  Fixture cố tình KHÔNG có cột `translation_draft` để đồng thời kiểm tra
+  migration additive của `ensure_schema()`.
+
 Không gọi Groq, không cần network. Không sửa Hán văn/DB khi chạy test này
-(--dry-run/--verify không UPDATE/INSERT).
+(--dry-run/--verify không UPDATE/INSERT trên dữ liệu thật; fixture là DB tạm).
 """
 import sys
 import os
 import io
 import json
+import sqlite3
 import subprocess
 import tempfile
 
@@ -31,11 +43,117 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DAOANH = os.path.dirname(HERE)
 SCRIPTS_DIR = os.path.join(DAOANH, 'scripts')
 BACKFILL_PY = os.path.join(SCRIPTS_DIR, 't50_passage_vi_backfill.py')
+DB_PATH = os.path.join(DAOANH, 'data', 'lineage.db')
 
 if SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, SCRIPTS_DIR)
 
 
+# ── Hạ tầng: chọn DB thật hay fixture ──────────────────────────────────────
+def _real_db_ready():
+    """True nếu data/lineage.db tồn tại VÀ đã có bảng `passage`.
+
+    Worktree vừa checkout thường chỉ có lineage.db rỗng 4096 byte / 0 bảng
+    (data/ không được git track), nên không thể chạy thẳng --dry-run/--verify.
+    """
+    try:
+        if not os.path.exists(DB_PATH) or os.path.getsize(DB_PATH) == 0:
+            return False
+        conn = sqlite3.connect(DB_PATH)
+        try:
+            row = conn.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='passage'"
+            ).fetchone()
+            return row is not None
+        finally:
+            conn.close()
+    except Exception:
+        return False
+
+
+# Schema tối thiểu đúng những gì script đụng tới. Chú ý: bảng `passage` cố ý
+# KHÔNG có cột `translation_draft` → ensure_schema() phải tự ALTER (additive).
+FIXTURE_SCHEMA = """
+CREATE TABLE passage (
+    passage_id INTEGER PRIMARY KEY,
+    text_id    TEXT,
+    loc_ref    TEXT,
+    raw_text   TEXT,
+    vi_text    TEXT
+);
+CREATE TABLE entity (
+    entity_id   INTEGER PRIMARY KEY,
+    entity_type TEXT
+);
+CREATE TABLE passage_entity (
+    passage_id INTEGER,
+    entity_id  INTEGER
+);
+CREATE TABLE translation_cache (
+    source_hash     TEXT,
+    source_type     TEXT,
+    entity_id       TEXT,
+    source_text     TEXT,
+    translated_text TEXT,
+    model_id        TEXT,
+    rules_version   TEXT,
+    status          TEXT,
+    report_count    INTEGER DEFAULT 0,
+    created_at      TEXT,
+    updated_at      TEXT
+);
+"""
+
+
+def _make_fixture_db(td):
+    """Dựng fixture DB tạm trong thư mục td, trả đường dẫn.
+
+    Có 1 passage chờ dịch (raw_text != NULL, vi_text NULL) gắn với 1 entity
+    PLACE + 1 entity PERSON → select_pending() phải trả đúng 1 dòng, đủ để
+    --dry-run đi qua nhánh "có dữ liệu" mà không gọi Groq.
+    """
+    path = os.path.join(td, 'fixture_lineage.db')
+    conn = sqlite3.connect(path)
+    try:
+        conn.executescript(FIXTURE_SCHEMA)
+        conn.execute(
+            "INSERT INTO passage (passage_id, text_id, loc_ref, raw_text, vi_text) "
+            "VALUES (1, 'T51n2076', 'p0001a01', '祖師西來意', NULL)")
+        conn.executemany(
+            "INSERT INTO entity (entity_id, entity_type) VALUES (?, ?)",
+            [(10, 'PLACE'), (11, 'PERSON')])
+        conn.executemany(
+            "INSERT INTO passage_entity (passage_id, entity_id) VALUES (?, ?)",
+            [(1, 10), (1, 11)])
+        conn.commit()
+    finally:
+        conn.close()
+    return path
+
+
+def _db_for_run(td):
+    """Trả (db_path, nhãn) cho lần chạy test B/C.
+
+    Ưu tiên DB thật (đúng môi trường vận hành); nếu DB thật chưa có schema thì
+    dùng fixture tạm để test vẫn đo được "khởi động sạch".
+    """
+    if _real_db_ready():
+        return DB_PATH, 'DB thật'
+    return _make_fixture_db(td), 'fixture'
+
+
+def _run_backfill(argv, db_path, extra_env=None):
+    """Chạy script backfill với DB chỉ định (qua env T50_DB_PATH)."""
+    env = {**os.environ, 'PYTHONUTF8': '1', 'T50_DB_PATH': db_path}
+    env.update(extra_env or {})
+    return subprocess.run(
+        [sys.executable, '-X', 'utf8', BACKFILL_PY] + list(argv),
+        capture_output=True, text=True, timeout=90, cwd=DAOANH, env=env,
+        encoding='utf-8', errors='replace',
+    )
+
+
+# ── Test cases ─────────────────────────────────────────────────────────────
 def test_A_hanviet_normalization_imports_clean():
     """Import hanviet_normalization trong tiến trình con riêng (không dùng
     cache sys.modules của tiến trình test) để mô phỏng đúng tình huống
@@ -58,24 +176,31 @@ def test_B_backfill_dry_run_exits_clean():
     # --dry-run vẫn cần qua bước resolve_groq_key() trước khi tới nhánh
     # dry-run (hành vi gốc, không phải lỗi do fix này) nên set key giả qua env
     # để test chỉ đo "khởi động sạch", không gọi Groq thật.
-    env = {**os.environ, 'GROQ_KEY': 'test-dummy-key-not-called'}
-    r = subprocess.run(
-        [sys.executable, '-X', 'utf8', BACKFILL_PY, '--dry-run', '--limit', '1'],
-        capture_output=True, text=True, timeout=60, cwd=DAOANH, env=env,
-        encoding='utf-8', errors='replace',
-    )
-    assert r.returncode == 0, f"--dry-run không thoát sạch: rc={r.returncode}\nSTDOUT={r.stdout}\nSTDERR={r.stderr}"
-    assert 'Traceback' not in r.stderr, f"Có traceback dù dry-run: {r.stderr}"
+    with tempfile.TemporaryDirectory() as td:
+        db_path, src = _db_for_run(td)
+        r = _run_backfill(['--dry-run', '--limit', '1'], db_path,
+                          {'GROQ_KEY': 'test-dummy-key-not-called'})
+        ctx = f"[nguồn DB: {src} → {db_path}]"
+        assert r.returncode == 0, (
+            f"--dry-run không thoát sạch: rc={r.returncode} {ctx}\n"
+            f"STDOUT={r.stdout}\nSTDERR={r.stderr}")
+        assert 'Traceback' not in r.stderr, f"Có traceback dù dry-run: {r.stderr}\n{ctx}"
+        # Phải đi hết nhánh dry-run (có dữ liệu) hoặc báo hết passage chờ dịch.
+        assert ('DRY RUN' in r.stdout) or ('Không còn passage chờ dịch' in r.stdout), (
+            f"không thấy dấu hiệu hoàn tất nhánh dry-run {ctx}\nSTDOUT={r.stdout}")
 
 
 def test_C_backfill_verify_exits_clean():
-    r = subprocess.run(
-        [sys.executable, '-X', 'utf8', BACKFILL_PY, '--verify'],
-        capture_output=True, text=True, timeout=60, cwd=DAOANH,
-        encoding='utf-8', errors='replace',
-    )
-    assert r.returncode == 0, f"--verify không thoát sạch: rc={r.returncode}\nSTDOUT={r.stdout}\nSTDERR={r.stderr}"
-    assert 'Traceback' not in r.stderr
+    with tempfile.TemporaryDirectory() as td:
+        db_path, src = _db_for_run(td)
+        r = _run_backfill(['--verify'], db_path)
+        ctx = f"[nguồn DB: {src} → {db_path}]"
+        assert r.returncode == 0, (
+            f"--verify không thoát sạch: rc={r.returncode} {ctx}\n"
+            f"STDOUT={r.stdout}\nSTDERR={r.stderr}")
+        assert 'Traceback' not in r.stderr, f"Có traceback: {r.stderr}\n{ctx}"
+        assert '== VERIFY T50 ==' in r.stdout, (
+            f"--verify không chạy tới phần thống kê {ctx}\nSTDOUT={r.stdout}")
 
 
 def test_D_self_reconcile_status_is_race_safe():
@@ -128,6 +253,9 @@ print('D_OK')
 
 
 if __name__ == '__main__':
+    print(f"[env] data/lineage.db có schema sẵn sàng: {_real_db_ready()} "
+          f"({DB_PATH}) → B/C sẽ dùng "
+          f"{'DB thật' if _real_db_ready() else 'fixture DB tạm'}")
     tests = [
         test_A_hanviet_normalization_imports_clean,
         test_B_backfill_dry_run_exits_clean,
