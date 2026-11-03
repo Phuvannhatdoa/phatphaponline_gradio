@@ -40,9 +40,37 @@ DB_PATH = os.path.join(DAOANH, 'data', 'lineage.db')
 LLM_CONFIG_PATH = os.path.join(DAOANH, 'data', 'llm_config.json')
 APP_PY = os.path.join(DAOANH, 'app.py')
 SCRIPTS_DIR = HERE
+_T50_STATUS_FILE = os.path.join(DAOANH, 'data', 't50_job_status.json')
 
 if SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, SCRIPTS_DIR)
+
+
+def _t50_self_reconcile_on_failure(exit_reason, extra=None):
+    """T50 Windows startup fix (2026-11-03): khi worker này tự chết bất thường
+    (KeyboardInterrupt/Exception), tự ghi t50_job_status.json về running=False
+    NGAY (không chờ admin mở lại dashboard để app.py poll /job-status mới phát
+    hiện pid chết). Chỉ đụng file khi pid trong status khớp pid của chính
+    mình — tránh đè trạng thái của job khác đang chạy song song (race).
+    Chỉ dùng cho nhánh lỗi; khi hoàn tất bình thường KHÔNG gọi hàm này, để
+    app.py (/api/admin/t50/job-status) tự lo việc chuyển sang sigla kế tiếp
+    trong hàng đợi như thiết kế cũ."""
+    try:
+        if not os.path.exists(_T50_STATUS_FILE):
+            return
+        with open(_T50_STATUS_FILE, 'r', encoding='utf-8') as f:
+            st = json.load(f)
+        if int(st.get('pid') or -1) != os.getpid():
+            return
+        st['running'] = False
+        st['exit_reason'] = exit_reason
+        st['finished_at'] = time.strftime('%Y-%m-%dT%H:%M:%S')
+        if extra:
+            st.update(extra)
+        with open(_T50_STATUS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(st, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
 
 try:
     from hanviet_normalization import normalize_text as hanviet_normalize
@@ -472,4 +500,24 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    # T50 Windows startup fix (2026-11-03): bắt KeyboardInterrupt/Exception ở
+    # cấp top-level để (1) thoát với mã lỗi rõ ràng thay vì traceback dở dang
+    # + KeyboardInterrupt không rõ nguyên nhân (xem data/t50_job.log cũ), và
+    # (2) tự cập nhật t50_job_status.json running=False ngay khi chết bất
+    # thường, không chờ admin mở lại dashboard. Không đổi logic dịch/schema.
+    try:
+        _rc = main()
+    except KeyboardInterrupt:
+        print('\n✗ Job bị ngắt (KeyboardInterrupt) — có thể do Ctrl+C hoặc '
+              'tiến trình cha bị dừng. Đã dừng sạch, không ghi dở dang.',
+              file=sys.stderr)
+        _t50_self_reconcile_on_failure('keyboard_interrupt')
+        sys.exit(130)
+    except Exception as _e:
+        import traceback as _tb
+        _tb.print_exc()
+        print(f'\n✗ Job dừng vì lỗi ngoài dự kiến: {_e}', file=sys.stderr)
+        _t50_self_reconcile_on_failure('exception', {'error': str(_e)[:300]})
+        sys.exit(1)
+    else:
+        sys.exit(_rc)

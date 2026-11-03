@@ -10728,6 +10728,18 @@ def t50_translation_progress():
 import subprocess as _t50_sp
 import signal as _t50_sig
 
+# T50 Windows startup fix (2026-11-03, handoff docs/Handoff-2026-11-03-T50-python314-windows.md):
+# trên Windows, tiến trình con spawn bằng Popen mặc định nằm trong cùng
+# console process-group với tiến trình cha (app.py). Nếu ai Ctrl+C terminal
+# đang chạy app.py (hoặc console gửi CTRL_C_EVENT), signal đó lan sang cả
+# subprocess T50 — quan sát được: subprocess chết giữa lúc import module
+# (KeyboardInterrupt trong data/t50_job.log), KHÔNG phải do lỗi code dịch.
+# CREATE_NEW_PROCESS_GROUP tách subprocess khỏi console process-group của
+# cha nên không bị Ctrl+C của terminal cha kéo theo nữa.
+_T50_POPEN_KW = {}
+if _sys.platform == 'win32':
+    _T50_POPEN_KW['creationflags'] = _t50_sp.CREATE_NEW_PROCESS_GROUP
+
 _T50_STATUS_FILE = os.path.join(os.path.dirname(__file__), 'data', 't50_job_status.json')
 _T50_LOG_FILE    = os.path.join(os.path.dirname(__file__), 'data', 't50_job.log')
 _T50_SCRIPT      = os.path.join(os.path.dirname(__file__), 'scripts', 't50_passage_vi_backfill.py')
@@ -10782,7 +10794,8 @@ def t50_run():
     log_f = open(_T50_LOG_FILE, 'w', encoding='utf-8')
     proc = _t50_sp.Popen(cmd, stdout=log_f, stderr=log_f,
                           cwd=os.path.dirname(__file__),
-                          env={**os.environ, 'PYTHONUTF8': '1'})
+                          env={**os.environ, 'PYTHONUTF8': '1'},
+                          **_T50_POPEN_KW)
     now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
     _t50_write_job({"running": True, "sigla": sigla or "tất cả", "pid": proc.pid, "started_at": now})
     return jsonify({"ok": True, "pid": proc.pid, "sigla": sigla or "tất cả", "started_at": now})
@@ -10810,7 +10823,8 @@ def _t50_start_sigla(sigla, st):
     log_f = open(_T50_LOG_FILE, 'w', encoding='utf-8')
     proc = _t50_sp.Popen(cmd, stdout=log_f, stderr=log_f,
                           cwd=os.path.dirname(__file__),
-                          env={**os.environ, 'PYTHONUTF8': '1'})
+                          env={**os.environ, 'PYTHONUTF8': '1'},
+                          **_T50_POPEN_KW)
     now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
     st.update({"running": True, "sigla": sigla, "pid": proc.pid, "started_at": now})
     _t50_write_job(st)
