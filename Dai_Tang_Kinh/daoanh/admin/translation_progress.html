@@ -377,21 +377,26 @@ async function t50Init() { await t50Refresh(); }
 
 async function t50Refresh() {
   let d = null;
+  let liveErr = '';
   try {
     const r = await fetch(API + '/daoanh/api/admin/t50-progress', { headers: { 'X-Session-Token': token() } });
-    if (r.ok) { const j = await r.json(); if (j.ok) { d = j; d._src = 'live'; _t50ApiAvailable = true; } }
-  } catch (_) {}
+    const j = await r.json().catch(() => null);
+    if (r.ok && j && j.ok) { d = j; d._src = 'live'; _t50ApiAvailable = true; }
+    else { liveErr = (j && j.error) || ('HTTP ' + r.status); }
+  } catch (e) { liveErr = e.message; }
   if (!d) {
     try {
       const r = await fetch(T50_SNAP);
       if (r.ok) { d = await r.json(); d._src = 'snapshot'; }
-    } catch (e) {
-      document.getElementById('t50-main-content').innerHTML =
-        '<div style="color:var(--bad);text-align:center;padding:40px">Không tải được dữ liệu T50: ' + esc(e.message) + '</div>';
-      return;
-    }
+    } catch (_) {}
   }
-  if (d) { _t50ProgressData = d; t50RenderProgress(d); }
+  if (!d) {
+    document.getElementById('t50-main-content').innerHTML =
+      '<div style="color:var(--bad);text-align:center;padding:40px">Không tải được dữ liệu T50: ' + esc(liveErr) + '</div>';
+    await t50CheckJobStatus();
+    return;
+  }
+  _t50ProgressData = d; t50RenderProgress(d);
   await t50CheckJobStatus();
 }
 
