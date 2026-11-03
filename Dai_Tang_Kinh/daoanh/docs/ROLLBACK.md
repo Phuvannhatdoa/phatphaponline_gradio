@@ -826,7 +826,7 @@ trình cha nhận Ctrl+C/CTRL_C_EVENT.
 
 | Đường tích hợp | Lệnh revert | Mất dữ liệu? |
 |---|---|---|
-| `wt_integrate.py` merge `wt/t50-python314-windows-fix` → `truyen-dang-the-pho-clean` (merge-commit, no-ff) | `git revert --no-edit <sha-merge-commit>` (ghi SHA thật ngay sau khi tích hợp, xem dòng dưới) | Không — thuần code, không có migration DB, không xoá dữ liệu nào |
+| `wt_integrate.py` merge `wt/t50-python314-windows-fix` → `truyen-dang-the-pho-clean` (merge-commit `5982845f`, parent `7bd7054e` + `64a966df`, no-ff) | `git revert --no-edit 5982845f` (revert nguyên merge-commit, khôi phục đúng 5 file: `app.py`, `docs/ROLLBACK.md`, `scripts/hanviet_normalization.py`, `scripts/t50_passage_vi_backfill.py`, xoá `tests/test_t50_startup_windows.py`) | Không — thuần code, không có migration DB, không xoá dữ liệu nào |
 
 - Không đổi logic dịch, schema, prompt, hay giá trị Hán văn/Việt văn nào.
 - `data/t50_job_status.json` không bị sửa tay trong lần này; entry cũ (`pid=29928`, stale)
@@ -834,3 +834,8 @@ trình cha nhận Ctrl+C/CTRL_C_EVENT.
 - Worktree: `C:/Users/Nam Thien/.claude/worktrees/t50-python314-windows-fix` (branch
   `wt/t50-python314-windows-fix`, dựng lại lần 2 sau khi worktree lần 1 bị lỗi index do
   checkout bị timeout trên đĩa chậm — không liên quan tới nội dung patch).
+- Đã tích hợp 2026-11-03: commit code `64a966df` trên nhánh worktree → merge-commit
+  `5982845f` vào `truyen-dang-the-pho-clean` qua `scripts/wt_integrate.py`. Xác minh sau
+  merge: `git diff --name-status 7bd7054e HEAD` ra đúng 5 file nêu trên, không file nào
+  khác bị đụng. `py_compile` + `tests/test_t50_startup_windows.py` (4/4 PASS) chạy lại
+  thành công trong cây chính với DB thật (`data/lineage.db`, không dùng fixture).
