@@ -1151,6 +1151,91 @@ def api_admin_missing_hanzi():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
+@app.route('/daoanh/api/admin/nexus-translate-status')
+def api_admin_nexus_translate_status():
+    """
+    GET /daoanh/api/admin/nexus-translate-status
+    T514 — trạng thái dịch Nexus (T458), CHỈ ĐỌC.
+    Đếm tổng nexus trong dila_bio_nexus (DB) và số dòng JSONL đã dịch trong
+    staging data/dila_import/biographies.2024-01/vn_translate/<sách>/batch_*.jsonl
+    cho từng sách. KHÔNG ghi DB, KHÔNG gọi Gemini/Codex. Nếu thư mục vn_translate
+    hoặc một sách chưa có file thì trả 0 cho sách đó kèm note rõ, không lỗi 500.
+    """
+    try:
+        books_total = {}
+        conn = get_db_connection()
+        try:
+            rows = conn.execute(
+                "SELECT book, COUNT(*) AS n FROM dila_bio_nexus GROUP BY book ORDER BY book"
+            ).fetchall()
+            books_total = {r['book']: r['n'] for r in rows}
+        finally:
+            conn.close()
+
+        vn_translate_root = os.path.join(
+            os.path.dirname(__file__),
+            'data', 'dila_import', 'biographies.2024-01', 'vn_translate'
+        )
+        root_exists = os.path.isdir(vn_translate_root)
+
+        books = []
+        total_nexus = 0
+        total_translated = 0
+        total_batches = 0
+        for book, total in books_total.items():
+            total_nexus += total
+            book_dir = os.path.join(vn_translate_root, book)
+            translated = 0
+            n_batches = 0
+            note = None
+            if not root_exists:
+                note = "Chưa có thư mục vn_translate — T458 giai đoạn 1 chưa chạy"
+            elif not os.path.isdir(book_dir):
+                note = "Chưa có batch JSONL cho sách này"
+            else:
+                batch_files = sorted(
+                    f for f in os.listdir(book_dir) if f.endswith('.jsonl')
+                )
+                n_batches = len(batch_files)
+                for fname in batch_files:
+                    fpath = os.path.join(book_dir, fname)
+                    try:
+                        with open(fpath, 'r', encoding='utf-8') as fh:
+                            for line in fh:
+                                if line.strip():
+                                    translated += 1
+                    except OSError:
+                        continue
+                if n_batches == 0:
+                    note = "Thư mục sách tồn tại nhưng chưa có batch_*.jsonl"
+            total_translated += translated
+            total_batches += n_batches
+            books.append({
+                "book": book,
+                "total_nexus": total,
+                "translated": translated,
+                "batches": n_batches,
+                "pct": round(translated * 100.0 / total, 1) if total else 0.0,
+                "note": note
+            })
+
+        return jsonify({
+            "ok": True,
+            "task": "T458",
+            "status_note": (
+                "Giai đoạn 1 chỉ ghi staging JSONL, KHÔNG ghi DB. "
+                "Schema dila_bio_nexus_vi và pilot 50 nexus Mingsengzhuanchao "
+                "CHƯA được Admin duyệt — chưa có nút chạy dịch/nạp DB."
+            ),
+            "vn_translate_root_exists": root_exists,
+            "total_nexus": total_nexus,
+            "total_translated": total_translated,
+            "total_batches": total_batches,
+            "books": books
+        })
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
 @app.route('/daoanh/api/admin/missing-hanzi/override', methods=['POST'])
 def api_admin_missing_hanzi_override():
     """
