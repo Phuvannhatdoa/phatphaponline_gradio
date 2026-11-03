@@ -4,6 +4,15 @@ mode: primary
 model: opencode-go/mimo-v2.6-flash
 ---
 
+## QUY TẮC BẮT BUỘC (Orca/OpenCode)
+
+- Chỉ làm trong worktree của task được giao, không ghi cây chính, không tự tạo worktree mới.
+- Không chạy `--apply` DB khi chưa có file duyệt `approvals/<Txxx>.approved`.
+- Commit trong worktree, không `git add .`, không merge, không push — merge do Claude thực
+  hiện qua `scripts/wt_integrate.py` sau khi QA đạt.
+- Cấm `git reset --hard`, `git clean -fd`, `git stash drop`, `git checkout --`, `git restore`.
+- Chi tiết đầy đủ: `docs/process/ORCA_WORKFLOW.md`.
+
 <!-- Thứ tự nhà cung cấp (cập nhật 2026-11-02, Admin): CODER CHÍNH LÀ CODEX.
      Chạy qua: python -X utf8 scripts/run_coder.py --task <ID> --worktree <worktree> --request "<việc>"
        1) Codex (codex.exe exec, workspace-write, -C worktree)  ← chính

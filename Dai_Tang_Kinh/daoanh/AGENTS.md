@@ -516,3 +516,21 @@ otify_done.ps1 -Title "T404 Done" -Message "BUG-034: Ô Search trang places"
 Nhân vật **Tiểu Thiên** (`static/notify/mascot.png`) hiện ở góc phải dưới cạnh khay hệ thống, kèm âm "ting ting" kêu 3 lần.
 Admin click trái để ẩn, click phải để mở Dashboard. Script tự chạy nền, không chặn agent; chỉ chạy local.
 Thay cho đoạn `pipip` ở §18 (vẫn giữ quy tắc: trạng thái lỗi / cần Admin quyết thì KHÔNG báo Done).
+
+## 21. QUY TRÌNH ORCA / OPENCODE (BẮT BUỘC)
+
+Mọi task chạy qua Orca (điều khiển) gọi OpenCode (thực thi) phải theo đúng
+`docs/process/ORCA_WORKFLOW.md`. Tóm tắt 6 quy tắc cứng:
+
+1. Chỉ làm trong worktree của task — không ghi cây chính, không tự tạo worktree mới khi
+   chưa được Admin duyệt.
+2. Không chạy `--apply` DB khi chưa có file duyệt `approvals/<Txxx>.approved` khớp hash
+   dry-run.
+3. Phải chạy test thật, ghi output thật, trước khi báo "xong".
+4. Commit trong worktree của task, không `git add .`, không merge, không push.
+5. Merge vào main chỉ do Claude (điều phối) quyết định và thực hiện qua
+   `scripts/wt_integrate.py`, sau khi QA đạt — Orca và OpenCode không tự merge.
+6. Cấm `git reset --hard`, `git clean -fd`, `git stash drop`, `git checkout --`,
+   `git restore` trên mọi cây. Cần hoàn tác thì hỏi Admin.
+
+Chi tiết đầy đủ: `docs/process/ORCA_WORKFLOW.md`.
