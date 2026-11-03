@@ -799,3 +799,38 @@ Chuỗi commit trên nhánh truyen-dang-the-pho-clean, sau 5cbbd86b (HEAD cũ). 
 | 24b2aee5 | opencode.json: chặn ssh/scp/rclone |
 Hoàn tác một nhóm: git revert --no-edit <sha>. Revert theo thứ tự ngược từ commit mới nhất nếu cần nhiều nhóm. Nếu revert xung đột với sửa sau đó, dừng và báo, không ép.
 Bản sao lưu ngoài repo: C:/Users/Nam Thien/.claude/wip-unsnapshotted-20261101 (10 file lớn, có manifest sha256); nhánh WIP đầy đủ: wip/2026-11-01 (5ea88f6d).
+
+## T50 — Windows startup fix: creationflags=CREATE_NEW_PROCESS_GROUP cho Popen (2026-11-03)
+
+**Bối cảnh:** `docs/Handoff-2026-11-03-T50-python314-windows.md`. Job T50 cho `T51n2076`
+chết giữa lúc khởi động (`data/t50_job.log`: `KeyboardInterrupt` giữa import
+`hanviet_normalization.py`). Root cause xác minh: không phải lỗi `fcntl`
+(`pathlib._os` đã tự bọc try/except ImportError, kiểm tra trực tiếp trên
+Python 3.14/Windows chạy sạch) — mà do `_t50_sp.Popen(...)` trong `app.py`
+không tách console process-group, nên subprocess con bị kéo theo khi tiến
+trình cha nhận Ctrl+C/CTRL_C_EVENT.
+
+**Thay đổi (code thuần, không đụng DB/schema):**
+- `app.py` dòng ~10728: thêm `_T50_POPEN_KW = {'creationflags': subprocess.CREATE_NEW_PROCESS_GROUP}`
+  chỉ khi `sys.platform=='win32'`.
+- 2 lệnh `_t50_sp.Popen(...)` (route `/api/admin/t50/run` ~dòng 10783 và helper
+  `_t50_start_sigla` ~dòng 10811): thêm `**_T50_POPEN_KW`.
+- `scripts/hanviet_normalization.py`: bỏ `from pathlib import Path`, dùng `os.path`
+  (giữ nguyên `SCRIPT_DIR`/`DB_PATH`), loại hẳn chuỗi import bị nêu trong log lỗi.
+- `scripts/t50_passage_vi_backfill.py`: bọc `main()` trong try/except
+  KeyboardInterrupt/Exception ở `if __name__=='__main__':`, tự ghi
+  `t50_job_status.json` → `running=false` khi job tự chết bất thường
+  (chỉ khi `pid` trong status khớp pid chính mình — race-safe).
+- Thêm `tests/test_t50_startup_windows.py` (4 case: import sạch, --dry-run
+  sạch, --verify sạch, self-reconcile race-safe).
+
+| Đường tích hợp | Lệnh revert | Mất dữ liệu? |
+|---|---|---|
+| `wt_integrate.py` merge `wt/t50-python314-windows-fix` → `truyen-dang-the-pho-clean` (merge-commit, no-ff) | `git revert --no-edit <sha-merge-commit>` (ghi SHA thật ngay sau khi tích hợp, xem dòng dưới) | Không — thuần code, không có migration DB, không xoá dữ liệu nào |
+
+- Không đổi logic dịch, schema, prompt, hay giá trị Hán văn/Việt văn nào.
+- `data/t50_job_status.json` không bị sửa tay trong lần này; entry cũ (`pid=29928`, stale)
+  tự được route `/api/admin/t50/job-status` reconcile khi gọi lại (logic có sẵn, không đổi).
+- Worktree: `C:/Users/Nam Thien/.claude/worktrees/t50-python314-windows-fix` (branch
+  `wt/t50-python314-windows-fix`, dựng lại lần 2 sau khi worktree lần 1 bị lỗi index do
+  checkout bị timeout trên đĩa chậm — không liên quan tới nội dung patch).
