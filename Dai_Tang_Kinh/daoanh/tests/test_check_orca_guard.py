@@ -78,6 +78,12 @@ class TestApprovalGuard(unittest.TestCase):
         after = sorted(tmpdir.rglob("*"))
         self.assertEqual(before, after)
 
+    def test_path_traversal_task_id_returns_false(self):
+        # task_id sai định dạng (path traversal) phải bị chặn trước khi ghép
+        # path — không được đi tìm file ngoài approvals/.
+        tmpdir = Path(tempfile.mkdtemp(prefix="orca_guard_traversal_"))
+        self.assertFalse(guard.check_approval("../x", repo_root=tmpdir))
+
 
 class TestCLI(unittest.TestCase):
     def test_check_approval_cli_exit_code_fail(self):

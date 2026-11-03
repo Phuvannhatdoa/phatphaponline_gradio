@@ -515,6 +515,7 @@ otify_done.ps1 -Title "T404 Done" -Message "BUG-034: Ô Search trang places"
 
 Nhân vật **Tiểu Thiên** (`static/notify/mascot.png`) hiện ở góc phải dưới cạnh khay hệ thống, kèm âm "ting ting" kêu 3 lần.
 Admin click trái để ẩn, click phải để mở Dashboard. Script tự chạy nền, không chặn agent; chỉ chạy local.
+Thay cho đoạn `pipip` ở §18 (vẫn giữ quy tắc: trạng thái lỗi / cần Admin quyết thì KHÔNG báo Done).
 
 ## 21. QUY TRÌNH ORCA / OPENCODE (BẮT BUỘC)
 
@@ -533,4 +534,3 @@ Mọi task chạy qua Orca (điều khiển) gọi OpenCode (thực thi) phải 
    `git restore` trên mọi cây. Cần hoàn tác thì hỏi Admin.
 
 Chi tiết đầy đủ: `docs/process/ORCA_WORKFLOW.md`.
-Thay cho đoạn `pipip` ở §18 (vẫn giữ quy tắc: trạng thái lỗi / cần Admin quyết thì KHÔNG báo Done).

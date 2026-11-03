@@ -24,6 +24,7 @@ Cách dùng (CLI):
 from __future__ import annotations
 
 import argparse
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -42,6 +43,10 @@ PROTECTED_BRANCHES = {"truyen-dang-the-pho-clean", "main"}
 
 # Thư mục chứa file duyệt của Admin, tính tương đối theo repo root (daoanh/).
 APPROVALS_DIRNAME = "approvals"
+
+# task_id hợp lệ chỉ gồm chữ "T" + số (ví dụ T53, T404). Chặn mọi ký tự khác
+# (path traversal như "../x", khoảng trắng, dấu "/", v.v.) trước khi ghép path.
+TASK_ID_RE = re.compile(r"^T\d+$")
 
 
 def _repo_root(start: Path | None = None) -> Path:
@@ -101,6 +106,9 @@ def check_approval(task_id: str, repo_root: Path | None = None) -> bool:
     `repo_root` là thư mục chứa `approvals/` (mặc định: root của daoanh/,
     suy ra từ vị trí file này). Dùng tham số này để test với tempdir.
     """
+    if not TASK_ID_RE.match(task_id):
+        # task_id sai định dạng (ví dụ "../x") — không ghép path, trả False ngay.
+        return False
     root = repo_root if repo_root is not None else _repo_root()
     approval_file = root / APPROVALS_DIRNAME / f"{task_id}.approved"
     return approval_file.is_file()
