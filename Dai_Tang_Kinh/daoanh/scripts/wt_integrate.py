@@ -1,10 +1,11 @@
 """Tích hợp một nhánh worktree vào cây chính — CHỈ điều phối chạy.
 
 Usage:
-  python -X utf8 scripts/wt_integrate.py <tên-việc>
+  python -X utf8 scripts/wt_integrate.py <tên-nhánh>
+  Ví dụ: t53-cbeta-content-enhancement, hoặc wt/<tên-việc> (dạng cũ).
 
 Quy trình:
-1. Kiểm nhánh wt/<tên-việc> tồn tại và worktree của nó sạch (đã commit hết).
+1. Kiểm nhánh <tên-nhánh> tồn tại và worktree đang giữ nó sạch (đã commit hết).
 2. Tạo khóa C:/Users/Nam Thien/.claude/integration.lock dạng JSON gồm PID, token và
    thời hạn 5 phút. Tạo bằng cờ độc quyền: nếu đã có khóa còn hạn và PID còn sống thì
    từ chối, không ghi đè. Khóa mồ côi (hết hạn hoặc PID đã chết) được dọn rồi tạo lại.
@@ -87,19 +88,38 @@ def release(token):
         LOCK.unlink(missing_ok=True)
 
 
+def branch_worktree(branch):
+    """Đường dẫn worktree đang giữ nhánh này, hoặc None (đọc từ git, không ghép đường dẫn)."""
+    found = None
+    for block in git("worktree", "list", "--porcelain").stdout.split("\n\n"):
+        lines = block.splitlines()
+        wt_line = next((l for l in lines if l.startswith("worktree ")), None)
+        if wt_line and f"branch refs/heads/{branch}" in lines:
+            found = Path(wt_line[len("worktree "):])
+    return found
+
+
 def main(argv):
-    if len(argv) != 2 or not re.fullmatch(r"[A-Za-z0-9._-]{2,60}", argv[1]):
+    if len(argv) != 2 or not re.fullmatch(r"(wt/)?[A-Za-z0-9._-]{2,60}", argv[1]):
         print(__doc__)
         return 1
-    name = argv[1]
-    branch = f"wt/{name}"
-    wt = WT_ROOT / name
+    # Nhận cả hai dạng: "wt/<tên>" (cũ) và "<tên>" như t53-cbeta-content-enhancement (mới).
+    branch = argv[1]
+    name = branch[3:] if branch.startswith("wt/") else branch
+    if not re.fullmatch(r"[A-Za-z0-9._-]{2,60}", name):
+        print(__doc__)
+        return 1
+    # Nhánh mới phải là t<số>-<mô tả> (chữ thường), ví dụ t53-cbeta-content-enhancement.
+    if not branch.startswith("wt/") and not re.fullmatch(r"t\d+-[a-z0-9][a-z0-9-]*", branch):
+        print(f"Tên nhánh {branch} không đúng dạng t<số>-<mô tả>.")
+        return 1
 
-    if git("rev-parse", "--verify", branch).returncode != 0:
+    if git("rev-parse", "--verify", f"refs/heads/{branch}").returncode != 0:
         print(f"Không có nhánh {branch}.")
         return 1
-    if not wt.exists():
-        print(f"Không có worktree {wt}.")
+    wt = branch_worktree(branch)
+    if wt is None or not wt.exists():
+        print(f"Không có worktree nào đang giữ nhánh {branch}.")
         return 1
     st = git("status", "--porcelain", cwd=wt).stdout.strip()
     if st:
@@ -123,4 +143,7 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    # Console Windows (cp1252) không in được tiếng Việt: thay ký tự lỗi thay vì dừng sau khi merge xong.
+    sys.stdout.reconfigure(errors="replace")
+    sys.stderr.reconfigure(errors="replace")
     sys.exit(main(sys.argv))
