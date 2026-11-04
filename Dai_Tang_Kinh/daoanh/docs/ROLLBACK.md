@@ -868,3 +868,60 @@ rỗng (4096 byte, 0 bảng). Cây chính có DB thật nên vẫn `4/4 PASS`.
   bằng runner tạm trỏ `DB_PATH` → `data/lineage.db` cây chính: B/C `PASS`.
 - `T50_DB_PATH` **không** được set ở đâu trong code base (đã grep) — chỉ dùng trong test.
 - Không đổi prompt, logic dịch, schema, hay giá trị Hán/Việt văn.
+
+## T50 — dò PID an toàn trên Windows (os.kill(pid, 0) báo nhầm job đã chết) (2026-11-04)
+
+**Bối cảnh:** lúc kiểm tra "còn lại" của T50 (restart `app.py` + E2E nút "Dịch"),
+API `GET /daoanh/api/admin/t50/job-status` trả `running=false`, `pid=22708`,
+`translated_total=1761` — nhưng `tasklist` cho thấy **PID 22708 vẫn sống** và
+`data/t50_job.log` vẫn ghi passage 2279 (rate_limit retry). Status file còn
+giữ `stopped_at` cũ từ 2026-11-03 ⇒ dashboard hiển thị "chưa chạy" trong khi
+job vẫn dịch, và bấm "Dịch" sẽ spawn job thứ hai (cùng DB + cùng quota Groq).
+
+**Nguyên nhân (đo được):** `_t50_pid_alive()` trong `app.py` dùng
+`os.kill(pid, 0)`. Trên Windows, CPython cài `os.kill` bằng
+`OpenProcess` + `TerminateProcess` (`Modules/posixmodule.c`, `os_kill_impl`) —
+mọi `sig` khác `CTRL_C_EVENT`/`CTRL_BREAK_EVENT` đều là **mã thoát** của
+`TerminateProcess`, nên `os.kill(pid, 0)` không phải phép dò tồn tại:
+
+```
+>>> os.kill(22708, 0)      # job T50 đang sống
+OSError: [WinError 87] The parameter is incorrect
+>>> os.kill(999999, 0)
+OSError: [WinError 87] The parameter is incorrect
+```
+
+⇒ hàm cũ trả `False` cho tiến trình đang sống (đúng ca 2026-11-04), khiến
+`/job-status` ghi `running=false`; nguy hiểm hơn, nếu `OpenProcess` thành công
+thì chính lệnh dò lại gọi `TerminateProcess(handle, 0)`.
+
+**Thay đổi (code thuần, không đụng DB/schema/logic dịch):**
+- Thêm `scripts/process_alive.py` — `pid_alive(pid)` dùng
+  `OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION)` + `GetExitCodeProcess`
+  (so với `STILL_ACTIVE=259`). Chỉ quyền ĐỌC, **không** có `PROCESS_TERMINATE`
+  ⇒ không thể giết nhầm. POSIX vẫn dùng `os.kill(pid, 0)`.
+- `app.py` (khối T50 job control): `from process_alive import pid_alive as
+  _t50_pid_alive` thay cho `os.kill(pid, 0)`.
+- `POST /api/admin/t50/run`: chặn theo **PID thật** thay vì chỉ cờ `running`
+  (status có thể sai) → không spawn job thứ hai khi job cũ còn sống.
+- `POST /api/admin/t50/enqueue`: xét PID thật; nếu job còn sống thì coi là
+  đang bận (đồng thời sửa `running=true` trong status).
+- `GET /api/admin/t50/job-status`: **adopt** job "mồ côi" (status ghi
+  `running=false` nhưng PID còn sống và PID ≠ `stopped_pid`) → `running=true`,
+  xoá `stopped_at` cũ.
+- `POST /api/admin/t50/stop`: ghi thêm `stopped_pid` để `/job-status` không
+  adopt lại job vừa bị dừng chủ động khi tiến trình chưa thoát hẳn.
+- `tests/test_t50_startup_windows.py`: thêm case E (pid rỗng/rác → False;
+  tiến trình sống → True; **gọi xong tiến trình vẫn sống**; đã thoát → False).
+
+| Đường tích hợp | Lệnh revert | Mất dữ liệu? |
+|---|---|---|
+| Commit trên nhánh `wt/t50-python314-windows-fix` (ghi SHA thật ngay sau khi commit; tích hợp qua `scripts/wt_integrate.py` như các lần trước) | `git revert --no-edit <sha>` (khôi phục 3 file: `app.py`, `tests/test_t50_startup_windows.py`, xoá `scripts/process_alive.py`) | Không — thuần code, không migration DB, không sửa dữ liệu |
+
+- Đo được: `tests/test_t50_startup_windows.py` → **5/5 PASS** (worktree, DB
+  rỗng → B/C dùng fixture); `process_alive.pid_alive(22708)` = **True** cho job
+  đang chạy thật, `pid_alive(999999)` = **False**, và gọi xong PID 22708 vẫn
+  sống.
+- **Cần restart `app.py`** để nạp helper mới (tiến trình đang chạy vẫn dùng code cũ).
+  Restart không ảnh hưởng job 22708 vì tiến trình cha cũ đã chết và job đã được
+  tách process-group (`CREATE_NEW_PROCESS_GROUP`).
