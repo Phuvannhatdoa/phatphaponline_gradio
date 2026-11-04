@@ -916,7 +916,7 @@ thì chính lệnh dò lại gọi `TerminateProcess(handle, 0)`.
 
 | Đường tích hợp | Lệnh revert | Mất dữ liệu? |
 |---|---|---|
-| Commit trên nhánh `wt/t50-python314-windows-fix` (ghi SHA thật ngay sau khi commit; tích hợp qua `scripts/wt_integrate.py` như các lần trước) | `git revert --no-edit <sha>` (khôi phục 3 file: `app.py`, `tests/test_t50_startup_windows.py`, xoá `scripts/process_alive.py`) | Không — thuần code, không migration DB, không sửa dữ liệu |
+| Commit trên nhánh `wt/t50-python314-windows-fix` `ddb1ce2d` (tích hợp qua `scripts/wt_integrate.py` như các lần trước) | `git revert --no-edit ddb1ce2d` (khôi phục 3 file: `app.py`, `tests/test_t50_startup_windows.py`, xoá `scripts/process_alive.py`) | Không — thuần code, không migration DB, không sửa dữ liệu |
 
 - Đo được: `tests/test_t50_startup_windows.py` → **5/5 PASS** (worktree, DB
   rỗng → B/C dùng fixture); `process_alive.pid_alive(22708)` = **True** cho job
@@ -925,3 +925,5 @@ thì chính lệnh dò lại gọi `TerminateProcess(handle, 0)`.
 - **Cần restart `app.py`** để nạp helper mới (tiến trình đang chạy vẫn dùng code cũ).
   Restart không ảnh hưởng job 22708 vì tiến trình cha cũ đã chết và job đã được
   tách process-group (`CREATE_NEW_PROCESS_GROUP`).
+
+**Commit:** `ddb1ce2d` (nhánh `wt/t50-python314-windows-fix`).

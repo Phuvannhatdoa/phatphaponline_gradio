@@ -56,7 +56,7 @@
 
 | Task | Lệnh | Mất dữ liệu? |
 |---|---|---|
-| T50 — dò PID an toàn (2026-11-04) | `git revert --no-edit <sha>` | Không — 3 file code, không migration DB |
+| T50 — dò PID an toàn (2026-11-04) | `git revert --no-edit ddb1ce2d` | Không — 3 file code, không migration DB |
 
 ## 6. File tạo/sửa trong phiên
 

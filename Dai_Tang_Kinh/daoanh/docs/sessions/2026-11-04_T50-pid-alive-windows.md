@@ -92,7 +92,7 @@ job.
 ## Rollback
 
 ```
-git revert --no-edit <sha>
+git revert --no-edit ddb1ce2d
 ```
 
 Mất dữ liệu: **không** — thuần code, 3 file, không migration.
