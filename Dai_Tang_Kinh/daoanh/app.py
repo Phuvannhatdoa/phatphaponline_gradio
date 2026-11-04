@@ -10669,14 +10669,8 @@ def cbeta_quality_report():
 
 @app.route('/daoanh/api/admin/t50-progress')
 def t50_translation_progress():
-    """GET /daoanh/api/admin/t50-progress — T50: tiến độ dịch passage theo từng bộ kinh."""
-    SIGLA_NAMES = {
-        'T51n2076': 'Chỉ Nguyệt Lục (指月錄)',
-        'T50n2061': 'Cảnh Đức Truyền Đăng Lục (景德傳燈錄)',
-        'T50n2060': 'Tổ Đường Tập (祖堂集)',
-        'X77n1524': 'Ngũ Đăng Hội Nguyên (五燈會元)',
-        'T50n2062': 'Thiên Thánh Quảng Đăng Lục (天聖廣燈錄)',
-    }
+    """GET /daoanh/api/admin/t50-progress — T50: tiến độ dịch passage theo từng bộ kinh.
+    Tên Hán/Việt lấy từ dila_catalog_works theo mã kinh (T51n2076 -> T2076). Chỉ đọc."""
     try:
         conn = get_db_connection()
 
@@ -10708,6 +10702,12 @@ def t50_translation_progress():
             ORDER BY total DESC
         """).fetchall()
 
+        # Tên kinh theo DILA: mã T51n2076 -> DILA cbeta_id T2076 (T + 4 chữ số, có số 0 đứng đầu).
+        dila_names = {
+            r['cbeta_id']: (r['title_zh'] or '', r['title_vi'] or '')
+            for r in conn.execute("SELECT cbeta_id, title_zh, title_vi FROM dila_catalog_works")
+        }
+
         sigla_list = []
         for r in rows:
             tid = r['text_id'] or 'unknown'
@@ -10716,9 +10716,19 @@ def t50_translation_progress():
             draft = r['draft_ai'] or 0
             remaining = total - translated
             pct = round(translated / total * 100, 1) if total else 0
+            m = re.match(r'^([A-Z])(\d+)n(\d+)', tid)
+            dila_id = ('%s%04d' % (m.group(1), int(m.group(3)))) if m else None
+            name_zh, name_vi = dila_names.get(dila_id, ('', ''))
+            if name_vi:
+                display = name_vi + (' (' + name_zh + ')' if name_zh else '')
+            else:
+                display = tid
             sigla_list.append({
                 'sigla': tid,
-                'name': SIGLA_NAMES.get(tid, tid),
+                'dila_id': dila_id,
+                'name': display,
+                'name_zh': name_zh,
+                'name_vi': name_vi,
                 'total': total,
                 'translated': translated,
                 'draft_ai': draft,
