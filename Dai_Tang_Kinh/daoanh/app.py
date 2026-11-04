@@ -10716,8 +10716,9 @@ def t50_translation_progress():
             draft = r['draft_ai'] or 0
             remaining = total - translated
             pct = round(translated / total * 100, 1) if total else 0
-            m = re.match(r'^([A-Z])(\d+)n(\d+)', tid)
-            dila_id = ('%s%04d' % (m.group(1), int(m.group(3)))) if m else None
+            # Hậu tố chữ (T02n0150A, T03n0181a) giữ nguyên như DILA lưu: T0150A, T0181a.
+            m = re.match(r'^([A-Z])(\d+)n(\d+)([A-Za-z]?)$', tid)
+            dila_id = ('%s%04d%s' % (m.group(1), int(m.group(3)), m.group(4))) if m else None
             name_zh, name_vi = dila_names.get(dila_id, ('', ''))
             if name_vi:
                 display = name_vi + (' (' + name_zh + ')' if name_zh else '')
