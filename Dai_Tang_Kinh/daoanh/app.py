@@ -1151,6 +1151,24 @@ def api_admin_missing_hanzi():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
+def _count_vi_xml(path):
+    """Đếm <nexus> có <text_vi> không rỗng trong một file vn_bio_nexus/<sách>.vi.xml.
+    Đọc theo luồng (iterparse) và giải phóng phần tử ngay, không nạp cả file vào RAM.
+    Lỗi đọc file trả None để endpoint rơi về đếm JSONL, không làm hỏng cả trang."""
+    import xml.etree.ElementTree as ET
+    count = 0
+    try:
+        for _, elem in ET.iterparse(path, events=('end',)):
+            if elem.tag == 'nexus':
+                vi = elem.find('text_vi')
+                if vi is not None and (vi.text or '').strip():
+                    count += 1
+                elem.clear()
+    except (OSError, ET.ParseError):
+        return None
+    return count
+
+
 @app.route('/daoanh/api/admin/nexus-translate-status')
 def api_admin_nexus_translate_status():
     """
@@ -1177,6 +1195,10 @@ def api_admin_nexus_translate_status():
             'data', 'dila_import', 'biographies.2024-01', 'vn_translate'
         )
         root_exists = os.path.isdir(vn_translate_root)
+        vn_xml_root = os.path.join(
+            os.path.dirname(__file__),
+            'data', 'dila_import', 'biographies.2024-01', 'vn_bio_nexus'
+        )
 
         books = []
         total_nexus = 0
@@ -1208,12 +1230,24 @@ def api_admin_nexus_translate_status():
                         continue
                 if n_batches == 0:
                     note = "Thư mục sách tồn tại nhưng chưa có batch_*.jsonl"
+            translated_jsonl = translated
+            xml_path = os.path.join(vn_xml_root, book + '.vi.xml')
+            translated_xml = _count_vi_xml(xml_path) if os.path.isfile(xml_path) else None
+            if translated_xml is not None:
+                # Bản dịch đầy đủ nằm trong vn_bio_nexus/<sách>.vi.xml: ưu tiên XML.
+                translated = translated_xml
+                source = 'xml'
+            else:
+                source = 'jsonl'
             total_translated += translated
             total_batches += n_batches
             books.append({
                 "book": book,
                 "total_nexus": total,
                 "translated": translated,
+                "translated_xml": translated_xml,
+                "translated_jsonl": translated_jsonl,
+                "source": source,
                 "batches": n_batches,
                 "pct": round(translated * 100.0 / total, 1) if total else 0.0,
                 "note": note
