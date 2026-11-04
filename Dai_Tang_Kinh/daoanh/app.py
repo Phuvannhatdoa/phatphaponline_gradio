@@ -10790,14 +10790,12 @@ _T50_STATUS_FILE = os.path.join(os.path.dirname(__file__), 'data', 't50_job_stat
 _T50_LOG_FILE    = os.path.join(os.path.dirname(__file__), 'data', 't50_job.log')
 _T50_SCRIPT      = os.path.join(os.path.dirname(__file__), 'scripts', 't50_passage_vi_backfill.py')
 
-def _t50_pid_alive(pid):
-    if not pid:
-        return False
-    try:
-        os.kill(int(pid), 0)
-        return True
-    except OSError:
-        return False
+from process_alive import pid_alive as _t50_pid_alive  # noqa: E402
+# Sửa 2026-11-04: bản cũ dùng os.kill(pid, 0). Trên Windows CPython cài
+# os.kill bằng OpenProcess + TerminateProcess, nên (a) có thể GIẾT tiến trình
+# đích và (b) đo thực tế trả WinError 87 với job T50 đang sống (PID 22708)
+# ⇒ dashboard ghi running=False, job vẫn chạy trong nền. Xem
+# scripts/process_alive.py để biết chi tiết phép đo và cách kiểm an toàn.
 
 def _t50_read_job():
     try:
@@ -10830,8 +10828,12 @@ def t50_run():
     sleep_s = float(body.get('sleep', 1.0))
 
     st = _t50_read_job()
-    if st.get('running') and _t50_pid_alive(st.get('pid')):
-        return jsonify({"ok": False, "error": f"Đang chạy sigla '{st['sigla']}' (PID {st['pid']}). Dừng trước khi chạy bộ khác."})
+    # Kiểm pid thật thay vì tin cờ 'running': status có thể bị ghi running=False
+    # trong khi tiến trình vẫn sống (xem scripts/process_alive.py) → nếu chỉ
+    # xét cờ, bấm "Dịch" sẽ spawn job thứ hai chạy song song trên cùng DB +
+    # cùng quota Groq.
+    if _t50_pid_alive(st.get('pid')):
+        return jsonify({"ok": False, "error": f"Đang chạy sigla '{st.get('sigla')}' (PID {st.get('pid')}). Dừng trước khi chạy bộ khác."})
 
     cmd = ['python', '-X', 'utf8', _T50_SCRIPT, '--sleep', str(sleep_s)]
     if sigla:
@@ -10859,7 +10861,10 @@ def t50_stop():
         os.kill(int(pid), _t50_sig.SIGTERM)
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)})
-    _t50_write_job({**st, "running": False, "stopped_at": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')})
+    # stopped_pid: /job-status dùng để không "nhận lại" (adopt) một job vừa bị
+    # dừng chủ động khi tiến trình chưa kịp thoát hẳn.
+    _t50_write_job({**st, "running": False, "stopped_pid": pid,
+                    "stopped_at": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')})
     return jsonify({"ok": True, "stopped_pid": pid})
 
 
@@ -10882,6 +10887,15 @@ def t50_job_status():
     """GET — trạng thái job hiện tại + tail log + số đã dịch + hàng đợi."""
     st = _t50_read_job()
     pid = st.get('pid')
+    # Nhận lại (adopt) job "mồ côi": status ghi running=False nhưng tiến trình
+    # vẫn sống. Ca thật 2026-11-04: app.py cũ dùng os.kill(pid, 0) để dò nên
+    # báo nhầm "đã chết" trên Windows (WinError 87) trong khi job PID 22708
+    # vẫn dịch — dashboard hiện "chưa chạy" và bấm "Dịch" sẽ spawn job thứ hai.
+    if (not st.get('running') and pid and _t50_pid_alive(pid)
+            and st.get('stopped_pid') != pid):
+        st['running'] = True
+        st.pop('stopped_at', None)
+        _t50_write_job(st)
     if st.get('running') and not _t50_pid_alive(pid):
         # Job vừa xong — tự động chạy bộ tiếp trong queue
         st['running'] = False
@@ -10925,8 +10939,11 @@ def t50_enqueue():
         return jsonify({"ok": False, "error": "Thiếu sigla"})
     st = _t50_read_job()
     queue = st.get('queue') or []
-    if st.get('running') and _t50_pid_alive(st.get('pid')):
+    # Xét pid thật (không chỉ cờ 'running') — xem scripts/process_alive.py.
+    if _t50_pid_alive(st.get('pid')):
         # Đang bận — thêm vào cuối queue
+        st['running'] = True
+        st.pop('stopped_at', None)
         if sigla in queue:
             return jsonify({"ok": False, "error": f"'{sigla}' đã có trong hàng đợi"})
         queue.append(sigla)

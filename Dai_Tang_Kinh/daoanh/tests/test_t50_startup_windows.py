@@ -10,6 +10,8 @@ Bối cảnh (Handoff-2026-11-03-T50-python314-windows.md):
     C. `--verify` khởi động và thoát sạch (đường DB thật hoặc không có DB).
     D. Helper tự-reconcile job-status chỉ đụng file khi PID khớp (race-safe),
        không tạo file mới nếu status file chưa tồn tại.
+    E. Helper dò PID (scripts/process_alive.py) đúng và KHÔNG giết tiến trình
+       (thay os.kill(pid, 0) — trên Windows đó là TerminateProcess).
 
 Cập nhật 2026-11-03 (test chịu được DB rỗng):
   Worktree mới checkout chỉ có `data/lineage.db` rỗng (0 bảng) vì `data/`
@@ -29,6 +31,7 @@ import sys
 import os
 import io
 import json
+import time
 import sqlite3
 import subprocess
 import tempfile
@@ -252,6 +255,45 @@ print('D_OK')
             f"test_D thất bại: rc={r.returncode}\nSTDOUT={r.stdout}\nSTDERR={r.stderr}")
 
 
+def test_E_pid_alive_is_safe_and_accurate():
+    """Helper dò tiến trình phải ĐÚNG và KHÔNG được giết tiến trình.
+
+    Bối cảnh (2026-11-04): app.py cũ dùng `os.kill(pid, 0)`. Trên Windows
+    CPython cài os.kill bằng OpenProcess + TerminateProcess ⇒ đó không phải
+    phép dò tồn tại; đo thật với job T50 đang sống trả WinError 87 khiến
+    dashboard ghi running=False. Test này khoá lại hành vi đúng của
+    scripts/process_alive.py:
+      E1. pid rỗng/không hợp lệ → False (không ném exception).
+      E2. pid của tiến trình con đang sống → True.
+      E3. gọi xong tiến trình đó VẪN sống (không bị TerminateProcess).
+      E4. sau khi tiến trình thoát → False.
+    """
+    from process_alive import pid_alive
+
+    # E1 — giá trị rác không được làm nổ caller
+    for bad in (None, '', 0, -1, 'abc', '  '):
+        assert pid_alive(bad) is False, f"E1 FAIL: pid_alive({bad!r}) phải là False"
+
+    # E2/E3 — tiến trình sống: True và không bị giết
+    child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])
+    try:
+        time.sleep(1.0)
+        assert pid_alive(child.pid) is True, (
+            f"E2 FAIL: pid_alive({child.pid}) phải là True (tiến trình đang sống)")
+        time.sleep(0.5)
+        assert child.poll() is None, (
+            'E3 FAIL: pid_alive đã kết thúc tiến trình đích — '
+            'tuyệt đối không dùng os.kill trên Windows')
+    finally:
+        if child.poll() is None:
+            child.kill()
+        child.wait(timeout=10)
+
+    # E4 — đã thoát: False (không ném exception)
+    assert pid_alive(child.pid) is False, (
+        f"E4 FAIL: pid_alive({child.pid}) phải là False sau khi tiến trình thoát")
+
+
 if __name__ == '__main__':
     print(f"[env] data/lineage.db có schema sẵn sàng: {_real_db_ready()} "
           f"({DB_PATH}) → B/C sẽ dùng "
@@ -261,6 +303,7 @@ if __name__ == '__main__':
         test_B_backfill_dry_run_exits_clean,
         test_C_backfill_verify_exits_clean,
         test_D_self_reconcile_status_is_race_safe,
+        test_E_pid_alive_is_safe_and_accurate,
     ]
     passed = failed = 0
     for t in tests:
