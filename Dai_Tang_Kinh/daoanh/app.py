@@ -1237,6 +1237,8 @@ def api_admin_nexus_translate_status():
                 # Bản dịch đầy đủ nằm trong vn_bio_nexus/<sách>.vi.xml: ưu tiên XML.
                 translated = translated_xml
                 source = 'xml'
+                # Ghi chú JSONL không còn đúng khi đã đếm từ XML: thay bằng nguồn thật.
+                note = "Nguồn: vn_bio_nexus/" + book + ".vi.xml"
             else:
                 source = 'jsonl'
             total_translated += translated
