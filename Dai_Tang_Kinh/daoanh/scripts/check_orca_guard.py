@@ -46,7 +46,7 @@ APPROVALS_DIRNAME = "approvals"
 
 # task_id hợp lệ chỉ gồm chữ "T" + số (ví dụ T53, T404). Chặn mọi ký tự khác
 # (path traversal như "../x", khoảng trắng, dấu "/", v.v.) trước khi ghép path.
-TASK_ID_RE = re.compile(r"^T\d+$")
+TASK_ID_RE = re.compile(r"T\d+\Z")  # \Z: không chấp nhận ký tự xuống dòng cuối như $
 
 
 def _repo_root(start: Path | None = None) -> Path:

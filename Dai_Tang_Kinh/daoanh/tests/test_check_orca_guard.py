@@ -84,6 +84,14 @@ class TestApprovalGuard(unittest.TestCase):
         tmpdir = Path(tempfile.mkdtemp(prefix="orca_guard_traversal_"))
         self.assertFalse(guard.check_approval("../x", repo_root=tmpdir))
 
+    def test_task_id_with_trailing_newline_is_rejected(self):
+        # $ trong regex cũ chấp nhận "T53\n"; phải bị từ chối như mọi ký tự thừa khác.
+        tmpdir = Path(tempfile.mkdtemp(prefix="orca_guard_newline_"))
+        approvals_dir = tmpdir / "approvals"
+        approvals_dir.mkdir(parents=True, exist_ok=True)
+        (approvals_dir / "T53.approved").write_text("hash: deadbeef\n", encoding="utf-8")
+        self.assertFalse(guard.check_approval("T53\n", repo_root=tmpdir))
+
 
 class TestCLI(unittest.TestCase):
     def test_check_approval_cli_exit_code_fail(self):
