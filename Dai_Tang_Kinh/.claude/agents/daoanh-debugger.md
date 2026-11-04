@@ -133,6 +133,16 @@ Chỉ trả về 6 mục:
 
 ---
 
+## BÁO KHI XONG
+
+Khi sửa xong và đã trả build summary, gọi để Admin biết (không chờ):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File daoanh/scripts/notify_done.ps1 -Title "<Task id> Code xong" -Message "<tóm tắt 1 dòng>"
+```
+
+Chỉ gọi khi code đã sửa xong, không gọi khi còn lỗi hoặc còn chờ Admin quyết.
+
 ## RÀNG BUỘC BẮT BUỘC
 
 - **KHÔNG** sửa raw source (DILA TTL, Marcus RDF, CBETA XML) để vá UI.

@@ -57,6 +57,15 @@ Coordinator dispatch:
 - 🧪 Test script generation
 - ⚡ Quick prototyping (code may be rough)
 
+## Báo khi xong
+Khi code đã viết xong và đã trả kết quả, chạy để Admin biết (không chờ):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File daoanh/scripts/notify_done.ps1 -Title "<Task id> Code xong" -Message "<tóm tắt 1 dòng>"
+```
+
+Chỉ chạy khi code đã xong. Không chạy khi còn lỗi hoặc còn chờ Admin quyết.
+
 ## Limitations
 - Generated code may have bugs (needs daoanh-debugger test)
 - No integration testing (only write code)

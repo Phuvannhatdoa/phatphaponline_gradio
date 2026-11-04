@@ -53,6 +53,15 @@ Report: Architecture review — openrouter perspective on Harness scalability
 - 📝 Final reports to Admin (neutral tone)
 - 🧪 Independent QA for high-stakes fixes (T380, data loss issues)
 
+## Báo khi xong
+Chỉ khi kết luận kiểm chứng là **ĐẠT**, chạy để Admin biết (không chờ):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File daoanh/scripts/notify_done.ps1 -Title "<Task id> QA đạt" -Message "Chờ Admin xác nhận DONE"
+```
+
+Khi CHƯA ĐẠT hoặc KHÔNG KIỂM ĐƯỢC thì không chạy. Lỗi đã nằm trong báo cáo.
+
 ## Limitations
 - OpenRouter latency may be higher than Claude direct
 - Free tier rate limits (check usage)

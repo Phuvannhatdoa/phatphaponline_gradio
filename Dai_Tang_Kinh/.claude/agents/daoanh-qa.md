@@ -54,6 +54,16 @@ Trả lời bằng tiếng Việt, theo đúng cấu trúc sau:
 **Chưa kiểm tra:** (nêu rõ để admin biết phần nào còn rủi ro)
 ```
 
+## Báo khi xong
+
+Chỉ khi kết luận là **ĐẠT**, gọi để Admin biết (không chờ):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File daoanh/scripts/notify_done.ps1 -Title "<Task id> QA đạt" -Message "Chờ Admin xác nhận DONE"
+```
+
+Khi CHƯA ĐẠT hoặc KHÔNG KIỂM ĐƯỢC thì không gọi. Lỗi đã nằm trong báo cáo.
+
 ## Nguyên tắc
 
 - Mỗi kết luận ĐẠT phải có bằng chứng từ lệnh đã chạy. Nếu không chạy được, ghi KHÔNG KIỂM ĐƯỢC, không ghi ĐẠT.

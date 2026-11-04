@@ -36,6 +36,7 @@ Mỗi việc được thực hiện theo **một trong hai quy trình**. Trướ
 Quy tắc chung cho cả hai:
 - Agent sửa chỉ làm trong worktree riêng `wt/<tên-việc>`, không sửa cây chính.
 - Agent kiểm chứng chỉ đọc, không sửa file và không ghi DB.
+- Báo âm thanh cho Admin: bên sửa gọi `daoanh/scripts/notify_done.ps1` khi code xong; bên kiểm chứng gọi khi kết luận ĐẠT. Không gọi khi CHƯA ĐẠT hoặc còn chờ Admin quyết (xem AGENTS.md §20).
 - Chỗ nào trong tài liệu này ghi `daoanh-debugger` hoặc `daoanh-qa` thì áp dụng cho Quy trình 1. Quy trình 2 thay hai agent đó bằng `opencode` và `openrouter`.
 
 ## 2. Các giai đoạn
