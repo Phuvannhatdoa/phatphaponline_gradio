@@ -17502,6 +17502,11 @@ def api_admin_catalog_works_list():
 
             rows = [r for r in rows if _match(r)]
 
+        # Mặc định ẩn dòng đã Pass (vi_status='approved') để không tốn chỗ; hide_pass=0 để xem lại.
+        hide_pass = (request.args.get('hide_pass', '1') or '1') != '0'
+        if hide_pass and has_approval:
+            rows = [r for r in rows if r['vi_status'] != 'approved']
+
         total = len(rows)
         offset = (page - 1) * size
         page_rows = rows[offset:offset + size]
