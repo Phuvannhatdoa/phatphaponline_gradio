@@ -168,6 +168,15 @@
             .cards{grid-template-columns:repeat(2,1fr)}
             .cat-tbl td:nth-child(3),.cat-tbl th:nth-child(3){display:none}
         }
+        /* Tab Dịch Nexus (T458, chỉ đọc) — gộp từ translation_progress.html */
+        .nx-note{background:#451a03;border:1px solid #78350f;color:#fbbf24;border-radius:8px;padding:10px 16px;margin-bottom:14px;font-size:13px}
+        .nx-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
+        .nx-tile{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+        .nx-tile b{display:block;font-size:20px;color:var(--primary);font-variant-numeric:tabular-nums}
+        .nx-tile span{font-size:11px;color:var(--muted)}
+        .nx-tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px}
+        .nx-note-cell{font-size:11px;color:var(--muted);max-width:340px;white-space:pre-wrap}
+        .nx-err{color:#f87171;font-size:12px;margin:8px 0}
     </style>
 </head>
 <body>
@@ -191,6 +200,10 @@
     <button class="tab-btn" onclick="switchTab('catalog',this)">
         <i class="fa-solid fa-books"></i> Đại Tạng Kinh
         <span class="cnt" id="tab-cnt-catalog">3,122</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('nexus',this)">
+        <i class="fa-solid fa-diagram-project"></i> Dịch Nexus
+        <span class="cnt" id="tab-cnt-nexus">T458</span>
     </button>
 </div>
 
@@ -226,6 +239,43 @@
 
 </div>
 </div>
+
+<!-- ══ TAB 3: Dịch Nexus (T458, chỉ đọc) ══ -->
+<div id="tab-nexus" class="tab-pane">
+<div class="page">
+
+  <div class="nx-note">
+    <i class="fa-solid fa-circle-info"></i>
+    Chờ Admin duyệt pilot + schema (T458). Tab này chỉ hiển thị trạng thái
+    staging JSONL, không có nút chạy dịch / nạp DB, không gọi Gemini/Codex.
+  </div>
+
+  <div class="nx-tiles">
+    <div class="nx-tile"><b id="nx-total">—</b><span>Tổng nexus</span></div>
+    <div class="nx-tile"><b id="nx-translated">—</b><span>Đã dịch (staging)</span></div>
+    <div class="nx-tile"><b id="nx-batches">—</b><span>Số batch</span></div>
+  </div>
+
+  <div class="nx-tbl-wrap">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Sách (book)</th>
+          <th style="width:120px">Tổng nexus</th>
+          <th style="width:120px">Đã dịch</th>
+          <th style="width:90px">Batch</th>
+          <th style="width:90px">%</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody id="nx-tbody">
+        <tr><td colspan="6" style="text-align:center;padding:18px;color:var(--muted)">Đang tải…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div><!-- /tab-nexus -->
 
 <!-- ══ TAB 2: Đại Tạng Kinh Catalog ══ -->
 <div id="tab-catalog" class="tab-pane">
@@ -352,6 +402,7 @@ function switchTab(id, btn) {
     document.getElementById('tab-' + id).classList.add('active');
     btn.classList.add('active');
     if (id === 'catalog' && !_catLoaded) catLoad();
+    if (id === 'nexus' && !_nxLoaded) nxLoad();
 }
 
 /* ══════════════════════════════════════════
@@ -798,6 +849,37 @@ async function loadPassages(off) {
 /* ─── Helpers ─── */
 function fmt(n) { return (n||0).toLocaleString('vi-VN'); }
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ─── Tab Dịch Nexus (T458, chỉ đọc) ─── */
+let _nxLoaded = false;
+function nxToken() { try { return localStorage.getItem('admin_session') || ''; } catch (e) { return ''; } }
+
+async function nxLoad() {
+    _nxLoaded = true;
+    const tbody = document.getElementById('nx-tbody');
+    try {
+        const r = await fetch('/daoanh/api/admin/nexus-translate-status', { headers: { 'X-Session-Token': nxToken() } });
+        const d = await r.json();
+        if (!d.ok) throw new Error(d.error || 'lỗi không rõ');
+
+        document.getElementById('nx-total').textContent = fmt(d.total_nexus);
+        document.getElementById('nx-translated').textContent = fmt(d.total_translated);
+        document.getElementById('nx-batches').textContent = fmt(d.total_batches);
+
+        tbody.innerHTML = (d.books || []).map(b => (
+            '<tr>' +
+                '<td>' + esc(b.book) + '</td>' +
+                '<td>' + fmt(b.total_nexus) + '</td>' +
+                '<td>' + fmt(b.translated) + '</td>' +
+                '<td>' + fmt(b.batches) + '</td>' +
+                '<td>' + b.pct + '%</td>' +
+                '<td class="nx-note-cell">' + esc(b.note || '') + '</td>' +
+            '</tr>'
+        )).join('') || '<tr><td colspan="6" style="text-align:center;padding:18px;color:var(--muted)">Chưa có dữ liệu sách nào</td></tr>';
+    } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="6" class="nx-err" style="text-align:center;padding:18px">Lỗi tải trạng thái Dịch Nexus: ' + esc(e.message) + '</td></tr>';
+    }
+}
 
 /* ─── Init ─── */
 refreshData();
