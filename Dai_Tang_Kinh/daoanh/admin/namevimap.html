@@ -2880,6 +2880,7 @@
         if (_catalogQ) params.set('q', _catalogQ);
         try {
             const r = await fetch(API + '/daoanh/api/admin/catalog-works?' + params, {
+                headers: {'X-Session-Token': getToken()},
                 signal: _catalogAbortCtrl ? _catalogAbortCtrl.signal : undefined
             });
             const d = await r.json();

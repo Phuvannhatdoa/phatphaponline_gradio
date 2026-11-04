@@ -17408,6 +17408,224 @@ def api_admin_work_verify_pass(person_id):
         return jsonify({'ok': False, 'error': str(e)}), 500
 
 
+# ── T519: Catalog tác phẩm — đối chiếu/duyệt tên Việt dila_catalog_works ──────
+# frontend admin/namevimap.html tab "📚 Catalog" (catalogLoad/catalogGeminiCall/
+# catalogPassWork, dòng ~2869-3002) gọi 3 route dưới đây → 404 HTML → lỗi
+# "Unexpected token '<'" (cùng dạng bug với T486 work-verify phía trên).
+# Cột read: title_zh/title_vi/vi_source/vi_status (có sẵn). Cột ghi khi Pass:
+# vi_approved_by/vi_approved_at (migration additive — xem
+# scripts/t519_catalog_works_approval_columns.py).
+def _catalog_works_has_approval_cols(conn):
+    try:
+        cols = {r[1] for r in conn.execute('PRAGMA table_info(dila_catalog_works)')}
+    except sqlite3.OperationalError:
+        return False
+    return 'vi_approved_by' in cols and 'vi_approved_at' in cols
+
+
+def _catalog_hvdic_fields(title_zh):
+    """hvdic = phiên âm Hán-Việt charwise cơ giới (tái dùng
+    _hanviet_charwise_translit, KHÔNG phải tên nguồn DILA/ZQLOCAL đã xác thực —
+    chỉ để Admin đối chiếu với phien_am_claude). lexicon_hits = 'số chữ tra được/
+    tổng số chữ Hán' trong title_zh."""
+    charwise, unknown = _hanviet_charwise_translit(title_zh or '')
+    total_han = sum(1 for c in (title_zh or '') if '一' <= c <= '鿿')
+    hits = total_han - len(unknown)
+    lexicon_hits = f'{hits}/{total_han}' if total_han else None
+    return (charwise or None), lexicon_hits
+
+
+@app.route('/daoanh/api/admin/catalog-works', methods=['GET'])
+def api_admin_catalog_works_list():
+    """T519: danh sách tác phẩm CBETA cần đối chiếu/duyệt tên Việt.
+    Query: page (mặc định 1), size (mặc định 50, tối đa 200), q (tìm theo
+    cbeta_id / title_zh / title_vi, không phân biệt hoa/dấu cho title_vi).
+    gemini_free và muc_luc_nmt KHÔNG có nguồn dữ liệu lưu sẵn trong schema hiện
+    tại → luôn trả None/[] (không bịa), frontend tự hiện nút 'Dịch Gemini'."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
+    try:
+        q = (request.args.get('q') or '').strip()
+        try:
+            page = max(1, int(request.args.get('page', 1)))
+        except Exception:
+            page = 1
+        try:
+            size = max(1, min(200, int(request.args.get('size', 50))))
+        except Exception:
+            size = 50
+
+        conn = get_db_connection()
+        try:
+            has_approval = _catalog_works_has_approval_cols(conn)
+            cols_sql = ("cbeta_id, title_zh, title_vi, vi_source, vi_status"
+                        + (", vi_approved_by, vi_approved_at" if has_approval else ""))
+            rows = conn.execute(
+                f"SELECT {cols_sql} FROM dila_catalog_works ORDER BY cbeta_id"
+            ).fetchall()
+        except sqlite3.OperationalError as e:
+            return jsonify({'ok': False, 'error': f"Bảng dila_catalog_works chưa có hoặc lỗi schema: {e}"}), 200
+        finally:
+            conn.close()
+
+        if q:
+            nq = normalize_text(q)
+            qu = q.upper()
+
+            def _match(r):
+                if qu and qu in (r['cbeta_id'] or '').upper():
+                    return True
+                if q in (r['title_zh'] or ''):
+                    return True
+                if nq and nq in normalize_text(r['title_vi'] or ''):
+                    return True
+                return False
+
+            rows = [r for r in rows if _match(r)]
+
+        total = len(rows)
+        offset = (page - 1) * size
+        page_rows = rows[offset:offset + size]
+
+        items = []
+        for r in page_rows:
+            hvdic, lexicon_hits = _catalog_hvdic_fields(r['title_zh'])
+            approved = has_approval and r['vi_status'] == 'approved'
+            admin_pass = None
+            if approved:
+                admin_pass = {
+                    'name_vi': r['title_vi'],
+                    'editor': r['vi_approved_by'],
+                    'at': r['vi_approved_at'],
+                }
+            items.append({
+                'cbeta_id': r['cbeta_id'],
+                'title_zh': r['title_zh'],
+                'hvdic': hvdic,
+                'gemini_free': None,  # chưa ghi DB ở GET — chỉ có khi admin bấm 'Dịch Gemini'
+                'phien_am_claude': r['title_vi'],
+                'lexicon_hits': lexicon_hits,
+                'muc_luc_nmt': [],  # chưa có nguồn dữ liệu — không bịa
+                'admin_pass': admin_pass,
+            })
+
+        return jsonify({
+            'ok': True,
+            'items': items,
+            'total': total,
+            'page': page,
+            'size': size,
+            'pages': max(1, (total + size - 1) // size),
+        })
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+@app.route('/daoanh/api/admin/catalog-works/<cbeta_id>/gemini', methods=['POST'])
+def api_admin_catalog_works_gemini(cbeta_id):
+    """T519: gọi Gemini đề xuất tên Việt (phiên âm Hán-Việt) cho 1 tác phẩm.
+    KHÔNG ghi DB — chỉ trả đề xuất để Admin xem/sửa trước khi bấm Pass.
+    Dùng GEMINI_API_KEY có sẵn trong app.py (.env) — không hardcode key mới,
+    cùng URL/model 'gemini-3.6-flash' đang dùng ở nơi khác trong file này."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
+    try:
+        conn = get_db_connection()
+        try:
+            row = conn.execute(
+                "SELECT cbeta_id, title_zh FROM dila_catalog_works WHERE cbeta_id = ?", (cbeta_id,)
+            ).fetchone()
+        except sqlite3.OperationalError as e:
+            return jsonify({'ok': False, 'error': f"Bảng dila_catalog_works chưa có hoặc lỗi schema: {e}"}), 200
+        finally:
+            conn.close()
+        if not row:
+            return jsonify({'ok': False, 'error': f'Không có tác phẩm {cbeta_id}'}), 404
+        title_zh = (row['title_zh'] or '').strip()
+        if not title_zh:
+            return jsonify({'ok': False, 'error': 'title_zh rỗng — không có gì để dịch'}), 400
+        if not GEMINI_API_KEY:
+            return jsonify({'ok': False, 'error': 'Thiếu GEMINI_API_KEY trong .env'}), 503
+
+        prompt = (
+            "Phiên âm Hán-Việt tên tác phẩm Phật giáo sau đây (chỉ phiên âm từng "
+            "chữ Hán sang âm Hán-Việt, viết hoa đầu mỗi âm, KHÔNG dịch nghĩa, KHÔNG "
+            "thêm chú giải). Chỉ trả về đúng 1 dòng là tên phiên âm, không kèm gì khác.\n"
+            f"Tên Hán: {title_zh}"
+        )
+        try:
+            g_url = ("https://generativelanguage.googleapis.com/v1beta/models/"
+                     "gemini-3.6-flash:generateContent?key=" + GEMINI_API_KEY)
+            g_resp = requests.post(g_url, json={
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {"maxOutputTokens": 256, "temperature": 0.1},
+            }, timeout=30)
+            g_data = g_resp.json()
+            gemini_vi = None
+            if g_data.get('candidates'):
+                gemini_vi = g_data['candidates'][0]['content']['parts'][0]['text'].strip()
+        except Exception as e:
+            return jsonify({'ok': False, 'error': f'Lỗi gọi Gemini: {e}'}), 503
+        if not gemini_vi:
+            return jsonify({'ok': False, 'error': 'Gemini không trả kết quả',
+                            'raw': g_data if 'g_data' in dir() else None}), 503
+        return jsonify({'ok': True, 'cbeta_id': cbeta_id, 'gemini_vi': gemini_vi})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+@app.route('/daoanh/api/admin/catalog-works/<cbeta_id>/pass', methods=['POST'])
+def api_admin_catalog_works_pass(cbeta_id):
+    """T519: Admin duyệt (Pass) tên Việt cuối cùng cho 1 tác phẩm. Body:
+    {name_vi: str, editor?: str}. Ghi vào dila_catalog_works.title_vi +
+    vi_source='admin_pass' + vi_status='approved' + vi_approved_by/at.
+    Cần migration additive scripts/t519_catalog_works_approval_columns.py đã
+    chạy trước (ALTER thêm vi_approved_by/vi_approved_at); nếu chưa chạy, trả
+    lỗi rõ ràng thay vì ghi dở."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
+    try:
+        data = request.get_json(silent=True) or {}
+        name_vi = (data.get('name_vi') or '').strip()
+        if not name_vi:
+            return jsonify({'ok': False, 'error': 'name_vi không được rỗng'}), 400
+        editor = (data.get('editor') or '').strip() or 'admin'
+
+        conn = get_db_connection()
+        try:
+            if not _catalog_works_has_approval_cols(conn):
+                return jsonify({
+                    'ok': False,
+                    'error': ("Thiếu cột vi_approved_by/vi_approved_at trên dila_catalog_works — "
+                              "chạy `python scripts/t519_catalog_works_approval_columns.py` trước khi Pass."),
+                }), 200
+            row = conn.execute(
+                "SELECT cbeta_id FROM dila_catalog_works WHERE cbeta_id = ?", (cbeta_id,)
+            ).fetchone()
+            if not row:
+                return jsonify({'ok': False, 'error': f'Không có tác phẩm {cbeta_id}'}), 404
+            now = datetime.now().isoformat()
+            conn.execute(
+                "UPDATE dila_catalog_works "
+                "SET title_vi = ?, vi_source = 'admin_pass', vi_status = 'approved', "
+                "    vi_approved_by = ?, vi_approved_at = ? "
+                "WHERE cbeta_id = ?",
+                (name_vi, editor, now, cbeta_id)
+            )
+            conn.commit()
+        except sqlite3.OperationalError as e:
+            return jsonify({'ok': False, 'error': f"Lỗi ghi DB: {e}"}), 200
+        finally:
+            conn.close()
+        return jsonify({'ok': True, 'cbeta_id': cbeta_id, 'name_vi': name_vi,
+                        'editor': editor, 'at': now})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
 # ===== VISITOR COUNTER =====
 @app.route('/daoanh/api/public/counter')
 def visitor_counter():

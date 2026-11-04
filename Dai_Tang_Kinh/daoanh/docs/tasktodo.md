@@ -1,5 +1,9 @@
 # TASKTODO — Active Tasks
 
+<!-- T519:START -->
+> **[2026-11-04 · T519 — 3 route backend thiếu cho tab Catalog namevimap.html] ⏳ PENDING (worktree `wt/catalog-works-api`, chưa tích hợp, chưa Admin duyệt).** `app.py` thiếu `GET/POST /daoanh/api/admin/catalog-works*` → frontend 404 HTML → "Unexpected token '<'". Đã thêm 3 route (GET list phân trang+q, POST gemini không ghi DB, POST pass ghi `dila_catalog_works.title_vi/vi_source/vi_status` + 2 cột mới additive `vi_approved_by/vi_approved_at`). Migration: `scripts/t519_catalog_works_approval_columns.py` (dry-run + revert). Test bằng DB fixture trong worktree (DB thật 1.8GB không có trong worktree, gitignore) — **chưa test với DB thật**. Task: `tasks/T519-catalog-works-api.md`. Lưu ý cấp ID: nhánh/worktree orca `t518-t50-hau-to` đã chiếm T518 trước khi task file hoặc tasktodo/Mimo-Flash có dòng nào nhắc tới — không bị `npm run dup:ids` hay grep tier-2 phát hiện vì chỉ là tên worktree, không phải file/prose. Đã đổi sang T519 để tránh trùng.
+<!-- T519:END -->
+
 <!-- T458:START -->
 > **[2026-11-02 · T458 — Dịch tiếng Việt nexus tiểu sử DILA bằng gpt-6-luna] 🔄 IN_PROGRESS (chuẩn bị).** Admin phê chuẩn kế hoạch: dịch 21.740 nexus của T457 theo batch, áp dụng 139 quy tắc dịch active, dừng khi hết quota và tiếp tục hôm sau. Model: gpt-6-luna (chưa xác nhận có sẵn qua Codex). Chưa ghi DB, chưa chạy pilot; nạp DB và pilot chờ Admin duyệt. Task: `tasks/T458-dila-bio-nexus-vi-translation.md`. Bàn giao: `docs/Handoff-2026-11-02-t458.md`.
 <!-- T458:END -->
