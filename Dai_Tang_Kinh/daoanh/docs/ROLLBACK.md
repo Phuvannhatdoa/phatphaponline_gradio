@@ -926,4 +926,25 @@ thì chính lệnh dò lại gọi `TerminateProcess(handle, 0)`.
   Restart không ảnh hưởng job 22708 vì tiến trình cha cũ đã chết và job đã được
   tách process-group (`CREATE_NEW_PROCESS_GROUP`).
 
-**Commit:** `ddb1ce2d` (nhánh `wt/t50-python314-windows-fix`).
+**Commit:** `ddb1ce2d` (nhánh `wt/t50-python314-windows-fix`), merge vào
+`truyen-dang-the-pho-clean` bằng **`254fb1d7`** (7 file, qua `scripts/wt_integrate.py`).
+
+**Xác minh live 2026-11-05 (sau restart `app.py` PID 16160):**
+
+- Job 22708 đã bị `/stop` chủ đích từ `2026-11-04 17:10:48` ⇒ `running=false` lúc này
+  là **đúng**; không còn đo được nhánh adopt bằng job thật.
+- Test tự động cây chính (DB thật): `tests/test_t50_startup_windows.py` **5/5 PASS**.
+- E2E live có kiểm soát bằng `scripts/t50_live_e2e_check.py` (PID giả + status giả,
+  luôn restore): `/job-status` **adopt** (`running=true`, `pid` giả) ✔; `POST /run`
+  bị chặn đúng thông điệp `Đang chạy sigla '...' (PID ...). Dừng trước khi chạy bộ khác.`,
+  **không spawn** ✔; status giữ nguyên PID giả ✔; restore về `running=false, pid=22708` ✔.
+- **Sự cố đã xử lý:** lần chạy thử đầu (PowerShell `Start-Process` quoting sai) làm
+  tiến trình giả chết ngay ⇒ guard không kích hoạt ⇒ `/run` spawn job thật PID 12680.
+  Đã `Stop-Process -Id 12680` sau ~10s; DB `vi_text` **không đổi** (1766);
+  `data/t50_job.log` bị truncate 0 byte (mất tail rate-limit cũ — số liệu còn trong
+  session 2026-11-04/2026-11-05). Script hiện có guard: không gọi `/run` nếu
+  tiến trình giả không sống hoặc adopt không xác nhận.
+- Session: `docs/sessions/2026-11-05_T50-live-e2e-verify.md`.
+
+**Revert toàn bộ cụm T50 dò PID:** `git revert --no-edit 254fb1d7` (merge) — hoặc
+revert riêng `ddb1ce2d`. Không có migration/DB change.

@@ -111,6 +111,11 @@ Get-Process -Id 22708 -ErrorAction SilentlyContinue | Select-Object Id,CPU
 
 ## 10. Ghi chú cho agent kế tiếp
 
+> **Cập nhật 2026-11-05:** `app.py` đã restart (PID 16160) và nhánh adopt/guard đã được
+> kiểm live bằng `scripts/t50_live_e2e_check.py` (**PASS**). Job 22708 đã bị `/stop`
+> chủ đích từ `2026-11-04 17:10`, nên "phải thấy `running=true, pid=22708`" ở mục 2/8
+> **không còn áp dụng**. Chi tiết + sự cố log: `docs/sessions/2026-11-05_T50-live-e2e-verify.md`.
+
 - Đọc mục 4 trước khi làm bất cứ điều gì với T50.
 - Nếu `job-status` vẫn trả `running=false` sau restart: kiểm `python -c "... pid_alive(22708)"`.
   Nếu helper trả `True` mà API vẫn `false` ⇒ app chưa nạp code mới (restart lại).
