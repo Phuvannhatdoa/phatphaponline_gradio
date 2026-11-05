@@ -17340,6 +17340,15 @@ def api_admin_work_verify_list():
         rows, warning = _wv_get_rows(conn)
         conn.close()
 
+        # BUG verify 2026-11-05: 'passed' đã được tính ở _wv_build_rows() (dòng
+        # ~17295) nhưng chưa bao giờ được dùng để lọc — dòng đã Pass vẫn nằm
+        # trong `rows` nên tải lại (F5) vẫn hiện lại (chỉ đổi UI thành "✓ tên"
+        # thay vì nút Pass, không biến mất như T503 yêu cầu). Mặc định ẩn —
+        # cùng pattern hide_pass đã dùng ở tab Catalog (T520, dòng ~17505-17508).
+        hide_pass = (request.args.get('hide_pass', '1') or '1') != '0'
+        if hide_pass:
+            rows = [r for r in rows if not r['passed']]
+
         if group in ('A', 'B', 'C'):
             rows = [r for r in rows if r['group'] == group]
 
