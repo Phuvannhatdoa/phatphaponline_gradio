@@ -17408,26 +17408,45 @@ def api_admin_work_verify_pass(person_id):
             return jsonify({'ok': False, 'error': f'Không có người {person_id} trong bảng people'}), 404
 
         now = datetime.now().isoformat()
+        name_zh = person['name_zh'] or ''
         existing = conn.execute(
             "SELECT id FROM name_vi_map WHERE dila_id = ?", (person_id,)
         ).fetchone()
-        if existing:
-            conn.execute("""
-                UPDATE name_vi_map
-                SET name_vi_final = ?, name_vi = ?,
-                    approved_by = 'work_verify_pass', approved_at = ?
-                WHERE dila_id = ?
-            """, (name_vi, name_vi, now, person_id))
-        else:
-            conn.execute("""
-                INSERT INTO name_vi_map
-                    (dila_id, name_vi, name_vi_final, name_zh,
-                     approved_by, approved_at, confidence, created_at)
-                VALUES (?, ?, ?, ?, 'work_verify_pass', ?, 1.0, ?)
-            """, (person_id, name_vi, name_vi, person['name_zh'] or '', now, now))
+        try:
+            if existing:
+                conn.execute("""
+                    UPDATE name_vi_map
+                    SET name_vi_final = ?, name_vi = ?,
+                        approved_by = 'work_verify_pass', approved_at = ?
+                    WHERE dila_id = ?
+                """, (name_vi, name_vi, now, person_id))
+            else:
+                conn.execute("""
+                    INSERT INTO name_vi_map
+                        (dila_id, name_vi, name_vi_final, name_zh,
+                         approved_by, approved_at, confidence, created_at)
+                    VALUES (?, ?, ?, ?, 'work_verify_pass', ?, 1.0, ?)
+                """, (person_id, name_vi, name_vi, name_zh, now, now))
 
-        conn.execute("UPDATE people SET name_vi = ? WHERE id = ?", (name_vi, person_id))
-        conn.commit()
+            conn.execute("UPDATE people SET name_vi = ? WHERE id = ?", (name_vi, person_id))
+            conn.commit()
+        except sqlite3.IntegrityError:
+            # T486 BUG: UNIQUE(name_vi_map.name_vi, name_vi_map.name_zh) đụng dòng
+            # đồng danh khác người (ví dụ A000061 vs A046651 cùng 'Đại Huệ'/'大惠').
+            # Rollback, KHÔNG ghi gì, trả 409 kèm ID đang giữ cặp tên đó để Admin xử lý trùng.
+            conn.rollback()
+            conflict = conn.execute(
+                "SELECT dila_id FROM name_vi_map WHERE name_vi = ? AND name_zh = ? AND dila_id != ?",
+                (name_vi, name_zh, person_id)
+            ).fetchone()
+            conn.close()
+            conflict_id = conflict['dila_id'] if conflict else 'một ID khác'
+            return jsonify({
+                'ok': False,
+                'error': (f"Tên Việt '{name_vi}' với tên Hán '{name_zh}' đã gán cho ID "
+                          f"{conflict_id}; cần xử lý trùng trước khi Pass.")
+            }), 409
+
         conn.close()
         _wv_invalidate_cache()
         return jsonify({'ok': True, 'person_id': person_id, 'name_vi': name_vi})
