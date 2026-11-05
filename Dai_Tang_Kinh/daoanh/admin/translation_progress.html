@@ -96,6 +96,39 @@
   .t50-b-draft { background:#451a03; color:var(--gold); }
   .t50-b-human { background:#052e16; color:var(--ok); }
   .t50-loading { text-align:center; padding:60px; color:var(--muted); font-size:14px; }
+
+  /* ─── Tab Catalog (nguồn: t50-progress.html Tab 2, gộp vào đây T50-merge-catalog-tab) ─── */
+  .catalog-toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
+  .cat-input { background:#0f172a; border:1px solid var(--line); color:var(--text); padding:7px 12px; border-radius:7px; font-size:13px; outline:none; flex:1; min-width:180px; }
+  .cat-input:focus { border-color:var(--gold); }
+  .cat-select { background:#0f172a; border:1px solid var(--line); color:var(--text); padding:7px 12px; border-radius:7px; font-size:12px; outline:none; cursor:pointer; }
+  .cat-select:focus { border-color:var(--gold); }
+  .cat-check { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); cursor:pointer; }
+  .cat-check input { accent-color:var(--gold); cursor:pointer; }
+  .catalog-stats { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px; font-size:12px; color:var(--muted); }
+  .catalog-stats b { color:var(--text); }
+  .catalog-stats .hl { color:var(--gold); }
+  .cat-tbl { width:100%; border-collapse:collapse; font-size:12px; }
+  .cat-tbl th { padding:7px 10px; text-align:left; color:var(--muted); font-weight:600; border-bottom:1px solid var(--line); font-size:10px; text-transform:uppercase; white-space:nowrap; }
+  .cat-tbl td { padding:8px 10px; border-bottom:1px solid #0a1122; vertical-align:middle; }
+  .cat-tbl tr:hover td { background:#0a1122; }
+  .cat-tbl .zh { font-family:"Noto Serif TC",serif; color:var(--muted); font-size:11px; }
+  .bs { display:inline-flex; align-items:center; gap:3px; font-size:10px; padding:2px 8px; border-radius:8px; font-weight:600; }
+  .bs-hoan-thanh { background:#052e16; color:#6ee7b7; }
+  .bs-dang-dich { background:#451a03; color:var(--warn); }
+  .bs-cho-dich { background:#1e3a5f; color:#93c5fd; }
+  .bs-chua-co { background:#1e293b; color:var(--muted); }
+  .mini-bar { height:6px; background:#1e293b; border-radius:3px; overflow:hidden; width:80px; display:inline-block; vertical-align:middle; }
+  .mini-fill { height:100%; border-radius:3px; background:var(--ok); }
+  .mini-fill.low { background:var(--gold); }
+  .cat-pager { display:flex; align-items:center; gap:8px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+  .pager-btn { background:var(--card); border:1px solid var(--line); color:var(--text); padding:5px 12px; border-radius:6px; cursor:pointer; font-size:12px; }
+  .pager-btn:disabled { opacity:.4; cursor:not-allowed; }
+  .pager-info { font-size:12px; color:var(--muted); }
+  .btn-import { background:#1e1b4b; border:1px solid #6366f1; color:#a5b4fc; padding:7px 16px; border-radius:7px; cursor:pointer; font-size:12px; font-weight:600; }
+  .btn-import:hover { background:#2e1065; border-color:#a78bfa; }
+  .btn-import:disabled { opacity:.4; cursor:not-allowed; }
+  @media(max-width:600px) { .cat-tbl td:nth-child(3), .cat-tbl th:nth-child(3) { display:none; } }
 </style>
 </head>
 <body>
@@ -109,6 +142,9 @@
     Dịch Nexus <span id="pagetab-nexus-cnt" style="color:var(--muted)">(T458)</span>
   </button>
   <button class="btn" id="pagetab-t50" onclick="switchPage('t50', this)">T50 — Dịch Kinh</button>
+  <button class="btn" id="pagetab-catalog" onclick="switchPage('catalog', this)">
+    Catalog Đại Tạng Kinh <span id="pagetab-catalog-cnt" style="color:var(--muted)"></span>
+  </button>
 </div>
 
 <div id="err" class="err"></div>
@@ -212,6 +248,100 @@
   <div id="t50-main-content"><div class="t50-loading">Đang tải…</div></div>
 
 </div><!-- /tab-t50 -->
+
+<div id="tab-catalog" class="tab-pane">
+
+  <div class="catalog-stats" id="cat-stats">
+    <span>Tổng bộ kinh: <b id="cs-total">—</b></span>
+    <span>Có bản dịch: <b class="hl" id="cs-has-vi">—</b></span>
+    <span id="cs-extra"></span>
+  </div>
+
+  <div class="catalog-toolbar">
+    <input class="cat-input" id="cat-q" type="text" placeholder="🔍 Tìm tên kinh, ký hiệu…" oninput="catSearch()">
+    <select class="cat-select" id="cat-series" onchange="catSearch()">
+      <option value="">Tất cả bộ</option>
+      <option value="T">T — Chính tạng</option>
+      <option value="X">X — Vạn Tục Tạng</option>
+      <option value="J">J — Gia Hưng</option>
+      <option value="B">B — Bắc Tạng</option>
+      <option value="A">A — Cao Ly</option>
+      <option value="K">K — Cao Ly Tân</option>
+      <option value="S">S — Tống Tạng</option>
+      <option value="C">C — Trung Hoa Đại Tạng</option>
+      <option value="L">L — Càn Long</option>
+      <option value="F">F — Phương Sách</option>
+      <option value="U">U — Lỗi Ma Pháp Hội</option>
+      <option value="I">I — I Tsing</option>
+    </select>
+    <select class="cat-select" id="cat-status" onchange="catSearch()">
+      <option value="">Mọi trạng thái</option>
+      <option value="hoan_thanh">✅ Hoàn thành</option>
+      <option value="dang_dich">🟡 Đang dịch</option>
+      <option value="cho_dich">🔵 Chờ dịch</option>
+      <option value="chua_co">⚫ Chưa có XML</option>
+    </select>
+    <label class="cat-check">
+      <input type="checkbox" id="cat-has-vi" onchange="catSearch()"> Chỉ có bản dịch
+    </label>
+    <input type="number" id="import-limit" value="10" min="1" max="500"
+           title="Tối đa bao nhiêu bộ" style="width:60px;padding:4px 6px;border-radius:6px;border:1px solid #374151;background:#1f2937;color:#f9fafb;font-size:13px;">
+    <button class="btn-import" id="btn-batch-import" onclick="batchImport()">
+      Import XML hàng loạt
+    </button>
+  </div>
+  <div id="import-result" style="display:none;margin:8px 0;padding:10px 16px;border-radius:8px;font-size:13px;"></div>
+
+  <div class="tbl-wrap">
+    <table class="cat-tbl">
+      <thead>
+        <tr>
+          <th style="width:80px">Ký hiệu</th>
+          <th>Tên bộ kinh (Việt)</th>
+          <th class="zh" style="width:180px">Hán văn</th>
+          <th style="width:70px">Cuốn</th>
+          <th style="width:110px">Trạng thái</th>
+          <th style="width:130px">Tiến độ dịch</th>
+          <th style="width:40px"></th>
+        </tr>
+      </thead>
+      <tbody id="cat-tbody">
+        <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">Đang tải…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cat-pager" id="cat-pager" style="display:none">
+    <button class="pager-btn" id="cat-prev" onclick="catPage(-1)">‹ Trước</button>
+    <span class="pager-info" id="cat-page-info">—</span>
+    <button class="pager-btn" id="cat-next" onclick="catPage(1)">Sau ›</button>
+  </div>
+
+</div><!-- /tab-catalog -->
+
+<!-- Modal đọc kinh (dùng chung cho tab Catalog) -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;
+     overflow-y:auto;padding:20px">
+  <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;
+       max-width:900px;margin:0 auto;padding:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div style="font-size:14px;font-weight:700" id="m-title">—</div>
+        <div style="font-size:11px;color:var(--muted)" id="m-sigla">—</div>
+      </div>
+      <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);
+              font-size:20px;cursor:pointer;padding:4px 8px">&times;</button>
+    </div>
+    <div id="m-passages" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="text-align:center;color:var(--muted);padding:40px;grid-column:1/-1">…</div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap">
+      <button class="pager-btn" id="m-prev" onclick="modalPage(-1)">◀ Trước</button>
+      <span class="pager-info" id="m-info">—</span>
+      <button class="pager-btn" id="m-next" onclick="modalPage(1)">Sau ▶</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const API = (window.location.protocol === 'http:' || window.location.protocol === 'https:') ? '' : 'http://localhost:8080';
@@ -321,6 +451,7 @@ const TAB_REGISTRY = {
   progress: { loaded: true,  init: null },   // đã load() ngay khi mở trang, ở dưới
   nexus:    { loaded: false, init: nxLoad },
   t50:      { loaded: false, init: t50Init },
+  catalog:  { loaded: false, init: catLoad },
 };
 function switchPage(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
@@ -330,6 +461,19 @@ function switchPage(id, btn) {
   const reg = TAB_REGISTRY[id];
   if (reg && !reg.loaded && reg.init) { reg.loaded = true; reg.init(); }
 }
+
+/* Deep-link: mở sẵn 1 tab qua #<id> hoặc ?tab=<id> (dùng bởi redirect từ t50-progress.html cũ).
+   Chỉ áp dụng cho id hợp lệ trong TAB_REGISTRY, khác 'progress' (đã active sẵn). */
+(function openTabFromLocation() {
+  let id = (location.hash || '').replace(/^#/, '').trim().toLowerCase();
+  if (!id) {
+    try { id = (new URLSearchParams(location.search)).get('tab') || ''; } catch (e) { id = ''; }
+  }
+  if (id && TAB_REGISTRY[id] && id !== 'progress') {
+    const btn = document.getElementById('pagetab-' + id);
+    if (btn) switchPage(id, btn);
+  }
+})();
 
 async function nxLoad() {
   _nxLoaded = true;
@@ -561,6 +705,226 @@ async function t50StopJob() {
 
 function t50StartPolling() { if (_t50PollTimer) return; _t50PollTimer = setInterval(t50CheckJobStatus, 3000); }
 function t50StopPolling()  { if (_t50PollTimer) { clearInterval(_t50PollTimer); _t50PollTimer = null; } }
+
+/* ══════════════════════════════════════════
+   Tab Catalog — Đại Tạng Kinh Catalog
+   Chuyển nguyên logic từ admin/t50-progress.html (Tab 2 "Đại Tạng Kinh").
+   Nguồn: /daoanh/api/danh-sach-kinh, /daoanh/api/admin/cbeta/batch-import,
+          /daoanh/api/kinh/<sigla>/passages
+   _CAT_BASE giữ nguyên quirk cũ: local dev gọi thẳng port 5002 (gateway 8080
+   có thể đang forward về server cũ không có route T182). Không tự "sửa"
+   quirk này — giữ đúng hành vi gốc của t50-progress.html.
+══════════════════════════════════════════ */
+const _catIsLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const _CAT_BASE = _catIsLocal ? (location.protocol + '//' + location.hostname + ':5002') : '';
+
+const CAT_LIMIT = 50;
+let _catOffset  = 0;
+let _catTotal   = 0;
+let _catTimer   = null;
+
+function catSearch() {
+  clearTimeout(_catTimer);
+  _catTimer = setTimeout(() => { _catOffset = 0; catLoad(); }, 350);
+}
+
+function catPage(dir) {
+  _catOffset = Math.max(0, _catOffset + dir * CAT_LIMIT);
+  catLoad();
+}
+
+async function catLoad() {
+  const q      = document.getElementById('cat-q').value.trim();
+  const series = document.getElementById('cat-series').value;
+  const status = document.getElementById('cat-status').value;
+  const hasVi  = document.getElementById('cat-has-vi').checked;
+
+  let url = _CAT_BASE + '/daoanh/api/danh-sach-kinh?offset=' + _catOffset + '&limit=' + CAT_LIMIT;
+  if (q)      url += '&q=' + encodeURIComponent(q);
+  if (series) url += '&series=' + encodeURIComponent(series);
+  if (status) url += '&status=' + encodeURIComponent(status);
+  if (hasVi)  url += '&has_translation=1';
+
+  document.getElementById('cat-tbody').innerHTML =
+    '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">Đang tải…</td></tr>';
+
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (!d.items) throw new Error(d.error || 'API lỗi - không có dữ liệu');
+
+    _catTotal = d.total || 0;
+
+    if (d.stats) {
+      document.getElementById('cs-total').textContent = fmt(d.stats.total_catalog);
+      document.getElementById('cs-has-vi').textContent = fmt(d.stats.has_translation);
+      document.getElementById('pagetab-catalog-cnt').textContent = '(' + fmt(d.stats.total_catalog) + ')';
+    }
+    document.getElementById('cs-extra').innerHTML = 'Kết quả tìm kiếm: <b>' + fmt(_catTotal) + '</b>';
+
+    renderCatRows(d.items || []);
+    renderCatPager();
+  } catch (e) {
+    document.getElementById('cat-tbody').innerHTML =
+      '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--bad)">' + esc(e.message) +
+      '<br><small style="color:var(--muted);margin-top:4px;display:block">Kiểm tra server đang chạy tại port 5002</small></td></tr>';
+    document.getElementById('cat-pager').style.display = 'none';
+  }
+}
+
+function renderCatRows(items) {
+  if (!items.length) {
+    document.getElementById('cat-tbody').innerHTML =
+      '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">Không tìm thấy kết quả</td></tr>';
+    document.getElementById('cat-pager').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('cat-tbody').innerHTML = items.map(it => {
+    const statusHtml = catStatusBadge(it.status);
+    const pct = it.p_total > 0 ? Math.round(it.p_translated / it.p_total * 100) : 0;
+    const progHtml = it.p_total > 0
+      ? '<span class="mini-bar"><span class="mini-fill' + (pct < 30 ? ' low' : '') + '" style="width:' + pct + '%"></span></span>' +
+        '<span style="font-size:10px;color:var(--muted);margin-left:5px">' + it.p_translated + '/' + it.p_total + '</span>'
+      : '<span style="font-size:10px;color:var(--muted)">—</span>';
+
+    const readBtn = it.p_total > 0
+      ? '<button onclick="openModal(\'' + esc(it.sigla) + '\',\'' + esc(it.title_vi || it.sigla) + '\')" ' +
+        'style="background:none;border:1px solid var(--line);color:var(--muted);' +
+        'padding:3px 9px;border-radius:5px;cursor:pointer;font-size:11px" title="Đọc kinh">📖</button>'
+      : '';
+
+    return '<tr>' +
+      '<td style="font-weight:700;color:var(--gold);font-size:11px">' + esc(it.sigla) + '</td>' +
+      '<td><div style="font-size:12px;font-weight:600;color:var(--text)">' + esc(it.title_vi || '—') + '</div>' +
+      (it.dynasty_vi ? '<div style="font-size:10px;color:var(--muted)">' + esc(it.dynasty_vi) + '</div>' : '') + '</td>' +
+      '<td class="zh">' + esc(it.title_zh || '') + '</td>' +
+      '<td style="font-size:11px;color:var(--muted)">' + (it.juans || '—') + '</td>' +
+      '<td>' + statusHtml + '</td>' +
+      '<td>' + progHtml + '</td>' +
+      '<td>' + readBtn + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function catStatusBadge(s) {
+  const map = {
+    'hoan_thanh': ['bs-hoan-thanh', '✅ Hoàn thành'],
+    'dang_dich':  ['bs-dang-dich', '🟡 Đang dịch'],
+    'cho_dich':   ['bs-cho-dich', '🔵 Chờ dịch'],
+    'chua_co':    ['bs-chua-co', '⚫ Chưa có'],
+  };
+  const pair = map[s] || ['bs-chua-co', s || '—'];
+  return '<span class="bs ' + pair[0] + '">' + pair[1] + '</span>';
+}
+
+function renderCatPager() {
+  const pager = document.getElementById('cat-pager');
+  if (_catTotal <= CAT_LIMIT) { pager.style.display = 'none'; return; }
+  pager.style.display = 'flex';
+  const page = Math.floor(_catOffset / CAT_LIMIT) + 1;
+  const pages = Math.ceil(_catTotal / CAT_LIMIT);
+  document.getElementById('cat-page-info').textContent = 'Trang ' + page + ' / ' + pages + ' (' + fmt(_catTotal) + ' mục)';
+  document.getElementById('cat-prev').disabled = _catOffset === 0;
+  document.getElementById('cat-next').disabled = _catOffset + CAT_LIMIT >= _catTotal;
+}
+
+async function batchImport() {
+  const series = document.getElementById('cat-series').value || 'T';
+  const limit  = parseInt(document.getElementById('import-limit').value || '10', 10);
+  if (isNaN(limit) || limit <= 0) return;
+  const btn = document.getElementById('btn-batch-import');
+  btn.disabled = true; btn.textContent = '⏳ Đang import…';
+  try {
+    const r = await fetch(_CAT_BASE + '/daoanh/api/admin/cbeta/batch-import', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ series, limit })
+    });
+    const j = await r.json();
+    if (j.error) throw new Error(j.error);
+    const res = document.getElementById('import-result');
+    const errList = (j.errors || []).map(e => e.sigla + ': ' + e.error).join('; ');
+    const skipSample = (j.skipped || []).slice(0, 3).map(s => s.sigla + '(' + (s.fetch_note || s.reason) + ')').join(', ');
+    res.style.display = 'block';
+    res.style.background = j.total_imported > 0 ? '#052e16' : '#1c1917';
+    res.style.border = '1px solid ' + (j.total_imported > 0 ? '#16a34a' : '#78350f');
+    res.style.color = '#f9fafb';
+    res.innerHTML = '✅ Import xong: <b>' + j.total_imported + '</b> bộ' +
+      ((j.skipped || []).length ? ' | Bỏ qua: <b>' + j.skipped.length + '</b>' + (skipSample ? ' (' + skipSample + ')' : '') : '') +
+      ((j.errors || []).length ? ' | Lỗi: <b>' + j.errors.length + '</b>' + (errList ? ': ' + errList : '') : '');
+    catLoad();
+  } catch (e) {
+    const res = document.getElementById('import-result');
+    res.style.display = 'block';
+    res.style.background = '#1c0000';
+    res.style.border = '1px solid #dc2626';
+    res.style.color = '#f9fafb';
+    res.textContent = '❌ Lỗi: ' + e.message;
+  }
+  finally { btn.disabled = false; btn.textContent = 'Import XML hàng loạt'; }
+}
+
+/* ─── Modal đọc kinh (dùng chung cho tab Catalog) ─── */
+const M_LIMIT = 20;
+let _mSigla = '', _mTitle = '', _mOffset = 0, _mTotal = 0;
+
+async function openModal(sigla, title) {
+  _mSigla = sigla; _mTitle = title; _mOffset = 0;
+  document.getElementById('m-title').textContent = title;
+  document.getElementById('m-sigla').textContent = sigla;
+  document.getElementById('modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  await loadPassages(0);
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function modalPage(dir) {
+  _mOffset = Math.max(0, _mOffset + dir * M_LIMIT);
+  loadPassages(_mOffset);
+}
+
+async function loadPassages(off) {
+  _mOffset = off;
+  document.getElementById('m-passages').innerHTML =
+    '<div style="text-align:center;padding:40px;grid-column:1/-1;color:var(--muted)">…</div>';
+  try {
+    const r = await fetch(_CAT_BASE + '/daoanh/api/kinh/' + encodeURIComponent(_mSigla) + '/passages?offset=' + off + '&limit=' + M_LIMIT);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    _mTotal = d.total || 0;
+
+    if (!d.passages || !d.passages.length) {
+      document.getElementById('m-passages').innerHTML =
+        '<div style="text-align:center;padding:40px;grid-column:1/-1;color:var(--muted)">Chưa có đoạn văn nào.</div>';
+    } else {
+      document.getElementById('m-passages').innerHTML = d.passages.map(p =>
+        '<div style="background:#020617;border-radius:8px;padding:12px">' +
+        '<div style="font-size:10px;color:var(--muted);margin-bottom:6px">' + esc(p.loc_ref || '') + '</div>' +
+        '<div style="font-family:\'Noto Serif TC\',serif;font-size:13px;color:#cbd5e1;line-height:1.8">' + esc(p.raw_text || '') + '</div>' +
+        '</div>' +
+        '<div style="background:#020617;border-radius:8px;padding:12px">' +
+        '<div style="font-size:10px;color:var(--muted);margin-bottom:6px">Bản dịch Việt</div>' +
+        '<div style="font-size:13px;line-height:1.8;color:' + (p.vi_text ? 'var(--text)' : 'var(--muted)') + '">' +
+        (p.vi_text ? esc(p.vi_text) : '<i>Chưa có bản dịch</i>') + '</div>' +
+        '</div>'
+      ).join('');
+    }
+
+    const page = Math.floor(off / M_LIMIT) + 1;
+    const pages = Math.ceil(_mTotal / M_LIMIT);
+    document.getElementById('m-info').textContent = 'Trang ' + page + '/' + pages + ' (' + fmt(_mTotal) + ' đoạn)';
+    document.getElementById('m-prev').disabled = off === 0;
+    document.getElementById('m-next').disabled = off + M_LIMIT >= _mTotal;
+  } catch (e) {
+    document.getElementById('m-passages').innerHTML =
+      '<div style="text-align:center;padding:40px;grid-column:1/-1;color:var(--bad)">' + esc(e.message) + '</div>';
+  }
+}
 </script>
 </body>
 </html>

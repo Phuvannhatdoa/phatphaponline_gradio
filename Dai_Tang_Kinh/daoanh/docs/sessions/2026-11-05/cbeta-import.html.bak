@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBETA Import — Đạo Ảnh Admin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --bg:#020617;--bg2:#0f172a;--bg3:#1e293b;--border:#334155;
+  --text:#e2e8f0;--muted:#94a3b8;--amber:#d97706;--amber-dim:#78350f;
+  --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--blue:#60a5fa;
+  --purple:#a78bfa;--cyan:#22d3ee;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;min-height:100vh}
+a{color:var(--amber);text-decoration:none}
+/* Header */
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px}
+.header h1{font-size:18px;font-weight:700;color:var(--amber)}
+.header .sub{color:var(--muted);font-size:13px}
+.header .back{margin-right:auto;color:var(--muted);font-size:12px}
+/* Summary cards */
+.cards{display:flex;flex-wrap:wrap;gap:12px;padding:16px 20px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;min-width:140px;flex:1}
+.card .label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.card .val{font-size:22px;font-weight:700;color:var(--amber)}
+.card .val.green{color:var(--green)}
+.card .val.blue{color:var(--blue)}
+.card .val.yellow{color:var(--yellow)}
+.card .val.purple{color:var(--purple)}
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:0 20px 12px}
+.toolbar input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:6px;font-size:13px;width:220px;outline:none}
+.toolbar select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;outline:none}
+.toolbar .spacer{flex:1}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:opacity .15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-amber{background:var(--amber);color:#000}
+.btn-amber:hover:not(:disabled){opacity:.85}
+.btn-outline{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-outline:hover{color:var(--text);border-color:var(--text)}
+.btn-sm{padding:4px 10px;font-size:12px}
+/* Table */
+.tbl-wrap{padding:0 20px 40px;overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;background:var(--bg2);position:sticky;top:0;z-index:1}
+td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,.03)}
+/* Badge */
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+.badge-done{background:#14532d;color:#4ade80}
+.badge-translating{background:#1c1917;color:#f59e0b}
+.badge-imported{background:#1e3a5f;color:#60a5fa}
+.badge-xml_ready{background:#1c2e1c;color:#86efac}
+.badge-no_xml{background:#1e1e2e;color:#64748b}
+/* Progress bar */
+.pbar{height:5px;border-radius:3px;background:var(--bg3);overflow:hidden;width:100px}
+.pbar-fill{height:100%;background:var(--amber);border-radius:3px;transition:width .3s}
+/* Toast */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--bg2);border:1px solid var(--border);padding:12px 18px;border-radius:8px;font-size:13px;max-width:340px;z-index:999;display:none;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+#toast.ok{border-color:var(--green);color:var(--green)}
+#toast.err{border-color:var(--red);color:var(--red)}
+/* Alert banner */
+.alert{margin:0 20px 12px;padding:10px 14px;border-radius:6px;font-size:13px;border:1px solid var(--yellow);color:var(--yellow);background:rgba(245,158,11,.07);display:flex;align-items:center;gap:8px}
+.alert i{flex-shrink:0}
+/* Pagination */
+.pager{display:flex;gap:8px;align-items:center;padding:12px 20px 0;color:var(--muted);font-size:13px}
+.pager button{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 12px;border-radius:5px;cursor:pointer;font-size:12px}
+.pager button:disabled{opacity:.4;cursor:not-allowed}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html" class="back"><i class="fa-solid fa-arrow-left"></i> Admin</a>
+  <i class="fa-solid fa-database" style="color:var(--amber)"></i>
+  <div>
+    <div><span class="header h1" style="font-size:18px;font-weight:700;color:var(--amber)">CBETA Import</span></div>
+    <div class="sub">Nhập và dịch bộ kinh Đại Chánh Tân Tu từ CBETA</div>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:8px">
+    <button class="btn btn-outline btn-sm" onclick="checkUpdate()"><i class="fa-solid fa-rotate"></i> Check Update</button>
+    <a href="t50-progress.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-language"></i> Tiến Độ Dịch</a>
+  </div>
+</div>
+
+<div id="alert-banner" style="display:none" class="alert">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <span id="alert-msg"></span>
+</div>
+
+<!-- Summary cards -->
+<div class="cards" id="cards">
+  <div class="card"><div class="label">Tổng bộ kinh</div><div class="val" id="c-total">–</div></div>
+  <div class="card"><div class="label">Có sigla</div><div class="val blue" id="c-sigla">–</div></div>
+  <div class="card"><div class="label">XML trên disk</div><div class="val green" id="c-xml">–</div></div>
+  <div class="card"><div class="label">Đã import</div><div class="val yellow" id="c-imported">–</div></div>
+  <div class="card"><div class="label">Đang dịch</div><div class="val purple" id="c-translated">–</div></div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <input id="q-input" placeholder="Tìm tên bộ kinh..." oninput="debounceSearch()">
+  <select id="series-sel" onchange="loadPage(0)">
+    <option value="">Tất cả series</option>
+  </select>
+  <select id="status-sel" onchange="loadPage(0)">
+    <option value="">Tất cả trạng thái</option>
+    <option value="xml_ready">🟢 XML sẵn sàng</option>
+    <option value="imported">🔵 Đã import</option>
+    <option value="translating">🟡 Đang dịch</option>
+    <option value="done">✅ Xong</option>
+    <option value="no_xml">⚫ Chưa có XML</option>
+  </select>
+  <span class="spacer"></span>
+  <span id="result-count" style="color:var(--muted);font-size:12px"></span>
+</div>
+
+<!-- Table -->
+<div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th style="width:100px">Sigla</th>
+        <th>Tên bộ kinh</th>
+        <th style="width:80px">Triều đại</th>
+        <th style="width:70px">Cuốn</th>
+        <th style="width:90px">Trạng thái</th>
+        <th style="width:130px">Tiến độ dịch</th>
+        <th style="width:100px">Thao tác</th>
+      </tr>
+    </thead>
+    <tbody id="tbl-body">
+      <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:40px">Đang tải...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="pager">
+  <button id="btn-prev" onclick="prevPage()" disabled>‹ Trước</button>
+  <span id="pager-info">–</span>
+  <button id="btn-next" onclick="nextPage()" disabled>Tiếp ›</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const _BASE = location.protocol === 'file:' ? 'http://localhost:8080' : '';
+const LIMIT = 50;
+let _offset = 0, _total = 0, _seriesList = [], _debTimer = null;
+
+async function loadStats() {
+  try {
+    const r = await fetch(_BASE + '/daoanh/api/admin/cbeta/catalog-stats');
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    document.getElementById('c-total').textContent = d.total_catalog?.toLocaleString() ?? '–';
+    document.getElementById('c-sigla').textContent = d.has_sigla?.toLocaleString() ?? '–';
+    document.getElementById('c-xml').textContent   = d.xml_on_disk?.toLocaleString() ?? '–';
+    document.getElementById('c-imported').textContent  = d.imported?.toLocaleString() ?? '–';
+    document.getElementById('c-translated').textContent = d.translated_any?.toLocaleString() ?? '–';
+    // xml-p5-full được tạo tự động khi import lần đầu — không cần alert
+  } catch(e) { showAlert('Không kết nối được API (server cần restart). Một số tính năng không hoạt động.'); }
+}
+
+async function loadPage(offset) {
+  _offset = offset ?? _offset;
+  const q = document.getElementById('q-input').value.trim();
+  const series = document.getElementById('series-sel').value;
+  const status = document.getElementById('status-sel').value;
+  let url = `${_BASE}/daoanh/api/admin/cbeta-catalog?offset=${_offset}&limit=${LIMIT}`;
+  if (q) url += `&q=${encodeURIComponent(q)}`;
+  if (series) url += `&series=${encodeURIComponent(series)}`;
+  if (status) url += `&status=${encodeURIComponent(status)}`;
+  const tbody = document.getElementById('tbl-body');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:30px">Đang tải...</td></tr>';
+  try {
+    const r = await fetch(url);
+    const d = await r.json();
+    _total = d.total;
+    // Cập nhật series dropdown lần đầu
+    if (_seriesList.length === 0 && d.series_list) {
+      _seriesList = d.series_list;
+      const sel = document.getElementById('series-sel');
+      d.series_list.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s; opt.textContent = s;
+        sel.appendChild(opt);
+      });
+    }
+    document.getElementById('result-count').textContent = `${_total.toLocaleString()} bộ kinh`;
+    renderTable(d.items);
+    updatePager();
+  } catch(e) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--red);padding:30px">${e.message}</td></tr>`;
+  }
+}
+
+function renderTable(items) {
+  const tbody = document.getElementById('tbl-body');
+  if (!items.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:30px">Không có kết quả</td></tr>';
+    return;
+  }
+  const BADGE = {
+    done:        '<span class="badge badge-done">✅ Xong</span>',
+    translating: '<span class="badge badge-translating">🟡 Dịch</span>',
+    imported:    '<span class="badge badge-imported">🔵 Import</span>',
+    xml_ready:   '<span class="badge badge-xml_ready">🟢 XML sẵn</span>',
+    no_xml:      '<span class="badge badge-no_xml">⚫ Chưa XML</span>',
+  };
+  tbody.innerHTML = items.map(it => {
+    const sigla = it.sigla || '<span style="color:var(--muted)">–</span>';
+    const title = `<span style="font-family:Noto Serif TC,serif">${it.title_vi || ''}</span>
+      ${it.title_zh ? `<br><small style="color:var(--muted);font-size:11px">${it.title_zh.substring(0,60)}</small>` : ''}`;
+    const pct = it.translate_pct || 0;
+    const progress = it.passage_count > 0
+      ? `<div style="font-size:11px;color:var(--muted);margin-bottom:3px">${it.translated_count}/${it.passage_count} (${pct}%)</div>
+         <div class="pbar"><div class="pbar-fill" style="width:${Math.min(pct,100)}%"></div></div>`
+      : '<span style="color:var(--muted);font-size:11px">–</span>';
+    // canImport: có sigla và chưa done (lazy fetch sẽ tải XML nếu chưa có)
+    const canImport = !!it.sigla && it.status !== 'done';
+    const btnLabel = it.passage_count > 0 ? 'Dịch lại' : 'Nhập & Dịch';
+    const btn = `<button class="btn btn-amber btn-sm" id="btn-${it.sigla}" onclick="importXml('${it.sigla}',this)" ${!canImport ? 'disabled' : ''}>
+      <i class="fa-solid fa-play"></i> ${btnLabel}
+    </button>`;
+    return `<tr>
+      <td><code style="font-size:12px">${sigla}</code></td>
+      <td>${title}</td>
+      <td style="color:var(--muted);font-size:12px">${it.dynasty_vi || '–'}</td>
+      <td style="text-align:center">${it.juans ?? '–'}</td>
+      <td>${BADGE[it.status] || it.status}</td>
+      <td>${progress}</td>
+      <td>${it.sigla ? btn : '–'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function updatePager() {
+  const totalPages = Math.ceil(_total / LIMIT);
+  const curPage = Math.floor(_offset / LIMIT) + 1;
+  document.getElementById('pager-info').textContent = `Trang ${curPage}/${totalPages || 1} (${_total.toLocaleString()} bộ)`;
+  document.getElementById('btn-prev').disabled = _offset <= 0;
+  document.getElementById('btn-next').disabled = _offset + LIMIT >= _total;
+}
+function prevPage() { if (_offset > 0) loadPage(Math.max(0, _offset - LIMIT)); }
+function nextPage() { if (_offset + LIMIT < _total) loadPage(_offset + LIMIT); }
+
+function debounceSearch() {
+  clearTimeout(_debTimer);
+  _debTimer = setTimeout(() => loadPage(0), 350);
+}
+
+async function importXml(sigla, btnEl) {
+  if (!sigla) return;
+  if (!confirm(`Nhập và xếp hàng dịch: ${sigla}?`)) return;
+  // Busy state: disable button + show spinner
+  if (btnEl) { btnEl.disabled = true; btnEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tải...'; }
+  showToast(`Đang nhập ${sigla} (có thể mất vài giây để tải XML)...`, 'info');
+  try {
+    const r = await fetch(_BASE + '/daoanh/api/admin/cbeta/import-xml', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({sigla})
+    });
+    const d = await r.json();
+    if (d.ok) {
+      showToast(`✅ ${d.message}`, 'ok');
+      setTimeout(() => { loadStats(); loadPage(); }, 1200);
+    } else if (d.error === 'fetch_failed') {
+      showToast(`❌ Không tải được XML: ${d.fetch_reason || d.message}`, 'err');
+      if (btnEl) { btnEl.disabled = false; btnEl.innerHTML = '<i class="fa-solid fa-play"></i> Nhập & Dịch'; }
+    } else {
+      showToast(`❌ ${d.message || d.error}`, 'err');
+      if (btnEl) { btnEl.disabled = false; btnEl.innerHTML = '<i class="fa-solid fa-play"></i> Nhập & Dịch'; }
+    }
+  } catch(e) {
+    showToast(`❌ ${e.message}`, 'err');
+    if (btnEl) { btnEl.disabled = false; btnEl.innerHTML = '<i class="fa-solid fa-play"></i> Nhập & Dịch'; }
+  }
+}
+
+async function checkUpdate() {
+  showToast('Đang kiểm tra cập nhật CBETA...', 'info');
+  try {
+    const r = await fetch(_BASE + '/daoanh/api/admin/cbeta/check-update');
+    const d = await r.json();
+    if (!d.xml_root_exists) {
+      showToast(d.message, 'info');
+    } else {
+      showToast(d.message, d.has_updates ? 'info' : 'ok');
+    }
+  } catch(e) { showToast(`❌ ${e.message}`, 'err'); }
+}
+
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = type === 'ok' ? 'ok' : type === 'err' ? 'err' : '';
+  t.style.display = 'block';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.display = 'none', 4000);
+}
+
+function showAlert(msg) {
+  document.getElementById('alert-msg').textContent = msg;
+  document.getElementById('alert-banner').style.display = 'flex';
+}
+
+// Khởi động
+loadStats();
+loadPage(0);
+</script>
+</body>
+</html>

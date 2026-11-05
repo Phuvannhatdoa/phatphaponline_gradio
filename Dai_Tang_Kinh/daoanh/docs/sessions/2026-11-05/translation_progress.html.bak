@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiến Độ Dịch — Gemini</title>
+<style>
+  :root { --bg:#020617; --card:#0f172a; --line:#1e293b; --text:#e2e8f0; --muted:#94a3b8; --gold:#d97706; --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.5 Inter,system-ui,sans-serif; padding:16px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .sub { color:var(--muted); font-size:12px; margin-bottom:14px; }
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-bottom:14px; }
+  .tile { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .tile b { display:block; font-size:20px; color:var(--gold); font-variant-numeric:tabular-nums; }
+  .tile span { font-size:11px; color:var(--muted); }
+  .bar { height:8px; background:var(--line); border-radius:4px; overflow:hidden; margin:6px 0 14px; }
+  .bar > div { height:100%; background:var(--gold); }
+  .log { background:#020617; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font:11px/1.45 ui-monospace,Consolas,monospace; color:var(--muted); max-height:160px; overflow:auto; white-space:pre-wrap; margin-bottom:14px; }
+  .toolbar { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:10px; }
+  .btn { background:transparent; color:var(--text); border:1px solid var(--line); border-radius:6px; padding:5px 10px; font-size:12px; cursor:pointer; }
+  .btn.active, .btn:hover { border-color:var(--gold); color:var(--gold); }
+  .btn.ok { background:var(--ok); color:#052e16; border-color:var(--ok); font-weight:700; }
+  .btn[disabled] { opacity:.5; cursor:default; }
+  .tbl-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:8px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.04em; background:var(--card); }
+  .han { font-family:"Noto Serif TC",serif; font-size:16px; }
+  .note { font-size:11px; color:var(--muted); max-width:340px; white-space:pre-wrap; }
+  .mono { font-family:ui-monospace,Consolas,monospace; font-size:11px; color:var(--muted); }
+  .badge { font-size:10px; padding:2px 6px; border-radius:4px; border:1px solid var(--line); color:var(--muted); }
+  .badge.ok { border-color:var(--ok); color:var(--ok); }
+  .badge.wait { border-color:var(--warn); color:var(--warn); }
+  input.name { width:100%; min-width:160px; background:#020617; border:1px solid var(--line); color:var(--text); border-radius:5px; padding:5px 7px; font-size:13px; }
+  .pager { display:flex; gap:6px; align-items:center; justify-content:center; margin-top:12px; font-size:12px; color:var(--muted); }
+  .err { color:var(--bad); font-size:12px; margin:8px 0; }
+  .nav { font-size:12px; margin-bottom:10px; }
+  .nav a { color:var(--gold); text-decoration:none; }
+  .page-tabs { display:flex; gap:6px; margin-bottom:14px; }
+  .page-tabs .btn { font-size:13px; padding:6px 14px; }
+  .tab-pane { display:none; }
+  .tab-pane.active { display:block; }
+  .nx-note { background:#451a03; border:1px solid #78350f; color:var(--gold); border-radius:8px; padding:10px 16px; margin-bottom:14px; font-size:13px; }
+
+  /* ─── Tab T50 (nguồn: t50-progress.html, chuyển vào đây T514-b) ─── */
+  .t50-api-note { background:#1c1400; border:1px solid #78350f; border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:12px; color:#fcd34d; }
+  .t50-api-note.t50-api-ok { background:#052e16; border-color:#166534; color:var(--ok); }
+  .t50-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:12px; margin-bottom:16px; }
+  .t50-card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; }
+  .t50-card .lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px; }
+  .t50-card .val { font-size:24px; font-weight:700; }
+  .t50-card .sub { font-size:11px; color:var(--muted); margin-top:3px; }
+  .t50-c-green .val { color:var(--ok); } .t50-c-amber .val { color:var(--gold); }
+  .t50-c-red .val { color:var(--bad); } .t50-c-blue .val { color:#3b82f6; } .t50-c-purple .val { color:#c084fc; }
+  .t50-job-panel { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin-bottom:16px; display:none; }
+  .t50-job-panel.visible { display:block; }
+  .t50-job-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .t50-job-title { font-size:13px; font-weight:700; }
+  @keyframes t50spin { to { transform:rotate(360deg); } }
+  .t50-spin { display:inline-block; animation:t50spin 1s linear infinite; }
+  .t50-job-meta { font-size:12px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; margin-bottom:10px; }
+  .t50-job-meta b { color:var(--text); }
+  .t50-log-box { background:#020617; border:1px solid var(--line); border-radius:6px; padding:10px; font-family:ui-monospace,Consolas,monospace; font-size:11px; color:#86efac; max-height:160px; overflow-y:auto; white-space:pre-wrap; }
+  .t50-btn-stop { background:#7f1d1d; border:none; color:#fca5a5; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; margin-top:8px; }
+  .t50-btn-stop:hover { background:#991b1b; }
+  .t50-queue-panel { background:var(--card); border:1px solid #3730a3; border-radius:10px; padding:14px 18px; margin-bottom:16px; display:none; }
+  .t50-queue-panel.visible { display:block; }
+  .t50-queue-title { font-size:12px; font-weight:700; color:#a5b4fc; margin-bottom:10px; }
+  .t50-queue-list { display:flex; flex-wrap:wrap; gap:8px; }
+  .t50-queue-item { display:flex; align-items:center; gap:6px; background:#1e1b4b; border:1px solid #4338ca; border-radius:6px; padding:4px 10px; font-size:12px; color:#c7d2fe; }
+  .t50-queue-item .pos { font-weight:700; color:#818cf8; margin-right:2px; }
+  .t50-queue-item .del { cursor:pointer; color:#6366f1; margin-left:4px; font-size:10px; }
+  .t50-queue-item .del:hover { color:#f87171; }
+  .t50-section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px; margin-bottom:18px; }
+  .t50-sec-title { font-size:13px; font-weight:700; margin-bottom:14px; }
+  .t50-sigla-row { display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); }
+  .t50-sigla-row:last-child { border-bottom:none; padding-bottom:0; }
+  .t50-sigla-info .name { font-size:13px; font-weight:600; }
+  .t50-sigla-info .code { font-size:10px; color:var(--muted); margin-left:6px; }
+  .t50-sigla-stats { font-size:11px; color:var(--muted); margin:4px 0 6px; }
+  .t50-sigla-stats b { color:var(--text); }
+  .t50-prog-bar { height:8px; background:var(--line); border-radius:4px; overflow:hidden; width:100%; }
+  .t50-prog-fill { height:100%; border-radius:4px; background:var(--ok); transition:width .4s; }
+  .t50-prog-fill.low { background:var(--gold); }
+  .t50-prog-fill.zero { background:#374151; }
+  .t50-prog-pct { font-size:10px; color:var(--muted); margin-top:2px; }
+  .t50-btn-run { border:1px solid #059669; color:#6ee7b7; background:#064e3b; padding:7px 16px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; white-space:nowrap; min-width:96px; text-align:center; }
+  .t50-btn-run:hover { background:#065f46; }
+  .t50-btn-run.t50-s-running { background:#7f1d1d; border-color:#dc2626; color:#fca5a5; }
+  .t50-btn-run.t50-s-queued { background:#1e1b4b; border-color:#6366f1; color:#a5b4fc; }
+  .t50-tbl { width:100%; border-collapse:collapse; font-size:12px; }
+  .t50-tbl th { padding:6px 10px; text-align:left; color:var(--muted); font-weight:600; border-bottom:1px solid var(--line); font-size:10px; text-transform:uppercase; }
+  .t50-tbl td { padding:7px 10px; border-bottom:1px solid #0a1122; vertical-align:top; }
+  .t50-badge { display:inline-block; font-size:10px; padding:1px 7px; border-radius:10px; }
+  .t50-b-draft { background:#451a03; color:var(--gold); }
+  .t50-b-human { background:#052e16; color:var(--ok); }
+  .t50-loading { text-align:center; padding:60px; color:var(--muted); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="nav"><a href="index.html">← Thống kê admin</a></div>
+<h1>Tiến Độ Dịch — Gemini</h1>
+<div class="sub">Gemini phiên âm tên địa danh Hán → Việt theo đợt chạy. Chấp thuận một dòng = ghi vào DB để trang HOME hiển thị. Mọi lần chấp thuận được ghi nhật ký để hoàn tác.</div>
+
+<div class="page-tabs">
+  <button class="btn active" id="pagetab-progress" onclick="switchPage('progress', this)">Tiến Độ Dịch</button>
+  <button class="btn" id="pagetab-nexus" onclick="switchPage('nexus', this)">
+    Dịch Nexus <span id="pagetab-nexus-cnt" style="color:var(--muted)">(T458)</span>
+  </button>
+  <button class="btn" id="pagetab-t50" onclick="switchPage('t50', this)">T50 — Dịch Kinh</button>
+</div>
+
+<div id="err" class="err"></div>
+
+<div id="tab-progress" class="tab-pane active">
+
+<div class="tiles">
+  <div class="tile"><b id="t-total">—</b><span>Địa danh DILA</span></div>
+  <div class="tile"><b id="t-done">—</b><span>Gemini đã dịch</span></div>
+  <div class="tile"><b id="t-approved">—</b><span>Admin đã chấp thuận</span></div>
+  <div class="tile"><b id="t-pending">—</b><span>Chờ Admin duyệt</span></div>
+  <div class="tile"><b id="t-orphan">—</b><span>Gemini dịch nhưng không khớp địa danh DILA</span></div>
+  <div class="tile"><b id="t-last" style="font-size:13px">—</b><span>Vị trí gần nhất (ID · thời gian)</span></div>
+</div>
+<div class="bar"><div id="bar-done" style="width:0%"></div></div>
+
+<div class="log" id="log">Đang tải nhật ký…</div>
+
+<div class="toolbar">
+  <button class="btn active" data-f="all">Tất cả</button>
+  <button class="btn" data-f="pending">Chờ duyệt</button>
+  <button class="btn" data-f="approved">Đã chấp thuận</button>
+  <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="count"></span>
+</div>
+
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Place ID</th>
+      <th>Thông tin gốc (Hán + ghi chú DILA)</th>
+      <th>Gemini dịch</th>
+      <th>Tên đang dùng (HOME)</th>
+      <th>Trạng thái</th>
+      <th>Chấp thuận</th>
+    </tr>
+  </thead>
+  <tbody id="body"><tr><td colspan="6" style="color:var(--muted);text-align:center;padding:18px">Đang tải…</td></tr></tbody>
+</table>
+</div>
+<div class="pager" id="pager"></div>
+
+</div><!-- /tab-progress -->
+
+<div id="tab-nexus" class="tab-pane">
+
+  <div class="nx-note">
+    <i class="fa-solid fa-circle-info"></i>
+    Chờ Admin duyệt pilot + schema (T458). Tab này chỉ hiển thị trạng thái
+    staging JSONL, không có nút chạy dịch / nạp DB, không gọi Gemini/Codex.
+  </div>
+
+  <div class="tiles">
+    <div class="tile"><b id="nx-total">—</b><span>Tổng nexus</span></div>
+    <div class="tile"><b id="nx-translated">—</b><span>Đã dịch (staging)</span></div>
+    <div class="tile"><b id="nx-batches">—</b><span>Số batch</span></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Sách (book)</th>
+          <th style="width:120px">Tổng nexus</th>
+          <th style="width:120px">Đã dịch</th>
+          <th style="width:90px">Batch</th>
+          <th style="width:90px">%</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody id="nx-tbody">
+        <tr><td colspan="6" style="text-align:center;padding:18px;color:var(--muted)">Đang tải…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /tab-nexus -->
+
+<div id="tab-t50" class="tab-pane">
+
+  <div class="t50-queue-panel" id="t50-queue-panel">
+    <div class="t50-queue-title">Hàng đợi — sẽ tự chạy lần lượt sau khi bộ hiện tại xong</div>
+    <div class="t50-queue-list" id="t50-queue-list"></div>
+  </div>
+
+  <div class="t50-job-panel" id="t50-job-panel">
+    <div class="t50-job-header">
+      <span class="t50-spin">⏳</span>
+      <span class="t50-job-title">Đang dịch: <span id="t50-job-sigla">—</span></span>
+    </div>
+    <div class="t50-job-meta">
+      <span>PID: <b id="t50-job-pid">—</b></span>
+      <span>Bắt đầu: <b id="t50-job-started">—</b></span>
+      <span>Đã dịch tổng: <b id="t50-job-translated">—</b></span>
+      <span>Còn lại: <b id="t50-job-remaining">—</b></span>
+    </div>
+    <div class="t50-log-box" id="t50-job-log">Đang chờ log…</div>
+    <button class="t50-btn-stop" onclick="t50StopJob()">Dừng job</button>
+  </div>
+
+  <div id="t50-main-content"><div class="t50-loading">Đang tải…</div></div>
+
+</div><!-- /tab-t50 -->
+
+<script>
+const API = (window.location.protocol === 'http:' || window.location.protocol === 'https:') ? '' : 'http://localhost:8080';
+let filter = 'all', page = 1, pages = 1;
+
+function token() { try { return localStorage.getItem('admin_session') || ''; } catch (e) { return ''; } }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmt(n) { return (typeof n === 'number') ? n.toLocaleString('vi-VN') : '—'; }
+function showErr(msg) { document.getElementById('err').textContent = msg || ''; }
+
+async function load() {
+  showErr('');
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/gemini-progress?page=' + page + '&size=50&filter=' + filter,
+      { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'API lỗi');
+    const s = d.summary;
+    document.getElementById('t-total').textContent = fmt(s.total_places);
+    document.getElementById('t-done').textContent = fmt(s.gemini_done);
+    document.getElementById('t-approved').textContent = fmt(s.approved);
+    document.getElementById('t-pending').textContent = fmt(s.pending_review);
+    document.getElementById('t-orphan').textContent = fmt(s.gemini_orphan);
+    document.getElementById('t-last').textContent = s.last_dila_id ? (s.last_dila_id + ' · ' + s.last_created_at) : '—';
+    const pct = s.total_places ? (s.gemini_done * 100 / s.total_places) : 0;
+    document.getElementById('bar-done').style.width = Math.min(100, pct).toFixed(1) + '%';
+    document.getElementById('log').textContent = (s.log_tail || []).join('\n') || 'Chưa có nhật ký batch.';
+    document.getElementById('count').textContent = fmt(d.total) + ' dòng';
+    pages = d.pages || 1;
+    renderRows(d.items);
+    renderPager();
+  } catch (e) {
+    showErr('Không tải được tiến độ: ' + e.message);
+  }
+}
+
+function renderRows(items) {
+  const body = document.getElementById('body');
+  if (!items.length) { body.innerHTML = '<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:18px">Không có dòng nào</td></tr>'; return; }
+  body.innerHTML = items.map(it => {
+    const status = it.approved
+      ? '<span class="badge ok">Đã chấp thuận</span><div class="mono">' + esc(it.editor) + ' · ' + esc(it.approved_at) + '</div>'
+      : '<span class="badge wait">Chờ duyệt</span>';
+    const btn = it.approved
+      ? '<button class="btn" disabled>✓ Đã lưu</button>'
+      : '<button class="btn ok" onclick="approve(this)">Chấp thuận</button>';
+    const input = '<input class="name" value="' + esc(it.gemini_vi) + '" data-cur="' + esc(it.gemini_vi) + '">';
+    return '<tr data-id="' + esc(it.dila_id) + '">' +
+      '<td class="mono">' + esc(it.dila_id) + '</td>' +
+      '<td><div class="han">' + esc(it.name_zh) + '</div><div class="note">' + esc(it.source_note) + '</div></td>' +
+      '<td>' + input + '<div class="mono">' + esc(it.gemini_model) + ' · ' + esc(it.gemini_at) + '</div></td>' +
+      '<td>' + esc(it.approved ? it.approved_name_vi : it.current_vi) + '<div class="mono">' + esc(it.vn_status) + '</div></td>' +
+      '<td>' + status + '</td>' +
+      '<td>' + btn + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+async function approve(btn) {
+  const tr = btn.closest('tr');
+  const id = tr.dataset.id;
+  const name = tr.querySelector('input.name').value.trim();
+  if (!name) { alert('Tên Việt không được rỗng'); return; }
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/gemini-progress/approve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() },
+      body: JSON.stringify({ dila_id: id, name_vi: name })
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'Không lưu được');
+    btn.textContent = '✓ Đã lưu';
+    btn.className = 'btn';
+    btn.disabled = true;
+    load();
+  } catch (e) {
+    btn.disabled = false; btn.textContent = 'Chấp thuận';
+    alert('Lỗi: ' + e.message);
+  }
+}
+
+function renderPager() {
+  const p = document.getElementById('pager');
+  if (pages <= 1) { p.innerHTML = ''; return; }
+  p.innerHTML = '<button class="btn" ' + (page <= 1 ? 'disabled' : '') + ' onclick="go(-1)">‹ Trước</button>' +
+    '<span>Trang ' + page + ' / ' + pages + '</span>' +
+    '<button class="btn" ' + (page >= pages ? 'disabled' : '') + ' onclick="go(1)">Sau ›</button>';
+}
+function go(d) { page = Math.min(pages, Math.max(1, page + d)); load(); }
+
+document.querySelectorAll('.toolbar .btn[data-f]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.toolbar .btn[data-f]').forEach(x => x.classList.remove('active'));
+  b.classList.add('active'); filter = b.dataset.f; page = 1; load();
+}));
+
+load();
+
+/* ══════════════════════════════════════════
+   Page tabs: cấu hình để thêm Tab mới (bộ kinh khác) không cần sửa switchPage().
+   Thêm 1 Tab mới = 3 bước: (1) nút trong .page-tabs, (2) <div id="tab-<id>"
+   class="tab-pane">, (3) 1 dòng vào TAB_REGISTRY {id: {loaded:false, init: fn}}.
+   init() chỉ chạy 1 lần, lúc click Tab lần đầu (lazy-load).
+══════════════════════════════════════════ */
+let _nxLoaded = false;
+const TAB_REGISTRY = {
+  progress: { loaded: true,  init: null },   // đã load() ngay khi mở trang, ở dưới
+  nexus:    { loaded: false, init: nxLoad },
+  t50:      { loaded: false, init: t50Init },
+};
+function switchPage(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelectorAll('.page-tabs .btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const reg = TAB_REGISTRY[id];
+  if (reg && !reg.loaded && reg.init) { reg.loaded = true; reg.init(); }
+}
+
+async function nxLoad() {
+  _nxLoaded = true;
+  const tbody = document.getElementById('nx-tbody');
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/nexus-translate-status', { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'lỗi không rõ');
+
+    document.getElementById('nx-total').textContent = fmt(d.total_nexus);
+    document.getElementById('nx-translated').textContent = fmt(d.total_translated);
+    document.getElementById('nx-batches').textContent = fmt(d.total_batches);
+
+    tbody.innerHTML = (d.books || []).map(b => (
+      '<tr>' +
+        '<td>' + esc(b.book) + '</td>' +
+        '<td>' + fmt(b.total_nexus) + '</td>' +
+        '<td>' + fmt(b.translated) + '</td>' +
+        '<td>' + fmt(b.batches) + '</td>' +
+        '<td>' + b.pct + '%</td>' +
+        '<td class="note">' + esc(b.note || '') + '</td>' +
+      '</tr>'
+    )).join('') || '<tr><td colspan="6" style="text-align:center;padding:18px;color:var(--muted)">Chưa có dữ liệu sách nào</td></tr>';
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:18px" class="err">Lỗi tải trạng thái Dịch Nexus: ' + esc(e.message) + '</td></tr>';
+  }
+}
+
+/* ══════════════════════════════════════════
+   Tab T50 — Tiến Độ Dịch Kinh (Dịch / Dừng / job-status / dashboard số liệu)
+   Chuyển nguyên logic từ admin/t50-progress.html (Tab 1 "Tiến Độ T50").
+   Nguồn: /daoanh/api/admin/t50-progress + /daoanh/api/admin/t50/{run,stop,job-status,enqueue,dequeue}
+   KHÔNG mang theo Tab 2 "Đại Tạng Kinh Catalog" / modal đọc kinh của file cũ — ngoài phạm vi yêu cầu
+   (Admin chỉ yêu cầu giữ Dịch/Dừng/job-status/dashboard). t50-progress.html cũ giữ nguyên, không đổi.
+══════════════════════════════════════════ */
+let _t50PollTimer    = null;
+let _t50JobRunning   = false;
+let _t50CurrentSigla = null;
+let _t50Queue        = [];
+let _t50ApiAvailable = false;
+let _t50ProgressData = null;
+const T50_SNAP = API ? '/daoanh/data/t50_progress_snapshot.json' : '../data/t50_progress_snapshot.json';
+
+async function t50Init() { await t50Refresh(); }
+
+async function t50Refresh() {
+  let d = null;
+  let liveErr = '';
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/t50-progress', { headers: { 'X-Session-Token': token() } });
+    const j = await r.json().catch(() => null);
+    if (r.ok && j && j.ok) { d = j; d._src = 'live'; _t50ApiAvailable = true; }
+    else { liveErr = (j && j.error) || ('HTTP ' + r.status); }
+  } catch (e) { liveErr = e.message; }
+  if (!d) {
+    try {
+      const r = await fetch(T50_SNAP);
+      if (r.ok) { d = await r.json(); d._src = 'snapshot'; }
+    } catch (_) {}
+  }
+  if (!d) {
+    document.getElementById('t50-main-content').innerHTML =
+      '<div style="color:var(--bad);text-align:center;padding:40px">Không tải được dữ liệu T50: ' + esc(liveErr) + '</div>';
+    await t50CheckJobStatus();
+    return;
+  }
+  _t50ProgressData = d; t50RenderProgress(d);
+  await t50CheckJobStatus();
+}
+
+function t50RenderProgress(d) {
+  const s = d.summary;
+  const srcNote = d._src === 'live' ? '● Live API' : ('📸 Snapshot' + (d.generated_at ? ' · ' + esc(d.generated_at) : ''));
+
+  const cards = '<div class="t50-cards">'
+    + '<div class="t50-card t50-c-amber"><div class="lbl">Tổng passage</div><div class="val">' + fmt(s.total_all) + '</div><div class="sub">5 bộ kinh</div></div>'
+    + '<div class="t50-card t50-c-green"><div class="lbl">Đã dịch</div><div class="val">' + fmt(s.translated_all) + '</div><div class="sub">' + s.pct_all + '% hoàn thành</div></div>'
+    + '<div class="t50-card t50-c-red"><div class="lbl">Còn thiếu</div><div class="val">' + fmt(s.remaining_all) + '</div><div class="sub">vi_text = NULL</div></div>'
+    + '<div class="t50-card t50-c-blue"><div class="lbl">Gắn địa danh</div><div class="val">' + fmt(s.place_total) + '</div><div class="sub">' + fmt(s.place_translated) + ' đã dịch (' + s.place_pct + '%)</div></div>'
+    + '<div class="t50-card t50-c-purple"><div class="lbl">Bản nháp AI</div><div class="val">' + fmt(s.draft_ai) + '</div><div class="sub">translation_draft=1</div></div>'
+    + '<div class="t50-card"><div class="lbl">Cache bản dịch</div><div class="val" style="font-size:20px">' + fmt(s.translation_cache) + '</div><div class="sub">' + s.reported + ' báo sai</div></div>'
+    + '</div>';
+
+  const apiNote = !_t50ApiAvailable
+    ? '<div class="t50-api-note">Nút Dịch hoạt động sau khi restart server (python app.py). Nguồn: ' + srcNote + '</div>'
+    : '<div class="t50-api-note t50-api-ok">Nguồn: ' + srcNote + '</div>';
+
+  const recentRows = (d.recent_translated || []).map(r =>
+    '<tr>'
+    + '<td style="color:var(--muted)">' + esc(r.text_id || '') + '</td>'
+    + '<td style="font-size:10px;color:var(--muted)">' + esc(r.loc_ref || '') + '</td>'
+    + '<td style="font-family:\'Noto Serif TC\',serif;color:var(--muted)">' + esc(r.raw_preview || '') + '…</td>'
+    + '<td>' + esc(r.vi_preview || '') + '…</td>'
+    + '<td>' + (r.translation_draft ? '<span class="t50-badge t50-b-draft">Nháp AI</span>' : '<span class="t50-badge t50-b-human">Tham khảo</span>') + '</td>'
+    + '</tr>'
+  ).join('');
+
+  document.getElementById('t50-main-content').innerHTML = apiNote + cards
+    + '<div class="t50-section" id="t50-sigla-section">'
+    +   '<div class="t50-sec-title">Tiến độ theo bộ kinh</div>'
+    +   '<div id="t50-sigla-rows"></div>'
+    + '</div>'
+    + '<div class="t50-section">'
+    +   '<div class="t50-sec-title">5 passage mới nhất đã dịch</div>'
+    +   '<table class="t50-tbl"><thead><tr><th>Bộ kinh</th><th>Loc</th><th>Hán văn gốc</th><th>Bản dịch Việt</th><th>Loại</th></tr></thead><tbody>' + recentRows + '</tbody></table>'
+    + '</div>';
+
+  t50RenderSiglaRows(d.by_sigla || []);
+}
+
+function t50RenderSiglaRows(bySigla) {
+  const el = document.getElementById('t50-sigla-rows');
+  if (!el) return;
+  el.innerHTML = bySigla.map(r => {
+    const pct = r.pct;
+    const fc = pct >= 80 ? '' : pct > 0 ? 'low' : 'zero';
+    const isRunning = _t50JobRunning && _t50CurrentSigla === r.sigla;
+    const qPos = _t50Queue.indexOf(r.sigla);
+    const inQueue = qPos >= 0;
+
+    let btnCls, btnLabel, btnAction;
+    if (isRunning) {
+      btnCls = 't50-btn-run t50-s-running'; btnLabel = 'Dừng';
+      btnAction = 't50StopJob()';
+    } else if (inQueue) {
+      btnCls = 't50-btn-run t50-s-queued'; btnLabel = '#' + (qPos + 1) + ' chờ';
+      btnAction = "t50Dequeue('" + r.sigla + "')";
+    } else {
+      btnCls = 't50-btn-run';
+      btnLabel = _t50JobRunning ? '+ Thêm vào hàng' : 'Dịch';
+      btnAction = "t50Enqueue('" + r.sigla + "')";
+    }
+
+    return '<div class="t50-sigla-row">'
+      + '<div>'
+      +   '<div class="t50-sigla-info"><span class="name">' + esc(r.name) + '</span><span class="code">' + esc(r.sigla) + '</span></div>'
+      +   '<div class="t50-sigla-stats"><b>' + fmt(r.translated) + '</b> / ' + fmt(r.total) + ' passage &nbsp;·&nbsp; còn '
+      +     '<b style="color:' + (r.remaining > 0 ? 'var(--bad)' : 'var(--ok)') + '">' + fmt(r.remaining) + '</b> &nbsp;·&nbsp; nháp AI: ' + fmt(r.draft_ai) + '</div>'
+      +   '<div class="t50-prog-bar"><div class="t50-prog-fill ' + fc + '" style="width:' + pct + '%"></div></div>'
+      +   '<div class="t50-prog-pct">' + pct + '%</div>'
+      + '</div>'
+      + '<button class="' + btnCls + '" onclick="' + btnAction + '">' + btnLabel + '</button>'
+      + '</div>';
+  }).join('');
+}
+
+function t50RenderQueuePanel() {
+  const panel = document.getElementById('t50-queue-panel');
+  const list = document.getElementById('t50-queue-list');
+  if (!_t50Queue.length) { panel.classList.remove('visible'); return; }
+  panel.classList.add('visible');
+  list.innerHTML = _t50Queue.map((s, i) =>
+    '<div class="t50-queue-item"><span class="pos">#' + (i + 1) + '</span><span>' + esc(s) + '</span>'
+    + '<span class="del" onclick="t50Dequeue(\'' + s + '\')" title="Xóa khỏi hàng đợi">✕</span></div>'
+  ).join('');
+}
+
+async function t50CheckJobStatus() {
+  if (!_t50ApiAvailable) return;
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/t50/job-status', { headers: { 'X-Session-Token': token() } });
+    if (!r.ok) return;
+    const j = await r.json();
+
+    const wasRunning = _t50JobRunning;
+    _t50JobRunning = j.running;
+    _t50CurrentSigla = j.running ? j.sigla : null;
+    _t50Queue = j.queue || [];
+
+    if (j.running) {
+      document.getElementById('t50-job-sigla').textContent = j.sigla || '—';
+      document.getElementById('t50-job-pid').textContent = j.pid || '—';
+      document.getElementById('t50-job-started').textContent = j.started_at || '—';
+      document.getElementById('t50-job-translated').textContent = fmt(j.translated_total);
+      document.getElementById('t50-job-remaining').textContent = fmt(j.remaining_total);
+      const logEl = document.getElementById('t50-job-log');
+      logEl.textContent = (j.log_tail || []).join('\n') || 'Đang xử lý…';
+      logEl.scrollTop = logEl.scrollHeight;
+      document.getElementById('t50-job-panel').classList.add('visible');
+      t50StartPolling();
+    } else {
+      document.getElementById('t50-job-panel').classList.remove('visible');
+      t50StopPolling();
+      if (wasRunning) await t50Refresh();
+    }
+
+    t50RenderQueuePanel();
+    if (_t50ProgressData) t50RenderSiglaRows(_t50ProgressData.by_sigla || []);
+  } catch (_) {}
+}
+
+async function t50Enqueue(sigla) {
+  if (!_t50ApiAvailable) { alert('Cần restart server (python app.py) để dùng tính năng này.'); return; }
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/t50/enqueue', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() },
+      body: JSON.stringify({ sigla })
+    });
+    const j = await r.json();
+    if (!j.ok) { alert('Lỗi: ' + j.error); return; }
+    if (j.action === 'queued') _t50Queue = j.queue || [];
+    await t50CheckJobStatus();
+  } catch (e) { alert('Không kết nối được server: ' + e.message); }
+}
+
+async function t50Dequeue(sigla) {
+  if (!_t50ApiAvailable) return;
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/t50/dequeue', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() },
+      body: JSON.stringify({ sigla })
+    });
+    const j = await r.json();
+    _t50Queue = j.queue || [];
+    t50RenderQueuePanel();
+    if (_t50ProgressData) t50RenderSiglaRows(_t50ProgressData.by_sigla || []);
+  } catch (e) {}
+}
+
+async function t50StopJob() {
+  if (!_t50ApiAvailable) return;
+  try {
+    const r = await fetch(API + '/daoanh/api/admin/t50/stop', { method: 'POST', headers: { 'X-Session-Token': token() } });
+    const j = await r.json();
+    if (!j.ok) alert('Lỗi dừng: ' + j.error);
+    await t50CheckJobStatus();
+  } catch (e) { alert('Lỗi: ' + e.message); }
+}
+
+function t50StartPolling() { if (_t50PollTimer) return; _t50PollTimer = setInterval(t50CheckJobStatus, 3000); }
+function t50StopPolling()  { if (_t50PollTimer) { clearInterval(_t50PollTimer); _t50PollTimer = null; } }
+</script>
+</body>
+</html>
