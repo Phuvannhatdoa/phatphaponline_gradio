@@ -1,5 +1,6 @@
 ---
-id: T521
+id: T522
+former_ids: [T521]
 title: Tích hợp MCP prompts.chat cho dự án (không cần key)
 module: Harness
 priority: low
@@ -10,7 +11,9 @@ updated: 2026-11-06
 done_when: File .mcp.json tại Dai_Tang_Kinh khai báo server prompts-chat (HTTP, https://prompts.chat/api/mcp); /mcp trong Claude Code hiện trạng thái kết nối
 ---
 
-# T521 — Tích hợp MCP prompts.chat cho dự án
+# T522 — Tích hợp MCP prompts.chat cho dự án
+
+> Đổi từ T521 sang T522 (2026-11-06) vì T521 đã có nhánh `t521-work-verify-hide-pass` dùng cùng ID.
 
 ## Mục tiêu
 Gắn MCP server prompts.chat vào dự án để dùng prompt công khai từ Claude Code.
