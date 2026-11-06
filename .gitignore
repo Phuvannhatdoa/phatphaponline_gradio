@@ -5,6 +5,7 @@ node_modules/
 .env
 *.json
 !Dai_Tang_Kinh/daoanh/package.json
+!Dai_Tang_Kinh/.mcp.json
 !AGENTS.md
 !data/processed/monk_names.json
 !data/master_db.json
