@@ -12663,6 +12663,18 @@ def api_places_vi_map_list():
         elif filt == 'no_claude':
             where.append("c.dila_id IS NULL")
 
+        # BUG verify 2026-11-06 (namevimap — ID đã Pass chưa được ẩn trên các TAB):
+        # Checkbox "Ẩn đã Pass" (place-hide-done, admin/namevimap.html) gửi tham số
+        # hide_done=true nhưng route này trước đây không đọc tham số đó, nên các dòng
+        # đã Pass (vn_name_status='reviewed') vẫn hiện lại sau khi tải lại trang. Mặc
+        # định True để khớp checkbox mặc định checked. Không áp dụng khi filt='pass100'
+        # vì đó là lúc Admin CHỦ Ý xem lại các dòng đã Pass — áp hide_done ở đây sẽ luôn
+        # trả danh sách rỗng. Cùng pattern hide_pass đã dùng ở tab Catalog (T520) và tab
+        # Work Verify (api_admin_work_verify_list, app.py ~17669).
+        hide_done = (request.args.get('hide_done', 'true') or 'true').strip().lower() != 'false'
+        if hide_done and filt != 'pass100':
+            where.append("(m.vn_name_status IS NULL OR m.vn_name_status != 'reviewed')")
+
         where_sql = (' WHERE ' + ' AND '.join(where)) if where else ''
 
         # QA vòng 3 (fix 1) — ĐÃ THỬ gộp COUNT bằng window function COUNT(*) OVER() nhưng ĐO
