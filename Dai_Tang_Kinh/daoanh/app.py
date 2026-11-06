@@ -1272,6 +1272,327 @@ def api_admin_nexus_translate_status():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
+# ── T514 việc 3+4 — tab "Dịch Nexus T514" mở rộng: search 4 cột + validator ──
+# CHỈ ĐỌC DB. Lựa chọn "Chọn bản này" của admin chỉ ghi vào file staging
+# JSONL trên đĩa (_T514_SELECTED_PATH), KHÔNG UPDATE/INSERT/DELETE bất kỳ
+# bảng nào của lineage.db.
+_T514_VN_TRANSLATE_ROOT = os.path.join(
+    os.path.dirname(__file__), 'data', 'dila_import', 'biographies.2024-01', 'vn_translate'
+)
+_T514_VN_TRANSLATE_CODEX_ROOT = os.path.join(
+    os.path.dirname(__file__), 'data', 'dila_import', 'biographies.2024-01', 'vn_translate_codex'
+)
+_T514_VN_BIO_NEXUS_DIR = os.path.join(
+    os.path.dirname(__file__), 'data', 'dila_import', 'biographies.2024-01', 'vn_bio_nexus'
+)
+_T514_SELECTED_PATH = os.path.join(
+    os.path.dirname(__file__), 'data', 'dila_import', 'biographies.2024-01', 'vn_translate',
+    '_admin_selected.jsonl'
+)
+
+
+def _t514_scan_jsonl_for_nexus_ids(root_dir, book, nexus_ids):
+    """Quét TOÀN BỘ batch_*.jsonl của 1 sách trong root_dir, trả về
+    {nexus_id: text_vi} CHỈ cho các nexus_id được yêu cầu (nexus_ids là set
+    nhỏ — kết quả 1 trang tìm kiếm, tối đa 50). Đọc file theo từng dòng
+    (generator), không load cả thư mục vào RAM. Dòng SAU trong file (nếu có
+    dịch lại) đè dòng TRƯỚC cho cùng nexus_id (ưu tiên bản mới nhất)."""
+    found = {}
+    needed = set(nexus_ids)
+    book_dir = os.path.join(root_dir, book)
+    if not needed or not os.path.isdir(book_dir):
+        return found
+    for fname in sorted(f for f in os.listdir(book_dir) if f.startswith('batch_') and f.endswith('.jsonl')):
+        fpath = os.path.join(book_dir, fname)
+        try:
+            with open(fpath, 'r', encoding='utf-8') as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        obj = json.loads(line)
+                    except Exception:
+                        continue
+                    nid = obj.get('nexus_id')
+                    if nid in needed and obj.get('text_vi'):
+                        found[nid] = obj['text_vi']
+        except OSError:
+            continue
+    return found
+
+
+def _t514_lookup_claude_text(book, nexus_ids):
+    """Đọc data/.../vn_bio_nexus/<book>.vi.xml bằng iterparse (streaming theo
+    phần tử <nexus>, KHÔNG dựng DOM / load cả file vào RAM) để lấy text_vi
+    (bản dịch Claude) khớp đúng theo thuộc tính id= (nexus_id), rồi clear()
+    từng phần tử ngay sau khi đọc xong để giữ bộ nhớ thấp."""
+    import xml.etree.ElementTree as _t514_ET
+    found = {}
+    needed = set(nexus_ids)
+    xml_path = os.path.join(_T514_VN_BIO_NEXUS_DIR, f'{book}.vi.xml')
+    if not needed or not os.path.isfile(xml_path):
+        return found
+    try:
+        context = _t514_ET.iterparse(xml_path, events=('end',))
+        for event, elem in context:
+            if elem.tag == 'nexus':
+                nid = elem.get('id')
+                if nid in needed:
+                    text_vi_el = elem.find('text_vi')
+                    if text_vi_el is not None and text_vi_el.text:
+                        found[nid] = text_vi_el.text.strip()
+                elem.clear()
+    except Exception:
+        pass
+    return found
+
+
+def _t514_read_active_rules(conn):
+    """SELECT thực từ translation_rules WHERE status='active' — KHÔNG hard-code
+    số lượng hay nội dung rule trong code."""
+    rows = conn.execute(
+        "SELECT rule_code, rule_type, description, rule_text FROM translation_rules "
+        "WHERE status='active' ORDER BY priority, rule_code"
+    ).fetchall()
+    return [dict(r) if not isinstance(r, dict) else r for r in
+            [{'rule_code': r[0], 'rule_type': r[1], 'description': r[2], 'rule_text': r[3]} for r in rows]]
+
+
+# Ký tự Hán (CJK Unified Ideographs + mở rộng thường gặp) — dùng để phát hiện
+# bản dịch còn sót chữ Hán chưa dịch (không dùng để loại bỏ ký tự Hán-Việt
+# hợp lệ, vì tiếng Việt không dùng CJK).
+_T514_CJK_RE = re.compile(r'[一-鿿㐀-䶿豈-﫿]')
+# CHỈ dùng dấu MACRON/CARON trên nguyên âm La-tinh — hoàn toàn không tồn tại
+# trong tiếng Việt — để phát hiện phiên âm pinyin còn sót (vi phạm rule
+# NO_PINYIN). KHÔNG đưa dấu sắc/huyền (á à...) vào vì đó là dấu thanh tiếng
+# Việt hợp lệ (bug thực tế phát hiện khi chạy pilot T514: "Cầu-na-bạt-đà"
+# hợp lệ bị báo nhầm là pinyin do quy tắc cũ gộp chung với dấu sắc/huyền).
+_T514_PINYIN_TONE_RE = re.compile(r'[āēīōūǖĀĒĪŌŪǕǎěǐǒǔǚǍĚǐǑǔǚ]')
+
+
+def _t514_validate_translation(text_zh, text_vi, active_rules):
+    """
+    Áp dụng các kiểm tra TỰ ĐỘNG được (proxy khách quan cho các rule_type có
+    thể máy kiểm tra: 'forbidden', 'structure', 'grammar'), dựa trên danh
+    sách active_rules đọc THẬT từ DB (không hard-code nội dung rule).
+    Rule thuộc rule_type 'style'/'terminology'/'gate'/'provenance' là đánh
+    giá học thuật/thủ công, không thể máy tự động hoá hoàn toàn -> được liệt
+    kê là 'not_machine_checkable', KHÔNG được coi là 'pass' giả, chỉ không
+    tính vào điều kiện chặn tự động.
+    Trả về dict: {passed, n_rules_active, n_checked, n_not_checkable, checks:[...]}
+    """
+    checks = []
+    text_vi = (text_vi or '').strip()
+    text_zh = (text_zh or '').strip()
+
+    def add(code, ok, note):
+        checks.append({'rule_code': code, 'passed': ok, 'note': note})
+
+    has_empty = len(text_vi) == 0
+    add('_EMPTY_CHECK', not has_empty, 'Bản dịch trống' if has_empty else 'Có nội dung')
+
+    has_cjk = bool(_T514_CJK_RE.search(text_vi))
+    add('_NO_CJK_LEFTOVER', not has_cjk,
+        'Còn sót chữ Hán chưa dịch' if has_cjk else 'Không còn chữ Hán')
+
+    has_pinyin_tone = bool(_T514_PINYIN_TONE_RE.search(text_vi))
+    add('NO_PINYIN', not has_pinyin_tone,
+        'Phát hiện dấu thanh pinyin (không phải dấu tiếng Việt)' if has_pinyin_tone
+        else 'Không phát hiện pinyin')
+
+    has_bracket_note = ('[' in text_vi) or (']' in text_vi)
+    add('NO_ADDITION', not has_bracket_note,
+        'Có dấu ngoặc vuông [] — khả năng tự thêm chú thích ngoài nguyên bản'
+        if has_bracket_note else 'Không có chú thích thêm dạng []')
+
+    # Tỉ lệ độ dài: cảnh báo nếu bản dịch quá ngắn/quá dài bất thường so với
+    # nguyên bản (proxy cho RULE-001/RULE-002 "trung thành nội dung, không bỏ
+    # sót"). Ngưỡng rộng vì Hán văn cô đọng hơn tiếng Việt khi dịch ra.
+    len_ok = True
+    if text_zh and not has_empty:
+        ratio = len(text_vi) / max(len(text_zh), 1)
+        len_ok = 0.4 <= ratio <= 6.0
+    add('_LENGTH_RATIO', len_ok,
+        'Tỉ lệ độ dài bản dịch/nguyên bản bất thường (có thể thiếu hoặc thêm nội dung)'
+        if not len_ok else 'Tỉ lệ độ dài hợp lý')
+
+    machine_checkable_codes = {'_EMPTY_CHECK', '_NO_CJK_LEFTOVER', 'NO_PINYIN', 'NO_ADDITION', '_LENGTH_RATIO'}
+    n_not_checkable = sum(1 for r in active_rules if r['rule_code'] not in machine_checkable_codes)
+    passed = all(c['passed'] for c in checks)
+
+    return {
+        'passed': passed,
+        'n_rules_active': len(active_rules),
+        'n_checked_machine': len(checks),
+        'n_not_machine_checkable': n_not_checkable,
+        'checks': checks,
+    }
+
+
+@app.route('/daoanh/api/admin/nexus-translate-search')
+def api_admin_nexus_translate_search():
+    """
+    GET /daoanh/api/admin/nexus-translate-search?q=...&book=...&page=1
+    T514 việc 3 — tìm nexus theo nexus_id, tên Hán/Việt (qua people), hoặc từ
+    khoá trong text_zh. Tối đa 50 kết quả/trang. CHỈ ĐỌC DB.
+    Mỗi kết quả trả 4 cột: text_zh (DB), gemini (JSONL việc 2), claude
+    (vn_bio_nexus/*.vi.xml streaming), codex (JSONL việc 5) — cột nào chưa có
+    bản dịch trả None, FE hiển thị 'chưa có bản …'. Mỗi bản có nội dung đã
+    được validator (việc 4) chạy qua, kèm 'can_select' = đã pass hết kiểm tra
+    máy tự động hay chưa (đọc rule đang active thật từ DB, không hard-code).
+    """
+    q = (request.args.get('q') or '').strip()
+    book_filter = (request.args.get('book') or '').strip()
+    try:
+        page = max(1, int(request.args.get('page', 1)))
+    except ValueError:
+        page = 1
+    limit = 50
+    offset = (page - 1) * limit
+
+    if not q and not book_filter:
+        return jsonify({"ok": False, "error": "Cần tham số q (từ khoá/nexus_id/tên) hoặc book"}), 400
+
+    conn = get_db_connection()
+    try:
+        conn.row_factory = sqlite3.Row
+        where = []
+        params = []
+        if q:
+            like = f'%{q}%'
+            where.append(
+                "(n.nexus_id LIKE ? OR n.text_zh LIKE ? OR p.name_zh LIKE ? OR p.name_vi LIKE ?)"
+            )
+            params.extend([like, like, like, like])
+        if book_filter:
+            where.append("n.book = ?")
+            params.append(book_filter)
+        where_sql = (" WHERE " + " AND ".join(where)) if where else ""
+
+        sql = f"""
+            SELECT DISTINCT n.nexus_id, n.book, n.text_zh, n.seq
+            FROM dila_bio_nexus n
+            LEFT JOIN dila_bio_nexus_person np ON np.nexus_id = n.nexus_id
+            LEFT JOIN people p ON p.id = np.person_id
+            {where_sql}
+            ORDER BY n.book, n.seq
+            LIMIT ? OFFSET ?
+        """
+        rows = conn.execute(sql, params + [limit, offset]).fetchall()
+
+        count_sql = f"""
+            SELECT COUNT(DISTINCT n.nexus_id)
+            FROM dila_bio_nexus n
+            LEFT JOIN dila_bio_nexus_person np ON np.nexus_id = n.nexus_id
+            LEFT JOIN people p ON p.id = np.person_id
+            {where_sql}
+        """
+        total = conn.execute(count_sql, params).fetchone()[0]
+
+        active_rules = _t514_read_active_rules(conn)
+
+        # Nhóm theo book để quét JSONL/XML 1 lần cho mỗi sách trong trang này.
+        by_book = {}
+        for r in rows:
+            by_book.setdefault(r['book'], []).append(r['nexus_id'])
+
+        gemini_map, codex_map, claude_map = {}, {}, {}
+        for book, ids in by_book.items():
+            gemini_map.update(_t514_scan_jsonl_for_nexus_ids(_T514_VN_TRANSLATE_ROOT, book, ids))
+            codex_map.update(_t514_scan_jsonl_for_nexus_ids(_T514_VN_TRANSLATE_CODEX_ROOT, book, ids))
+            claude_map.update(_t514_lookup_claude_text(book, ids))
+
+        items = []
+        for r in rows:
+            nid = r['nexus_id']
+            text_zh = r['text_zh']
+            cols = {}
+            for col_name, text_vi in (
+                ('gemini', gemini_map.get(nid)),
+                ('claude', claude_map.get(nid)),
+                ('codex', codex_map.get(nid)),
+            ):
+                if text_vi:
+                    v = _t514_validate_translation(text_zh, text_vi, active_rules)
+                    cols[col_name] = {'text_vi': text_vi, 'validation': v}
+                else:
+                    cols[col_name] = None
+            items.append({
+                'nexus_id': nid,
+                'book': r['book'],
+                'seq': r['seq'],
+                'text_zh': text_zh,
+                'gemini': cols['gemini'],
+                'claude': cols['claude'],
+                'codex': cols['codex'],
+            })
+
+        return jsonify({
+            'ok': True, 'q': q, 'book': book_filter, 'page': page, 'limit': limit,
+            'total': total, 'n_rules_active': len(active_rules), 'items': items,
+        })
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+    finally:
+        conn.close()
+
+
+@app.route('/daoanh/api/admin/nexus-translate-select', methods=['POST'])
+def api_admin_nexus_translate_select():
+    """
+    POST /daoanh/api/admin/nexus-translate-select
+    body: {nexus_id, book, source (gemini|claude|codex), text_vi}
+    T514 việc 3+4 — admin bấm "Chọn bản này". Validator (việc 4) chạy LẠI ở
+    server (không tin kết quả FE gửi lên) trước khi cho phép ghi. Chỉ ghi
+    staging JSONL (_T514_SELECTED_PATH), TUYỆT ĐỐI KHÔNG UPDATE/INSERT/DELETE
+    bảng dila_bio_nexus_vi hay bất kỳ bảng DB nào.
+    """
+    data = request.get_json(silent=True) or {}
+    nexus_id = (data.get('nexus_id') or '').strip()
+    book = (data.get('book') or '').strip()
+    source = (data.get('source') or '').strip()
+    text_vi = (data.get('text_vi') or '').strip()
+    if not nexus_id or source not in ('gemini', 'claude', 'codex') or not text_vi:
+        return jsonify({"ok": False, "error": "Thiếu nexus_id/source hợp lệ/text_vi"}), 400
+
+    conn = get_db_connection()
+    try:
+        conn.row_factory = sqlite3.Row
+        row = conn.execute(
+            "SELECT text_zh, book FROM dila_bio_nexus WHERE nexus_id = ?", (nexus_id,)
+        ).fetchone()
+        if not row:
+            return jsonify({"ok": False, "error": f"Không tìm thấy nexus_id {nexus_id} trong DB"}), 404
+        text_zh = row['text_zh']
+        active_rules = _t514_read_active_rules(conn)
+        validation = _t514_validate_translation(text_zh, text_vi, active_rules)
+        if not validation['passed']:
+            return jsonify({
+                "ok": False, "error": "Bản dịch chưa qua quy tắc (validator việc 4), không thể chọn.",
+                "validation": validation,
+            }), 422
+
+        record = {
+            'nexus_id': nexus_id,
+            'book': row['book'],
+            'source': source,
+            'text_vi': text_vi,
+            'validation': validation,
+            'selected_by': request.remote_addr,
+            'selected_at': datetime.utcnow().isoformat() + 'Z',
+        }
+        os.makedirs(os.path.dirname(_T514_SELECTED_PATH), exist_ok=True)
+        with open(_T514_SELECTED_PATH, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(record, ensure_ascii=False) + '\n')
+
+        return jsonify({"ok": True, "nexus_id": nexus_id, "source": source, "validation": validation})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+    finally:
+        conn.close()
+
+
 @app.route('/daoanh/api/admin/missing-hanzi/override', methods=['POST'])
 def api_admin_missing_hanzi_override():
     """
