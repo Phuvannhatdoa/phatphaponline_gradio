@@ -3,111 +3,145 @@ id: T56
 title: "Bản Đồ Lịch Sử — Dynasty Map & Temporal Slider"
 module: GIS / Timeline / UI
 priority: medium
-status: pending
+status: in_progress
 depends_on: [T21, T31, T32, T39]
 created: 2026-08-26
-updated: 2026-08-26
+updated: 2026-11-06
 done_when: >
   Bản đồ hiển thị chùa qua các triều đại với overlay ranh giới lịch sử,
   temporal animation slider theo năm lập chùa, marker cluster màu theo triều đại.
   Không ghi đè Leaflet map + Tab Bản Đồ hiện có.
 ---
 
-# T56 — Bản Đồ Lịch Sử (Dynasty Map & Temporal Slider)
+# T56 — Bản Đồ Lịch Sử
 
-## Mục tiêu
-Thêm lớp lịch sử lên bản đồ hiện có: hiển thị chùa theo triều đại + animation theo thời gian.
+> Tài liệu này viết cho Admin đọc. Phần cuối (mục 10) là ghi chú kỹ thuật cho Agent.
 
-## Hiện Trạng (Codebase)
-- Leaflet + MarkerCluster map trên places.html/placevn.html (DONE)
-- `lineage_chronology`: 3,196 rows có dynasty, century, GPS coords
-- Tab Niên Đại (T21): timeline theo từng place — `GET /daoanh/api/places/<id>/timeline`
-- `GET /daoanh/api/places/unified?dynasty=` — GPS locations + dynasty filter
-- `GET /daoanh/api/chronology/events?dynasty=` — event query
-- `_get_dynasty_context()` — DILA time_periods lookup (dynasty name, era, start year)
-- T39 Wikidata P571 spatial — ~1,500 founding dates pending import
-- BGIS/T31 — 33 GPS cross-refs (KHÔNG có founding date)
+## 1. Tóm tắt cho Admin
 
-## Khoảng Trống (Gap)
-- Bản đồ hiện dùng **tile layer hiện đại**, không có ranh giới triều đại lịch sử
-- Chưa có temporal animation slider (năm lập chùa)
-- Chưa có marker cluster màu theo triều đại
-- Tab Bản Đồ (`data-t="bandoo"`) hiện là placeholder
+**Mục tiêu:** Cho phép xem các chùa trên bản đồ theo thời gian và theo triều đại. Ví dụ: kéo một thanh năm để thấy những chùa nào đã được lập đến năm đó, và tô màu chùa theo triều đại.
 
-## Subtasks
+**Hiện đang ở đâu:**
+- Phần **dữ liệu** đã làm xong: hệ thống đã lấy được danh sách chùa có năm lập và vị trí, và đã phân loại chùa theo triều đại.
+- Phần **giao diện** (thanh trượt, nút phát, màu sắc, nơi hiển thị trên trang) **chưa làm**.
+- Bản đồ hiện có trên trang vẫn giữ nguyên, không bị thay đổi.
+- **Vị trí của T56:** lớp T56 là một lớp dữ liệu riêng, nằm trên **tab Bản Đồ** của trang Đạo Ảnh (`places.html`). Trang kiểm tra: `http://127.0.0.1:8080/daoanh/places.html?fly=34.5885,112.9343&select=PL000000023255` (mở đúng chùa đã chọn, rồi bấm tab Bản Đồ).
 
-### T56a — Temporal Slider Data
-- Cần 1 trường `founding_year` gộp được cho map-level query
-- Nguồn: `lineage_chronology` (3,196) + `place_timeline_events` (nếu có) + Wikidata P571 (T39)
-- Bảng mới `map_chronology(place_id, lat, lng, founding_year, dynasty)` — precomputed cho hiệu năng
-- KHÔNG thêm cột vào `places_dila` (bất biến) — bảng cô lập riêng
+## 2. Đã làm xong
+- Lấy được danh sách chùa có năm lập và tọa độ trên bản đồ.
+- Xác định triều đại của từng chùa dựa trên năm lập.
+- Có danh sách các triều đại, kèm số chùa và khoảng năm của mỗi triều.
+- Nếu máy chủ thiếu dữ liệu, hệ thống trả về danh sách rỗng kèm thông báo, thay vì báo lỗi.
 
-### T56b — Map Layer Theo Triều Đại
-- Route: `GET /daoanh/api/places/map-timeline?min_year=&max_year=&dynasty=`
-- Trả về clusters + markers với `founding_year` + `dynasty`
-- Frontend: filter/dropdown triều đại + color code
+Đây là phần T56a (dữ liệu) và T56b (nguồn dữ liệu cho bản đồ). Hai nguồn này không tạo bảng dữ liệu mới, chỉ đọc từ dữ liệu có sẵn.
 
-### T56c — Temporal Animation Slider
-- Slider năm (vd 100–2000 CE) — kéo → markers lập chùa trong năm đó nổi bật
-- Animation play/pause when dragging
-- Dùng `map_chronology.founding_year`
+## 3. Chưa làm
+- **Thanh trượt năm** và nút phát/dừng (T56c).
+- **Màu điểm chùa theo triều đại** trên bản đồ (T56c).
+- **Đưa lớp T56 lên tab Bản Đồ** (T56d). Hiện trang chưa gọi dữ liệu T56 nào, nên tab Bản Đồ chưa hiển thị lớp này. Chỉ có bản đồ nhỏ của chùa đang chọn.
+- **Đường ranh giới các triều đại** — hiện chưa có nguồn dữ liệu ranh giới.
 
-### T56d — Tích Hợp Vào Tab Bản Đồ
-- Hoàn thiện tab Bản Đồ placeholder → map lịch sử tương tác
-- Giữ Leaflet map hiện có làm nền + layer lịch sử overlay
+## 4. Vấn đề dữ liệu Admin cần biết
+- **Triều đại đang được xác định theo khoảng năm cố định** viết sẵn trong hệ thống, không lấy từ tài liệu gốc. Một số khoảng trùng nhau (ví dụ Bắc Ngụy nằm trong thời Nam Bắc Triều), nên một năm có thể thuộc nhiều triều. Cần kiểm chứng lại bảng này trước khi công bố cho công chúng.
+- **Chỉ khoảng 2.251 / 3.688 sự kiện lập chùa có năm** (số liệu kiểm tra ngày 2026-10-08). Chùa không có năm lập sẽ không hiện trên bản đồ lịch sử.
+- **Tài liệu cũ đã sai:** trước đây ghi rằng bảng "lineage" có tọa độ của 3.196 địa danh. Thực tế bảng đó chỉ có người và tác phẩm, không có chùa và không có tọa độ. Nguồn tọa độ đúng là bảng sự kiện lập chùa nối với bảng chùa. Đã sửa trong tài liệu này.
+- **Tab Bản Đồ hiện có** là bản đồ nhỏ cho từng chùa đang chọn, không phải bản đồ lịch sử toàn cục. Theo Admin, lớp T56 là lớp riêng đặt trên tab này. Cách hiển thị cụ thể (có giữ bản đồ nhỏ hay không) chưa chốt.
+- **Chưa có chỗ kiểm thử trên màn hình:** hiện chỉ kiểm tra được phần dữ liệu.
 
-## API Changes
-- New: `GET /daoanh/api/places/map-timeline`
-- New: `GET /daoanh/api/places/map-timeline/dynasties` — list dynasties + year range
+## 5. Kế hoạch
 
-## Frontend
-- Update: `places.html` tab Bản Đồ — map lịch sử + slider
-- Giữ nguyên Leaflet map + MarkerCluster
+| Phần | Nội dung | Trạng thái |
+|---|---|---|
+| T56a | Dữ liệu năm lập và vị trí chùa | Đã làm |
+| T56b | Nguồn dữ liệu cho bản đồ, lọc theo năm và triều đại | Đã làm |
+| T56c | Thanh trượt năm, nút phát/dừng, màu theo triều đại | Chưa làm |
+| T56d | Đưa lớp T56 lên tab Bản Đồ | Chưa làm. Đã chốt: nằm trên tab Bản Đồ |
 
-## Không Xung Đột Với
-- Leaflet map hiện có (overlay layer mới, không thay thế)
-- T21/T31/T32 — dùng lại founding dates, không sửa
-- T31 BGIS — không dùng cho founding date (chỉ GPS)
+**Việc Admin cần quyết trước khi làm T56d:**
+1. Cách hiển thị lớp T56 trên tab Bản Đồ: có giữ bản đồ nhỏ của chùa đang chọn hay không?
+2. Nguồn dữ liệu **ranh giới triều đại** dùng từ đâu?
 
-## Ghi chú triển khai 2026-10-08 — PHƯƠNG ÁN (b)
+Sau khi Admin quyết hai việc trên, làm T56c rồi T56d.
 
-**Admin đã chọn phương án (b): KHÔNG tạo bảng `map_chronology`.** Route API query
-runtime trực tiếp, không bảng precompute.
+## 6. Tiêu chí nghiệm thu
+- Dữ liệu năm lập và triều đại hiển thị đúng, lọc đúng theo năm và theo triều đại. **(Đã đạt)**
+- Thanh trượt chạy được, nút phát/dừng hoạt động, màu chùa đổi theo triều đại. **(Chưa làm)**
+- Bản đồ hiện có không bị thay đổi. **(Đúng đến hiện tại)**
 
-**Phát hiện khi audit (sửa giả định sai trong spec gốc):**
-- `lineage_chronology` **KHÔNG có GPS/place_id** — bảng này chỉ có 2 category:
-  `person` (46.944 dòng) và `work` (2.616 dòng), **0 dòng category `place`**. Giả
-  định "3.196 rows có dynasty, century, GPS coords" trong mục Hiện Trạng phía
-  trên là **sai** — không áp dụng được cho T56.
-- Nguồn founding year/GPS thật dùng được: `place_timeline_events` (3.688 dòng,
-  PL id, `event_type='founding'` có 2.251 dòng có `year`) JOIN `places_dila`
-  (GPS `geo_lat`/`geo_long`, 3.595/3.688 dòng khớp có GPS).
-- Dynasty không có cột sẵn trong `place_timeline_events` — suy từ `founding_year`
-  qua hàm có sẵn `_get_dynasty_context()` (hardcoded CE range, KHÔNG tự suy từ
-  note/era theo quy tắc evidence-first `docs/rules/data-integrity.md`).
+## 7. Trạng thái
+- T56a: đã làm.
+- T56b: đã làm.
+- T56c: chưa làm.
+- T56d: chưa làm.
+- **T56 tổng thể: chưa hoàn thành.** Không ghi "xong" khi T56c và T56d còn thiếu.
 
-**Đã làm (T56a + T56b — không cần bảng mới):**
-- `GET /daoanh/api/places/map-timeline?min_year=&max_year=&dynasty=&limit=`
-- `GET /daoanh/api/places/map-timeline/dynasties`
-- Cả hai chỉ SELECT trên `place_timeline_events`/`places_dila`/`namevi_map_places`,
-  bọc `try/except sqlite3.OperationalError` → trả rỗng có `warning:"schema_lag"`
-  nếu VPS thiếu bảng, không sập route.
+## 8. Lịch sử quyết định
+- **2026-08-26:** Tạo T56. Kế hoạch ban đầu dùng một bảng dữ liệu riêng để tính trước, và giả định nguồn tọa độ là một bảng khác.
+- **2026-10-08:** Admin chọn không tạo bảng riêng; hệ thống tính trực tiếp từ dữ liệu có sẵn. Phát hiện giả định về nguồn tọa độ là sai, đã đổi nguồn. T56d tạm dừng chờ Admin quyết định thiết kế.
+- **2026-11-06:** Viết lại tài liệu cho dễ đọc với Admin. Sửa các mô tả sai (nguồn tọa độ, cách xác định triều đại, tab Bản Đồ, một tên file không tồn tại). Trạng thái chuyển từ "chờ" sang "đang làm".
+- **2026-11-06 (Admin):** T56 là lớp dữ liệu riêng nằm trên tab Bản Đồ, không phải một trang hay tab mới. Đã chốt nơi đặt lớp; còn chờ quyết định cách hiển thị và nguồn ranh giới triều đại.
 
-**KHÔNG làm (ghi rõ để không ai hiểu nhầm):**
-- **T56c (Temporal Animation Slider)** — chưa làm phần UI play/pause kéo slider.
-- **T56d (Tích hợp tab Bản Đồ)** — **không đụng** tab `data-t="bandoo"` hiện có
-  trong `places.html`: tab này **không phải placeholder** như mô tả cũ — nó đã
-  render mini-map Leaflet cho entity đang chọn (`renderBandooTab()`,
-  `places.html` dòng ~10728). Route mới (`map-timeline`) là API cho một bản đồ
-  lịch sử toàn cục/theo triều đại — khác mục đích với tab per-entity hiện có;
-  ghép UI cho đúng sẽ cần quyết định thiết kế (dùng tab riêng hay overlay lên map
-  chính `#map`) — để Admin chốt trước khi làm UI, tránh phá tab đang hoạt động.
+## 9. Nhật ký cập nhật
+Mỗi lần sửa tài liệu, ghi thêm một dòng ở đây.
 
-**Test đã chạy:** `python -m py_compile app.py` OK; `app.test_client()` cho cả
-hai route: lọc `min_year/max_year`, lọc `dynasty=唐` (đã phát hiện và sửa 1 bug
-logic: filter dynasty áp SAU khi SQL đã LIMIT theo năm tăng dần → bỏ sót triều
-đại muộn; sửa bằng cách fetch hết rồi lọc Python khi có `dynasty` filter), biên
-rỗng (`min_year=5000`), tham số sai kiểu (`min_year=abc` → fallback bỏ qua, không
-500), không tham số (limit mặc định 500). `dynasties` trả 17 triều đại.
+- **2026-11-06:** Viết lại toàn bộ tài liệu theo cấu trúc mới, viết bằng tiếng Việt dễ hiểu cho Admin. Chuyển phần ghi chú kỹ thuật xuống cuối file (mục 10). Cập nhật ngày sửa đổi. Trạng thái: T56a và T56b đã làm, T56c và T56d chưa làm.
+- **2026-11-06 (bổ sung):** Theo Admin, ghi rõ T56 là lớp dữ liệu riêng trên tab Bản Đồ, kèm đường dẫn kiểm tra. Xác nhận bằng mã nguồn: trang `places.html` chưa có lời gọi nào tới API map-timeline, nên lớp chưa hiện. Cập nhật mục 1, 3, 4, 5, 8 và khối JSON.
 
-## Estimated Effort: ~12 hours
+---
+
+## 10. Ghi chú cho Agent (JSON prompt — giữ cuối file)
+
+```json
+{
+  "task": "T56",
+  "action": "rewrite_document",
+  "objective": "Viết lại tài liệu T56 theo cấu trúc mới, phản ánh đúng trạng thái hiện tại và tách rõ phần đã có, phần còn thiếu, vấn đề dữ liệu và kế hoạch triển khai.",
+  "scope_allow": [
+    "Chỉ sửa Dai_Tang_Kinh/daoanh/tasks/T56-ban-do-lich-su.md",
+    "Đối chiếu app.py, places.html và các tài liệu T56 liên quan để cập nhật chính xác",
+    "Giữ lại mục tiêu nghiệp vụ của T56 nhưng sửa các mô tả sai về lineage_chronology, GPS và dynasty"
+  ],
+  "scope_deny": [
+    "Không sửa app.py, places.html, database hoặc API",
+    "Không triển khai slider, animation, marker màu hay UI mới",
+    "Không tạo bảng map_chronology",
+    "Không commit, merge, push hoặc ghi đè thay đổi của agent khác"
+  ],
+  "implementation_state": {
+    "T56a": "implemented",
+    "T56b": "implemented",
+    "T56c": "pending",
+    "T56d": "pending"
+  },
+  "endpoints": {
+    "map_timeline": "GET /daoanh/api/places/map-timeline?min_year=&max_year=&dynasty=&limit= (mặc định 500, tối đa 2000; lọc dynasty ở tầng Python; schema_lag khi thiếu bảng)",
+    "map_timeline_dynasties": "GET /daoanh/api/places/map-timeline/dynasties (17 triều; min/max year, count)"
+  },
+  "source_ssot": "place_timeline_events (event_type='founding', year NOT NULL) JOIN places_dila (geo_lat, geo_long). KHÔNG dùng lineage_chronology (0 dòng place, không có GPS).",
+  "dynasty_logic": "_get_dynasty_context() trong app.py — bảng CE hardcoded, có khoảng chồng lấn; cần evidence trước khi dùng công khai.",
+  "admin_decision_2026-11-06": "T56 là lớp dữ liệu riêng trên tab Bản Đồ (data-t=bandoo) của places.html. Lớp này chưa được gắn: places.html không có fetch tới map-timeline.",
+  "known_gaps": [
+    "map-timeline-bar được tham chiếu trong places.html (~dòng 2100) nhưng không có phần tử HTML tương ứng",
+    "places.html không gọi map-timeline/dynasties ở bất kỳ đâu; lớp T56 chưa hiển thị trên tab bandoo",
+    "tab bandoo (renderBandooTab) là mini-map per-entity, không phải bản đồ lịch sử toàn cục",
+    "chưa có nguồn ranh giới triều đại (done_when yêu cầu overlay)",
+    "chỉ ~2.251/3.688 founding events có year"
+  ],
+  "blocked_on_admin": [
+    "Cách hiển thị lớp T56 trên tab bandoo: có giữ mini-map của chùa đang chọn không",
+    "Nguồn ranh giới triều đại"
+  ],
+  "rules": [
+    "Không tuyên bố DONE khi T56c/T56d còn pending",
+    "Mọi thay đổi tài liệu phải ghi vào mục 9 (Nhật ký cập nhật)",
+    "Giữ UTF-8 và tiếng Việt có dấu"
+  ],
+  "report_json": {
+    "status": "PASS|FAIL|BLOCKED",
+    "file_changed": "Dai_Tang_Kinh/daoanh/tasks/T56-ban-do-lich-su.md",
+    "diff_check": "Chỉ thay đổi file T56",
+    "tests": [],
+    "blockers": []
+  }
+}
+```
