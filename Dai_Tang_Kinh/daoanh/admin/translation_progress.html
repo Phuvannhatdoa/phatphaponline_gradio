@@ -680,7 +680,21 @@ function switchPage(id, btn) {
   document.querySelectorAll('.page-tabs .btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   const reg = TAB_REGISTRY[id];
-  if (reg && !reg.loaded && reg.init) { reg.loaded = true; reg.init(); }
+  if (reg && !reg.loaded && reg.init) {
+    // T520 fix: đánh dấu loaded=true LẠC QUAN trước khi gọi init() (giữ hành vi
+    // cũ cho đường thành công). Nhưng nếu promise trả về bị reject ngoài dự kiến
+    // (lỗi nằm ngoài try/catch nội bộ của init, VD network abort) thì reset
+    // loaded=false để lần click tab kế tiếp TỰ TẢI LẠI, không bị kẹt "Đang tải…"
+    // vĩnh viễn chỉ vì 1 lần thất bại tạm thời.
+    reg.loaded = true;
+    const p = reg.init();
+    if (p && typeof p.catch === 'function') {
+      p.catch(err => {
+        reg.loaded = false;
+        console.error('[switchPage] init("' + id + '") lỗi, cho phép tải lại ở lần mở tab kế tiếp:', err);
+      });
+    }
+  }
 }
 
 /* Deep-link: mở sẵn 1 tab qua #<id> hoặc ?tab=<id> (dùng bởi redirect từ t50-progress.html cũ).
@@ -1314,14 +1328,35 @@ async function psLoadList(resetPage = true) {
   if (resetPage) _psPage = 1;
   document.getElementById('ps-body').innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:18px">Đang tải…</td></tr>';
   try {
-    const url = API + '/daoanh/api/dila/persons?limit=' + PS_LIMIT + '&offset=' + ((_psPage - 1) * PS_LIMIT) + '&status=' + _psFilter;
+    // BUG đã ghi nhận: API /daoanh/api/dila/persons chỉ nhận status ∈
+    // {translated, draft, none} (xem app.py api_dila_persons_search). 2 nút
+    // "Chờ dịch" (pending) và "Không Hán văn" (nozh) của UI không có giá trị
+    // tương ứng ở API — nếu gửi thẳng, backend bỏ qua filter và trả về TẤT CẢ
+    // (giống 'all'). Để tránh im lặng trả sai mà không bịa trạng thái mới:
+    // với 2 filter này ta gọi API không lọc (status=all) rồi lọc lại phía
+    // client bằng chính field đã có (has_bio_zh/bio_vi_saved/draft_status —
+    // cùng logic psRenderRows dùng để vẽ badge trạng thái).
+    // GIỚI HẠN: chỉ lọc được trong phạm vi trang đã tải (PS_LIMIT dòng/trang),
+    // không lọc toàn bộ ~49k person phía server. Số đếm hiển thị ghi rõ đây là
+    // số khớp TRÊN TRANG, không phải tổng số toàn hệ thống.
+    const isClientFilter = (_psFilter === 'pending' || _psFilter === 'nozh');
+    const apiStatus = isClientFilter ? 'all' : _psFilter;
+    const url = API + '/daoanh/api/dila/persons?limit=' + PS_LIMIT + '&offset=' + ((_psPage - 1) * PS_LIMIT) + '&status=' + apiStatus;
     const r = await fetch(url, { headers: { 'X-Session-Token': token() } });
     const d = await r.json();
     if (!d.ok) throw new Error(d.error || 'API lỗi');
     _psTotalItems = d.total;
     _psPages = Math.ceil(_psTotalItems / PS_LIMIT);
-    document.getElementById('ps-count').textContent = fmt(d.total) + ' dòng';
-    psRenderRows(d.items);
+    let items = d.items;
+    if (_psFilter === 'pending') {
+      items = items.filter(it => !it.bio_vi_saved && !it.draft_status && it.has_bio_zh);
+    } else if (_psFilter === 'nozh') {
+      items = items.filter(it => !it.bio_vi_saved && !it.draft_status && !it.has_bio_zh);
+    }
+    document.getElementById('ps-count').textContent = isClientFilter
+      ? (fmt(items.length) + ' / ' + fmt(d.items.length) + ' dòng khớp trên trang này (API chưa hỗ trợ lọc "' + esc(_psFilter) + '" — lọc phía client; tổng ' + fmt(d.total) + ' person, dùng nút phân trang để xem trang khác)')
+      : (fmt(d.total) + ' dòng');
+    psRenderRows(items);
     psRenderPager();
   } catch (e) {
     document.getElementById('ps-body').innerHTML = '<tr><td colspan="7" style="color:var(--bad);text-align:center;padding:18px">Lỗi: ' + esc(e.message) + '</td></tr>';
