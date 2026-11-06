@@ -166,6 +166,12 @@
   <button class="btn" id="pagetab-nexus-t514" onclick="switchPage('nexus-t514', this)">
     Dịch Nexus T514
   </button>
+  <button class="btn" id="pagetab-person" onclick="switchPage('person', this)">
+    Dịch ID Person <span id="pagetab-person-cnt" style="color:var(--muted)"></span>
+  </button>
+  <button class="btn" id="pagetab-place" onclick="switchPage('place', this)">
+    Dịch ID Place <span id="pagetab-place-cnt" style="color:var(--muted)"></span>
+  </button>
 </div>
 
 <div id="tab-progress" class="tab-pane active">
@@ -367,6 +373,170 @@
 
 </div><!-- /tab-nexus-t514 -->
 
+<div id="tab-person" class="tab-pane">
+  <div class="tiles" id="person-tiles">
+    <div class="tile"><b id="ps-total">—</b><span>Tổng Person (DILA)</span></div>
+    <div class="tile"><b id="ps-translated">—</b><span>Đã có bio_vi (đã lưu)</span></div>
+    <div class="tile"><b id="ps-draft">—</b><span>Có bản nháp AI (draft)</span></div>
+    <div class="tile"><b id="ps-pending">—</b><span>Chờ dịch (có bio_zh)</span></div>
+    <div class="tile"><b id="ps-nozh">—</b><span>Không có Hán văn</span></div>
+    <div class="tile"><b id="ps-last">—</b><span>Lần chạy gần nhất</span></div>
+  </div>
+
+  <div class="bar"><div id="ps-bar" style="width:0%"></div></div>
+
+  <div class="toolbar" style="margin-bottom:10px;">
+    <button class="btn active" data-psf="all" onclick="psSetFilter(this)">Tất cả</button>
+    <button class="btn" data-psf="pending" onclick="psSetFilter(this)">Chờ dịch</button>
+    <button class="btn" data-psf="translated" onclick="psSetFilter(this)">Đã lưu</button>
+    <button class="btn" data-psf="draft" onclick="psSetFilter(this)">Có nháp AI</button>
+    <button class="btn" data-psf="nozh" onclick="psSetFilter(this)">Không Hán văn</button>
+    <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="ps-count"></span>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:90px">DILA ID</th>
+          <th>Tên Hán</th>
+          <th style="width:160px">Tên Việt</th>
+          <th style="width:110px">Tông phái</th>
+          <th style="width:110px">Triều đại</th>
+          <th style="width:100px">Trạng thái</th>
+          <th style="width:100px">Hành động</th>
+        </tr>
+      </thead>
+      <tbody id="ps-body"><tr><td colspan="7" style="color:var(--muted);text-align:center;padding:18px">Đang tải…</td></tr></tbody>
+    </table>
+  </div>
+  <div class="pager" id="ps-pager"></div>
+
+  <div class="t50-job-panel" id="ps-job-panel" style="margin-top:16px;">
+    <div class="t50-job-header">
+      <span class="t50-spin">⏳</span>
+      <span class="t50-job-title">Đang dịch: <span id="ps-job-id">—</span></span>
+    </div>
+    <div class="t50-job-meta">
+      <span>Đã dịch: <b id="ps-job-done">0</b></span>
+      <span>Còn lại: <b id="ps-job-remain">—</b></span>
+      <span>Lỗi: <b id="ps-job-err">0</b></span>
+      <span>Rate-limit: <b id="ps-job-rl">0</b></span>
+    </div>
+    <div class="t50-log-box" id="ps-job-log">Đang chờ…</div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+      <button class="t50-btn-stop" onclick="psPauseJob()">Tạm dừng</button>
+      <button class="t50-btn-stop" style="background:#1e3a5f;border-color:#3b82f6;color:#93c5fd" onclick="psResumeJob()" id="ps-resume-btn" disabled>Tiếp tục</button>
+      <button class="t50-btn-stop" style="background:#1e1b4b;border-color:#6366f1;color:#a5b4fc" onclick="psStopJob()">Dừng hẳn</button>
+    </div>
+  </div>
+
+  <div class="t50-section" style="margin-top:16px;">
+    <div class="t50-sec-title">Điều khiển chạy dịch</div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
+      <label style="font-size:13px;color:var(--text)">Giới hạn số ID:
+        <input type="number" id="ps-limit" value="20" min="1" max="500"
+          style="width:70px;margin-left:6px;padding:5px 8px;border-radius:5px;border:1px solid var(--line);background:#0f172a;color:var(--text)">
+      </label>
+      <label style="font-size:13px;color:var(--text)">
+        <input type="checkbox" id="ps-skip-done" checked> Bỏ qua đã có bio_vi / nháp AI
+      </label>
+      <label style="font-size:13px;color:var(--text)">
+        <input type="checkbox" id="ps-only-zh" checked> Chỉ dịch có bio_zh
+      </label>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="t50-btn-run" onclick="psStartTranslation()">▶ Bắt đầu dịch</button>
+      <button class="btn" onclick="psLoadStats()">Làm mới thống kê</button>
+    </div>
+    <div class="err" id="ps-err"></div>
+  </div>
+</div><!-- /tab-person -->
+
+<div id="tab-place" class="tab-pane">
+  <div class="tiles" id="place-tiles">
+    <div class="tile"><b id="pl-total">—</b><span>Tổng Place (DILA)</span></div>
+    <div class="tile"><b id="pl-mapped">—</b><span>Đã có name_vi (mapped)</span></div>
+    <div class="tile"><b id="pl-draft">—</b><span>Có bản nháp AI (draft)</span></div>
+    <div class="tile"><b id="pl-pending">—</b><span>Chờ dịch (có note)</span></div>
+    <div class="tile"><b id="pl-nonote">—</b><span>Không có note DILA</span></div>
+    <div class="tile"><b id="pl-last">—</b><span>Lần chạy gần nhất</span></div>
+  </div>
+
+  <div class="bar"><div id="pl-bar" style="width:0%"></div></div>
+
+  <div class="toolbar" style="margin-bottom:10px;">
+    <button class="btn active" data-plf="all" onclick="plSetFilter(this)">Tất cả</button>
+    <button class="btn" data-plf="pending" onclick="plSetFilter(this)">Chờ dịch</button>
+    <button class="btn" data-plf="mapped" onclick="plSetFilter(this)">Đã mapped</button>
+    <button class="btn" data-plf="draft" onclick="plSetFilter(this)">Có nháp AI</button>
+    <button class="btn" data-plf="nonote" onclick="plSetFilter(this)">Không note</button>
+    <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="pl-count"></span>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:90px">DILA ID</th>
+          <th>Tên Hán</th>
+          <th style="width:180px">Tên Việt (mapped)</th>
+          <th style="width:110px">Loại</th>
+          <th style="width:110px">Khu vực</th>
+          <th style="width:100px">Trạng thái</th>
+          <th style="width:100px">Hành động</th>
+        </tr>
+      </thead>
+      <tbody id="pl-body"><tr><td colspan="7" style="color:var(--muted);text-align:center;padding:18px">Đang tải…</td></tr></tbody>
+    </table>
+  </div>
+  <div class="pager" id="pl-pager"></div>
+
+  <div class="t50-job-panel" id="pl-job-panel" style="margin-top:16px;display:none;">
+    <div class="t50-job-header">
+      <span class="t50-spin">⏳</span>
+      <span class="t50-job-title">Đang dịch: <span id="pl-job-id">—</span></span>
+    </div>
+    <div class="t50-job-meta">
+      <span>Đã dịch: <b id="pl-job-done">0</b></span>
+      <span>Còn lại: <b id="pl-job-remain">—</b></span>
+      <span>Lỗi: <b id="pl-job-err">0</b></span>
+      <span>Rate-limit: <b id="pl-job-rl">0</b></span>
+    </div>
+    <div class="t50-log-box" id="pl-job-log">Đang chờ…</div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+      <button class="t50-btn-stop" onclick="plPauseJob()">Tạm dừng</button>
+      <button class="t50-btn-stop" style="background:#1e3a5f;border-color:#3b82f6;color:#93c5fd" onclick="plResumeJob()" id="pl-resume-btn" disabled>Tiếp tục</button>
+      <button class="t50-btn-stop" style="background:#1e1b4b;border-color:#6366f1;color:#a5b4fc" onclick="plStopJob()">Dừng hẳn</button>
+    </div>
+  </div>
+
+  <div class="t50-section" style="margin-top:16px;">
+    <div class="t50-sec-title">Điều khiển chạy dịch</div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
+      <label style="font-size:13px;color:var(--text)">Giới hạn số ID:
+        <input type="number" id="pl-limit" value="20" min="1" max="500"
+          style="width:70px;margin-left:6px;padding:5px 8px;border-radius:5px;border:1px solid var(--line);background:#0f172a;color:var(--text)">
+      </label>
+      <label style="font-size:13px;color:var(--text)">
+        <input type="checkbox" id="pl-skip-done" checked> Bỏ qua đã có name_vi / nháp AI
+      </label>
+      <label style="font-size:13px;color:var(--text)">
+        <input type="checkbox" id="pl-only-note" checked> Chỉ dịch có note
+      </label>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="t50-btn-run" onclick="plStartTranslation()">▶ Bắt đầu dịch</button>
+      <button class="btn" onclick="plLoadStats()">Làm mới thống kê</button>
+    </div>
+    <div class="err" id="pl-err"></div>
+    <div class="t50-api-note" id="pl-blocked-note" style="display:none;margin-top:10px;">
+      <b>BLOCKED:</b> Endpoint dịch Place chưa sẵn sàng hoặc thiếu schema an toàn.
+      Vui lòng kiểm tra API <code>/daoanh/api/place/<dila_id>/translate</code> và bảng <code>translation_cache</code> (source_type='place_note').
+    </div>
+  </div>
+</div><!-- /tab-place -->
+
 <!-- Modal đọc kinh (dùng chung cho tab Catalog) -->
 <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;
      overflow-y:auto;padding:20px">
@@ -501,6 +671,8 @@ const TAB_REGISTRY = {
   t50:         { loaded: false, init: t50Init },
   catalog:     { loaded: false, init: catLoad },
   'nexus-t514': { loaded: false, init: nxsInit },
+  person:      { loaded: false, init: psInit },
+  place:       { loaded: false, init: plInit },
 };
 function switchPage(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
@@ -1093,6 +1265,642 @@ async function loadPassages(off) {
     document.getElementById('m-passages').innerHTML =
       '<div style="text-align:center;padding:40px;grid-column:1/-1;color:var(--bad)">' + esc(e.message) + '</div>';
   }
+}
+
+/* ══════════════════════════════════════════
+   Tab Person — Dịch ID Person (DILA)
+   Nguồn: /daoanh/api/dila/persons + /daoanh/api/person/<id>/translate
+   Tuần tự, resume-safe, không ghi đè bản đã lưu.
+══════════════════════════════════════════ */
+let _psFilter = 'all';
+let _psPage = 1;
+let _psPages = 1;
+let _psTotalItems = 0;
+const PS_LIMIT = 50;
+
+let _psJobRunning = false;
+let _psJobPaused = false;
+let _psJobQueue = [];           // danh sách person_id chờ dịch
+let _psJobIndex = 0;            // vị trí hiện tại trong queue
+let _psJobStats = { done: 0, error: 0, rateLimit: 0 };
+let _psPollTimer = null;
+
+async function psInit() {
+  await psLoadStats();
+  await psLoadList();
+}
+
+async function psLoadStats() {
+  try {
+    const r = await fetch(API + '/daoanh/api/dila/persons/stats', { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'API lỗi');
+    document.getElementById('ps-total').textContent = fmt(d.total);
+    document.getElementById('ps-translated').textContent = fmt(d.translated_saved);
+    document.getElementById('ps-draft').textContent = fmt(d.translated_draft);
+    document.getElementById('pagetab-person-cnt').textContent = '(' + fmt(d.total) + ')';
+    const withBio = d.with_bio_zh;
+    const pending = withBio - d.translated_saved - d.translated_draft;
+    document.getElementById('ps-pending').textContent = fmt(Math.max(0, pending));
+    document.getElementById('ps-nozh').textContent = fmt(d.total - withBio);
+    const pct = d.total ? (d.translated_saved * 100 / d.total) : 0;
+    document.getElementById('ps-bar').style.width = Math.min(100, pct).toFixed(1) + '%';
+  } catch (e) {
+    document.getElementById('ps-err').textContent = 'Lỗi tải thống kê: ' + e.message;
+  }
+}
+
+async function psLoadList(resetPage = true) {
+  if (resetPage) _psPage = 1;
+  document.getElementById('ps-body').innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:18px">Đang tải…</td></tr>';
+  try {
+    const url = API + '/daoanh/api/dila/persons?limit=' + PS_LIMIT + '&offset=' + ((_psPage - 1) * PS_LIMIT) + '&status=' + _psFilter;
+    const r = await fetch(url, { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'API lỗi');
+    _psTotalItems = d.total;
+    _psPages = Math.ceil(_psTotalItems / PS_LIMIT);
+    document.getElementById('ps-count').textContent = fmt(d.total) + ' dòng';
+    psRenderRows(d.items);
+    psRenderPager();
+  } catch (e) {
+    document.getElementById('ps-body').innerHTML = '<tr><td colspan="7" style="color:var(--bad);text-align:center;padding:18px">Lỗi: ' + esc(e.message) + '</td></tr>';
+    document.getElementById('ps-pager').innerHTML = '';
+  }
+}
+
+function psRenderRows(items) {
+  const body = document.getElementById('ps-body');
+  if (!items.length) {
+    body.innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:18px">Không có dữ liệu</td></tr>';
+    return;
+  }
+  body.innerHTML = items.map(it => {
+    let statusHtml, actionHtml;
+    if (it.bio_vi_saved) {
+      statusHtml = '<span class="badge ok">✓ Đã lưu</span>';
+      actionHtml = '<button class="btn" disabled>✓ Đã có bio_vi</button>';
+    } else if (it.draft_status) {
+      statusHtml = '<span class="badge wait">✎ Nháp AI (' + esc(it.draft_status) + ')</span>';
+      actionHtml = '<button class="btn" onclick="psTranslateOne(\'' + esc(it.id) + '\')" style="background:#1e3a5f;border-color:#3b82f6;color:#93c5fd">Dịch lại</button>';
+    } else if (it.has_bio_zh) {
+      statusHtml = '<span class="badge" style="border-color:var(--gold);color:var(--gold)">⏳ Chờ dịch</span>';
+      actionHtml = '<button class="btn ok" onclick="psTranslateOne(\'' + esc(it.id) + '\')">Dịch ngay</button>';
+    } else {
+      statusHtml = '<span class="badge" style="border-color:var(--muted);color:var(--muted)">— Không Hán văn</span>';
+      actionHtml = '<button class="btn" disabled>Không thể dịch</button>';
+    }
+    const nameVi = it.name_vi ? '<span style="color:var(--ok)">' + esc(it.name_vi) + '</span>' : '<span style="color:var(--muted)">—</span>';
+    const sect = it.sect ? '<span class="badge">' + esc(it.sect) + '</span>' : '<span style="color:var(--muted)">—</span>';
+    const dynasty = it.dynasty ? '<span style="color:var(--muted)">' + esc(it.dynasty) + '</span>' : '<span style="color:var(--muted)">—</span>';
+    return '<tr>' +
+      '<td class="mono"><a href="/daoanh/admin/person.html?id=' + esc(it.id) + '" target="_blank" style="color:var(--gold)">' + esc(it.id) + '</a></td>' +
+      '<td class="han">' + esc(it.name_zh || '') + '</td>' +
+      '<td>' + nameVi + '</td>' +
+      '<td>' + sect + '</td>' +
+      '<td>' + dynasty + '</td>' +
+      '<td>' + statusHtml + '</td>' +
+      '<td>' + actionHtml + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function psRenderPager() {
+  const p = document.getElementById('ps-pager');
+  if (_psPages <= 1) { p.innerHTML = ''; return; }
+  p.innerHTML = '<button class="btn" ' + (_psPage <= 1 ? 'disabled' : '') + ' onclick="psGoPage(-1)">‹ Trước</button>' +
+    '<span>Trang ' + _psPage + ' / ' + _psPages + '</span>' +
+    '<button class="btn" ' + (_psPage >= _psPages ? 'disabled' : '') + ' onclick="psGoPage(1)">Sau ›</button>';
+}
+
+function psGoPage(dir) {
+  _psPage = Math.min(_psPages, Math.max(1, _psPage + dir));
+  psLoadList(false);
+}
+
+function psSetFilter(btn) {
+  document.querySelectorAll('[data-psf]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _psFilter = btn.dataset.psf;
+  psLoadList(true);
+}
+
+async function psTranslateOne(personId) {
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '⏳';
+  try {
+    const r = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'Dịch thất bại');
+    btn.textContent = d.from_cache ? '✓ Cache' : '✓ Xong';
+    btn.className = 'btn';
+    btn.disabled = true;
+    await psLoadStats();
+    psLoadList(false);
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Thử lại';
+    alert('Lỗi: ' + e.message);
+  }
+}
+
+/* ── Job chạy tuần tự (Start / Pause / Resume / Stop) ── */
+
+function psBuildQueue(items) {
+  const limit = parseInt(document.getElementById('ps-limit').value || '20', 10);
+  const skipDone = document.getElementById('ps-skip-done').checked;
+  const onlyZh = document.getElementById('ps-only-zh').checked;
+  const queue = [];
+  for (const it of items) {
+    if (queue.length >= limit) break;
+    if (skipDone && (it.bio_vi_saved || it.draft_status)) continue;
+    if (onlyZh && !it.has_bio_zh) continue;
+    queue.push(it.id);
+  }
+  return queue;
+}
+
+async function psFetchAllForQueue() {
+  // Lấy toàn bộ items phù hợp filter hiện tại (không phân trang) để xây queue
+  // Dùng limit lớn + offset=0, lặp nếu cần
+  const allItems = [];
+  let offset = 0;
+  const batchSize = 200;
+  while (true) {
+    const url = API + '/daoanh/api/dila/persons?limit=' + batchSize + '&offset=' + offset + '&status=' + _psFilter;
+    const r = await fetch(url, { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok || !d.items.length) break;
+    allItems.push(...d.items);
+    if (d.items.length < batchSize) break;
+    offset += batchSize;
+  }
+  return allItems;
+}
+
+async function psStartTranslation() {
+  const btn = event.target;
+  if (_psJobRunning) return;
+  document.getElementById('ps-err').textContent = '';
+  btn.disabled = true;
+  btn.textContent = '⏳ Đang nạp danh sách…';
+  try {
+    const allItems = await psFetchAllForQueue();
+    _psJobQueue = psBuildQueue(allItems);
+    if (!_psJobQueue.length) {
+      document.getElementById('ps-err').textContent = 'Không có ID nào phù hợp để dịch (đã lọc/đã đủ).';
+      btn.disabled = false;
+      btn.textContent = '▶ Bắt đầu dịch';
+      return;
+    }
+    _psJobIndex = 0;
+    _psJobStats = { done: 0, error: 0, rateLimit: 0 };
+    _psJobRunning = true;
+    _psJobPaused = false;
+    document.getElementById('ps-job-panel').classList.add('visible');
+    document.getElementById('ps-resume-btn').disabled = true;
+    btn.textContent = '▶ Đang chạy…';
+    btn.classList.add('t50-s-running');
+    await psProcessNext();
+  } catch (e) {
+    document.getElementById('ps-err').textContent = 'Lỗi: ' + e.message;
+    btn.disabled = false;
+    btn.textContent = '▶ Bắt đầu dịch';
+  }
+}
+
+async function psProcessNext() {
+  if (!_psJobRunning || _psJobPaused) return;
+  if (_psJobIndex >= _psJobQueue.length) {
+    psJobComplete();
+    return;
+  }
+  const personId = _psJobQueue[_psJobIndex];
+  document.getElementById('ps-job-id').textContent = personId + ' (' + (_psJobIndex + 1) + '/' + _psJobQueue.length + ')';
+  document.getElementById('ps-job-done').textContent = _psJobStats.done;
+  document.getElementById('ps-job-remain').textContent = _psJobQueue.length - _psJobIndex;
+  document.getElementById('ps-job-err').textContent = _psJobStats.error;
+  document.getElementById('ps-job-rl').textContent = _psJobStats.rateLimit;
+  const logEl = document.getElementById('ps-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] Bắt đầu: ' + personId;
+  logEl.scrollTop = logEl.scrollHeight;
+  try {
+    const r = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
+    });
+    const d = await r.json();
+    if (!d.ok) {
+      const errType = d.error_type || 'unknown';
+      if (errType === 'rate_limit' || errType === 'quota_exceeded' || (d.error && d.error.includes('rate'))) {
+        _psJobStats.rateLimit++;
+        logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] Rate limit: ' + personId + ' — tạm dừng 30s';
+        logEl.scrollTop = logEl.scrollHeight;
+        await new Promise(res => setTimeout(res, 30000));
+        // Thử lại lần 2
+        const r2 = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
+        });
+        const d2 = await r2.json();
+        if (!d2.ok) throw new Error(d2.error || 'Dịch thất bại sau rate limit');
+      } else {
+        throw new Error(d.error || 'Dịch thất bại');
+      }
+    }
+    _psJobStats.done++;
+    logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✓ ' + personId + (d.from_cache ? ' (cache)' : '');
+  } catch (e) {
+    _psJobStats.error++;
+    logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✗ ' + personId + ': ' + e.message;
+  }
+  logEl.scrollTop = logEl.scrollHeight;
+  _psJobIndex++;
+  // Delay nhỏ giữa các request để tránh spam
+  await new Promise(res => setTimeout(res, 500));
+  if (_psJobRunning && !_psJobPaused) {
+    psProcessNext();
+  }
+}
+
+function psPauseJob() {
+  if (!_psJobRunning || _psJobPaused) return;
+  _psJobPaused = true;
+  document.getElementById('ps-resume-btn').disabled = false;
+  const btn = document.querySelector('button[onclick="psStartTranslation()"]');
+  if (btn) { btn.textContent = '▶ Tạm dừng'; btn.classList.remove('t50-s-running'); }
+  const logEl = document.getElementById('ps-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ⏸ Tạm dừng tại #' + (_psJobIndex + 1);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function psResumeJob() {
+  if (!_psJobRunning || !_psJobPaused) return;
+  _psJobPaused = false;
+  document.getElementById('ps-resume-btn').disabled = true;
+  const btn = document.querySelector('button[onclick="psStartTranslation()"]');
+  if (btn) { btn.textContent = '▶ Đang chạy…'; btn.classList.add('t50-s-running'); }
+  const logEl = document.getElementById('ps-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ▶ Tiếp tục từ #' + (_psJobIndex + 1);
+  logEl.scrollTop = logEl.scrollHeight;
+  psProcessNext();
+}
+
+function psStopJob() {
+  _psJobRunning = false;
+  _psJobPaused = false;
+  const btn = document.querySelector('button[onclick="psStartTranslation()"]');
+  if (btn) { btn.disabled = false; btn.textContent = '▶ Bắt đầu dịch'; btn.classList.remove('t50-s-running'); }
+  document.getElementById('ps-resume-btn').disabled = true;
+  document.getElementById('ps-job-panel').classList.remove('visible');
+  const logEl = document.getElementById('ps-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ■ Dừng bởi Admin. Đã xử lý: ' + _psJobIndex + '/' + _psJobQueue.length;
+  logEl.scrollTop = logEl.scrollHeight;
+  _psJobQueue = [];
+  _psJobIndex = 0;
+}
+
+function psJobComplete() {
+  _psJobRunning = false;
+  _psJobPaused = false;
+  const btn = document.querySelector('button[onclick="psStartTranslation()"]');
+  if (btn) { btn.disabled = false; btn.textContent = '▶ Bắt đầu dịch'; btn.classList.remove('t50-s-running'); }
+  document.getElementById('ps-resume-btn').disabled = true;
+  const logEl = document.getElementById('ps-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✅ HOÀN TẤT: ' + _psJobStats.done + ' thành công, ' + _psJobStats.error + ' lỗi, ' + _psJobStats.rateLimit + ' rate-limit';
+  logEl.scrollTop = logEl.scrollHeight;
+  psLoadStats();
+  psLoadList(false);
+}
+
+/* ══════════════════════════════════════════
+   Tab Place — Dịch ID Place (DILA)
+   Nguồn: /daoanh/api/dila/places + /daoanh/api/place/<id>/translate
+   Cùng cơ chế với Person.
+══════════════════════════════════════════ */
+let _plFilter = 'all';
+let _plPage = 1;
+let _plPages = 1;
+let _plTotalItems = 0;
+const PL_LIMIT = 50;
+
+let _plJobRunning = false;
+let _plJobPaused = false;
+let _plJobQueue = [];
+let _plJobIndex = 0;
+let _plJobStats = { done: 0, error: 0, rateLimit: 0 };
+
+async function plInit() {
+  await plLoadStats();
+  await plLoadList();
+}
+
+async function plLoadStats() {
+  try {
+    const r = await fetch(API + '/daoanh/api/dila/stats', { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'API lỗi');
+    document.getElementById('pl-total').textContent = fmt(d.total);
+    document.getElementById('pl-mapped').textContent = fmt(d.mapped_vi);
+    document.getElementById('pagetab-place-cnt').textContent = '(' + fmt(d.total) + ')';
+    // Draft count từ translation_cache API
+    const r2 = await fetch(API + '/daoanh/api/admin/translation-cache?source_type=place_note&status=auto&limit=1', { headers: { 'X-Session-Token': token() } });
+    const d2 = await r2.json();
+    const draftCount = d2.ok ? (d2.total || 0) : 0;
+    document.getElementById('pl-draft').textContent = fmt(draftCount);
+    const withNote = d.total; // places_dila luôn có note (có thể rỗng)
+    const pending = Math.max(0, withNote - d.mapped_vi - draftCount);
+    document.getElementById('pl-pending').textContent = fmt(pending);
+    document.getElementById('pl-nonote').textContent = fmt(0); // placeholder
+    const pct = d.total ? (d.mapped_vi * 100 / d.total) : 0;
+    document.getElementById('pl-bar').style.width = Math.min(100, pct).toFixed(1) + '%';
+  } catch (e) {
+    document.getElementById('pl-err').textContent = 'Lỗi tải thống kê: ' + e.message;
+  }
+}
+
+async function plLoadList(resetPage = true) {
+  if (resetPage) _plPage = 1;
+  document.getElementById('pl-body').innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:18px">Đang tải…</td></tr>';
+  try {
+    let status = '';
+    if (_plFilter === 'mapped') status = 'mapped';
+    else if (_plFilter === 'draft') status = 'draft';
+    else if (_plFilter === 'pending') status = 'pending';
+    else if (_plFilter === 'nonote') status = 'nonote';
+    const url = API + '/daoanh/api/dila/places?limit=' + PL_LIMIT + '&offset=' + ((_plPage - 1) * PL_LIMIT);
+    const r = await fetch(url, { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'API lỗi');
+    _plTotalItems = d.total;
+    _plPages = Math.ceil(_plTotalItems / PL_LIMIT);
+    document.getElementById('pl-count').textContent = fmt(d.total) + ' dòng';
+    plRenderRows(d.items);
+    plRenderPager();
+  } catch (e) {
+    document.getElementById('pl-body').innerHTML = '<tr><td colspan="7" style="color:var(--bad);text-align:center;padding:18px">Lỗi: ' + esc(e.message) + '</td></tr>';
+    document.getElementById('pl-pager').innerHTML = '';
+  }
+}
+
+function plRenderRows(items) {
+  const body = document.getElementById('pl-body');
+  if (!items.length) {
+    body.innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:18px">Không có dữ liệu</td></tr>';
+    return;
+  }
+  body.innerHTML = items.map(it => {
+    const nameVi = it.name_vi ? '<span style="color:var(--ok)">' + esc(it.name_vi) + '</span>' : '<span style="color:var(--muted)">—</span>';
+    const conf = it.confidence ? '<div class="mono" style="font-size:10px;color:var(--muted)">conf: ' + esc(it.confidence) + '</div>' : '';
+    let statusHtml, actionHtml;
+    if (it.name_vi) {
+      statusHtml = '<span class="badge ok">✓ Mapped</span>';
+      actionHtml = '<button class="btn" disabled>✓ Đã có tên VI</button>';
+    } else {
+      statusHtml = '<span class="badge wait">⏳ Chờ dịch</span>';
+      actionHtml = '<button class="btn ok" onclick="plTranslateOne(\'' + esc(it.id) + '\')">Dịch ngay</button>';
+    }
+    const category = it.note_category ? '<span class="badge">' + esc(it.note_category) + '</span>' : '<span style="color:var(--muted)">—</span>';
+    const district = it.district ? '<span style="color:var(--muted)">' + esc(it.district) + '</span>' : '<span style="color:var(--muted)">—</span>';
+    return '<tr>' +
+      '<td class="mono"><a href="/daoanh/admin/places.html?id=' + esc(it.id) + '" target="_blank" style="color:var(--gold)">' + esc(it.id) + '</a></td>' +
+      '<td class="han">' + esc(it.name_zh || '') + '</td>' +
+      '<td>' + nameVi + conf + '</td>' +
+      '<td>' + category + '</td>' +
+      '<td>' + district + '</td>' +
+      '<td>' + statusHtml + '</td>' +
+      '<td>' + actionHtml + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function plRenderPager() {
+  const p = document.getElementById('pl-pager');
+  if (_plPages <= 1) { p.innerHTML = ''; return; }
+  p.innerHTML = '<button class="btn" ' + (_plPage <= 1 ? 'disabled' : '') + ' onclick="plGoPage(-1)">‹ Trước</button>' +
+    '<span>Trang ' + _plPage + ' / ' + _plPages + '</span>' +
+    '<button class="btn" ' + (_plPage >= _plPages ? 'disabled' : '') + ' onclick="plGoPage(1)">Sau ›</button>';
+}
+
+function plGoPage(dir) {
+  _plPage = Math.min(_plPages, Math.max(1, _plPage + dir));
+  plLoadList(false);
+}
+
+function plSetFilter(btn) {
+  document.querySelectorAll('[data-plf]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _plFilter = btn.dataset.plf;
+  plLoadList(true);
+}
+
+async function plTranslateOne(dilaId) {
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '⏳';
+  try {
+    const r = await fetch(API + '/daoanh/api/place/' + encodeURIComponent(dilaId) + '/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
+    });
+    const d = await r.json();
+    if (!d.ok) {
+      // Check if endpoint is not available (404) or schema issue
+      if (r.status === 404) {
+        throw new Error('ENDPOINT_NOT_FOUND: /daoanh/api/place/<id>/translate không tồn tại');
+      }
+      throw new Error(d.error || 'Dịch thất bại');
+    }
+    btn.textContent = d.from_cache ? '✓ Cache' : '✓ Xong';
+    btn.className = 'btn';
+    btn.disabled = true;
+    await plLoadStats();
+    plLoadList(false);
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Thử lại';
+    if (e.message.includes('ENDPOINT_NOT_FOUND')) {
+      document.getElementById('pl-blocked-note').style.display = 'block';
+    }
+    alert('Lỗi: ' + e.message);
+  }
+}
+
+/* ── Job chạy tuần tự cho Place ── */
+
+function plBuildQueue(items) {
+  const limit = parseInt(document.getElementById('pl-limit').value || '20', 10);
+  const skipDone = document.getElementById('pl-skip-done').checked;
+  const onlyNote = document.getElementById('pl-only-note').checked;
+  const queue = [];
+  for (const it of items) {
+    if (queue.length >= limit) break;
+    if (skipDone && it.name_vi) continue;
+    if (onlyNote && (!it.note || !it.note.trim())) continue;
+    queue.push(it.id);
+  }
+  return queue;
+}
+
+async function plFetchAllForQueue() {
+  const allItems = [];
+  let offset = 0;
+  const batchSize = 200;
+  while (true) {
+    const url = API + '/daoanh/api/dila/places?limit=' + batchSize + '&offset=' + offset;
+    const r = await fetch(url, { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok || !d.items.length) break;
+    allItems.push(...d.items);
+    if (d.items.length < batchSize) break;
+    offset += batchSize;
+  }
+  return allItems;
+}
+
+async function plStartTranslation() {
+  const btn = event.target;
+  if (_plJobRunning) return;
+  document.getElementById('pl-err').textContent = '';
+  document.getElementById('pl-blocked-note').style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = '⏳ Đang nạp danh sách…';
+  try {
+    const allItems = await plFetchAllForQueue();
+    _plJobQueue = plBuildQueue(allItems);
+    if (!_plJobQueue.length) {
+      document.getElementById('pl-err').textContent = 'Không có ID nào phù hợp để dịch (đã lọc/đã đủ).';
+      btn.disabled = false;
+      btn.textContent = '▶ Bắt đầu dịch';
+      return;
+    }
+    _plJobIndex = 0;
+    _plJobStats = { done: 0, error: 0, rateLimit: 0 };
+    _plJobRunning = true;
+    _plJobPaused = false;
+    document.getElementById('pl-job-panel').classList.add('visible');
+    document.getElementById('pl-resume-btn').disabled = true;
+    btn.textContent = '▶ Đang chạy…';
+    btn.classList.add('t50-s-running');
+    await plProcessNext();
+  } catch (e) {
+    document.getElementById('pl-err').textContent = 'Lỗi: ' + e.message;
+    btn.disabled = false;
+    btn.textContent = '▶ Bắt đầu dịch';
+  }
+}
+
+async function plProcessNext() {
+  if (!_plJobRunning || _plJobPaused) return;
+  if (_plJobIndex >= _plJobQueue.length) {
+    plJobComplete();
+    return;
+  }
+  const dilaId = _plJobQueue[_plJobIndex];
+  document.getElementById('pl-job-id').textContent = dilaId + ' (' + (_plJobIndex + 1) + '/' + _plJobQueue.length + ')';
+  document.getElementById('pl-job-done').textContent = _plJobStats.done;
+  document.getElementById('pl-job-remain').textContent = _plJobQueue.length - _plJobIndex;
+  document.getElementById('pl-job-err').textContent = _plJobStats.error;
+  document.getElementById('pl-job-rl').textContent = _plJobStats.rateLimit;
+  const logEl = document.getElementById('pl-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] Bắt đầu: ' + dilaId;
+  logEl.scrollTop = logEl.scrollHeight;
+  try {
+    const r = await fetch(API + '/daoanh/api/place/' + encodeURIComponent(dilaId) + '/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
+    });
+    const d = await r.json();
+    if (!d.ok) {
+      const errType = d.error_type || 'unknown';
+      if (errType === 'rate_limit' || errType === 'quota_exceeded' || (d.error && d.error.includes('rate'))) {
+        _plJobStats.rateLimit++;
+        logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] Rate limit: ' + dilaId + ' — tạm dừng 30s';
+        logEl.scrollTop = logEl.scrollHeight;
+        await new Promise(res => setTimeout(res, 30000));
+        const r2 = await fetch(API + '/daoanh/api/place/' + encodeURIComponent(dilaId) + '/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
+        });
+        const d2 = await r2.json();
+        if (!d2.ok) throw new Error(d2.error || 'Dịch thất bại sau rate limit');
+      } else if (r.status === 404) {
+        throw new Error('ENDPOINT_NOT_FOUND: /daoanh/api/place/<id>/translate không tồn tại');
+      } else {
+        throw new Error(d.error || 'Dịch thất bại');
+      }
+    }
+    _plJobStats.done++;
+    logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✓ ' + dilaId + (d.from_cache ? ' (cache)' : '');
+  } catch (e) {
+    _plJobStats.error++;
+    logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✗ ' + dilaId + ': ' + e.message;
+    if (e.message.includes('ENDPOINT_NOT_FOUND')) {
+      document.getElementById('pl-blocked-note').style.display = 'block';
+      plStopJob();
+      return;
+    }
+  }
+  logEl.scrollTop = logEl.scrollHeight;
+  _plJobIndex++;
+  await new Promise(res => setTimeout(res, 500));
+  if (_plJobRunning && !_plJobPaused) {
+    plProcessNext();
+  }
+}
+
+function plPauseJob() {
+  if (!_plJobRunning || _plJobPaused) return;
+  _plJobPaused = true;
+  document.getElementById('pl-resume-btn').disabled = false;
+  const btn = document.querySelector('button[onclick="plStartTranslation()"]');
+  if (btn) { btn.textContent = '▶ Tạm dừng'; btn.classList.remove('t50-s-running'); }
+  const logEl = document.getElementById('pl-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ⏸ Tạm dừng tại #' + (_plJobIndex + 1);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function plResumeJob() {
+  if (!_plJobRunning || !_plJobPaused) return;
+  _plJobPaused = false;
+  document.getElementById('pl-resume-btn').disabled = true;
+  const btn = document.querySelector('button[onclick="plStartTranslation()"]');
+  if (btn) { btn.textContent = '▶ Đang chạy…'; btn.classList.add('t50-s-running'); }
+  const logEl = document.getElementById('pl-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ▶ Tiếp tục từ #' + (_plJobIndex + 1);
+  logEl.scrollTop = logEl.scrollHeight;
+  plProcessNext();
+}
+
+function plStopJob() {
+  _plJobRunning = false;
+  _plJobPaused = false;
+  const btn = document.querySelector('button[onclick="plStartTranslation()"]');
+  if (btn) { btn.disabled = false; btn.textContent = '▶ Bắt đầu dịch'; btn.classList.remove('t50-s-running'); }
+  document.getElementById('pl-resume-btn').disabled = true;
+  document.getElementById('pl-job-panel').classList.remove('visible');
+  const logEl = document.getElementById('pl-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ■ Dừng bởi Admin. Đã xử lý: ' + _plJobIndex + '/' + _plJobQueue.length;
+  logEl.scrollTop = logEl.scrollHeight;
+  _plJobQueue = [];
+  _plJobIndex = 0;
+}
+
+function plJobComplete() {
+  _plJobRunning = false;
+  _plJobPaused = false;
+  const btn = document.querySelector('button[onclick="plStartTranslation()"]');
+  if (btn) { btn.disabled = false; btn.textContent = '▶ Bắt đầu dịch'; btn.classList.remove('t50-s-running'); }
+  document.getElementById('pl-resume-btn').disabled = true;
+  const logEl = document.getElementById('pl-job-log');
+  logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✅ HOÀN TẤT: ' + _plJobStats.done + ' thành công, ' + _plJobStats.error + ' lỗi, ' + _plJobStats.rateLimit + ' rate-limit';
+  logEl.scrollTop = logEl.scrollHeight;
+  plLoadStats();
+  plLoadList(false);
 }
 </script>
 </body>
