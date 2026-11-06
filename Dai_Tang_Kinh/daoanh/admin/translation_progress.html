@@ -168,9 +168,8 @@
   </button>
 </div>
 
-<div id="err" class="err"></div>
-
 <div id="tab-progress" class="tab-pane active">
+<div id="err" class="err"></div>
 
 <div class="tiles">
   <div class="tile"><b id="t-total">—</b><span>Địa danh DILA</span></div>
@@ -880,12 +879,13 @@ function t50StopPolling()  { if (_t50PollTimer) { clearInterval(_t50PollTimer); 
    Chuyển nguyên logic từ admin/t50-progress.html (Tab 2 "Đại Tạng Kinh").
    Nguồn: /daoanh/api/danh-sach-kinh, /daoanh/api/admin/cbeta/batch-import,
           /daoanh/api/kinh/<sigla>/passages
-   _CAT_BASE giữ nguyên quirk cũ: local dev gọi thẳng port 5002 (gateway 8080
-   có thể đang forward về server cũ không có route T182). Không tự "sửa"
-   quirk này — giữ đúng hành vi gốc của t50-progress.html.
+   _CAT_BASE: quirk cũ gọi thẳng port 5002 khi chạy local đã BỊ XÓA (BUG verify
+   2026-11-06) — cổng 5002 không chạy, local_gateway 8080 đã có đủ các route
+   dùng ở tab này (danh-sach-kinh, cbeta/batch-import, kinh/<sigla>/passages)
+   và trả 200 qua cùng origin. Luôn dùng cùng-origin (chuỗi rỗng), khớp với
+   cách biến API ở trên (dòng ~396) đã làm cho http/https.
 ══════════════════════════════════════════ */
-const _catIsLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-const _CAT_BASE = _catIsLocal ? (location.protocol + '//' + location.hostname + ':5002') : '';
+const _CAT_BASE = '';
 
 const CAT_LIMIT = 50;
 let _catOffset  = 0;
