@@ -129,6 +129,24 @@
   .btn-import:hover { background:#2e1065; border-color:#a78bfa; }
   .btn-import:disabled { opacity:.4; cursor:not-allowed; }
   @media(max-width:600px) { .cat-tbl td:nth-child(3), .cat-tbl th:nth-child(3) { display:none; } }
+
+  /* ─── Tab Dịch Nexus T514 (nguồn: wt/nexus-translate-tab, so sánh 4 bản dịch) ─── */
+  .nxs-card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:14px; }
+  .nxs-card-hdr { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+  .nxs-card-hdr .nid { font-size:11px; color:var(--muted); font-family:ui-monospace,Consolas,monospace; }
+  .nxs-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .nxs-col { background:#0a1122; border:1px solid var(--line); border-radius:8px; padding:10px; display:flex; flex-direction:column; gap:8px; min-height:90px; }
+  .nxs-col-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+  .nxs-col-text { font-size:12px; line-height:1.5; flex:1; white-space:pre-wrap; }
+  .nxs-col-text.zh { font-family:"Noto Serif TC",serif; color:var(--text); }
+  .nxs-col-missing { font-size:11px; color:var(--muted); font-style:italic; }
+  .nxs-col-rulenote { font-size:10px; color:var(--bad); }
+  .nxs-btn-select { background:#064e3b; border:1px solid #059669; color:#6ee7b7; padding:5px 10px; border-radius:6px; cursor:pointer; font-size:11px; font-weight:600; }
+  .nxs-btn-select:hover { background:#065f46; }
+  .nxs-btn-select:disabled { opacity:.35; cursor:not-allowed; background:var(--line); border-color:var(--line); color:var(--muted); }
+  .nxs-btn-select.picked { background:#78350f; border-color:var(--gold); color:var(--gold); }
+  @media(max-width:900px) { .nxs-grid { grid-template-columns:1fr 1fr; } }
+  @media(max-width:600px) { .nxs-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -144,6 +162,9 @@
   <button class="btn" id="pagetab-t50" onclick="switchPage('t50', this)">T50 — Dịch Kinh</button>
   <button class="btn" id="pagetab-catalog" onclick="switchPage('catalog', this)">
     Catalog Đại Tạng Kinh <span id="pagetab-catalog-cnt" style="color:var(--muted)"></span>
+  </button>
+  <button class="btn" id="pagetab-nexus-t514" onclick="switchPage('nexus-t514', this)">
+    Dịch Nexus T514
   </button>
 </div>
 
@@ -319,6 +340,34 @@
 
 </div><!-- /tab-catalog -->
 
+<div id="tab-nexus-t514" class="tab-pane">
+
+  <div class="nx-note">
+    T514 — So sánh 4 bản dịch nexus (Hán gốc / Gemini / Claude / Codex). Chỉ đọc DB
+    và file staging JSONL/XML. Nút "Chọn bản này" chỉ ghi vào file staging
+    (_admin_selected.jsonl), KHÔNG UPDATE/INSERT/DELETE bảng nào trong lineage.db.
+    Bản dịch phải qua hết quy tắc (translation_rules đang active) mới được chọn.
+  </div>
+
+  <div class="catalog-toolbar" style="margin-bottom:12px">
+    <input class="cat-input" id="nxs-q" type="text"
+           placeholder="Tìm nexus_id, tên Hán/Việt, hoặc từ khoá trong Hán văn…"
+           onkeydown="if(event.key==='Enter') nxSearch(1)">
+    <select class="cat-select" id="nxs-book">
+      <option value="">Tất cả sách</option>
+    </select>
+    <button class="btn" onclick="nxSearch(1)">Tìm</button>
+  </div>
+  <div id="nxs-meta" style="font-size:12px;color:var(--muted);margin-bottom:10px"></div>
+  <div id="nxs-results"></div>
+  <div class="cat-pager" id="nxs-pager" style="display:none">
+    <button class="pager-btn" id="nxs-prev" onclick="nxSearchPage(-1)">‹ Trước</button>
+    <span class="pager-info" id="nxs-page-info">—</span>
+    <button class="pager-btn" id="nxs-next" onclick="nxSearchPage(1)">Sau ›</button>
+  </div>
+
+</div><!-- /tab-nexus-t514 -->
+
 <!-- Modal đọc kinh (dùng chung cho tab Catalog) -->
 <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;
      overflow-y:auto;padding:20px">
@@ -448,10 +497,11 @@ load();
 ══════════════════════════════════════════ */
 let _nxLoaded = false;
 const TAB_REGISTRY = {
-  progress: { loaded: true,  init: null },   // đã load() ngay khi mở trang, ở dưới
-  nexus:    { loaded: false, init: nxLoad },
-  t50:      { loaded: false, init: t50Init },
-  catalog:  { loaded: false, init: catLoad },
+  progress:    { loaded: true,  init: null },   // đã load() ngay khi mở trang, ở dưới
+  nexus:       { loaded: false, init: nxLoad },
+  t50:         { loaded: false, init: t50Init },
+  catalog:     { loaded: false, init: catLoad },
+  'nexus-t514': { loaded: false, init: nxsInit },
 };
 function switchPage(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
@@ -499,6 +549,125 @@ async function nxLoad() {
     )).join('') || '<tr><td colspan="6" style="text-align:center;padding:18px;color:var(--muted)">Chưa có dữ liệu sách nào</td></tr>';
   } catch (e) {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:18px" class="err">Lỗi tải trạng thái Dịch Nexus: ' + esc(e.message) + '</td></tr>';
+  }
+}
+
+/* ══════════════════════════════════════════
+   Tab Dịch Nexus T514 — so sánh 4 bản dịch (Hán gốc/Gemini/Claude/Codex) + chọn
+   bản (chỉ ghi staging JSONL, KHÔNG ghi DB). Nguồn: wt/nexus-translate-tab
+   commit 47c0b445, chuyển từ t50-progress.html sang tab riêng ở đây để tách
+   khỏi tab "Dịch Nexus" (T458, chỉ hiển thị trạng thái).
+   API: /daoanh/api/admin/nexus-translate-search, nexus-translate-select.
+══════════════════════════════════════════ */
+let _nxsPage = 1;
+let _nxsBookOptionsLoaded = false;
+
+async function nxsInit() {
+  // Nạp danh sách sách cho dropdown lọc, dùng lại endpoint status (T458) chỉ
+  // để lấy tên sách — không gọi search vì search bắt buộc có q hoặc book.
+  if (!_nxsBookOptionsLoaded) {
+    _nxsBookOptionsLoaded = true;
+    try {
+      const r = await fetch(API + '/daoanh/api/admin/nexus-translate-status', { headers: { 'X-Session-Token': token() } });
+      const d = await r.json();
+      if (d.ok) {
+        const bookSel = document.getElementById('nxs-book');
+        (d.books || []).forEach(b => {
+          const opt = document.createElement('option');
+          opt.value = b.book; opt.textContent = b.book + ' (' + fmt(b.total_nexus) + ')';
+          bookSel.appendChild(opt);
+        });
+      }
+    } catch (e) { /* không chặn tab nếu lỗi — admin vẫn gõ tay tên sách qua ô tìm kiếm */ }
+  }
+}
+
+function nxsColHtml(nexusId, book, colName, colLabel, col) {
+  if (!col) {
+    return '<div class="nxs-col"><div class="nxs-col-title">' + esc(colLabel) + '</div>' +
+      '<div class="nxs-col-missing">chưa có bản ' + esc(colLabel.toLowerCase()) + '</div></div>';
+  }
+  const v = col.validation || {};
+  const canSelect = !!v.passed;
+  const failNotes = (v.checks || []).filter(c => !c.passed).map(c => esc(c.note)).join('; ');
+  return '<div class="nxs-col">' +
+    '<div class="nxs-col-title">' + esc(colLabel) + '</div>' +
+    '<div class="nxs-col-text">' + esc(col.text_vi) + '</div>' +
+    (canSelect ? '' : '<div class="nxs-col-rulenote">⚠ chưa qua quy tắc' + (failNotes ? ': ' + failNotes : '') + '</div>') +
+    '<button class="nxs-btn-select" ' + (canSelect ? '' : 'disabled') +
+    ' onclick="nxsSelect(' + JSON.stringify(nexusId) + ',' + JSON.stringify(book) + ',' + JSON.stringify(colName) + ', this)">' +
+    'Chọn bản này</button></div>';
+}
+
+function nxsRenderResults(data) {
+  const box = document.getElementById('nxs-results');
+  if (!data.items.length) {
+    box.innerHTML = '<div style="color:var(--muted);text-align:center;padding:30px">Không có kết quả.</div>';
+    return;
+  }
+  box.innerHTML = data.items.map(item =>
+    '<div class="nxs-card">' +
+      '<div class="nxs-card-hdr"><b>' + esc(item.book) + '</b><span class="nid">' + esc(item.nexus_id) + '</span></div>' +
+      '<div class="nxs-grid">' +
+        '<div class="nxs-col"><div class="nxs-col-title">Hán văn gốc</div><div class="nxs-col-text zh">' + esc(item.text_zh) + '</div></div>' +
+        nxsColHtml(item.nexus_id, item.book, 'gemini', 'Gemini', item.gemini) +
+        nxsColHtml(item.nexus_id, item.book, 'claude', 'Claude', item.claude) +
+        nxsColHtml(item.nexus_id, item.book, 'codex', 'Codex', item.codex) +
+      '</div>' +
+    '</div>'
+  ).join('');
+}
+
+async function nxSearch(page) {
+  const q = document.getElementById('nxs-q').value.trim();
+  const book = document.getElementById('nxs-book').value;
+  if (!q && !book) {
+    document.getElementById('nxs-meta').textContent = 'Nhập từ khoá hoặc chọn sách để tìm.';
+    return;
+  }
+  _nxsPage = page || 1;
+  const box = document.getElementById('nxs-results');
+  box.innerHTML = '<div style="color:var(--muted);text-align:center;padding:30px">Đang tìm…</div>';
+  try {
+    const params = new URLSearchParams({ q: q, book: book, page: _nxsPage });
+    const r = await fetch(API + '/daoanh/api/admin/nexus-translate-search?' + params, { headers: { 'X-Session-Token': token() } });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'lỗi không rõ');
+    document.getElementById('nxs-meta').textContent =
+      fmt(d.total) + ' kết quả · ' + d.n_rules_active + ' quy tắc đang active · trang ' + d.page;
+    nxsRenderResults(d);
+    const pager = document.getElementById('nxs-pager');
+    pager.style.display = d.total > d.limit ? 'flex' : 'none';
+    document.getElementById('nxs-page-info').textContent =
+      'Trang ' + d.page + ' / ' + Math.max(1, Math.ceil(d.total / d.limit));
+    document.getElementById('nxs-prev').disabled = d.page <= 1;
+    document.getElementById('nxs-next').disabled = d.page * d.limit >= d.total;
+  } catch (e) {
+    box.innerHTML = '<div class="err" style="text-align:center;padding:30px">Lỗi tìm kiếm: ' + esc(e.message) + '</div>';
+  }
+}
+
+function nxSearchPage(delta) { nxSearch(_nxsPage + delta); }
+
+async function nxsSelect(nexusId, book, source, btnEl) {
+  btnEl.disabled = true;
+  btnEl.textContent = 'Đang lưu…';
+  try {
+    const col = btnEl.closest('.nxs-col');
+    const text_vi = col.querySelector('.nxs-col-text').textContent;
+    const r = await fetch(API + '/daoanh/api/admin/nexus-translate-select', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() },
+      body: JSON.stringify({ nexus_id: nexusId, book: book, source: source, text_vi: text_vi }),
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'lỗi không rõ');
+    btnEl.classList.add('picked');
+    btnEl.textContent = 'Đã chọn (staging)';
+  } catch (e) {
+    btnEl.disabled = false;
+    btnEl.textContent = 'Chọn bản này';
+    alert('Lỗi khi chọn bản dịch: ' + e.message);
   }
 }
 
