@@ -22249,6 +22249,46 @@ def _t148_dila_missing_fields(source_data, vi_dict):
     return missing
 
 
+# T524 (BUG-052 follow-up, 2026-11-07): retry có chờ cho nhánh gọi Groq của
+# api_person_dila_translate khi 429 / không có choices / finish_reason != 'stop'.
+# Không đổi max_tokens/model/timeout của MỖI request — chỉ thêm vòng gọi lại.
+_T524_GROQ_MAX_CALLS = 3            # 1 lần đầu + tối đa 2 lần retry = tối đa 3 lần gọi Groq
+_T524_GROQ_BACKOFF_FIXED = [1, 2]   # giây — dùng khi KHÔNG đọc được gợi ý thời gian thật từ Groq
+
+
+def _t524_groq_retry_wait(resp, retry_idx):
+    """Ước lượng số giây chờ trước lần gọi lại Groq kế tiếp.
+
+    Ưu tiên theo thứ tự:
+    1. Header `Retry-After`/`retry-after` trên response (nếu Groq trả).
+    2. Regex "try again in Xs" trong body lỗi (kiểu thông báo OpenAI/Groq).
+    3. Backoff cố định `_T524_GROQ_BACKOFF_FIXED` (1s rồi 2s) nếu không tìm
+       được gợi ý nào (bao gồm case exception — không có response).
+
+    `retry_idx` = chỉ số lần retry sắp thực hiện, 0-based (0 = lần retry thứ
+    nhất, 1 = lần retry thứ hai).
+    """
+    if resp is not None:
+        ra = resp.headers.get('Retry-After') or resp.headers.get('retry-after')
+        if ra:
+            try:
+                return max(0.0, float(ra))
+            except (TypeError, ValueError):
+                pass
+        try:
+            body_text = resp.text or ''
+        except Exception:
+            body_text = ''
+        m = re.search(r'try again in\s*([\d.]+)\s*s', body_text, re.IGNORECASE)
+        if m:
+            try:
+                return max(0.0, float(m.group(1)))
+            except (TypeError, ValueError):
+                pass
+    idx = min(retry_idx, len(_T524_GROQ_BACKOFF_FIXED) - 1)
+    return _T524_GROQ_BACKOFF_FIXED[idx]
+
+
 @app.route('/daoanh/api/person/<person_id>/dila_translate', methods=['GET', 'POST'])
 def api_person_dila_translate(person_id):
     """GET = kiểm tra cache. POST = dịch DILA card sang tiếng Việt Phật học hàn lâm.
@@ -22418,35 +22458,97 @@ def api_person_dila_translate(person_id):
         groq_key = cfg.get('groq_key') or GROQ_KEY
         groq_model = cfg.get('groq_model') or GROQ_MODEL
         if groq_key:
-            try:
-                gr = requests.post(GROQ_URL,
-                    headers={'Authorization': f'Bearer {groq_key}', 'Content-Type': 'application/json'},
-                    json={'model': groq_model, 'messages': [{'role': 'user', 'content': prompt}],
-                          'temperature': 0.1, 'max_tokens': 4096},
-                    timeout=35)
-                gd = gr.json()
-                if gd.get('choices'):
-                    vi_text = gd['choices'][0]['message']['content'].strip()
-                    model_id = groq_model
-                    fr = gd['choices'][0].get('finish_reason')
-                    # BUG-052 follow-up: finish_reason='length' = Groq cắt output giữa
-                    # chừng (hết OTPM/max_tokens budget) → vi_text sẽ parse JSON lỗi ở
-                    # bước sau; ghi log ngay đây để thấy nguyên nhân thật, không phải
-                    # chờ tới lỗi "AI không trả về JSON hợp lệ" mới biết.
-                    if fr and fr != 'stop':
+            # T524 (BUG-052 follow-up): tối đa _T524_GROQ_MAX_CALLS lần gọi Groq
+            # TỔNG CỘNG (1 lần đầu + tối đa 2 lần retry) khi 429 / không có
+            # choices / finish_reason != 'stop'. KHÔNG đổi max_tokens/model/
+            # timeout của MỖI request — chỉ thêm vòng gọi lại có chờ.
+            attempt = 0
+            while attempt < _T524_GROQ_MAX_CALLS:
+                attempt += 1
+                gr = None
+                gd = None
+                try:
+                    gr = requests.post(GROQ_URL,
+                        headers={'Authorization': f'Bearer {groq_key}', 'Content-Type': 'application/json'},
+                        json={'model': groq_model, 'messages': [{'role': 'user', 'content': prompt}],
+                              'temperature': 0.1, 'max_tokens': 4096},
+                        timeout=35)
+                    gd = gr.json()
+                except Exception as eg:
+                    app.logger.warning(f"[dila_translate] Qwen/Groq error: {eg}")
+
+                retry_needed = False
+                try:
+                    if gd is not None and isinstance(gd, dict) and gd.get('choices'):
+                        vi_text = gd['choices'][0]['message']['content'].strip()
+                        model_id = groq_model
+                        fr = gd['choices'][0].get('finish_reason')
+                        # BUG-052 follow-up: finish_reason='length' = Groq cắt output giữa
+                        # chừng (hết OTPM/max_tokens budget) → vi_text sẽ parse JSON lỗi ở
+                        # bước sau; ghi log ngay đây để thấy nguyên nhân thật, không phải
+                        # chờ tới lỗi "AI không trả về JSON hợp lệ" mới biết.
+                        if fr and fr != 'stop':
+                            app.logger.warning(
+                                f"[dila_translate] Qwen/Groq finish_reason={fr} "
+                                f"(person_id={person_id}, len(vi_text)={len(vi_text)}) — "
+                                f"output có thể bị cắt giữa chừng")
+                            # T524: output có thể cắt giữa chừng do hết OTPM budget trong
+                            # cùng response → coi là cần retry (nếu còn lượt) để lấy bản
+                            # đầy đủ, thay vì chấp nhận ngay bản bị cắt.
+                            retry_needed = True
+                    elif gd is not None and isinstance(gd, dict):
+                        # BUG-052 follow-up: request KHÔNG raise exception khi Groq trả lỗi
+                        # dạng JSON (ví dụ HTTP 429 rate-limit/OTPM) — nhánh except ở dưới
+                        # không bắt được case này nên trước đây KHÔNG có log nào cả.
                         app.logger.warning(
-                            f"[dila_translate] Qwen/Groq finish_reason={fr} "
-                            f"(person_id={person_id}, len(vi_text)={len(vi_text)}) — "
-                            f"output có thể bị cắt giữa chừng")
-                else:
-                    # BUG-052 follow-up: request KHÔNG raise exception khi Groq trả lỗi
-                    # dạng JSON (ví dụ HTTP 429 rate-limit/OTPM) — nhánh except ở dưới
-                    # không bắt được case này nên trước đây KHÔNG có log nào cả.
+                            f"[dila_translate] Qwen/Groq no choices — HTTP {gr.status_code} "
+                            f"(person_id={person_id}): {str(gd.get('error', gd))[:300]}")
+                        retry_needed = True
+                    elif gd is not None:
+                        # T524 QA round 1: gr.json() trả JSON hợp lệ nhưng KHÔNG phải dict
+                        # (list/chuỗi/số...) — .get('choices') sẽ ném AttributeError nếu
+                        # không kiểm isinstance trước. Coi như lỗi, cần retry.
+                        app.logger.warning(
+                            f"[dila_translate] Qwen/Groq response không phải dict "
+                            f"(type={type(gd).__name__}) (person_id={person_id})")
+                        retry_needed = True
+                    else:
+                        # gd is None: exception đã log ở trên (hoặc response không phải JSON).
+                        retry_needed = True
+                except Exception as eg:
+                    # T524 QA round 1 (lỗi bắt buộc sửa): đọc choices/message/content/
+                    # finish_reason có thể ném AttributeError/KeyError/TypeError (ví dụ
+                    # content=null, thiếu message, choices[0] không phải dict). Route
+                    # này KHÔNG có except bao ngoài (chỉ try/finally quản connection) nên
+                    # lỗi đọc response trước đây văng thẳng 500, mất khả năng retry/
+                    # fallback Gemini. Bắt lại đây, log cùng pattern với nhánh
+                    # requests.post/gr.json() phía trên rồi coi như cần retry/fallback.
+                    app.logger.warning(f"[dila_translate] Qwen/Groq error: {eg}")
+                    vi_text = None
+                    retry_needed = True
+
+                if not retry_needed:
+                    break  # finish_reason == 'stop' với choices hợp lệ → thành công
+
+                if attempt >= _T524_GROQ_MAX_CALLS:
                     app.logger.warning(
-                        f"[dila_translate] Qwen/Groq no choices — HTTP {gr.status_code} "
-                        f"(person_id={person_id}): {str(gd.get('error', gd))[:300]}")
-            except Exception as eg:
-                app.logger.warning(f"[dila_translate] Qwen/Groq error: {eg}")
+                        f"[dila_translate] Qwen/Groq hết retry ({attempt}/"
+                        f"{_T524_GROQ_MAX_CALLS} lần gọi) (person_id={person_id})")
+                    # T524 QA round 1 (rủi ro #2 — ĐÃ SỬA): hết retry mà lần cuối vẫn
+                    # không 'stop' (bị cắt/lỗi) → xóa vi_text để rơi xuống Gemini
+                    # fallback ở dưới, không giữ bản dịch bị cắt/lỗi giữa chừng.
+                    vi_text = None
+                    break
+
+                # T524 QA round 1 (rủi ro #1 — ĐÃ SỬA): trần chờ tối đa 10s/lần, tránh
+                # một request kéo dài quá lâu (3× timeout 35s + chờ) vượt timeout
+                # nginx/gunicorn trên VPS, dù Retry-After/gợi ý "try again in Xs" của
+                # Groq lớn hơn.
+                wait_s = min(_t524_groq_retry_wait(gr, attempt - 1), 10)
+                app.logger.warning(
+                    f"[dila_translate] Qwen/Groq retry lần {attempt + 1}/"
+                    f"{_T524_GROQ_MAX_CALLS} sau {wait_s}s (person_id={person_id})")
+                time.sleep(wait_s)
 
         if not vi_text:
             # Fallback: Gemini
