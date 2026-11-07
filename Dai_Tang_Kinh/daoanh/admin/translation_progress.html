@@ -251,6 +251,21 @@
 
 <div id="tab-t50" class="tab-pane">
 
+  <!-- ─── T50 dashboard tổng hợp (2026-11-07) ───
+       Admin yêu cầu tab T50 thành báo cáo kiểu dashboard, tổng hợp số liệu
+       THẬT từ API các tab khác trong trang (không bịa số). Phần cũ bên dưới
+       (hàng đợi / job đang chạy / t50-main-content) giữ nguyên, không xoá. -->
+  <div class="t50-section" id="t50-dash-section">
+    <div class="t50-sec-title">Tổng hợp toàn hệ thống — số liệu thật từ API các tab khác</div>
+    <div style="font-size:11px;color:var(--muted);margin:-6px 0 12px">
+      Mỗi thẻ gọi đúng API mà tab tương ứng đang dùng. Thẻ ghi "chưa có nguồn"
+      nghĩa là route chưa tồn tại hoặc chưa trả JSON hợp lệ — không phải 0.
+    </div>
+    <div class="t50-cards" id="t50-dash-cards">
+      <div class="t50-loading">Đang tải tổng hợp…</div>
+    </div>
+  </div>
+
   <div class="t50-queue-panel" id="t50-queue-panel">
     <div class="t50-queue-title">Hàng đợi — sẽ tự chạy lần lượt sau khi bộ hiện tại xong</div>
     <div class="t50-queue-list" id="t50-queue-list"></div>
@@ -580,6 +595,17 @@ async function load() {
   try {
     const r = await fetch(API + '/daoanh/api/admin/gemini-progress?page=' + page + '&size=50&filter=' + filter,
       { headers: { 'X-Session-Token': token() } });
+    // Bug verify 2026-11-07: route /daoanh/api/admin/gemini-progress KHÔNG tồn
+    // tại trong app.py (grep không ra, xác nhận bằng curl -i → 404 HTML).
+    // r.json() trên thân HTML ném "Unexpected token '<'..." khó hiểu. Kiểm
+    // content-type trước để báo đúng nguyên nhân thật (route thiếu), không
+    // bịa số liệu và không đổi hành vi khi route tồn tại.
+    const ct = (r.headers.get('content-type') || '');
+    if (!ct.includes('application/json')) {
+      throw new Error('route /daoanh/api/admin/gemini-progress chưa tồn tại trên server (HTTP ' + r.status +
+        ') — tab "Tiến Độ Dịch" (Gemini duyệt tên địa danh) chưa có API này. Cần Admin quyết định: tạo route' +
+        ' mới hay dùng nguồn khác (tab "Dịch ID Place" dùng /daoanh/api/dila/stats đã hoạt động).');
+    }
     const d = await r.json();
     if (!d.ok) throw new Error(d.error || 'API lỗi');
     const s = d.summary;
@@ -876,7 +902,93 @@ let _t50ApiAvailable = false;
 let _t50ProgressData = null;
 const T50_SNAP = API ? '/daoanh/data/t50_progress_snapshot.json' : '../data/t50_progress_snapshot.json';
 
-async function t50Init() { await t50Refresh(); }
+async function t50Init() {
+  await t50Refresh();
+  // Phần dashboard tổng hợp độc lập với t50Refresh() ở trên — lỗi ở đây
+  // không được làm hỏng phần T50 gốc (đã await riêng, không nằm trong
+  // cùng try/catch, không ném lỗi ra ngoài vì t50LoadSystemDashboard tự
+  // bắt lỗi theo từng thẻ).
+  t50LoadSystemDashboard();
+}
+
+/* ══════════════════════════════════════════
+   T50 dashboard tổng hợp (2026-11-07) — gom số liệu THẬT từ API mà các tab
+   khác trong trang này đang dùng (xem tương ứng: nxLoad/psLoadStats/
+   plLoadStats/catLoad ở trên/dưới). KHÔNG tạo API mới, KHÔNG tính toán lại
+   số liệu phía client — chỉ đọc đúng field mỗi API đã trả. 2 nguồn
+   "Xác minh tác giả" (work-verify) và "Xác Minh" (namevi xcm-stats) nằm ở
+   trang namevimap.html, không có tab trong trang này — gọi thẳng API của
+   chúng, cần session admin (X-Session-Token) như các API admin khác.
+   Nếu 1 nguồn lỗi/chưa có route, chỉ thẻ đó báo lỗi — không chặn thẻ khác. */
+const T50_DASH_SOURCES = [
+  {
+    key: 'place', label: 'Place (Dịch ID Place)', url: '/daoanh/api/dila/stats', auth: false,
+    render: d => ({
+      val: fmt(d.total),
+      sub: fmt(d.mapped_vi) + ' đã có name_vi' + (d.total ? ' (' + (d.mapped_vi * 100 / d.total).toFixed(1) + '%)' : '')
+    })
+  },
+  {
+    key: 'catalog', label: 'Catalog Đại Tạng Kinh', url: '/daoanh/api/danh-sach-kinh?offset=0&limit=1', auth: false,
+    render: d => {
+      const s = d.stats || {};
+      return { val: fmt(s.total_catalog), sub: fmt(s.has_translation) + ' bộ có bản dịch' };
+    }
+  },
+  {
+    key: 'person', label: 'Person (Dịch ID Person)', url: '/daoanh/api/dila/persons/stats', auth: false,
+    render: d => ({ val: fmt(d.total), sub: fmt(d.translated_saved) + ' đã lưu bio_vi · ' + fmt(d.translated_draft) + ' nháp AI' })
+  },
+  {
+    key: 'workverify', label: 'Xác minh tác giả (work-verify)', url: '/daoanh/api/admin/work-verify?hide_pass=0&size=1', auth: true,
+    render: d => ({ val: fmt(d.total), sub: 'tổng dòng lệch tên contributor (DB vs vi_json)' })
+  },
+  {
+    key: 'xacminh', label: 'Xác Minh (namevi xcm-stats)', url: '/daoanh/api/admin/namevi-map/xcm-stats', auth: true,
+    render: d => ({ val: fmt(d.approved), sub: fmt(d.rejected) + ' đã reject (—)' })
+  },
+  {
+    key: 'ttletl', label: 'TTL ETL', url: '/daoanh/api/admin/namevi/ttl-stats?status=all&per_page=1', auth: false,
+    render: d => ({ val: fmt(d.has_ttl) + ' / ' + fmt(d.total_nvm), sub: d.coverage_pct + '% đã có TTL · ' + fmt(d.ttl_disk) + ' file TTL trên đĩa' })
+  },
+  {
+    key: 'nexus', label: 'Dịch Nexus (T458)', url: '/daoanh/api/admin/nexus-translate-status', auth: true,
+    render: d => ({ val: fmt(d.total_translated) + ' / ' + fmt(d.total_nexus), sub: fmt(d.total_batches) + ' batch' })
+  },
+];
+
+async function t50LoadSystemDashboard() {
+  const wrap = document.getElementById('t50-dash-cards');
+  if (!wrap) return;
+  wrap.innerHTML = T50_DASH_SOURCES.map(s =>
+    '<div class="t50-card" id="t50-dash-' + s.key + '">'
+    + '<div class="lbl">' + esc(s.label) + '</div>'
+    + '<div class="val" style="font-size:15px;color:var(--muted)">Đang tải…</div>'
+    + '</div>'
+  ).join('');
+
+  await Promise.all(T50_DASH_SOURCES.map(async s => {
+    const card = document.getElementById('t50-dash-' + s.key);
+    try {
+      const opts = s.auth ? { headers: { 'X-Session-Token': token() } } : {};
+      const r = await fetch(API + s.url, opts);
+      const ct = (r.headers.get('content-type') || '');
+      if (!ct.includes('application/json')) {
+        throw new Error('route chưa trả JSON (HTTP ' + r.status + ') — chưa có nguồn');
+      }
+      const d = await r.json();
+      if (d.ok === false) throw new Error(d.error || 'API lỗi');
+      const { val, sub } = s.render(d);
+      card.innerHTML = '<div class="lbl">' + esc(s.label) + '</div>'
+        + '<div class="val">' + val + '</div>'
+        + '<div class="sub">' + esc(sub) + '</div>';
+    } catch (e) {
+      card.innerHTML = '<div class="lbl">' + esc(s.label) + '</div>'
+        + '<div class="val" style="font-size:13px;color:var(--muted)">chưa có nguồn</div>'
+        + '<div class="sub" style="color:var(--bad)">' + esc(e.message) + '</div>';
+    }
+  }));
+}
 
 async function t50Refresh() {
   let d = null;
