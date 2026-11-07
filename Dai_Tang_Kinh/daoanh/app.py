@@ -22428,6 +22428,23 @@ def api_person_dila_translate(person_id):
                 if gd.get('choices'):
                     vi_text = gd['choices'][0]['message']['content'].strip()
                     model_id = groq_model
+                    fr = gd['choices'][0].get('finish_reason')
+                    # BUG-052 follow-up: finish_reason='length' = Groq cắt output giữa
+                    # chừng (hết OTPM/max_tokens budget) → vi_text sẽ parse JSON lỗi ở
+                    # bước sau; ghi log ngay đây để thấy nguyên nhân thật, không phải
+                    # chờ tới lỗi "AI không trả về JSON hợp lệ" mới biết.
+                    if fr and fr != 'stop':
+                        app.logger.warning(
+                            f"[dila_translate] Qwen/Groq finish_reason={fr} "
+                            f"(person_id={person_id}, len(vi_text)={len(vi_text)}) — "
+                            f"output có thể bị cắt giữa chừng")
+                else:
+                    # BUG-052 follow-up: request KHÔNG raise exception khi Groq trả lỗi
+                    # dạng JSON (ví dụ HTTP 429 rate-limit/OTPM) — nhánh except ở dưới
+                    # không bắt được case này nên trước đây KHÔNG có log nào cả.
+                    app.logger.warning(
+                        f"[dila_translate] Qwen/Groq no choices — HTTP {gr.status_code} "
+                        f"(person_id={person_id}): {str(gd.get('error', gd))[:300]}")
             except Exception as eg:
                 app.logger.warning(f"[dila_translate] Qwen/Groq error: {eg}")
 
@@ -22445,6 +22462,13 @@ def api_person_dila_translate(person_id):
                 if g_data.get('candidates'):
                     vi_text = g_data['candidates'][0]['content']['parts'][0]['text']
                     model_id = 'gemini-3.6-flash'
+                else:
+                    # BUG-052 follow-up: cùng lý do với nhánh Groq — lỗi JSON (403/429/...)
+                    # không raise exception nên trước đây im lặng, không log.
+                    app.logger.warning(
+                        f"[dila_translate] Gemini fallback no candidates — HTTP "
+                        f"{g_resp.status_code} (person_id={person_id}): "
+                        f"{str(g_data.get('error', g_data))[:300]}")
             except Exception as e:
                 app.logger.warning(f"[dila_translate] Gemini fallback error: {e}")
         if not vi_text:
