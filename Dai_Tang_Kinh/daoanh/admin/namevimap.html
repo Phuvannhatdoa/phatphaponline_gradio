@@ -190,6 +190,27 @@
         .etl-ba-table tr:last-child td:last-child  { border-radius:0 0 5px 0; }
         .etl-ba-table tr:hover td { background:rgba(217,119,6,.05); }
 
+        /* ── Tab Catalog: ô sửa tên Kinh trước khi Pass (BUG: textbox quá ngắn, tên dài bị cắt) ── */
+        .catalog-pass-input {
+            display:block;
+            width:100%;
+            min-width:160px;
+            max-width:320px;
+            font-size:12px;
+            font-family:inherit;
+            line-height:1.4;
+            padding:4px 6px;
+            white-space:pre-wrap;
+            word-break:break-word;
+            overflow-wrap:break-word;
+            resize:vertical;
+            box-sizing:border-box;
+            background:var(--bg-sidebar);
+            color:var(--text-main);
+            border:1px solid var(--border);
+            border-radius:4px;
+        }
+
         /* ── Inline edit FLAG ── */
         .etl-dila-cell[contenteditable] { border-radius:3px; padding:2px 5px; cursor:text; outline:none; transition:background .15s; }
         .etl-dila-cell[contenteditable]:hover { background:#1a150a; outline:1px dashed var(--border); }
@@ -2894,7 +2915,7 @@
             tbody.innerHTML = d.items.map(it => {
                 const pass = it.admin_pass
                     ? `<span style="color:#22c55e;font-size:12px">✓ ${_esc(it.admin_pass.name_vi)}</span><div style="font-size:10px;color:var(--text-muted)">${_esc(it.admin_pass.editor)} · ${_esc(it.admin_pass.at)}</div>`
-                    : `<input type="text" class="catalog-pass-input" value="${_esc(it.phien_am_claude || '')}" style="width:200px;font-size:12px"> <button class="etl-flag-pass" onclick="catalogPassWork(this)">✓ Pass</button>`;
+                    : `<textarea class="catalog-pass-input" rows="2" title="${_esc(it.phien_am_claude || '')}">${_esc(it.phien_am_claude || '')}</textarea> <button class="etl-flag-pass" onclick="catalogPassWork(this)">✓ Pass</button>`;
                 const nmt = (it.muc_luc_nmt && it.muc_luc_nmt.length) ? it.muc_luc_nmt.join(' · ') : '';
                 return `<tr data-cbeta-id="${_esc(it.cbeta_id)}">
                     <td style="font-family:monospace;font-size:11px">${_esc(it.cbeta_id)}</td>
@@ -2907,6 +2928,14 @@
                     <td>${pass}</td>
                 </tr>`;
             }).join('');
+            // Tự giãn chiều cao ô tên Kinh theo đúng nội dung (BUG: textbox cố định
+            // 2 dòng vẫn cắt tên rất dài) — để nhìn trọn tên mà không cần cuộn/kéo tay.
+            tbody.querySelectorAll('.catalog-pass-input').forEach(ta => {
+                ta.style.height = 'auto';
+                // +2px bù border trên/dưới (box-sizing:border-box) để không bị
+                // thiếu đúng 1 dòng cuối do làm tròn scrollHeight/clientHeight.
+                ta.style.height = (Math.max(ta.scrollHeight, 32) + 2) + 'px';
+            });
             const mkBtn = (label, p, active) => {
                 const b = document.createElement('button');
                 b.className = 'btn btn-sm' + (active ? ' active' : '');
