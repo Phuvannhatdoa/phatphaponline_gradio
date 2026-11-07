@@ -376,7 +376,12 @@
 <div id="tab-person" class="tab-pane">
   <div class="tiles" id="person-tiles">
     <div class="tile"><b id="ps-total">—</b><span>Tổng Person (DILA)</span></div>
-    <div class="tile"><b id="ps-translated">—</b><span>Đã có bio_vi (đã lưu)</span></div>
+    <!-- BUG-052: đổi nhãn — "Đã có bio_vi" chỉ là 1/~10 trường Hán của DILA
+         card, KHÔNG phải "đã dịch xong". Thêm tile riêng cho dila_card_cached
+         (có bản dịch card, chưa chắc đủ trường — xem cột Trạng thái từng dòng
+         để biết chính xác dila_card_done). -->
+    <div class="tile"><b id="ps-translated">—</b><span>Có bio_vi (1 trường — KHÔNG phải đã dịch đủ)</span></div>
+    <div class="tile"><b id="ps-card-cached">—</b><span>Có bản dịch DILA card (chưa chắc đủ trường)</span></div>
     <div class="tile"><b id="ps-draft">—</b><span>Có bản nháp AI (draft)</span></div>
     <div class="tile"><b id="ps-pending">—</b><span>Chờ dịch (có bio_zh)</span></div>
     <div class="tile"><b id="ps-nozh">—</b><span>Không có Hán văn</span></div>
@@ -439,7 +444,7 @@
           style="width:70px;margin-left:6px;padding:5px 8px;border-radius:5px;border:1px solid var(--line);background:#0f172a;color:var(--text)">
       </label>
       <label style="font-size:13px;color:var(--text)">
-        <input type="checkbox" id="ps-skip-done" checked> Bỏ qua đã có bio_vi / nháp AI
+        <input type="checkbox" id="ps-skip-done" checked> Bỏ qua ID đã dịch đầy đủ (dila_card_done)
       </label>
       <label style="font-size:13px;color:var(--text)">
         <input type="checkbox" id="ps-only-zh" checked> Chỉ dịch có bio_zh
@@ -1283,7 +1288,11 @@ async function loadPassages(off) {
 
 /* ══════════════════════════════════════════
    Tab Person — Dịch ID Person (DILA)
-   Nguồn: /daoanh/api/dila/persons + /daoanh/api/person/<id>/translate
+   Nguồn: /daoanh/api/dila/persons (liệt kê + completeness)
+          + /daoanh/api/person/<id>/dila_translate (dịch TOÀN BỘ DILA card
+            — BUG-052, 2026-11-07: đổi từ /translate (chỉ dịch 1 trường bio)
+            sang /dila_translate vì person.html hiển thị ~9 trường Hán khác
+            mà /translate không bao giờ chạm tới).
    Tuần tự, resume-safe, không ghi đè bản đã lưu.
 ══════════════════════════════════════════ */
 let _psFilter = 'all';
@@ -1311,6 +1320,7 @@ async function psLoadStats() {
     if (!d.ok) throw new Error(d.error || 'API lỗi');
     document.getElementById('ps-total').textContent = fmt(d.total);
     document.getElementById('ps-translated').textContent = fmt(d.translated_saved);
+    document.getElementById('ps-card-cached').textContent = fmt(d.dila_card_cached || 0);
     document.getElementById('ps-draft').textContent = fmt(d.translated_draft);
     document.getElementById('pagetab-person-cnt').textContent = '(' + fmt(d.total) + ')';
     const withBio = d.with_bio_zh;
@@ -1371,13 +1381,27 @@ function psRenderRows(items) {
     return;
   }
   body.innerHTML = items.map(it => {
+    // BUG-052 (2026-11-07): trước đây gate DUY NHẤT vào `it.bio_vi_saved` (cột
+    // people.bio_vi — chỉ 1/~10 trường Hán của DILA card) để hiện "✓ Đã lưu" +
+    // disable nút — ĐÁNH DONE SAI dù 8-9 trường khác (Ghi chú năm mất, Kinh
+    // trong Đại Tạng, Trích dẫn CBETA...) còn "(chưa dịch)" trên person.html.
+    // FIX: dùng `dila_card_done`/`dila_card_cached`/`dila_card_missing` — tính
+    // THẬT ở backend (app.py api_dila_persons_search → _t148_dila_missing_fields),
+    // so khớp ĐÚNG field Hán ↔ field Việt theo schema /dila_translate, không
+    // suy từ label UI.
     let statusHtml, actionHtml;
-    if (it.bio_vi_saved) {
-      statusHtml = '<span class="badge ok">✓ Đã lưu</span>';
-      actionHtml = '<button class="btn" disabled>✓ Đã có bio_vi</button>';
+    if (it.dila_card_done) {
+      statusHtml = '<span class="badge ok">✓ Đã dịch đầy đủ</span>';
+      actionHtml = '<button class="btn ok" disabled>✓ Đủ trường</button>';
+    } else if (it.dila_card_cached) {
+      const missing = it.dila_card_missing || [];
+      statusHtml = '<span class="badge wait" title="' + esc(missing.join(', ')) + '">⚠ Thiếu ' + missing.length + ' trường</span>';
+      actionHtml = '<button class="btn" onclick="psTranslateOne(\'' + esc(it.id) + '\')" title="' + esc(missing.join(', ')) + '" style="background:#451a03;border-color:var(--gold);color:var(--gold)">Dịch lại (thiếu ' + missing.length + ')</button>';
     } else if (it.draft_status) {
-      statusHtml = '<span class="badge wait">✎ Nháp AI (' + esc(it.draft_status) + ')</span>';
-      actionHtml = '<button class="btn" onclick="psTranslateOne(\'' + esc(it.id) + '\')" style="background:#1e3a5f;border-color:#3b82f6;color:#93c5fd">Dịch lại</button>';
+      // Có nháp AI kiểu CŨ (person_bio, chỉ 1 trường) — CHƯA từng chạy dịch
+      // DILA card đầy đủ, không được coi là "đã dịch".
+      statusHtml = '<span class="badge wait">✎ Có nháp bio cũ — chưa dịch đầy đủ</span>';
+      actionHtml = '<button class="btn" onclick="psTranslateOne(\'' + esc(it.id) + '\')" style="background:#1e3a5f;border-color:#3b82f6;color:#93c5fd">Dịch đầy đủ</button>';
     } else if (it.has_bio_zh) {
       statusHtml = '<span class="badge" style="border-color:var(--gold);color:var(--gold)">⏳ Chờ dịch</span>';
       actionHtml = '<button class="btn ok" onclick="psTranslateOne(\'' + esc(it.id) + '\')">Dịch ngay</button>';
@@ -1421,19 +1445,42 @@ function psSetFilter(btn) {
 }
 
 async function psTranslateOne(personId) {
+  // BUG-052 (2026-11-07): TRƯỚC ĐÂY gọi /daoanh/api/person/<id>/translate — endpoint
+  // đó CHỈ dịch people.bio (1 trường), rồi nút bị disable + hiện "✓ Xong" như thể
+  // ĐàXONG toàn bộ, trong khi person.html còn ~8 trường Hán khác (Ghi chú năm mất,
+  // Kinh trong Đại Tạng, Trích dẫn CBETA...) vẫn "(chưa dịch)" — vì những trường đó
+  // chỉ được dịch bởi /dila_translate (nút "✨ AI Dịch DILA" trong person.html), một
+  // pipeline HOÀN TOÀN KHÁC, chưa từng được tab này gọi tới.
+  // FIX: gọi /dila_translate (dịch TOÀN BỘ DILA card) và đọc "done"/"missing_fields"
+  // THẬT từ backend (app.py _t148_dila_missing_fields) — không tự suy DONE từ
+  // "ok":true hay disable nút khi còn thiếu trường.
   const btn = event.target;
   btn.disabled = true;
   btn.textContent = '⏳';
   try {
-    const r = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/translate', {
+    const r = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_translate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
     });
     const d = await r.json();
     if (!d.ok) throw new Error(d.error || 'Dịch thất bại');
-    btn.textContent = d.from_cache ? '✓ Cache' : '✓ Xong';
-    btn.className = 'btn';
-    btn.disabled = true;
+    const missing = d.missing_fields || [];
+    if (d.done) {
+      btn.textContent = d.from_cache ? '✓ Cache (đủ trường)' : '✓ Xong (đủ trường)';
+      btn.className = 'btn ok';
+      btn.disabled = true;
+      btn.removeAttribute('title');
+    } else {
+      // Thiếu trường → KHÔNG được coi là DONE, PHẢI báo rõ còn thiếu gì + để
+      // admin bấm lại được (không disable).
+      btn.textContent = '⚠ Thiếu ' + missing.length + ' trường — Dịch lại';
+      btn.className = 'btn';
+      btn.style.background = '#451a03';
+      btn.style.borderColor = 'var(--gold)';
+      btn.style.color = 'var(--gold)';
+      btn.title = 'Còn thiếu bản dịch: ' + missing.join(', ');
+      btn.disabled = false;
+    }
     await psLoadStats();
     psLoadList(false);
   } catch (e) {
@@ -1452,7 +1499,10 @@ function psBuildQueue(items) {
   const queue = [];
   for (const it of items) {
     if (queue.length >= limit) break;
-    if (skipDone && (it.bio_vi_saved || it.draft_status)) continue;
+    // BUG-052: "đã xong" để BỎ QUA phải là dila_card_done THẬT (đủ mọi trường
+    // Hán), không phải chỉ có bio_vi hoặc có nháp bio cũ (dila_card_cached mà
+    // chưa đủ trường vẫn phải được xếp lại vào queue để dịch tiếp).
+    if (skipDone && it.dila_card_done) continue;
     if (onlyZh && !it.has_bio_zh) continue;
     queue.push(it.id);
   }
@@ -1524,11 +1574,13 @@ async function psProcessNext() {
   logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] Bắt đầu: ' + personId;
   logEl.scrollTop = logEl.scrollHeight;
   try {
-    const r = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/translate', {
+    // BUG-052: gọi /dila_translate (toàn bộ DILA card) — KHÔNG gọi /translate
+    // (chỉ dịch bio) như trước, cùng lý do đã sửa ở psTranslateOne().
+    const r = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_translate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
     });
-    const d = await r.json();
+    let d = await r.json();
     if (!d.ok) {
       const errType = d.error_type || 'unknown';
       if (errType === 'rate_limit' || errType === 'quota_exceeded' || (d.error && d.error.includes('rate'))) {
@@ -1537,18 +1589,26 @@ async function psProcessNext() {
         logEl.scrollTop = logEl.scrollHeight;
         await new Promise(res => setTimeout(res, 30000));
         // Thử lại lần 2
-        const r2 = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/translate', {
+        const r2 = await fetch(API + '/daoanh/api/person/' + encodeURIComponent(personId) + '/dila_translate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-Session-Token': token() }
         });
-        const d2 = await r2.json();
-        if (!d2.ok) throw new Error(d2.error || 'Dịch thất bại sau rate limit');
+        d = await r2.json();
+        if (!d.ok) throw new Error(d.error || 'Dịch thất bại sau rate limit');
       } else {
         throw new Error(d.error || 'Dịch thất bại');
       }
     }
-    _psJobStats.done++;
-    logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✓ ' + personId + (d.from_cache ? ' (cache)' : '');
+    // Chỉ tính "done" khi backend xác nhận đủ trường (d.done) — KHÔNG đếm
+    // "done" chỉ vì ok:true (xem _t148_dila_missing_fields trong app.py).
+    if (d.done) {
+      _psJobStats.done++;
+      logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✓ ' + personId + (d.from_cache ? ' (cache, đủ trường)' : ' (đủ trường)');
+    } else {
+      _psJobStats.error++;
+      const missing = d.missing_fields || [];
+      logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ⚠ ' + personId + ' — còn thiếu ' + missing.length + ' trường: ' + missing.join(', ');
+    }
   } catch (e) {
     _psJobStats.error++;
     logEl.textContent += '\n[' + new Date().toLocaleTimeString('vi-VN') + '] ✗ ' + personId + ': ' + e.message;

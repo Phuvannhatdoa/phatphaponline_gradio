@@ -9601,6 +9601,20 @@ def api_dila_persons_search():
                                 AND tc2.source_type = 'person_bio'
                                 AND tc2.status != 'invalidated'))
         """
+        # BUG-052 — CTE riêng cho bản dịch DILA CARD ĐẦY ĐỦ (tất cả trường, không
+        # chỉ bio). `bio_vi_saved` (cột people.bio_vi) KHÔNG đủ để coi một person
+        # là "đã dịch" vì person.html hiển thị các trường Ghi chú năm mất/Tiểu sử
+        # vắn tắt/Kinh trong Đại Tạng/Trích dẫn CBETA từ cache 'dila_card' này,
+        # không từ people.bio_vi. Join này chỉ lấy bản MỚI NHẤT còn hiệu lực.
+        dila_card_cte = """
+            (SELECT tc.entity_id, tc.translated_text, tc.status
+               FROM translation_cache tc
+              WHERE tc.source_type = 'dila_card' AND tc.status != 'invalidated'
+                AND tc.id = (SELECT MAX(tc2.id) FROM translation_cache tc2
+                              WHERE tc2.entity_id = tc.entity_id
+                                AND tc2.source_type = 'dila_card'
+                                AND tc2.status != 'invalidated'))
+        """
 
         count_row = conn.execute(
             f"""SELECT COUNT(*) FROM people p
@@ -9611,10 +9625,11 @@ def api_dila_persons_search():
         total = count_row[0]
         rows = conn.execute(
             f"""SELECT p.id, p.name_zh, p.name_vi, p.name_en, p.sect, p.dynasty,
-                       p.birth_year, p.death_year,
+                       p.birth_year, p.death_year, p.bio AS bio_zh_raw,
                        (LENGTH(COALESCE(p.bio,'')) > 0) AS has_bio_zh,
                        (p.bio_vi IS NOT NULL AND p.bio_vi != '') AS bio_vi_saved,
                        tc.status AS draft_status,
+                       dc.translated_text AS dila_card_vi_json,
                        d.han_viet_charwise AS hv_charwise,
                        d.han_viet_legacy AS hv_legacy,
                        d.han_viet_validation_status AS hv_status_col,
@@ -9624,6 +9639,7 @@ def api_dila_persons_search():
                        d.han_viet_syllable_count AS hv_syll_count
                 FROM people p
                 LEFT JOIN {translation_cte} tc ON tc.entity_id = p.id
+                LEFT JOIN {dila_card_cte} dc ON dc.entity_id = p.id
                 LEFT JOIN person_hanviet_debug d ON d.person_id = p.id
                 {where_sql}
                 ORDER BY {
@@ -9656,6 +9672,22 @@ def api_dila_persons_search():
                 it['hv'] = None
             for _k in _hv_cols:
                 it.pop(_k, None)
+        # BUG-052 — tính "đã dịch ĐẦY ĐỦ" THẬT (tất cả trường có Hán văn, không
+        # chỉ bio_vi) cho mỗi dòng trên trang này (≤ `limit`, mặc định 50, tối đa
+        # 200). _t148_get_extra() là dict trong RAM (lazy-load 1 lần/process) nên
+        # chi phí thêm ở đây là O(1)/dòng, không phải N+1 query DB.
+        for it in items:
+            extra_i = _t148_get_extra(it['id']) or {}
+            src_i = _t148_dila_source_fields(it.get('name_zh') or '', it.pop('bio_zh_raw', '') or '', extra_i)
+            raw_vi = it.pop('dila_card_vi_json', None)
+            try:
+                vi_i = json.loads(raw_vi) if raw_vi else {}
+            except Exception:
+                vi_i = {}
+            missing_i = _t148_dila_missing_fields(src_i, vi_i)
+            it['dila_card_cached'] = bool(raw_vi)
+            it['dila_card_missing'] = missing_i
+            it['dila_card_done'] = (len(missing_i) == 0)
         # T186: bổ sung danh tăng VN từ ttl_persons khi có query q
         if q and fmt != 'csv':
             try:
@@ -9729,9 +9761,22 @@ def api_dila_persons_stats():
             "SELECT COUNT(DISTINCT entity_id) FROM translation_cache "
             "WHERE source_type='person_bio' AND status != 'invalidated'"
         ).fetchone()[0]
+        # BUG-052 — đếm riêng số person CÓ bản dịch DILA card (mọi trường, không
+        # chỉ bio). ĐÂY CHƯA PHẢI số "đã dịch đầy đủ" — "đầy đủ" (0 missing_fields)
+        # chỉ được xác minh chính xác per-row (xem /daoanh/api/dila/persons,
+        # trường dila_card_done) vì cần _t148_get_extra() + so khớp field từng
+        # person; dò toàn bộ ~49.490 dòng theo cách đó trong 1 request stats sẽ
+        # tốn RAM/CPU không cần thiết nên KHÔNG làm ở đây (để tránh con số giả
+        # định sai). Đếm "card_cached" chỉ là có-cache-hay-không, phải ghi rõ
+        # trong UI để không bị hiểu nhầm là "đã xong".
+        dila_card_cached = conn.execute(
+            "SELECT COUNT(DISTINCT entity_id) FROM translation_cache "
+            "WHERE source_type='dila_card' AND status != 'invalidated'"
+        ).fetchone()[0]
         conn.close()
         return jsonify({"ok": True, "total": total, "with_bio_zh": with_bio,
                         "translated_saved": saved, "translated_draft": drafted,
+                        "dila_card_cached": dila_card_cached,
                         "by_category": [{"note_category": r['sect'], "n": r['n']} for r in sects],
                         "by_country": [{"country": r['dynasty'], "n": r['n']} for r in dynasties]})
     except Exception as e:
@@ -22131,10 +22176,88 @@ def _parse_dila_vi_json(text):
         return None
 
 
+# BUG-052 — nhãn + khóa dịch Việt dùng để tính "đã dịch đầy đủ" cho dila_card.
+# key = khóa Hán trong `source_data`; value = (khóa_vi_AI_trả_về, nhãn UI).
+# KHÔNG suy khóa_vi bằng quy tắc "<key>_vi" cho MỌI trường — đã xác minh
+# _build_dila_card_prompt (schema JSON output khai trong prompt) đặt tên khóa
+# RIÊNG cho 'dynasty_xml' → 'dynasty_vi' (không phải 'dynasty_xml_vi'); mọi
+# trường khác theo đúng quy tắc "<key>_vi". Soát lại schema thật trong
+# _build_dila_card_prompt() mỗi khi đổi field — sai khóa ở đây làm missing_fields
+# báo nhầm "thiếu" dù AI đã dịch đúng, hoặc ngược lại báo "đủ" dù chưa dịch.
+# 'name_zh'/'relations' không có trong danh sách vì không có khóa "_vi" 1-1
+# (name không dịch, relations dịch qua relations_vi theo item).
+_DILA_FIELD_LABELS = {
+    'alt_names': ('alt_names_vi', 'Tên khác (DILA)'),
+    'occupation': ('occupation_vi', 'Nghề nghiệp'),
+    'place_of_origin': ('place_of_origin_vi', 'Nơi xuất xứ'),
+    'dynasty_xml': ('dynasty_vi', 'Triều đại'),
+    'bio_concise': ('bio_concise_vi', 'Tiểu sử vắn tắt'),
+    'bio_extensive': ('bio_extensive_vi', 'Tiểu sử chi tiết'),
+    'listbibl': ('listbibl_vi', 'Trích dẫn CBETA'),
+    'works_tripitaka': ('works_tripitaka_vi', 'Kinh trong Đại Tạng'),
+    'works_by': ('works_by_vi', 'Tác phẩm tự soạn'),
+    'secondary_lit': ('secondary_lit_vi', 'Tài liệu tham khảo'),
+    'mentioned_in': ('mentioned_in_vi', 'Được đề cập trong'),
+    'active_at': ('active_at_vi', 'Nơi hoạt động'),
+    'death_note': ('death_note_vi', 'Ghi chú năm mất'),
+    'birth_death_quote': ('birth_death_quote_vi', 'Trích dẫn nguồn gốc (năm sinh/mất)'),
+}
+
+
+def _t148_dila_source_fields(name_zh, bio_zh, extra):
+    """BUG-052 — xây các trường Hán (không gồm 'relations') dùng CHUNG giữa
+    /daoanh/api/person/<id>/dila_translate (dịch) và /daoanh/api/dila/persons
+    (liệt kê, tính completeness cho cột TRẠNG THÁI). Một nguồn duy nhất — sửa
+    field ở đây thì cả 2 nơi tự động khớp, không lệch như source_data cũ (xem
+    comment 'death_note'/'birth_death_quote' bên dưới)."""
+    extra = extra or {}
+    return {
+        'name_zh': name_zh or '',
+        'alt_names': extra.get('alt_names') or [],
+        'occupation': extra.get('occupation') or '',
+        'place_of_origin': extra.get('place_of_origin') or '',
+        'dynasty_xml': extra.get('dynasty_xml') or '',
+        'bio_concise': (bio_zh or '')[:2000],
+        'bio_extensive': (extra.get('bio_extensive') or '')[:4000],
+        'listbibl': (extra.get('listbibl') or [])[:20],
+        'works_tripitaka': extra.get('works_tripitaka') or '',
+        'works_by': extra.get('works_by') or '',
+        'secondary_lit': extra.get('secondary_lit') or '',
+        'mentioned_in': extra.get('mentioned_in') or '',
+        'active_at': extra.get('active_at') or '',
+        'death_note': extra.get('death_note') or '',
+        'birth_death_quote': extra.get('birth_death_quote') or '',
+    }
+
+
+def _t148_dila_missing_fields(source_data, vi_dict):
+    """BUG-052 — trả list nhãn các trường CÓ Hán văn trong `source_data` nhưng
+    CHƯA có bản dịch tương ứng (rỗng/thiếu) trong `vi_dict`. [] = đã dịch đủ.
+    Đây là nguồn sự thật duy nhất cho "done" — không dùng label UI hay suy diễn,
+    đúng theo _DILA_FIELD_LABELS (schema thật của /dila_translate)."""
+    vi_dict = vi_dict or {}
+    missing = []
+    for key, (vi_key, label) in _DILA_FIELD_LABELS.items():
+        src_val = source_data.get(key)
+        has_src = (len(src_val) > 0) if isinstance(src_val, (list, tuple)) else bool((src_val or '').strip() if isinstance(src_val, str) else src_val)
+        if not has_src:
+            continue
+        vi_val = vi_dict.get(vi_key)
+        has_vi = (len(vi_val) > 0) if isinstance(vi_val, (list, tuple)) else bool((vi_val or '').strip() if isinstance(vi_val, str) else vi_val)
+        if not has_vi:
+            missing.append(label)
+    return missing
+
+
 @app.route('/daoanh/api/person/<person_id>/dila_translate', methods=['GET', 'POST'])
 def api_person_dila_translate(person_id):
     """GET = kiểm tra cache. POST = dịch DILA card sang tiếng Việt Phật học hàn lâm.
     Cache key: translation_cache (source_type='dila_card', entity_id=person_id).
+
+    BUG-052 (2026-11-07): mọi response "ok":true kèm "missing_fields" (list nhãn
+    trường có Hán văn nhưng chưa dịch) + "done" (bool, True khi missing_fields
+    rỗng). Caller (UI tab 'Dịch ID Person') PHẢI dùng "done" để quyết định badge
+    DONE — không tự suy DONE chỉ vì request trả ok:true.
     """
     import json as _j
     # BUG#2 fix: _t148_get_extra chỉ index dữ liệu MỞ RỘNG từ DILA XML (alt_names/
@@ -22174,23 +22297,16 @@ def api_person_dila_translate(person_id):
             if pid and zh and nv and _ok_hanviet_name(nv):
                 person_name_lock[zh] = {'name_vi': nv, 'person_id': pid}
 
-        source_data = {
-            'name_zh': name_zh,
-            'alt_names': extra.get('alt_names') or [],
-            'occupation': extra.get('occupation') or '',
-            'place_of_origin': extra.get('place_of_origin') or '',
-            'dynasty_xml': extra.get('dynasty_xml') or '',
-            'bio_concise': bio_zh[:2000],
-            'bio_extensive': (extra.get('bio_extensive') or '')[:4000],
-            'listbibl': (extra.get('listbibl') or [])[:20],
-            'works_tripitaka': extra.get('works_tripitaka') or '',
-            'works_by': extra.get('works_by') or '',
-            'secondary_lit': extra.get('secondary_lit') or '',
-            'mentioned_in': extra.get('mentioned_in') or '',
-            'active_at': extra.get('active_at') or '',
-            'relations': [{'person_id': r['person_id'], 'name': r.get('name', '')}
-                          for r in rel_list],
-        }
+        # BUG-052 fix: trước đây dict này tự khai báo tại chỗ và THIẾU 2 khóa
+        # 'death_note'/'birth_death_quote' dù _build_dila_card_prompt (rule 9/10)
+        # yêu cầu AI dịch death_note_vi/birth_death_quote_vi — AI không có input
+        # Hán của 2 trường này nên luôn trả "" (đã xác minh thực tế trên 5 bản
+        # cache dila_card cũ: death_note_vi/birth_death_quote_vi = '' ở mọi dòng).
+        # Nay dùng _t148_dila_source_fields() (1 nguồn chung với /dila/persons)
+        # đã có đủ 2 khóa này.
+        source_data = _t148_dila_source_fields(name_zh, bio_zh, extra)
+        source_data['relations'] = [{'person_id': r['person_id'], 'name': r.get('name', '')}
+                                     for r in rel_list]
         src_hash = _t73_source_hash(_j.dumps(source_data, ensure_ascii=False, sort_keys=True))
 
         # T165: lock BEFORE lookup → source_text lọc rules/glossary + resolver merge + hash post-merge (#5a)
@@ -22199,6 +22315,10 @@ def api_person_dila_translate(person_id):
             source_data.get('place_of_origin', ''), source_data.get('active_at', ''),
             source_data.get('dynasty_xml', ''), source_data.get('occupation', ''),
             source_data.get('name_zh', ''),
+            # BUG-052: nạp vào resolver source để Glossary Lock cũng áp dụng cho
+            # 2 trường mới thêm (trước đây không có trong _res_src vì chưa tồn tại
+            # trong source_data).
+            source_data.get('death_note', ''), source_data.get('birth_death_quote', ''),
         ]))
         _name_lock_lines = sorted(
             f"{zh}={v['name_vi']}({v['person_id']})" for zh, v in person_name_lock.items())
@@ -22228,6 +22348,7 @@ def api_person_dila_translate(person_id):
                     pid = rel.get('person_id', '')
                     if pid and pid_to_nv.get(pid):
                         rel['name_vi'] = pid_to_nv[pid]
+            _missing = _t148_dila_missing_fields(source_data, vi)
             return jsonify({
                 "ok": True, "from_cache": True,
                 "translation_id": existing['id'],
@@ -22235,6 +22356,10 @@ def api_person_dila_translate(person_id):
                 # T166 §8.3 — expose identity để UI hiện badge "chưa duyệt" nếu WARN
                 "identity_status": _dict_or(existing, 'identity_status'),
                 "identity_issues": _json_or_parse(existing, 'identity_issues'),
+                # BUG-052 — nguồn sự thật DONE: chỉ True khi mọi trường có Hán văn
+                # đã có bản dịch tương ứng (schema thật, không phải "ok":true).
+                "missing_fields": _missing,
+                "done": len(_missing) == 0,
             })
 
         if existing and force_retranslate:
@@ -22259,7 +22384,9 @@ def api_person_dila_translate(person_id):
                     vi_fb = _j.loads(fallback['translated_text'])
                 except Exception:
                     vi_fb = {}
-                return jsonify({"ok": True, "from_cache": True, "vi": vi_fb})
+                _missing_fb = _t148_dila_missing_fields(source_data, vi_fb)
+                return jsonify({"ok": True, "from_cache": True, "vi": vi_fb,
+                                "missing_fields": _missing_fb, "done": len(_missing_fb) == 0})
             # Last resort: dùng bản invalidated nếu không có bản nào khác
             stale = conn.execute(
                 "SELECT id, translated_text FROM translation_cache "
@@ -22272,8 +22399,14 @@ def api_person_dila_translate(person_id):
                     vi_st = _j.loads(stale['translated_text'])
                 except Exception:
                     vi_st = {}
-                return jsonify({"ok": True, "from_cache": True, "stale": True, "vi": vi_st})
-            return jsonify({"ok": True, "from_cache": False, "vi": None})
+                _missing_st = _t148_dila_missing_fields(source_data, vi_st)
+                return jsonify({"ok": True, "from_cache": True, "stale": True, "vi": vi_st,
+                                "missing_fields": _missing_st, "done": len(_missing_st) == 0})
+            # BUG-052: chưa dịch gì cả — missing_fields = TẤT CẢ trường có Hán văn
+            # (không phải []; [] từng bị UI hiểu lầm là "đã đủ, không thiếu gì").
+            _missing_none = _t148_dila_missing_fields(source_data, {})
+            return jsonify({"ok": True, "from_cache": False, "vi": None,
+                            "missing_fields": _missing_none, "done": False})
 
         # POST: gọi LLM (Qwen/Groq trước vì mạnh hơn về Hán-Việt, fallback Gemini)
         # lock đã build ở trên (source_text + resolver merge + hash post-merge, #5a/#5b)
@@ -22334,6 +22467,11 @@ def api_person_dila_translate(person_id):
                 if pid and pid_to_nv.get(pid):
                     rel['name_vi'] = pid_to_nv[pid]
 
+        # BUG-052 — tính missing_fields NGAY SAU khi có vi_dict thật từ AI (trước
+        # khi gắn identity_status/identity_issues vào vi_dict ở dưới, tránh lẫn
+        # khóa không thuộc _DILA_FIELD_LABELS).
+        _missing_new = _t148_dila_missing_fields(source_data, vi_dict)
+
         # Tách suggested_rules ra khỏi dữ liệu dịch trước khi lưu cache
         suggested_raw = vi_dict.pop('suggested_rules', None) or []
         vi_json = _j.dumps(vi_dict, ensure_ascii=False)
@@ -22372,6 +22510,9 @@ def api_person_dila_translate(person_id):
             "ok": True, "from_cache": False,
             "translation_id": tid,
             "vi": vi_dict, "status": "auto", "model_id": model_id,
+            # BUG-052 — xem docstring route: UI phải dùng "done", không phải "ok".
+            "missing_fields": _missing_new,
+            "done": len(_missing_new) == 0,
             "suggested_rules": new_rules,  # [] nếu không có đề xuất mới
         })
     finally:
