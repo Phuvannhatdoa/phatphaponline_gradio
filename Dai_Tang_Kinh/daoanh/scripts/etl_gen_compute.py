@@ -141,7 +141,10 @@ def setup_tables(conn):
 
     CREATE INDEX IF NOT EXISTS idx_pgc_pid ON person_gen_computed(person_id);
     """)
-    conn.commit()
+    # KHÔNG commit ở đây — toàn bộ ETL (drop/create/seed/compute) phải nằm
+    # trong CÙNG MỘT transaction với verify_anchors() ở cuối main(). Nếu
+    # verify_anchors() phát hiện mốc sai, main() sẽ rollback() và bảng cũ
+    # (trước DROP TABLE) sẽ còn nguyên vì chưa có gì được commit.
     print("✓ Tables OK")
 
 
@@ -157,7 +160,7 @@ def seed_founders(conn, founders):
         (lineage_name, lineage_key, khai_to_id, khai_to_name_vi, khai_to_gen)
         VALUES (?,?,?,?,?)
     """, rows)
-    conn.commit()
+    # Không commit — xem chú thích trong setup_tables().
     print(f"✓ {len(rows)} tông phái / Khai Tổ seeded")
     return rows
 
@@ -201,7 +204,7 @@ def compute_slug_monks(conn, ttl_persons):
         (person_id, lineage_key, lineage_name, gen_sect, gen_lamte, gen_thientong)
         VALUES (?,?,?,?,?,?)
     """, rows)
-    conn.commit()
+    # Không commit — xem chú thích trong setup_tables().
     print(f"✓ TTL monks: {len(rows)} bản ghi (từ {len(ttl_persons)} TTL persons)")
     if no_founder:
         print(f"  ⚠ {len(no_founder)} tông phái không có Khai Tổ: {sorted(no_founder)}")
@@ -295,7 +298,7 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
             (person_id, lineage_key, lineage_name, gen_sect, gen_lamte, gen_thientong)
             VALUES (?,?,?,?,?,?)
         """, new_rows)
-        conn.commit()
+        # Không commit — xem chú thích trong setup_tables().
         print(f"✓ Propagation: +{len(new_rows)} đệ tử kế thừa tông phái")
     else:
         print("  (Không có đệ tử nào cần kế thừa)")
@@ -349,12 +352,143 @@ def compute_dila_monks(conn, children):
         (person_id, lineage_key, lineage_name, gen_sect, gen_lamte, gen_thientong)
         VALUES (?,?,?,?,?,?)
     """, rows)
-    conn.commit()
+    # Không commit — xem chú thích trong setup_tables().
     print(f"✓ DILA monks: {len(rows)} bản ghi")
     return len(rows)
 
 
-# ─── 5. Report ────────────────────────────────────────────────────────────────
+# ─── 5. Verify anchors (mốc chuẩn Admin xác nhận 2026-11-07) ─────────────────
+#
+# Script này DROP + build lại lineage_founders/person_gen_computed nhưng
+# KHÔNG tự kiểm tra kết quả — sai số sẽ bị ghi vào DB mà không báo lỗi gì.
+# verify_anchors() là lưới an toàn: đối chiếu các mốc đời đã được Admin
+# xác nhận là chắc chắn. Nếu có mốc sai/không tìm được, main() sẽ rollback
+# toàn bộ transaction (bảng cũ giữ nguyên) và thoát với mã lỗi khác 0.
+#
+# Mốc chuẩn (Admin xác nhận 2026-11-07):
+#   Ma Ha Ca Diếp      = Thiền Tông đời 1
+#   Bồ Đề Đạt Ma       = Thiền Tông đời 28
+#   Lục Tổ Huệ Năng    = Thiền Tông đời 33
+#   Lâm Tế Nghĩa Huyền = Thiền Tông đời 38 (gen_lamte = 1)
+#
+# person_id của từng mốc KHÔNG được đoán — được tra theo tên thật
+# (rdfs:label trong TTL, lưu lại trong lineage_founders.khai_to_name_vi)
+# đã xác minh trực tiếp trong các file TTL nguồn:
+#   data/ttl/Ton-Gia-Ma-Ha-Ca-Diep.ttl      → ex:monk/ma_ha_ca_diep      (generationOrder 1,  isLineageFounder true)
+#   data/ttl/Ton-Gia-Bo-De-Dat-Ma.ttl       → ex:monk/bo_de_dat_ma       (generationOrder 28, isLineageFounder true)
+#   data/ttl/Ton-Gia-Dai-Giam-Hue-Nang.ttl  → ex:monk/dai_giam_hue_nang  (generationOrder 33, isLineageFounder true)
+#   data/ttl/TS-Lam-Te-Nghia-Huyen.ttl      → ex:monk/lam_te_nghia_huyen (generationOrder 38, isLineageFounder true)
+# Cả 4 đều là Khai Tổ (isLineageFounder=true) của chính lineage TTL của họ,
+# nên đều có mặt trong bảng lineage_founders sau seed_founders().
+
+ANCHOR_SPECS = [
+    {
+        'label':       'Ma Ha Ca Diếp',
+        'name_pattern': '%Ma Ha Ca Diếp%',
+        'checks':      {'gen_thientong': 1},
+    },
+    {
+        'label':       'Bồ Đề Đạt Ma',
+        'name_pattern': '%Bồ Đề Đạt Ma%',
+        'checks':      {'gen_thientong': 28},
+    },
+    {
+        'label':       'Lục Tổ Huệ Năng',
+        'name_pattern': '%Huệ Năng%',
+        'checks':      {'gen_thientong': 33},
+    },
+    {
+        'label':       'Lâm Tế Nghĩa Huyền',
+        'name_pattern': '%Lâm Tế Nghĩa Huyền%',
+        'checks':      {'gen_thientong': 38, 'gen_lamte': 1},
+    },
+]
+
+
+def verify_anchors(conn, anchor_specs=None):
+    """
+    Đối chiếu các mốc đời chuẩn với dữ liệu VỪA được tính trong transaction
+    hiện tại (chưa commit). Tra person_id theo TÊN trong lineage_founders
+    (khai_to_name_vi — lấy trực tiếp từ rdfs:label trong TTL), sau đó lấy
+    giá trị thật trong person_gen_computed để so sánh.
+
+    Trả về (ok: bool, messages: list[str]):
+      - ok=True  khi mọi mốc được tìm thấy DUY NHẤT và khớp đúng giá trị.
+      - ok=False khi có mốc: không tìm thấy, tìm thấy nhiều hơn 1 (ambiguous),
+        chưa có bản ghi tính toán trong person_gen_computed, hoặc giá trị
+        tính toán sai lệch so với mốc chuẩn.
+    """
+    specs = anchor_specs if anchor_specs is not None else ANCHOR_SPECS
+    cur = conn.cursor()
+    ok = True
+    messages = []
+
+    for spec in specs:
+        label   = spec['label']
+        pattern = spec['name_pattern']
+
+        cur.execute("""
+            SELECT lf.khai_to_id, lf.khai_to_name_vi, lf.lineage_key,
+                   pgc.gen_sect, pgc.gen_lamte, pgc.gen_thientong
+            FROM lineage_founders lf
+            LEFT JOIN person_gen_computed pgc
+                   ON pgc.person_id = lf.khai_to_id
+                  AND pgc.lineage_key = lf.lineage_key
+            WHERE lf.khai_to_name_vi LIKE ?
+        """, (pattern,))
+        rows = cur.fetchall()
+
+        if len(rows) == 0:
+            ok = False
+            messages.append(
+                f"✗ Mốc '{label}': KHÔNG TÌM THẤY trong lineage_founders "
+                f"(tra theo tên LIKE '{pattern}'). Không đủ dữ liệu để xác nhận "
+                f"mốc này — coi như KHÔNG ĐẠT."
+            )
+            continue
+
+        if len(rows) > 1:
+            ok = False
+            ids = ', '.join(f"{r[0]} ({r[1]})" for r in rows)
+            messages.append(
+                f"✗ Mốc '{label}': tra theo tên LIKE '{pattern}' khớp "
+                f"{len(rows)} bản ghi trong lineage_founders ({ids}) — "
+                f"không xác định rõ ràng (ambiguous), cần Admin làm rõ."
+            )
+            continue
+
+        person_id, name_vi, lineage_key, gen_sect, gen_lamte, gen_thientong = rows[0]
+
+        if gen_sect is None and gen_lamte is None and gen_thientong is None:
+            ok = False
+            messages.append(
+                f"✗ Mốc '{label}' (person_id={person_id}, tên TTL='{name_vi}'): "
+                f"có trong lineage_founders nhưng KHÔNG có bản ghi tương ứng "
+                f"trong person_gen_computed (ETL chưa tính đời cho mốc này)."
+            )
+            continue
+
+        actual = {
+            'gen_sect':      gen_sect,
+            'gen_lamte':     gen_lamte,
+            'gen_thientong': gen_thientong,
+        }
+        for field, expected in spec['checks'].items():
+            got = actual.get(field)
+            if got != expected:
+                ok = False
+                messages.append(
+                    f"✗ Mốc '{label}' (person_id={person_id}, tên TTL='{name_vi}') "
+                    f"SAI LỆCH tại '{field}': mong đợi {expected}, thực tế {got!r}."
+                )
+
+    if ok:
+        messages.append(f"✓ Tất cả {len(specs)} mốc chuẩn khớp đúng.")
+
+    return ok, messages
+
+
+# ─── 6. Report ────────────────────────────────────────────────────────────────
 
 def report(conn):
     cur = conn.cursor()
@@ -412,25 +546,56 @@ def main():
 
     conn = sqlite3.connect(DB_PATH)
 
-    # Bước 2: Drop + recreate
-    conn.execute("DROP TABLE IF EXISTS lineage_founders")
-    conn.execute("DROP TABLE IF EXISTS person_gen_computed")
-    conn.commit()
-    setup_tables(conn)
-    seed_founders(conn, founders)
+    # TOÀN BỘ các bước dưới đây (drop/create/seed/compute) chạy trong ĐÚNG
+    # MỘT transaction — không có conn.commit() nào ở giữa. Transaction chỉ
+    # commit() nếu verify_anchors() ở Bước 6 xác nhận mọi mốc chuẩn đều khớp;
+    # nếu không, rollback() sẽ hoàn tác cả DROP TABLE, khiến bảng cũ (trước
+    # khi script này chạy) còn nguyên như ban đầu.
+    try:
+        # Bước 2: Drop + recreate
+        conn.execute("DROP TABLE IF EXISTS lineage_founders")
+        conn.execute("DROP TABLE IF EXISTS person_gen_computed")
+        setup_tables(conn)
+        seed_founders(conn, founders)
 
-    # Bước 3: TTL monks (đọc thẳng từ file, không qua DB sync)
-    compute_slug_monks(conn, ttl_persons)
+        # Bước 3: TTL monks (đọc thẳng từ file, không qua DB sync)
+        compute_slug_monks(conn, ttl_persons)
 
-    # Bước 3b: Kế thừa tông phái qua graph (đệ tử chưa có dharmaLineageName)
-    children = build_children(conn)
-    propagate_lineage_to_descendants(conn, children, ttl_persons)
+        # Bước 3b: Kế thừa tông phái qua graph (đệ tử chưa có dharmaLineageName)
+        children = build_children(conn)
+        propagate_lineage_to_descendants(conn, children, ttl_persons)
 
-    # Bước 4: DILA monks (BFS toàn cục)
-    compute_dila_monks(conn, children)
+        # Bước 4: DILA monks (BFS toàn cục)
+        compute_dila_monks(conn, children)
 
-    # Bước 5: Report
-    report(conn)
+        # Bước 5: Report
+        report(conn)
+
+        # Bước 6: Kiểm tra mốc chuẩn — ĐIỀU KIỆN BẮT BUỘC để commit.
+        print(f"\n{'='*55}")
+        print("Kiểm tra mốc chuẩn (verify_anchors)...")
+        anchors_ok, anchor_messages = verify_anchors(conn)
+        for m in anchor_messages:
+            print(f"  {m}")
+
+        if not anchors_ok:
+            conn.rollback()
+            print(
+                "\n✗ THẤT BẠI: một hoặc nhiều mốc chuẩn không khớp hoặc "
+                "không tìm được. Đã ROLLBACK — bảng lineage_founders và "
+                "person_gen_computed GIỮ NGUYÊN như trước khi chạy script này. "
+                "Không có gì được ghi vào DB."
+            )
+            conn.close()
+            sys.exit(1)
+
+        conn.commit()
+        print("\n✓ Mốc chuẩn khớp đúng — đã COMMIT.")
+    except Exception:
+        conn.rollback()
+        conn.close()
+        raise
+
     conn.close()
     print("\n✓ Hoàn tất.")
 
