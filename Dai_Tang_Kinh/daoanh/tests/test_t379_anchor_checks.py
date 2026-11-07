@@ -23,7 +23,15 @@ import sys
 DAOANH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, DAOANH)
 
-from scripts.etl_gen_compute import verify_anchors, ANCHOR_SPECS  # noqa: E402
+from scripts.etl_gen_compute import (  # noqa: E402
+    verify_anchors,
+    ANCHOR_SPECS,
+    resolve_global_gens,
+    is_lamte_lineage,
+    is_global_thientong_lineage,
+    GLOBAL_THIENTONG_LINEAGES,
+    THIENTONG_LAMTE_OFFSET,
+)
 
 
 def _make_db():
@@ -225,6 +233,96 @@ def test_anchor_specs_cover_four_confirmed_milestones():
     assert by_label['Lục Tổ Huệ Năng']['gen_thientong'] == 33
     assert by_label['Lâm Tế Nghĩa Huyền']['gen_thientong'] == 38
     assert by_label['Lâm Tế Nghĩa Huyền']['gen_lamte'] == 1
+
+
+# ── T379 follow-up — test cho công thức mới resolve_global_gens() ───────────
+# Bối cảnh: bản cũ coi generationOrder trong TTL là "đời Lâm Tế" rồi CỘNG 37
+# ra đời Thiền Tông (sai). Đối chiếu trực tiếp TTL cho thấy generationOrder
+# ĐÃ LÀ đời Thiền Tông toàn cục. Các test dưới khóa công thức mới:
+#   gen_thientong = generationOrder (nếu lineage nằm trong allowlist global)
+#   gen_lamte     = generationOrder - 37 (chỉ nếu lineage chứa "Lâm Tế")
+#   lineage KHÔNG xác minh được (Đại thừa/Tịnh Độ Tông/Phái Nam Nhạc/...)
+#   → (None, None), không đoán.
+
+def test_resolve_global_gens_four_confirmed_milestones():
+    """4 mốc Admin xác nhận phải khớp đúng qua resolve_global_gens()."""
+    assert resolve_global_gens(1, 'Thiền Tông Ấn Độ') == (None, 1)       # Ma Ha Ca Diếp
+    assert resolve_global_gens(28, 'Thiền Tông Ấn Độ') == (None, 28)      # Bồ Đề Đạt Ma
+    assert resolve_global_gens(33, 'Thiền Tông Trung Hoa - Nam Tông') == (None, 33)  # Huệ Năng
+    assert resolve_global_gens(38, 'Tông Lâm Tế Trung Hoa') == (1, 38)    # Lâm Tế Nghĩa Huyền
+
+
+def test_resolve_global_gens_lamte_branches_use_global_generation_order():
+    """Mọi nhánh Lâm Tế (Trung Hoa và Việt Nam) đều dùng generationOrder trực
+    tiếp làm gen_thientong, và trừ 37 ra gen_lamte — không reset về nhỏ khi
+    đổi dharmaLineageName (Dương Kỳ/Hoàng Long/Gia Phổ/Chúc Thánh/Liễu Quán)."""
+    assert resolve_global_gens(45, 'Dòng Lâm Tế Dương Kỳ') == (8, 45)       # Dương Kỳ Phương Hội
+    assert resolve_global_gens(48, 'Dòng Lâm Tế Dương Kỳ') == (11, 48)      # Viên Ngộ Khắc Cần
+    assert resolve_global_gens(70, 'Dòng Lâm Tế Gia Phổ Việt Nam') == (33, 70)   # Nguyên Thiều
+    assert resolve_global_gens(71, 'Dòng Lâm Tế Chúc Thánh Việt Nam') == (34, 71)  # Minh Hải Pháp Bảo
+    assert resolve_global_gens(72, 'Dòng Lâm Tế Liễu Quán Việt Nam') == (35, 72)   # Thiệt Duyệt Liễu Quán
+
+
+def test_resolve_global_gens_non_lamte_global_has_no_gen_lamte():
+    """Thiền Tông Ấn Độ / Trung Hoa / Ngưu Đầu / Quy Ngưỡng: có gen_thientong
+    nhưng KHÔNG có gen_lamte (không thuộc dòng Lâm Tế)."""
+    assert resolve_global_gens(32, 'Ngưu Đầu Tông Trung Hoa') == (None, 32)  # Ngưu Đầu Pháp Dung
+    assert resolve_global_gens(37, 'Tông Quy Ngưỡng Trung Hoa') == (None, 37)  # Quy Sơn Linh Hựu
+    assert resolve_global_gens(19, 'Kinh Lượng Bộ') == (None, 19)            # Cưu Ma La Đa
+    assert resolve_global_gens(14, 'Bát Tông') == (None, 14)                  # Bồ Tát Long Thọ
+
+
+def test_resolve_global_gens_excludes_unverified_local_lineages():
+    """Lineage đã phát hiện dùng số đời CỤC BỘ (không nối mạch toàn cục) phải
+    trả về (None, None), KHÔNG được đoán gen_thientong = generationOrder."""
+    assert resolve_global_gens(1, 'Đại thừa') == (None, None)        # Thích Ca — trùng Ca Diếp=1
+    assert resolve_global_gens(2, 'Tịnh Độ Tông') == (None, None)     # Đạo Xước — hệ Tổ Tịnh Độ riêng
+    assert resolve_global_gens(2, 'Phái Nam Nhạc') == (None, None)    # Bổn Khê — lệch với Mã Tổ=35
+
+
+def test_resolve_global_gens_unknown_future_lineage_is_excluded_by_default():
+    """Tên dharmaLineageName mới/lạ chưa có trong allowlist → mặc định loại
+    (None, None), không tự động coi là global cho tới khi được xác minh."""
+    assert resolve_global_gens(50, 'Một Tông Phái Chưa Từng Thấy') == (None, None)
+
+
+def test_resolve_global_gens_none_inputs():
+    assert resolve_global_gens(None, 'Thiền Tông Ấn Độ') == (None, None)
+    assert resolve_global_gens(10, '') == (None, None)
+    assert resolve_global_gens(10, None) == (None, None)
+
+
+def test_is_lamte_lineage_matches_any_lam_te_variant():
+    assert is_lamte_lineage('Tông Lâm Tế Trung Hoa') is True
+    assert is_lamte_lineage('Dòng Lâm Tế Dương Kỳ') is True
+    assert is_lamte_lineage('Dòng Lâm Tế Hoàng Long') is True
+    assert is_lamte_lineage('Dòng Lâm Tế Gia Phổ Việt Nam') is True
+    assert is_lamte_lineage('Dòng Lâm Tế Chúc Thánh Việt Nam') is True
+    assert is_lamte_lineage('Dòng Lâm Tế Liễu Quán Việt Nam') is True
+    assert is_lamte_lineage('Thiền Tông Ấn Độ') is False
+    assert is_lamte_lineage('') is False
+    assert is_lamte_lineage(None) is False
+
+
+def test_is_global_thientong_lineage_allowlist_is_not_guessed_open():
+    """Allowlist chỉ chứa các tên đã đối chiếu thủ công — test này khóa lại
+    danh sách để tránh ai vô tình thêm bớt mà không ghi lại lý do/đối chiếu."""
+    assert GLOBAL_THIENTONG_LINEAGES == frozenset({
+        'Thiền Tông Ấn Độ',
+        'Thiền Tông Trung Hoa',
+        'Thiền Tông Trung Hoa - Nam Tông',
+        'Thiền Tông Trung Hoa - Bắc Tông',
+        'Ngưu Đầu Tông Trung Hoa',
+        'Tông Quy Ngưỡng Trung Hoa',
+        'Kinh Lượng Bộ',
+        'Bát Tông',
+    })
+    assert THIENTONG_LAMTE_OFFSET == 37
+    assert is_global_thientong_lineage('Đại thừa') is False
+    assert is_global_thientong_lineage('Tịnh Độ Tông') is False
+    assert is_global_thientong_lineage('Phái Nam Nhạc') is False
+    assert is_global_thientong_lineage('Tông Lâm Tế Trung Hoa') is True
+    assert is_global_thientong_lineage('Thiền Tông Ấn Độ') is True
 
 
 if __name__ == '__main__':

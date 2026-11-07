@@ -12,16 +12,82 @@ Hệ thống 3 lớp:
   gen_lamte     : đời Lâm Tế Tông (từ Lâm Tế Nghĩa Huyền = 1) — chỉ cho Lâm Tế
   gen_sect      : đời trong tông phái cụ thể của người đó (Khai Tổ = 1)
 
+─── T379 follow-up (2026-11-07) — ĐẢO CÔNG THỨC gen_lamte/gen_thientong ─────
+Bản trước coi generationOrder trong TTL là "đời Lâm Tế" rồi CỘNG 37 ra đời
+Thiền Tông (gen_thientong = generationOrder + 37). Đối chiếu trực tiếp các
+file TTL nguồn (xem bảng dưới) cho thấy generationOrder ĐÃ LÀ số đời Thiền
+Tông TOÀN CỤC (global), không phải số đời cục bộ trong Lâm Tế:
+    data/ttl/Ton-Gia-Ma-Ha-Ca-Diep.ttl      generationOrder = 1
+    data/ttl/Ton-Gia-Bo-De-Dat-Ma.ttl       generationOrder = 28
+    data/ttl/Ton-Gia-Dai-Giam-Hue-Nang.ttl  generationOrder = 33
+    data/ttl/TS-Lam-Te-Nghia-Huyen.ttl      generationOrder = 38
+Đã xác minh thêm bằng cách lần theo chuỗi thầy→trò xuyên nhiều dharmaLineageName
+khác nhau (số tăng đúng +1 mỗi thế hệ, không reset về nhỏ khi sang dòng khác):
+    Huệ Năng(33) → Nam Nhạc Hoài Nhượng(34) → Mã Tổ Đạo Nhất(35) →
+    Bách Trượng Hoài Hải(36) → Vô Ngôn Thông(37) / Quy Sơn Linh Hựu(37) →
+    Ngưỡng Sơn Huệ Tịch(38) / Lâm Tế Nghĩa Huyền(38) → ... →
+    Dương Kỳ Phương Hội(45) → Bạch Vân Thủ Đoan(46) → ... → Viên Ngộ Khắc
+    Cần(48) → ... → Nguyên Thiều Siêu Bạch — VN, "Dòng Lâm Tế Gia Phổ Việt
+    Nam"(70) → Minh Hải Pháp Bảo — VN, "Dòng Lâm Tế Chúc Thánh Việt Nam"(71)
+    → Thiệt Duyệt Liễu Quán — VN, "Dòng Lâm Tế Liễu Quán Việt Nam"(72).
+    Đạo Tín(31) → Ngưu Đầu Pháp Dung — "Ngưu Đầu Tông Trung Hoa"(32) (nhánh
+    tách khỏi Tứ Tổ, vẫn đúng mạch toàn cục).
+Do đó CÔNG THỨC MỚI:
+    gen_thientong = generationOrder                (trực tiếp, không +37)
+    gen_lamte     = generationOrder - 37            CHỈ cho người thuộc dòng
+                    Lâm Tế (dharmaLineageName chứa "Lâm Tế") — Lâm Tế Nghĩa
+                    Huyền đời 38 → gen_lamte = 1, đúng mốc Admin xác nhận.
+
+KHÔNG áp dụng cho MỌI dharmaLineageName: đối chiếu cho thấy một số ít tên
+dùng số đời CỤC BỘ (reset riêng, không nối mạch toàn cục), ví dụ:
+    - "Đại thừa" (Thích Ca Mâu Ni Phật, generationOrder=1) — TRÙNG với Ma Ha
+      Ca Diếp=1 trong "Thiền Tông Ấn Độ"; rõ ràng là 2 hệ đếm khác nhau
+      (Phật không nằm trong 28 vị Tổ Thiền Tông Ấn Độ).
+    - "Tịnh Độ Tông" (Đạo Xước, generationOrder=2) — đây là số Tổ trong 13 vị
+      Tổ Tịnh Độ, không liên quan chuỗi Tổ Thiền Tông.
+    - "Phái Nam Nhạc" (Bổn Khê, generationOrder=2) — đệ tử của Mã Tổ Đạo Nhất
+      (đời 35 toàn cục), nếu toàn cục Bổn Khê phải là 36, không phải 2 →
+      xác nhận đây là số đời cục bộ trong riêng 1 file.
+  "Kinh Lượng Bộ" (Cưu Ma La Đa, generationOrder=19) và "Bát Tông" (Bồ Tát
+  Long Thọ, generationOrder=14) NGƯỢC LẠI đã đối chiếu khớp đúng vị trí Tổ
+  thứ 19 / 14 trong 28 vị Tổ Ấn Độ toàn cục — nên vẫn coi là global.
+
+Theo đúng yêu cầu "không đoán khi chưa chắc": GLOBAL_THIENTONG_LINEAGES dưới
+là ALLOWLIST (không phải denylist) — bất kỳ dharmaLineageName nào KHÔNG nằm
+trong allowlist này và KHÔNG chứa "Lâm Tế" sẽ bị để TRỐNG (None) cho cả
+gen_thientong và gen_lamte, và được in cảnh báo ra report() để Admin biết.
+An toàn-theo-mặc-định: tên lineage mới/lạ xuất hiện trong TTL tương lai sẽ
+tự động bị loại (None) cho tới khi có người xác minh và thêm vào allowlist,
+không bao giờ tự động được coi là global.
+
+LƯU Ý RỦI RO (chưa cần sửa, chỉ ghi lại cho Admin): load_all_persons_from_ttl()
+dùng glob.glob('data/ttl/*.ttl') — KHÔNG đọc các thư mục con (data/ttl/old/,
+data/ttl/"Lam Te Duong Ky"/, data/ttl/"Thien Tong An Do"/, data/ttl/"Thien
+Tong Trung Quoc"/). Một số file trong các thư mục con này là bản TRÙNG TÊN
+slug với file ở gốc nhưng dùng SỐ ĐỜI CỤC BỘ khác (ví dụ
+data/ttl/old/TS-Ngu-To-Phap-Dien.ttl có dharmaLineageName "Phái Dương Kì
+thuộc Lâm Tế Tông Trung Quốc", generationOrder=5 — cục bộ — trong khi bản gốc
+data/ttl/TS-Ngu-To-Phap-Dien.ttl không tồn tại nhưng các vị cùng dòng Dương Kỳ
+ở gốc đều dùng số toàn cục, ví dụ TS-Vien-Ngo-Khac-Can.ttl=48). Nếu sau này
+ai đổi glob thành đệ quy (**/*.ttl), các bản cục bộ này sẽ trộn lẫn và làm
+sai kết quả — KHÔNG đổi glob nếu chưa xử lý việc này.
+
 Cách tính:
   Slug monks (có dharmaLineageName + generationOrder trong TTL/DB):
-    gen_lamte     = generationOrder  (đã lưu sẵn, đúng)
-    gen_thientong = generationOrder + 37
-    gen_sect      = gen_lamte - khai_to_gen_lamte + 1
-                    (khai_to_gen_lamte = gen_order của Khai Tổ cùng dharmaLineageName)
+    gen_thientong = generationOrder   NẾU dharmaLineageName thuộc
+                    GLOBAL_THIENTONG_LINEAGES hoặc chứa "Lâm Tế"; ngược lại None.
+    gen_lamte     = generationOrder - 37   NẾU dharmaLineageName chứa "Lâm Tế";
+                    ngược lại None (kể cả khi gen_thientong đã có giá trị).
+    gen_sect      = gen_order - khai_to_gen + 1
+                    (khai_to_gen = gen_order của Khai Tổ cùng dharmaLineageName
+                    — không đổi, không phụ thuộc global/cục bộ vì là số tương
+                    đối trong 1 tông phái)
 
   DILA monks (A-prefix, không có dharmaLineageName):
     gen_thientong, gen_lamte = tính từ BFS qua DILA graph (Thích Ca = root, depth 1)
     gen_sect      = None (không biết tông phái)
+    (phần này đã dùng công thức "gen_thientong = depth - 1" trực tiếp từ
+    trước, không bị lỗi +37 nên KHÔNG cần sửa trong follow-up này)
 """
 
 import sqlite3
@@ -34,9 +100,65 @@ from collections import deque
 DB_PATH  = 'data/lineage.db'
 TTL_DIR  = 'data/ttl'
 
-# Offset Lâm Tế ↔ Thiền Tông:
+# Lệch giữa đời Lâm Tế và đời Thiền Tông toàn cục:
 # Lâm Tế Nghĩa Huyền = Lâm Tế đời 1 = Thiền Tông đời 38 → offset = 37
-LAMTE_TO_THIENTONG = 37
+# (gen_thientong - gen_lamte = 37 cho MỌI người thuộc dòng Lâm Tế — dùng để
+#  TRỪ ra gen_lamte từ gen_thientong, KHÔNG dùng để cộng vào generationOrder
+#  như bản cũ.)
+THIENTONG_LAMTE_OFFSET = 37
+
+# ALLOWLIST các dharmaLineageName đã xác minh dùng SỐ ĐỜI THIỀN TÔNG TOÀN CỤC
+# (generationOrder tăng +1 mỗi thế hệ, nối liền mạch không reset khi đổi
+# dharmaLineageName). Mọi tên có chứa "Lâm Tế" cũng được coi là global (xem
+# is_lamte_lineage) — các dòng Lâm Tế Việt Nam (Gia Phổ/Chúc Thánh/Liễu Quán/
+# ...) đều đã kiểm chứng tiếp nối đúng mạch số của Tông Lâm Tế Trung Hoa.
+# Tên KHÔNG có trong allowlist này và KHÔNG chứa "Lâm Tế" sẽ bị loại (None)
+# — xem phần "KHÔNG áp dụng cho MỌI dharmaLineageName" ở docstring trên.
+GLOBAL_THIENTONG_LINEAGES = frozenset({
+    'Thiền Tông Ấn Độ',
+    'Thiền Tông Trung Hoa',
+    'Thiền Tông Trung Hoa - Nam Tông',
+    'Thiền Tông Trung Hoa - Bắc Tông',
+    'Ngưu Đầu Tông Trung Hoa',
+    'Tông Quy Ngưỡng Trung Hoa',
+    'Kinh Lượng Bộ',    # Cưu Ma La Đa — đã đối chiếu khớp đời Tổ Ấn Độ thứ 19
+    'Bát Tông',         # Bồ Tát Long Thọ — đã đối chiếu khớp đời Tổ Ấn Độ thứ 14
+})
+
+
+def is_lamte_lineage(lineage_name):
+    """True nếu dharmaLineageName thuộc dòng Lâm Tế (Trung Hoa hoặc Việt Nam,
+    bất kể phân nhánh Dương Kỳ/Hoàng Long/Gia Phổ/Chúc Thánh/Liễu Quán/...).
+    Dùng substring vì có nhiều biến thể tên nhánh Lâm Tế Việt Nam và tên mới
+    có thể xuất hiện thêm trong tương lai — tất cả đã kiểm chứng nối đúng
+    mạch số toàn cục (xem docstring đầu file)."""
+    return bool(lineage_name) and 'Lâm Tế' in lineage_name
+
+
+def is_global_thientong_lineage(lineage_name):
+    """True nếu generationOrder của dharmaLineageName này là số đời Thiền
+    Tông TOÀN CỤC (an toàn để gán thẳng cho gen_thientong)."""
+    return bool(lineage_name) and (
+        is_lamte_lineage(lineage_name) or lineage_name in GLOBAL_THIENTONG_LINEAGES
+    )
+
+
+def resolve_global_gens(gen_order, lineage_name):
+    """
+    Trả về (gen_lamte, gen_thientong) cho một generationOrder + dharmaLineageName
+    đọc từ TTL, theo công thức mới (T379 follow-up, mốc Admin xác nhận 2026-11-07).
+
+    - Nếu lineage_name KHÔNG nằm trong is_global_thientong_lineage(): trả về
+      (None, None) — KHÔNG đoán số đời khi chưa xác minh được hệ đếm.
+    - Nếu có: gen_thientong = gen_order; gen_lamte = gen_order - 37 CHỈ khi
+      lineage_name thuộc dòng Lâm Tế, ngược lại gen_lamte = None.
+    """
+    if gen_order is None or not is_global_thientong_lineage(lineage_name):
+        return None, None
+    gen_thientong = gen_order
+    gen_lamte = (gen_order - THIENTONG_LAMTE_OFFSET) if is_lamte_lineage(lineage_name) else None
+    return gen_lamte, gen_thientong
+
 
 DILA_ROOT          = 'thich_ca_mau_ni_phat'
 DILA_THIENTONG_OFF = 1    # gen_thientong = bfs_depth - 1  (depth 2 = Thiền Tông đời 1)
@@ -170,8 +292,10 @@ def seed_founders(conn, founders):
 def compute_slug_monks(conn, ttl_persons):
     """
     Đọc từ TTL trực tiếp (1030 persons đủ data), không phụ thuộc DB sync.
-    Mỗi monk: gen_lamte = generationOrder, gen_thientong = gen_lamte + 37,
-               gen_sect = gen_lamte - khai_to_gen + 1
+    Mỗi monk (xem resolve_global_gens() / công thức mới ở đầu file):
+        gen_thientong = generationOrder   (nếu lineage nằm trong allowlist global)
+        gen_lamte     = generationOrder - 37   (chỉ nếu lineage chứa "Lâm Tế")
+        gen_sect      = generationOrder - khai_to_gen + 1
     """
     cur = conn.cursor()
 
@@ -181,14 +305,16 @@ def compute_slug_monks(conn, ttl_persons):
 
     rows = []
     no_founder = set()
+    excluded_lineages = set()
     for slug, p in ttl_persons.items():
         if p['gen_order'] is None or not p['lineage']:
             continue
         pid        = slug
         gen_order  = p['gen_order']
         lineage    = p['lineage']
-        gen_lamte     = gen_order
-        gen_thientong = gen_order + LAMTE_TO_THIENTONG
+        gen_lamte, gen_thientong = resolve_global_gens(gen_order, lineage)
+        if gen_thientong is None:
+            excluded_lineages.add(lineage)
 
         if lineage in lineage_map:
             lkey, khai_to_gen = lineage_map[lineage]
@@ -208,6 +334,12 @@ def compute_slug_monks(conn, ttl_persons):
     print(f"✓ TTL monks: {len(rows)} bản ghi (từ {len(ttl_persons)} TTL persons)")
     if no_founder:
         print(f"  ⚠ {len(no_founder)} tông phái không có Khai Tổ: {sorted(no_founder)}")
+    if excluded_lineages:
+        print(
+            f"  ⚠ {len(excluded_lineages)} dharmaLineageName KHÔNG nằm trong "
+            f"allowlist global (gen_thientong/gen_lamte để TRỐNG, cần Admin "
+            f"xác nhận nếu cần bổ sung): {sorted(excluded_lineages)}"
+        )
     return len(rows)
 
 
@@ -247,8 +379,20 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
 
     # BFS map: person_id → (lkey, lname, gen_sect, gen_lamte) từ propagation
     inherited = {}
+    skipped_non_global = set()
 
     for khai_to_id, lkey, lname, khai_to_gen in founders:
+        if khai_to_gen is None:
+            continue
+        if not is_global_thientong_lineage(lname):
+            # Khai Tổ thuộc lineage KHÔNG nằm trong allowlist global (ví dụ
+            # "Đại thừa", "Tịnh Độ Tông" — xem docstring đầu file) → không
+            # lan truyền gen_thientong/gen_lamte cho đệ tử, tránh gán số đời
+            # cục bộ sai thành số đời Thiền Tông toàn cục.
+            skipped_non_global.add(lname)
+            continue
+        is_lamte = is_lamte_lineage(lname)
+
         # BFS từ Khai Tổ xuống slug graph
         q = deque([(khai_to_id, 1)])  # (person_id, gen_sect_so_far)
         visited = set()
@@ -268,13 +412,19 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
 
                 # Gán (ghi đè nếu đã có từ founder cha — vì ta chạy cha trước con)
                 if monk_gen is not None:
-                    gl = monk_gen
-                    gt = monk_gen + LAMTE_TO_THIENTONG
+                    # Người này có generationOrder riêng trong TTL/DB — đây
+                    # ĐÃ LÀ số đời Thiền Tông toàn cục (không +37 như bản cũ).
+                    gl = (monk_gen - THIENTONG_LAMTE_OFFSET) if is_lamte else None
+                    gt = monk_gen
                     gs = monk_gen - khai_to_gen + 1
                 else:
+                    # Không có generationOrder riêng — suy từ khoảng cách BFS
+                    # tới Khai Tổ. khai_to_gen đã là số đời Thiền Tông toàn cục
+                    # của Khai Tổ (generationOrder trong TTL), nên công thức
+                    # dưới cũng ra số đời toàn cục, không cần +37.
                     gs = gen_sect
-                    gl = khai_to_gen + gen_sect - 1
-                    gt = gl + LAMTE_TO_THIENTONG
+                    gt = khai_to_gen + gen_sect - 1
+                    gl = (gt - THIENTONG_LAMTE_OFFSET) if is_lamte else None
                 inherited[pid] = (lkey, lname, gs, gl, gt)
 
             for child in children.get(pid, []):
@@ -302,6 +452,12 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
         print(f"✓ Propagation: +{len(new_rows)} đệ tử kế thừa tông phái")
     else:
         print("  (Không có đệ tử nào cần kế thừa)")
+    if skipped_non_global:
+        print(
+            f"  ⚠ {len(skipped_non_global)} Khai Tổ KHÔNG nằm trong allowlist "
+            f"global, bỏ qua lan truyền gen_thientong/gen_lamte cho đệ tử "
+            f"(cần Admin xác nhận nếu cần bổ sung): {sorted(skipped_non_global)}"
+        )
     return len(new_rows)
 
 
