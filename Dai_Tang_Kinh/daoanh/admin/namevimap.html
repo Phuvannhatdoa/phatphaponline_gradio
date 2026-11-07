@@ -913,6 +913,10 @@
         </div>
 
         <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);cursor:pointer">
+                <input type="checkbox" id="catalog-hide-pass" checked onchange="catalogLoad(1)" style="accent-color:var(--primary)">
+                Ẩn đã Pass
+            </label>
             <span id="catalog-total-label" style="color:#94a3b8;font-size:12px;padding:4px 8px;"></span>
             <button class="btn btn-sm" onclick="catalogGeminiRun()">▶ Dịch Gemini cả trang (lần lượt)</button>
             <span id="catalog-gemini-status" style="color:#94a3b8;font-size:12px;"></span>
@@ -2878,6 +2882,8 @@
         _catalogAbortCtrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
         const params = new URLSearchParams({ page: String(page), size: '50' });
         if (_catalogQ) params.set('q', _catalogQ);
+        const hidePass = document.getElementById('catalog-hide-pass')?.checked !== false;
+        params.set('hide_pass', hidePass ? '1' : '0');
         try {
             const r = await fetch(API + '/daoanh/api/admin/catalog-works?' + params, {
                 headers: {'X-Session-Token': getToken()},
