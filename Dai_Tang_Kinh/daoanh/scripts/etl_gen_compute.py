@@ -94,6 +94,7 @@ import sqlite3
 import sys
 import re
 import os
+import json
 import glob
 from collections import deque
 
@@ -513,66 +514,93 @@ def compute_dila_monks(conn, children):
     return len(rows)
 
 
-# ─── 5. Verify anchors (mốc chuẩn Admin xác nhận 2026-11-07) ─────────────────
+# ─── 5. Verify anchors (33 vị Khai Tổ Thiền Tông — Admin khóa 2026-11-07) ────
 #
 # Script này DROP + build lại lineage_founders/person_gen_computed nhưng
 # KHÔNG tự kiểm tra kết quả — sai số sẽ bị ghi vào DB mà không báo lỗi gì.
 # verify_anchors() là lưới an toàn: đối chiếu các mốc đời đã được Admin
 # xác nhận là chắc chắn. Nếu có mốc sai/không tìm được, main() sẽ rollback
 # toàn bộ transaction (bảng cũ giữ nguyên) và thoát với mã lỗi khác 0.
+# Cơ chế rollback/commit trong main() KHÔNG đổi — chỉ nguồn + cách tra của
+# ANCHOR_SPECS/verify_anchors() đổi (xem T379 follow-up #2 dưới).
 #
-# Mốc chuẩn (Admin xác nhận 2026-11-07):
-#   Ma Ha Ca Diếp      = Thiền Tông đời 1
-#   Bồ Đề Đạt Ma       = Thiền Tông đời 28
-#   Lục Tổ Huệ Năng    = Thiền Tông đời 33
-#   Lâm Tế Nghĩa Huyền = Thiền Tông đời 38 (gen_lamte = 1)
-#
-# person_id của từng mốc KHÔNG được đoán — được tra theo tên thật
-# (rdfs:label trong TTL, lưu lại trong lineage_founders.khai_to_name_vi)
-# đã xác minh trực tiếp trong các file TTL nguồn:
-#   data/ttl/Ton-Gia-Ma-Ha-Ca-Diep.ttl      → ex:monk/ma_ha_ca_diep      (generationOrder 1,  isLineageFounder true)
-#   data/ttl/Ton-Gia-Bo-De-Dat-Ma.ttl       → ex:monk/bo_de_dat_ma       (generationOrder 28, isLineageFounder true)
-#   data/ttl/Ton-Gia-Dai-Giam-Hue-Nang.ttl  → ex:monk/dai_giam_hue_nang  (generationOrder 33, isLineageFounder true)
-#   data/ttl/TS-Lam-Te-Nghia-Huyen.ttl      → ex:monk/lam_te_nghia_huyen (generationOrder 38, isLineageFounder true)
-# Cả 4 đều là Khai Tổ (isLineageFounder=true) của chính lineage TTL của họ,
-# nên đều có mặt trong bảng lineage_founders sau seed_founders().
+# ─── T379 follow-up #2 (2026-11-07) — ĐỔI SANG dila_id LÀM KHÓA TRA ─────────
+# Bản trước tra person_id bằng LIKE theo khai_to_name_vi (tên trong TTL) —
+# vi phạm quy tắc naming-and-identity.md: "Display name ... không bao giờ
+# là join key". Bản mới đọc bộ neo 33 vị Khai Tổ Thiền Tông (28 Tổ Ấn Độ +
+# 5 Tổ Trung Hoa, đến Lục Tổ Huệ Năng) từ file scripts/anchors_thientong.json
+# — mỗi mục đã được Admin khóa với DILA Person ID xác minh trực tiếp (định
+# dạng A\d+, xem docs/rules/naming-and-identity.md). verify_anchors() tra
+# THẲNG person_gen_computed.person_id = dila_id — không qua lineage_founders,
+# không LIKE theo tên. 11/33 vị (đời 4,7,9,10,11,13,16,18,19,21,22 của 28 Tổ
+# Ấn Độ) CHƯA có DILA ID đã kiểm chứng trong bản khóa này → trạng_thái
+# "unresolved" trong file JSON, bị load_anchor_specs() loại khỏi ANCHOR_SPECS
+# (không đoán ID, không đưa vào check).
 
-ANCHOR_SPECS = [
-    {
-        'label':       'Ma Ha Ca Diếp',
-        'name_pattern': '%Ma Ha Ca Diếp%',
-        'checks':      {'gen_thientong': 1},
-    },
-    {
-        'label':       'Bồ Đề Đạt Ma',
-        'name_pattern': '%Bồ Đề Đạt Ma%',
-        'checks':      {'gen_thientong': 28},
-    },
-    {
-        'label':       'Lục Tổ Huệ Năng',
-        'name_pattern': '%Huệ Năng%',
-        'checks':      {'gen_thientong': 33},
-    },
-    {
-        'label':       'Lâm Tế Nghĩa Huyền',
-        'name_pattern': '%Lâm Tế Nghĩa Huyền%',
-        'checks':      {'gen_thientong': 38, 'gen_lamte': 1},
-    },
-]
+ANCHORS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'anchors_thientong.json')
+
+_DILA_ID_RE = re.compile(r'^A\d+$')
+
+
+def load_anchors_file(path=None):
+    """
+    Đọc scripts/anchors_thientong.json → trả về list 33 dict mốc (đời, tên
+    Việt, tên Hán, dila_id, trạng_thái, nguồn/ghi chú). Hỗ trợ cả 2 dạng:
+    file là list thẳng, hoặc dict có key "anchors" (dạng hiện tại, có thêm
+    "_meta" mô tả nguồn gốc/ngày khóa).
+    """
+    p = path or ANCHORS_FILE
+    with open(p, encoding='utf-8') as f:
+        raw = json.load(f)
+    return raw['anchors'] if isinstance(raw, dict) and 'anchors' in raw else raw
+
+
+def build_anchor_specs(anchors=None):
+    """
+    Lọc các mục trạng_thái=="locked" VÀ có dila_id hợp lệ (dạng A\\d+) từ
+    danh sách neo → trả về ANCHOR_SPECS cho verify_anchors(). Mục
+    "unresolved" (chưa có ID xác minh) bị BỎ QUA — không đoán ID. Mục trùng
+    dila_id (không nên xảy ra — xem test riêng kiểm file JSON) chỉ giữ lần
+    xuất hiện đầu tiên, phòng hờ.
+    """
+    items = anchors if anchors is not None else load_anchors_file()
+    specs = []
+    seen_ids = set()
+    for a in items:
+        if a.get('trang_thai') != 'locked':
+            continue
+        dila_id = a.get('dila_id')
+        if not dila_id or not _DILA_ID_RE.match(dila_id):
+            continue
+        if dila_id in seen_ids:
+            continue
+        seen_ids.add(dila_id)
+        specs.append({
+            'label':   a.get('ten_viet') or dila_id,
+            'dila_id': dila_id,
+            'checks':  {'gen_thientong': a['doi']},
+        })
+    return specs
+
+
+ANCHOR_SPECS = build_anchor_specs()
 
 
 def verify_anchors(conn, anchor_specs=None):
     """
-    Đối chiếu các mốc đời chuẩn với dữ liệu VỪA được tính trong transaction
-    hiện tại (chưa commit). Tra person_id theo TÊN trong lineage_founders
-    (khai_to_name_vi — lấy trực tiếp từ rdfs:label trong TTL), sau đó lấy
-    giá trị thật trong person_gen_computed để so sánh.
+    Đối chiếu các mốc Khai Tổ Thiền Tông đã khóa (ANCHOR_SPECS, đọc từ
+    scripts/anchors_thientong.json) với dữ liệu VỪA được tính trong
+    transaction hiện tại (chưa commit). Tra THẲNG person_gen_computed theo
+    person_id = dila_id — không qua tên, không qua lineage_founders (xem
+    docs/rules/naming-and-identity.md: không dùng tên làm join key).
 
-    Trả về (ok: bool, messages: list[str]):
+    Trả về (ok: bool, messages: list[str]) — hợp đồng giữ nguyên như bản
+    trước (main() không cần đổi gì ở phần commit/rollback):
       - ok=True  khi mọi mốc được tìm thấy DUY NHẤT và khớp đúng giá trị.
-      - ok=False khi có mốc: không tìm thấy, tìm thấy nhiều hơn 1 (ambiguous),
-        chưa có bản ghi tính toán trong person_gen_computed, hoặc giá trị
-        tính toán sai lệch so với mốc chuẩn.
+      - ok=False khi có mốc: không tìm thấy, tìm thấy nhiều hơn 1 bản ghi
+        person_gen_computed cho cùng dila_id (ambiguous), bản ghi tồn tại
+        nhưng gen_* đều NULL (ETL chưa tính), hoặc giá trị tính toán sai
+        lệch so với mốc chuẩn.
     """
     specs = anchor_specs if anchor_specs is not None else ANCHOR_SPECS
     cur = conn.cursor()
@@ -581,46 +609,42 @@ def verify_anchors(conn, anchor_specs=None):
 
     for spec in specs:
         label   = spec['label']
-        pattern = spec['name_pattern']
+        dila_id = spec['dila_id']
 
         cur.execute("""
-            SELECT lf.khai_to_id, lf.khai_to_name_vi, lf.lineage_key,
-                   pgc.gen_sect, pgc.gen_lamte, pgc.gen_thientong
-            FROM lineage_founders lf
-            LEFT JOIN person_gen_computed pgc
-                   ON pgc.person_id = lf.khai_to_id
-                  AND pgc.lineage_key = lf.lineage_key
-            WHERE lf.khai_to_name_vi LIKE ?
-        """, (pattern,))
+            SELECT person_id, lineage_key, gen_sect, gen_lamte, gen_thientong
+            FROM person_gen_computed
+            WHERE person_id = ?
+        """, (dila_id,))
         rows = cur.fetchall()
 
         if len(rows) == 0:
             ok = False
             messages.append(
-                f"✗ Mốc '{label}': KHÔNG TÌM THẤY trong lineage_founders "
-                f"(tra theo tên LIKE '{pattern}'). Không đủ dữ liệu để xác nhận "
+                f"✗ Mốc '{label}' (dila_id={dila_id}): KHÔNG TÌM THẤY bản ghi "
+                f"trong person_gen_computed. Không đủ dữ liệu để xác nhận "
                 f"mốc này — coi như KHÔNG ĐẠT."
             )
             continue
 
         if len(rows) > 1:
             ok = False
-            ids = ', '.join(f"{r[0]} ({r[1]})" for r in rows)
+            lkeys = ', '.join(r[1] for r in rows)
             messages.append(
-                f"✗ Mốc '{label}': tra theo tên LIKE '{pattern}' khớp "
-                f"{len(rows)} bản ghi trong lineage_founders ({ids}) — "
-                f"không xác định rõ ràng (ambiguous), cần Admin làm rõ."
+                f"✗ Mốc '{label}' (dila_id={dila_id}): có {len(rows)} bản ghi "
+                f"person_gen_computed (lineage_key: {lkeys}) — không xác định "
+                f"rõ ràng (ambiguous), cần Admin làm rõ."
             )
             continue
 
-        person_id, name_vi, lineage_key, gen_sect, gen_lamte, gen_thientong = rows[0]
+        person_id, lineage_key, gen_sect, gen_lamte, gen_thientong = rows[0]
 
         if gen_sect is None and gen_lamte is None and gen_thientong is None:
             ok = False
             messages.append(
-                f"✗ Mốc '{label}' (person_id={person_id}, tên TTL='{name_vi}'): "
-                f"có trong lineage_founders nhưng KHÔNG có bản ghi tương ứng "
-                f"trong person_gen_computed (ETL chưa tính đời cho mốc này)."
+                f"✗ Mốc '{label}' (dila_id={dila_id}): có bản ghi trong "
+                f"person_gen_computed nhưng tất cả gen_* đều NULL (ETL chưa "
+                f"tính đời cho mốc này)."
             )
             continue
 
@@ -634,8 +658,8 @@ def verify_anchors(conn, anchor_specs=None):
             if got != expected:
                 ok = False
                 messages.append(
-                    f"✗ Mốc '{label}' (person_id={person_id}, tên TTL='{name_vi}') "
-                    f"SAI LỆCH tại '{field}': mong đợi {expected}, thực tế {got!r}."
+                    f"✗ Mốc '{label}' (dila_id={dila_id}) SAI LỆCH tại "
+                    f"'{field}': mong đợi {expected}, thực tế {got!r}."
                 )
 
     if ok:
