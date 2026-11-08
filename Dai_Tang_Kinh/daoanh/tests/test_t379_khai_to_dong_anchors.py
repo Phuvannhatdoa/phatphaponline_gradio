@@ -53,6 +53,7 @@ EXPECTED_LOCKED = {
 EXPECTED_NON_THIEN = {
     'A001301': 1,    # Trí Khải (Thiên Thai / Pháp Hoa)
     'A001482': 1,    # Long Thọ (Tam Luận)
+    'A003867': 1,    # Pháp Dung (Ngưu Đầu tông) — Admin xác nhận 2026-11-08
 }
 
 # ID Admin xác nhận KHÔNG phải Tổ Thiền Tông — không được xuất hiện trong bộ
@@ -70,16 +71,16 @@ def test_anchors_file_exists():
     assert os.path.isfile(ANCHORS_FILE), f"Không tìm thấy {ANCHORS_FILE}"
 
 
-def test_reads_exactly_13_entries():
+def test_reads_exactly_14_entries():
     anchors = load_anchors()
-    assert len(anchors) == 13, f"Kỳ vọng 13 mục, thực tế {len(anchors)}"
+    assert len(anchors) == 14, f"Kỳ vọng 14 mục, thực tế {len(anchors)}"
 
 
 def test_split_locked_unresolved_counts():
     anchors = load_anchors()
     locked = [a for a in anchors if a['trang_thai'] == 'locked']
     unresolved = [a for a in anchors if a['trang_thai'] == 'unresolved']
-    assert len(locked) == 13, f"Kỳ vọng 13 locked, thực tế {len(locked)}"
+    assert len(locked) == 14, f"Kỳ vọng 14 locked, thực tế {len(locked)}"
     assert len(unresolved) == 0, f"Kỳ vọng 0 unresolved, thực tế {len(unresolved)}"
     assert {a['trang_thai'] for a in anchors} == {'locked'}
 

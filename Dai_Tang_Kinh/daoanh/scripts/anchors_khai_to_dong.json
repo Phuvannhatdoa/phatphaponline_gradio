@@ -54,6 +54,13 @@
       "nguon_ghichu": "Khai tổ Tam Luận tông. DILA xác định Long Thọ thuộc 'Thiền tông Tây Thiên nhị thập bát tổ' và liên quan truyền thụ. Admin xác nhận 2026-11-08. Không trùng với 隆壽 (A046539). Không thuộc đồ thị truyền thừa Thiền (không BFS từ Ma Ha Ca Diếp)."
     },
     {
+      "nhanh": "Tông phái ngoài Thiền (đời 1 = khai tổ tông)",
+      "ten_viet": "Pháp Dung (Ngưu Đầu)", "ten_han": "法融",
+      "dila_id": "A003867", "doi": 1, "buoc_tu_capdiep": 0,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai tổ Ngưu Đầu tông (DILA ghi là khai tổ). Thầy: Đạo Tín (道信). Đệ tử: Đạo Kỳ, Đạo Bằng, Trí Nham (A006310). Admin xác nhận 2026-11-08. Không thuộc đồ thị truyền thừa Thiền (không BFS từ Ma Ha Ca Diếp)."
+    },
+    {
       "nhanh": "Lâm Tế tông",
       "ten_viet": "Lâm Tế Nghĩa Huyền", "ten_han": null,
       "dila_id": "A003627", "doi": 38, "buoc_tu_capdiep": 37,
