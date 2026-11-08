@@ -1,0 +1,92 @@
+{
+  "_meta": {
+    "title": "Bo neo Khai To cac Dong/Tong Thien Tong sau Luc To Hue Nang (Nam Nhac + Thanh Nguyen nhanh goc, Ngu Gia That Tong)",
+    "task": "T379",
+    "locked_by": "Admin",
+    "locked_date": "2026-11-07",
+    "scope_note": "File nay TACH RIENG khoi scripts/anchors_thientong.json (file do CHI chua 33 vi Khai To doi 1-33, den Luc To Hue Nang). Cac vi duoi day co doi 34-45, thuoc cac nhanh/tong sau Luc To - khong hop le neu nhet vao file 33-muc (se vi pham invariant doi 1..33 cua test_t379_anchors_thientong_file.py).",
+    "method": "BFS qua lineage_edge_consensus (relation_type='dharma_transmission', consensus_status IN ('confirmed_2plus','single_source')), goc = Ma-ha-ca-diep (A002188, buoc=0). doi = buoc_tu_capdiep + 1. Doc TREN BAN SAO CO LAP cua data/lineage.db (mode=ro/copy trong worktree), KHONG ghi DB chinh. Doi chieu voi moc lich su Admin cung cap truoc khi khoa.",
+    "unresolved_rule": "2 muc unresolved: (1) Nguong Son Hue Tich (A009491) - BFS tra ra doi 36 qua mot nhanh KHAC (khong qua Quy Son), mau thuan voi quan he thay-tro da biet (de tu truc tiep cua Quy Son doi 37 => phai la doi 38) - Admin xac nhan 2026-11-07 de unresolved, KHONG khoa, can lam ro edge data truoc khi khoa. (2) Phap Nhan Van Ich - CHUA co DILA ID xac minh, de trong, khong doan ID (xem docs/rules/naming-and-identity.md).",
+    "excluded_note": "Khue Phong Tong Mat (A000587): Admin xac nhan 2026-11-07 ID nay KHONG phai To Thien Tong - la mot dong du lieu khac (Hoa Nghiem/Hien Thu), CO Y khong dua vao bo neo nay du BFS co tra ra duong (doi 37, qua nhanh Hoang Nhan - A005612 - A004217 - A004166). Ghi lai de tranh ai sau nay vo tinh them lai.",
+    "dila_id_format": "DILA Person ID, dang A\\d+ (xem docs/rules/naming-and-identity.md). ten/alias khong bao gio la join key."
+  },
+  "anchors": [
+    {
+      "nhanh": "Nam Nhạc (nhánh gốc)",
+      "ten_viet": "Nam Nhạc Hoài Nhượng", "ten_han": null,
+      "dila_id": "A004015", "doi": 34, "buoc_tu_capdiep": 33,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Đệ tử Lục Tổ Huệ Năng (đời 33). BFS xác nhận đời 34. Admin xác nhận 2026-11-07, hợp lý theo sử liệu."
+    },
+    {
+      "nhanh": "Thanh Nguyên (nhánh gốc)",
+      "ten_viet": "Thanh Nguyên Hành Tư", "ten_han": null,
+      "dila_id": "A003666", "doi": 34, "buoc_tu_capdiep": 33,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Đệ tử Lục Tổ Huệ Năng (đời 33). BFS xác nhận đời 34. Admin xác nhận 2026-11-07, hợp lý theo sử liệu."
+    },
+    {
+      "nhanh": "Quy Ngưỡng tông",
+      "ten_viet": "Quy Sơn Linh Hựu", "ten_han": null,
+      "dila_id": "A001984", "doi": 37, "buoc_tu_capdiep": 36,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai Tổ Quy Ngưỡng tông. Nhánh Nam Nhạc(34)→Mã Tổ(35)→Bách Trượng(36)→Quy Sơn(37). BFS xác nhận đời 37, khớp mốc Admin cung cấp."
+    },
+    {
+      "nhanh": "Quy Ngưỡng tông",
+      "ten_viet": "Ngưỡng Sơn Huệ Tịch", "ten_han": null,
+      "dila_id": null, "doi": null, "buoc_tu_capdiep": null,
+      "trang_thai": "unresolved",
+      "nguon_ghichu": "A009491: BFS qua lineage_edge_consensus tra ra đời 36 qua nhánh KHÁC (A001719→A001707→A008874→A009491), KHÔNG qua Quy Sơn. Mâu thuẫn với quan hệ thầy-trò đã biết (đệ tử trực tiếp Quy Sơn đời 37 ⇒ phải là đời 38). Admin xác nhận 2026-11-07: để unresolved, KHÔNG khóa dila_id/đời cho tới khi làm rõ edge data (xem data-integrity.md)."
+    },
+    {
+      "nhanh": "Lâm Tế tông",
+      "ten_viet": "Lâm Tế Nghĩa Huyền", "ten_han": null,
+      "dila_id": "A003627", "doi": 38, "buoc_tu_capdiep": 37,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai Tổ Lâm Tế tông. Nhánh Nam Nhạc(34)→Mã Tổ(35)→Bách Trượng(36)→Hoàng Bá(37)→Lâm Tế(38). BFS xác nhận đời 38, khớp mốc Admin cung cấp. (Đời 38 nằm ngoài phạm vi 33 mục của anchors_thientong.json nên khóa ở file này, không chèn vào file 33 mục.)"
+    },
+    {
+      "nhanh": "Tào Động tông",
+      "ten_viet": "Động Sơn Lương Giới", "ten_han": null,
+      "dila_id": "A009489", "doi": 38, "buoc_tu_capdiep": 37,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai Tổ (cùng Tào Sơn) Tào Động tông. Nhánh Thanh Nguyên(34)→Thạch Đầu(~35)→Dược Sơn(~36)→Vân Nham(~37)→Động Sơn(38). BFS tự tính ra đời 38, không mâu thuẫn với quan hệ thầy-trò Động Sơn→Tào Sơn (đời 39)."
+    },
+    {
+      "nhanh": "Tào Động tông",
+      "ten_viet": "Tào Sơn Bản Tịch", "ten_han": null,
+      "dila_id": "A009449", "doi": 39, "buoc_tu_capdiep": 38,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Đệ tử Động Sơn Lương Giới (đời 38) ⇒ đời 39. BFS xác nhận đời 39, khớp mốc Admin cung cấp."
+    },
+    {
+      "nhanh": "Vân Môn tông",
+      "ten_viet": "Vân Môn Văn Yển", "ten_han": null,
+      "dila_id": "A003703", "doi": 39, "buoc_tu_capdiep": 38,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai Tổ Vân Môn tông. Nhánh Nam Nhạc(34)→Mã Tổ(35)→...→Tuyết Phong(38)→Vân Môn(39). BFS xác nhận đời 39, khớp mốc Admin cung cấp."
+    },
+    {
+      "nhanh": "Pháp Nhãn tông",
+      "ten_viet": "Pháp Nhãn Văn Ích", "ten_han": null,
+      "dila_id": null, "doi": null, "buoc_tu_capdiep": null,
+      "trang_thai": "unresolved",
+      "nguon_ghichu": "Khai Tổ Pháp Nhãn tông (1 trong Ngũ Gia Thất Tông) - CHƯA có DILA ID đã kiểm chứng. Để trống, không đoán ID (docs/rules/naming-and-identity.md: tên không bao giờ là join key)."
+    },
+    {
+      "nhanh": "Lâm Tế - Hoàng Long",
+      "ten_viet": "Hoàng Long Huệ Nam", "ten_han": null,
+      "dila_id": "A003921", "doi": 45, "buoc_tu_capdiep": 44,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai Tổ nhánh Hoàng Long (Lâm Tế tông). BFS xác nhận đời 45, khớp mốc Admin cung cấp."
+    },
+    {
+      "nhanh": "Lâm Tế - Dương Kỳ",
+      "ten_viet": "Dương Kỳ Phương Hội", "ten_han": null,
+      "dila_id": "A004146", "doi": 45, "buoc_tu_capdiep": 44,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai Tổ nhánh Dương Kỳ (Lâm Tế tông), cùng đời với Hoàng Long Huệ Nam (45) - khớp ghi chú trong scripts/etl_gen_compute.py (docstring T379 follow-up). BFS tự tính ra đời 45."
+    }
+  ]
+}

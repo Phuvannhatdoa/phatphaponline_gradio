@@ -37,10 +37,6 @@ def seed_configs(conn):
         anchor('A004146','楊岐方會',1,[dila('A004146','DILA sect 臨濟宗 楊岐派; concise pháp hệ gọi 楊岐派; khai tổ=1 là quy ước riêng.')])]},
       {'id':'linji_chucthanh','label':'Lâm Tế · Chúc Thánh','convention':'Khai tổ Chúc Thánh=1; cần chứng minh định danh Minh Hải–Pháp Bảo trước khi nhập mốc. Không gán A000662 chỉ vì trùng tên 明海.',
        'root_id':'','policy':'dila_candidate','anchors':[]}]
-    inclusive=json.loads(json.dumps(configs[0]));inclusive.update(id='chan_phat_1',label='Thiền Tông · Thích Ca 1',
-       convention='Hệ đếm riêng tính Thích Ca=1, Ca Diếp=2: Đạt Ma=29, Huệ Năng=34. Quy đổi quy ước +1, không sửa hệ Ca Diếp 1.')
-    for a in inclusive['anchors']:a['number']+=1
-    configs.append(inclusive)
     return [g.validate_scheme(conn,c) for c in configs]
 
 def main():
@@ -48,7 +44,7 @@ def main():
     out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
     c=sqlite3.connect(ROOT/'data/lineage.db',timeout=30);c.row_factory=sqlite3.Row
     configs=seed_configs(c);(out/'seed-schemes.json').write_text(json.dumps(configs,ensure_ascii=False,indent=2),encoding='utf8')
-    if not args.apply:print('DRY-RUN: 5 hệ đếm; 0 DB writes.');return
+    if not args.apply:print('DRY-RUN: 4 hệ đếm; 0 DB writes.');return
     if g.table(c,'generation_v2_scheme_revisions') and g.schemes(c):
         raise ValueError('Registry đã cài; không ghi đè revision hiện có.')
     backup=out/'lineage-before.db'
@@ -60,8 +56,8 @@ def main():
     for config in configs:g.save_scheme(c,config,0)
     after={t:c.execute('SELECT count(*) FROM '+t).fetchone()[0] for t in tables}
     assert before==after
-    (out/'install-result.json').write_text(json.dumps({'schemes':5,'before':before,'after':after,'legacy_mutations':0,'backup':str(backup)},indent=2),encoding='utf8')
-    print('PASS: 5 registry revisions; 0 sửa bảng nguồn/legacy. Backup:',backup)
+    (out/'install-result.json').write_text(json.dumps({'schemes':4,'before':before,'after':after,'legacy_mutations':0,'backup':str(backup)},indent=2),encoding='utf8')
+    print('PASS: 4 registry revisions; 0 sửa bảng nguồn/legacy. Backup:',backup)
 
 if __name__=='__main__':
     try:main()

@@ -16,6 +16,11 @@ node_modules/
 !Dai_Tang_Kinh/daoanh/.claude/settings.json
 !Dai_Tang_Kinh/daoanh/.claude/launch.json
 !Dai_Tang_Kinh/daoanh/.opencode/opencode.json
+# T379: bo neo Khai To Thien Tong (khoa DILA ID) — Admin duyet track file nay
+!Dai_Tang_Kinh/daoanh/scripts/anchors_thientong.json
+!Dai_Tang_Kinh/daoanh/scripts/anchors_khai_to_dong.json
+# T379: bo neo dong Lam Te Duong Ky tu TTL (doi 45-70) — xem docs/rules/naming-and-identity.md
+!Dai_Tang_Kinh/daoanh/scripts/anchors_duong_ky_ttl.json
 thientong-V*.py
 ontology/
 

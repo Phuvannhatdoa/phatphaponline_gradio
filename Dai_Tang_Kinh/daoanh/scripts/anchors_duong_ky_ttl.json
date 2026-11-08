@@ -1,0 +1,172 @@
+{
+  "_meta": {
+    "title": "Bo neo dong Lam Te Duong Ky tu TTL (doi 45-70)",
+    "task": "T379",
+    "created_date": "2026-11-07",
+    "source": "File TTL do Admin tao trong data/ttl/*.ttl (KHONG git-track, xem .gitignore 'data/'). Doc truc tiep bkg:generationOrder, bkg:hasTeacher, rdfs:label@vi tung file bang Read/Grep - KHONG query data/lineage.db, KHONG BFS.",
+    "generation_order_basis": "bkg:generationOrder trong TTL la doi Thien Tong TUYET DOI (khong phai doi DILA). Doi chieu Admin 2026-11-07: Dao Man Moc Tran = 68 khop 'doi thu 31 Lam Te' + 37; Nguyen Thieu Sieu Bach = 70.",
+    "chain_integrity": "Da xac minh noi bo: moi muc 46..70 co bkg:hasTeacher tro dung ve ex:monk/<slug> cua muc doi truoc lien ke (xem id_ttl/thay_ttl_id) - chuoi TTL lien tuc, khong dut doan, khong ID trung.",
+    "dila_lock_rule": "trang_thai=locked CHI khi Admin da xac nhan doi DILA khop voi bkg:generationOrder cua TTL (xem docs/rules/naming-and-identity.md: ten khong bao gio la join key). trang_thai=conflict khi co dila_id nhung doi DILA LECH voi TTL - GHI RO, KHONG dung dila_id de khoa doi. trang_thai=ttl_only khi chua co dila_id xac minh (bao gom truong hop co dila_id nhung chua co canh/quan he de doi chieu doi).",
+    "known_name_variants": "Mot so ten_viet trong TTL khac nhe so voi ten trong prompt admin (dau thanh/am dau) do di ban phien am Han-Viet; GHI trong ghi_chu tung muc, KHONG tu sua TTL de khop ten vi ten khong phai join key.",
+    "scope_note": "File nay TACH RIENG khoi scripts/anchors_khai_to_dong.json (muc Duong Ky Phuong Hoi doi 45, dila A004146, da khoa trong file do bang BFS qua lineage_edge_consensus). Muc doi 45 o day CHI tham chieu lai trang thai da khoa, KHONG tao lock moi.",
+    "dila_id_format": "DILA Person ID, dang A\\d+ (xem docs/rules/naming-and-identity.md)."
+  },
+  "anchors": [
+    {
+      "doi": 45, "ten_viet": "Dương Kỳ Phương Hội", "file_ttl": "TS-Duong-Ky-Phuong-Hoi.ttl",
+      "id_ttl": "duong_ky_phuong_hoi", "thay_ttl": "Thạch Sương Sở Viên", "thay_ttl_id": "thach_suong_so_vien",
+      "dila_id": "A004146", "trang_thai": "locked",
+      "ghi_chu": "Da khoa truoc do trong scripts/anchors_khai_to_dong.json (doi 45, BFS qua lineage_edge_consensus, Admin xac nhan 2026-11-07). Muc nay chi doi chieu lai, KHONG tao lock thu hai."
+    },
+    {
+      "doi": 46, "ten_viet": "Bạch Vân Thủ Đoan", "file_ttl": "TS-Bach-Van-Thu-Doan.ttl",
+      "id_ttl": "bach_van_thu_doan", "thay_ttl": "Dương Kỳ Phương Hội", "thay_ttl_id": "duong_ky_phuong_hoi",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan cho muc nay. generationOrder=46 trong TTL, hasTeacher khop dung voi muc doi 45 (duong_ky_phuong_hoi)."
+    },
+    {
+      "doi": 47, "ten_viet": "Ngũ Tổ Pháp Diễn", "file_ttl": "TS-Ngu-To-Phap-Dien.ttl",
+      "id_ttl": "ngu_to_phap_dien", "thay_ttl": "Bạch Vân Thủ Đoan", "thay_ttl_id": "bach_van_thu_doan",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 46."
+    },
+    {
+      "doi": 48, "ten_viet": "Viên Ngộ Khắc Cần Phật Quả", "file_ttl": "TS-Vien-Ngo-Khac-Can.ttl",
+      "id_ttl": "vien_ngo_khac_can", "thay_ttl": "Ngũ Tổ Pháp Diễn", "thay_ttl_id": "ngu_to_phap_dien",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 47. (File co ban cu data/ttl/old/TS-Vien-Ngo-Khac-Can.ttl voi label ngan hon 'Vien Ngo Khac Can' - KHONG dung, chi doc ban hien hanh trong data/ttl/.)"
+    },
+    {
+      "doi": 49, "ten_viet": "Hổ Khâu Thiệu Long", "file_ttl": "TS-Ho-Khau-Thieu-Long.ttl",
+      "id_ttl": "ho_khau_thieu_long", "thay_ttl": "Viên Ngộ Khắc Cần Phật Quả", "thay_ttl_id": "vien_ngo_khac_can",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 48."
+    },
+    {
+      "doi": 50, "ten_viet": "Thiên Đồng Đàm Hoa", "file_ttl": "TS-Thien-Dong-Dam-Hoa.ttl",
+      "id_ttl": "thien_dong_dam_hoa", "thay_ttl": "Hổ Khâu Thiệu Long", "thay_ttl_id": "ho_khau_thieu_long",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Prompt admin goi y ten 'Dam Hoa' dang goi don gian; TTL dung day du la 'Thien Dong Dam Hoa'. Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 49."
+    },
+    {
+      "doi": 51, "ten_viet": "Mật Am Hàn Kiệt", "file_ttl": "TS-Mat-Am-Han-Kiet.ttl",
+      "id_ttl": "mat_am_han_kiet", "thay_ttl": "Thiên Đồng Đàm Hoa", "thay_ttl_id": "thien_dong_dam_hoa",
+      "dila_id": "A004691", "trang_thai": "locked",
+      "ghi_chu": "Admin xac nhan 2026-11-07: dila_id A004691 (DILA ghi ten 'Ham Kiet') khop doi 51 voi TTL. Khac biet ten 'Han Kiet' (TTL) vs 'Ham Kiet' (DILA) la bien the phien am - KHONG dung ten de khoa, chi dung dila_id. hasTeacher khop dung voi muc doi 50."
+    },
+    {
+      "doi": 52, "ten_viet": "Phá Am Tổ Tiên", "file_ttl": "TS-Pha-Am-To-Tien.ttl",
+      "id_ttl": "pha_am_to_tien", "thay_ttl": "Mật Am Hàn Kiệt", "thay_ttl_id": "mat_am_han_kiet",
+      "dila_id": "A004696", "trang_thai": "locked",
+      "ghi_chu": "Admin xac nhan 2026-11-07: dila_id A004696 khop doi 52 voi TTL. hasTeacher khop dung voi muc doi 51."
+    },
+    {
+      "doi": 53, "ten_viet": "Vô Chuẩn Sư Phạm", "file_ttl": "TS-Vo-Chuan-Su-Pham.ttl",
+      "id_ttl": "vo_chuan_su_pham", "thay_ttl": "Phá Am Tổ Tiên", "thay_ttl_id": "pha_am_to_tien",
+      "dila_id": "A004697", "trang_thai": "locked",
+      "ghi_chu": "Admin xac nhan 2026-11-07: dila_id A004697 khop doi 53 voi TTL. hasTeacher khop dung voi muc doi 52. File TTL nay da duoc kiem tra lai (xem T379 TTL audit): KHONG con bug hasTeacher tu-tham-chieu hoac nhan sai o cuoi file tai thoi diem doc (2026-11-07) - xem ghi chu rieng trong bao cao."
+    },
+    {
+      "doi": 54, "ten_viet": "Tuyết Nham Tổ Khâm", "file_ttl": "TS-Tuyet-Nham-To-Kham.ttl",
+      "id_ttl": "tuyet_nham_to_kham", "thay_ttl": "Vô Chuẩn Sư Phạm", "thay_ttl_id": "vo_chuan_su_pham",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 53."
+    },
+    {
+      "doi": 55, "ten_viet": "Cao Phong Nguyên Diệu", "file_ttl": "TS-Cao-Phong-Nguyen-Dieu.ttl",
+      "id_ttl": "cao_phong_nguyen_dieu", "thay_ttl": "Tuyết Nham Tổ Khâm", "thay_ttl_id": "tuyet_nham_to_kham",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 54."
+    },
+    {
+      "doi": 56, "ten_viet": "Trung Phong Minh Bổn", "file_ttl": "TS-Trung-Phong-Minh-Bon.ttl",
+      "id_ttl": "trung_phong_minh_bon", "thay_ttl": "Cao Phong Nguyên Diệu", "thay_ttl_id": "cao_phong_nguyen_dieu",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 55."
+    },
+    {
+      "doi": 57, "ten_viet": "Thiên Nham Nguyên Trường", "file_ttl": "TS-Thien-Nham-Nguyen-Truong.ttl",
+      "id_ttl": "thien_nham_nguyen_truong", "thay_ttl": "Trung Phong Minh Bổn", "thay_ttl_id": "trung_phong_minh_bon",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 56."
+    },
+    {
+      "doi": 58, "ten_viet": "Vạn Phong Thời Ủy", "file_ttl": "TS-Van-Phong-Thoi-Uy.ttl",
+      "id_ttl": "van_phong_thoi_uy", "thay_ttl": "Thiên Nham Nguyên Trường", "thay_ttl_id": "thien_nham_nguyen_truong",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Prompt admin goi don gian la 'Thoi Uy'; TTL dung day du la 'Van Phong Thoi Uy'. Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 57."
+    },
+    {
+      "doi": 59, "ten_viet": "Tổ Đức Bảo Tạng", "file_ttl": "TS-To-Duc-Bao-Tang.ttl",
+      "id_ttl": "to_duc_bao_tang", "thay_ttl": "Vạn Phong Thời Ủy", "thay_ttl_id": "van_phong_thoi_uy",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 58."
+    },
+    {
+      "doi": 60, "ten_viet": "Đạo Minh Huệ Sảm", "file_ttl": "TS-Dao-Minh-Hue-Sam.ttl",
+      "id_ttl": "dao_minh_hue_sam", "thay_ttl": "Tổ Đức Bảo Tạng", "thay_ttl_id": "to_duc_bao_tang",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Prompt admin ghi 'Hue Sam'; TTL ghi 'Hue Sam' (dau thanh Sam vs Sam - gan giong, giu nguyen theo TTL 'Hue Sam'). Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 59."
+    },
+    {
+      "doi": 61, "ten_viet": "Giới Hải Vĩnh Từ", "file_ttl": "TS-Gioi-Hai-Vinh-Tu.ttl",
+      "id_ttl": "gioi_hai_vinh_tu", "thay_ttl": "Đạo Minh Huệ Sảm", "thay_ttl_id": "dao_minh_hue_sam",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Prompt admin ghi 'Vinh Tu'; TTL ghi 'Vinh Tu' - khac am cuoi (Tu/Tu). Giu theo TTL. Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 60."
+    },
+    {
+      "doi": 62, "ten_viet": "Đinh Bảo Phong Trí", "file_ttl": "TS-Dinh-Bao-Phong-Tri.ttl",
+      "id_ttl": "dinh_bao_phong_tri", "thay_ttl": "Giới Hải Vĩnh Từ", "thay_ttl_id": "gioi_hai_vinh_tu",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "CHU Y khac biet ten ro hon cac muc khac: prompt admin ghi 'Dinh Bao Phong Tri' (dau ̉ + 'Tri'), TTL ghi 'Dinh Bao Phong Tri' (khong dau hoi + 'Tri'). Giu theo TTL, KHONG tu sua vi ten khong phai join key - can Admin doi chieu lai nguon goc ten nay. Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 61."
+    },
+    {
+      "doi": 63, "ten_viet": "Tông Thiền Bản Thụy", "file_ttl": "TS-Tong-Thien-Ban-Thuy.ttl",
+      "id_ttl": "tong_thien_ban_thuy", "thay_ttl": "Đinh Bảo Phong Trí", "thay_ttl_id": "dinh_bao_phong_tri",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Prompt admin ghi 'Ban Thuy'; TTL ghi 'Ban Thuy' (Thuy/Thuy). Giu theo TTL. Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 62."
+    },
+    {
+      "doi": 64, "ten_viet": "Phương Văn Minh Thông", "file_ttl": "TS-Phuong-Van-Minh-Thong.ttl",
+      "id_ttl": "phuong_van_minh_thong", "thay_ttl": "Tông Thiền Bản Thụy", "thay_ttl_id": "tong_thien_ban_thuy",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 63."
+    },
+    {
+      "doi": 65, "ten_viet": "Quảng Nguyệt Đức Bảo", "file_ttl": "TS-Quang-Nguyet-Duc-Bao.ttl",
+      "id_ttl": "quang_nguyet_duc_bao", "thay_ttl": "Phương Văn Minh Thông", "thay_ttl_id": "phuong_van_minh_thong",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Prompt admin ghi 'Quang Nguyet'; TTL ghi 'Quang Nguyet' (them dau hoi). Giu theo TTL. Chua co dila_id duoc Admin xac nhan. hasTeacher khop dung voi muc doi 64."
+    },
+    {
+      "doi": 66, "ten_viet": "Chánh Truyền Huyễn Hữu", "file_ttl": "TS-Chanh-Truyen-Huyen-Huu.ttl",
+      "id_ttl": "chanh_truyen_huyen_huu", "thay_ttl": "Quảng Nguyệt Đức Bảo", "thay_ttl_id": "quang_nguyet_duc_bao",
+      "dila_id": "A022851", "trang_thai": "ttl_only",
+      "ghi_chu": "Admin cung cap dila_id A022851 nhung ghi ro 'chua co canh' - khong co quan he/edge trong du lieu DILA de doi chieu doi. KHONG du dieu kien de khoa (locked yeu cau doi DILA da xac nhan khop). Giu dila_id trong truong de tham khao nhung trang_thai=ttl_only cho den khi co canh de xac minh. hasTeacher khop dung voi muc doi 65."
+    },
+    {
+      "doi": 67, "ten_viet": "Mật Vân Viên Ngộ", "file_ttl": "TS-Mat-Van-Vien-Ngo.ttl",
+      "id_ttl": "mat_van_vien_ngo", "thay_ttl": "Chánh Truyền Huyễn Hữu", "thay_ttl_id": "chanh_truyen_huyen_huu",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Admin ghi 'DILA chua tim thay'. Khong doan ID. hasTeacher khop dung voi muc doi 66."
+    },
+    {
+      "doi": 68, "ten_viet": "Đạo Mân Mộc Trần", "file_ttl": "TS-Dao-Man-Moc-Tran.ttl",
+      "id_ttl": "dao_man_moc_tran", "thay_ttl": "Mật Vân Viên Ngộ", "thay_ttl_id": "mat_van_vien_ngo",
+      "dila_id": "A001513", "trang_thai": "conflict",
+      "ghi_chu": "A001513 trong DILA ghi doi 64, LECH voi bkg:generationOrder=68 trong TTL. Day la moc doi chieu chinh cua Admin (Dao Man Moc Tran = doi thu 31 Lam Te + 37 = 68) - TTL duoc coi la dung, DILA lech. GHI RO, KHONG dung dila_id nay de gan doi. hasTeacher khop dung voi muc doi 67."
+    },
+    {
+      "doi": 69, "ten_viet": "Bổn Quả Khoáng Viên", "file_ttl": "TS-Bon-Qua-Khoang-Vien.ttl",
+      "id_ttl": "bon_qua_khoang_vien", "thay_ttl": "Đạo Mân Mộc Trần", "thay_ttl_id": "dao_man_moc_tran",
+      "dila_id": null, "trang_thai": "ttl_only",
+      "ghi_chu": "Admin ghi 'DILA chua tim thay'. Khong doan ID. hasTeacher khop dung voi muc doi 68."
+    },
+    {
+      "doi": 70, "ten_viet": "Nguyên Thiều Siêu Bạch", "file_ttl": "TS-Nguyen-Thieu-Sieu-Bach.ttl",
+      "id_ttl": "nguyen_thieu_sieu_bach", "thay_ttl": "Bổn Quả Khoáng Viên", "thay_ttl_id": "bon_qua_khoang_vien",
+      "dila_id": "A044921", "trang_thai": "conflict",
+      "ghi_chu": "A044921 trong DILA ghi doi 66, LECH voi bkg:generationOrder=70 trong TTL. Day la moc doi chieu chinh cua Admin (Nguyen Thieu Sieu Bach = 70) - TTL duoc coi la dung, DILA lech. GHI RO, KHONG dung dila_id nay de gan doi. hasTeacher khop dung voi muc doi 69."
+    }
+  ]
+}

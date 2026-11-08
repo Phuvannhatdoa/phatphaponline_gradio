@@ -12,31 +12,154 @@ Hệ thống 3 lớp:
   gen_lamte     : đời Lâm Tế Tông (từ Lâm Tế Nghĩa Huyền = 1) — chỉ cho Lâm Tế
   gen_sect      : đời trong tông phái cụ thể của người đó (Khai Tổ = 1)
 
+─── T379 follow-up (2026-11-07) — ĐẢO CÔNG THỨC gen_lamte/gen_thientong ─────
+Bản trước coi generationOrder trong TTL là "đời Lâm Tế" rồi CỘNG 37 ra đời
+Thiền Tông (gen_thientong = generationOrder + 37). Đối chiếu trực tiếp các
+file TTL nguồn (xem bảng dưới) cho thấy generationOrder ĐÃ LÀ số đời Thiền
+Tông TOÀN CỤC (global), không phải số đời cục bộ trong Lâm Tế:
+    data/ttl/Ton-Gia-Ma-Ha-Ca-Diep.ttl      generationOrder = 1
+    data/ttl/Ton-Gia-Bo-De-Dat-Ma.ttl       generationOrder = 28
+    data/ttl/Ton-Gia-Dai-Giam-Hue-Nang.ttl  generationOrder = 33
+    data/ttl/TS-Lam-Te-Nghia-Huyen.ttl      generationOrder = 38
+Đã xác minh thêm bằng cách lần theo chuỗi thầy→trò xuyên nhiều dharmaLineageName
+khác nhau (số tăng đúng +1 mỗi thế hệ, không reset về nhỏ khi sang dòng khác):
+    Huệ Năng(33) → Nam Nhạc Hoài Nhượng(34) → Mã Tổ Đạo Nhất(35) →
+    Bách Trượng Hoài Hải(36) → Vô Ngôn Thông(37) / Quy Sơn Linh Hựu(37) →
+    Ngưỡng Sơn Huệ Tịch(38) / Lâm Tế Nghĩa Huyền(38) → ... →
+    Dương Kỳ Phương Hội(45) → Bạch Vân Thủ Đoan(46) → ... → Viên Ngộ Khắc
+    Cần(48) → ... → Nguyên Thiều Siêu Bạch — VN, "Dòng Lâm Tế Gia Phổ Việt
+    Nam"(70) → Minh Hải Pháp Bảo — VN, "Dòng Lâm Tế Chúc Thánh Việt Nam"(71)
+    → Thiệt Duyệt Liễu Quán — VN, "Dòng Lâm Tế Liễu Quán Việt Nam"(72).
+    Đạo Tín(31) → Ngưu Đầu Pháp Dung — "Ngưu Đầu Tông Trung Hoa"(32) (nhánh
+    tách khỏi Tứ Tổ, vẫn đúng mạch toàn cục).
+Do đó CÔNG THỨC MỚI:
+    gen_thientong = generationOrder                (trực tiếp, không +37)
+    gen_lamte     = generationOrder - 37            CHỈ cho người thuộc dòng
+                    Lâm Tế (dharmaLineageName chứa "Lâm Tế") — Lâm Tế Nghĩa
+                    Huyền đời 38 → gen_lamte = 1, đúng mốc Admin xác nhận.
+
+KHÔNG áp dụng cho MỌI dharmaLineageName: đối chiếu cho thấy một số ít tên
+dùng số đời CỤC BỘ (reset riêng, không nối mạch toàn cục), ví dụ:
+    - "Đại thừa" (Thích Ca Mâu Ni Phật, generationOrder=1) — TRÙNG với Ma Ha
+      Ca Diếp=1 trong "Thiền Tông Ấn Độ"; rõ ràng là 2 hệ đếm khác nhau
+      (Phật không nằm trong 28 vị Tổ Thiền Tông Ấn Độ).
+    - "Tịnh Độ Tông" (Đạo Xước, generationOrder=2) — đây là số Tổ trong 13 vị
+      Tổ Tịnh Độ, không liên quan chuỗi Tổ Thiền Tông.
+    - "Phái Nam Nhạc" (Bổn Khê, generationOrder=2) — đệ tử của Mã Tổ Đạo Nhất
+      (đời 35 toàn cục), nếu toàn cục Bổn Khê phải là 36, không phải 2 →
+      xác nhận đây là số đời cục bộ trong riêng 1 file.
+  "Kinh Lượng Bộ" (Cưu Ma La Đa, generationOrder=19) và "Bát Tông" (Bồ Tát
+  Long Thọ, generationOrder=14) NGƯỢC LẠI đã đối chiếu khớp đúng vị trí Tổ
+  thứ 19 / 14 trong 28 vị Tổ Ấn Độ toàn cục — nên vẫn coi là global.
+
+Theo đúng yêu cầu "không đoán khi chưa chắc": GLOBAL_THIENTONG_LINEAGES dưới
+là ALLOWLIST (không phải denylist) — bất kỳ dharmaLineageName nào KHÔNG nằm
+trong allowlist này và KHÔNG chứa "Lâm Tế" sẽ bị để TRỐNG (None) cho cả
+gen_thientong và gen_lamte, và được in cảnh báo ra report() để Admin biết.
+An toàn-theo-mặc-định: tên lineage mới/lạ xuất hiện trong TTL tương lai sẽ
+tự động bị loại (None) cho tới khi có người xác minh và thêm vào allowlist,
+không bao giờ tự động được coi là global.
+
+LƯU Ý RỦI RO (chưa cần sửa, chỉ ghi lại cho Admin): load_all_persons_from_ttl()
+dùng glob.glob('data/ttl/*.ttl') — KHÔNG đọc các thư mục con (data/ttl/old/,
+data/ttl/"Lam Te Duong Ky"/, data/ttl/"Thien Tong An Do"/, data/ttl/"Thien
+Tong Trung Quoc"/). Một số file trong các thư mục con này là bản TRÙNG TÊN
+slug với file ở gốc nhưng dùng SỐ ĐỜI CỤC BỘ khác (ví dụ
+data/ttl/old/TS-Ngu-To-Phap-Dien.ttl có dharmaLineageName "Phái Dương Kì
+thuộc Lâm Tế Tông Trung Quốc", generationOrder=5 — cục bộ — trong khi bản gốc
+data/ttl/TS-Ngu-To-Phap-Dien.ttl không tồn tại nhưng các vị cùng dòng Dương Kỳ
+ở gốc đều dùng số toàn cục, ví dụ TS-Vien-Ngo-Khac-Can.ttl=48). Nếu sau này
+ai đổi glob thành đệ quy (**/*.ttl), các bản cục bộ này sẽ trộn lẫn và làm
+sai kết quả — KHÔNG đổi glob nếu chưa xử lý việc này.
+
 Cách tính:
   Slug monks (có dharmaLineageName + generationOrder trong TTL/DB):
-    gen_lamte     = generationOrder  (đã lưu sẵn, đúng)
-    gen_thientong = generationOrder + 37
-    gen_sect      = gen_lamte - khai_to_gen_lamte + 1
-                    (khai_to_gen_lamte = gen_order của Khai Tổ cùng dharmaLineageName)
+    gen_thientong = generationOrder   NẾU dharmaLineageName thuộc
+                    GLOBAL_THIENTONG_LINEAGES hoặc chứa "Lâm Tế"; ngược lại None.
+    gen_lamte     = generationOrder - 37   NẾU dharmaLineageName chứa "Lâm Tế";
+                    ngược lại None (kể cả khi gen_thientong đã có giá trị).
+    gen_sect      = gen_order - khai_to_gen + 1
+                    (khai_to_gen = gen_order của Khai Tổ cùng dharmaLineageName
+                    — không đổi, không phụ thuộc global/cục bộ vì là số tương
+                    đối trong 1 tông phái)
 
   DILA monks (A-prefix, không có dharmaLineageName):
     gen_thientong, gen_lamte = tính từ BFS qua DILA graph (Thích Ca = root, depth 1)
     gen_sect      = None (không biết tông phái)
+    (phần này đã dùng công thức "gen_thientong = depth - 1" trực tiếp từ
+    trước, không bị lỗi +37 nên KHÔNG cần sửa trong follow-up này)
 """
 
 import sqlite3
 import sys
 import re
 import os
+import json
 import glob
 from collections import deque
 
 DB_PATH  = 'data/lineage.db'
 TTL_DIR  = 'data/ttl'
 
-# Offset Lâm Tế ↔ Thiền Tông:
+# Lệch giữa đời Lâm Tế và đời Thiền Tông toàn cục:
 # Lâm Tế Nghĩa Huyền = Lâm Tế đời 1 = Thiền Tông đời 38 → offset = 37
-LAMTE_TO_THIENTONG = 37
+# (gen_thientong - gen_lamte = 37 cho MỌI người thuộc dòng Lâm Tế — dùng để
+#  TRỪ ra gen_lamte từ gen_thientong, KHÔNG dùng để cộng vào generationOrder
+#  như bản cũ.)
+THIENTONG_LAMTE_OFFSET = 37
+
+# ALLOWLIST các dharmaLineageName đã xác minh dùng SỐ ĐỜI THIỀN TÔNG TOÀN CỤC
+# (generationOrder tăng +1 mỗi thế hệ, nối liền mạch không reset khi đổi
+# dharmaLineageName). Mọi tên có chứa "Lâm Tế" cũng được coi là global (xem
+# is_lamte_lineage) — các dòng Lâm Tế Việt Nam (Gia Phổ/Chúc Thánh/Liễu Quán/
+# ...) đều đã kiểm chứng tiếp nối đúng mạch số của Tông Lâm Tế Trung Hoa.
+# Tên KHÔNG có trong allowlist này và KHÔNG chứa "Lâm Tế" sẽ bị loại (None)
+# — xem phần "KHÔNG áp dụng cho MỌI dharmaLineageName" ở docstring trên.
+GLOBAL_THIENTONG_LINEAGES = frozenset({
+    'Thiền Tông Ấn Độ',
+    'Thiền Tông Trung Hoa',
+    'Thiền Tông Trung Hoa - Nam Tông',
+    'Thiền Tông Trung Hoa - Bắc Tông',
+    'Ngưu Đầu Tông Trung Hoa',
+    'Tông Quy Ngưỡng Trung Hoa',
+    'Kinh Lượng Bộ',    # Cưu Ma La Đa — đã đối chiếu khớp đời Tổ Ấn Độ thứ 19
+    'Bát Tông',         # Bồ Tát Long Thọ — đã đối chiếu khớp đời Tổ Ấn Độ thứ 14
+})
+
+
+def is_lamte_lineage(lineage_name):
+    """True nếu dharmaLineageName thuộc dòng Lâm Tế (Trung Hoa hoặc Việt Nam,
+    bất kể phân nhánh Dương Kỳ/Hoàng Long/Gia Phổ/Chúc Thánh/Liễu Quán/...).
+    Dùng substring vì có nhiều biến thể tên nhánh Lâm Tế Việt Nam và tên mới
+    có thể xuất hiện thêm trong tương lai — tất cả đã kiểm chứng nối đúng
+    mạch số toàn cục (xem docstring đầu file)."""
+    return bool(lineage_name) and 'Lâm Tế' in lineage_name
+
+
+def is_global_thientong_lineage(lineage_name):
+    """True nếu generationOrder của dharmaLineageName này là số đời Thiền
+    Tông TOÀN CỤC (an toàn để gán thẳng cho gen_thientong)."""
+    return bool(lineage_name) and (
+        is_lamte_lineage(lineage_name) or lineage_name in GLOBAL_THIENTONG_LINEAGES
+    )
+
+
+def resolve_global_gens(gen_order, lineage_name):
+    """
+    Trả về (gen_lamte, gen_thientong) cho một generationOrder + dharmaLineageName
+    đọc từ TTL, theo công thức mới (T379 follow-up, mốc Admin xác nhận 2026-11-07).
+
+    - Nếu lineage_name KHÔNG nằm trong is_global_thientong_lineage(): trả về
+      (None, None) — KHÔNG đoán số đời khi chưa xác minh được hệ đếm.
+    - Nếu có: gen_thientong = gen_order; gen_lamte = gen_order - 37 CHỈ khi
+      lineage_name thuộc dòng Lâm Tế, ngược lại gen_lamte = None.
+    """
+    if gen_order is None or not is_global_thientong_lineage(lineage_name):
+        return None, None
+    gen_thientong = gen_order
+    gen_lamte = (gen_order - THIENTONG_LAMTE_OFFSET) if is_lamte_lineage(lineage_name) else None
+    return gen_lamte, gen_thientong
+
 
 DILA_ROOT          = 'thich_ca_mau_ni_phat'
 DILA_THIENTONG_OFF = 1    # gen_thientong = bfs_depth - 1  (depth 2 = Thiền Tông đời 1)
@@ -141,7 +264,10 @@ def setup_tables(conn):
 
     CREATE INDEX IF NOT EXISTS idx_pgc_pid ON person_gen_computed(person_id);
     """)
-    conn.commit()
+    # KHÔNG commit ở đây — toàn bộ ETL (drop/create/seed/compute) phải nằm
+    # trong CÙNG MỘT transaction với verify_anchors() ở cuối main(). Nếu
+    # verify_anchors() phát hiện mốc sai, main() sẽ rollback() và bảng cũ
+    # (trước DROP TABLE) sẽ còn nguyên vì chưa có gì được commit.
     print("✓ Tables OK")
 
 
@@ -157,7 +283,7 @@ def seed_founders(conn, founders):
         (lineage_name, lineage_key, khai_to_id, khai_to_name_vi, khai_to_gen)
         VALUES (?,?,?,?,?)
     """, rows)
-    conn.commit()
+    # Không commit — xem chú thích trong setup_tables().
     print(f"✓ {len(rows)} tông phái / Khai Tổ seeded")
     return rows
 
@@ -167,8 +293,10 @@ def seed_founders(conn, founders):
 def compute_slug_monks(conn, ttl_persons):
     """
     Đọc từ TTL trực tiếp (1030 persons đủ data), không phụ thuộc DB sync.
-    Mỗi monk: gen_lamte = generationOrder, gen_thientong = gen_lamte + 37,
-               gen_sect = gen_lamte - khai_to_gen + 1
+    Mỗi monk (xem resolve_global_gens() / công thức mới ở đầu file):
+        gen_thientong = generationOrder   (nếu lineage nằm trong allowlist global)
+        gen_lamte     = generationOrder - 37   (chỉ nếu lineage chứa "Lâm Tế")
+        gen_sect      = generationOrder - khai_to_gen + 1
     """
     cur = conn.cursor()
 
@@ -178,14 +306,16 @@ def compute_slug_monks(conn, ttl_persons):
 
     rows = []
     no_founder = set()
+    excluded_lineages = set()
     for slug, p in ttl_persons.items():
         if p['gen_order'] is None or not p['lineage']:
             continue
         pid        = slug
         gen_order  = p['gen_order']
         lineage    = p['lineage']
-        gen_lamte     = gen_order
-        gen_thientong = gen_order + LAMTE_TO_THIENTONG
+        gen_lamte, gen_thientong = resolve_global_gens(gen_order, lineage)
+        if gen_thientong is None:
+            excluded_lineages.add(lineage)
 
         if lineage in lineage_map:
             lkey, khai_to_gen = lineage_map[lineage]
@@ -201,16 +331,22 @@ def compute_slug_monks(conn, ttl_persons):
         (person_id, lineage_key, lineage_name, gen_sect, gen_lamte, gen_thientong)
         VALUES (?,?,?,?,?,?)
     """, rows)
-    conn.commit()
+    # Không commit — xem chú thích trong setup_tables().
     print(f"✓ TTL monks: {len(rows)} bản ghi (từ {len(ttl_persons)} TTL persons)")
     if no_founder:
         print(f"  ⚠ {len(no_founder)} tông phái không có Khai Tổ: {sorted(no_founder)}")
+    if excluded_lineages:
+        print(
+            f"  ⚠ {len(excluded_lineages)} dharmaLineageName KHÔNG nằm trong "
+            f"allowlist global (gen_thientong/gen_lamte để TRỐNG, cần Admin "
+            f"xác nhận nếu cần bổ sung): {sorted(excluded_lineages)}"
+        )
     return len(rows)
 
 
 # ─── 3b. Kế thừa tông phái theo graph (slug monks chưa có dharmaLineageName) ─
 
-def propagate_lineage_to_descendants(conn, children, ttl_persons):
+def propagate_lineage_to_descendants(conn, children, node_ns, ttl_persons):
     """
     BFS từ mỗi Khai Tổ (slug graph).
     Gán lineage cho đệ tử chưa có dharmaLineageName.
@@ -219,6 +355,10 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
     Ưu tiên: Khai Tổ có gen_order LỚN HƠN (hậu duệ) sẽ chạy SAU,
     ghi đè lineage của tổ xa hơn → đệ tử trực tiếp của Chúc Thánh Khai Tổ
     sẽ được gán Chúc Thánh, không phải Gia Phổ.
+
+    node_ns: person_id -> 'DILA'/'TTL_LOCAL' (T379, xem build_children()).
+    Dùng thay cho heuristic cũ `pid.startswith('A')` để lọc id DILA — không
+    đổi logic tính đời (gen), chỉ đổi cách xác định một id là DILA hay không.
     """
     cur = conn.cursor()
 
@@ -244,8 +384,20 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
 
     # BFS map: person_id → (lkey, lname, gen_sect, gen_lamte) từ propagation
     inherited = {}
+    skipped_non_global = set()
 
     for khai_to_id, lkey, lname, khai_to_gen in founders:
+        if khai_to_gen is None:
+            continue
+        if not is_global_thientong_lineage(lname):
+            # Khai Tổ thuộc lineage KHÔNG nằm trong allowlist global (ví dụ
+            # "Đại thừa", "Tịnh Độ Tông" — xem docstring đầu file) → không
+            # lan truyền gen_thientong/gen_lamte cho đệ tử, tránh gán số đời
+            # cục bộ sai thành số đời Thiền Tông toàn cục.
+            skipped_non_global.add(lname)
+            continue
+        is_lamte = is_lamte_lineage(lname)
+
         # BFS từ Khai Tổ xuống slug graph
         q = deque([(khai_to_id, 1)])  # (person_id, gen_sect_so_far)
         visited = set()
@@ -265,17 +417,23 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
 
                 # Gán (ghi đè nếu đã có từ founder cha — vì ta chạy cha trước con)
                 if monk_gen is not None:
-                    gl = monk_gen
-                    gt = monk_gen + LAMTE_TO_THIENTONG
+                    # Người này có generationOrder riêng trong TTL/DB — đây
+                    # ĐÃ LÀ số đời Thiền Tông toàn cục (không +37 như bản cũ).
+                    gl = (monk_gen - THIENTONG_LAMTE_OFFSET) if is_lamte else None
+                    gt = monk_gen
                     gs = monk_gen - khai_to_gen + 1
                 else:
+                    # Không có generationOrder riêng — suy từ khoảng cách BFS
+                    # tới Khai Tổ. khai_to_gen đã là số đời Thiền Tông toàn cục
+                    # của Khai Tổ (generationOrder trong TTL), nên công thức
+                    # dưới cũng ra số đời toàn cục, không cần +37.
                     gs = gen_sect
-                    gl = khai_to_gen + gen_sect - 1
-                    gt = gl + LAMTE_TO_THIENTONG
+                    gt = khai_to_gen + gen_sect - 1
+                    gl = (gt - THIENTONG_LAMTE_OFFSET) if is_lamte else None
                 inherited[pid] = (lkey, lname, gs, gl, gt)
 
             for child in children.get(pid, []):
-                if child not in visited and not child.startswith('A'):
+                if child not in visited and node_ns.get(child, 'DILA') != 'DILA':
                     child_lineage, _ = monk_data.get(child, ('', None))
                     # Chỉ BFS tiếp nếu child chưa có lineage riêng hoặc cùng lineage
                     if not child_lineage or child_lineage == lname:
@@ -286,7 +444,7 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
     cur.execute("SELECT DISTINCT person_id FROM person_gen_computed")
     already = {r[0] for r in cur.fetchall()}
     for pid, (lkey, lname, gs, gl, gt) in inherited.items():
-        if pid not in already and not pid.startswith('A'):
+        if pid not in already and node_ns.get(pid, 'DILA') != 'DILA':
             new_rows.append((pid, lkey, lname, gs, gl, gt))
 
     if new_rows:
@@ -295,31 +453,69 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
             (person_id, lineage_key, lineage_name, gen_sect, gen_lamte, gen_thientong)
             VALUES (?,?,?,?,?,?)
         """, new_rows)
-        conn.commit()
+        # Không commit — xem chú thích trong setup_tables().
         print(f"✓ Propagation: +{len(new_rows)} đệ tử kế thừa tông phái")
     else:
         print("  (Không có đệ tử nào cần kế thừa)")
+    if skipped_non_global:
+        print(
+            f"  ⚠ {len(skipped_non_global)} Khai Tổ KHÔNG nằm trong allowlist "
+            f"global, bỏ qua lan truyền gen_thientong/gen_lamte cho đệ tử "
+            f"(cần Admin xác nhận nếu cần bổ sung): {sorted(skipped_non_global)}"
+        )
     return len(new_rows)
 
 
 # ─── 4. Tính gen cho DILA monks (BFS) ────────────────────────────────────────
 
 def build_children(conn):
+    """Trả về (children, node_ns).
+
+    children: teacher_id -> [disciple_id, ...] (giữ nguyên hành vi cũ).
+    node_ns: person_id -> 'DILA' | 'TTL_LOCAL', đọc từ cột teacher_ns/
+    disciple_ns (T379 — xem docs/design/T379-lineage-edge-consensus-ns-design.md
+    §3) nếu cột đã tồn tại trong lineage_edge_consensus; nếu DB chưa có cột này
+    (chưa migrate), coi mọi node là 'DILA' — giữ hành vi tương đương heuristic
+    cũ `pid.startswith('A')` trên DB cũ, để script chạy được trên DB khác chưa
+    migrate ns.
+    """
     cur = conn.cursor()
-    cur.execute("SELECT teacher_id, disciple_id FROM lineage_edge_consensus")
+    has_ns = bool(cur.execute(
+        "SELECT 1 FROM pragma_table_info('lineage_edge_consensus') WHERE name='teacher_ns'"
+    ).fetchone())
+
     ch = {}
-    for t, d in cur.fetchall():
-        ch.setdefault(t, []).append(d)
-    print(f"✓ Edge map: {sum(len(v) for v in ch.values())} edges, {len(ch)} teacher nodes")
-    return ch
+    node_ns = {}
+    if has_ns:
+        cur.execute(
+            "SELECT teacher_id, disciple_id, teacher_ns, disciple_ns FROM lineage_edge_consensus"
+        )
+        for t, d, t_ns, d_ns in cur.fetchall():
+            ch.setdefault(t, []).append(d)
+            node_ns[t] = t_ns or 'DILA'
+            node_ns[d] = d_ns or 'DILA'
+    else:
+        cur.execute("SELECT teacher_id, disciple_id FROM lineage_edge_consensus")
+        for t, d in cur.fetchall():
+            ch.setdefault(t, []).append(d)
+            node_ns[t] = 'DILA'
+            node_ns[d] = 'DILA'
+
+    print(f"✓ Edge map: {sum(len(v) for v in ch.values())} edges, {len(ch)} teacher nodes"
+          + ("" if has_ns else " (cột ns chưa tồn tại — mặc định 'DILA' cho mọi node)"))
+    return ch, node_ns
 
 
-def compute_dila_monks(conn, children):
+def compute_dila_monks(conn, children, node_ns):
     """
     BFS từ Thích Ca qua DILA graph (A-prefix IDs).
     gen_thientong = depth - 1   (Ma Ha Ca Diếp = depth 2 = Thiền Tông đời 1)
     gen_lamte     = depth - 37  (Lâm Tế Nghĩa Huyền = depth 38 = đời 1)
     gen_sect      = None  (DILA không phân biệt tông phái)
+
+    node_ns: person_id -> 'DILA'/'TTL_LOCAL' (T379, xem build_children()).
+    Dùng thay cho heuristic cũ `pid.startswith('A')` để chọn node DILA khi
+    ghi person_gen_computed — không đổi logic BFS/tính đời.
     """
     cur = conn.cursor()
     cur.execute("SELECT COUNT(*) FROM lineage_edge_consensus WHERE teacher_id=?", (DILA_ROOT,))
@@ -338,7 +534,7 @@ def compute_dila_monks(conn, children):
 
     rows = []
     for pid, depth in gmap.items():
-        if pid.startswith('A') or pid == DILA_ROOT:  # chỉ DILA nodes
+        if node_ns.get(pid, 'DILA') == 'DILA' or pid == DILA_ROOT:  # chỉ DILA nodes
             gt = depth - DILA_THIENTONG_OFF
             gl = depth - DILA_LAMTE_OFF
             gl_stored = gl if gl > 0 else None
@@ -349,12 +545,166 @@ def compute_dila_monks(conn, children):
         (person_id, lineage_key, lineage_name, gen_sect, gen_lamte, gen_thientong)
         VALUES (?,?,?,?,?,?)
     """, rows)
-    conn.commit()
+    # Không commit — xem chú thích trong setup_tables().
     print(f"✓ DILA monks: {len(rows)} bản ghi")
     return len(rows)
 
 
-# ─── 5. Report ────────────────────────────────────────────────────────────────
+# ─── 5. Verify anchors (33 vị Khai Tổ Thiền Tông — Admin khóa 2026-11-07) ────
+#
+# Script này DROP + build lại lineage_founders/person_gen_computed nhưng
+# KHÔNG tự kiểm tra kết quả — sai số sẽ bị ghi vào DB mà không báo lỗi gì.
+# verify_anchors() là lưới an toàn: đối chiếu các mốc đời đã được Admin
+# xác nhận là chắc chắn. Nếu có mốc sai/không tìm được, main() sẽ rollback
+# toàn bộ transaction (bảng cũ giữ nguyên) và thoát với mã lỗi khác 0.
+# Cơ chế rollback/commit trong main() KHÔNG đổi — chỉ nguồn + cách tra của
+# ANCHOR_SPECS/verify_anchors() đổi (xem T379 follow-up #2 dưới).
+#
+# ─── T379 follow-up #2 (2026-11-07) — ĐỔI SANG dila_id LÀM KHÓA TRA ─────────
+# Bản trước tra person_id bằng LIKE theo khai_to_name_vi (tên trong TTL) —
+# vi phạm quy tắc naming-and-identity.md: "Display name ... không bao giờ
+# là join key". Bản mới đọc bộ neo 33 vị Khai Tổ Thiền Tông (28 Tổ Ấn Độ +
+# 5 Tổ Trung Hoa, đến Lục Tổ Huệ Năng) từ file scripts/anchors_thientong.json
+# — mỗi mục đã được Admin khóa với DILA Person ID xác minh trực tiếp (định
+# dạng A\d+, xem docs/rules/naming-and-identity.md). verify_anchors() tra
+# THẲNG person_gen_computed.person_id = dila_id — không qua lineage_founders,
+# không LIKE theo tên. 11/33 vị (đời 4,7,9,10,11,13,16,18,19,21,22 của 28 Tổ
+# Ấn Độ) CHƯA có DILA ID đã kiểm chứng trong bản khóa này → trạng_thái
+# "unresolved" trong file JSON, bị load_anchor_specs() loại khỏi ANCHOR_SPECS
+# (không đoán ID, không đưa vào check).
+
+ANCHORS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'anchors_thientong.json')
+
+_DILA_ID_RE = re.compile(r'^A\d+$')
+
+
+def load_anchors_file(path=None):
+    """
+    Đọc scripts/anchors_thientong.json → trả về list 33 dict mốc (đời, tên
+    Việt, tên Hán, dila_id, trạng_thái, nguồn/ghi chú). Hỗ trợ cả 2 dạng:
+    file là list thẳng, hoặc dict có key "anchors" (dạng hiện tại, có thêm
+    "_meta" mô tả nguồn gốc/ngày khóa).
+    """
+    p = path or ANCHORS_FILE
+    with open(p, encoding='utf-8') as f:
+        raw = json.load(f)
+    return raw['anchors'] if isinstance(raw, dict) and 'anchors' in raw else raw
+
+
+def build_anchor_specs(anchors=None):
+    """
+    Lọc các mục trạng_thái=="locked" VÀ có dila_id hợp lệ (dạng A\\d+) từ
+    danh sách neo → trả về ANCHOR_SPECS cho verify_anchors(). Mục
+    "unresolved" (chưa có ID xác minh) bị BỎ QUA — không đoán ID. Mục trùng
+    dila_id (không nên xảy ra — xem test riêng kiểm file JSON) chỉ giữ lần
+    xuất hiện đầu tiên, phòng hờ.
+    """
+    items = anchors if anchors is not None else load_anchors_file()
+    specs = []
+    seen_ids = set()
+    for a in items:
+        if a.get('trang_thai') != 'locked':
+            continue
+        dila_id = a.get('dila_id')
+        if not dila_id or not _DILA_ID_RE.match(dila_id):
+            continue
+        if dila_id in seen_ids:
+            continue
+        seen_ids.add(dila_id)
+        specs.append({
+            'label':   a.get('ten_viet') or dila_id,
+            'dila_id': dila_id,
+            'checks':  {'gen_thientong': a['doi']},
+        })
+    return specs
+
+
+ANCHOR_SPECS = build_anchor_specs()
+
+
+def verify_anchors(conn, anchor_specs=None):
+    """
+    Đối chiếu các mốc Khai Tổ Thiền Tông đã khóa (ANCHOR_SPECS, đọc từ
+    scripts/anchors_thientong.json) với dữ liệu VỪA được tính trong
+    transaction hiện tại (chưa commit). Tra THẲNG person_gen_computed theo
+    person_id = dila_id — không qua tên, không qua lineage_founders (xem
+    docs/rules/naming-and-identity.md: không dùng tên làm join key).
+
+    Trả về (ok: bool, messages: list[str]) — hợp đồng giữ nguyên như bản
+    trước (main() không cần đổi gì ở phần commit/rollback):
+      - ok=True  khi mọi mốc được tìm thấy DUY NHẤT và khớp đúng giá trị.
+      - ok=False khi có mốc: không tìm thấy, tìm thấy nhiều hơn 1 bản ghi
+        person_gen_computed cho cùng dila_id (ambiguous), bản ghi tồn tại
+        nhưng gen_* đều NULL (ETL chưa tính), hoặc giá trị tính toán sai
+        lệch so với mốc chuẩn.
+    """
+    specs = anchor_specs if anchor_specs is not None else ANCHOR_SPECS
+    cur = conn.cursor()
+    ok = True
+    messages = []
+
+    for spec in specs:
+        label   = spec['label']
+        dila_id = spec['dila_id']
+
+        cur.execute("""
+            SELECT person_id, lineage_key, gen_sect, gen_lamte, gen_thientong
+            FROM person_gen_computed
+            WHERE person_id = ?
+        """, (dila_id,))
+        rows = cur.fetchall()
+
+        if len(rows) == 0:
+            ok = False
+            messages.append(
+                f"✗ Mốc '{label}' (dila_id={dila_id}): KHÔNG TÌM THẤY bản ghi "
+                f"trong person_gen_computed. Không đủ dữ liệu để xác nhận "
+                f"mốc này — coi như KHÔNG ĐẠT."
+            )
+            continue
+
+        if len(rows) > 1:
+            ok = False
+            lkeys = ', '.join(r[1] for r in rows)
+            messages.append(
+                f"✗ Mốc '{label}' (dila_id={dila_id}): có {len(rows)} bản ghi "
+                f"person_gen_computed (lineage_key: {lkeys}) — không xác định "
+                f"rõ ràng (ambiguous), cần Admin làm rõ."
+            )
+            continue
+
+        person_id, lineage_key, gen_sect, gen_lamte, gen_thientong = rows[0]
+
+        if gen_sect is None and gen_lamte is None and gen_thientong is None:
+            ok = False
+            messages.append(
+                f"✗ Mốc '{label}' (dila_id={dila_id}): có bản ghi trong "
+                f"person_gen_computed nhưng tất cả gen_* đều NULL (ETL chưa "
+                f"tính đời cho mốc này)."
+            )
+            continue
+
+        actual = {
+            'gen_sect':      gen_sect,
+            'gen_lamte':     gen_lamte,
+            'gen_thientong': gen_thientong,
+        }
+        for field, expected in spec['checks'].items():
+            got = actual.get(field)
+            if got != expected:
+                ok = False
+                messages.append(
+                    f"✗ Mốc '{label}' (dila_id={dila_id}) SAI LỆCH tại "
+                    f"'{field}': mong đợi {expected}, thực tế {got!r}."
+                )
+
+    if ok:
+        messages.append(f"✓ Tất cả {len(specs)} mốc chuẩn khớp đúng.")
+
+    return ok, messages
+
+
+# ─── 6. Report ────────────────────────────────────────────────────────────────
 
 def report(conn):
     cur = conn.cursor()
@@ -412,25 +762,56 @@ def main():
 
     conn = sqlite3.connect(DB_PATH)
 
-    # Bước 2: Drop + recreate
-    conn.execute("DROP TABLE IF EXISTS lineage_founders")
-    conn.execute("DROP TABLE IF EXISTS person_gen_computed")
-    conn.commit()
-    setup_tables(conn)
-    seed_founders(conn, founders)
+    # TOÀN BỘ các bước dưới đây (drop/create/seed/compute) chạy trong ĐÚNG
+    # MỘT transaction — không có conn.commit() nào ở giữa. Transaction chỉ
+    # commit() nếu verify_anchors() ở Bước 6 xác nhận mọi mốc chuẩn đều khớp;
+    # nếu không, rollback() sẽ hoàn tác cả DROP TABLE, khiến bảng cũ (trước
+    # khi script này chạy) còn nguyên như ban đầu.
+    try:
+        # Bước 2: Drop + recreate
+        conn.execute("DROP TABLE IF EXISTS lineage_founders")
+        conn.execute("DROP TABLE IF EXISTS person_gen_computed")
+        setup_tables(conn)
+        seed_founders(conn, founders)
 
-    # Bước 3: TTL monks (đọc thẳng từ file, không qua DB sync)
-    compute_slug_monks(conn, ttl_persons)
+        # Bước 3: TTL monks (đọc thẳng từ file, không qua DB sync)
+        compute_slug_monks(conn, ttl_persons)
 
-    # Bước 3b: Kế thừa tông phái qua graph (đệ tử chưa có dharmaLineageName)
-    children = build_children(conn)
-    propagate_lineage_to_descendants(conn, children, ttl_persons)
+        # Bước 3b: Kế thừa tông phái qua graph (đệ tử chưa có dharmaLineageName)
+        children, node_ns = build_children(conn)
+        propagate_lineage_to_descendants(conn, children, node_ns, ttl_persons)
 
-    # Bước 4: DILA monks (BFS toàn cục)
-    compute_dila_monks(conn, children)
+        # Bước 4: DILA monks (BFS toàn cục)
+        compute_dila_monks(conn, children, node_ns)
 
-    # Bước 5: Report
-    report(conn)
+        # Bước 5: Report
+        report(conn)
+
+        # Bước 6: Kiểm tra mốc chuẩn — ĐIỀU KIỆN BẮT BUỘC để commit.
+        print(f"\n{'='*55}")
+        print("Kiểm tra mốc chuẩn (verify_anchors)...")
+        anchors_ok, anchor_messages = verify_anchors(conn)
+        for m in anchor_messages:
+            print(f"  {m}")
+
+        if not anchors_ok:
+            conn.rollback()
+            print(
+                "\n✗ THẤT BẠI: một hoặc nhiều mốc chuẩn không khớp hoặc "
+                "không tìm được. Đã ROLLBACK — bảng lineage_founders và "
+                "person_gen_computed GIỮ NGUYÊN như trước khi chạy script này. "
+                "Không có gì được ghi vào DB."
+            )
+            conn.close()
+            sys.exit(1)
+
+        conn.commit()
+        print("\n✓ Mốc chuẩn khớp đúng — đã COMMIT.")
+    except Exception:
+        conn.rollback()
+        conn.close()
+        raise
+
     conn.close()
     print("\n✓ Hoàn tất.")
 
