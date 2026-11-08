@@ -34,10 +34,24 @@
     },
     {
       "nhanh": "Quy Ngưỡng tông",
-      "ten_viet": "Ngưỡng Sơn Huệ Tịch", "ten_han": null,
-      "dila_id": null, "doi": null, "buoc_tu_capdiep": null,
-      "trang_thai": "unresolved",
-      "nguon_ghichu": "A009491: BFS qua lineage_edge_consensus tra ra đời 36 qua nhánh KHÁC (A001719→A001707→A008874→A009491), KHÔNG qua Quy Sơn. Mâu thuẫn với quan hệ thầy-trò đã biết (đệ tử trực tiếp Quy Sơn đời 37 ⇒ phải là đời 38). Admin xác nhận 2026-11-07: để unresolved, KHÔNG khóa dila_id/đời cho tới khi làm rõ edge data (xem data-integrity.md)."
+      "ten_viet": "Ngưỡng Sơn Huệ Tịch", "ten_han": "仰山慧寂",
+      "dila_id": "A009491", "doi": 38, "buoc_tu_capdiep": 37,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Đệ tử Quy Sơn Linh Hựu (đời 37) ⇒ đời 38. Admin xác nhận 2026-11-08: A009491 đúng; từ Mã Tổ (đời 35) là đời thứ 3. Trước đó để unresolved (2026-11-07) do BFS tra ra đường qua nhánh khác; Admin đã chốt đời 38."
+    },
+    {
+      "nhanh": "Tông phái ngoài Thiền (đời 1 = khai tổ tông)",
+      "ten_viet": "Trí Khải (Thiên Thai / Pháp Hoa)", "ten_han": "智顗",
+      "dila_id": "A001301", "doi": 1, "buoc_tu_capdiep": 0,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai tổ Thiên Thai tông (Pháp Hoa). DILA ghi rõ là khai tổ. Thầy: Huệ Tư. Admin xác nhận 2026-11-08. Không thuộc đồ thị truyền thừa Thiền (không BFS từ Ma Ha Ca Diếp)."
+    },
+    {
+      "nhanh": "Tông phái ngoài Thiền (đời 1 = khai tổ tông)",
+      "ten_viet": "Long Thọ (Tam Luận)", "ten_han": "龍樹",
+      "dila_id": "A001482", "doi": 1, "buoc_tu_capdiep": 0,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai tổ Tam Luận tông. DILA xác định Long Thọ thuộc 'Thiền tông Tây Thiên nhị thập bát tổ' và liên quan truyền thụ. Admin xác nhận 2026-11-08. Không trùng với 隆壽 (A046539). Không thuộc đồ thị truyền thừa Thiền (không BFS từ Ma Ha Ca Diếp)."
     },
     {
       "nhanh": "Lâm Tế tông",

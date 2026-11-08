@@ -45,6 +45,14 @@ EXPECTED_LOCKED = {
     'A003921': 45,   # Hoàng Long Huệ Nam
     'A004146': 45,   # Dương Kỳ Phương Hội
     'A000174': 40,   # Pháp Nhãn Văn Ích (nối pháp La Hán Quế Sâm A010683, đời 39)
+    'A009491': 38,   # Ngưỡng Sơn Huệ Tịch (Admin xác nhận 2026-11-08, đệ tử Quy Sơn đời 37)
+}
+
+# Khai tổ tông NGOÀI Thiền: không nằm trong đồ thị truyền thừa Thiền (không BFS
+# từ Ma Ha Ca Diếp), quy ước đời 1 = khai tổ tông (Admin 2026-11-08).
+EXPECTED_NON_THIEN = {
+    'A001301': 1,    # Trí Khải (Thiên Thai / Pháp Hoa)
+    'A001482': 1,    # Long Thọ (Tam Luận)
 }
 
 # ID Admin xác nhận KHÔNG phải Tổ Thiền Tông — không được xuất hiện trong bộ
@@ -62,18 +70,18 @@ def test_anchors_file_exists():
     assert os.path.isfile(ANCHORS_FILE), f"Không tìm thấy {ANCHORS_FILE}"
 
 
-def test_reads_exactly_11_entries():
+def test_reads_exactly_13_entries():
     anchors = load_anchors()
-    assert len(anchors) == 11, f"Kỳ vọng 11 mục, thực tế {len(anchors)}"
+    assert len(anchors) == 13, f"Kỳ vọng 13 mục, thực tế {len(anchors)}"
 
 
 def test_split_locked_unresolved_counts():
     anchors = load_anchors()
     locked = [a for a in anchors if a['trang_thai'] == 'locked']
     unresolved = [a for a in anchors if a['trang_thai'] == 'unresolved']
-    assert len(locked) == 10, f"Kỳ vọng 10 locked, thực tế {len(locked)}"
-    assert len(unresolved) == 1, f"Kỳ vọng 1 unresolved, thực tế {len(unresolved)}"
-    assert {a['trang_thai'] for a in anchors} == {'locked', 'unresolved'}
+    assert len(locked) == 13, f"Kỳ vọng 13 locked, thực tế {len(locked)}"
+    assert len(unresolved) == 0, f"Kỳ vọng 0 unresolved, thực tế {len(unresolved)}"
+    assert {a['trang_thai'] for a in anchors} == {'locked'}
 
 
 def test_every_locked_entry_has_valid_dila_id_and_doi():
@@ -120,25 +128,35 @@ def test_locked_dila_ids_and_doi_match_bfs_verified_values():
     (xem docstring đầu file) — phát hiện lỗi gõ nhầm hoặc khóa sai đời."""
     anchors = load_anchors()
     by_id = {a['dila_id']: a for a in anchors if a['trang_thai'] == 'locked'}
-    assert set(by_id) == set(EXPECTED_LOCKED), (
+    expected = {**EXPECTED_LOCKED, **EXPECTED_NON_THIEN}
+    assert set(by_id) == set(expected), (
         f"Bộ dila_id locked thực tế {sorted(by_id)} khác kỳ vọng "
-        f"{sorted(EXPECTED_LOCKED)}"
+        f"{sorted(expected)}"
     )
-    for dila_id, expected_doi in EXPECTED_LOCKED.items():
+    for dila_id, expected_doi in expected.items():
         assert by_id[dila_id]['doi'] == expected_doi, (
             f"{dila_id}: kỳ vọng đời {expected_doi}, thực tế {by_id[dila_id]['doi']}"
         )
 
 
-def test_nguong_son_hue_tich_is_unresolved_not_locked():
-    """Ngưỡng Sơn Huệ Tịch (A009491): BFS tra ra đời 36 qua nhánh KHÁC Quy
-    Sơn, mâu thuẫn với quan hệ thầy-trò đã biết (phải là đời 38) — Admin xác
-    nhận 2026-11-07 để unresolved, không khóa dù BFS có tìm được một đường."""
+def test_nguong_son_hue_tich_is_locked_at_gen_38():
+    """Ngưỡng Sơn Huệ Tịch (A009491): Admin xác nhận 2026-11-08 — đệ tử Quy
+    Sơn (đời 37) ⇒ đời 38; từ Mã Tổ (đời 35) là đời thứ 3."""
     anchors = load_anchors()
     entry = next(a for a in anchors if a.get('ten_viet') == 'Ngưỡng Sơn Huệ Tịch')
-    assert entry['trang_thai'] == 'unresolved'
-    assert entry.get('dila_id') is None
-    assert entry.get('doi') is None
+    assert entry['trang_thai'] == 'locked'
+    assert entry.get('dila_id') == 'A009491'
+    assert entry.get('doi') == 38
+
+
+def test_non_thien_founders_are_gen_1():
+    """Khai tổ tông ngoài Thiền (Trí Khải, Long Thọ): đời 1 của tông đó."""
+    anchors = load_anchors()
+    for dila_id, doi in EXPECTED_NON_THIEN.items():
+        entry = next(a for a in anchors if a.get('dila_id') == dila_id)
+        assert entry['trang_thai'] == 'locked'
+        assert entry['doi'] == doi
+        assert entry['buoc_tu_capdiep'] == 0
 
 
 def test_phap_nhan_van_ich_is_locked_with_teacher_chain():
