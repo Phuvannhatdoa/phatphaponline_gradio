@@ -6394,7 +6394,11 @@ def _t148_get_extra(pid):
 
 def _t86_person_info(conn, pid):
     """Tên/niên hiệu/tông phái/môn phái cho một node lineage.
-    Ưu tiên marcus_reference → people (DILA) → ttl_persons (T186 danh tăng VN local)."""
+    Ưu tiên marcus_reference → people (DILA) → vn_person_authority (danh tăng
+    VN local / slug TTL_LOCAL, T379 — bảng 'ttl_persons' cũ (T186) không tồn
+    tại trong data/lineage.db thật nên fallback luôn OperationalError; đổi
+    sang vn_person_authority có dữ liệu thật, xem docs/design/
+    T379-lineage-edge-consensus-ns-design.md §3)."""
     marc = conn.execute(
         "SELECT label, label_vi, birth_year, death_year FROM marcus_reference WHERE node_id = ?",
         (pid,)
@@ -6402,21 +6406,18 @@ def _t86_person_info(conn, pid):
     person = conn.execute(
         "SELECT name_zh, name_vi, dynasty, sect, bio FROM people WHERE id = ?", (pid,)
     ).fetchone()
-    # T186: fallback sang ttl_persons nếu không có trong DILA
+    # T379 (thay T186): fallback sang vn_person_authority nếu không có trong DILA
     ttl_person = None
     if not person:
-        try:
-            ttl_person = conn.execute(
-                "SELECT name_vi, name_zh, note FROM ttl_persons WHERE id = ?", (pid,)
-            ).fetchone()
-        except sqlite3.OperationalError as e:
-            if 'no such table' not in str(e).lower():
-                raise
-            # ttl_persons table doesn't exist - ignore silently
-            pass
+        ttl_person = conn.execute(
+            "SELECT name_vi, name_zh, dharma_title, biographical_note_vi "
+            "FROM vn_person_authority WHERE id = ?",
+            (pid,)
+        ).fetchone()
     zh = (marc['label'] if marc and marc['label'] else None) \
         or (person['name_zh'] if person else None) \
-        or (ttl_person['name_zh'] if ttl_person else None) or pid
+        or (ttl_person['name_zh'] if ttl_person else None) \
+        or (ttl_person['dharma_title'] if ttl_person else None) or pid
     vi = None
     if marc and marc['label_vi'] and marc['label_vi'] != zh:
         vi = marc['label_vi']
@@ -6425,7 +6426,9 @@ def _t86_person_info(conn, pid):
     elif ttl_person and ttl_person['name_vi']:
         vi = ttl_person['name_vi']
     vi = vi or zh
-    # source_type giúp UI hiển thị badge "Danh tăng VN – TTL local"
+    # source_type giúp UI hiển thị badge "Danh tăng VN – TTL local" (giữ đúng
+    # tên giá trị 'ttl_local' có từ T186 — chỉ đổi nguồn fallback, không đổi
+    # contract field này cho frontend)
     source_type = 'ttl_local' if ttl_person else 'dila'
     return {
         "id": pid,
@@ -6436,7 +6439,7 @@ def _t86_person_info(conn, pid):
         "birth_year": (marc['birth_year'] if marc else None),
         "death_year": (marc['death_year'] if marc else None),
         "bio": (person['bio'] if person else None) or
-               (ttl_person['note'] if ttl_person else None) or None,
+               (ttl_person['biographical_note_vi'] if ttl_person else None) or None,
         "source_type": source_type,
     }
 
@@ -7249,20 +7252,14 @@ def api_monk_lineage_tree(dila_id):
 
     conn = get_db_connection()
     try:
-        # T186: Center có thể là DILA person hoặc danh tăng VN (ttl_persons)
+        # T379 (thay T186): Center có thể là DILA person hoặc danh tăng VN
+        # (vn_person_authority, slug TTL_LOCAL) — bảng 'ttl_persons' cũ không
+        # tồn tại trong data/lineage.db thật, đổi fallback sang vn_person_authority
+        # (xem docs/design/T379-lineage-edge-consensus-ns-design.md §3, đồng bộ
+        # với _t86_person_info()).
         exists = conn.execute("SELECT 1 FROM people WHERE id=?", (dila_id,)).fetchone()
         if not exists:
-            # T381 follow-up fix (2026-10-14): bảng ttl_persons không tồn tại trong
-            # DB thực tế (data/lineage.db) -> sqlite3.OperationalError "no such table"
-            # nếu không bắt riêng sẽ rơi xuống except Exception chung ở cuối hàm và
-            # trả 500 kèm message lộ chi tiết nội bộ. Bắt đúng lỗi "no such table" ở
-            # đây, trả 404 rõ ràng, không lộ stack trace.
-            try:
-                exists = conn.execute("SELECT 1 FROM ttl_persons WHERE id=?", (dila_id,)).fetchone()
-            except sqlite3.OperationalError as e:
-                if 'no such table' in str(e).lower():
-                    return jsonify({"ok": False, "error": "Không tìm thấy tăng nhân (person not found)"}), 404
-                raise
+            exists = conn.execute("SELECT 1 FROM vn_person_authority WHERE id=?", (dila_id,)).fetchone()
         if not exists:
             return jsonify({"ok": False, "error": "person not found"}), 404
         center = _t86_person_info(conn, dila_id)

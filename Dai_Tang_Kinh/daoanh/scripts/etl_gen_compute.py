@@ -346,7 +346,7 @@ def compute_slug_monks(conn, ttl_persons):
 
 # ─── 3b. Kế thừa tông phái theo graph (slug monks chưa có dharmaLineageName) ─
 
-def propagate_lineage_to_descendants(conn, children, ttl_persons):
+def propagate_lineage_to_descendants(conn, children, node_ns, ttl_persons):
     """
     BFS từ mỗi Khai Tổ (slug graph).
     Gán lineage cho đệ tử chưa có dharmaLineageName.
@@ -355,6 +355,10 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
     Ưu tiên: Khai Tổ có gen_order LỚN HƠN (hậu duệ) sẽ chạy SAU,
     ghi đè lineage của tổ xa hơn → đệ tử trực tiếp của Chúc Thánh Khai Tổ
     sẽ được gán Chúc Thánh, không phải Gia Phổ.
+
+    node_ns: person_id -> 'DILA'/'TTL_LOCAL' (T379, xem build_children()).
+    Dùng thay cho heuristic cũ `pid.startswith('A')` để lọc id DILA — không
+    đổi logic tính đời (gen), chỉ đổi cách xác định một id là DILA hay không.
     """
     cur = conn.cursor()
 
@@ -429,7 +433,7 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
                 inherited[pid] = (lkey, lname, gs, gl, gt)
 
             for child in children.get(pid, []):
-                if child not in visited and not child.startswith('A'):
+                if child not in visited and node_ns.get(child, 'DILA') != 'DILA':
                     child_lineage, _ = monk_data.get(child, ('', None))
                     # Chỉ BFS tiếp nếu child chưa có lineage riêng hoặc cùng lineage
                     if not child_lineage or child_lineage == lname:
@@ -440,7 +444,7 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
     cur.execute("SELECT DISTINCT person_id FROM person_gen_computed")
     already = {r[0] for r in cur.fetchall()}
     for pid, (lkey, lname, gs, gl, gt) in inherited.items():
-        if pid not in already and not pid.startswith('A'):
+        if pid not in already and node_ns.get(pid, 'DILA') != 'DILA':
             new_rows.append((pid, lkey, lname, gs, gl, gt))
 
     if new_rows:
@@ -465,21 +469,53 @@ def propagate_lineage_to_descendants(conn, children, ttl_persons):
 # ─── 4. Tính gen cho DILA monks (BFS) ────────────────────────────────────────
 
 def build_children(conn):
+    """Trả về (children, node_ns).
+
+    children: teacher_id -> [disciple_id, ...] (giữ nguyên hành vi cũ).
+    node_ns: person_id -> 'DILA' | 'TTL_LOCAL', đọc từ cột teacher_ns/
+    disciple_ns (T379 — xem docs/design/T379-lineage-edge-consensus-ns-design.md
+    §3) nếu cột đã tồn tại trong lineage_edge_consensus; nếu DB chưa có cột này
+    (chưa migrate), coi mọi node là 'DILA' — giữ hành vi tương đương heuristic
+    cũ `pid.startswith('A')` trên DB cũ, để script chạy được trên DB khác chưa
+    migrate ns.
+    """
     cur = conn.cursor()
-    cur.execute("SELECT teacher_id, disciple_id FROM lineage_edge_consensus")
+    has_ns = bool(cur.execute(
+        "SELECT 1 FROM pragma_table_info('lineage_edge_consensus') WHERE name='teacher_ns'"
+    ).fetchone())
+
     ch = {}
-    for t, d in cur.fetchall():
-        ch.setdefault(t, []).append(d)
-    print(f"✓ Edge map: {sum(len(v) for v in ch.values())} edges, {len(ch)} teacher nodes")
-    return ch
+    node_ns = {}
+    if has_ns:
+        cur.execute(
+            "SELECT teacher_id, disciple_id, teacher_ns, disciple_ns FROM lineage_edge_consensus"
+        )
+        for t, d, t_ns, d_ns in cur.fetchall():
+            ch.setdefault(t, []).append(d)
+            node_ns[t] = t_ns or 'DILA'
+            node_ns[d] = d_ns or 'DILA'
+    else:
+        cur.execute("SELECT teacher_id, disciple_id FROM lineage_edge_consensus")
+        for t, d in cur.fetchall():
+            ch.setdefault(t, []).append(d)
+            node_ns[t] = 'DILA'
+            node_ns[d] = 'DILA'
+
+    print(f"✓ Edge map: {sum(len(v) for v in ch.values())} edges, {len(ch)} teacher nodes"
+          + ("" if has_ns else " (cột ns chưa tồn tại — mặc định 'DILA' cho mọi node)"))
+    return ch, node_ns
 
 
-def compute_dila_monks(conn, children):
+def compute_dila_monks(conn, children, node_ns):
     """
     BFS từ Thích Ca qua DILA graph (A-prefix IDs).
     gen_thientong = depth - 1   (Ma Ha Ca Diếp = depth 2 = Thiền Tông đời 1)
     gen_lamte     = depth - 37  (Lâm Tế Nghĩa Huyền = depth 38 = đời 1)
     gen_sect      = None  (DILA không phân biệt tông phái)
+
+    node_ns: person_id -> 'DILA'/'TTL_LOCAL' (T379, xem build_children()).
+    Dùng thay cho heuristic cũ `pid.startswith('A')` để chọn node DILA khi
+    ghi person_gen_computed — không đổi logic BFS/tính đời.
     """
     cur = conn.cursor()
     cur.execute("SELECT COUNT(*) FROM lineage_edge_consensus WHERE teacher_id=?", (DILA_ROOT,))
@@ -498,7 +534,7 @@ def compute_dila_monks(conn, children):
 
     rows = []
     for pid, depth in gmap.items():
-        if pid.startswith('A') or pid == DILA_ROOT:  # chỉ DILA nodes
+        if node_ns.get(pid, 'DILA') == 'DILA' or pid == DILA_ROOT:  # chỉ DILA nodes
             gt = depth - DILA_THIENTONG_OFF
             gl = depth - DILA_LAMTE_OFF
             gl_stored = gl if gl > 0 else None
@@ -742,11 +778,11 @@ def main():
         compute_slug_monks(conn, ttl_persons)
 
         # Bước 3b: Kế thừa tông phái qua graph (đệ tử chưa có dharmaLineageName)
-        children = build_children(conn)
-        propagate_lineage_to_descendants(conn, children, ttl_persons)
+        children, node_ns = build_children(conn)
+        propagate_lineage_to_descendants(conn, children, node_ns, ttl_persons)
 
         # Bước 4: DILA monks (BFS toàn cục)
-        compute_dila_monks(conn, children)
+        compute_dila_monks(conn, children, node_ns)
 
         # Bước 5: Report
         report(conn)
