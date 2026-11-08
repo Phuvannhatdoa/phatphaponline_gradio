@@ -61,6 +61,15 @@
       "nguon_ghichu": "Khai tổ Ngưu Đầu tông (DILA ghi là khai tổ). Thầy: Đạo Tín (道信). Đệ tử: Đạo Kỳ, Đạo Bằng, Trí Nham (A006310). Admin xác nhận 2026-11-08. Không thuộc đồ thị truyền thừa Thiền (không BFS từ Ma Ha Ca Diếp)."
     },
     {
+      "nhanh": "Thiền Việt Nam - Vô Ngôn Thông (dòng khai tổ)",
+      "ten_viet": "Vô Ngôn Thông", "ten_han": "無言通",
+      "dila_id": "vo_ngon_thong", "id_source": "vn_person_authority",
+      "doi": 37, "buoc_tu_capdiep": 36,
+      "doi_dong_khai_to": 1,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Không có DILA ID. Khóa theo ID nội bộ vn_person_authority.id = 'vo_ngon_thong' (lineage.db). doi = 37 theo PG truyền thừa Thiền (Ma Ha Ca Diếp = 1; DB generation_order = 37; pháp tự Bách Trượng Hoài Hải). doi_dong_khai_to = 1: khai tổ dòng Vô Ngôn Thông Việt Nam. Admin xác nhận 2026-11-08 cả hai giá trị."
+    },
+    {
       "nhanh": "Lâm Tế tông",
       "ten_viet": "Lâm Tế Nghĩa Huyền", "ten_han": null,
       "dila_id": "A003627", "doi": 38, "buoc_tu_capdiep": 37,

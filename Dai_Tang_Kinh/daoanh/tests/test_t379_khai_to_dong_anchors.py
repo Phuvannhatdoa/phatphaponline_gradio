@@ -29,6 +29,8 @@ sys.path.insert(0, DAOANH)
 ANCHORS_FILE = os.path.join(DAOANH, 'scripts', 'anchors_khai_to_dong.json')
 
 DILA_ID_RE = re.compile(r'^A\d+$')
+# ID slug nội bộ của bảng vn_person_authority (ví dụ 'vo_ngon_thong')
+VN_SLUG_RE = re.compile(r'^[a-z0-9_]+$')
 
 # Mốc đã đối chiếu bằng BFS (relation_type='dharma_transmission',
 # consensus_status IN ('confirmed_2plus','single_source'), gốc A002188
@@ -46,6 +48,7 @@ EXPECTED_LOCKED = {
     'A004146': 45,   # Dương Kỳ Phương Hội
     'A000174': 40,   # Pháp Nhãn Văn Ích (nối pháp La Hán Quế Sâm A010683, đời 39)
     'A009491': 38,   # Ngưỡng Sơn Huệ Tịch (Admin xác nhận 2026-11-08, đệ tử Quy Sơn đời 37)
+    'vo_ngon_thong': 37,  # Vô Ngôn Thông (vn_person_authority); đời 37 theo PG Thiền; Admin 2026-11-08
 }
 
 # Khai tổ tông NGOÀI Thiền: không nằm trong đồ thị truyền thừa Thiền (không BFS
@@ -71,16 +74,16 @@ def test_anchors_file_exists():
     assert os.path.isfile(ANCHORS_FILE), f"Không tìm thấy {ANCHORS_FILE}"
 
 
-def test_reads_exactly_14_entries():
+def test_reads_exactly_15_entries():
     anchors = load_anchors()
-    assert len(anchors) == 14, f"Kỳ vọng 14 mục, thực tế {len(anchors)}"
+    assert len(anchors) == 15, f"Kỳ vọng 15 mục, thực tế {len(anchors)}"
 
 
 def test_split_locked_unresolved_counts():
     anchors = load_anchors()
     locked = [a for a in anchors if a['trang_thai'] == 'locked']
     unresolved = [a for a in anchors if a['trang_thai'] == 'unresolved']
-    assert len(locked) == 14, f"Kỳ vọng 14 locked, thực tế {len(locked)}"
+    assert len(locked) == 15, f"Kỳ vọng 15 locked, thực tế {len(locked)}"
     assert len(unresolved) == 0, f"Kỳ vọng 0 unresolved, thực tế {len(unresolved)}"
     assert {a['trang_thai'] for a in anchors} == {'locked'}
 
@@ -92,9 +95,15 @@ def test_every_locked_entry_has_valid_dila_id_and_doi():
             continue
         dila_id = a.get('dila_id')
         assert dila_id, f"Mục locked '{a.get('ten_viet')}' thiếu dila_id"
-        assert DILA_ID_RE.match(dila_id), (
-            f"dila_id '{dila_id}' không đúng định dạng A\\d+"
-        )
+        if a.get('id_source') == 'vn_person_authority':
+            # ID nội bộ slug của bảng vn_person_authority (Admin cho phép 2026-11-08)
+            assert VN_SLUG_RE.match(dila_id), (
+                f"id slug '{dila_id}' không đúng định dạng vn_person_authority"
+            )
+        else:
+            assert DILA_ID_RE.match(dila_id), (
+                f"dila_id '{dila_id}' không đúng định dạng A\\d+"
+            )
         assert isinstance(a.get('doi'), int), (
             f"Mục locked '{a.get('ten_viet')}' thiếu đời (int)"
         )
@@ -148,6 +157,17 @@ def test_nguong_son_hue_tich_is_locked_at_gen_38():
     assert entry['trang_thai'] == 'locked'
     assert entry.get('dila_id') == 'A009491'
     assert entry.get('doi') == 38
+
+
+def test_vo_ngon_thong_has_both_generation_values():
+    """Vô Ngôn Thông: đời 37 theo PG Thiền (khớp generation_order trong
+    vn_person_authority) VÀ đời 1 của dòng khai tổ Việt Nam (Admin 2026-11-08)."""
+    anchors = load_anchors()
+    entry = next(a for a in anchors if a.get('dila_id') == 'vo_ngon_thong')
+    assert entry['trang_thai'] == 'locked'
+    assert entry['id_source'] == 'vn_person_authority'
+    assert entry['doi'] == 37
+    assert entry['doi_dong_khai_to'] == 1
 
 
 def test_non_thien_founders_are_gen_1():
