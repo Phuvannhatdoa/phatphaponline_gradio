@@ -46,8 +46,10 @@ MANUAL_DDL = [
 ]
 
 # Điều kiện "code đã tính được số đời" cho một người (bất kỳ cột nào có giá trị).
-_COMPUTED_OK = ("v.id IN (SELECT person_id FROM person_gen_computed "
-                "WHERE gen_sect IS NOT NULL OR gen_lamte IS NOT NULL OR gen_thientong IS NOT NULL)")
+_COMPUTED_OK = ("(v.id IN (SELECT person_id FROM person_gen_computed "
+                "WHERE gen_sect IS NOT NULL OR gen_lamte IS NOT NULL OR gen_thientong IS NOT NULL) "
+                "OR v.dila_id IN (SELECT person_id FROM person_gen_computed "
+                "WHERE lineage_key='dila_global' AND gen_thientong IS NOT NULL))")
 
 
 def _now():
