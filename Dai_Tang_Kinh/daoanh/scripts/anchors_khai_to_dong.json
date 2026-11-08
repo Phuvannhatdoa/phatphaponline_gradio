@@ -70,9 +70,9 @@
     {
       "nhanh": "Pháp Nhãn tông",
       "ten_viet": "Pháp Nhãn Văn Ích", "ten_han": null,
-      "dila_id": null, "doi": null, "buoc_tu_capdiep": null,
-      "trang_thai": "unresolved",
-      "nguon_ghichu": "Khai Tổ Pháp Nhãn tông (1 trong Ngũ Gia Thất Tông) - CHƯA có DILA ID đã kiểm chứng. Để trống, không đoán ID (docs/rules/naming-and-identity.md: tên không bao giờ là join key)."
+      "dila_id": "A000174", "doi": 40, "buoc_tu_capdiep": 39,
+      "trang_thai": "locked",
+      "nguon_ghichu": "Khai Tổ Pháp Nhãn tông (1 trong Ngũ Gia Thất Tông). DILA A000174 = 文益 (Văn Ích). Nối pháp dòng La Hán Quế Sâm (A010683, đời 39), đời 40. Admin xác nhận 2026-11-08 (dòng thầy Quế Sâm; thầy thứ hai Toàn Vĩ A010729 không nối được về gốc)."
     },
     {
       "nhanh": "Lâm Tế - Hoàng Long",

@@ -44,6 +44,7 @@ EXPECTED_LOCKED = {
     'A003703': 39,   # Vân Môn Văn Yển
     'A003921': 45,   # Hoàng Long Huệ Nam
     'A004146': 45,   # Dương Kỳ Phương Hội
+    'A000174': 40,   # Pháp Nhãn Văn Ích (nối pháp La Hán Quế Sâm A010683, đời 39)
 }
 
 # ID Admin xác nhận KHÔNG phải Tổ Thiền Tông — không được xuất hiện trong bộ
@@ -70,8 +71,8 @@ def test_split_locked_unresolved_counts():
     anchors = load_anchors()
     locked = [a for a in anchors if a['trang_thai'] == 'locked']
     unresolved = [a for a in anchors if a['trang_thai'] == 'unresolved']
-    assert len(locked) == 9, f"Kỳ vọng 9 locked, thực tế {len(locked)}"
-    assert len(unresolved) == 2, f"Kỳ vọng 2 unresolved, thực tế {len(unresolved)}"
+    assert len(locked) == 10, f"Kỳ vọng 10 locked, thực tế {len(locked)}"
+    assert len(unresolved) == 1, f"Kỳ vọng 1 unresolved, thực tế {len(unresolved)}"
     assert {a['trang_thai'] for a in anchors} == {'locked', 'unresolved'}
 
 
@@ -140,11 +141,14 @@ def test_nguong_son_hue_tich_is_unresolved_not_locked():
     assert entry.get('doi') is None
 
 
-def test_phap_nhan_van_ich_is_unresolved_no_id():
+def test_phap_nhan_van_ich_is_locked_with_teacher_chain():
+    """Pháp Nhãn Văn Ích (A000174, 文益): Admin xác nhận 2026-11-08, nối pháp
+    dòng La Hán Quế Sâm (A010683, đời 39) → đời 40."""
     anchors = load_anchors()
     entry = next(a for a in anchors if a.get('ten_viet') == 'Pháp Nhãn Văn Ích')
-    assert entry['trang_thai'] == 'unresolved'
-    assert entry.get('dila_id') is None
+    assert entry['trang_thai'] == 'locked'
+    assert entry.get('dila_id') == 'A000174'
+    assert entry.get('doi') == 40
 
 
 def test_excluded_dila_ids_never_appear_in_anchors():
