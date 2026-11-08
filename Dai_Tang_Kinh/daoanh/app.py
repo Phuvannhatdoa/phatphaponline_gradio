@@ -27633,6 +27633,10 @@ app.register_blueprint(create_ttl_profile_blueprint(
 from api_ttl_anchor import create_ttl_anchor_blueprint
 app.register_blueprint(create_ttl_anchor_blueprint(os.path.dirname(__file__), get_db_connection))
 
+# T380: số đời nhập tay (Admin) cho người chưa có số đời theo code.
+from api_manual_generation import create_manual_generation_blueprint
+app.register_blueprint(create_manual_generation_blueprint(os.path.dirname(__file__), get_db_connection))
+
 # ─────────────── T445: Wizard endpoints (B0-B9) ───────────────
 # NOTE: WebSocket real-time monitoring was specified but not implemented.
 # Using polling via /daoanh/api/admin/batch-monitor (alias batch-status) instead.
