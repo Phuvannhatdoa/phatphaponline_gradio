@@ -765,13 +765,16 @@ def main():
     # TOÀN BỘ các bước dưới đây (drop/create/seed/compute) chạy trong ĐÚNG
     # MỘT transaction — không có conn.commit() nào ở giữa. Transaction chỉ
     # commit() nếu verify_anchors() ở Bước 6 xác nhận mọi mốc chuẩn đều khớp;
-    # nếu không, rollback() sẽ hoàn tác cả DROP TABLE, khiến bảng cũ (trước
-    # khi script này chạy) còn nguyên như ban đầu.
+    # nếu không, rollback() sẽ hoàn tác cả các lệnh DELETE, khiến dữ liệu cũ
+    # (trước khi script này chạy) còn nguyên như ban đầu.
     try:
-        # Bước 2: Drop + recreate
-        conn.execute("DROP TABLE IF EXISTS lineage_founders")
-        conn.execute("DROP TABLE IF EXISTS person_gen_computed")
+        # Bước 2: Tạo bảng nếu chưa có, rồi xóa có phạm vi (KHÔNG DROP).
+        # - lineage_founders: seed_founders() tự DELETE và nạp lại toàn bộ.
+        # - person_gen_computed: chỉ xóa các lineage_key do ETL này tạo lại.
+        #   Giữ nguyên 'dila_global' (số đời Thiền Tông từ t380_restore_dila_global.py,
+        #   ETL không tự tái tạo được vì gốc thich_ca_mau_ni_phat không có cạnh).
         setup_tables(conn)
+        conn.execute("DELETE FROM person_gen_computed WHERE lineage_key <> 'dila_global'")
         seed_founders(conn, founders)
 
         # Bước 3: TTL monks (đọc thẳng từ file, không qua DB sync)
