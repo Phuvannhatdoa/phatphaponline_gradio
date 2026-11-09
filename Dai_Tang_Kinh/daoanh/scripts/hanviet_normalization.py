@@ -19,7 +19,9 @@ from functools import lru_cache
 # không phải lỗi fcntl. Dù vậy, bỏ lệ thuộc pathlib ở đây để loại hẳn chuỗi
 # import đã bị nêu trong handoff, không đổi hành vi SCRIPT_DIR/DB_PATH.
 SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(SCRIPT_DIR, 'data', 'lineage.db')
+# T167 (2026-11-07): cho phép override DB qua biến môi trường T50_DB_PATH (cùng
+# quy ước với t50_passage_vi_backfill.py). Không đặt biến → hành vi cũ giữ nguyên.
+DB_PATH = os.environ.get('T50_DB_PATH') or os.path.join(SCRIPT_DIR, 'data', 'lineage.db')
 
 # Common English/Pinyin → Hán-Việt for Buddhist context
 # These are forms Google Translate hallucinates most often

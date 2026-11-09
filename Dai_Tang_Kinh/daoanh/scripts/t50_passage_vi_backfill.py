@@ -296,6 +296,37 @@ def call_groq(prompt, key, model, max_attempts=8):
     return None
 
 
+# ── T167 validator adapter (2026-11-07, Admin Phương án A) ─────────────────
+# Gắn validator T167 (scripts/translation_validator.py::validate_text) vào lô
+# T50 ở CHẾ ĐỘ CHỈ KIỂM TRA: chạy SAU khi có draft từ Groq (sau call_groq, sau
+# clean/normalize, TRƯỚC khi ghi passage.vi_text), ghi kết quả ra file JSON
+# RIÊNG (data/t50_validation_report.jsonl, append 1 dòng/passage). Tuyệt đối
+# KHÔNG đổi passage.vi_text / translation_draft / translation_cache hiện có —
+# chỉ là lớp quan sát thêm. Lỗi validator (import thiếu, exception bất kỳ) chỉ
+# in log cảnh báo, KHÔNG chặn lô dịch. Tắt bằng cờ --no-validate (mặc định BẬT).
+#
+# GHI CHÚ: kết quả validate_text() chỉ là CỜ THAM KHẢO — layer B/E/G đầy đủ
+# (provenance translation_segments, canonical person/place DILA, ruleset
+# compliance) CHƯA được áp dụng ở adapter này. Xem docstring translation_validator.py.
+VALIDATION_REPORT_PATH = os.path.join(DAOANH, 'data', 't50_validation_report.jsonl')
+
+
+def t167_validate_and_log(passage_id, raw_text, draft_text, ref, conn, enabled=True):
+    """Gọi validate_text() (T167) và append 1 dòng JSON vào VALIDATION_REPORT_PATH.
+    KHÔNG ghi vào lineage.db. KHÔNG sửa draft_text. KHÔNG raise ra ngoài — mọi lỗi
+    (kể cả import translation_validator thất bại) chỉ in cảnh báo rồi return."""
+    if not enabled:
+        return
+    try:
+        from translation_validator import validate_text as _t167_validate_text
+        result = _t167_validate_text(raw_text, draft_text, ref=ref, con=conn)
+        result['passage_id'] = passage_id
+        with open(VALIDATION_REPORT_PATH, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(result, ensure_ascii=False) + '\n')
+    except Exception as _e:
+        print(f'    ⚠ validator T167 lỗi (bỏ qua, KHÔNG chặn lô dịch): {_e}')
+
+
 def source_hash(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()[:24]
 
@@ -363,6 +394,9 @@ def main():
     ap.add_argument('--sleep', type=float, default=0.2, help='giây ngủ giữa mỗi gọi Groq')
     ap.add_argument('--verify', action='store_true', help='thống kê trạng thái hiện tại')
     ap.add_argument('--revert', action='store_true', help='rollback: xoá vi_text + cache đã đổ')
+    ap.add_argument('--no-validate', action='store_true',
+                     help='T167: tắt validator (mặc định BẬT) — chỉ ghi cờ tham khảo vào '
+                          'data/t50_validation_report.jsonl, KHÔNG đổi passage.vi_text/cache')
     args = ap.parse_args()
 
     conn = sqlite3.connect(DB_PATH)
@@ -471,6 +505,8 @@ def main():
             text = clean_llm_output(text)
             text = (hanviet_normalize(text) or text).strip()
             if text:
+                t167_validate_and_log(r['passage_id'], raw, text, ref, conn,
+                                       enabled=not args.no_validate)
                 conn.execute(
                     "UPDATE passage SET vi_text=?, translation_draft=1 WHERE passage_id=?",
                     (text, r['passage_id']))
