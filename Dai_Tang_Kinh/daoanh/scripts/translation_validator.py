@@ -18,6 +18,13 @@ Usage:
     python scripts/translation_validator.py <translation_id>
     python scripts/translation_validator.py --job <job_id>
     python scripts/translation_validator.py --work <work_id> --status unreviewed
+
+T167 (2026-11-07, Phương án A — Admin chốt): thêm hàm validate_text(source_text,
+draft_text, ref=None, con=None) — adapter CHỈ KIỂM TRA cho pipeline chưa ghi
+translation_segments (ví dụ lô T50 passage backfill, ghi passage.vi_text +
+translation_cache). Hàm này KHÔNG ghi DB, KHÔNG sửa draft, chỉ trả cờ tham khảo.
+Layer B (provenance)/E (canonical name đầy đủ)/G (ruleset compliance) CHƯA áp
+dụng ở adapter này — xem khối "TEXT ADAPTER" bên dưới.
 """
 import argparse
 import json
@@ -209,6 +216,112 @@ def layer_g_ruleset(seg, con):
     # Cần source_text và logic phức tạp hơn → L0 validator chỉ check existence
     forbidden_rules = [r for r in rules if r['rule_type'] == 'forbidden']
     return 'PASS', f'{len(rules)} rules active ({len(forbidden_rules)} forbidden)'
+
+
+# ======================= TEXT ADAPTER (T167, 2026-11-07) =======================
+#
+# Bối cảnh: lô dịch T50 (scripts/t50_passage_vi_backfill.py) ghi
+# passage.vi_text + translation_cache, KHÔNG ghi translation_segments
+# (không có translation_id, ruleset_id, prompt_version... như validate_translation()
+# cần). Admin đã chọn Phương án A (2026-11-07): gắn validator T167 vào lô T50
+# ở CHẾ ĐỘ CHỈ KIỂM TRA — validate_text() dưới đây KHÔNG đụng
+# validate_translation()/validate_job() hiện có, KHÔNG ghi DB, KHÔNG sửa draft.
+#
+# QUAN TRỌNG — kết quả validate_text() CHỈ LÀ CỜ THAM KHẢO:
+#   - Layer A/C/F ở đây là bản RÚT GỌN của layer_a_schema/layer_c_omission_addition/
+#     layer_f_sanity (không cần bản ghi translation_segments đầy đủ, không có
+#     alignment/provenance DB thật).
+#   - Layer D (terminology) chỉ chạy best-effort nếu đọc được glossary; lỗi đọc
+#     glossary KHÔNG làm hỏng kết quả (tối đa REVIEW, không raise).
+#   - Layer B (provenance translation_segments), E (canonical person/place lookup
+#     DILA/places/namevi_map đầy đủ) và G (ruleset compliance) CHƯA được áp dụng
+#     trong validate_text() — cần translation_segments thật để chạy đúng, xem
+#     validate_translation() ở trên.
+def validate_text(source_text, draft_text, ref=None, con=None):
+    """T167 Phase 4 — Adapter validator cho văn bản rời (KHÔNG cần translation_segments).
+
+    Dùng cho pipeline chưa ghi translation_segments (ví dụ T50 passage backfill):
+    chỉ có cặp (source_text Hán gốc, draft_text bản dịch nháp) + ref tham khảo
+    (ví dụ "T50n2060 0001a01"). KHÔNG ghi DB, KHÔNG sửa draft_text — chỉ trả dict
+    kết quả cùng định dạng {'overall', 'layers': [...]} như validate_translation().
+
+    Args:
+        source_text: nguyên văn Hán (CBETA raw_text).
+        draft_text: bản dịch nháp AI (sau clean/normalize, trước khi ghi DB).
+        ref: chuỗi tham khảo để log (loc_ref/sigla); không dùng để tra DB.
+        con: sqlite3 connection (tuỳ chọn) — chỉ dùng cho layer D khi cần;
+             None vẫn chạy được (layer D tự fallback glossary rỗng).
+
+    Returns:
+        dict {'ref', 'overall': PASS|REVIEW|FAIL, 'layers': [...], 'mode', 'validated_at'}
+        — KHÔNG bao giờ raise ra ngoài (mọi lỗi layer bị bắt riêng, hạ xuống REVIEW).
+    """
+    layers = []
+    overall = ['PASS']  # list để mutate trong closure (Python 2/3 an toàn, không cần nonlocal)
+
+    def _update(status):
+        if status == 'FAIL':
+            overall[0] = 'FAIL'
+        elif status == 'REVIEW' and overall[0] == 'PASS':
+            overall[0] = 'REVIEW'
+
+    # Layer A (rút gọn) — schema/rỗng
+    try:
+        if not (source_text or '').strip():
+            status, msg = 'FAIL', 'source_text rỗng'
+        elif not (draft_text or '').strip():
+            status, msg = 'FAIL', 'draft_text rỗng'
+        else:
+            status, msg = 'PASS', ''
+    except Exception as e:
+        status, msg = 'REVIEW', f'Layer A lỗi (bỏ qua, không chặn): {e}'
+    layers.append({'layer': 'A', 'status': status, 'message': msg})
+    _update(status)
+
+    # Layer C (rút gọn) — echo nguyên văn Hán + tỷ lệ độ dài (không cần DB alignment)
+    try:
+        zh = source_text or ''
+        vi = draft_text or ''
+        if zh_norm(vi) == zh_norm(zh):
+            status, msg = 'FAIL', 'Echo nguyên văn Hán (chưa dịch)'
+        elif len(zh) == 0:
+            status, msg = 'FAIL', 'Nguyên bản rỗng'
+        else:
+            ratio = len(vi) / len(zh)
+            if not (RATIO_MIN <= ratio <= RATIO_MAX):
+                status, msg = 'REVIEW', f'Tỷ lệ ký tự {ratio:.2f} ngoài [{RATIO_MIN}-{RATIO_MAX}]'
+            else:
+                status, msg = 'PASS', ''
+    except Exception as e:
+        status, msg = 'REVIEW', f'Layer C lỗi (bỏ qua, không chặn): {e}'
+    layers.append({'layer': 'C', 'status': status, 'message': msg})
+    _update(status)
+
+    # Layer D (rút gọn, best-effort) — glossary lock, chỉ kiểm nếu đọc được
+    try:
+        seg_like = {'translation_text': draft_text or '', 'source_text': source_text or ''}
+        status, msg = layer_d_terminology(seg_like, con)
+    except Exception as e:
+        status, msg = 'REVIEW', f'Layer D không đọc được glossary (bỏ qua, không chặn): {e}'
+    layers.append({'layer': 'D', 'status': status, 'message': msg})
+    _update(status)
+
+    # Layer F — sanity tiếng Việt (ký tự Việt, cấu trúc câu)
+    try:
+        status, msg = layer_f_sanity({'translation_text': draft_text or ''})
+    except Exception as e:
+        status, msg = 'REVIEW', f'Layer F lỗi (bỏ qua, không chặn): {e}'
+    layers.append({'layer': 'F', 'status': status, 'message': msg})
+    _update(status)
+
+    return {
+        'ref': ref,
+        'overall': overall[0],
+        'layers': layers,
+        'mode': 'validate_text-adapter-CHI-KIEM-TRA-T167',
+        'note': 'Chỉ cờ tham khảo; layer B/E/G đầy đủ chưa áp dụng (cần translation_segments thật).',
+        'validated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+    }
 
 
 # ======================= MAIN VALIDATOR =======================

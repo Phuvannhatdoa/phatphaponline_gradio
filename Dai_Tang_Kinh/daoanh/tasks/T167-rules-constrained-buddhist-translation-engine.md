@@ -15,6 +15,67 @@ done_when: >
   T95 worker KHÔNG rebuild, translation_rules KHÔNG tạo bảng song song; mọi thay đổi revert được 1 lệnh.
 ---
 
+## TÓM TẮT CHO ADMIN (viết không kỹ thuật)
+
+### Task này làm gì?
+
+Hệ thống đã có sẵn một luồng dịch máy cho kinh Phật (T95). Task T167 thêm một lớp **kiểm soát chất lượng** vào luồng đó, để bản dịch máy:
+
+- **Đi theo quy tắc dịch đã duyệt** (gọi là "Hiến chương dịch" / Translation Constitution): cách dịch thuật ngữ, tên riêng, giọng văn.
+- **Được kiểm tra tự động** trước khi đến người, bằng các bước kiểm tra cố định, không dùng AI để chấm.
+- **Được học giả duyệt** trước khi trở thành bản **GOLD** (bản chuẩn, được tin dùng).
+
+Task này **không xây lại** từ đầu. Nó mở rộng công cụ T95 đang chạy.
+
+### Luồng xử lý sau khi hoàn thành
+
+1. **Lấy một đoạn kinh** từ CBETA.
+2. **Cắt thành đơn vị nhỏ** (mỗi đơn vị là một câu hoặc một ý ngắn, để dễ kiểm soát).
+3. **Gắn quy tắc dịch** cho từng đơn vị (mỗi đơn vị ghi rõ đang dùng bộ quy tắc nào).
+4. **Cung cấp ngữ cảnh** cho mô hình AI: nghĩa từ điển từ DILA, bảng thuật ngữ tiếng Việt (glossary_vi), và ngữ cảnh gốc từ CBETA.
+5. **Mô hình dịch** (Qwen3.8-27B, chạy qua dịch vụ Groq) tạo bản dịch.
+6. **Kiểm tra tự động** (validator): bản dịch có vi phạm quy tắc không, thuật ngữ có đúng không.
+7. **Học giả duyệt** (Human Scholarly Review) trên giao diện review.
+8. **Được duyệt thì thành GOLD.**
+
+### Đã làm xong
+
+- **Phase 1:** cấu trúc dữ liệu (schema) và Hiến chương dịch.
+- **Hợp đồng hạn mức worker:** worker biết khi đã hết hạn mức Groq (trạng thái `quota_exhausted`), không tính là lỗi dịch.
+- **Phase 4, bản đầu:** bộ kiểm tra tự động (validator), chạy theo các mức L0 đến L3.
+- **Phase 0:** kiểm tra hiện trạng (chỉ đọc), xác nhận các chỗ thiếu thật sự cần bổ sung.
+
+### Còn phải làm
+
+- **Nạp dữ liệu seed vào database:** đưa Hiến chương và bộ quy tắc vào DB thật (hiện mới có trong code).
+- **Gắn validator vào pipeline và giao diện review** để học giả thấy kết quả kiểm tra.
+- **Benchmark:** đo chất lượng và độ ổn định của bản dịch.
+- **Duyệt GOLD:** học giả chốt các bản chuẩn đầu tiên.
+
+### Nguyên tắc cần giữ
+
+- **Không xây lại T95.** Không tạo bảng quy tắc dịch song song với hệ thống hiện có.
+- **Mọi thay đổi phải hoàn tác được bằng một lệnh.**
+
+### Thuật ngữ
+
+| Thuật ngữ | Nghĩa đơn giản |
+|---|---|
+| **CBETA** | Kho kinh Phật Hán tạng gốc, nguồn văn bản chính |
+| **DILA** | Nguồn từ điển thuật ngữ Phật học |
+| **glossary_vi** | Bảng thuật ngữ tiếng Việt đã chuẩn hóa của dự án |
+| **Hiến chương dịch** | Bộ quy tắc dịch mà mọi bản dịch phải tuân theo |
+| **Validator** | Bộ kiểm tra tự động, chạy theo quy tắc cố định |
+| **Seed** | Dữ liệu ban đầu được nạp vào database |
+| **Worker** | Tiến trình chạy nền gọi mô hình AI để dịch |
+| **Quota exhausted** | Đã hết hạn mức gọi API, phải chờ hoặc đổi nguồn |
+| **GOLD** | Bản dịch đã được học giả duyệt, dùng làm chuẩn |
+| **Rollback** | Quay lại trạng thái trước khi thay đổi |
+
+---
+
+## Chi tiết kỹ thuật (giữ nguyên)
+
 # T167 - Rules-Constrained Buddhist Translation Engine
 
 **Status:** in_progress (2026-09-24) - SPEC ĐÃ HIỆU CHỈNH THEO AUDIT THẬT + Phase 1 (Schema + Constitution) DONE + worker quota contract DONE + Phase 4 validator DONE (bản đầu, additive). Còn: seed tồn tại trong DB, tích hợp validator vào pipeline/UI review, benchmark, GOLD. Xem mục "BUILD PROGRESS".
