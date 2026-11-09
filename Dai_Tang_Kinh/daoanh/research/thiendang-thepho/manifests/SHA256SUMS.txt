@@ -1,0 +1,3 @@
+0020c4847b8107260e8674233d7833fd590cccafba2210d0ac479edd88ff75eb  data/cbeta/xml-p5-full/X/X86/X86n1601.xml
+a8e08889d080b3bf8645328f30a30e33b16771ce927232311d1d59fac2fc155b  research/thiendang-thepho/manifests/source-header.xml
+d0605e420264d5d3d84e98e0b44f419d5fcde623981d0857812e787d6c984819  research/thiendang-thepho/manifests/source-manifest.json

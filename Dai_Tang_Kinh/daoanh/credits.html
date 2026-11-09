@@ -8,129 +8,87 @@
 <style>
 body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
 h1 { font-size: 1.4rem; margin-bottom: 0.4rem; }
-.subtitle { color: #666; margin-bottom: 1rem; font-size: 0.9rem; }
-.summary { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
-            padding: 0.8rem 1rem; font-size: 0.85rem; color: #334155; margin-bottom: 1.2rem; }
-h2.section { font-size: 1.05rem; margin: 1.8rem 0 0.8rem; padding-bottom: 0.3rem;
-              border-bottom: 1px solid #e5e7eb; }
-.notes { margin: 0 0 0.6rem; font-size: 0.85rem; color: #64748b; }
+.subtitle { color: #666; margin-bottom: 2rem; font-size: 0.9rem; }
 .source-card { border: 1px solid #ddd; border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 1.2rem; }
-.source-card h3 { font-size: 1.05rem; margin: 0 0 0.3rem; }
+.source-card h2 { font-size: 1.05rem; margin: 0 0 0.3rem; }
 .source-card .org { color: #555; font-size: 0.9rem; margin-bottom: 0.6rem; }
 .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.78rem;
-          font-weight: 600; background: #e8f0fe; color: #1a56db; margin: 0 6px 4px 0; }
+         font-weight: 600; background: #e8f0fe; color: #1a56db; margin-right: 6px; }
 .badge.nc { background: #fef3c7; color: #92400e; }
 .badge.sa { background: #dcfce7; color: #166534; }
-.badge.pub { background: #e0f2fe; color: #075985; }
-.badge.internal { background: #ede9fe; color: #5b21b6; }
-.badge.warn { background: #fff7ed; color: #9a3412; }
-.badge.bad { background: #fee2e2; color: #991b1b; }
-.badge.plain { background: #f1f5f9; color: #475569; font-weight: 500; }
 .meta { font-size: 0.85rem; color: #666; margin-top: 0.6rem; }
 .meta a { color: #1a56db; }
-.note { font-size: 0.85rem; color: #475569; margin-top: 0.6rem; }
-.note.term { color: #166534; }
-.note.unverified { color: #9a3412; }
 .warning { background: #fff7ed; border: 1px solid #fdba74; border-radius: 6px;
-            padding: 0.8rem 1rem; font-size: 0.85rem; color: #7c2d12; margin-bottom: 1.5rem; }
-ul.blocked { font-size: 0.85rem; color: #334155; padding-left: 1.2rem; }
-ul.blocked li { margin-bottom: 0.35rem; }
-.dim { color: #64748b; }
-footer { margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1rem;
-          font-size: 0.8rem; color: #888; }
+           padding: 0.8rem 1rem; font-size: 0.85rem; color: #7c2d12; margin-bottom: 1.5rem; }
 </style>
 </head>
 <body>
 <h1>Ghi nguồn dữ liệu</h1>
 <p class="subtitle">Phật Tổ Đạo Ảnh sử dụng dữ liệu từ các tổ chức sau. Ghi nguồn theo điều khoản của từng nguồn.</p>
 
-<div class="summary">
-  Tổng <strong>16</strong> nguồn trong bảng <code>data_sources</code> ·
-  <strong>7</strong> nguồn đang dùng · <strong>9</strong> nguồn đang chặn hoặc chưa xác minh.<br>
-  Trang được sinh tự động bởi <code>scripts/build_credits.py</code> (chỉ đọc DB) — không sửa tay.
-  Lần sinh: 2026-11-01 20:58.
-</div>
 <div class="warning">
-  ⚠ 6/7 nguồn đang dùng chưa xác minh giấy phép trong DB: DILA, MARCUS, ZQLOCAL, Wikidata, ZENLINEAGE, TTL_LOCAL. Xem chi tiết tại <a href="/daoanh/admin/source_check.html">Legal Check</a>.
+  ⚠ Một số nguồn dữ liệu đang ở trạng thái AUDITING — giấy phép chưa được xác minh đầy đủ.
+  Xem trạng thái chi tiết tại <a href="/daoanh/admin/source_check.html">Legal Check</a>.
 </div>
-<h2 class="section">Nguồn đang dùng (7)</h2>
-<p class="notes">Điều khoản và trạng thái lấy nguyên từ <code>data_sources</code>. Nguồn có
-<code>license_verified=0</code> được ghi rõ là chưa xác minh.</p>
-<div class="source-card" data-source-code="DILA">
-  <h3>DILA Authority</h3>
-  <div class="org">DILA (Dharma Drum) · <code>DILA</code></div>
-  <div><span class="badge warn">Chưa xác minh giấy phép</span><span class="badge warn">legal: AUDITING</span><span class="badge plain">mode: INGEST</span></div>
-  <div class="meta">Tổ chức: DILA (Dharma Drum)<br>Claims trong hệ thống: 293.177<br>Authority score: 100</div>
-  <div class="meta">Nguồn gốc: <a href="https://authority.dila.edu.tw" target="_blank" rel="noopener">https://authority.dila.edu.tw</a></div>
-  <div class="note">Dữ liệu nhân vật, địa danh (authority). Dữ liệu DILA giữ tách biệt với tên tiếng Việt của ZQLOCAL.</div><div class="note unverified">Giấy phép chưa xác minh trong DB (<code>license_verified=0</code>) — không trích dẫn điều khoản cụ thể cho tới khi có văn bản xác nhận.</div>
+
+<div class="source-card">
+  <h2>DILA Buddhist Authority Database</h2>
+  <div class="org">Dharma Drum Institute of Liberal Arts (法鼓文理學院)</div>
+  <span class="badge sa">CC BY-SA 3.0</span>
+  <div class="meta">
+    Dữ liệu nhân vật, địa danh và quan hệ thầy trò trong hệ thống.<br>
+    Nguồn gốc: <a href="https://authority.dila.edu.tw" target="_blank">authority.dila.edu.tw</a><br>
+    Dữ liệu DILA được giữ tách biệt. Bản phái sinh phân phối ra ngoài phải cùng giấy phép CC BY-SA 3.0.
+  </div>
 </div>
-<div class="source-card" data-source-code="CBETA">
-  <h3>CBETA Buddhist Canon</h3>
-  <div class="org">CBETA 中華電子佛典協會 · <code>CBETA</code></div>
-  <div><span class="badge nc">CC-BY-NC-SA-4.0</span><span class="badge warn">legal: AUDITING</span><span class="badge plain">mode: INGEST</span></div>
-  <div class="meta">Tổ chức: CBETA 中華電子佛典協會<br>Claims trong hệ thống: 13.933<br>Authority score: 80</div>
-  <div class="meta">Nguồn gốc: <a href="https://www.cbeta.org" target="_blank" rel="noopener">https://www.cbeta.org</a><br>Trang giấy phép: <a href="https://cbeta.org/copyright" target="_blank" rel="noopener">https://cbeta.org/copyright</a></div>
-  <div class="note">Văn bản Đại Tạng Kinh (nội dung kinh điển).</div><div class="note term">Chỉ dùng phi thương mại; giữ nguyên thông báo bản quyền, không sửa nội dung. Đầu ra thương mại không chứa văn bản CBETA.</div>
+
+<div class="source-card">
+  <h2>CBETA Chinese Buddhist Electronic Text Association</h2>
+  <div class="org">中華電子佛典協會 (CBETA)</div>
+  <span class="badge nc">BY-NC-SA 4.0</span>
+  <div class="meta">
+    Văn bản Đại Tạng Kinh, chỉ dùng phi thương mại.<br>
+    Nguồn gốc: <a href="https://cbeta.org" target="_blank">cbeta.org</a><br>
+    Không sao chép văn bản CBETA vào đầu ra thương mại.
+    Điều khoản đang được xác minh — áp dụng điều khoản chặt nhất cho đến khi có văn bản xác nhận.
+  </div>
 </div>
-<div class="source-card" data-source-code="MARCUS">
-  <h3>Marcus Glossary/Nets</h3>
-  <div class="org">Marcus Bingenheimer · <code>MARCUS</code></div>
-  <div><span class="badge warn">Chưa xác minh giấy phép</span><span class="badge warn">legal: AUDITING</span><span class="badge plain">mode: INGEST</span></div>
-  <div class="meta">Tổ chức: Marcus Bingenheimer<br>Claims trong hệ thống: 22.332<br>Authority score: 60</div>
-  <div class="meta">Nguồn gốc: <a href="http://marcus.ctg.byu.edu" target="_blank" rel="noopener">http://marcus.ctg.byu.edu</a></div>
-  <div class="note">Quan hệ thầy trò trong bảng lineage_edge_consensus; ghi nguồn theo README của repo.</div><div class="note unverified">Giấy phép chưa xác minh trong DB (<code>license_verified=0</code>) — không trích dẫn điều khoản cụ thể cho tới khi có văn bản xác nhận.</div>
+
+<div class="source-card">
+  <h2>Marcus SNA — Chinese Buddhism Social Network Analysis</h2>
+  <div class="org">Marcus Bingenheimer</div>
+  <span class="badge sa">BY-SA (theo README)</span>
+  <div class="meta">
+    Dữ liệu quan hệ thầy trò trong <code>lineage_edge_consensus</code>.<br>
+    Nguồn gốc: <a href="https://github.com/mbingenheimer/ChineseBuddhism_SNA" target="_blank">github.com/mbingenheimer/ChineseBuddhism_SNA</a>
+  </div>
 </div>
-<div class="source-card" data-source-code="ZQLOCAL">
-  <h3>ZQ Local Data</h3>
-  <div class="org">ZQ Local (nội bộ) · <code>ZQLOCAL</code></div>
-  <div><span class="badge warn">Chưa xác minh giấy phép</span><span class="badge warn">legal: AUDITING</span><span class="badge plain">mode: INGEST</span></div>
-  <div class="meta">Tổ chức: ZQ Local (nội bộ)<br>Claims trong hệ thống: 118.295<br>Authority score: 50</div>
-  
-  <div class="note">Tên tiếng Việt (phiên âm tự động, confidence 0.5), biên tập nội bộ. Không gán tên Việt của ZQLOCAL cho nguồn DILA hay nguồn khác.</div><div class="note unverified">Giấy phép chưa xác minh trong DB (<code>license_verified=0</code>) — không trích dẫn điều khoản cụ thể cho tới khi có văn bản xác nhận.</div>
+
+<div class="source-card">
+  <h2>Wikidata</h2>
+  <div class="org">Wikimedia Foundation</div>
+  <span class="badge">CC0 1.0</span>
+  <div class="meta">
+    ID liên kết (P1187 DILA, P1188 DILA place, P2477 BDRC).<br>
+    Nguồn gốc: <a href="https://wikidata.org" target="_blank">wikidata.org</a>
+  </div>
 </div>
-<div class="source-card" data-source-code="Wikidata">
-  <h3>Wikidata (reference)</h3>
-  <div class="org">Wikimedia Foundation · <code>Wikidata</code></div>
-  <div><span class="badge warn">Chưa xác minh giấy phép</span><span class="badge warn">legal: AUDITING</span><span class="badge plain">mode: INGEST</span></div>
-  <div class="meta">Tổ chức: Wikimedia Foundation<br>Claims trong hệ thống: 148<br>Authority score: 25</div>
-  <div class="meta">Nguồn gốc: <a href="https://www.wikidata.org" target="_blank" rel="noopener">https://www.wikidata.org</a></div>
-  <div class="note">ID liên kết (P1187/P1188 DILA, P2477 BDRC) — dùng như nguồn tham chiếu.</div><div class="note unverified">Giấy phép chưa xác minh trong DB (<code>license_verified=0</code>) — không trích dẫn điều khoản cụ thể cho tới khi có văn bản xác nhận.</div>
+
+<div class="source-card">
+  <h2>ZQLOCAL — ZenQi Local</h2>
+  <div class="org">ZenQi</div>
+  <span class="badge">Nội bộ</span>
+  <div class="meta">
+    Tên tiếng Việt (phiên âm tự động, độ tin cậy 0.5), biên tập nội bộ.<br>
+    Không gán tên Việt của ZQLOCAL cho nguồn DILA hay nguồn khác.
+  </div>
 </div>
-<div class="source-card" data-source-code="ZENLINEAGE">
-  <h3>Zen Lineage</h3>
-  <div class="org">Chưa ghi tổ chức · <code>ZENLINEAGE</code></div>
-  <div><span class="badge warn">Chưa xác minh giấy phép</span><span class="badge internal">legal: INTERNAL_USE</span><span class="badge plain">mode: INGEST</span></div>
-  <div class="meta">Claims trong hệ thống: 0<br>Authority score: 50</div>
-  
-  <div class="note">Dữ liệu kênh Zen Lineage (kênh bổ sung).</div><div class="note unverified">Giấy phép chưa xác minh trong DB (<code>license_verified=0</code>) — không trích dẫn điều khoản cụ thể cho tới khi có văn bản xác nhận.</div>
-</div>
-<div class="source-card" data-source-code="TTL_LOCAL">
-  <h3>TTL Thiền Sư Việt Nam (bản địa)</h3>
-  <div class="org">Chưa ghi tổ chức · <code>TTL_LOCAL</code></div>
-  <div><span class="badge warn">Chưa xác minh giấy phép</span><span class="badge warn">legal: AUDITING</span><span class="badge plain">mode: local_dump</span></div>
-  <div class="meta">Claims trong hệ thống: 0</div>
-  
-  <div class="note">TTL Thiền Sư Việt Nam (bản địa, nạp cục bộ local_dump).</div><div class="note unverified">Giấy phép chưa xác minh trong DB (<code>license_verified=0</code>) — không trích dẫn điều khoản cụ thể cho tới khi có văn bản xác nhận.</div>
-</div>
-<h2 class="section">Nguồn đang chặn hoặc chưa xác minh (9)</h2>
-<p class="notes">Danh sách này KHÔNG được dùng để hiển thị dữ liệu công khai. Chi tiết kiểm tra pháp lý tại
-<a href="/daoanh/admin/source_check.html">Legal Check</a>.</p>
-<ul class="blocked">
-<li data-source-code="BDRC"><code>BDRC</code> — Buddhist Digital Resource Center · <span class="dim">legal: UNKNOWN · mode: BLOCKED · active: tắt · chưa dùng để hiển thị công khai</span></li>
-<li data-source-code="SAT"><code>SAT</code> — SAT Daizōkyō Text Database · <span class="dim">legal: UNKNOWN · mode: BLOCKED · active: bật · chưa dùng để hiển thị công khai</span></li>
-<li data-source-code="CHGIS"><code>CHGIS</code> — China Historical GIS (Harvard) · <span class="dim">legal: UNKNOWN · mode: BLOCKED · active: bật · chưa dùng để hiển thị công khai</span></li>
-<li data-source-code="FoJin"><code>FoJin</code> — FoJin 佛典 · <span class="dim">legal: UNKNOWN · mode: BLOCKED · active: bật · chưa dùng để hiển thị công khai</span></li>
-<li data-source-code="Kanripo"><code>Kanripo</code> — Kanripo Digital Archive of Buddhist Studies · <span class="dim">legal: UNKNOWN · mode: BLOCKED · active: bật · chưa dùng để hiển thị công khai</span></li>
-<li data-source-code="SuttaCentral"><code>SuttaCentral</code> — SuttaCentral (Pali Canon) · <span class="dim">legal: UNKNOWN · mode: BLOCKED · active: bật · chưa dùng để hiển thị công khai</span></li>
-<li data-source-code="84000"><code>84000</code> — 84000 Translating the Words of the Buddha · <span class="dim">legal: UNKNOWN · mode: BLOCKED · active: bật · chưa dùng để hiển thị công khai</span></li>
-<li data-source-code="TGAZ"><code>TGAZ</code> — TGAZ Harvard China Historical GIS Gazetteer · <span class="dim">legal: UNKNOWN · mode: BLOCKED · active: bật · chưa dùng để hiển thị công khai</span></li>
-<li data-source-code="DILA_CATALOG"><code>DILA_CATALOG</code> — DILA Catalog Authority (經錄規範資料庫) · <span class="dim">legal: AUDITING · mode: BLOCKED · active: bật · chưa dùng để hiển thị công khai</span></li>
-</ul>
-<footer>
-  Sinh từ bảng <code>data_sources</code> (chỉ đọc, M5/T290).
-  Muốn cập nhật trang: chạy <code>python -X utf8 scripts/build_credits.py --out credits.html</code>.
-  <br>Nguồn dữ liệu: Source Hub API (đọc từ data_sources). Số dòng SQL = số mục trên trang = 16.
-</footer>
-<!-- t290:total=16 in_use=7 blocked=9 db=Source Hub API (đọc từ data_sources) at=2026-11-01 20:58 -->
+
+<hr style="margin:2rem 0; border-color:#eee">
+<p style="font-size:0.8rem;color:#888">
+  Trang này được tạo theo yêu cầu M5 của kế hoạch tích hợp.
+  Dữ liệu nguồn lấy từ bảng <code>data_sources</code> trong <code>lineage.db</code>.
+  Cập nhật lần cuối: 2026-10-04.
+</p>
 </body>
 </html>

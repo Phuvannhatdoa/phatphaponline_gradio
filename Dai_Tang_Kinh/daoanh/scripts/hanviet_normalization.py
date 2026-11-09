@@ -6,22 +6,12 @@ Fully local (no external API calls).
 Loads glossary from lineage.db + built-in common Buddhist name mappings.
 """
 import sqlite3
-import os
 import re
+from pathlib import Path
 from functools import lru_cache
 
-# T50 Windows/Python 3.14 fix: dùng os.path thay vì pathlib.Path ở top-level.
-# Lý do: traceback startup thất bại (data/t50_job.log, 2026-11-03) đi qua
-# `from pathlib import Path` → `pathlib._os` → `import fcntl`. fcntl không tồn
-# tại trên Windows nhưng pathlib._os đã tự bọc try/except ImportError (xem
-# C:\Python314\Lib\pathlib\_os.py) nên KHÔNG tự crash — traceback thật ra dừng
-# giữa dòng là do KeyboardInterrupt (tiến trình con bị ngắt khi đang import),
-# không phải lỗi fcntl. Dù vậy, bỏ lệ thuộc pathlib ở đây để loại hẳn chuỗi
-# import đã bị nêu trong handoff, không đổi hành vi SCRIPT_DIR/DB_PATH.
-SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# T167 (2026-11-07): cho phép override DB qua biến môi trường T50_DB_PATH (cùng
-# quy ước với t50_passage_vi_backfill.py). Không đặt biến → hành vi cũ giữ nguyên.
-DB_PATH = os.environ.get('T50_DB_PATH') or os.path.join(SCRIPT_DIR, 'data', 'lineage.db')
+SCRIPT_DIR = Path(__file__).parent.parent.resolve()
+DB_PATH = str(SCRIPT_DIR / 'data' / 'lineage.db')
 
 # Common English/Pinyin → Hán-Việt for Buddhist context
 # These are forms Google Translate hallucinates most often

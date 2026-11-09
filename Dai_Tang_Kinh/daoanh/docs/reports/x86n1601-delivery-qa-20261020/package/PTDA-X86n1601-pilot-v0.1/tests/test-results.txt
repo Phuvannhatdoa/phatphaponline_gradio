@@ -1,0 +1,31 @@
+=== PTDA Pilot Extraction Tests ===
+
+TEST 1: First patriarch (Shakyamuni Buddha) correctly extracted
+  ✓ PASS: First patriarch name contains '釋迦'
+
+TEST 2: Transmission from Shakyamuni to Mahakashyapa
+  ✓ PASS: Transmission goes from person_000 to person_001
+
+TEST 3: All relation claims have 'pending' review status
+  ✓ PASS: All claims have review_status='pending'
+
+TEST 4: No self-referential relations (self-loops)
+  ✓ PASS: No self-loops detected
+
+TEST 5: All referenced persons in claims exist in persons list
+  ✓ PASS: All 9 claims reference existing persons
+
+TEST 6: Source SHA-256 hash is valid format (64 hex chars)
+  ✓ PASS: SHA-256 = 60a282bf78795048...
+
+TEST 7: All claims have non-empty evidence fragments
+  ✓ PASS: All claims have evidence text
+
+TEST 8: Negative test - no cross-generational jumps without evidence
+  ✓ PASS: No suspicious long-distance relations without strong evidence
+
+========================================
+Tests: 8 passed, 0 failed out of 8
+========================================
+
+Status: ALL TESTS PASSED ✓

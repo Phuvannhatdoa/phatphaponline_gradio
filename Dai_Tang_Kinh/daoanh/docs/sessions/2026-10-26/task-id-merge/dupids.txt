@@ -1,0 +1,21 @@
+=== CMD: python -X utf8 scripts/build_progress_data.py --check-dup-ids
+=== RC: 0
+=== STDOUT ===
+─────────────────────────────────────────────
+[DUP-ID] tasks/*.md + docs/**/*.md (đã loại trừ _book/)
+[INFO] 10 ID có bản X- superseded (hợp lệ theo quy ước):
+   T165: tasks/T165-dash-regen-t130-closure.md
+   T166: tasks/T166-dashboard-hygiene-batch.md
+   T168: tasks/T168-t165-spec-v2-review-accepted.md
+   T169: tasks/T169-t165-engine-build.md
+   T172: docs/Mimo-Flash/T172-hanviet-charwise-debug.md
+   T173: docs/Mimo-Flash/T173-person-lineage-tab-merge.md
+   T174: docs/Mimo-Flash/T174-t158-phase0-reuse-first-canonical-guard.md
+   T175: docs/Mimo-Flash/T175-phase0c-canonical-person-identity-audit.md
+   T176: docs/Mimo-Flash/T176-phase0c-rev2-canonical-person-identity-audit.md
+   T220: tasks/T220-vnpa-etl-preserve-relations.md
+[INFO] 1 ID có bản docs/ gắn liền task (`task: tasks/...`):
+   T199: 2 file phụ
+[OK] Không có task ID trùng thật.
+
+=== STDERR ===

@@ -1,0 +1,91 @@
+# gates.txt — đo lại 4 cổng đang đỏ, ngày 2026-10-26 (chỉ đọc, KHÔNG ghi DB)
+# Lưu ý môi trường:
+#   - `npm run <x>` KHÔNG in gì trên máy này (shim npm hỏng, theo AGENTS.md) → chạy trực tiếp lệnh trong package.json.
+#   - Không pipe, không ghép ';'. Trích 10 dòng lỗi đầu, rút gọn một số dòng dài (…).
+#   - An toàn ghi DB đã kiểm tra trước khi chạy:
+#       test_t232  → sqlite3.connect(':memory:')
+#       test_t165 / test_t166 → tempfile.mkstemp (DB tạm)
+#       test_t167_gold / test_t167_benchmark → chỉ SELECT trên DB thật, không commit
+#       audit_data_honesty.py → không có INSERT/UPDATE/DELETE/ALTER/commit
+
+==============================================================================
+== CỔNG 1: npm run audit:honesty:strict
+==   lệnh thực: python -X utf8 scripts/audit_data_honesty.py --strict
+==   EXIT CODE: 1
+==============================================================================
+====================================================================
+T234 DATA HONESTY GATE — read-only, 7 kiem tra
+====================================================================
+  [FAIL] H1  event_evidence.event_id khop event_type        41
+         event_evidence khong khop event_type hien tai cua place_timeline_events
+  [FAIL] H2  time_mentions.time_authority_id tro tai that   96
+         authority goc placeholder reign_era_dict: 96 | authority sai dinh danh khac: 0
+  [FAIL] H3  nam suy ra duoc tu note hoac bang trieu dai    969
+         khong suy ra duoc (969) + ngoai khoang trieu dai (0) | W1a legacy note 0 + …
+  [FAIL] H4  nhan '(N年建)' co khop nguon                     745
+  (…tiếp: H5 [FAIL] source_ref tự tham chiếu 55 · H6 OK · H7 OK)
+--------------------------------------------------------------------
+[BAO CAO] FAIL 5/7 — du lieu BI DANG/SAI.
+[STRICT] pipeline bi chan.
+
+==============================================================================
+== CỔNG 2: npm run test:t232
+==   lệnh thực: python -B -X utf8 tests/test_t232_generation_engine.py
+==   EXIT CODE: 1      (20 test: 19 ok, 1 FAIL)
+==============================================================================
+test_01_chain_and_full_witness ... ok
+test_02_multiple_systems_independent ... ok
+test_03_same_length_paths_agree ... ok
+test_04_different_lengths_conflict ... ok
+test_05_conflicting_checkpoint_propagates ... ok
+test_06_matching_checkpoint_keeps_root_path ... ok
+test_07_disconnected_checkpoint_not_membership ... ok
+test_08_cycle_and_self_block ... ok
+test_09_missing_parent_is_incomplete (__main__.Tests.test_09_missing_parent_is_incomplete) ... FAIL
+FAIL: test_09_missing_parent_is_incomplete (…)
+  File "…tests\test_t232_generation_engine.py", line 40, in test_09_missing_parent_is_incomplete
+    self.graph([(1,2),(4,2)]);r=self.compute(2);self.assertEqual(r['status'],'incomplete');…
+AssertionError: 'candidate' != 'incomplete'
+Ran 20 tests … FAILED (failures=1)
+
+==============================================================================
+== CỔNG 3: npm run test:translation
+==   lệnh thực: chuỗi `&&` của 14 lệnh con (test:t165 && test:t166 && test:t178 && …)
+==   Chuỗi DỪNG tại bước đỏ đầu tiên: test:t178
+==============================================================================
+  t165  test_t165_style_constitution.py  → EXIT 0   (15/15 PASS)
+  t166  test_t166_canonical_lock.py      → EXIT 0   (18/18 PASS)
+  t178  test_t178_gap_d3.py              → EXIT 1   (68/69 PASS)   ← BƯỚC ĐỎ ĐẦU TIÊN, chuỗi dừng
+  --- 10 dòng lỗi đầu của t178 (dòng FAIL + kết quả) ---
+  FAIL  17c name_vi = Đơn Hà Thiên Nhiên  [Thiên Nhiên]
+  ==================================================================
+    FAIL: 17c name_vi = Đơn Hà Thiên Nhiên  [Thiên Nhiên]
+  KẾT QUẢ: 68/69 PASS
+  ==================================================================
+  Exited with code 1
+  (các bước sau t178 — t179, t200, t167, t169, t170, t74, t203, t207, t208, t211, t449 — KHÔNG được chạy vì &&)
+  ---- Đo thêm riêng lẻ (ngoài chuỗi, để biết các cổng sau có đỏ không) ----
+  t179  test_t179_phase8.py     → EXIT 0 (49/49 PASS; không có dòng 'Exited with code')
+  t200  test_t200_vnpa_tiebreak.py → EXIT 1 (24 PASS, 1 FAIL)
+        FAIL: A001984 tra dung (chi 1 dong) (got 'Linh Hựu')
+        (điều kiện test: r['name_vi'] == "Quy Sơn Linh Hựu")
+
+==============================================================================
+== CỔNG 4: npm run audit:t166
+==   Kiểm tra key: package.json KHÔNG có khóa "audit:t166"
+==   (python đọc package.json utf-8: 'audit:t166' in scripts → False;
+==    các khóa audit có: audit:h3, audit:honesty, audit:honesty:strict, audit:t204)
+==   Chạy script trực tiếp: python -X utf8 scripts/t166_identity_audit.py
+==   EXIT CODE (script trực tiếp): 1
+==============================================================================
+═══ T166 Identity Audit ═══
+=== T166 identity status distribution ===
+Traceback (most recent call last):
+  File "…scripts\t166_identity_audit.py", line 309, in <module>
+    main()
+  File "…scripts\t166_identity_audit.py", line 290, in main
+    _stats(conn)
+  File "…scripts\t166_identity_audit.py", line 263, in _stats
+    rows = conn.execute(
+sqlite3.OperationalError: no such column: identity_status
+  (SQL: SELECT COALESCE(identity_status,'(NULL=legacy)') s, COUNT(*) n FROM translation_cache GROUP BY s ORDER BY n DESC)

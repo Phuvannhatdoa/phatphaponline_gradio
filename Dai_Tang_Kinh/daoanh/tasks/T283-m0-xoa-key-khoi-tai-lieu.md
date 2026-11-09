@@ -3,7 +3,7 @@ id: T283
 title: "M0 — Xóa chuỗi key Gemini khỏi docs/ và scripts/"
 module: Nền dev & an toàn
 priority: p0
-status: in_progress
+status: done
 created: 2026-10-10
 updated: 2026-10-20
 owner: claude-code

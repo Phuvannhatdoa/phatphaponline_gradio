@@ -24,21 +24,6 @@
 | Kiểm chứng | `daoanh-qa` | Chạy lệnh, so bằng chứng với tiêu chí, báo ĐẠT/CHƯA ĐẠT | Sửa file, ghi DB |
 | Tìm kiếm | `Explore` | Đọc, liệt kê, đối chiếu | Sửa file |
 
-## 1b. Hai quy trình thực thi
-
-Mỗi việc được thực hiện theo **một trong hai quy trình**. Trước khi giao agent, Claude **hỏi Admin chọn quy trình nào** (xem Giai đoạn 3). Không tự chọn.
-
-| Quy trình | Sửa (code) | Kiểm chứng (test) | Khi nào dùng |
-|---|---|---|---|
-| **Quy trình 1** | `daoanh-debugger` | `daoanh-qa` | Quy trình gốc của dự án. Dùng khi còn quota Claude. |
-| **Quy trình 2** | `opencode` (OpenCode) | `openrouter` (OpenRouter) | Dùng khi hết quota Claude. Kiểm chứng độc lập qua model khác. |
-
-Quy tắc chung cho cả hai:
-- Agent sửa chỉ làm trong worktree riêng `wt/<tên-việc>`, không sửa cây chính.
-- Agent kiểm chứng chỉ đọc, không sửa file và không ghi DB.
-- Báo âm thanh cho Admin: bên sửa gọi `daoanh/scripts/notify_done.ps1` khi code xong; bên kiểm chứng gọi khi kết luận ĐẠT. Không gọi khi CHƯA ĐẠT hoặc còn chờ Admin quyết (xem AGENTS.md §20).
-- Chỗ nào trong tài liệu này ghi `daoanh-debugger` hoặc `daoanh-qa` thì áp dụng cho Quy trình 1. Quy trình 2 thay hai agent đó bằng `opencode` và `openrouter`.
-
 ## 2. Các giai đoạn
 
 ```
@@ -73,8 +58,6 @@ Admin trả lời một trong các câu:
 **Duyệt là theo từng việc, không tổng quát.** Duyệt một lô không có nghĩa là duyệt lô sau. Duyệt việc đọc không có nghĩa là duyệt việc ghi.
 
 Một câu duyệt không tự động cho phép việc ghi DB, đổi schema, deploy hay git. Những việc đó luôn hỏi lại nếu chưa được nêu rõ.
-
-**Chọn quy trình (bắt buộc, trước khi gọi agent):** cùng lúc với Cổng 1, Claude hỏi Admin dùng **Quy trình 1** hay **Quy trình 2** (xem mục 1b). Chưa có câu trả lời thì không gọi agent nào, kể cả agent chỉ đọc hay agent sửa.
 
 ### Giai đoạn 4 — Task file
 

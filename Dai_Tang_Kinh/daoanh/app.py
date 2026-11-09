@@ -1151,448 +1151,6 @@ def api_admin_missing_hanzi():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
-def _count_vi_xml(path):
-    """Đếm <nexus> có <text_vi> không rỗng trong một file vn_bio_nexus/<sách>.vi.xml.
-    Đọc theo luồng (iterparse) và giải phóng phần tử ngay, không nạp cả file vào RAM.
-    Lỗi đọc file trả None để endpoint rơi về đếm JSONL, không làm hỏng cả trang."""
-    import xml.etree.ElementTree as ET
-    count = 0
-    try:
-        for _, elem in ET.iterparse(path, events=('end',)):
-            if elem.tag == 'nexus':
-                vi = elem.find('text_vi')
-                if vi is not None and (vi.text or '').strip():
-                    count += 1
-                elem.clear()
-    except (OSError, ET.ParseError):
-        return None
-    return count
-
-
-@app.route('/daoanh/api/admin/nexus-translate-status')
-def api_admin_nexus_translate_status():
-    """
-    GET /daoanh/api/admin/nexus-translate-status
-    T514 — trạng thái dịch Nexus (T458), CHỈ ĐỌC.
-    Đếm tổng nexus trong dila_bio_nexus (DB) và số dòng JSONL đã dịch trong
-    staging data/dila_import/biographies.2024-01/vn_translate/<sách>/batch_*.jsonl
-    cho từng sách. KHÔNG ghi DB, KHÔNG gọi Gemini/Codex. Nếu thư mục vn_translate
-    hoặc một sách chưa có file thì trả 0 cho sách đó kèm note rõ, không lỗi 500.
-    """
-    try:
-        books_total = {}
-        conn = get_db_connection()
-        try:
-            rows = conn.execute(
-                "SELECT book, COUNT(*) AS n FROM dila_bio_nexus GROUP BY book ORDER BY book"
-            ).fetchall()
-            books_total = {r['book']: r['n'] for r in rows}
-        finally:
-            conn.close()
-
-        vn_translate_root = os.path.join(
-            os.path.dirname(__file__),
-            'data', 'dila_import', 'biographies.2024-01', 'vn_translate'
-        )
-        root_exists = os.path.isdir(vn_translate_root)
-        vn_xml_root = os.path.join(
-            os.path.dirname(__file__),
-            'data', 'dila_import', 'biographies.2024-01', 'vn_bio_nexus'
-        )
-
-        books = []
-        total_nexus = 0
-        total_translated = 0
-        total_batches = 0
-        for book, total in books_total.items():
-            total_nexus += total
-            book_dir = os.path.join(vn_translate_root, book)
-            translated = 0
-            n_batches = 0
-            note = None
-            if not root_exists:
-                note = "Chưa có thư mục vn_translate — T458 giai đoạn 1 chưa chạy"
-            elif not os.path.isdir(book_dir):
-                note = "Chưa có batch JSONL cho sách này"
-            else:
-                batch_files = sorted(
-                    f for f in os.listdir(book_dir) if f.endswith('.jsonl')
-                )
-                n_batches = len(batch_files)
-                for fname in batch_files:
-                    fpath = os.path.join(book_dir, fname)
-                    try:
-                        with open(fpath, 'r', encoding='utf-8') as fh:
-                            for line in fh:
-                                if line.strip():
-                                    translated += 1
-                    except OSError:
-                        continue
-                if n_batches == 0:
-                    note = "Thư mục sách tồn tại nhưng chưa có batch_*.jsonl"
-            translated_jsonl = translated
-            xml_path = os.path.join(vn_xml_root, book + '.vi.xml')
-            translated_xml = _count_vi_xml(xml_path) if os.path.isfile(xml_path) else None
-            if translated_xml is not None:
-                # Bản dịch đầy đủ nằm trong vn_bio_nexus/<sách>.vi.xml: ưu tiên XML.
-                translated = translated_xml
-                source = 'xml'
-                # Ghi chú JSONL không còn đúng khi đã đếm từ XML: thay bằng nguồn thật.
-                note = "Nguồn: vn_bio_nexus/" + book + ".vi.xml"
-            else:
-                source = 'jsonl'
-            total_translated += translated
-            total_batches += n_batches
-            books.append({
-                "book": book,
-                "total_nexus": total,
-                "translated": translated,
-                "translated_xml": translated_xml,
-                "translated_jsonl": translated_jsonl,
-                "source": source,
-                "batches": n_batches,
-                "pct": round(translated * 100.0 / total, 1) if total else 0.0,
-                "note": note
-            })
-
-        return jsonify({
-            "ok": True,
-            "task": "T458",
-            "status_note": (
-                "Giai đoạn 1 chỉ ghi staging JSONL, KHÔNG ghi DB. "
-                "Schema dila_bio_nexus_vi và pilot 50 nexus Mingsengzhuanchao "
-                "CHƯA được Admin duyệt — chưa có nút chạy dịch/nạp DB."
-            ),
-            "vn_translate_root_exists": root_exists,
-            "total_nexus": total_nexus,
-            "total_translated": total_translated,
-            "total_batches": total_batches,
-            "books": books
-        })
-    except Exception as e:
-        return jsonify({"ok": False, "error": str(e)}), 500
-
-# ── T514 việc 3+4 — tab "Dịch Nexus T514" mở rộng: search 4 cột + validator ──
-# CHỈ ĐỌC DB. Lựa chọn "Chọn bản này" của admin chỉ ghi vào file staging
-# JSONL trên đĩa (_T514_SELECTED_PATH), KHÔNG UPDATE/INSERT/DELETE bất kỳ
-# bảng nào của lineage.db.
-_T514_VN_TRANSLATE_ROOT = os.path.join(
-    os.path.dirname(__file__), 'data', 'dila_import', 'biographies.2024-01', 'vn_translate'
-)
-_T514_VN_TRANSLATE_CODEX_ROOT = os.path.join(
-    os.path.dirname(__file__), 'data', 'dila_import', 'biographies.2024-01', 'vn_translate_codex'
-)
-_T514_VN_BIO_NEXUS_DIR = os.path.join(
-    os.path.dirname(__file__), 'data', 'dila_import', 'biographies.2024-01', 'vn_bio_nexus'
-)
-_T514_SELECTED_PATH = os.path.join(
-    os.path.dirname(__file__), 'data', 'dila_import', 'biographies.2024-01', 'vn_translate',
-    '_admin_selected.jsonl'
-)
-
-
-def _t514_scan_jsonl_for_nexus_ids(root_dir, book, nexus_ids):
-    """Quét TOÀN BỘ batch_*.jsonl của 1 sách trong root_dir, trả về
-    {nexus_id: text_vi} CHỈ cho các nexus_id được yêu cầu (nexus_ids là set
-    nhỏ — kết quả 1 trang tìm kiếm, tối đa 50). Đọc file theo từng dòng
-    (generator), không load cả thư mục vào RAM. Dòng SAU trong file (nếu có
-    dịch lại) đè dòng TRƯỚC cho cùng nexus_id (ưu tiên bản mới nhất)."""
-    found = {}
-    needed = set(nexus_ids)
-    book_dir = os.path.join(root_dir, book)
-    if not needed or not os.path.isdir(book_dir):
-        return found
-    for fname in sorted(f for f in os.listdir(book_dir) if f.startswith('batch_') and f.endswith('.jsonl')):
-        fpath = os.path.join(book_dir, fname)
-        try:
-            with open(fpath, 'r', encoding='utf-8') as fh:
-                for line in fh:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    try:
-                        obj = json.loads(line)
-                    except Exception:
-                        continue
-                    nid = obj.get('nexus_id')
-                    if nid in needed and obj.get('text_vi'):
-                        found[nid] = obj['text_vi']
-        except OSError:
-            continue
-    return found
-
-
-def _t514_lookup_claude_text(book, nexus_ids):
-    """Đọc data/.../vn_bio_nexus/<book>.vi.xml bằng iterparse (streaming theo
-    phần tử <nexus>, KHÔNG dựng DOM / load cả file vào RAM) để lấy text_vi
-    (bản dịch Claude) khớp đúng theo thuộc tính id= (nexus_id), rồi clear()
-    từng phần tử ngay sau khi đọc xong để giữ bộ nhớ thấp."""
-    import xml.etree.ElementTree as _t514_ET
-    found = {}
-    needed = set(nexus_ids)
-    xml_path = os.path.join(_T514_VN_BIO_NEXUS_DIR, f'{book}.vi.xml')
-    if not needed or not os.path.isfile(xml_path):
-        return found
-    try:
-        context = _t514_ET.iterparse(xml_path, events=('end',))
-        for event, elem in context:
-            if elem.tag == 'nexus':
-                nid = elem.get('id')
-                if nid in needed:
-                    text_vi_el = elem.find('text_vi')
-                    if text_vi_el is not None and text_vi_el.text:
-                        found[nid] = text_vi_el.text.strip()
-                elem.clear()
-    except Exception:
-        pass
-    return found
-
-
-def _t514_read_active_rules(conn):
-    """SELECT thực từ translation_rules WHERE status='active' — KHÔNG hard-code
-    số lượng hay nội dung rule trong code."""
-    rows = conn.execute(
-        "SELECT rule_code, rule_type, description, rule_text FROM translation_rules "
-        "WHERE status='active' ORDER BY priority, rule_code"
-    ).fetchall()
-    return [dict(r) if not isinstance(r, dict) else r for r in
-            [{'rule_code': r[0], 'rule_type': r[1], 'description': r[2], 'rule_text': r[3]} for r in rows]]
-
-
-# Ký tự Hán (CJK Unified Ideographs + mở rộng thường gặp) — dùng để phát hiện
-# bản dịch còn sót chữ Hán chưa dịch (không dùng để loại bỏ ký tự Hán-Việt
-# hợp lệ, vì tiếng Việt không dùng CJK).
-_T514_CJK_RE = re.compile(r'[一-鿿㐀-䶿豈-﫿]')
-# CHỈ dùng dấu MACRON/CARON trên nguyên âm La-tinh — hoàn toàn không tồn tại
-# trong tiếng Việt — để phát hiện phiên âm pinyin còn sót (vi phạm rule
-# NO_PINYIN). KHÔNG đưa dấu sắc/huyền (á à...) vào vì đó là dấu thanh tiếng
-# Việt hợp lệ (bug thực tế phát hiện khi chạy pilot T514: "Cầu-na-bạt-đà"
-# hợp lệ bị báo nhầm là pinyin do quy tắc cũ gộp chung với dấu sắc/huyền).
-_T514_PINYIN_TONE_RE = re.compile(r'[āēīōūǖĀĒĪŌŪǕǎěǐǒǔǚǍĚǐǑǔǚ]')
-
-
-def _t514_validate_translation(text_zh, text_vi, active_rules):
-    """
-    Áp dụng các kiểm tra TỰ ĐỘNG được (proxy khách quan cho các rule_type có
-    thể máy kiểm tra: 'forbidden', 'structure', 'grammar'), dựa trên danh
-    sách active_rules đọc THẬT từ DB (không hard-code nội dung rule).
-    Rule thuộc rule_type 'style'/'terminology'/'gate'/'provenance' là đánh
-    giá học thuật/thủ công, không thể máy tự động hoá hoàn toàn -> được liệt
-    kê là 'not_machine_checkable', KHÔNG được coi là 'pass' giả, chỉ không
-    tính vào điều kiện chặn tự động.
-    Trả về dict: {passed, n_rules_active, n_checked, n_not_checkable, checks:[...]}
-    """
-    checks = []
-    text_vi = (text_vi or '').strip()
-    text_zh = (text_zh or '').strip()
-
-    def add(code, ok, note):
-        checks.append({'rule_code': code, 'passed': ok, 'note': note})
-
-    has_empty = len(text_vi) == 0
-    add('_EMPTY_CHECK', not has_empty, 'Bản dịch trống' if has_empty else 'Có nội dung')
-
-    has_cjk = bool(_T514_CJK_RE.search(text_vi))
-    add('_NO_CJK_LEFTOVER', not has_cjk,
-        'Còn sót chữ Hán chưa dịch' if has_cjk else 'Không còn chữ Hán')
-
-    has_pinyin_tone = bool(_T514_PINYIN_TONE_RE.search(text_vi))
-    add('NO_PINYIN', not has_pinyin_tone,
-        'Phát hiện dấu thanh pinyin (không phải dấu tiếng Việt)' if has_pinyin_tone
-        else 'Không phát hiện pinyin')
-
-    has_bracket_note = ('[' in text_vi) or (']' in text_vi)
-    add('NO_ADDITION', not has_bracket_note,
-        'Có dấu ngoặc vuông [] — khả năng tự thêm chú thích ngoài nguyên bản'
-        if has_bracket_note else 'Không có chú thích thêm dạng []')
-
-    # Tỉ lệ độ dài: cảnh báo nếu bản dịch quá ngắn/quá dài bất thường so với
-    # nguyên bản (proxy cho RULE-001/RULE-002 "trung thành nội dung, không bỏ
-    # sót"). Ngưỡng rộng vì Hán văn cô đọng hơn tiếng Việt khi dịch ra.
-    len_ok = True
-    if text_zh and not has_empty:
-        ratio = len(text_vi) / max(len(text_zh), 1)
-        len_ok = 0.4 <= ratio <= 6.0
-    add('_LENGTH_RATIO', len_ok,
-        'Tỉ lệ độ dài bản dịch/nguyên bản bất thường (có thể thiếu hoặc thêm nội dung)'
-        if not len_ok else 'Tỉ lệ độ dài hợp lý')
-
-    machine_checkable_codes = {'_EMPTY_CHECK', '_NO_CJK_LEFTOVER', 'NO_PINYIN', 'NO_ADDITION', '_LENGTH_RATIO'}
-    n_not_checkable = sum(1 for r in active_rules if r['rule_code'] not in machine_checkable_codes)
-    passed = all(c['passed'] for c in checks)
-
-    return {
-        'passed': passed,
-        'n_rules_active': len(active_rules),
-        'n_checked_machine': len(checks),
-        'n_not_machine_checkable': n_not_checkable,
-        'checks': checks,
-    }
-
-
-@app.route('/daoanh/api/admin/nexus-translate-search')
-def api_admin_nexus_translate_search():
-    """
-    GET /daoanh/api/admin/nexus-translate-search?q=...&book=...&page=1
-    T514 việc 3 — tìm nexus theo nexus_id, tên Hán/Việt (qua people), hoặc từ
-    khoá trong text_zh. Tối đa 50 kết quả/trang. CHỈ ĐỌC DB.
-    Mỗi kết quả trả 4 cột: text_zh (DB), gemini (JSONL việc 2), claude
-    (vn_bio_nexus/*.vi.xml streaming), codex (JSONL việc 5) — cột nào chưa có
-    bản dịch trả None, FE hiển thị 'chưa có bản …'. Mỗi bản có nội dung đã
-    được validator (việc 4) chạy qua, kèm 'can_select' = đã pass hết kiểm tra
-    máy tự động hay chưa (đọc rule đang active thật từ DB, không hard-code).
-    """
-    q = (request.args.get('q') or '').strip()
-    book_filter = (request.args.get('book') or '').strip()
-    try:
-        page = max(1, int(request.args.get('page', 1)))
-    except ValueError:
-        page = 1
-    limit = 50
-    offset = (page - 1) * limit
-
-    if not q and not book_filter:
-        return jsonify({"ok": False, "error": "Cần tham số q (từ khoá/nexus_id/tên) hoặc book"}), 400
-
-    conn = get_db_connection()
-    try:
-        conn.row_factory = sqlite3.Row
-        where = []
-        params = []
-        if q:
-            like = f'%{q}%'
-            where.append(
-                "(n.nexus_id LIKE ? OR n.text_zh LIKE ? OR p.name_zh LIKE ? OR p.name_vi LIKE ?)"
-            )
-            params.extend([like, like, like, like])
-        if book_filter:
-            where.append("n.book = ?")
-            params.append(book_filter)
-        where_sql = (" WHERE " + " AND ".join(where)) if where else ""
-
-        sql = f"""
-            SELECT DISTINCT n.nexus_id, n.book, n.text_zh, n.seq
-            FROM dila_bio_nexus n
-            LEFT JOIN dila_bio_nexus_person np ON np.nexus_id = n.nexus_id
-            LEFT JOIN people p ON p.id = np.person_id
-            {where_sql}
-            ORDER BY n.book, n.seq
-            LIMIT ? OFFSET ?
-        """
-        rows = conn.execute(sql, params + [limit, offset]).fetchall()
-
-        count_sql = f"""
-            SELECT COUNT(DISTINCT n.nexus_id)
-            FROM dila_bio_nexus n
-            LEFT JOIN dila_bio_nexus_person np ON np.nexus_id = n.nexus_id
-            LEFT JOIN people p ON p.id = np.person_id
-            {where_sql}
-        """
-        total = conn.execute(count_sql, params).fetchone()[0]
-
-        active_rules = _t514_read_active_rules(conn)
-
-        # Nhóm theo book để quét JSONL/XML 1 lần cho mỗi sách trong trang này.
-        by_book = {}
-        for r in rows:
-            by_book.setdefault(r['book'], []).append(r['nexus_id'])
-
-        gemini_map, codex_map, claude_map = {}, {}, {}
-        for book, ids in by_book.items():
-            gemini_map.update(_t514_scan_jsonl_for_nexus_ids(_T514_VN_TRANSLATE_ROOT, book, ids))
-            codex_map.update(_t514_scan_jsonl_for_nexus_ids(_T514_VN_TRANSLATE_CODEX_ROOT, book, ids))
-            claude_map.update(_t514_lookup_claude_text(book, ids))
-
-        items = []
-        for r in rows:
-            nid = r['nexus_id']
-            text_zh = r['text_zh']
-            cols = {}
-            for col_name, text_vi in (
-                ('gemini', gemini_map.get(nid)),
-                ('claude', claude_map.get(nid)),
-                ('codex', codex_map.get(nid)),
-            ):
-                if text_vi:
-                    v = _t514_validate_translation(text_zh, text_vi, active_rules)
-                    cols[col_name] = {'text_vi': text_vi, 'validation': v}
-                else:
-                    cols[col_name] = None
-            items.append({
-                'nexus_id': nid,
-                'book': r['book'],
-                'seq': r['seq'],
-                'text_zh': text_zh,
-                'gemini': cols['gemini'],
-                'claude': cols['claude'],
-                'codex': cols['codex'],
-            })
-
-        return jsonify({
-            'ok': True, 'q': q, 'book': book_filter, 'page': page, 'limit': limit,
-            'total': total, 'n_rules_active': len(active_rules), 'items': items,
-        })
-    except Exception as e:
-        return jsonify({"ok": False, "error": str(e)}), 500
-    finally:
-        conn.close()
-
-
-@app.route('/daoanh/api/admin/nexus-translate-select', methods=['POST'])
-def api_admin_nexus_translate_select():
-    """
-    POST /daoanh/api/admin/nexus-translate-select
-    body: {nexus_id, book, source (gemini|claude|codex), text_vi}
-    T514 việc 3+4 — admin bấm "Chọn bản này". Validator (việc 4) chạy LẠI ở
-    server (không tin kết quả FE gửi lên) trước khi cho phép ghi. Chỉ ghi
-    staging JSONL (_T514_SELECTED_PATH), TUYỆT ĐỐI KHÔNG UPDATE/INSERT/DELETE
-    bảng dila_bio_nexus_vi hay bất kỳ bảng DB nào.
-    """
-    data = request.get_json(silent=True) or {}
-    nexus_id = (data.get('nexus_id') or '').strip()
-    book = (data.get('book') or '').strip()
-    source = (data.get('source') or '').strip()
-    text_vi = (data.get('text_vi') or '').strip()
-    if not nexus_id or source not in ('gemini', 'claude', 'codex') or not text_vi:
-        return jsonify({"ok": False, "error": "Thiếu nexus_id/source hợp lệ/text_vi"}), 400
-
-    conn = get_db_connection()
-    try:
-        conn.row_factory = sqlite3.Row
-        row = conn.execute(
-            "SELECT text_zh, book FROM dila_bio_nexus WHERE nexus_id = ?", (nexus_id,)
-        ).fetchone()
-        if not row:
-            return jsonify({"ok": False, "error": f"Không tìm thấy nexus_id {nexus_id} trong DB"}), 404
-        text_zh = row['text_zh']
-        active_rules = _t514_read_active_rules(conn)
-        validation = _t514_validate_translation(text_zh, text_vi, active_rules)
-        if not validation['passed']:
-            return jsonify({
-                "ok": False, "error": "Bản dịch chưa qua quy tắc (validator việc 4), không thể chọn.",
-                "validation": validation,
-            }), 422
-
-        record = {
-            'nexus_id': nexus_id,
-            'book': row['book'],
-            'source': source,
-            'text_vi': text_vi,
-            'validation': validation,
-            'selected_by': request.remote_addr,
-            'selected_at': datetime.utcnow().isoformat() + 'Z',
-        }
-        os.makedirs(os.path.dirname(_T514_SELECTED_PATH), exist_ok=True)
-        with open(_T514_SELECTED_PATH, 'a', encoding='utf-8') as f:
-            f.write(json.dumps(record, ensure_ascii=False) + '\n')
-
-        return jsonify({"ok": True, "nexus_id": nexus_id, "source": source, "validation": validation})
-    except Exception as e:
-        return jsonify({"ok": False, "error": str(e)}), 500
-    finally:
-        conn.close()
-
-
 @app.route('/daoanh/api/admin/missing-hanzi/override', methods=['POST'])
 def api_admin_missing_hanzi_override():
     """
@@ -6394,11 +5952,7 @@ def _t148_get_extra(pid):
 
 def _t86_person_info(conn, pid):
     """Tên/niên hiệu/tông phái/môn phái cho một node lineage.
-    Ưu tiên marcus_reference → people (DILA) → vn_person_authority (danh tăng
-    VN local / slug TTL_LOCAL, T379 — bảng 'ttl_persons' cũ (T186) không tồn
-    tại trong data/lineage.db thật nên fallback luôn OperationalError; đổi
-    sang vn_person_authority có dữ liệu thật, xem docs/design/
-    T379-lineage-edge-consensus-ns-design.md §3)."""
+    Ưu tiên marcus_reference → people (DILA) → ttl_persons (T186 danh tăng VN local)."""
     marc = conn.execute(
         "SELECT label, label_vi, birth_year, death_year FROM marcus_reference WHERE node_id = ?",
         (pid,)
@@ -6406,18 +5960,21 @@ def _t86_person_info(conn, pid):
     person = conn.execute(
         "SELECT name_zh, name_vi, dynasty, sect, bio FROM people WHERE id = ?", (pid,)
     ).fetchone()
-    # T379 (thay T186): fallback sang vn_person_authority nếu không có trong DILA
+    # T186: fallback sang ttl_persons nếu không có trong DILA
     ttl_person = None
     if not person:
-        ttl_person = conn.execute(
-            "SELECT name_vi, name_zh, dharma_title, biographical_note_vi "
-            "FROM vn_person_authority WHERE id = ?",
-            (pid,)
-        ).fetchone()
+        try:
+            ttl_person = conn.execute(
+                "SELECT name_vi, name_zh, note FROM ttl_persons WHERE id = ?", (pid,)
+            ).fetchone()
+        except sqlite3.OperationalError as e:
+            if 'no such table' not in str(e).lower():
+                raise
+            # ttl_persons table doesn't exist - ignore silently
+            pass
     zh = (marc['label'] if marc and marc['label'] else None) \
         or (person['name_zh'] if person else None) \
-        or (ttl_person['name_zh'] if ttl_person else None) \
-        or (ttl_person['dharma_title'] if ttl_person else None) or pid
+        or (ttl_person['name_zh'] if ttl_person else None) or pid
     vi = None
     if marc and marc['label_vi'] and marc['label_vi'] != zh:
         vi = marc['label_vi']
@@ -6426,9 +5983,7 @@ def _t86_person_info(conn, pid):
     elif ttl_person and ttl_person['name_vi']:
         vi = ttl_person['name_vi']
     vi = vi or zh
-    # source_type giúp UI hiển thị badge "Danh tăng VN – TTL local" (giữ đúng
-    # tên giá trị 'ttl_local' có từ T186 — chỉ đổi nguồn fallback, không đổi
-    # contract field này cho frontend)
+    # source_type giúp UI hiển thị badge "Danh tăng VN – TTL local"
     source_type = 'ttl_local' if ttl_person else 'dila'
     return {
         "id": pid,
@@ -6439,7 +5994,7 @@ def _t86_person_info(conn, pid):
         "birth_year": (marc['birth_year'] if marc else None),
         "death_year": (marc['death_year'] if marc else None),
         "bio": (person['bio'] if person else None) or
-               (ttl_person['biographical_note_vi'] if ttl_person else None) or None,
+               (ttl_person['note'] if ttl_person else None) or None,
         "source_type": source_type,
     }
 
@@ -7252,14 +6807,20 @@ def api_monk_lineage_tree(dila_id):
 
     conn = get_db_connection()
     try:
-        # T379 (thay T186): Center có thể là DILA person hoặc danh tăng VN
-        # (vn_person_authority, slug TTL_LOCAL) — bảng 'ttl_persons' cũ không
-        # tồn tại trong data/lineage.db thật, đổi fallback sang vn_person_authority
-        # (xem docs/design/T379-lineage-edge-consensus-ns-design.md §3, đồng bộ
-        # với _t86_person_info()).
+        # T186: Center có thể là DILA person hoặc danh tăng VN (ttl_persons)
         exists = conn.execute("SELECT 1 FROM people WHERE id=?", (dila_id,)).fetchone()
         if not exists:
-            exists = conn.execute("SELECT 1 FROM vn_person_authority WHERE id=?", (dila_id,)).fetchone()
+            # T381 follow-up fix (2026-10-14): bảng ttl_persons không tồn tại trong
+            # DB thực tế (data/lineage.db) -> sqlite3.OperationalError "no such table"
+            # nếu không bắt riêng sẽ rơi xuống except Exception chung ở cuối hàm và
+            # trả 500 kèm message lộ chi tiết nội bộ. Bắt đúng lỗi "no such table" ở
+            # đây, trả 404 rõ ràng, không lộ stack trace.
+            try:
+                exists = conn.execute("SELECT 1 FROM ttl_persons WHERE id=?", (dila_id,)).fetchone()
+            except sqlite3.OperationalError as e:
+                if 'no such table' in str(e).lower():
+                    return jsonify({"ok": False, "error": "Không tìm thấy tăng nhân (person not found)"}), 404
+                raise
         if not exists:
             return jsonify({"ok": False, "error": "person not found"}), 404
         center = _t86_person_info(conn, dila_id)
@@ -9598,20 +9159,6 @@ def api_dila_persons_search():
                                 AND tc2.source_type = 'person_bio'
                                 AND tc2.status != 'invalidated'))
         """
-        # BUG-052 — CTE riêng cho bản dịch DILA CARD ĐẦY ĐỦ (tất cả trường, không
-        # chỉ bio). `bio_vi_saved` (cột people.bio_vi) KHÔNG đủ để coi một person
-        # là "đã dịch" vì person.html hiển thị các trường Ghi chú năm mất/Tiểu sử
-        # vắn tắt/Kinh trong Đại Tạng/Trích dẫn CBETA từ cache 'dila_card' này,
-        # không từ people.bio_vi. Join này chỉ lấy bản MỚI NHẤT còn hiệu lực.
-        dila_card_cte = """
-            (SELECT tc.entity_id, tc.translated_text, tc.status
-               FROM translation_cache tc
-              WHERE tc.source_type = 'dila_card' AND tc.status != 'invalidated'
-                AND tc.id = (SELECT MAX(tc2.id) FROM translation_cache tc2
-                              WHERE tc2.entity_id = tc.entity_id
-                                AND tc2.source_type = 'dila_card'
-                                AND tc2.status != 'invalidated'))
-        """
 
         count_row = conn.execute(
             f"""SELECT COUNT(*) FROM people p
@@ -9622,11 +9169,10 @@ def api_dila_persons_search():
         total = count_row[0]
         rows = conn.execute(
             f"""SELECT p.id, p.name_zh, p.name_vi, p.name_en, p.sect, p.dynasty,
-                       p.birth_year, p.death_year, p.bio AS bio_zh_raw,
+                       p.birth_year, p.death_year,
                        (LENGTH(COALESCE(p.bio,'')) > 0) AS has_bio_zh,
                        (p.bio_vi IS NOT NULL AND p.bio_vi != '') AS bio_vi_saved,
                        tc.status AS draft_status,
-                       dc.translated_text AS dila_card_vi_json,
                        d.han_viet_charwise AS hv_charwise,
                        d.han_viet_legacy AS hv_legacy,
                        d.han_viet_validation_status AS hv_status_col,
@@ -9636,7 +9182,6 @@ def api_dila_persons_search():
                        d.han_viet_syllable_count AS hv_syll_count
                 FROM people p
                 LEFT JOIN {translation_cte} tc ON tc.entity_id = p.id
-                LEFT JOIN {dila_card_cte} dc ON dc.entity_id = p.id
                 LEFT JOIN person_hanviet_debug d ON d.person_id = p.id
                 {where_sql}
                 ORDER BY {
@@ -9669,22 +9214,6 @@ def api_dila_persons_search():
                 it['hv'] = None
             for _k in _hv_cols:
                 it.pop(_k, None)
-        # BUG-052 — tính "đã dịch ĐẦY ĐỦ" THẬT (tất cả trường có Hán văn, không
-        # chỉ bio_vi) cho mỗi dòng trên trang này (≤ `limit`, mặc định 50, tối đa
-        # 200). _t148_get_extra() là dict trong RAM (lazy-load 1 lần/process) nên
-        # chi phí thêm ở đây là O(1)/dòng, không phải N+1 query DB.
-        for it in items:
-            extra_i = _t148_get_extra(it['id']) or {}
-            src_i = _t148_dila_source_fields(it.get('name_zh') or '', it.pop('bio_zh_raw', '') or '', extra_i)
-            raw_vi = it.pop('dila_card_vi_json', None)
-            try:
-                vi_i = json.loads(raw_vi) if raw_vi else {}
-            except Exception:
-                vi_i = {}
-            missing_i = _t148_dila_missing_fields(src_i, vi_i)
-            it['dila_card_cached'] = bool(raw_vi)
-            it['dila_card_missing'] = missing_i
-            it['dila_card_done'] = (len(missing_i) == 0)
         # T186: bổ sung danh tăng VN từ ttl_persons khi có query q
         if q and fmt != 'csv':
             try:
@@ -9758,22 +9287,9 @@ def api_dila_persons_stats():
             "SELECT COUNT(DISTINCT entity_id) FROM translation_cache "
             "WHERE source_type='person_bio' AND status != 'invalidated'"
         ).fetchone()[0]
-        # BUG-052 — đếm riêng số person CÓ bản dịch DILA card (mọi trường, không
-        # chỉ bio). ĐÂY CHƯA PHẢI số "đã dịch đầy đủ" — "đầy đủ" (0 missing_fields)
-        # chỉ được xác minh chính xác per-row (xem /daoanh/api/dila/persons,
-        # trường dila_card_done) vì cần _t148_get_extra() + so khớp field từng
-        # person; dò toàn bộ ~49.490 dòng theo cách đó trong 1 request stats sẽ
-        # tốn RAM/CPU không cần thiết nên KHÔNG làm ở đây (để tránh con số giả
-        # định sai). Đếm "card_cached" chỉ là có-cache-hay-không, phải ghi rõ
-        # trong UI để không bị hiểu nhầm là "đã xong".
-        dila_card_cached = conn.execute(
-            "SELECT COUNT(DISTINCT entity_id) FROM translation_cache "
-            "WHERE source_type='dila_card' AND status != 'invalidated'"
-        ).fetchone()[0]
         conn.close()
         return jsonify({"ok": True, "total": total, "with_bio_zh": with_bio,
                         "translated_saved": saved, "translated_draft": drafted,
-                        "dila_card_cached": dila_card_cached,
                         "by_category": [{"note_category": r['sect'], "n": r['n']} for r in sects],
                         "by_country": [{"country": r['dynasty'], "n": r['n']} for r in dynasties]})
     except Exception as e:
@@ -11032,8 +10548,14 @@ def cbeta_quality_report():
 
 @app.route('/daoanh/api/admin/t50-progress')
 def t50_translation_progress():
-    """GET /daoanh/api/admin/t50-progress — T50: tiến độ dịch passage theo từng bộ kinh.
-    Tên Hán/Việt lấy từ dila_catalog_works theo mã kinh (T51n2076 -> T2076). Chỉ đọc."""
+    """GET /daoanh/api/admin/t50-progress — T50: tiến độ dịch passage theo từng bộ kinh."""
+    SIGLA_NAMES = {
+        'T51n2076': 'Chỉ Nguyệt Lục (指月錄)',
+        'T50n2061': 'Cảnh Đức Truyền Đăng Lục (景德傳燈錄)',
+        'T50n2060': 'Tổ Đường Tập (祖堂集)',
+        'X77n1524': 'Ngũ Đăng Hội Nguyên (五燈會元)',
+        'T50n2062': 'Thiên Thánh Quảng Đăng Lục (天聖廣燈錄)',
+    }
     try:
         conn = get_db_connection()
 
@@ -11065,12 +10587,6 @@ def t50_translation_progress():
             ORDER BY total DESC
         """).fetchall()
 
-        # Tên kinh theo DILA: mã T51n2076 -> DILA cbeta_id T2076 (T + 4 chữ số, có số 0 đứng đầu).
-        dila_names = {
-            r['cbeta_id']: (r['title_zh'] or '', r['title_vi'] or '')
-            for r in conn.execute("SELECT cbeta_id, title_zh, title_vi FROM dila_catalog_works")
-        }
-
         sigla_list = []
         for r in rows:
             tid = r['text_id'] or 'unknown'
@@ -11079,20 +10595,9 @@ def t50_translation_progress():
             draft = r['draft_ai'] or 0
             remaining = total - translated
             pct = round(translated / total * 100, 1) if total else 0
-            # Hậu tố chữ (T02n0150A, T03n0181a) giữ nguyên như DILA lưu: T0150A, T0181a.
-            m = re.match(r'^([A-Z])(\d+)n(\d+)([A-Za-z]?)$', tid)
-            dila_id = ('%s%04d%s' % (m.group(1), int(m.group(3)), m.group(4))) if m else None
-            name_zh, name_vi = dila_names.get(dila_id, ('', ''))
-            if name_vi:
-                display = name_vi + (' (' + name_zh + ')' if name_zh else '')
-            else:
-                display = tid
             sigla_list.append({
                 'sigla': tid,
-                'dila_id': dila_id,
-                'name': display,
-                'name_zh': name_zh,
-                'name_vi': name_vi,
+                'name': SIGLA_NAMES.get(tid, tid),
                 'total': total,
                 'translated': translated,
                 'draft_ai': draft,
@@ -11138,28 +10643,18 @@ def t50_translation_progress():
 import subprocess as _t50_sp
 import signal as _t50_sig
 
-# T50 Windows startup fix (2026-11-03, handoff docs/Handoff-2026-11-03-T50-python314-windows.md):
-# trên Windows, tiến trình con spawn bằng Popen mặc định nằm trong cùng
-# console process-group với tiến trình cha (app.py). Nếu ai Ctrl+C terminal
-# đang chạy app.py (hoặc console gửi CTRL_C_EVENT), signal đó lan sang cả
-# subprocess T50 — quan sát được: subprocess chết giữa lúc import module
-# (KeyboardInterrupt trong data/t50_job.log), KHÔNG phải do lỗi code dịch.
-# CREATE_NEW_PROCESS_GROUP tách subprocess khỏi console process-group của
-# cha nên không bị Ctrl+C của terminal cha kéo theo nữa.
-_T50_POPEN_KW = {}
-if _sys.platform == 'win32':
-    _T50_POPEN_KW['creationflags'] = _t50_sp.CREATE_NEW_PROCESS_GROUP
-
 _T50_STATUS_FILE = os.path.join(os.path.dirname(__file__), 'data', 't50_job_status.json')
 _T50_LOG_FILE    = os.path.join(os.path.dirname(__file__), 'data', 't50_job.log')
 _T50_SCRIPT      = os.path.join(os.path.dirname(__file__), 'scripts', 't50_passage_vi_backfill.py')
 
-from process_alive import pid_alive as _t50_pid_alive  # noqa: E402
-# Sửa 2026-11-04: bản cũ dùng os.kill(pid, 0). Trên Windows CPython cài
-# os.kill bằng OpenProcess + TerminateProcess, nên (a) có thể GIẾT tiến trình
-# đích và (b) đo thực tế trả WinError 87 với job T50 đang sống (PID 22708)
-# ⇒ dashboard ghi running=False, job vẫn chạy trong nền. Xem
-# scripts/process_alive.py để biết chi tiết phép đo và cách kiểm an toàn.
+def _t50_pid_alive(pid):
+    if not pid:
+        return False
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except OSError:
+        return False
 
 def _t50_read_job():
     try:
@@ -11192,12 +10687,8 @@ def t50_run():
     sleep_s = float(body.get('sleep', 1.0))
 
     st = _t50_read_job()
-    # Kiểm pid thật thay vì tin cờ 'running': status có thể bị ghi running=False
-    # trong khi tiến trình vẫn sống (xem scripts/process_alive.py) → nếu chỉ
-    # xét cờ, bấm "Dịch" sẽ spawn job thứ hai chạy song song trên cùng DB +
-    # cùng quota Groq.
-    if _t50_pid_alive(st.get('pid')):
-        return jsonify({"ok": False, "error": f"Đang chạy sigla '{st.get('sigla')}' (PID {st.get('pid')}). Dừng trước khi chạy bộ khác."})
+    if st.get('running') and _t50_pid_alive(st.get('pid')):
+        return jsonify({"ok": False, "error": f"Đang chạy sigla '{st['sigla']}' (PID {st['pid']}). Dừng trước khi chạy bộ khác."})
 
     cmd = ['python', '-X', 'utf8', _T50_SCRIPT, '--sleep', str(sleep_s)]
     if sigla:
@@ -11206,8 +10697,7 @@ def t50_run():
     log_f = open(_T50_LOG_FILE, 'w', encoding='utf-8')
     proc = _t50_sp.Popen(cmd, stdout=log_f, stderr=log_f,
                           cwd=os.path.dirname(__file__),
-                          env={**os.environ, 'PYTHONUTF8': '1'},
-                          **_T50_POPEN_KW)
+                          env={**os.environ, 'PYTHONUTF8': '1'})
     now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
     _t50_write_job({"running": True, "sigla": sigla or "tất cả", "pid": proc.pid, "started_at": now})
     return jsonify({"ok": True, "pid": proc.pid, "sigla": sigla or "tất cả", "started_at": now})
@@ -11225,10 +10715,7 @@ def t50_stop():
         os.kill(int(pid), _t50_sig.SIGTERM)
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)})
-    # stopped_pid: /job-status dùng để không "nhận lại" (adopt) một job vừa bị
-    # dừng chủ động khi tiến trình chưa kịp thoát hẳn.
-    _t50_write_job({**st, "running": False, "stopped_pid": pid,
-                    "stopped_at": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')})
+    _t50_write_job({**st, "running": False, "stopped_at": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')})
     return jsonify({"ok": True, "stopped_pid": pid})
 
 
@@ -11238,8 +10725,7 @@ def _t50_start_sigla(sigla, st):
     log_f = open(_T50_LOG_FILE, 'w', encoding='utf-8')
     proc = _t50_sp.Popen(cmd, stdout=log_f, stderr=log_f,
                           cwd=os.path.dirname(__file__),
-                          env={**os.environ, 'PYTHONUTF8': '1'},
-                          **_T50_POPEN_KW)
+                          env={**os.environ, 'PYTHONUTF8': '1'})
     now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
     st.update({"running": True, "sigla": sigla, "pid": proc.pid, "started_at": now})
     _t50_write_job(st)
@@ -11251,15 +10737,6 @@ def t50_job_status():
     """GET — trạng thái job hiện tại + tail log + số đã dịch + hàng đợi."""
     st = _t50_read_job()
     pid = st.get('pid')
-    # Nhận lại (adopt) job "mồ côi": status ghi running=False nhưng tiến trình
-    # vẫn sống. Ca thật 2026-11-04: app.py cũ dùng os.kill(pid, 0) để dò nên
-    # báo nhầm "đã chết" trên Windows (WinError 87) trong khi job PID 22708
-    # vẫn dịch — dashboard hiện "chưa chạy" và bấm "Dịch" sẽ spawn job thứ hai.
-    if (not st.get('running') and pid and _t50_pid_alive(pid)
-            and st.get('stopped_pid') != pid):
-        st['running'] = True
-        st.pop('stopped_at', None)
-        _t50_write_job(st)
     if st.get('running') and not _t50_pid_alive(pid):
         # Job vừa xong — tự động chạy bộ tiếp trong queue
         st['running'] = False
@@ -11303,11 +10780,8 @@ def t50_enqueue():
         return jsonify({"ok": False, "error": "Thiếu sigla"})
     st = _t50_read_job()
     queue = st.get('queue') or []
-    # Xét pid thật (không chỉ cờ 'running') — xem scripts/process_alive.py.
-    if _t50_pid_alive(st.get('pid')):
+    if st.get('running') and _t50_pid_alive(st.get('pid')):
         # Đang bận — thêm vào cuối queue
-        st['running'] = True
-        st.pop('stopped_at', None)
         if sigla in queue:
             return jsonify({"ok": False, "error": f"'{sigla}' đã có trong hàng đợi"})
         queue.append(sigla)
@@ -12569,76 +12043,26 @@ _T427_FILTER_CACHE = {'data': None, 'ts': 0.0}
 _T427_FILTER_CACHE_TTL = 20.0
 
 
-# Gemini theo place: ai_place_name lưu dila_id lúc 10 chữ số (PL0000012606), còn places_dila
-# dùng 12 chữ số (PL000000012606). Chuẩn hoá về 12 chữ số rồi gom theo place (1 dòng/place).
-# Có 1.936 khóa trùng trong ai_place_name — chọn MAX tạm, chờ Admin quyết bản nào giữ.
-# Join trực tiếp vào subquery GROUP BY làm SQLite chạy lại theo từng dòng (treo >100s),
-# nên dựng bảng tạm có chỉ mục một lần cho mỗi kết nối (~0.3s).
-_GEMINI_PLACE_JOIN = "LEFT JOIN t_gem_place g ON g.pid = pd.id"
-
-
-def _ensure_gemini_temp(conn):
-    # Đã kiểm 2026-11-02 (1.936 nhóm trùng pid): dòng dila_id 14 ký tự (PL + 12 số)
-    # luôn là bản sửa đúng (1936/1936), MAX(name_vi_ai) cũ chọn ngẫu nhiên theo thứ
-    # tự byte -> 201 pid đổi tên so với MAX(name_vi_ai) cũ (đo thực tế bằng query
-    # so sánh 2 cách group trên data 2026-11-02, vd "Trường Lâm Trường" đáng ra
-    # "Trường Lâm Tràng"). Ưu tiên: (1) dila_id dài 14 ký tự, (2) created_at mới
-    # nhất. COALESCE(created_at,'')/COALESCE(name_vi_ai,'') trong khoá ghép dưới
-    # đây để một cột NULL không làm '||' trả NULL -> loại cả pid khỏi MAX(k) (dù
-    # data hiện tại 2026-11-02 không có NULL ở 2 cột này, giữ phòng hờ). Đã thử
-    # ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...) nhưng ĐO THẤY CHẬM HƠN rõ
-    # rệt (~1.2-4s so với ~0.45-0.68s của cách MAX(key) dưới đây, trên cùng máy,
-    # cùng dữ liệu 2026-11-02) vì SQLite phải vật chất hoá + sort cho window
-    # function. Thay bằng mẹo không cần window function: ghép 1 khoá chuỗi có thể
-    # so sánh được bằng MAX() aggregate thường (vẫn tận dụng được GROUP BY nhanh
-    # như bản cũ) — ký tự đầu '1'/'0' ưu tiên 14-ký-tự lên trước mọi created_at,
-    # phần còn lại là created_at (ISO, so sánh chuỗi đúng thứ tự thời gian) rồi
-    # tên; MAX(key) theo mỗi pid chọn đúng dòng mong muốn, sau đó tách tên ra.
-    conn.execute("DROP TABLE IF EXISTS temp.t_gem_place")
-    conn.execute("""
-        CREATE TEMP TABLE t_gem_place AS
-        SELECT pid, SUBSTR(rest, INSTR(rest, '|') + 1) AS name_vi_ai
-        FROM (
-            SELECT pid, SUBSTR(k, INSTR(k, '|') + 1) AS rest
-            FROM (
-                SELECT printf('PL%012d', CAST(SUBSTR(dila_id, 3) AS INTEGER)) AS pid,
-                       MAX(
-                         (CASE WHEN LENGTH(dila_id) = 14 THEN '1' ELSE '0' END)
-                         || '|' || COALESCE(created_at, '') || '|' || COALESCE(name_vi_ai, '')
-                       ) AS k
-                FROM ai_place_name GROUP BY pid
-            )
-        )
-    """)
-    conn.execute("CREATE UNIQUE INDEX temp.t_gem_place_pid ON t_gem_place(pid)")
-
-
 def _t427_filter_counts(conn):
     import time as _time
     now = _time.time()
     cached = _T427_FILTER_CACHE['data']
     if cached is not None and (now - _T427_FILTER_CACHE['ts']) < _T427_FILTER_CACHE_TTL:
         return cached
-    _ensure_gemini_temp(conn)
     agg = conn.execute("""
         SELECT COUNT(*) AS all_n,
                SUM(CASE WHEN m.id IS NULL OR m.vn_name_status IS NULL OR m.vn_name_status != 'reviewed' THEN 1 ELSE 0 END) AS needs_review_n,
-               SUM(CASE WHEN m.vn_name_status = 'reviewed' THEN 1 ELSE 0 END) AS pass_n,
-               SUM(CASE WHEN g.pid IS NULL THEN 1 ELSE 0 END) AS no_gemini_n,
-               SUM(CASE WHEN c.dila_id IS NULL THEN 1 ELSE 0 END) AS no_claude_n,
                SUM(CASE WHEN NOT EXISTS (SELECT 1 FROM vn_person_places vp WHERE vp.place_id = pd.id) THEN 1 ELSE 0 END) AS no_ttl_n
         FROM places_dila pd
         LEFT JOIN namevi_map_places m ON m.dila_id = pd.id
-        LEFT JOIN codex_place_name c ON c.dila_id = pd.id
-        """ + _GEMINI_PLACE_JOIN + """
     """).fetchone()
     all_n = agg['all_n']
     result = {
         'all': all_n,
-        'pass100': agg['pass_n'],
+        'pass100': 0,
         'needs_review': agg['needs_review_n'],
-        'no_claude': agg['no_claude_n'],
-        'no_gemini': agg['no_gemini_n'],
+        'no_claude': all_n,
+        'no_gemini': all_n,
         'no_ttl': agg['no_ttl_n'],
     }
     _T427_FILTER_CACHE['data'] = result
@@ -12654,8 +12078,7 @@ def _t427_invalidate_filter_cache():
 @app.route('/daoanh/api/places/vi-map', methods=['GET'])
 def api_places_vi_map_list():
     """T427 (1): danh sách địa danh places_dila + name_vi hiện tại (namevi_map_places),
-    phân trang 50/trang, tìm kiếm + 6 bộ lọc. Cột Claude (codex_place_name) và Gemini
-    (ai_place_name, chuẩn hoá ID) lấy từ DB; mỗi place chỉ một dòng."""
+    phân trang 50/trang, tìm kiếm + 6 bộ lọc. Cột Claude/Gemini luôn null (giai đoạn 2)."""
     try:
         q = (request.args.get('q') or '').strip()
         filt = (request.args.get('filter') or 'all').strip()
@@ -12670,13 +12093,11 @@ def api_places_vi_map_list():
         offset = (page - 1) * size
 
         conn = get_db_connection()
-        _ensure_gemini_temp(conn)
 
         base_from = """
             FROM places_dila pd
             LEFT JOIN namevi_map_places m ON m.dila_id = pd.id
             LEFT JOIN codex_place_name c ON c.dila_id = pd.id
-            """ + _GEMINI_PLACE_JOIN + """
         """
         where = []
         params = []
@@ -12698,24 +12119,9 @@ def api_places_vi_map_list():
         elif filt == 'no_ttl':
             where.append("NOT EXISTS (SELECT 1 FROM vn_person_places vp WHERE vp.place_id = pd.id)")
         elif filt == 'pass100':
-            # Đã Admin Pass (vn_name_status = 'reviewed').
-            where.append("m.vn_name_status = 'reviewed'")
-        elif filt == 'no_gemini':
-            where.append("g.pid IS NULL")
-        elif filt == 'no_claude':
-            where.append("c.dila_id IS NULL")
-
-        # BUG verify 2026-11-06 (namevimap — ID đã Pass chưa được ẩn trên các TAB):
-        # Checkbox "Ẩn đã Pass" (place-hide-done, admin/namevimap.html) gửi tham số
-        # hide_done=true nhưng route này trước đây không đọc tham số đó, nên các dòng
-        # đã Pass (vn_name_status='reviewed') vẫn hiện lại sau khi tải lại trang. Mặc
-        # định True để khớp checkbox mặc định checked. Không áp dụng khi filt='pass100'
-        # vì đó là lúc Admin CHỦ Ý xem lại các dòng đã Pass — áp hide_done ở đây sẽ luôn
-        # trả danh sách rỗng. Cùng pattern hide_pass đã dùng ở tab Catalog (T520) và tab
-        # Work Verify (api_admin_work_verify_list, app.py ~17669).
-        hide_done = (request.args.get('hide_done', 'true') or 'true').strip().lower() != 'false'
-        if hide_done and filt != 'pass100':
-            where.append("(m.vn_name_status IS NULL OR m.vn_name_status != 'reviewed')")
+            # Giai đoạn 1: chưa có Claude/Gemini cho địa danh -> không dòng nào đạt Pass 100%.
+            where.append("1 = 0")
+        # 'no_claude', 'no_gemini', 'all': chưa có cột AI -> toàn bộ đều "thiếu", không thêm điều kiện.
 
         where_sql = (' WHERE ' + ' AND '.join(where)) if where else ''
 
@@ -12732,8 +12138,7 @@ def api_places_vi_map_list():
                    m.name_vi AS name_vi, m.source AS source,
                    m.vn_name_status AS vn_name_status, m.confidence AS confidence,
                    m.needs_review AS needs_review,
-                   c.name_vi AS claude_name_vi,
-                   g.name_vi_ai AS gemini_name_vi
+                   c.name_vi AS claude_name_vi
             {base_from}
             {where_sql}
             ORDER BY pd.id
@@ -12790,7 +12195,7 @@ def api_places_vi_map_list():
                 'confidence': r['confidence'],
                 'needs_review': r['needs_review'],
                 'claude_name_vi': r['claude_name_vi'],  # T465 — JOIN codex_place_name.dila_id (T443 applied 2026-10-23)
-                'gemini_name_vi': r['gemini_name_vi'],  # ai_place_name (Gemini), khớp ID đã chuẩn hoá
+                'gemini_name_vi': None,   # Giai đoạn 2 — chưa có bảng codex_place_name
                 'ttl_name_vi': ttl_map.get(r['place_id']),
                 'dictionary_definition': lex_map.get(r['name_zh']),
                 'editor': ed['editor'] if ed else None,
@@ -17578,480 +16983,6 @@ def admin_namevi_map_places_delete():
         conn.close()
 
 
-# ── T486: Xác minh tác giả — contributor name_vi lệch DB (people.name_vi) vs ──
-# file vi_json (vn_dila_authority_catalog/*.vi.json, đã import nguyên văn vào
-# dila_catalog_works.vi_json — đã kiểm bằng tay 2026-11-02: nội dung contributors
-# trong cột DB và trong file *.vi.json trên đĩa giống nhau 100% cho các mẫu đã
-# tra, nên đọc từ DB là đủ, KHÔNG cần mở lại file mỗi request).
-# Route GET + POST .../pass dưới đây đang THIẾU — frontend admin/namevimap.html
-# (tab "✍️ Xác minh tác giả", dòng ~3098/3175) gọi 404 → lỗi "Unexpected token '<'".
-_WV_CACHE = {'data': None, 'ts': 0.0}
-_WV_CACHE_TTL = 20.0
-_WV_HAN_RE = re.compile(r'[一-鿿㐀-䶿豈-﫿]')
-
-
-def _wv_classify_group(name_db, name_file):
-    """A = chỉ khác hoa/dấu (so khớp sau khi bỏ dấu + hạ chữ qua normalize_text
-    đã có sẵn trong file này, dòng ~102). B = tên đề xuất (file) còn sót chữ Hán.
-    C = khác nội dung (cần soát kỹ nhất)."""
-    if _WV_HAN_RE.search(name_file or ''):
-        return 'B'
-    if normalize_text(name_db) == normalize_text(name_file):
-        return 'A'
-    return 'C'
-
-
-def _wv_build_rows(conn):
-    """Quét toàn bộ dila_catalog_works.vi_json 1 lần, gom theo person_id những
-    người có contributor name_vi (file) khác people.name_vi (DB) hiện tại.
-    Kết quả cache _WV_CACHE_TTL giây — cùng kiểu với _T427_FILTER_CACHE ở trên."""
-    people_map = {}
-    for r in conn.execute("SELECT id, name_vi, name_zh FROM people"):
-        people_map[r['id']] = {'name_vi': r['name_vi'], 'name_zh': r['name_zh']}
-
-    try:
-        works = conn.execute(
-            "SELECT cbeta_id, title_zh, vi_json FROM dila_catalog_works WHERE vi_json IS NOT NULL"
-        ).fetchall()
-    except sqlite3.OperationalError:
-        return [], 'Bảng dila_catalog_works chưa có trên môi trường này.'
-
-    by_person = {}
-    parse_errors = 0
-    for w in works:
-        try:
-            d = json.loads(w['vi_json'])
-        except Exception:
-            parse_errors += 1
-            continue
-        for ctb in (d.get('contributors') or []):
-            pid = ctb.get('id')
-            file_name = (ctb.get('name_vi') or '').strip()
-            if not pid or not file_name:
-                continue
-            pdata = people_map.get(pid)
-            if not pdata:
-                continue
-            db_name = (pdata['name_vi'] or '').strip()
-            if not db_name or db_name == file_name:
-                continue  # không lệch -> không đưa vào danh sách cần soát
-            entry = by_person.setdefault(pid, {
-                'name_zh': ctb.get('name') or pdata['name_zh'] or '',
-                'name_db': db_name,
-                'file_names': {},
-                'works': [],
-            })
-            entry['file_names'][file_name] = entry['file_names'].get(file_name, 0) + 1
-            entry['works'].append({'cbeta_id': w['cbeta_id'], 'title_zh': w['title_zh']})
-
-    passed_map = {}
-    try:
-        for r in conn.execute(
-            "SELECT dila_id, name_vi_final FROM name_vi_map WHERE approved_by = 'work_verify_pass'"
-        ):
-            passed_map[r['dila_id']] = r['name_vi_final']
-    except sqlite3.OperationalError:
-        pass
-
-    rows = []
-    for pid, e in by_person.items():
-        sorted_names = sorted(e['file_names'].items(), key=lambda kv: (-kv[1], kv[0]))
-        name_file = sorted_names[0][0]
-        variants = [n for n, _cnt in sorted_names[1:]]
-        rows.append({
-            'person_id': pid,
-            'name_zh': e['name_zh'],
-            'name_db': e['name_db'],
-            'name_file': name_file,
-            'name_file_variants': variants,
-            'group': _wv_classify_group(e['name_db'], name_file),
-            'work_count': len(e['works']),
-            'works': e['works'][:5],
-            'passed': pid in passed_map,
-        })
-    rows.sort(key=lambda r: r['person_id'])
-    warning = (f'{parse_errors} dòng vi_json lỗi JSON, đã bỏ qua.' if parse_errors else None)
-    return rows, warning
-
-
-def _wv_get_rows(conn):
-    now = time.time()
-    cached = _WV_CACHE['data']
-    if cached is not None and (now - _WV_CACHE['ts']) < _WV_CACHE_TTL:
-        return cached
-    rows, warning = _wv_build_rows(conn)
-    _WV_CACHE['data'] = (rows, warning)
-    _WV_CACHE['ts'] = now
-    return rows, warning
-
-
-def _wv_invalidate_cache():
-    _WV_CACHE['data'] = None
-
-
-@app.route('/daoanh/api/admin/work-verify', methods=['GET'])
-def api_admin_work_verify_list():
-    """T486: danh sách người có tên contributor lệch giữa DB (people.name_vi)
-    và file vi_json (dila_catalog_works.vi_json, nguồn gốc từ
-    vn_dila_authority_catalog/*.vi.json — đã import nguyên văn). Phân trang
-    50/trang (query 'size' tối đa 200), lọc theo 'group' (ALL|A|B|C) và tìm
-    theo 'q' (mã người / Hán tự / tên Việt, không phân biệt hoa/dấu)."""
-    token = request.headers.get('X-Session-Token', '')
-    if not verify_session(token):
-        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
-    try:
-        q = (request.args.get('q') or '').strip()
-        group = (request.args.get('group') or 'ALL').strip().upper()
-        try:
-            page = max(1, int(request.args.get('page', 1)))
-        except Exception:
-            page = 1
-        try:
-            size = max(1, min(200, int(request.args.get('size', 50))))
-        except Exception:
-            size = 50
-
-        conn = get_db_connection()
-        rows, warning = _wv_get_rows(conn)
-        conn.close()
-
-        # BUG verify 2026-11-05: 'passed' đã được tính ở _wv_build_rows() (dòng
-        # ~17295) nhưng chưa bao giờ được dùng để lọc — dòng đã Pass vẫn nằm
-        # trong `rows` nên tải lại (F5) vẫn hiện lại (chỉ đổi UI thành "✓ tên"
-        # thay vì nút Pass, không biến mất như T503 yêu cầu). Mặc định ẩn —
-        # cùng pattern hide_pass đã dùng ở tab Catalog (T520, dòng ~17505-17508).
-        hide_pass = (request.args.get('hide_pass', '1') or '1') != '0'
-        if hide_pass:
-            rows = [r for r in rows if not r['passed']]
-
-        if group in ('A', 'B', 'C'):
-            rows = [r for r in rows if r['group'] == group]
-
-        if q:
-            nq = normalize_text(q)
-            qu = q.upper()
-
-            def _match(r):
-                if qu and r['person_id'].upper() == qu:
-                    return True
-                if q in (r['name_zh'] or ''):
-                    return True
-                if nq in normalize_text(r['name_db']) or nq in normalize_text(r['name_file']):
-                    return True
-                return False
-
-            rows = [r for r in rows if _match(r)]
-
-        total = len(rows)
-        offset = (page - 1) * size
-        page_rows = rows[offset:offset + size]
-
-        resp = {
-            'ok': True,
-            'items': page_rows,
-            'total': total,
-            'page': page,
-            'size': size,
-            'pages': max(1, (total + size - 1) // size),
-        }
-        if warning:
-            resp['warning'] = warning
-        return jsonify(resp)
-    except Exception as e:
-        return jsonify({'ok': False, 'error': str(e)}), 500
-
-
-@app.route('/daoanh/api/admin/work-verify/<person_id>/pass', methods=['POST'])
-def api_admin_work_verify_pass(person_id):
-    """T486: Admin xác nhận (Pass) tên Việt của 1 người — ghi name_vi_map
-    (approved_by='work_verify_pass', cùng kiểu upsert đã dùng ở
-    admin_namevi_bulk_pass() phía trên, dòng ~16957) + đồng bộ people.name_vi
-    (đúng như tooltip trong admin/namevimap.html dòng ~956)."""
-    token = request.headers.get('X-Session-Token', '')
-    if not verify_session(token):
-        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
-    try:
-        data = request.get_json(silent=True) or {}
-        name_vi = (data.get('name_vi') or '').strip()
-        if not name_vi:
-            return jsonify({'ok': False, 'error': 'name_vi không được rỗng'}), 400
-
-        conn = get_db_connection()
-        person = conn.execute("SELECT id, name_zh FROM people WHERE id = ?", (person_id,)).fetchone()
-        if not person:
-            conn.close()
-            return jsonify({'ok': False, 'error': f'Không có người {person_id} trong bảng people'}), 404
-
-        now = datetime.now().isoformat()
-        name_zh = person['name_zh'] or ''
-        existing = conn.execute(
-            "SELECT id FROM name_vi_map WHERE dila_id = ?", (person_id,)
-        ).fetchone()
-        try:
-            if existing:
-                conn.execute("""
-                    UPDATE name_vi_map
-                    SET name_vi_final = ?, name_vi = ?,
-                        approved_by = 'work_verify_pass', approved_at = ?
-                    WHERE dila_id = ?
-                """, (name_vi, name_vi, now, person_id))
-            else:
-                conn.execute("""
-                    INSERT INTO name_vi_map
-                        (dila_id, name_vi, name_vi_final, name_zh,
-                         approved_by, approved_at, confidence, created_at)
-                    VALUES (?, ?, ?, ?, 'work_verify_pass', ?, 1.0, ?)
-                """, (person_id, name_vi, name_vi, name_zh, now, now))
-
-            conn.execute("UPDATE people SET name_vi = ? WHERE id = ?", (name_vi, person_id))
-            conn.commit()
-        except sqlite3.IntegrityError:
-            # T486 BUG: UNIQUE(name_vi_map.name_vi, name_vi_map.name_zh) đụng dòng
-            # đồng danh khác người (ví dụ A000061 vs A046651 cùng 'Đại Huệ'/'大惠').
-            # Rollback, KHÔNG ghi gì, trả 409 kèm ID đang giữ cặp tên đó để Admin xử lý trùng.
-            conn.rollback()
-            conflict = conn.execute(
-                "SELECT dila_id FROM name_vi_map WHERE name_vi = ? AND name_zh = ? AND dila_id != ?",
-                (name_vi, name_zh, person_id)
-            ).fetchone()
-            conn.close()
-            conflict_id = conflict['dila_id'] if conflict else 'một ID khác'
-            return jsonify({
-                'ok': False,
-                'error': (f"Tên Việt '{name_vi}' với tên Hán '{name_zh}' đã gán cho ID "
-                          f"{conflict_id}; cần xử lý trùng trước khi Pass.")
-            }), 409
-
-        conn.close()
-        _wv_invalidate_cache()
-        return jsonify({'ok': True, 'person_id': person_id, 'name_vi': name_vi})
-    except Exception as e:
-        return jsonify({'ok': False, 'error': str(e)}), 500
-
-
-# ── T519: Catalog tác phẩm — đối chiếu/duyệt tên Việt dila_catalog_works ──────
-# frontend admin/namevimap.html tab "📚 Catalog" (catalogLoad/catalogGeminiCall/
-# catalogPassWork, dòng ~2869-3002) gọi 3 route dưới đây → 404 HTML → lỗi
-# "Unexpected token '<'" (cùng dạng bug với T486 work-verify phía trên).
-# Cột read: title_zh/title_vi/vi_source/vi_status (có sẵn). Cột ghi khi Pass:
-# vi_approved_by/vi_approved_at (migration additive — xem
-# scripts/t519_catalog_works_approval_columns.py).
-def _catalog_works_has_approval_cols(conn):
-    try:
-        cols = {r[1] for r in conn.execute('PRAGMA table_info(dila_catalog_works)')}
-    except sqlite3.OperationalError:
-        return False
-    return 'vi_approved_by' in cols and 'vi_approved_at' in cols
-
-
-def _catalog_hvdic_fields(title_zh):
-    """hvdic = phiên âm Hán-Việt charwise cơ giới (tái dùng
-    _hanviet_charwise_translit, KHÔNG phải tên nguồn DILA/ZQLOCAL đã xác thực —
-    chỉ để Admin đối chiếu với phien_am_claude). lexicon_hits = 'số chữ tra được/
-    tổng số chữ Hán' trong title_zh."""
-    charwise, unknown = _hanviet_charwise_translit(title_zh or '')
-    total_han = sum(1 for c in (title_zh or '') if '一' <= c <= '鿿')
-    hits = total_han - len(unknown)
-    lexicon_hits = f'{hits}/{total_han}' if total_han else None
-    return (charwise or None), lexicon_hits
-
-
-@app.route('/daoanh/api/admin/catalog-works', methods=['GET'])
-def api_admin_catalog_works_list():
-    """T519: danh sách tác phẩm CBETA cần đối chiếu/duyệt tên Việt.
-    Query: page (mặc định 1), size (mặc định 50, tối đa 200), q (tìm theo
-    cbeta_id / title_zh / title_vi, không phân biệt hoa/dấu cho title_vi).
-    gemini_free và muc_luc_nmt KHÔNG có nguồn dữ liệu lưu sẵn trong schema hiện
-    tại → luôn trả None/[] (không bịa), frontend tự hiện nút 'Dịch Gemini'."""
-    token = request.headers.get('X-Session-Token', '')
-    if not verify_session(token):
-        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
-    try:
-        q = (request.args.get('q') or '').strip()
-        try:
-            page = max(1, int(request.args.get('page', 1)))
-        except Exception:
-            page = 1
-        try:
-            size = max(1, min(200, int(request.args.get('size', 50))))
-        except Exception:
-            size = 50
-
-        conn = get_db_connection()
-        try:
-            has_approval = _catalog_works_has_approval_cols(conn)
-            cols_sql = ("cbeta_id, title_zh, title_vi, vi_source, vi_status"
-                        + (", vi_approved_by, vi_approved_at" if has_approval else ""))
-            rows = conn.execute(
-                f"SELECT {cols_sql} FROM dila_catalog_works ORDER BY cbeta_id"
-            ).fetchall()
-        except sqlite3.OperationalError as e:
-            return jsonify({'ok': False, 'error': f"Bảng dila_catalog_works chưa có hoặc lỗi schema: {e}"}), 200
-        finally:
-            conn.close()
-
-        if q:
-            nq = normalize_text(q)
-            qu = q.upper()
-
-            def _match(r):
-                if qu and qu in (r['cbeta_id'] or '').upper():
-                    return True
-                if q in (r['title_zh'] or ''):
-                    return True
-                if nq and nq in normalize_text(r['title_vi'] or ''):
-                    return True
-                return False
-
-            rows = [r for r in rows if _match(r)]
-
-        # Mặc định ẩn dòng đã Pass (vi_status='approved') để không tốn chỗ; hide_pass=0 để xem lại.
-        hide_pass = (request.args.get('hide_pass', '1') or '1') != '0'
-        if hide_pass and has_approval:
-            rows = [r for r in rows if r['vi_status'] != 'approved']
-
-        total = len(rows)
-        offset = (page - 1) * size
-        page_rows = rows[offset:offset + size]
-
-        items = []
-        for r in page_rows:
-            hvdic, lexicon_hits = _catalog_hvdic_fields(r['title_zh'])
-            approved = has_approval and r['vi_status'] == 'approved'
-            admin_pass = None
-            if approved:
-                admin_pass = {
-                    'name_vi': r['title_vi'],
-                    'editor': r['vi_approved_by'],
-                    'at': r['vi_approved_at'],
-                }
-            items.append({
-                'cbeta_id': r['cbeta_id'],
-                'title_zh': r['title_zh'],
-                'hvdic': hvdic,
-                'gemini_free': None,  # chưa ghi DB ở GET — chỉ có khi admin bấm 'Dịch Gemini'
-                'phien_am_claude': r['title_vi'],
-                'lexicon_hits': lexicon_hits,
-                'muc_luc_nmt': [],  # chưa có nguồn dữ liệu — không bịa
-                'admin_pass': admin_pass,
-            })
-
-        return jsonify({
-            'ok': True,
-            'items': items,
-            'total': total,
-            'page': page,
-            'size': size,
-            'pages': max(1, (total + size - 1) // size),
-        })
-    except Exception as e:
-        return jsonify({'ok': False, 'error': str(e)}), 500
-
-
-@app.route('/daoanh/api/admin/catalog-works/<cbeta_id>/gemini', methods=['POST'])
-def api_admin_catalog_works_gemini(cbeta_id):
-    """T519: gọi Gemini đề xuất tên Việt (phiên âm Hán-Việt) cho 1 tác phẩm.
-    KHÔNG ghi DB — chỉ trả đề xuất để Admin xem/sửa trước khi bấm Pass.
-    Dùng GEMINI_API_KEY có sẵn trong app.py (.env) — không hardcode key mới,
-    cùng URL/model 'gemini-3.6-flash' đang dùng ở nơi khác trong file này."""
-    token = request.headers.get('X-Session-Token', '')
-    if not verify_session(token):
-        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
-    try:
-        conn = get_db_connection()
-        try:
-            row = conn.execute(
-                "SELECT cbeta_id, title_zh FROM dila_catalog_works WHERE cbeta_id = ?", (cbeta_id,)
-            ).fetchone()
-        except sqlite3.OperationalError as e:
-            return jsonify({'ok': False, 'error': f"Bảng dila_catalog_works chưa có hoặc lỗi schema: {e}"}), 200
-        finally:
-            conn.close()
-        if not row:
-            return jsonify({'ok': False, 'error': f'Không có tác phẩm {cbeta_id}'}), 404
-        title_zh = (row['title_zh'] or '').strip()
-        if not title_zh:
-            return jsonify({'ok': False, 'error': 'title_zh rỗng — không có gì để dịch'}), 400
-        if not GEMINI_API_KEY:
-            return jsonify({'ok': False, 'error': 'Thiếu GEMINI_API_KEY trong .env'}), 503
-
-        prompt = (
-            "Phiên âm Hán-Việt tên tác phẩm Phật giáo sau đây (chỉ phiên âm từng "
-            "chữ Hán sang âm Hán-Việt, viết hoa đầu mỗi âm, KHÔNG dịch nghĩa, KHÔNG "
-            "thêm chú giải). Chỉ trả về đúng 1 dòng là tên phiên âm, không kèm gì khác.\n"
-            f"Tên Hán: {title_zh}"
-        )
-        try:
-            g_url = ("https://generativelanguage.googleapis.com/v1beta/models/"
-                     "gemini-3.6-flash:generateContent?key=" + GEMINI_API_KEY)
-            g_resp = requests.post(g_url, json={
-                "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"maxOutputTokens": 256, "temperature": 0.1},
-            }, timeout=30)
-            g_data = g_resp.json()
-            gemini_vi = None
-            if g_data.get('candidates'):
-                gemini_vi = g_data['candidates'][0]['content']['parts'][0]['text'].strip()
-        except Exception as e:
-            return jsonify({'ok': False, 'error': f'Lỗi gọi Gemini: {e}'}), 503
-        if not gemini_vi:
-            return jsonify({'ok': False, 'error': 'Gemini không trả kết quả',
-                            'raw': g_data if 'g_data' in dir() else None}), 503
-        return jsonify({'ok': True, 'cbeta_id': cbeta_id, 'gemini_vi': gemini_vi})
-    except Exception as e:
-        return jsonify({'ok': False, 'error': str(e)}), 500
-
-
-@app.route('/daoanh/api/admin/catalog-works/<cbeta_id>/pass', methods=['POST'])
-def api_admin_catalog_works_pass(cbeta_id):
-    """T519: Admin duyệt (Pass) tên Việt cuối cùng cho 1 tác phẩm. Body:
-    {name_vi: str, editor?: str}. Ghi vào dila_catalog_works.title_vi +
-    vi_source='admin_pass' + vi_status='approved' + vi_approved_by/at.
-    Cần migration additive scripts/t519_catalog_works_approval_columns.py đã
-    chạy trước (ALTER thêm vi_approved_by/vi_approved_at); nếu chưa chạy, trả
-    lỗi rõ ràng thay vì ghi dở."""
-    token = request.headers.get('X-Session-Token', '')
-    if not verify_session(token):
-        return jsonify({'ok': False, 'error': 'unauthorized — thiếu hoặc sai session token'}), 403
-    try:
-        data = request.get_json(silent=True) or {}
-        name_vi = (data.get('name_vi') or '').strip()
-        if not name_vi:
-            return jsonify({'ok': False, 'error': 'name_vi không được rỗng'}), 400
-        editor = (data.get('editor') or '').strip() or 'admin'
-
-        conn = get_db_connection()
-        try:
-            if not _catalog_works_has_approval_cols(conn):
-                return jsonify({
-                    'ok': False,
-                    'error': ("Thiếu cột vi_approved_by/vi_approved_at trên dila_catalog_works — "
-                              "chạy `python scripts/t519_catalog_works_approval_columns.py` trước khi Pass."),
-                }), 200
-            row = conn.execute(
-                "SELECT cbeta_id FROM dila_catalog_works WHERE cbeta_id = ?", (cbeta_id,)
-            ).fetchone()
-            if not row:
-                return jsonify({'ok': False, 'error': f'Không có tác phẩm {cbeta_id}'}), 404
-            now = datetime.now().isoformat()
-            conn.execute(
-                "UPDATE dila_catalog_works "
-                "SET title_vi = ?, vi_source = 'admin_pass', vi_status = 'approved', "
-                "    vi_approved_by = ?, vi_approved_at = ? "
-                "WHERE cbeta_id = ?",
-                (name_vi, editor, now, cbeta_id)
-            )
-            conn.commit()
-        except sqlite3.OperationalError as e:
-            return jsonify({'ok': False, 'error': f"Lỗi ghi DB: {e}"}), 200
-        finally:
-            conn.close()
-        return jsonify({'ok': True, 'cbeta_id': cbeta_id, 'name_vi': name_vi,
-                        'editor': editor, 'at': now})
-    except Exception as e:
-        return jsonify({'ok': False, 'error': str(e)}), 500
-
-
 # ===== VISITOR COUNTER =====
 @app.route('/daoanh/api/public/counter')
 def visitor_counter():
@@ -22173,128 +21104,10 @@ def _parse_dila_vi_json(text):
         return None
 
 
-# BUG-052 — nhãn + khóa dịch Việt dùng để tính "đã dịch đầy đủ" cho dila_card.
-# key = khóa Hán trong `source_data`; value = (khóa_vi_AI_trả_về, nhãn UI).
-# KHÔNG suy khóa_vi bằng quy tắc "<key>_vi" cho MỌI trường — đã xác minh
-# _build_dila_card_prompt (schema JSON output khai trong prompt) đặt tên khóa
-# RIÊNG cho 'dynasty_xml' → 'dynasty_vi' (không phải 'dynasty_xml_vi'); mọi
-# trường khác theo đúng quy tắc "<key>_vi". Soát lại schema thật trong
-# _build_dila_card_prompt() mỗi khi đổi field — sai khóa ở đây làm missing_fields
-# báo nhầm "thiếu" dù AI đã dịch đúng, hoặc ngược lại báo "đủ" dù chưa dịch.
-# 'name_zh'/'relations' không có trong danh sách vì không có khóa "_vi" 1-1
-# (name không dịch, relations dịch qua relations_vi theo item).
-_DILA_FIELD_LABELS = {
-    'alt_names': ('alt_names_vi', 'Tên khác (DILA)'),
-    'occupation': ('occupation_vi', 'Nghề nghiệp'),
-    'place_of_origin': ('place_of_origin_vi', 'Nơi xuất xứ'),
-    'dynasty_xml': ('dynasty_vi', 'Triều đại'),
-    'bio_concise': ('bio_concise_vi', 'Tiểu sử vắn tắt'),
-    'bio_extensive': ('bio_extensive_vi', 'Tiểu sử chi tiết'),
-    'listbibl': ('listbibl_vi', 'Trích dẫn CBETA'),
-    'works_tripitaka': ('works_tripitaka_vi', 'Kinh trong Đại Tạng'),
-    'works_by': ('works_by_vi', 'Tác phẩm tự soạn'),
-    'secondary_lit': ('secondary_lit_vi', 'Tài liệu tham khảo'),
-    'mentioned_in': ('mentioned_in_vi', 'Được đề cập trong'),
-    'active_at': ('active_at_vi', 'Nơi hoạt động'),
-    'death_note': ('death_note_vi', 'Ghi chú năm mất'),
-    'birth_death_quote': ('birth_death_quote_vi', 'Trích dẫn nguồn gốc (năm sinh/mất)'),
-}
-
-
-def _t148_dila_source_fields(name_zh, bio_zh, extra):
-    """BUG-052 — xây các trường Hán (không gồm 'relations') dùng CHUNG giữa
-    /daoanh/api/person/<id>/dila_translate (dịch) và /daoanh/api/dila/persons
-    (liệt kê, tính completeness cho cột TRẠNG THÁI). Một nguồn duy nhất — sửa
-    field ở đây thì cả 2 nơi tự động khớp, không lệch như source_data cũ (xem
-    comment 'death_note'/'birth_death_quote' bên dưới)."""
-    extra = extra or {}
-    return {
-        'name_zh': name_zh or '',
-        'alt_names': extra.get('alt_names') or [],
-        'occupation': extra.get('occupation') or '',
-        'place_of_origin': extra.get('place_of_origin') or '',
-        'dynasty_xml': extra.get('dynasty_xml') or '',
-        'bio_concise': (bio_zh or '')[:2000],
-        'bio_extensive': (extra.get('bio_extensive') or '')[:4000],
-        'listbibl': (extra.get('listbibl') or [])[:20],
-        'works_tripitaka': extra.get('works_tripitaka') or '',
-        'works_by': extra.get('works_by') or '',
-        'secondary_lit': extra.get('secondary_lit') or '',
-        'mentioned_in': extra.get('mentioned_in') or '',
-        'active_at': extra.get('active_at') or '',
-        'death_note': extra.get('death_note') or '',
-        'birth_death_quote': extra.get('birth_death_quote') or '',
-    }
-
-
-def _t148_dila_missing_fields(source_data, vi_dict):
-    """BUG-052 — trả list nhãn các trường CÓ Hán văn trong `source_data` nhưng
-    CHƯA có bản dịch tương ứng (rỗng/thiếu) trong `vi_dict`. [] = đã dịch đủ.
-    Đây là nguồn sự thật duy nhất cho "done" — không dùng label UI hay suy diễn,
-    đúng theo _DILA_FIELD_LABELS (schema thật của /dila_translate)."""
-    vi_dict = vi_dict or {}
-    missing = []
-    for key, (vi_key, label) in _DILA_FIELD_LABELS.items():
-        src_val = source_data.get(key)
-        has_src = (len(src_val) > 0) if isinstance(src_val, (list, tuple)) else bool((src_val or '').strip() if isinstance(src_val, str) else src_val)
-        if not has_src:
-            continue
-        vi_val = vi_dict.get(vi_key)
-        has_vi = (len(vi_val) > 0) if isinstance(vi_val, (list, tuple)) else bool((vi_val or '').strip() if isinstance(vi_val, str) else vi_val)
-        if not has_vi:
-            missing.append(label)
-    return missing
-
-
-# T524 (BUG-052 follow-up, 2026-11-07): retry có chờ cho nhánh gọi Groq của
-# api_person_dila_translate khi 429 / không có choices / finish_reason != 'stop'.
-# Không đổi max_tokens/model/timeout của MỖI request — chỉ thêm vòng gọi lại.
-_T524_GROQ_MAX_CALLS = 3            # 1 lần đầu + tối đa 2 lần retry = tối đa 3 lần gọi Groq
-_T524_GROQ_BACKOFF_FIXED = [1, 2]   # giây — dùng khi KHÔNG đọc được gợi ý thời gian thật từ Groq
-
-
-def _t524_groq_retry_wait(resp, retry_idx):
-    """Ước lượng số giây chờ trước lần gọi lại Groq kế tiếp.
-
-    Ưu tiên theo thứ tự:
-    1. Header `Retry-After`/`retry-after` trên response (nếu Groq trả).
-    2. Regex "try again in Xs" trong body lỗi (kiểu thông báo OpenAI/Groq).
-    3. Backoff cố định `_T524_GROQ_BACKOFF_FIXED` (1s rồi 2s) nếu không tìm
-       được gợi ý nào (bao gồm case exception — không có response).
-
-    `retry_idx` = chỉ số lần retry sắp thực hiện, 0-based (0 = lần retry thứ
-    nhất, 1 = lần retry thứ hai).
-    """
-    if resp is not None:
-        ra = resp.headers.get('Retry-After') or resp.headers.get('retry-after')
-        if ra:
-            try:
-                return max(0.0, float(ra))
-            except (TypeError, ValueError):
-                pass
-        try:
-            body_text = resp.text or ''
-        except Exception:
-            body_text = ''
-        m = re.search(r'try again in\s*([\d.]+)\s*s', body_text, re.IGNORECASE)
-        if m:
-            try:
-                return max(0.0, float(m.group(1)))
-            except (TypeError, ValueError):
-                pass
-    idx = min(retry_idx, len(_T524_GROQ_BACKOFF_FIXED) - 1)
-    return _T524_GROQ_BACKOFF_FIXED[idx]
-
-
 @app.route('/daoanh/api/person/<person_id>/dila_translate', methods=['GET', 'POST'])
 def api_person_dila_translate(person_id):
     """GET = kiểm tra cache. POST = dịch DILA card sang tiếng Việt Phật học hàn lâm.
     Cache key: translation_cache (source_type='dila_card', entity_id=person_id).
-
-    BUG-052 (2026-11-07): mọi response "ok":true kèm "missing_fields" (list nhãn
-    trường có Hán văn nhưng chưa dịch) + "done" (bool, True khi missing_fields
-    rỗng). Caller (UI tab 'Dịch ID Person') PHẢI dùng "done" để quyết định badge
-    DONE — không tự suy DONE chỉ vì request trả ok:true.
     """
     import json as _j
     # BUG#2 fix: _t148_get_extra chỉ index dữ liệu MỞ RỘNG từ DILA XML (alt_names/
@@ -22334,16 +21147,23 @@ def api_person_dila_translate(person_id):
             if pid and zh and nv and _ok_hanviet_name(nv):
                 person_name_lock[zh] = {'name_vi': nv, 'person_id': pid}
 
-        # BUG-052 fix: trước đây dict này tự khai báo tại chỗ và THIẾU 2 khóa
-        # 'death_note'/'birth_death_quote' dù _build_dila_card_prompt (rule 9/10)
-        # yêu cầu AI dịch death_note_vi/birth_death_quote_vi — AI không có input
-        # Hán của 2 trường này nên luôn trả "" (đã xác minh thực tế trên 5 bản
-        # cache dila_card cũ: death_note_vi/birth_death_quote_vi = '' ở mọi dòng).
-        # Nay dùng _t148_dila_source_fields() (1 nguồn chung với /dila/persons)
-        # đã có đủ 2 khóa này.
-        source_data = _t148_dila_source_fields(name_zh, bio_zh, extra)
-        source_data['relations'] = [{'person_id': r['person_id'], 'name': r.get('name', '')}
-                                     for r in rel_list]
+        source_data = {
+            'name_zh': name_zh,
+            'alt_names': extra.get('alt_names') or [],
+            'occupation': extra.get('occupation') or '',
+            'place_of_origin': extra.get('place_of_origin') or '',
+            'dynasty_xml': extra.get('dynasty_xml') or '',
+            'bio_concise': bio_zh[:2000],
+            'bio_extensive': (extra.get('bio_extensive') or '')[:4000],
+            'listbibl': (extra.get('listbibl') or [])[:20],
+            'works_tripitaka': extra.get('works_tripitaka') or '',
+            'works_by': extra.get('works_by') or '',
+            'secondary_lit': extra.get('secondary_lit') or '',
+            'mentioned_in': extra.get('mentioned_in') or '',
+            'active_at': extra.get('active_at') or '',
+            'relations': [{'person_id': r['person_id'], 'name': r.get('name', '')}
+                          for r in rel_list],
+        }
         src_hash = _t73_source_hash(_j.dumps(source_data, ensure_ascii=False, sort_keys=True))
 
         # T165: lock BEFORE lookup → source_text lọc rules/glossary + resolver merge + hash post-merge (#5a)
@@ -22352,10 +21172,6 @@ def api_person_dila_translate(person_id):
             source_data.get('place_of_origin', ''), source_data.get('active_at', ''),
             source_data.get('dynasty_xml', ''), source_data.get('occupation', ''),
             source_data.get('name_zh', ''),
-            # BUG-052: nạp vào resolver source để Glossary Lock cũng áp dụng cho
-            # 2 trường mới thêm (trước đây không có trong _res_src vì chưa tồn tại
-            # trong source_data).
-            source_data.get('death_note', ''), source_data.get('birth_death_quote', ''),
         ]))
         _name_lock_lines = sorted(
             f"{zh}={v['name_vi']}({v['person_id']})" for zh, v in person_name_lock.items())
@@ -22385,7 +21201,6 @@ def api_person_dila_translate(person_id):
                     pid = rel.get('person_id', '')
                     if pid and pid_to_nv.get(pid):
                         rel['name_vi'] = pid_to_nv[pid]
-            _missing = _t148_dila_missing_fields(source_data, vi)
             return jsonify({
                 "ok": True, "from_cache": True,
                 "translation_id": existing['id'],
@@ -22393,10 +21208,6 @@ def api_person_dila_translate(person_id):
                 # T166 §8.3 — expose identity để UI hiện badge "chưa duyệt" nếu WARN
                 "identity_status": _dict_or(existing, 'identity_status'),
                 "identity_issues": _json_or_parse(existing, 'identity_issues'),
-                # BUG-052 — nguồn sự thật DONE: chỉ True khi mọi trường có Hán văn
-                # đã có bản dịch tương ứng (schema thật, không phải "ok":true).
-                "missing_fields": _missing,
-                "done": len(_missing) == 0,
             })
 
         if existing and force_retranslate:
@@ -22421,9 +21232,7 @@ def api_person_dila_translate(person_id):
                     vi_fb = _j.loads(fallback['translated_text'])
                 except Exception:
                     vi_fb = {}
-                _missing_fb = _t148_dila_missing_fields(source_data, vi_fb)
-                return jsonify({"ok": True, "from_cache": True, "vi": vi_fb,
-                                "missing_fields": _missing_fb, "done": len(_missing_fb) == 0})
+                return jsonify({"ok": True, "from_cache": True, "vi": vi_fb})
             # Last resort: dùng bản invalidated nếu không có bản nào khác
             stale = conn.execute(
                 "SELECT id, translated_text FROM translation_cache "
@@ -22436,14 +21245,8 @@ def api_person_dila_translate(person_id):
                     vi_st = _j.loads(stale['translated_text'])
                 except Exception:
                     vi_st = {}
-                _missing_st = _t148_dila_missing_fields(source_data, vi_st)
-                return jsonify({"ok": True, "from_cache": True, "stale": True, "vi": vi_st,
-                                "missing_fields": _missing_st, "done": len(_missing_st) == 0})
-            # BUG-052: chưa dịch gì cả — missing_fields = TẤT CẢ trường có Hán văn
-            # (không phải []; [] từng bị UI hiểu lầm là "đã đủ, không thiếu gì").
-            _missing_none = _t148_dila_missing_fields(source_data, {})
-            return jsonify({"ok": True, "from_cache": False, "vi": None,
-                            "missing_fields": _missing_none, "done": False})
+                return jsonify({"ok": True, "from_cache": True, "stale": True, "vi": vi_st})
+            return jsonify({"ok": True, "from_cache": False, "vi": None})
 
         # POST: gọi LLM (Qwen/Groq trước vì mạnh hơn về Hán-Việt, fallback Gemini)
         # lock đã build ở trên (source_text + resolver merge + hash post-merge, #5a/#5b)
@@ -22455,97 +21258,18 @@ def api_person_dila_translate(person_id):
         groq_key = cfg.get('groq_key') or GROQ_KEY
         groq_model = cfg.get('groq_model') or GROQ_MODEL
         if groq_key:
-            # T524 (BUG-052 follow-up): tối đa _T524_GROQ_MAX_CALLS lần gọi Groq
-            # TỔNG CỘNG (1 lần đầu + tối đa 2 lần retry) khi 429 / không có
-            # choices / finish_reason != 'stop'. KHÔNG đổi max_tokens/model/
-            # timeout của MỖI request — chỉ thêm vòng gọi lại có chờ.
-            attempt = 0
-            while attempt < _T524_GROQ_MAX_CALLS:
-                attempt += 1
-                gr = None
-                gd = None
-                try:
-                    gr = requests.post(GROQ_URL,
-                        headers={'Authorization': f'Bearer {groq_key}', 'Content-Type': 'application/json'},
-                        json={'model': groq_model, 'messages': [{'role': 'user', 'content': prompt}],
-                              'temperature': 0.1, 'max_tokens': 4096},
-                        timeout=35)
-                    gd = gr.json()
-                except Exception as eg:
-                    app.logger.warning(f"[dila_translate] Qwen/Groq error: {eg}")
-
-                retry_needed = False
-                try:
-                    if gd is not None and isinstance(gd, dict) and gd.get('choices'):
-                        vi_text = gd['choices'][0]['message']['content'].strip()
-                        model_id = groq_model
-                        fr = gd['choices'][0].get('finish_reason')
-                        # BUG-052 follow-up: finish_reason='length' = Groq cắt output giữa
-                        # chừng (hết OTPM/max_tokens budget) → vi_text sẽ parse JSON lỗi ở
-                        # bước sau; ghi log ngay đây để thấy nguyên nhân thật, không phải
-                        # chờ tới lỗi "AI không trả về JSON hợp lệ" mới biết.
-                        if fr and fr != 'stop':
-                            app.logger.warning(
-                                f"[dila_translate] Qwen/Groq finish_reason={fr} "
-                                f"(person_id={person_id}, len(vi_text)={len(vi_text)}) — "
-                                f"output có thể bị cắt giữa chừng")
-                            # T524: output có thể cắt giữa chừng do hết OTPM budget trong
-                            # cùng response → coi là cần retry (nếu còn lượt) để lấy bản
-                            # đầy đủ, thay vì chấp nhận ngay bản bị cắt.
-                            retry_needed = True
-                    elif gd is not None and isinstance(gd, dict):
-                        # BUG-052 follow-up: request KHÔNG raise exception khi Groq trả lỗi
-                        # dạng JSON (ví dụ HTTP 429 rate-limit/OTPM) — nhánh except ở dưới
-                        # không bắt được case này nên trước đây KHÔNG có log nào cả.
-                        app.logger.warning(
-                            f"[dila_translate] Qwen/Groq no choices — HTTP {gr.status_code} "
-                            f"(person_id={person_id}): {str(gd.get('error', gd))[:300]}")
-                        retry_needed = True
-                    elif gd is not None:
-                        # T524 QA round 1: gr.json() trả JSON hợp lệ nhưng KHÔNG phải dict
-                        # (list/chuỗi/số...) — .get('choices') sẽ ném AttributeError nếu
-                        # không kiểm isinstance trước. Coi như lỗi, cần retry.
-                        app.logger.warning(
-                            f"[dila_translate] Qwen/Groq response không phải dict "
-                            f"(type={type(gd).__name__}) (person_id={person_id})")
-                        retry_needed = True
-                    else:
-                        # gd is None: exception đã log ở trên (hoặc response không phải JSON).
-                        retry_needed = True
-                except Exception as eg:
-                    # T524 QA round 1 (lỗi bắt buộc sửa): đọc choices/message/content/
-                    # finish_reason có thể ném AttributeError/KeyError/TypeError (ví dụ
-                    # content=null, thiếu message, choices[0] không phải dict). Route
-                    # này KHÔNG có except bao ngoài (chỉ try/finally quản connection) nên
-                    # lỗi đọc response trước đây văng thẳng 500, mất khả năng retry/
-                    # fallback Gemini. Bắt lại đây, log cùng pattern với nhánh
-                    # requests.post/gr.json() phía trên rồi coi như cần retry/fallback.
-                    app.logger.warning(f"[dila_translate] Qwen/Groq error: {eg}")
-                    vi_text = None
-                    retry_needed = True
-
-                if not retry_needed:
-                    break  # finish_reason == 'stop' với choices hợp lệ → thành công
-
-                if attempt >= _T524_GROQ_MAX_CALLS:
-                    app.logger.warning(
-                        f"[dila_translate] Qwen/Groq hết retry ({attempt}/"
-                        f"{_T524_GROQ_MAX_CALLS} lần gọi) (person_id={person_id})")
-                    # T524 QA round 1 (rủi ro #2 — ĐÃ SỬA): hết retry mà lần cuối vẫn
-                    # không 'stop' (bị cắt/lỗi) → xóa vi_text để rơi xuống Gemini
-                    # fallback ở dưới, không giữ bản dịch bị cắt/lỗi giữa chừng.
-                    vi_text = None
-                    break
-
-                # T524 QA round 1 (rủi ro #1 — ĐÃ SỬA): trần chờ tối đa 10s/lần, tránh
-                # một request kéo dài quá lâu (3× timeout 35s + chờ) vượt timeout
-                # nginx/gunicorn trên VPS, dù Retry-After/gợi ý "try again in Xs" của
-                # Groq lớn hơn.
-                wait_s = min(_t524_groq_retry_wait(gr, attempt - 1), 10)
-                app.logger.warning(
-                    f"[dila_translate] Qwen/Groq retry lần {attempt + 1}/"
-                    f"{_T524_GROQ_MAX_CALLS} sau {wait_s}s (person_id={person_id})")
-                time.sleep(wait_s)
+            try:
+                gr = requests.post(GROQ_URL,
+                    headers={'Authorization': f'Bearer {groq_key}', 'Content-Type': 'application/json'},
+                    json={'model': groq_model, 'messages': [{'role': 'user', 'content': prompt}],
+                          'temperature': 0.1, 'max_tokens': 4096},
+                    timeout=35)
+                gd = gr.json()
+                if gd.get('choices'):
+                    vi_text = gd['choices'][0]['message']['content'].strip()
+                    model_id = groq_model
+            except Exception as eg:
+                app.logger.warning(f"[dila_translate] Qwen/Groq error: {eg}")
 
         if not vi_text:
             # Fallback: Gemini
@@ -22561,13 +21285,6 @@ def api_person_dila_translate(person_id):
                 if g_data.get('candidates'):
                     vi_text = g_data['candidates'][0]['content']['parts'][0]['text']
                     model_id = 'gemini-3.6-flash'
-                else:
-                    # BUG-052 follow-up: cùng lý do với nhánh Groq — lỗi JSON (403/429/...)
-                    # không raise exception nên trước đây im lặng, không log.
-                    app.logger.warning(
-                        f"[dila_translate] Gemini fallback no candidates — HTTP "
-                        f"{g_resp.status_code} (person_id={person_id}): "
-                        f"{str(g_data.get('error', g_data))[:300]}")
             except Exception as e:
                 app.logger.warning(f"[dila_translate] Gemini fallback error: {e}")
         if not vi_text:
@@ -22589,11 +21306,6 @@ def api_person_dila_translate(person_id):
                 pid = rel.get('person_id', '')
                 if pid and pid_to_nv.get(pid):
                     rel['name_vi'] = pid_to_nv[pid]
-
-        # BUG-052 — tính missing_fields NGAY SAU khi có vi_dict thật từ AI (trước
-        # khi gắn identity_status/identity_issues vào vi_dict ở dưới, tránh lẫn
-        # khóa không thuộc _DILA_FIELD_LABELS).
-        _missing_new = _t148_dila_missing_fields(source_data, vi_dict)
 
         # Tách suggested_rules ra khỏi dữ liệu dịch trước khi lưu cache
         suggested_raw = vi_dict.pop('suggested_rules', None) or []
@@ -22633,9 +21345,6 @@ def api_person_dila_translate(person_id):
             "ok": True, "from_cache": False,
             "translation_id": tid,
             "vi": vi_dict, "status": "auto", "model_id": model_id,
-            # BUG-052 — xem docstring route: UI phải dùng "done", không phải "ok".
-            "missing_fields": _missing_new,
-            "done": len(_missing_new) == 0,
             "suggested_rules": new_rules,  # [] nếu không có đề xuất mới
         })
     finally:
@@ -27632,98 +26341,6 @@ app.register_blueprint(create_ttl_profile_blueprint(
 # T275: chuỗi neo số đời lấy từ TTL local (chỉ đọc, không ghi DB).
 from api_ttl_anchor import create_ttl_anchor_blueprint
 app.register_blueprint(create_ttl_anchor_blueprint(os.path.dirname(__file__), get_db_connection))
-
-# T380: số đời nhập tay (Admin) cho người chưa có số đời theo code.
-from api_manual_generation import create_manual_generation_blueprint
-app.register_blueprint(create_manual_generation_blueprint(os.path.dirname(__file__), get_db_connection))
-
-# ─────────────── T445: Wizard endpoints (B0-B9) ───────────────
-# NOTE: WebSocket real-time monitoring was specified but not implemented.
-# Using polling via /daoanh/api/admin/batch-monitor (alias batch-status) instead.
-# WebSocket would require additional library (flask-sock or similar) which is not added.
-
-@app.route('/daoanh/api/admin/backup', methods=['POST'])
-def t445_backup():
-    try:
-        import datetime as _dt, shutil as _sh
-        ts = _dt.datetime.now().strftime('%Y-%m-%d-%H%M%S')
-        out_dir = os.path.join(DATA_DIR, 'backups', 'T445-' + ts)
-        os.makedirs(out_dir, exist_ok=True)
-        out_path = os.path.join(out_dir, 'lineage.db')
-        _sh.copy2(DB_PATH, out_path)
-        return jsonify({"success": True, "backup_path": out_path, "ts": ts}), 200
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
-
-@app.route('/daoanh/api/admin/fix-ids', methods=['POST'])
-def t445_fix_ids():
-    # Not implemented yet (T444 backend pending)
-    return jsonify({"success": False, "message": "chưa triển khai"}), 501
-
-# B2: Load Schema (dry-run by default). Alias: /add-columns for backward compat.
-@app.route('/daoanh/api/admin/load-schema', methods=['POST'])
-@app.route('/daoanh/api/admin/add-columns', methods=['POST'])
-def t445_load_schema():
-    try:
-        data = request.get_json(silent=True) or {}
-        apply = bool(data.get('apply'))
-        conn = get_db_connection()
-        cur = conn.cursor()
-        columns = (('source','TEXT'),('needs_review','INTEGER'),('reason','TEXT'),('updated_at','TEXT'))
-        result = []
-        for col, typ in columns:
-            # Check if column exists
-            cur.execute(f"PRAGMA table_info(namevi_map_places)")
-            existing = [row[1] for row in cur.fetchall()]
-            if col in existing:
-                result.append({"column": col, "type": typ, "action": "exists"})
-            else:
-                if apply:
-                    try:
-                        cur.execute(f'ALTER TABLE namevi_map_places ADD COLUMN {col} {typ}')
-                        result.append({"column": col, "type": typ, "action": "added"})
-                    except Exception as e:
-                        result.append({"column": col, "type": typ, "action": "error", "error": str(e)})
-                else:
-                    result.append({"column": col, "type": typ, "action": "would_add"})
-        if apply:
-            conn.commit()
-        conn.close()
-        return jsonify({"success": True, "apply": apply, "columns": result}), 200
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
-
-@app.route('/daoanh/api/admin/load-dictionary', methods=['POST'])
-def t445_load_dictionary():
-    # Not implemented yet (T444 backend pending)
-    return jsonify({"success": False, "message": "chưa triển khai"}), 501
-
-@app.route('/daoanh/api/admin/update-rules', methods=['POST'])
-def t445_update_rules():
-    # Not implemented yet
-    return jsonify({"success": False, "message": "chưa triển khai"}), 501
-
-@app.route('/daoanh/api/admin/approve-sample', methods=['POST'])
-def t445_approve_sample():
-    # Not implemented yet
-    return jsonify({"success": False, "message": "chưa triển khai"}), 501
-
-@app.route('/daoanh/api/admin/report', methods=['POST'])
-def t445_report():
-    # Not implemented yet
-    return jsonify({"success": False, "message": "chưa triển khai"}), 501
-
-@app.route('/daoanh/api/admin/export-csv', methods=['GET'])
-def t445_export_csv():
-    # Not implemented yet
-    return jsonify({"success": False, "message": "chưa triển khai"}), 501
-
-# Batch monitor (polling endpoint). Alias: batch-status for backward compat.
-@app.route('/daoanh/api/admin/batch-monitor', methods=['GET'])
-@app.route('/daoanh/api/admin/batch-status', methods=['GET'])
-def t445_batch_monitor():
-    # Not implemented yet (T444 backend pending) - returns idle state
-    return jsonify({"success": True, "step": "idle", "progress": 0, "total": 0, "logs": [], "errors": [], "stats": {"ok": 0, "review": 0, "error": 0}}), 200
 
 if __name__ == '__main__':
     import os as _os

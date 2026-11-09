@@ -3,9 +3,9 @@ id: T301
 title: "M2 — Kiểm 148 claims Wikidata chỉ là EXTERNAL_ID"
 module: Authority / Lineage
 priority: p2
-status: pending
+status: done
 created: 2026-10-10
-updated: 2026-10-10
+updated: 2026-11-01
 owner: claude-code
 parent: docs/integration (phân tích 2026-10-10)
 depends_on: []
@@ -17,6 +17,7 @@ revert: |
 outcome: >
   2026-10-10: tạo task backlog để agent code tuần tự. Chưa bắt đầu.
   2026-10-12: daoanh-qa đọc DB (read-only) — 148/148 claims source_id=6 là same_as → mã Q (object_text khớp ^Q:Q\d+$), 0 trường tên. PASS. Mô tả gốc ghi nhầm thuộc tính P1187/P1188/P2477 — DB thực tế không có các mã P này, toàn bộ là same_as gắn cho địa danh (PL...), không có người. Phát hiện phụ: 3 mã Q đang gắn cho 2 địa danh cùng lúc (Q11065384→PL000000019868,PL000000019870; Q19853247→PL000000017498,PL000000017499; Q8802338→PL000000013507,PL000000013509) — cần Admin xem có phải địa danh trùng. Chờ Admin xác nhận DONE.
+  2026-11-01: Admin xác nhận DONE.
 ---
 
 # T301 — M2 — Kiểm 148 claims Wikidata chỉ là EXTERNAL_ID

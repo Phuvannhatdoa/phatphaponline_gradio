@@ -1,0 +1,371 @@
+
+/* ── Theme toggle ──────────────────────────────── */
+const themes = ['', 'light', 'dark'];
+let ti = 0;
+const btn = document.getElementById('themeBtn');
+btn.addEventListener('click', () => {
+  ti = (ti + 1) % themes.length;
+  const t = themes[ti];
+  if (t) document.documentElement.setAttribute('data-theme', t);
+  else document.documentElement.removeAttribute('data-theme');
+});
+
+/* ── Search ────────────────────────────────────── */
+function handleSearch(e) {
+  e.preventDefault();
+  closeSuggest(); // T469: Enter/"Tìm" luôn đóng dropdown gợi ý trước khi tra cứu
+  const q = document.getElementById('heroSearch').value.trim();
+  if (!q) return;
+  if (q.includes('Thiếu Lâm') || q.includes('少林')) {
+    showPlaceDemo();
+    return;
+  }
+  const placesUrl = '/daoanh/places?q=' + encodeURIComponent(q);
+  // T453: tra kinh lục DILA trước; không có kết quả (hoặc lỗi) → đi trang địa danh như cũ.
+  // BUG-052/T467: endpoint /daoanh/api/search trả về {monks, places, works}
+  // (+ T453: dila_works/dila_people/dila_works_total — xem docstring api_global_search
+  // trong app.py). Trước đây code đọc nhầm field đó nên LUÔN rỗng và luôn redirect
+  // sang trang địa danh, kể cả khi monks có kết quả đúng (vd "Khuy Cơ" A001019).
+  // Sửa: đọc đúng field thật, dùng renderer đơn giản khớp đúng shape dữ liệu.
+  // T467 vòng 2 (QA CHƯA ĐẠT, hướng b — thay đổi tối thiểu): nếu API trả về
+  // d.places (địa danh), KHÔNG render inline — giữ hành vi cũ redirect sang
+  // /daoanh/places?q=... để không mất kết quả địa danh (trước khi sửa vòng 1
+  // là hành vi mặc định; vd "Long Môn" trả cả 4 monks + 10 places, nếu chỉ
+  // render monks ở trang chủ thì 10 địa danh bị mất). Chỉ ở lại trang chủ
+  // render card khi có monks/works MÀ KHÔNG có places (đúng case "Khuy Cơ").
+  fetch('/daoanh/api/search?q=' + encodeURIComponent(q))
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      // T453 (khôi phục theo Admin 2026-10-26 "đưa tên Kinh/Người lên home"): kinh lục DILA trước.
+      const dWorks = (d && d.dila_works) || [];
+      const dPeople = (d && d.dila_people) || [];
+      if (dWorks.length || dPeople.length) { renderDilaWorks(dWorks, q, placesUrl, dPeople, d.dila_works_total); return; }
+      const monks = (d && d.monks) || [];
+      const works = (d && d.works) || [];
+      const places = (d && d.places) || [];
+      if (places.length) { window.location.href = placesUrl; return; }
+      if (!monks.length && !works.length) { window.location.href = placesUrl; return; }
+      renderSearchResults(monks, works, q, placesUrl);
+    })
+    .catch(() => { window.location.href = placesUrl; });
+}
+
+/* ── T469: autocomplete gợi ý trang chủ (debounce 250ms, 2 nhóm) ──────────
+   Endpoint mới /daoanh/api/search/suggest (app.py, KHÔNG đổi format của
+   /daoanh/api/search hiện có — xem docstring api_search_suggest()). Điều
+   hướng dùng pattern URL đã có sẵn trong trang: /daoanh/places.html?select=
+   (xem ví dụ "Thiếu Lâm Tự" trong sr-wrap phía trên) cho nhân vật, và route
+   /daoanh/dai-tang-kinh (đã có, app.py t182_dai_tang_kinh) cho kinh sách. */
+let _sgTimer = null;
+let _sgItems = [];     // flatten: {type:'person'|'work', data}
+let _sgActive = -1;    // index đang highlight
+let _sgAbort = null;
+
+function _sgEsc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+}
+
+function closeSuggest() {
+  const box = document.getElementById('searchSuggest');
+  box.hidden = true;
+  box.innerHTML = '';
+  _sgItems = [];
+  _sgActive = -1;
+  document.getElementById('heroSearch').setAttribute('aria-expanded', 'false');
+}
+
+function _sgPersonMeta(p) {
+  // Phụ chú phân biệt tên trùng: triều đại + năm (nếu có) + DILA ID.
+  const parts = [];
+  if (p.dynasty) parts.push(p.dynasty);
+  if (p.birth_year != null || p.death_year != null) {
+    parts.push(`${p.birth_year != null ? p.birth_year : '?'}–${p.death_year != null ? p.death_year : '?'}`);
+  }
+  parts.push('DILA ' + p.id);
+  return parts.join(' · ');
+}
+
+function _sgWorkMeta(w) {
+  const parts = [];
+  if (w.translator) parts.push('Dịch/soạn: ' + w.translator);
+  if (w.era) parts.push(w.era);
+  return parts.join(' · ');
+}
+
+function renderSuggest(persons, works, q) {
+  const box = document.getElementById('searchSuggest');
+  _sgItems = [];
+  let html = '';
+
+  if (!persons.length && !works.length) {
+    html = `<div class="sr-suggest-empty">Không có gợi ý cho “${_sgEsc(q)}”. Nhấn Enter để tìm đầy đủ.</div>`;
+  } else {
+    if (persons.length) {
+      html += '<div class="sr-suggest-group-title">Nhân vật</div>';
+      persons.forEach(p => {
+        const idx = _sgItems.length;
+        _sgItems.push({ type: 'person', data: p });
+        html += `<div class="sr-suggest-item" data-idx="${idx}" role="option">
+            <div><span class="sr-suggest-name">${_sgEsc(p.name_vi || p.name_zh)}</span><span class="sr-suggest-han">${_sgEsc(p.name_zh)}</span></div>
+            <div class="sr-suggest-meta">${_sgEsc(_sgPersonMeta(p))}</div>
+          </div>`;
+      });
+    }
+    if (works.length) {
+      html += '<div class="sr-suggest-group-title">Kinh sách / Dịch giả</div>';
+      works.forEach(w => {
+        const idx = _sgItems.length;
+        _sgItems.push({ type: 'work', data: w });
+        html += `<div class="sr-suggest-item" data-idx="${idx}" role="option">
+            <div><span class="sr-suggest-name">${_sgEsc(w.title_vi || w.title_zh)}</span><span class="sr-suggest-han">${_sgEsc(w.title_zh)}</span></div>
+            <div class="sr-suggest-meta">${_sgEsc(_sgWorkMeta(w))}</div>
+          </div>`;
+      });
+    }
+  }
+
+  box.innerHTML = html;
+  box.hidden = false;
+  _sgActive = -1;
+  document.getElementById('heroSearch').setAttribute('aria-expanded', 'true');
+  box.querySelectorAll('.sr-suggest-item').forEach(el => {
+    el.addEventListener('mousedown', ev => {
+      // mousedown (không phải click) để chạy trước blur/outside-click handler
+      ev.preventDefault();
+      _sgSelect(parseInt(el.dataset.idx, 10));
+    });
+  });
+}
+
+function _sgSetActive(idx) {
+  const box = document.getElementById('searchSuggest');
+  const els = box.querySelectorAll('.sr-suggest-item');
+  els.forEach(el => el.classList.remove('active'));
+  if (idx >= 0 && idx < els.length) {
+    els[idx].classList.add('active');
+    els[idx].scrollIntoView({ block: 'nearest' });
+  }
+  _sgActive = idx;
+}
+
+function _sgSelect(idx) {
+  const it = _sgItems[idx];
+  if (!it) return;
+  closeSuggest();
+  if (it.type === 'person') {
+    // Pattern URL đã có sẵn trong trang (xem sr-btn "Xem chi tiết" phía trên):
+    // /daoanh/places.html?select=<DILA id>
+    window.location.href = '/daoanh/places.html?select=' + encodeURIComponent(it.data.id);
+  } else {
+    // Chưa có trang chi tiết từng bộ kinh theo ID (chỉ có route liệt kê
+    // /daoanh/dai-tang-kinh, đã tồn tại sẵn trong app.py). Điều hướng tới đó
+    // kèm ?q=<tên kinh> (cùng tên tham số 'q' đang dùng ở nơi khác trong
+    // trang này) để Admin/người dùng tự lọc tiếp trong ô tìm của trang đó.
+    const title = it.data.title_vi || it.data.title_zh || '';
+    window.location.href = '/daoanh/dai-tang-kinh?q=' + encodeURIComponent(title);
+  }
+}
+
+function _sgFetch(q) {
+  if (_sgAbort) { try { _sgAbort.abort(); } catch (e) {} }
+  _sgAbort = new AbortController();
+  fetch('/daoanh/api/search/suggest?q=' + encodeURIComponent(q), { signal: _sgAbort.signal })
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      if (!d || !d.success) { closeSuggest(); return; }
+      renderSuggest(d.persons || [], d.works || [], q);
+    })
+    .catch(err => { if (err.name !== 'AbortError') closeSuggest(); });
+}
+
+function initSearchSuggest() {
+  const input = document.getElementById('heroSearch');
+  const box = document.getElementById('searchSuggest');
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    clearTimeout(_sgTimer);
+    if (q.length < 2) { closeSuggest(); return; } // T469: bỏ qua khi <2 ký tự (client)
+    _sgTimer = setTimeout(() => _sgFetch(q), 250); // debounce ~250ms
+  });
+
+  input.addEventListener('keydown', e => {
+    if (box.hidden || !_sgItems.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      _sgSetActive(Math.min(_sgActive + 1, _sgItems.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      _sgSetActive(Math.max(_sgActive - 1, 0));
+    } else if (e.key === 'Enter') {
+      if (_sgActive >= 0) { e.preventDefault(); _sgSelect(_sgActive); }
+      // nếu chưa highlight dòng nào, để submit form chạy handleSearch() như cũ
+    } else if (e.key === 'Escape') {
+      closeSuggest();
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-form')) closeSuggest();
+  });
+}
+document.addEventListener('DOMContentLoaded', initSearchSuggest);
+
+/* T467: renderer khớp đúng shape thật của /daoanh/api/search (monks: id/name_vi/
+   name_zh từ bảng people; works: title_vi/title_zh/author/era từ cbeta_catalog_vn).
+   Nhánh kinh/người DILA (dila_works/dila_people, T453) dùng renderDilaWorks ở trên;
+   renderSearchResults chỉ là nhánh monks/works khi KHÔNG có kết quả DILA. */
+function renderSearchResultsMonks(monks) {
+  // T467 vòng 2 (QA CHƯA ĐẠT, vấn đề phụ): bỏ badge cứng "ZQ" — endpoint
+  // /daoanh/api/search không trả entity_claims.source_id (QA xác minh
+  // A001019/A041315 không có claim nào), nên không có cách xác định nguồn
+  // tên Việt thật từ response này (CLAUDE.md §ZQ: phải badge đúng nguồn,
+  // không gán bừa DILA=1/ZQLOCAL=5 khi chưa rõ). Chỉ render badge nếu
+  // p.source (hoặc p.source_id) có giá trị thật từ API trong tương lai.
+  return monks.map(p => `<div class="dw-item dw-person-card">
+      <div>🧘 <span class="dw-title">${_esc(p.name_vi || p.name_zh)}</span> <span class="dw-han">${_esc(p.name_zh)}</span>
+        ${p.source ? `<span class="dw-badge" title="Nguồn tên">${_esc(p.source)}</span>` : ''}</div>
+      ${_line('🆔', 'DILA ID', `<span class="dw-badge dila" style="margin-left:0">${_esc(p.id)}</span>`)}
+    </div>`).join('');
+}
+function renderSearchResultsWorks(works) {
+  return works.map(w => `<div class="dw-item">
+      <div>📖 <span class="dw-title">${_esc(w.title_vi || w.title_zh)}</span></div>
+      ${_line('🀄', 'Tên Hán', _esc(w.title_zh))}
+      ${_line('✍️', 'Soạn dịch', _esc(w.author))}
+      ${_line('🕰️', 'Niên đại', _esc(w.era))}
+    </div>`).join('');
+}
+function renderSearchResults(monks, works, q, placesUrl) {
+  const box = document.getElementById('dilaWorks');
+  const countText = `${_esc(monks.length + works.length)} kết quả cho “${_esc(q)}”`;
+  box.innerHTML = `<div class="dw-head"><span>${countText}</span>
+    <a href="${placesUrl}">Tìm địa danh →</a></div>${renderSearchResultsMonks(monks)}${renderSearchResultsWorks(works)}`;
+  box.hidden = false;
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* ── T453: hiển thị kinh lục DILA (badge nguồn từng lớp) ── */
+function _esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+}
+/* Một dòng thông tin: biểu tượng · nhãn · giá trị (giá trị đã escape sẵn). Giá trị rỗng → bỏ dòng. */
+function _line(icon, label, valueHtml) {
+  return valueHtml ? `<div class="dw-line"><span class="ic">${icon}</span><span class="lb">${label}</span>` +
+    `<span class="vl">${valueHtml}</span></div>` : '';
+}
+function renderDilaPeople(people) {
+  return people.map(p => {
+    const places = (p.places || []).map(pl =>
+      `${_esc(pl.name_vi || pl.name_zh)} <span class="dw-han">${_esc(pl.name_zh)}</span> (${_esc(pl.works)})`).join(' · ');
+    return `<div class="dw-item dw-person-card">
+      <div>🧘 <span class="dw-title">${_esc(p.name_vi || p.name_zh)}</span> <span class="dw-han">${_esc(p.name_zh)}</span>
+        <span class="dw-badge" title="Tên Việt: phiên âm ZQ">ZQ</span></div>
+      ${_line('🆔', 'DILA ID', `<span class="dw-badge dila" style="margin-left:0">${_esc(p.person_id)}</span>`)}
+      ${_line('📚', 'Tác phẩm', `${_esc(p.works)} bộ · ${_esc(p.juans ?? 0)} quyển`)}
+      ${_line('📍', 'Nơi dịch', places)}
+      <div class="dw-meta dw-actions">
+        <button type="button" class="dw-btn" data-pid="${_esc(p.person_id)}" data-sort="juans">Xem tất cả ${_esc(p.works)} tác phẩm</button>
+        <span class="dw-sort" hidden>Sắp theo:
+          <button type="button" class="dw-btn" data-pid="${_esc(p.person_id)}" data-sort="juans">số quyển</button>
+          <button type="button" class="dw-btn" data-pid="${_esc(p.person_id)}" data-sort="year">năm</button>
+          <button type="button" class="dw-btn" data-pid="${_esc(p.person_id)}" data-sort="title">tên</button></span>
+      </div>
+      <div class="dw-all"></div>
+    </div>`;
+  }).join('');
+}
+/* T453: "Xem tất cả" — tải toàn bộ tác phẩm của một người */
+function loadAllWorks(btn) {
+  const card = btn.closest('.dw-person-card');
+  const out = card.querySelector('.dw-all');
+  out.innerHTML = '<div class="dw-meta">Đang tải…</div>';
+  fetch(`/daoanh/api/public/dila_works?person_id=${encodeURIComponent(btn.dataset.pid)}&sort=${btn.dataset.sort}`)
+    .then(r => r.json())
+    .then(d => {
+      card.querySelector('.dw-sort').hidden = false;
+      out.innerHTML = `<ol class="dw-list">${(d.works || []).map(w => {
+        const yr = w.time_from == null ? '' : (w.year_precision === 'dynasty_range'
+          ? ` · ${_esc(w.dynasty_vi || '')} (theo triều đại)` : ` · ${_esc(w.time_from)}${w.time_to && w.time_to !== w.time_from ? '–' + _esc(w.time_to) : ''}`);
+        return `<li><b>${_esc(w.title_vi || w.title_zh)}</b> <span class="dw-han">${_esc(w.title_zh)}</span>
+          <span class="dw-meta">· ${_esc(w.cbeta_id)} · ${_esc(w.juans ?? '?')} quyển${yr}${w.places_vi ? ' · ' + _esc(w.places_vi) : ''}</span></li>`;
+      }).join('')}</ol>`;
+    })
+    .catch(() => { out.innerHTML = '<div class="dw-meta">Không tải được danh sách.</div>'; });
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.dw-btn');
+  if (b) loadAllWorks(b);
+});
+function renderDilaWorks(works, q, placesUrl, people, total) {
+  total = total || works.length;
+  const countText = total > works.length
+    ? `${_esc(total)} kết quả cho “${_esc(q)}” (hiển thị ${works.length})`
+    : `${_esc(total)} kết quả cho “${_esc(q)}”`;
+  const box = document.getElementById('dilaWorks');
+  const items = works.map(w => {
+    const years = w.time_from == null ? '' :
+      (w.year_precision === 'dynasty_range'
+        ? `${_esc(w.dynasty_vi || '')} (${_esc(w.time_from)}–${_esc(w.time_to)}, theo triều đại)`
+        : `${_esc(w.time_from)}${w.time_to ? '–' + _esc(w.time_to) : ''}`);
+    const people = (w.contributors || []).map(c =>
+      `<span class="dw-person" title="DILA ID ${_esc(c.person_id)}">${_esc(c.name_vi || c.name_zh)}</span>` +
+      ` <span class="dw-han">${_esc(c.name_zh)}</span>` +
+      `<span class="dw-badge" title="Tên Việt: phiên âm ZQ">ZQ</span>`).join(', ');
+    const size = [w.vol ? `Tập ${_esc(w.vol)}` : '', w.juans != null ? `${_esc(w.juans)} quyển` : '',
+      w.cjk_chars ? `${Number(w.cjk_chars).toLocaleString('vi-VN')} chữ` : ''].filter(Boolean).join(' · ');
+    const cat = [w.category_vi ? `${_esc(w.category_vi)} <span class="dw-han">${_esc(w.category_zh)}</span>` : '',
+      w.orig_category_vi ? `nguyên phân loại: ${_esc(w.orig_category_vi)} <span class="dw-han">${_esc(w.orig_category_zh)}</span>` : '']
+      .filter(Boolean).join(' · ');
+    return `<div class="dw-item">
+      <div>📖 <span class="dw-title">${_esc(w.title_vi || w.title_zh)}</span>
+        ${w.title_vi
+          ? '<span class="dw-badge" title="Bản dịch Cloud session, chưa duyệt">Bản dịch AI · chưa duyệt</span>'
+          : '<span class="dw-badge" title="Chưa có bản dịch tiếng Việt">Chưa dịch</span>'}</div>
+      ${_line('🀄', 'Tên Hán', `${_esc(w.title_zh)} <span class="dw-badge dila" title="Tên Hán, năm, mã: DILA authority_catalog">DILA</span>`)}
+      ${_line('🔖', 'Mã', `${_esc(w.cbeta_id)}${w.authority_id ? ` · DILA ${_esc(w.authority_id)}` : ''}`)}
+      ${_line('📚', 'Quy mô', size)}
+      ${_line('🗂️', 'Bộ loại', cat)}
+      ${_line('🕰️', 'Niên đại', years)}
+      ${_line('✍️', 'Soạn dịch', _esc(w.byline_vi || w.byline_zh))}
+      ${_line('👤', 'Người', people)}
+      ${_line('📍', 'Nơi dịch', _esc(w.places_vi))}
+    </div>`;
+  }).join('');
+  box.innerHTML = `<div class="dw-head"><span>Kinh lục DILA: ${countText}</span>
+    <a href="${placesUrl}">Tìm địa danh →</a></div>${renderDilaPeople(people || [])}${items}`;
+  box.hidden = false;
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function setSearch(val) {
+  closeSuggest(); // T469: tag gợi ý sẵn (vd "Huyền Trang") không mở dropdown autocomplete
+  document.getElementById('heroSearch').value = val;
+  document.getElementById('heroSearch').focus();
+}
+
+/* ── Thiếu Lâm Tự demo panel ───────────────────── */
+let _minimap = null;
+function showPlaceDemo() {
+  document.getElementById('heroSearch').value = 'Thiếu Lâm Tự';
+  const panel = document.getElementById('placeResult');
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Init Leaflet minimap (lazy, once)
+  setTimeout(() => {
+    const el = document.getElementById('sr-minimap');
+    if (!el || _minimap) { if (_minimap) _minimap.invalidateSize(); return; }
+    _minimap = L.map(el, { zoomControl: true, attributionControl: false, scrollWheelZoom: true, dragging: true })
+      .setView([34.5885, 112.9343], 8);
+    L.tileLayer('https://mt1.google.com/vt/lyrs=m&hl=vi&x={x}&y={y}&z={z}', { maxZoom: 20 }).addTo(_minimap);
+    L.circleMarker([34.5885, 112.9343], {
+      radius: 8, color: '#B8941E', fillColor: '#B8941E', fillOpacity: 0.9, weight: 2
+    }).bindTooltip('少林寺 · Thiếu Lâm Tự', { permanent: true, direction: 'top', offset: [0, -10],
+      className: 'minimap-tip' }).addTo(_minimap).openTooltip();
+  }, 80);
+}
+function closePlaceDemo() {
+  document.getElementById('placeResult').classList.remove('visible');
+}
+

@@ -1,0 +1,45 @@
+diff --git a/Dai_Tang_Kinh/daoanh/docs/bugs.md b/Dai_Tang_Kinh/daoanh/docs/bugs.md
+index 17c847f9..60d19b1a 100644
+--- a/Dai_Tang_Kinh/daoanh/docs/bugs.md
++++ b/Dai_Tang_Kinh/daoanh/docs/bugs.md
+@@ -747,3 +747,40 @@ file `.js` tạm, chạy `node --check` cho cả 2 → exit code 0, không lỗi
+ **Trạng thái:** ✅ DONE (2026-10-20) — Gemini ai_person_name = 48,673/48,673 (100%), Claude codex_person_name = 49,335 rows. Cả 2 cột hiện đầy đủ trên namevimap.html. QA xác nhận 2026-10-20.
+ 
+ ---
++
++## BUG-049 — namevimap.html TAB ETL — button Pass không chạy, hiện nút đỏ X
++
++**Route/URL:** `http://127.0.0.1:8080/daoanh/admin/namevimap.html` → TAB 3 "🔧 TTL ETL"
++**Task:** `tasks/T436-bug049-etl-pass-button-error.md`
++**Thời gian phát hiện:** 2026-10-20 (Admin báo)
++**Expected:** Click `✓ Pass` (hàm `passEtlFlag(this)`) → lưu `name_vi_final` vào DB, ẩn row, network trả 200.
++**Actual:** Có lúc nút chuyển đỏ (class `.err`, text `✗`) trong 3s rồi quay lại `✓ Pass`, không lưu DB, không ẩn row.
++**Root cause:** KHÔNG phải lỗi ở `passEtlFlag()` (namevimap.html:1840-1871) hay endpoint `POST /api/admin/namevi-map/update` (app.py:15803-15880) — cả hai đã audit và hoạt động đúng (verify nhiều lần: 200 OK, `success:true`). Lỗi thực nằm ở lớp proxy dev local `daoanh/local_gateway.py::proxy()`: chỉ bắt `requests.exceptions.ConnectionError`, KHÔNG bắt `requests.exceptions.Timeout`. Khi backend `app.py` bị chậm tạm thời (ETL tab mở → `loadEtlFlagLiveData()` bắn burst N request `GET /api/admin/namevi-queue/<id>` song song, đã ghi nhận trong T427 "có lúc 7-27s, flag-list tới ~94s khi máy tải nặng"), request proxy vượt `timeout=60` ném `Timeout` không được bắt → Flask trả HTML lỗi 500 mặc định thay vì JSON → `JSON.parse()` phía client crash → `passEtlFlag()` rơi vào catch ngoài cùng → nút hiện `✗`. Bằng chứng trực tiếp: `gateway_local.log` ghi `TimeoutError: timed out` lặp 5 lần (14:30:17–14:32:03) trên endpoint `flag-list` cùng lớp proxy, cùng điều kiện tải với `namevi-map/update` — tính ngẫu nhiên khớp triệu chứng admin báo "không phải lần nào cũng lỗi".
++**Scope:** Sửa `daoanh/local_gateway.py::proxy()` — thêm `except requests.exceptions.Timeout` (trả JSON 504) và `except requests.exceptions.RequestException` (trả JSON 502) thay vì để Flask crash ra HTML không parse được. Không sửa `app.py`/`namevimap.html` vì 2 lớp đó không có lỗi. Không thay đổi kiến trúc burst-request của `loadEtlFlagLiveData()` (trade-off đã chấp nhận ở T427, ngoài phạm vi BUG-049).
++**Backup:** `daoanh/docs/sessions/2026-10-20/BUG-049/local_gateway.py.bak` (trước khi sửa).
++**Test:** Click Pass ngay sau khi mở tab ETL (trong cửa sổ burst) → 200 OK, row ẩn, counter tăng. Double-click Pass liên tiếp → không lỗi, không duplicate-crash. Regression: tab Xác Minh, tab Place vẫn hoạt động bình thường. `python -m py_compile local_gateway.py` OK.
++**Trạng thái:** ✅ DONE (2026-10-20) — report chi tiết: `docs/BUG-049_ETL_PASS_BUTTON_FIX_REPORT.md`. Chờ QA xác nhận.
++**Verify lại (2026-10-21, T436):** Mở browser thật tại `http://127.0.0.1:8080/daoanh/admin/namevimap.html` → Tab ETL → click `✓ Pass` trên row A046539 (Long Thọ): `POST /api/admin/namevi-map/update` → 200 OK (`success:true`), row ẩn khỏi bảng ngay. Double-click Pass trên row A001003 (Mã Minh): 2 request đều 200 OK, không duplicate/crash, không nút đỏ `✗`. Fix T436 vẫn hoạt động đúng, không cần sửa thêm. Chi tiết: `docs/T436_T437_VERIFY_FIX_REPORT.md`.
++
++---
++
++## BUG-050 — namevimap.html Tab ETL — bảng "Bulk FLAG Queue" kẹt "Đang tải…" vĩnh viễn
++
++**Route/URL:** `http://127.0.0.1:8080/daoanh/admin/namevimap.html` → TAB 3 "🔧 TTL ETL"
++**Task:** `tasks/T437-bug050-namevimap-stuck-loading.md`
++**Thời gian phát hiện:** 2026-10-20 (Admin báo)
++**Expected:** Bảng "Bulk FLAG Queue" load xong, không kẹt "Đang tải…" dù Admin chuyển tab qua lại trong lúc đang tải.
++**Actual (audit vòng 2, trước fix):** Rời tab ETL rồi quay lại TRƯỚC KHI lượt tải trước xong → nhánh `else` trong `switchTab()` chỉ gọi `loadEtlFlagLiveData()`, trong khi `_etlNewAbortSignal()` đã abort vĩnh viễn `etlFlagQueueLoad`/`loadAiColStatus`/`loadCodexColStatus` của lượt trước mà không ai gọi lại → bảng kẹt "Đang tải…" mãi mãi (không phải do timeout 45s, mà do request bị huỷ không có request thay thế).
++**Root cause xác nhận lại (2026-10-21, T437):** Đã audit code hiện tại — phần sửa `switchTab()` gọi `_etlFullLoad()` ở CẢ 2 nhánh if/else (namevimap.html dòng 1030-1050, comment ghi rõ "T435/BUG-048 vòng 2") **đã được một phiên trước đó áp dụng xong** trước khi phiên này bắt đầu. Verify bằng browser thật: reload trang → chuyển tab đi/về nhiều lần liên tiếp ngay trong lúc đang tải → request cũ bị `net::ERR_ABORTED` nhưng luôn có request thay thế bắn lại ngay, bảng không kẹt, cuối cùng vẫn load đủ 311/311 FLAG. Không cần sửa thêm phần này.
++**Việc còn lại đã làm (T437, Hướng A — progressive load):** Theo yêu cầu redesign của Admin, thay cơ chế "1 API per_page=50, chờ cả lượt rồi render 1 lần, lỗi cứng 45s xoá sạch bảng" bằng tải tuần tự theo trang nhỏ, render ngay từng trang:
++- `_ETL_FLAG_PER_PAGE`: 50 → 30.
++- Hàm mới `etlFlagQueueLoadAll()` + `_etlFlagLoadPageSeq()`: gọi tuần tự `page=1,2,3,...` (không đổi API/backend — `per_page` đã là query param có sẵn), mỗi trang render ngay khi về (`appendChild`, không `innerHTML=''` cả bảng).
++- Badge "Đang tải trang N…" hiển thị ở cuối bảng trong lúc chờ trang kế.
++- Deadline RIÊNG 15s/trang (so với 45s chung cả lượt trước đây) — hết giờ 1 trang → badge lỗi + nút "Thử lại" CHỈ ở trang đó, các trang đã tải trước vẫn hiển thị nguyên vẹn, không xoá sạch bảng.
++- Tất cả điểm gọi "tải lại từ đầu" (nút Load, checkbox Ẩn đã duyệt, tìm kiếm, sort theo Tin cậy, reload sau Bulk Pass, `_etlFullLoad()`) đổi từ `etlFlagQueueLoad(1)` sang `etlFlagQueueLoadAll()`.
++**Scope:** Chỉ sửa `daoanh/admin/namevimap.html` (JS trong 1 file, không đổi `app.py`/API/DB/schema). Không đụng Tab Place Claude/Gemini placeholder (ngoài phạm vi, đang chờ Admin quyết định riêng).
++**Backup:** `daoanh/docs/sessions/2026-10-21/T437/namevimap.html.bak` (trước phiên này), `namevimap.html.before_progressive_load.bak` (trước khi sửa progressive load).
++**Test:** `node --check` script JS trích xuất OK. Browser thật: tải lần đầu → network log xác nhận 11 request `flag-list?page=1..11&per_page=30` tuần tự, đều 200 OK, badge "311/311 FLAG" đúng tổng. Chuyển tab đi/về liên tục nhiều lần ngay trong lúc đang tải (2 vòng) → request cũ `ERR_ABORTED`, request mới luôn chạy tiếp, bảng không kẹt, cuối cùng vẫn 311/311. Cột Claude/Gemini header giữ đúng số (48,646/48,673 · 48,673/48,673) sau nhiều lần chuyển tab. Regression: tab Xác Minh (338 mục), tab Place (59,167 địa danh, Claude/Gemini vẫn placeholder "—" đúng spec), route `/daoanh/places` (map load bình thường, không console error) đều hoạt động bình thường.
++**Trạng thái:** ✅ DONE (2026-10-21) — report chi tiết: `docs/T436_T437_VERIFY_FIX_REPORT.md`. Chờ QA + Admin xác nhận.
++
++---

@@ -1,0 +1,53 @@
+# verify.txt — kiểm chứng cổng hai tầng scripts/verify_design_compliance.py
+# Ngày đo: 2026-10-26 · HEAD lúc đo: 6fc0d7993ba16f727f753122d6ec0984519e5f34
+# Cả 2 lệnh đều GHI data/design_compliance.json (bản gốc sao lưu: design_compliance.before.json).
+# Không ghi DB. Không đổi công thức metric.
+
+## Lệnh 1: python -X utf8 scripts/verify_design_compliance.py
+## Exit code: 0   (coverage gap được cảnh báo, không chặn)
+## 15 dòng cuối:
+    [OK] Đã tạo E:\...\daoanh\data\design_compliance.json      (dòng 1 — không nằm trong 15 dòng cuối)
+    claims_with_confidence   100.00%  pass  (goal>=100.0)
+    claims_reviewed            9.83%  pass  (goal>=1.0)
+    claims_verified            9.83%  pass  (goal>=1.0)
+    claims_assertion_level     0.00%  fail  (goal>=1.0)
+    claims_with_audit        100.00%  pass  (goal>=100.0)
+    events_provenance        100.00%  pass  (goal>=100.0)
+    conflicts_resolved         0.00%  fail  (goal>=1.0)
+    glossary_vi_coverage      75.54%  pass  (goal>=75.5)
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ⚠ COVERAGE GAPS — dữ liệu chưa đủ, KHÔNG chặn review (theo quy định dự án)
+      - claims_assertion_level: 15/447885 (0.00%)  goal>=1.0%  [task sở hữu: T113/T133 (HITL: ...)]
+      - conflicts_resolved: 0/17999 (0.00%)  goal>=1.0%  [task sở hữu: T109/T136 (conflict workflow)]
+    Cổng cứng: npm run test:compliance:strict   (mọi fail → exit 1)
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    EXIT POLICY [two-tier: contract=block, coverage=warn]: contract_fail=0 · coverage_fail=2 → exit 0 (PASS (có coverage gap — cảnh báo))
+
+## Lệnh 2: python -X utf8 scripts/verify_design_compliance.py --strict
+## Exit code: 1   (strict: mọi fail → chặn)
+## 15 dòng cuối:
+    claims_with_confidence   100.00%  pass  (goal>=100.0)
+    claims_reviewed            9.83%  pass  (goal>=1.0)
+    claims_verified            9.83%  pass  (goal>=1.0)
+    claims_assertion_level     0.00%  fail  (goal>=1.0)
+    claims_with_audit        100.00%  pass  (goal>=100.0)
+    events_provenance        100.00%  pass  (goal>=100.0)
+    conflicts_resolved         0.00%  fail  (goal>=1.0)
+    glossary_vi_coverage      75.54%  pass  (goal>=75.5)
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ⚠ COVERAGE GAPS — --strict: CHẶN (exit 1)
+      - claims_assertion_level: 15/447885 (0.00%)  goal>=1.0%  [task sở hữu: T113/T133 (HITL: ...)]
+      - conflicts_resolved: 0/17999 (0.00%)  goal>=1.0%  [task sở hữu: T109/T136 (conflict workflow)]
+    Cổng cứng: npm run test:compliance:strict   (mọi fail → exit 1)
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    EXIT POLICY [strict]: contract_fail=0 · coverage_fail=2 → exit 1 (BLOCK: strict + coverage fail)
+    Exited with code 1
+
+## Probe nhánh CONTRACT: python -B -X utf8 docs/sessions/2026-10-26/gate2-tiers/contract_probe.py
+## (monkeypatch 1 metric trỏ bảng không tồn tại; dùng --json + OUT_PATH tạm, KHÔNG ghi data/design_compliance.json)
+    [PROBE] contract_fail_metrics = ['claims_with_source']
+    [PROBE] coverage_fail_metrics = ['claims_assertion_level', 'conflicts_resolved']
+    [PROBE] metric0 status = fail | gate_class = contract
+    [PROBE] contract_error = no such table: __no_such_table_t_gate__
+    [PROBE] main() SystemExit code = 1          ← chặn review dù KHÔNG có --strict
+    [PROBE] probe file written?  False

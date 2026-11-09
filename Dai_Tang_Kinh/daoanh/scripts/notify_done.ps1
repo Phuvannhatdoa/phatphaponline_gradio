@@ -4,8 +4,7 @@
 
   Dùng (RC hoặc Hermes gọi khi xong task):
     powershell -ExecutionPolicy Bypass -File scripts\notify_done.ps1 -Title "T404 Done" -Message "BUG-034 ô Search"
-  Tham số: -Title, -Message, -Image (mặc định: chọn ngẫu nhiên 1 ảnh .png trong static\notify\mascots\;
-  nếu thư mục rỗng/không có thì dùng static\notify\mascot.png), -Url (mở khi click phải), -NoSound
+  Tham số: -Title, -Message, -Image (mặc định static\notify\mascot.png), -Url (mở khi click phải), -NoSound
 #>
 param(
   [string]$Title = "Task Done",
@@ -17,21 +16,7 @@ param(
 )
 
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
-if (-not $Image) {
-  # Không truyền -Image: chọn ngẫu nhiên 1 ảnh .png trong static\notify\mascots\.
-  # Thư mục rỗng hoặc không tồn tại thì dùng lại mascot.png như cũ (fallback).
-  $mascotsDir = Join-Path (Split-Path -Parent $here) "static\notify\mascots"
-  $fallbackImage = Join-Path (Split-Path -Parent $here) "static\notify\mascot.png"
-  $mascotPool = @()
-  if (Test-Path -LiteralPath $mascotsDir) {
-    $mascotPool = @(Get-ChildItem -LiteralPath $mascotsDir -Filter '*.png' -File -ErrorAction SilentlyContinue)
-  }
-  if ($mascotPool.Count -gt 0) {
-    $Image = ($mascotPool | Get-Random).FullName
-  } else {
-    $Image = $fallbackImage
-  }
-}
+if (-not $Image) { $Image = Join-Path (Split-Path -Parent $here) "static\notify\mascot.png" }
 
 # Lần gọi đầu: tự chạy lại ở tiến trình riêng (STA, ẩn cửa sổ console) rồi trả về ngay, không chặn agent.
 if (-not $Child) {

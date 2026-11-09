@@ -1,0 +1,13 @@
+T389 Legacy Engine Evidence Report
+Generated: 2026-10-22 15:59:57
+==================================================
+
+1. Multi-parent count (persons with lineage appearing >1 time): 10
+2. TTL persons with gen_order but lineage outside Lâm Thế: 1018
+3. TTL persons with gen_order total: 1018
+
+4. Analysis: If multi-parent > 0, có thể có BUG-027 style issues.
+   If TTL outside Lâm Thế > 0, cần kiểm tra dharmaLineageName mapping.
+
+5. Conclusion: Đây là engine legacy. Engine duy nhất dài hạn là T232.
+   Kết quả này chỉ dùng cho báo cáo, không áp dụng --apply trên DB thật.

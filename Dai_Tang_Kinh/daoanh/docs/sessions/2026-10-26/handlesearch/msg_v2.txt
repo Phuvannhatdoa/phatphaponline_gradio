@@ -1,0 +1,1 @@
+docs: cap nhat so cong dang do (known-failing-gates): go test:t232 (ef997748), test:translation dung o t200, audit:t166 nguyen nhan schema, honesty H1-H5 + cong da go + docs

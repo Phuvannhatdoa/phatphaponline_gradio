@@ -1,0 +1,43 @@
+=== 1) Thu tu uu tien status dung chu ky te ===
+   OK   rank verified = 0
+   OK   rank pending = 1
+   OK   rank auto_ttl = 2
+   OK   rank alias_vi_suffix = 3
+   OK   rank alias_zh_match = 4
+   OK   ORDER BY co tie-break id ASC
+
+=== 2) lookup chon dung dong theo thu tu status ===
+   OK   A1 -> dong status=verified
+   OK   A1 -> dong status=pending
+   OK   A1 -> dong status=auto_ttl
+   OK   A1 -> dong status=alias_vi_suffix
+   OK   A1 -> dong status=alias_zh_match
+
+=== 3) TIE-BREAK: cung status -> phai chon theo id ASC (deterministic) ===
+   OK   4 dong cung status -> id nho nhat (id_aa)
+
+=== 4) DETERMINISM: chay 50 lan phai ra cung ket qua ===
+   OK   50 lan x 5 nhom -> chi 1 ket qua duy nhat
+
+=== 5) map_dila_to_name: 1 nhom nhieu dong -> chi giu 1 dong ===
+   OK   A3 -> 'Pending Name' (pending > auto_ttl > alias)
+   OK   A4 -> 'Lon' (bo dong rong)
+   OK   dila_id rong bi lo
+   OK   map deterministic
+
+=== 6) Bien edge: input rong / khong ton tai / bang thieu cot ===
+   OK   dila_id=None -> None
+   OK   dila_id='' -> None
+   OK   bang khong ton tai -> None (khong nem)
+   OK   map tren bang khong ton tai -> {} rong
+   OK   has_duplicate_dila tren bang khong ton tai -> (False, 0)
+
+=== 7) DB that (read-only): A001984 + dem nhom trung ===
+   OK   A001984 tra dung (chi 1 dong)
+   info: con 36 nhom dila_id trung (tie-break da xac dinh)
+   OK   map_dila_to_name tren DB that deterministic
+   OK   map khong rong
+
+============================================================
+T200 tie-break test: 25/25 PASS
+============================================================

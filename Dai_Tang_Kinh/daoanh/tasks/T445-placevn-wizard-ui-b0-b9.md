@@ -1,9 +1,7 @@
 ---
 id: T445
 title: "Wizard UI cho T444 Gemini Places Translation (B0-B9)"
-status: split
-updated: 2026-11-01
-outcome: "Coder (2026-11-01): Fixed per TESTER-REPORT.md: (1) Route rename: POST /load-schema (alias /add-columns), GET /batch-monitor (alias /batch-status). (2) B2 load-schema defaults to dry-run (apply=false), explicit apply=true to run ALTER. (3) Unimplemented routes return 501 {'success': false, 'message': 'chưa triển khai'} (fix-ids, load-dictionary, update-rules, approve-sample, report, export-csv). batch-monitor returns idle state (success: true) as polling fallback. (4) WebSocket deviation documented in app.py comment - polling used instead. (5) Syntax check: app.py Python AST OK; placevn.html JSX/Babel structure validated. Files changed: app.py (endpoints), admin/placevn.html (B2 dry-run/apply buttons, B5/B8 polling). Backup at docs/sessions/2026-11-01/T445-coder/backup/*."
+status: coding
 depends_on: [T444]
 timeline:
   created: 2026-10-21
@@ -247,13 +245,21 @@ def batch_monitor(ws):
 
 Next: daoanh-debugger codes placevn.html Wizard + app.py endpoints
 
-## Sửa sau tester (2026-11-01, tester FAIL — coder làm lại)
+## Các bước (MA giao cho coder — 2026-11-01)
 
-Nguồn: `docs/sessions/2026-11-01/T445-coder/TESTER-REPORT.md` (trong worktree này).
+Trạng thái thật (kiểm 2026-11-01): `app.py` HEAD **chưa có** route nào của T445 (0/8). `admin/placevn.html` HEAD chưa có wizard; bản bổ sung (+74 dòng) chỉ có khung giao diện, chưa gọi API. Xem `docs/sessions/2026-10-25/T445-coder/REVIEW.md`.
 
-- [x] **Sửa 1 —** Đổi tên route đúng spec: `POST /daoanh/api/admin/load-schema` (hiện là `add-columns`) và `GET /daoanh/api/admin/batch-monitor` (hiện là `batch-status`). Giữ alias cũ nếu UI đang gọi.
-- [x] **Sửa 2 —** B2 `load-schema`: mặc định chỉ dry-run (liệt kê cột sẽ thêm), KHÔNG chạy ALTER nếu không có tham số apply tường minh. Không tự apply.
-- [x] **Sửa 3 —** Cấm stub giả thành công: mọi route chưa làm thật phải trả HTTP 501 `{"success": false, "message": "chưa triển khai"}`, KHÔNG được trả `success: true`. Áp cho update-rules, approve-sample, report, fix-ids, export-csv, batch-status.
-- [x] **Sửa 4 —** WebSocket: không thêm thư viện. Ghi rõ lệch spec (polling thay WebSocket) trong `outcome` để Admin quyết.
-- [x] **Sửa 5 —** Kiểm cú pháp `app.py`, và `placevn.html` (khối `text/babel` nếu có thể). Ghi kết quả vào outcome. Đổi lại thành `status: testing` khi xong.
-- [x] **Không làm:** không `--apply`, không ghi DB ngoài môi trường test, không commit.
+Quy tắc chung: coder chỉ viết code. **Không** chạy `--apply`, không ghi DB ngoài môi trường test, không commit. Mọi thao tác ghi DB cần dry-run và Admin duyệt riêng (HARNESS_WORKFLOW mục 3).
+
+- [ ] B0: thêm `POST /daoanh/api/admin/backup` — sqlite backup nhất quán, trả `backup_path`.
+- [ ] B1: thêm `POST /daoanh/api/admin/fix-ids` — preview 3.800 ID, xuất `sample_b1_fixed.csv`. Chỉ đọc khi preview.
+- [ ] B2: thêm `POST /daoanh/api/admin/load-schema` — thêm cột `source, needs_review, reason, updated_at` vào `ai_place_name`, idempotent. Dry-run trước, không tự apply.
+- [ ] B3: thêm `POST /daoanh/api/admin/load-dictionary` — nạp 2.446 mục từ điển, idempotent. Dry-run trước.
+- [ ] B4: thêm `POST /daoanh/api/admin/update-rules` — lưu 7 quy tắc (form inline).
+- [ ] B5: thêm `GET /daoanh/api/admin/batch-monitor` — polling trạng thái batch (thay WebSocket theo Flask 3.1).
+- [ ] B7: thêm `POST /daoanh/api/admin/approve-sample` — nạp 100 mẫu, duyệt mục chọn.
+- [ ] B9: thêm `POST /daoanh/api/admin/report` và `GET /daoanh/api/admin/export-csv?type=missing|duplicate|full`.
+- [ ] Nối giao diện: `admin/placevn.html` gọi các route trên, giữ nguyên mã cũ (chỉ thêm).
+- [ ] Kiểm cú pháp `app.py` và `placevn.html`; ghi kết quả vào `outcome`.
+
+Ghi chú: route mới đặt trước `if __name__ == '__main__':` cuối cùng của `app.py`.

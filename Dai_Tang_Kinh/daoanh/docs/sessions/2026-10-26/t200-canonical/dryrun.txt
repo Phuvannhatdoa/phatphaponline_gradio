@@ -1,0 +1,12 @@
+=== T200 dry-run (0 ghi) ===
+  DB: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\lineage.db
+  vn_person_authority số dòng hiện tại: 1511
+  dòng dila_id=A001984 hiện tại:
+  ('alias_A001984', 'Linh Hựu', '靈祐', 'A001984', 'alias_vi_suffix', 'TS-Quy-Son-Linh-Huu')
+
+[SQL plan]
+  run   INSERT INTO vn_person_authority (id, ttl_filename, name_vi, name_zh, dila_id, status, entity_type, created_at) VALUES ('canonical_A001984', 'TS-Quy-Son-Linh-Huu', 'Quy Sơn Linh Hựu', '靈祐', 'A001984', 'auto_ttl', 'monk', CURRENT_TIMESTAMP);
+
+  revert: DELETE FROM vn_person_authority WHERE id='canonical_A001984' AND dila_id='A001984';
+
+  backup → E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\backups\lineage_t200_20261028_115658.db

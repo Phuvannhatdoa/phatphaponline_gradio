@@ -1,0 +1,45 @@
+KIEM CHUNG CO CHE BAT HOI QUY (ratchet). KHONG sua docs/audit-honesty-baseline.json that.
+Tham so moi: --baseline <path> (mac dinh docs/audit-honesty-baseline.json).
+LUU Y: PROBE A chep day du. PROBE B/C chi trich cac dong bang chung chinh (bang check
+rut gon de doc); EXIT CODE cua ca 3 la do thuc bang subprocess.run(...).returncode.
+
+=== PROBE A: co so gia lap H1 = 0 (thuc te 41 => vi pham moi +41) ===
+$ python -X utf8 scripts/audit_data_honesty.py --baseline docs/sessions/2026-10-26/honesty-ratchet/probe-baseline-H1-0.json
+====================================================================
+T234 DATA HONESTY GATE — read-only, 7 kiem tra
+CHE DO: ratchet (chi vi pham MOI vuot co so moi FAIL)
+CO SO : docs/sessions/2026-10-26/honesty-ratchet/probe-baseline-H1-0.json
+====================================================================
+  TAG  KT  MO TA                                             HIEN   CO SO  CHENH LECH
+  [FAIL] H1 event_evidence.event_id khop event_type             41       0  +41
+         event_evidence khong khop event_type hien tai cua place_timeline_events
+  [NỢ  ] H2 time_mentions.time_authority_id tro tai that        96      96  0 (nợ đã biết)
+  [NỢ  ] H3 nam suy ra duoc tu note hoac bang trieu dai        969     969  0 (nợ đã biết)
+  [NỢ  ] H4 nhan '(N年建)' co khop nguon                         745     745  0 (nợ đã biết)
+  [NỢ  ] H5 source_ref khong tu tham chieu                      55      55  0 (nợ đã biết)
+  [ OK ] H6 time_periods era/dynasty co start_year               0       0  0
+  [ OK ] H7 dila_id ton tai trong places_dila                    0       0  0
+--------------------------------------------------------------------
+⚠ NỢ DỮ LIỆU ĐÃ BIẾT (theo docs/sessions/2026-10-26/honesty-ratchet/probe-baseline-H1-0.json): H2 96, H3 969, H4 745, H5 55
+[BAO CAO] VI PHẠM MỚI vượt cơ sở — FAIL, pipeline bị chặn:
+   - H1: hiện 41 > cơ sở 0 (chênh lệch +41)
+EXIT CODE = 1  => ĐẠT (bắt được hồi quy)
+
+=== PROBE B: co so thieu khoa H4 (check khong co trong co so) ===
+$ python -X utf8 scripts/audit_data_honesty.py --baseline docs/sessions/2026-10-26/honesty-ratchet/probe-baseline-noH4.json
+  [FAIL] H4 nhan '(N年建)' co khop nguon                         745       —  không có cơ sở
+[BAO CAO] VI PHẠM MỚI vượt cơ sở — FAIL, pipeline bị chặn:
+   - H4: 745 (không có cơ sở)
+EXIT CODE = 1  => ĐẠT
+
+=== PROBE C: file co so KHONG TON TAI (hanh vi cu: moi FAIL deu la FAIL) ===
+$ python -X utf8 scripts/audit_data_honesty.py --baseline docs/sessions/2026-10-26/honesty-ratchet/does-not-exist.json
+====================================================================
+CO SO : docs/sessions/2026-10-26/honesty-ratchet/does-not-exist.json  (KHONG CO FILE — moi FAIL deu la vi pham moi)
+  [FAIL] H1 ... 41  — không có cơ sở
+  [FAIL] H2 ... 96  — không có cơ sở
+  [FAIL] H3 ... 969 — không có cơ sở
+  [FAIL] H4 ... 745 — không có cơ sở
+  [FAIL] H5 ... 55  — không có cơ sở
+[BAO CAO] VI PHẠM MỚI vượt cơ sở — FAIL, pipeline bị chặn:  (5 dòng)
+EXIT CODE = 1  => ĐẠT

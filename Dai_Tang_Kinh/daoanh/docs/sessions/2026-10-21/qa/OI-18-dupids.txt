@@ -1,0 +1,19 @@
+Lệnh: python -X utf8 scripts/build_progress_data.py --check-dup-ids   (cwd = Dai_Tang_Kinh/daoanh)
+Ngày chạy: 2026-10-21
+Ghi chú: chạy ở chế độ chỉ kiểm tra (nhánh --check-dup-ids, không gọi build()). Mã thoát theo mã nguồn: nhánh [FAIL] trả về 1.
+Ghi chú: output được ghi bằng công cụ ghi file (UTF-8), không dùng toán tử > của PowerShell 5.1 (sẽ ghi UTF-16).
+---
+─────────────────────────────────────────────
+[DUP-ID] tasks/*.md + docs/**/*.md (đã loại trừ _book/)
+[INFO] 5 ID có bản X- superseded (hợp lệ theo quy ước):
+   T172: docs/Mimo-Flash/T172-hanviet-charwise-debug.md
+   T173: docs/Mimo-Flash/T173-person-lineage-tab-merge.md
+   T174: docs/Mimo-Flash/T174-t158-phase0-reuse-first-canonical-guard.md
+   T175: docs/Mimo-Flash/T175-phase0c-canonical-person-identity-audit.md
+   T176: docs/Mimo-Flash/T176-phase0c-rev2-canonical-person-identity-audit.md
+[INFO] 1 ID có bản docs/ gắn liền task (`task: tasks/...`):
+   T199: 2 file phụ
+[FAIL] 1 task ID trùng:
+   T445:
+      - tasks/T445-claude-place-name-import.md
+      - tasks/T445-placevn-wizard-ui-b0-b9.md

@@ -4,7 +4,7 @@ title: "Rules-Constrained Buddhist Translation Engine (spec T158 cũ -> đổi s
 module: translation
 priority: high
 status: in_progress
-depends_on: [T95, T94, T110, T123, T126, T158-glossary-resolver]
+depends_on: [T95, T94, T110, T123, T126, T218]
 created: 2026-09-24
 updated: 2026-09-24
 plan_approved_at: "2026-09-24 (Lee duyệt - đổi số T158->T167, sửa CURRENT SSOT, extend T123/rules thay vì hệ mới)"
@@ -14,67 +14,6 @@ done_when: >
   (quota_exhausted status, validator L0-L3, ruleset_id per segment) được build additively;
   T95 worker KHÔNG rebuild, translation_rules KHÔNG tạo bảng song song; mọi thay đổi revert được 1 lệnh.
 ---
-
-## TÓM TẮT CHO ADMIN (viết không kỹ thuật)
-
-### Task này làm gì?
-
-Hệ thống đã có sẵn một luồng dịch máy cho kinh Phật (T95). Task T167 thêm một lớp **kiểm soát chất lượng** vào luồng đó, để bản dịch máy:
-
-- **Đi theo quy tắc dịch đã duyệt** (gọi là "Hiến chương dịch" / Translation Constitution): cách dịch thuật ngữ, tên riêng, giọng văn.
-- **Được kiểm tra tự động** trước khi đến người, bằng các bước kiểm tra cố định, không dùng AI để chấm.
-- **Được học giả duyệt** trước khi trở thành bản **GOLD** (bản chuẩn, được tin dùng).
-
-Task này **không xây lại** từ đầu. Nó mở rộng công cụ T95 đang chạy.
-
-### Luồng xử lý sau khi hoàn thành
-
-1. **Lấy một đoạn kinh** từ CBETA.
-2. **Cắt thành đơn vị nhỏ** (mỗi đơn vị là một câu hoặc một ý ngắn, để dễ kiểm soát).
-3. **Gắn quy tắc dịch** cho từng đơn vị (mỗi đơn vị ghi rõ đang dùng bộ quy tắc nào).
-4. **Cung cấp ngữ cảnh** cho mô hình AI: nghĩa từ điển từ DILA, bảng thuật ngữ tiếng Việt (glossary_vi), và ngữ cảnh gốc từ CBETA.
-5. **Mô hình dịch** (Qwen3.8-27B, chạy qua dịch vụ Groq) tạo bản dịch.
-6. **Kiểm tra tự động** (validator): bản dịch có vi phạm quy tắc không, thuật ngữ có đúng không.
-7. **Học giả duyệt** (Human Scholarly Review) trên giao diện review.
-8. **Được duyệt thì thành GOLD.**
-
-### Đã làm xong
-
-- **Phase 1:** cấu trúc dữ liệu (schema) và Hiến chương dịch.
-- **Hợp đồng hạn mức worker:** worker biết khi đã hết hạn mức Groq (trạng thái `quota_exhausted`), không tính là lỗi dịch.
-- **Phase 4, bản đầu:** bộ kiểm tra tự động (validator), chạy theo các mức L0 đến L3.
-- **Phase 0:** kiểm tra hiện trạng (chỉ đọc), xác nhận các chỗ thiếu thật sự cần bổ sung.
-
-### Còn phải làm
-
-- **Nạp dữ liệu seed vào database:** đưa Hiến chương và bộ quy tắc vào DB thật (hiện mới có trong code).
-- **Gắn validator vào pipeline và giao diện review** để học giả thấy kết quả kiểm tra.
-- **Benchmark:** đo chất lượng và độ ổn định của bản dịch.
-- **Duyệt GOLD:** học giả chốt các bản chuẩn đầu tiên.
-
-### Nguyên tắc cần giữ
-
-- **Không xây lại T95.** Không tạo bảng quy tắc dịch song song với hệ thống hiện có.
-- **Mọi thay đổi phải hoàn tác được bằng một lệnh.**
-
-### Thuật ngữ
-
-| Thuật ngữ | Nghĩa đơn giản |
-|---|---|
-| **CBETA** | Kho kinh Phật Hán tạng gốc, nguồn văn bản chính |
-| **DILA** | Nguồn từ điển thuật ngữ Phật học |
-| **glossary_vi** | Bảng thuật ngữ tiếng Việt đã chuẩn hóa của dự án |
-| **Hiến chương dịch** | Bộ quy tắc dịch mà mọi bản dịch phải tuân theo |
-| **Validator** | Bộ kiểm tra tự động, chạy theo quy tắc cố định |
-| **Seed** | Dữ liệu ban đầu được nạp vào database |
-| **Worker** | Tiến trình chạy nền gọi mô hình AI để dịch |
-| **Quota exhausted** | Đã hết hạn mức gọi API, phải chờ hoặc đổi nguồn |
-| **GOLD** | Bản dịch đã được học giả duyệt, dùng làm chuẩn |
-| **Rollback** | Quay lại trạng thái trước khi thay đổi |
-
----
-
-## Chi tiết kỹ thuật (giữ nguyên)
 
 # T167 - Rules-Constrained Buddhist Translation Engine
 
@@ -110,7 +49,7 @@ CBETA passage
 | T110 | DONE | glossary pipeline, T05 closure |
 | T126 | DONE/live - **là Q&A Backend (KHÔNG phải Groq/Qwen)** | `T126-qa-backend-real.md` |
 | T123 | DONE - **Style Constitution = Translation Constitution hiện có** | `_t123_build_style_prompt`, `translation_rules` table |
-| T158-glossary-resolver | **DONE - pre-translation DB lookup ĐÃ CÓ** | `_glossary_resolver`, GLOSSARY LOCK inject |
+| T218 (glossary-resolver) | **DONE - pre-translation DB lookup ĐÃ CÓ** | `_glossary_resolver`, GLOSSARY LOCK inject |
 | T158-lineage-consensus | DONE (T158 dùng lần 2) | taskdone |
 
 **Số task:** T158 đã dùng 2 lần (glossary-resolver + lineage-consensus) nên **KHÔNG được đặt tên T158**. Task mới = **T167** (T166 là max hiện tại). "Current next task number is T158" trong spec cũ là SAI.
@@ -124,7 +63,7 @@ CBETA passage
 - Route `POST /daoanh/api/admin/translation/verify` (app.py L20087-20134): insert `passage_translation_alignment` alignment_type='manual_verified', review_status='verified'. Idempotent, rollback thủ công = xóa dòng alignment.
 
 ### 3. T110 reuse map
-- `data/glossaries/vi-buddhist.json` (glossary lock gốc) + pipeline glossary_vi → `_glossary_resolver` (T158-glossary-resolver) inject db_verified terms vào GLOSSARY LOCK trước khi gọi LLM.
+- `data/glossaries/vi-buddhist.json` (glossary lock gốc) + pipeline glossary_vi → `_glossary_resolver` (T218) inject db_verified terms vào GLOSSARY LOCK trước khi gọi LLM.
 
 ### 4. T126 reuse map (HIỆU CHỈNH so với spec cũ)
 - T126 = Q&A Backend (wire UI), KHÔNG phải Groq/Qwen. Model contract tái sử dụng: **T95 worker** (`scripts/cbeta_translate_worker.py`) + **T123 Style Constitution** (`_t123_unified_style_prompt` app.py L16445). Mặc định provider=groq, model=qwen/qwen3.8-27b.

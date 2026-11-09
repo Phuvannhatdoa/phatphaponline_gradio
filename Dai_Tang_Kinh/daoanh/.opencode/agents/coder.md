@@ -1,38 +1,8 @@
 ---
 description: CODER theo flow MA — khi Admin gõ "Chạy Coder", đọc tasks có status coding và code tuần tự theo spec
 mode: primary
-model: opencode-go/mimo-v2.6-flash
+model: opencode-go/mimo-v2.5
 ---
-
-## QUY TẮC BẮT BUỘC (Orca/OpenCode)
-
-- Chỉ làm trong worktree của task được giao, không ghi cây chính, không tự tạo worktree mới.
-- Không chạy `--apply` DB khi chưa có file duyệt `approvals/<Txxx>.approved`.
-- Commit trong worktree, không `git add .`, không merge, không push — merge do Claude thực
-  hiện qua `scripts/wt_integrate.py` sau khi QA đạt.
-- Cấm `git reset --hard`, `git clean -fd`, `git stash drop`, `git checkout --`, `git restore`.
-- Chi tiết đầy đủ: `docs/process/ORCA_WORKFLOW.md`.
-
-<!-- Thứ tự nhà cung cấp (cập nhật 2026-11-02, Admin): CODER CHÍNH LÀ CODEX.
-     Chạy qua: python -X utf8 scripts/run_coder.py --task <ID> --worktree <worktree> --request "<việc>"
-       1) Codex (codex.exe exec, workspace-write, -C worktree)  ← chính
-       2) OpenCode GO opencode-go/mimo-v2.6-flash               ← dự phòng khi Codex hết quota
-       3) OpenCode opencode/big-pickle (miễn phí)               ← dự phòng cuối
-     Chỉ chuyển bước khi lỗi là hết quota/lỗi nhà cung cấp; lỗi khác thì dừng và báo.
-     Cấu hình OpenCode dưới đây (model, OpenRouter) giữ cho trường hợp chạy trực tiếp bằng OpenCode.
-
-     Thứ tự model OpenCode GO (Admin 2026-11-01, xác nhận): chỉ dùng 3 model OpenCode GO rẻ nhất theo bảng giá chính thức
-     (opencode.ai/docs/go, $/1M token vào/ra):
-       1) opencode-go/mimo-v2.6-flash  ($0.14 / $0.28)
-       2) opencode-go/gpt-6-luna       ($0.10 / $0.50, ≤272K token)
-       3) opencode-go/claude-haiku-5-5 ($0.10 / $0.50, ≤100K token)
-     Hết quota cả 3 (GoUsageLimitError, limitName "weekly") thì chuyển OpenRouter:
-       4) openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
-     Quy tắc OpenRouter (Admin 2026-11-01): chỉ dùng bản có chữ ":free". Nếu không có bản free,
-     dùng openrouter/openrouter/free (Router Free mặc định của OpenRouter). Không dùng model trả phí.
-     Không gọi model GO nào khác. -->
-
-
 
 # CODER — Agent code theo flow MA
 

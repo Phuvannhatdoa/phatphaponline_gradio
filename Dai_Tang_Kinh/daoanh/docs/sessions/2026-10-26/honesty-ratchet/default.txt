@@ -1,0 +1,25 @@
+$ python -X utf8 scripts/audit_data_honesty.py
+====================================================================
+T234 DATA HONESTY GATE — read-only, 7 kiem tra
+CHE DO: ratchet (chi vi pham MOI vuot co so moi FAIL)
+CO SO : docs/audit-honesty-baseline.json
+====================================================================
+  TAG  KT  MO TA                                             HIEN   CO SO  CHENH LECH
+  [NỢ  ] H1 event_evidence.event_id khop event_type             41      41  0 (nợ đã biết)
+         event_evidence khong khop event_type hien tai cua place_timeline_events
+  [NỢ  ] H2 time_mentions.time_authority_id tro tai that        96      96  0 (nợ đã biết)
+         authority goc placeholder reign_era_dict: 96 | authority sai dinh danh khac: 0
+  [NỢ  ] H3 nam suy ra duoc tu note hoac bang trieu dai        969     969  0 (nợ đã biết)
+         khong suy ra duoc (969) + ngoai khoang trieu dai (0) | W1a legacy note 0 + W1a nghiem note 0/label 0 + W1b 0 + W1c 0 | QID 253 + midpoint co nhan 1538; midpoint khong hien khoang (6) va year ngoai khoang (0) van FAIL; vi du: [('PL000000000173', 467), ('PL000000000177', 467), ('PL000000000180', 467)]
+  [NỢ  ] H4 nhan '(N年建)' co khop nguon                         745     745  0 (nợ đã biết)
+         nhan '(N年建)' ma N khong co trong note (menh lenh bia): 745
+  [NỢ  ] H5 source_ref khong tu tham chieu                      55      55  0 (nợ đã biết)
+         source_ref tu tham chieu (source_ref = source)
+  [ OK ] H6 time_periods era/dynasty co start_year               0       0  0
+  [ OK ] H7 dila_id ton tai trong places_dila                    0       0  0
+--------------------------------------------------------------------
+⚠ NỢ DỮ LIỆU ĐÃ BIẾT (theo docs/audit-honesty-baseline.json): H1 41, H2 96, H3 969, H4 745, H5 55
+  → cổng PASS vì KHÔNG có vi phạm MỚI vượt cơ sở. Cổng cứng: npm run audit:honesty:strict
+PASS (ratchet) 7/7 — không vi phạm MỚI; nợ đã biết: 5 kiểm tra.
+
+EXIT CODE = 0 (đo bằng subprocess.run(...).returncode)

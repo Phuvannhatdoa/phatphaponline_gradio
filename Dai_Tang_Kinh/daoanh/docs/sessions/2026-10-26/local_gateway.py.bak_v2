@@ -1,0 +1,237 @@
+"""
+local_gateway.py - nginx thay thế cho dev local (port 8080)
+
+Trên VPS, nginx đóng 2 vai:
+  1. Trả file tĩnh trực tiếp (places.html, admin/*.html, static/*, ...)
+  2. Proxy request API sang đúng server Python đang chạy ngầm:
+     - /daoanh/api/login/*, /api/login/*, /daoanh/login.html, /api/admin/emails*
+         -> server.py (port 5001, auth gateway)
+     - /daoanh/api/*, /api/*  (mọi API khác)
+         -> app.py (port 5000, business logic)
+
+Máy dev Windows không có nginx, nên script này giả lập đúng 2 vai trò trên.
+Không dùng cho production - chỉ để chạy `python local_gateway.py` lúc dev local.
+"""
+import atexit
+import os
+import socket
+import subprocess
+import sys
+import time
+from flask import Flask, request, Response, send_from_directory, abort
+import requests
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_DASHBOARD_DIR = os.path.normpath(os.path.join(BASE_DIR, "..", "dashboard"))
+APP_PORT = 5000
+AUTH_PORT = 5001
+GATEWAY_PORT = 8080
+
+# T468: agent_team.html (Dai_Tang_Kinh/dashboard/) chạy trên serve.py riêng, trước đây
+# phải tự start thủ công ở cổng 8090 (và serve.py có 1 lỗi cú pháp khiến nó không chạy
+# được -- xem fix cùng session). Giờ local_gateway tự quản lý 1 serve.py con trên cổng
+# nội bộ DASHBOARD_PORT (không phải 8090, để không còn ai cần nhớ/khởi động 8090 riêng)
+# và proxy đúng tập path mà agent_team.js gọi sang đó. KHÔNG đổi API contract của
+# serve.py; serve.py vẫn chạy được độc lập trên 8090 như trước nếu ai cần.
+DASHBOARD_PORT = 8094
+DASHBOARD_SERVE_PY = os.path.join(REPO_DASHBOARD_DIR, "serve.py")
+_dashboard_proc = None
+
+AUTH_PREFIXES = (
+    "/daoanh/api/login",
+    "/api/login",
+    "/daoanh/login.html",
+    "/api/admin/emails",
+)
+
+# Các path tĩnh của agent_team (css/js) phục vụ trực tiếp từ Dai_Tang_Kinh/dashboard/,
+# không nằm trong BASE_DIR (daoanh/) nên try_serve_static() không tìm thấy.
+DASHBOARD_STATIC_FILES = {
+    "/dashboard/agent_team.html",
+    "/dashboard/agent_team.css",
+    "/dashboard/agent_team.js",
+}
+
+# API mà agent_team.js gọi (xem dashboard/serve.py). KHÔNG gồm /api/health vì path đó
+# trùng với route /api/health có sẵn trong app.py (business logic khác) -- giữ nguyên
+# hành vi cũ cho /api/health, chỉ route riêng các API dashboard-only dưới đây.
+DASHBOARD_API_PATHS = {
+    "/api/list",
+    "/api/task-status",
+    "/api/real-task-status",
+    "/api/task-note",
+    "/api/task-contexts",
+    "/api/notify-done",
+    "/api/notify-done/last",
+}
+
+
+def _port_listening(port: int) -> bool:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(0.3)
+        return s.connect_ex(("127.0.0.1", port)) == 0
+
+
+def ensure_dashboard_server():
+    """Tự start dashboard/serve.py (nội bộ, 127.0.0.1:DASHBOARD_PORT) nếu chưa chạy.
+    Không ảnh hưởng tiến trình 8090 khác (nếu ai đó tự chạy serve.py --port 8090 thủ
+    công, process đó độc lập, không bị đụng tới)."""
+    global _dashboard_proc
+    if _port_listening(DASHBOARD_PORT):
+        return
+    if not os.path.isfile(DASHBOARD_SERVE_PY):
+        print(f"  [dashboard] NOT FOUND: {DASHBOARD_SERVE_PY}, skip auto-start.")
+        return
+    _dashboard_proc = subprocess.Popen(
+        [sys.executable, DASHBOARD_SERVE_PY, "--host", "127.0.0.1", "--port", str(DASHBOARD_PORT)],
+        cwd=REPO_DASHBOARD_DIR,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    for _ in range(20):
+        if _port_listening(DASHBOARD_PORT):
+            print(f"  [dashboard] serve.py child started (PID {_dashboard_proc.pid}) at 127.0.0.1:{DASHBOARD_PORT}")
+            return
+        time.sleep(0.25)
+    print(f"  [dashboard] serve.py child started but not LISTENing on {DASHBOARD_PORT} after 5s")
+
+
+def _stop_dashboard_server():
+    global _dashboard_proc
+    if _dashboard_proc is not None and _dashboard_proc.poll() is None:
+        _dashboard_proc.terminate()
+        try:
+            _dashboard_proc.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            _dashboard_proc.kill()
+
+
+atexit.register(_stop_dashboard_server)
+
+app = Flask(__name__)
+
+
+def is_dashboard_path(path: str) -> bool:
+    return path in DASHBOARD_STATIC_FILES or path in DASHBOARD_API_PATHS or path.startswith("/tasks/")
+
+
+def is_api_path(path: str) -> bool:
+    return path.startswith("/daoanh/api/") or path.startswith("/api/")
+
+
+def target_port(path: str) -> int:
+    if any(path.startswith(p) for p in AUTH_PREFIXES):
+        return AUTH_PORT
+    return APP_PORT
+
+
+def proxy(port: int):
+    """Forward the current request to the given local port and relay the response."""
+    url = f"http://127.0.0.1:{port}{request.full_path}"
+    try:
+        resp = requests.request(
+            method=request.method,
+            url=url,
+            headers={k: v for k, v in request.headers if k.lower() != "host"},
+            data=request.get_data(),
+            cookies=request.cookies,
+            allow_redirects=False,
+            timeout=60,
+        )
+    except requests.exceptions.ConnectionError:
+        return Response(
+            f'{{"error":"backend on port {port} is not running"}}',
+            status=502,
+            mimetype="application/json",
+        )
+    except requests.exceptions.Timeout:
+        # BUG-049 fix (2026-10-20): trước đây chỉ bắt ConnectionError — khi backend
+        # (app.py) bị nghẽn tạm thời (vd. tab ETL bắn burst N request namevi-queue
+        # song song lúc load, xem comment T427 trong namevimap.html), request proxy
+        # vượt quá timeout=60s ném requests.exceptions.Timeout KHÔNG được bắt, Flask
+        # trả về trang lỗi 500 dạng HTML. Phía client (vd. passEtlFlag trong
+        # namevimap.html) gọi JSON.parse(txt) trên HTML đó → lỗi "non-JSON" → nút
+        # Pass chuyển đỏ (✗) dù backend có thể vẫn đang xử lý/đã xử lý xong.
+        # Trả JSON rõ ràng (504) để client phân biệt được "backend quá tải, thử lại"
+        # thay vì crash khi parse response.
+        return Response(
+            f'{{"error":"backend on port {port} timeout sau 60s — server có thể đang quá tải, thử lại"}}',
+            status=504,
+            mimetype="application/json",
+        )
+    except requests.exceptions.RequestException as e:
+        # Lưới an toàn chung cho các lỗi requests khác chưa được liệt kê ở trên
+        # (vd. lỗi kết nối bất thường) — tránh để Flask trả HTML 500 làm vỡ JSON.parse
+        # phía client (cùng nguyên nhân với nhánh Timeout ở trên).
+        return Response(
+            f'{{"error":"proxy error to backend on port {port}: {str(e)}"}}',
+            status=502,
+            mimetype="application/json",
+        )
+    excluded = {"content-encoding", "transfer-encoding", "connection", "content-length"}
+    headers = [(k, v) for k, v in resp.raw.headers.items() if k.lower() not in excluded]
+    return Response(resp.content, status=resp.status_code, headers=headers)
+
+
+def try_serve_static(path: str):
+    """
+    Mimic nginx's static-file serving for root-level pages like /daoanh/places
+    (backed by places.html) and any other .html/.js/.css/asset in the daoanh tree.
+    Returns a Flask response if a matching file is found, else None.
+    """
+    rel = path
+    if rel.startswith("/daoanh/"):
+        rel = rel[len("/daoanh/"):]
+    elif rel == "/daoanh":
+        rel = ""
+    rel = rel.lstrip("/")
+
+    candidates = [rel, f"{rel}.html", f"{rel}/index.html"] if rel else ["index.html"]
+    for candidate in candidates:
+        full = os.path.normpath(os.path.join(BASE_DIR, candidate))
+        if not full.startswith(BASE_DIR):
+            continue  # path traversal guard
+        if os.path.isfile(full):
+            directory, filename = os.path.split(full)
+            return send_from_directory(directory, filename)
+    return None
+
+
+METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"]
+
+@app.route("/", defaults={"path": ""}, methods=METHODS)
+@app.route("/<path:path>", methods=METHODS)
+def gateway(path):
+    full_path = "/" + path
+
+    if is_dashboard_path(full_path):
+        return proxy(DASHBOARD_PORT)
+
+    if is_api_path(full_path):
+        return proxy(target_port(full_path))
+
+    static_resp = try_serve_static(full_path)
+    if static_resp is not None:
+        return static_resp
+
+    # Fallback: let app.py try (it owns a few specific HTML routes, e.g. /daoanh/admin/)
+    return proxy(APP_PORT)
+
+
+if __name__ == "__main__":
+    import sys
+    # Mặc định bind 127.0.0.1 — chỉ máy local truy cập được.
+    # Nếu cần test từ máy khác trong LAN, truyền --lan: python local_gateway.py --lan
+    bind_host = "0.0.0.0" if "--lan" in sys.argv else "127.0.0.1"
+    print("=" * 60)
+    print(f"local_gateway.py - dev nginx replacement on port {GATEWAY_PORT}")
+    print(f"  bind: {bind_host}:{GATEWAY_PORT}")
+    print(f"  static files served directly from: {BASE_DIR}")
+    print(f"  /daoanh/api/login/*, /api/login/*  -> 127.0.0.1:{AUTH_PORT} (server.py)")
+    print(f"  /daoanh/api/*, /api/*  (other)     -> 127.0.0.1:{APP_PORT} (app.py)")
+    print(f"  /dashboard/agent_team.*, /tasks/*, dashboard API -> 127.0.0.1:{DASHBOARD_PORT} (dashboard/serve.py, auto-start)")
+    if bind_host == "0.0.0.0":
+        print("  WARNING: LAN mode — accessible from other machines on network")
+    print("=" * 60)
+    ensure_dashboard_server()
+    app.run(host=bind_host, port=GATEWAY_PORT, debug=False, threaded=True)

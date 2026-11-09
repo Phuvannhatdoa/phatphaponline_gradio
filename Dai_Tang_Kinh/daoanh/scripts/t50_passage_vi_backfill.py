@@ -36,45 +36,13 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='repla
 # ── Đường dẫn ─────────────────────────────────────────────────────────────
 HERE = os.path.dirname(os.path.abspath(__file__))
 DAOANH = os.path.dirname(HERE)
-# T50 test-robustness (2026-11-03): cho phép override đường dẫn DB qua env
-# `T50_DB_PATH` để test khởi động có thể chạy trên fixture DB tạm khi worktree
-# chưa có `data/lineage.db` thật (data/ không được git track). Mặc định KHÔNG
-# đổi: không set env → vẫn dùng data/lineage.db như cũ.
-DB_PATH = os.environ.get('T50_DB_PATH') or os.path.join(DAOANH, 'data', 'lineage.db')
+DB_PATH = os.path.join(DAOANH, 'data', 'lineage.db')
 LLM_CONFIG_PATH = os.path.join(DAOANH, 'data', 'llm_config.json')
 APP_PY = os.path.join(DAOANH, 'app.py')
 SCRIPTS_DIR = HERE
-_T50_STATUS_FILE = os.path.join(DAOANH, 'data', 't50_job_status.json')
 
 if SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, SCRIPTS_DIR)
-
-
-def _t50_self_reconcile_on_failure(exit_reason, extra=None):
-    """T50 Windows startup fix (2026-11-03): khi worker này tự chết bất thường
-    (KeyboardInterrupt/Exception), tự ghi t50_job_status.json về running=False
-    NGAY (không chờ admin mở lại dashboard để app.py poll /job-status mới phát
-    hiện pid chết). Chỉ đụng file khi pid trong status khớp pid của chính
-    mình — tránh đè trạng thái của job khác đang chạy song song (race).
-    Chỉ dùng cho nhánh lỗi; khi hoàn tất bình thường KHÔNG gọi hàm này, để
-    app.py (/api/admin/t50/job-status) tự lo việc chuyển sang sigla kế tiếp
-    trong hàng đợi như thiết kế cũ."""
-    try:
-        if not os.path.exists(_T50_STATUS_FILE):
-            return
-        with open(_T50_STATUS_FILE, 'r', encoding='utf-8') as f:
-            st = json.load(f)
-        if int(st.get('pid') or -1) != os.getpid():
-            return
-        st['running'] = False
-        st['exit_reason'] = exit_reason
-        st['finished_at'] = time.strftime('%Y-%m-%dT%H:%M:%S')
-        if extra:
-            st.update(extra)
-        with open(_T50_STATUS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(st, f, ensure_ascii=False, indent=2)
-    except Exception:
-        pass
 
 try:
     from hanviet_normalization import normalize_text as hanviet_normalize
@@ -296,37 +264,6 @@ def call_groq(prompt, key, model, max_attempts=8):
     return None
 
 
-# ── T167 validator adapter (2026-11-07, Admin Phương án A) ─────────────────
-# Gắn validator T167 (scripts/translation_validator.py::validate_text) vào lô
-# T50 ở CHẾ ĐỘ CHỈ KIỂM TRA: chạy SAU khi có draft từ Groq (sau call_groq, sau
-# clean/normalize, TRƯỚC khi ghi passage.vi_text), ghi kết quả ra file JSON
-# RIÊNG (data/t50_validation_report.jsonl, append 1 dòng/passage). Tuyệt đối
-# KHÔNG đổi passage.vi_text / translation_draft / translation_cache hiện có —
-# chỉ là lớp quan sát thêm. Lỗi validator (import thiếu, exception bất kỳ) chỉ
-# in log cảnh báo, KHÔNG chặn lô dịch. Tắt bằng cờ --no-validate (mặc định BẬT).
-#
-# GHI CHÚ: kết quả validate_text() chỉ là CỜ THAM KHẢO — layer B/E/G đầy đủ
-# (provenance translation_segments, canonical person/place DILA, ruleset
-# compliance) CHƯA được áp dụng ở adapter này. Xem docstring translation_validator.py.
-VALIDATION_REPORT_PATH = os.path.join(DAOANH, 'data', 't50_validation_report.jsonl')
-
-
-def t167_validate_and_log(passage_id, raw_text, draft_text, ref, conn, enabled=True):
-    """Gọi validate_text() (T167) và append 1 dòng JSON vào VALIDATION_REPORT_PATH.
-    KHÔNG ghi vào lineage.db. KHÔNG sửa draft_text. KHÔNG raise ra ngoài — mọi lỗi
-    (kể cả import translation_validator thất bại) chỉ in cảnh báo rồi return."""
-    if not enabled:
-        return
-    try:
-        from translation_validator import validate_text as _t167_validate_text
-        result = _t167_validate_text(raw_text, draft_text, ref=ref, con=conn)
-        result['passage_id'] = passage_id
-        with open(VALIDATION_REPORT_PATH, 'a', encoding='utf-8') as f:
-            f.write(json.dumps(result, ensure_ascii=False) + '\n')
-    except Exception as _e:
-        print(f'    ⚠ validator T167 lỗi (bỏ qua, KHÔNG chặn lô dịch): {_e}')
-
-
 def source_hash(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()[:24]
 
@@ -394,9 +331,6 @@ def main():
     ap.add_argument('--sleep', type=float, default=0.2, help='giây ngủ giữa mỗi gọi Groq')
     ap.add_argument('--verify', action='store_true', help='thống kê trạng thái hiện tại')
     ap.add_argument('--revert', action='store_true', help='rollback: xoá vi_text + cache đã đổ')
-    ap.add_argument('--no-validate', action='store_true',
-                     help='T167: tắt validator (mặc định BẬT) — chỉ ghi cờ tham khảo vào '
-                          'data/t50_validation_report.jsonl, KHÔNG đổi passage.vi_text/cache')
     args = ap.parse_args()
 
     conn = sqlite3.connect(DB_PATH)
@@ -505,8 +439,6 @@ def main():
             text = clean_llm_output(text)
             text = (hanviet_normalize(text) or text).strip()
             if text:
-                t167_validate_and_log(r['passage_id'], raw, text, ref, conn,
-                                       enabled=not args.no_validate)
                 conn.execute(
                     "UPDATE passage SET vi_text=?, translation_draft=1 WHERE passage_id=?",
                     (text, r['passage_id']))
@@ -540,24 +472,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # T50 Windows startup fix (2026-11-03): bắt KeyboardInterrupt/Exception ở
-    # cấp top-level để (1) thoát với mã lỗi rõ ràng thay vì traceback dở dang
-    # + KeyboardInterrupt không rõ nguyên nhân (xem data/t50_job.log cũ), và
-    # (2) tự cập nhật t50_job_status.json running=False ngay khi chết bất
-    # thường, không chờ admin mở lại dashboard. Không đổi logic dịch/schema.
-    try:
-        _rc = main()
-    except KeyboardInterrupt:
-        print('\n✗ Job bị ngắt (KeyboardInterrupt) — có thể do Ctrl+C hoặc '
-              'tiến trình cha bị dừng. Đã dừng sạch, không ghi dở dang.',
-              file=sys.stderr)
-        _t50_self_reconcile_on_failure('keyboard_interrupt')
-        sys.exit(130)
-    except Exception as _e:
-        import traceback as _tb
-        _tb.print_exc()
-        print(f'\n✗ Job dừng vì lỗi ngoài dự kiến: {_e}', file=sys.stderr)
-        _t50_self_reconcile_on_failure('exception', {'error': str(_e)[:300]})
-        sys.exit(1)
-    else:
-        sys.exit(_rc)
+    sys.exit(main())

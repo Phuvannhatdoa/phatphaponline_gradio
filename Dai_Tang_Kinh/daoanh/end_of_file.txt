@@ -1,0 +1,4 @@
+_master.sql: cột translator_vi tồn tại, và api_global_search() ở trên cũng SELECT nó làm w.author) — KHÔNG cần JOIN dila_catalog_contributors/dila_catalog_works.
+      places  -> dila_catalog_places.name_vi/name_zh/cbeta_id (tái dùng route /daoanh/api/public/autocomplete — T416/T450).
+    
+    Nhận diện có dấu/không dấu: tái dùng normalize_text() (định nghĩa ở đầu file, dòng ~102, đã dùng cho lexicon/TTL) để chuẩn hoá cả câu query và tên/tiêu đề trong cache — không viết lại thuật toán bỏ dấu."""

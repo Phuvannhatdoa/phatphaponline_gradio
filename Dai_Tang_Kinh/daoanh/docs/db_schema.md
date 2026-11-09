@@ -370,6 +370,31 @@ Ví dụ xung đột thật:
 (vd `A047679` có vẻ 2 người khác nhau) **chưa làm** — cần Admin duyệt từng nhóm.
 Task theo dõi: **T200** (`tasks/T200-vnpa-dila-id-duplicate-limit1.md`).
 
+### 9.2b `vn_person_authority.superseded_by` — cột mới (additive) `[T507]` (2026-11-01)
+
+> Thêm bằng `ALTER TABLE vn_person_authority ADD COLUMN superseded_by TEXT` — **additive**,
+> không đổi schema cột nào khác, không đổi `status` của bất kỳ dòng nào.
+
+- **Mục đích:** đánh dấu 1 dòng trong nhóm `dila_id` trùng (xem §9.2) là bản đã bị Admin
+  quyết **thay thế** bởi 1 dòng khác cùng `dila_id`, mà KHÔNG xóa dòng cũ (giữ nguyên lịch sử)
+  và KHÔNG đổi `status` (status vẫn là NHÃN NGUỒN GỐC theo §9.1, không phải cờ còn/hết hiệu lực).
+- `superseded_by` = `id` (slug) của dòng được Admin chọn giữ làm bản đúng; `NULL` = dòng
+  bình thường, chưa bị thay thế bởi dòng nào.
+- **Case đầu tiên áp dụng (T507, A004981):** Admin xác nhận giữ `nam_vien_hue_ngung`
+  (`status='pending'`, tên "Nam Viện Huệ Ngung") làm bản đúng cho `dila_id='A004981'`;
+  đánh dấu `phong_huyet_dien_chieu` (`status='auto_ttl'`, tên "Huệ Ngung", `ttl_filename`
+  trỏ tới file không tồn tại) là bản superseded bằng
+  `UPDATE ... SET superseded_by='nam_vien_hue_ngung' WHERE id='phong_huyet_dien_chieu'`.
+  Verify sau ghi: tổng số dòng `vn_person_authority` không đổi (1.512 trước/sau), `status`
+  của cả 2 dòng giữ nguyên (`auto_ttl` / `pending`), dòng `nam_vien_hue_ngung` có
+  `superseded_by IS NULL`.
+- **Chưa có consumer code nào đọc cột này** (cột mới thêm, chưa đổi `_t412_build_index`,
+  `vnpa_lookup.py`, hay bất kỳ route nào) — bước đọc/lọc theo `superseded_by` (ví dụ loại dòng
+  có `superseded_by IS NOT NULL` khỏi kết quả `LIMIT 1`/crosswalk) thuộc phạm vi việc khác,
+  chưa làm trong T507.
+- Rollback: `ALTER TABLE vn_person_authority DROP COLUMN superseded_by` (SQLite ≥ 3.35 hỗ trợ
+  `DROP COLUMN` trực tiếp) hoặc khôi phục từ backup — xem `docs/ROLLBACK.md` mục T507.
+
 ### 9.3 `canonical_decision` — nguồn #1 ĐÃ SỬA `[T201]` (2026-10-01)
 
 > **Trước 2026-10-01 (T201): nguồn #1 `canonical_decision` là DEAD CODE, chưa bao giờ chạy.**

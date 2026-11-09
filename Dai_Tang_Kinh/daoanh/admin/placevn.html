@@ -135,6 +135,23 @@ const App = () => {
   const [hanContextVi, setHanContextVi] = useState({ loading: false, text: null, error: null });
   const [showRawTranslation, setShowRawTranslation] = useState(false);
 
+  // T445 Wizard State
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [wizardStep, setWizardStep] = useState(0); // 0-8 (B0-B9)
+  const [wizardStepData, setWizardStepData] = useState({
+    b0: { backup_status: '', backup_path: '' },
+    b1: { preview: [], selected_ids: [], csv_ready: false },
+    b2: { schema_status: '' },
+    b3: { dictionary_status: '' },
+    b4: { rules: [], editing_id: null, pending_save: false },
+    b5: { batch_status: 'idle', progress: 0, total: 40199, logs: [], errors: [], stats: { ok: 0, review: 0, error: 0 } },
+    b6: { sample_data: [], category_filter: '', selected: [] },
+    b7: { sample_status: 'idle', approved: 0, total: 100 },
+    b8: { batch_status: 'idle', progress: 0, total: 40099, logs: [], errors: [], stats: { ok: 0, review: 0, error: 0 } },
+    b9: { stats: {}, missing: [], duplicate: [], csv_ready: false }
+  });
+  const [ws, setWs] = useState(null);
+
   const parseTranslationParts = (text) => {
     if (!text) return { description: '', cbetaCitations: [], modernRefs: [] };
     const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
@@ -210,17 +227,30 @@ const App = () => {
   // T67: Quyết định Canonical — trạng thái xác minh + editor (provenance)
   const [canonicalStatus, setCanonicalStatus] = useState('verified'); // pending|needs_review|verified|canonical
   const [editorName, setEditorName] = useState(window.__ADMIN_EMAIL__ || 'admin');
+
+  // T445 WebSocket for real-time monitoring (B5/B8)
+  useEffect(() => {
+    if ((wizardStep === 5 || wizardStep === 7) && wizardOpen) {
+      const socket = new WebSocket('ws://' + window.location.host + '/ws/batch-monitor');
+      socket.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data);
+          setWizardStepData(prev => ({ ...prev, [wizardStep === 5 ? 'b5' : 'b8']: { ...prev[wizardStep === 5 ? 'b5' : 'b8'], ...data } }));
+        } catch (err) {
+          console.error('WebSocket parse error:', err);
+        }
+      };
+      socket.onclose = () => console.log('WebSocket closed');
+      socket.onerror = (err) => console.error('WebSocket error:', err);
+      setWs(socket);
+      return () => { socket.close(); };
+    }
+  }, [wizardStep, wizardOpen]);
+
   // T68: Source Authority Matrix + Conflict Detection
   const [authorityData, setAuthorityData] = useState(null);      // {canonical_candidates, conflicts, authority_matrix}
   const [authorityLoading, setAuthorityLoading] = useState(false);
   const [resolvingConflict, setResolvingConflict] = useState(null); // conflict_id đang resolve
-  // T445: Wizard state (B0-B9)
-  const [wizardOpen, setWizardOpen] = useState(false);
-  const [wizardStep, setWizardStep] = useState(0);
-  const [wizardBusy, setWizardBusy] = useState(false);
-  const [wizardLogs, setWizardLogs] = useState([]);
-  const [wizardProgress, setWizardProgress] = useState({ done: 0, total: 0 });
-  const wizardStepTitles = ['Backup DB (B0)','Fix 3.800 ID (B1)','Add DB Columns (B2)','Load Dictionary (B3)','Edit 7 Rules (B4)','Gemini Batch 1 (B5)','Sample 100 Review (B7)','Gemini Batch 2 (B8)','Report (B9)'];
 
   const adminMapping = {
     '中國': 'Trung Quốc', '中国': 'Trung Quốc', '阿富汗': 'Afghanistan',
@@ -237,7 +267,547 @@ const App = () => {
     return digits ? 'PL' + digits.padStart(12, '0') : id;
   };
 
-  // ─── ReviewView Component ──────────────────────────────────────────────
+  // T445 Wizard API Functions
+  const wizardApi = {
+    // B0: Backup
+    backup: async () => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/backup`, { method: 'POST' });
+      if (res?.success) {
+        setWizardStepData(prev => ({ ...prev, b0: { backup_status: 'done', backup_path: res.path } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B1: Fix IDs Preview
+    fixIdsPreview: async () => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/fix-ids/preview`);
+      if (res?.success) {
+        setWizardStepData(prev => ({ ...prev, b1: { preview: res.preview, selected_ids: [], csv_ready: true } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B2: Schema Update
+    schemaUpdate: async () => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/schema/update`, { method: 'POST' });
+      if (res?.success) {
+        setWizardStepData(prev => ({ ...prev, b2: { schema_status: res.message || 'done' } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B3: Dictionary Load
+    dictionaryLoad: async () => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/dictionary/load`, { method: 'POST' });
+      if (res?.success) {
+        setWizardStepData(prev => ({ ...prev, b3: { dictionary_status: res.message || 'done' } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B4: Rules Load
+    rulesLoad: async () => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/rules/load`);
+      if (res?.success) {
+        setWizardStepData(prev => ({ ...prev, b4: { rules: res.rules, editing_id: null, pending_save: false } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B4: Rules Update
+    rulesUpdate: async (rules) => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/update-rules`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rules })
+      });
+      if (res?.success) {
+        setWizardStepData(prev => ({ ...prev, b4: { ...prev.b4, rules, pending_save: false } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B5/B8: Batch Run
+    batchRun: async (batch) => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/batch/run`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ batch, total: batch === 'B5' ? 40199 : 40099 })
+      });
+      if (res?.success) {
+        const stepKey = batch === 'B5' ? 'b5' : 'b8';
+        setWizardStepData(prev => ({ ...prev, [stepKey]: { batch_status: 'running', progress: 0, total: batch === 'B5' ? 40199 : 40099, logs: ['Starting...'], errors: [], stats: { ok: 0, review: 0, error: 0 } } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B6: Sample Load
+    sampleLoad: async () => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/report`);
+      if (res?.success) {
+        const sample = res.missing.slice(0, 100).map((id, i) => ({ id, index: i }));
+        setWizardStepData(prev => ({ ...prev, b6: { sample_data: sample, category_filter: '', selected: [] } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B7: Approve Sample
+    approveSample: async (ids) => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/approve-sample`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids })
+      });
+      if (res?.success) {
+        setWizardStepData(prev => ({ ...prev, b7: { sample_status: 'done', approved: ids.length, total: 100 } }));
+        return true;
+      }
+      return false;
+    },
+
+    // B9: Report
+    report: async () => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/report`);
+      if (res?.success) {
+        setWizardStepData(prev => ({ ...prev, b9: { stats: res.stats, missing: res.missing, duplicate: res.duplicate, csv_ready: true } }));
+        return true;
+      }
+      return false;
+    },
+
+    // Export CSV
+    exportCsv: async (step) => {
+      const res = await safeFetch(`${baseUrl}/daoanh/api/admin/export-csv?step=${step}`);
+      if (res?.success) {
+        const blob = new Blob([res.csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `t445_${step}_${Date.now()}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        return true;
+      }
+      return false;
+    }
+  };
+
+  // ─── T445 Wizard Modal Component ─────────────────────────────────────────
+  const WizardModal = () => {
+    if (!wizardOpen) return null;
+
+    const stepTitles = [
+      'B0: Backup Database',
+      'B1: Fix ID Mismatches (3.800)',
+      'B2: Add Schema Columns',
+      'B3: Load Dictionary (2.446)',
+      'B4: Edit 7 Rules',
+      'B5: Gemini Batch 1 (40.199)',
+      'B6: Sample 100 Review',
+      'B7: Approve Sample',
+      'B8: Gemini Batch 2 (40.099)',
+      'B9: Final Report'
+    ];
+
+    const handleStepAction = async () => {
+      switch (wizardStep) {
+        case 0: // B0: Backup
+          await wizardApi.backup();
+          break;
+        case 1: // B1: Fix ID Preview
+          await wizardApi.fixIdsPreview();
+          break;
+        case 2: // B2: Schema Update
+          await wizardApi.schemaUpdate();
+          break;
+        case 3: // B3: Dictionary Load
+          await wizardApi.dictionaryLoad();
+          break;
+        case 4: // B4: Rules Load
+          await wizardApi.rulesLoad();
+          break;
+        case 5: // B5: Batch Run
+          await wizardApi.batchRun('B5');
+          break;
+        case 6: // B6: Sample Load
+          await wizardApi.sampleLoad();
+          break;
+        case 7: // B7: Approve Sample
+          const ids = wizardStepData.b6.selected;
+          if (ids.length === 0) {
+            setMessage({ type: 'error', text: 'Chưa chọn mẫu nào để duyệt!' });
+            return;
+          }
+          await wizardApi.approveSample(ids);
+          break;
+        case 8: // B8: Batch 2
+          await wizardApi.batchRun('B8');
+          break;
+        case 9: // B9: Report
+          await wizardApi.report();
+          break;
+      }
+      // Auto-advance after action (except for steps that need user input)
+      if (wizardStep !== 1 && wizardStep !== 7) {
+        setTimeout(() => setWizardStep(s => Math.min(s + 1, 9)), 1000);
+      }
+    };
+
+    const renderStepContent = () => {
+      const data = wizardStepData[`b${wizardStep}`];
+      switch (wizardStep) {
+        case 0: // B0: Backup
+          return (
+            <div className="space-y-6">
+              <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-2xl">
+                <p className="text-slate-300 leading-relaxed">
+                  Tạo bản sao lưu SQLite nhất quán trước khi chạy batch. File backup sẽ được lưu tại
+                  <code className="text-amber-400 bg-[#0a0c10] px-2 py-1 rounded">{data?.backup_path || 'data/backups/lineage_*.db'}</code>
+                </p>
+              </div>
+              <div className="flex justify-center gap-4">
+                <button onClick={handleStepAction} className="px-8 py-3 bg-amber-600 hover:bg-amber-500 text-black font-black text-xs uppercase rounded-xl transition-all">
+                  Tạo Backup Ngay
+                </button>
+              </div>
+            </div>
+          );
+        case 1: // B1: Fix ID Preview
+          return (
+            <div className="space-y-4">
+              <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-2xl">
+                <p className="text-slate-300">Preview 3.800 ID mismatch (ID có trong places nhưng không có trong places_dila). Chọn các ID cần sửa, xuất CSV để kiểm tra.</p>
+              </div>
+              <div className="flex gap-2 mb-4">
+                <button onClick={() => setWizardStepData(prev => ({ ...prev, b1: { ...prev.b1, selected_ids: prev.b1.preview.map(p => p.dila_id) } }))} className="px-4 py-2 bg-amber-600/20 text-amber-400 text-xs font-bold rounded-lg border border-amber-500/30 hover:bg-amber-600/20">
+                  Chọn Tất Cả
+                </button>
+                <button onClick={() => setWizardStepData(prev => ({ ...prev, b1: { ...prev.b1, selected_ids: [] } }))} className="px-4 py-2 bg-slate-700 text-slate-400 text-xs font-bold rounded-lg border border-slate-700 hover:bg-slate-600">
+                  Bỏ Chọn
+                </button>
+                <button onClick={() => wizardApi.exportCsv('b1')} className="px-4 py-2 bg-emerald-600/20 text-emerald-400 text-xs font-bold rounded-lg border border-emerald-500/30 hover:bg-emerald-600/20">
+                  Xuất CSV
+                </button>
+              </div>
+              <div className="max-h-96 overflow-y-auto custom-scrollbar">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="text-[9px] uppercase tracking-widest text-slate-500 border-b border-slate-800">
+                      <th className="py-2 pr-3 w-10 text-center">✓</th>
+                      <th className="py-2 pr-3">DILA ID</th>
+                      <th className="py-2 pr-3">Tên Việt</th>
+                      <th className="py-2 pr-3">Tên Hán</th>
+                      <th className="py-2 pr-3">Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data?.preview?.slice(0, 50).map((p, i) => (
+                      <tr key={i} className="border-b border-slate-800/40">
+                        <td className="py-2 pr-3 text-center">
+                          <input type="checkbox" checked={data?.selected_ids?.includes(p.dila_id)} onChange={e => setWizardStepData(prev => ({
+                            ...prev,
+                            b1: { ...prev.b1, selected_ids: e.target.checked ? [...prev.b1.selected_ids, p.dila_id] : prev.b1.selected_ids.filter(id => id !== p.dila_id) }
+                          }))} />
+                        </td>
+                        <td className="py-2 pr-3 mono text-slate-300">{p.dila_id}</td>
+                        <td className="py-2 pr-3 text-slate-200">{p.name_vi || '-'}</td>
+                        <td className="py-2 pr-3 serif text-slate-400">{p.name_zh || '-'}</td>
+                        <td className="py-2 pr-3 text-slate-500">{p.vn_name_status || 'auto'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="flex justify-end gap-2">
+                <button onClick={handleStepAction} className="px-8 py-3 bg-amber-600 hover:bg-amber-500 text-black font-black text-xs uppercase rounded-xl transition-all">
+                  Tiếp Tục →
+                </button>
+              </div>
+            </div>
+          );
+        case 2: // B2: Schema Update
+          return (
+            <div className="space-y-6">
+              <div className="p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl">
+                <p className="text-slate-300 leading-relaxed">Thêm các cột cần thiết vào bảng <code className="text-emerald-400 bg-[#0a0c10] px-2 py-1 rounded">places</code>: <code>vn_name_status</code>, <code>provenance</code>, <code>confidence</code>. Tự động chạy (idempotent).</p>
+                <div className="mt-4 p-4 bg-[#0a0c10] border border-slate-800 rounded-xl text-slate-300 text-xs">
+                  {data?.schema_status || 'Chờ chạy...'}
+                </div>
+              </div>
+              <div className="flex justify-center gap-4">
+                <button onClick={handleStepAction} className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-black font-black text-xs uppercase rounded-xl transition-all">
+                  Chạy Schema Update
+                </button>
+              </div>
+            </div>
+          );
+        case 3: // B3: Dictionary Load
+          return (
+            <div className="space-y-6">
+              <div className="p-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl">
+                <p className="text-slate-300 leading-relaxed">Nạp 2.446 mục từ điển Hán-Việt vào DB. Tự động chạy (idempotent).</p>
+                <div className="mt-4 p-4 bg-[#0a0c10] border border-slate-800 rounded-xl text-slate-300 text-xs">
+                  {data?.dictionary_status || 'Chờ chạy...'}
+                </div>
+              </div>
+              <div className="flex justify-center gap-4">
+                <button onClick={handleStepAction} className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-black text-xs uppercase rounded-xl transition-all">
+                  Nạp Từ Điển
+                </button>
+              </div>
+            </div>
+          );
+        case 4: // B4: Rules
+          return (
+            <div className="space-y-4">
+              <div className="p-4 bg-violet-500/10 border border-violet-500/20 rounded-2xl">
+                <p className="text-slate-300">7 quy tắc chuẩn hóa tên Việt. Chỉnh sửa inline, lưu khi xong.</p>
+              </div>
+              <div className="max-h-96 overflow-y-auto custom-scrollbar">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="text-[9px] uppercase tracking-widest text-slate-500 border-b border-slate-800">
+                      <th className="py-2 pr-3">Code</th>
+                      <th className="py-2 pr-3">Pattern (Regex)</th>
+                      <th className="py-2 pr-3">Mô tả</th>
+                      <th className="py-2 pr-3 w-20 text-center">Bật/Tắt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data?.rules?.map((r, i) => (
+                      <tr key={i} className="border-b border-slate-800/40">
+                        <td className="py-2 pr-3 font-bold text-slate-300 mono">{r.code}</td>
+                        <td className="py-2 pr-3 text-slate-400 mono text-xs">{r.pattern}</td>
+                        <td className="py-2 pr-3 text-slate-400">{r.desc}</td>
+                        <td className="py-2 pr-3 text-center">
+                          <input type="checkbox" checked={r.enabled} onChange={e => setWizardStepData(prev => ({
+                            ...prev,
+                            b4: { ...prev.b4, rules: prev.b4.rules.map((rr, ii) => ii === i ? { ...rr, enabled: e.target.checked } : rr) }
+                          }))} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="flex justify-end gap-2">
+                <button onClick={() => wizardApi.rulesUpdate(data?.rules)} className="px-6 py-2 bg-violet-600 hover:bg-violet-500 text-white font-black text-xs uppercase rounded-lg transition-all">
+                  Lưu Rules
+                </button>
+                <button onClick={() => wizardApi.rulesLoad()} className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-black text-xs uppercase rounded-lg transition-all">
+                  Nạp Lại Mặc Định
+                </button>
+              </div>
+            </div>
+          );
+        case 5: // B5: Batch 1
+          return (
+            <div className="space-y-4">
+              <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl">
+                <p className="text-slate-300">Gemini Batch 1: {data?.total || 40199} địa danh. WebSocket real-time log (latency <100ms).</p>
+              </div>
+              <div className="p-4 bg-[#0a0c10] border border-slate-800 rounded-xl space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-300">Progress: {Math.round((data?.progress || 0) / (data?.total || 1) * 100)}%</span>
+                  <span className="text-xs text-slate-500">{data?.progress || 0} / {data?.total || 40199}</span>
+                </div>
+                <div className="h-3 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-full bg-red-500 transition-all duration-300" style={{ width: `${Math.round((data?.progress || 0) / (data?.total || 1) * 100)}%` }} />
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-emerald-400">OK: {data?.stats?.ok || 0}</span>
+                  <span className="text-amber-400">Review: {data?.stats?.review || 0}</span>
+                  <span className="text-red-400">Error: {data?.stats?.error || 0}</span>
+                </div>
+              </div>
+              <div className="max-h-64 overflow-y-auto custom-scrollbar bg-[#0a0c10] border border-slate-800 rounded-xl p-3">
+                {data?.logs?.slice(-50).map((log, i) => (
+                  <div key={i} className="text-[10px] font-mono text-slate-400 border-b border-slate-800/40 py-1">{log}</div>
+                ))}
+              </div>
+              <div className="flex justify-center gap-4">
+                <button onClick={handleStepAction} className="px-8 py-3 bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase rounded-xl transition-all">
+                  Chạy Batch 1
+                </button>
+              </div>
+            </div>
+          );
+        case 6: // B6: Sample 100
+          return (
+            <div className="space-y-4">
+              <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl">
+                <p className="text-slate-300">Xem 100 mẫu để review. Lọc theo category, chọn Approve/Reject.</p>
+              </div>
+              <div className="flex gap-2 mb-4">
+                <input type="text" placeholder="Lọc category..." value={data?.category_filter} onChange={e => setWizardStepData(prev => ({ ...prev, b6: { ...prev.b6, category_filter: e.target.value } }))} className="flex-1 bg-[#0a0c10] border border-slate-800 rounded-xl px-4 py-2 text-sm" />
+              </div>
+              <div className="max-h-96 overflow-y-auto custom-scrollbar">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="text-[9px] uppercase tracking-widest text-slate-500 border-b border-slate-800">
+                      <th className="py-2 pr-3 w-10 text-center">✓</th>
+                      <th className="py-2 pr-3">DILA ID</th>
+                      <th className="py-2 pr-3">Tên Việt</th>
+                      <th className="py-2 pr-3">Category</th>
+                      <th className="py-2 pr-3 w-20 text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data?.sample_data?.filter(s => !data.category_filter || s.id?.toLowerCase().includes(data.category_filter.toLowerCase())).map((s, i) => (
+                      <tr key={i} className="border-b border-slate-800/40">
+                        <td className="py-2 pr-3 text-center">
+                          <input type="checkbox" checked={data?.selected?.includes(s.id)} onChange={e => setWizardStepData(prev => ({
+                            ...prev,
+                            b6: { ...prev.b6, selected: e.target.checked ? [...prev.b6.selected, s.id] : prev.b6.selected.filter(id => id !== s.id) }
+                          }))} />
+                        </td>
+                        <td className="py-2 pr-3 mono text-slate-300">{s.id}</td>
+                        <td className="py-2 pr-3 text-slate-200">{s.name_vi || 'Chưa có tên'}</td>
+                        <td className="py-2 pr-3 text-slate-500">{s.category || 'untranslated'}</td>
+                        <td className="py-2 pr-3 text-center">
+                          <button onClick={() => setWizardStepData(prev => ({ ...prev, b6: { ...prev.b6, selected: prev.b6.selected.includes(s.id) ? prev.b6.selected.filter(id => id !== s.id) : [...prev.b6.selected, s.id] }))} className="px-2 py-1 bg-emerald-600/20 text-emerald-400 text-[8px] font-bold rounded border border-emerald-500/30 hover:bg-emerald-600/20">
+                            Chọn
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="flex justify-end gap-2">
+                <button onClick={() => wizardApi.approveSample(data?.selected)} className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-black font-black text-xs uppercase rounded-xl transition-all">
+                  Duyệt {data?.selected?.length || 0} Mẫu
+                </button>
+              </div>
+            </div>
+          );
+        case 7: // B7: Approve Sample
+          return (
+            <div className="space-y-4">
+              <div className="p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-center">
+                <p className="text-slate-300 leading-relaxed">Đã duyệt <span className="text-emerald-400 font-black text-2xl">{data?.approved || 0}</span> / <span className="text-amber-400 font-black text-2xl">{data?.total || 100}</span> mẫu.</p>
+              </div>
+              <div className="flex justify-center gap-4">
+                <button onClick={() => setWizardStep(s => s + 1)} className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-black font-black text-xs uppercase rounded-xl transition-all">
+                  Tiếp Tục →
+                </button>
+              </div>
+            </div>
+          );
+        case 8: // B8: Batch 2
+          return (
+            <div className="space-y-4">
+              <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl">
+                <p className="text-slate-300">Gemini Batch 2: {data?.total || 40099} địa danh. WebSocket real-time log.</p>
+              </div>
+              <div className="p-4 bg-[#0a0c10] border border-slate-800 rounded-xl space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-300">Progress: {Math.round((data?.progress || 0) / (data?.total || 1) * 100)}%</span>
+                  <span className="text-xs text-slate-500">{data?.progress || 0} / {data?.total || 40099}</span>
+                </div>
+                <div className="h-3 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-full bg-red-500 transition-all duration-300" style={{ width: `${Math.round((data?.progress || 0) / (data?.total || 1) * 100)}%` }} />
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-emerald-400">OK: {data?.stats?.ok || 0}</span>
+                  <span className="text-amber-400">Review: {data?.stats?.review || 0}</span>
+                  <span className="text-red-400">Error: {data?.stats?.error || 0}</span>
+                </div>
+              </div>
+              <div className="max-h-64 overflow-y-auto custom-scrollbar bg-[#0a0c10] border border-slate-800 rounded-xl p-3">
+                {data?.logs?.slice(-50).map((log, i) => (
+                  <div key={i} className="text-[10px] font-mono text-slate-400 border-b border-slate-800/40 py-1">{log}</div>
+                ))}
+              </div>
+              <div className="flex justify-center gap-4">
+                <button onClick={handleStepAction} className="px-8 py-3 bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase rounded-xl transition-all">
+                  Chạy Batch 2
+                </button>
+              </div>
+            </div>
+          );
+        case 9: // B9: Report
+          return (
+            <div className="space-y-4">
+              <div className="p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl">
+                <p className="text-slate-300 leading-relaxed">Báo cáo cuối cùng: {data?.stats?.total || 0} tổng, {data?.stats?.verified || 0} verified, {data?.stats?.auto || 0} auto, {data?.stats?.reviewed || 0} reviewed.</p>
+              </div>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="p-4 bg-slate-800/50 border border-slate-700 rounded-xl text-center">
+                  <div className="text-2xl font-black text-emerald-400">{data?.missing?.length || 0}</div>
+                  <div className="text-xs text-slate-500 uppercase">Thiếu Tên</div>
+                </div>
+                <div className="p-4 bg-slate-800/50 border border-slate-700 rounded-xl text-center">
+                  <div className="text-2xl font-black text-amber-400">{data?.duplicate?.length || 0}</div>
+                  <div className="text-xs text-slate-500 uppercase">Trùng ID</div>
+                </div>
+                <div className="p-4 bg-slate-800/50 border border-slate-700 rounded-xl text-center">
+                  <div className="text-2xl font-black text-blue-400">{data?.stats?.verified || 0}</div>
+                  <div className="text-xs text-slate-500 uppercase">Verified</div>
+                </div>
+              </div>
+              <div className="flex justify-center gap-4">
+                <button onClick={() => wizardApi.exportCsv('b9')} className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-black text-xs uppercase rounded-xl transition-all">
+                  Xuất CSV Báo Cáo
+                </button>
+                <button onClick={() => wizardApi.exportCsv('b1')} className="px-8 py-3 bg-amber-600 hover:bg-amber-500 text-black font-black text-xs uppercase rounded-xl transition-all">
+                  Xuất CSV Fix ID
+                </button>
+              </div>
+              <div className="p-4 bg-slate-800/50 border border-slate-700 rounded-xl text-center">
+                <p className="text-slate-400 text-xs">Wizard hoàn tất! CSV files sẵn sàng cho HOME team import.</p>
+              </div>
+            </div>
+          );
+      }
+    };
+
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-[#11151c] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl border border-amber-500/30 shadow-2xl shadow-amber-500/10 animate-in fade-in zoom-in-95">
+          {/* Header */}
+          <div className="sticky top-0 bg-[#0a0c10]/95 backdrop-blur-sm border-b border-amber-500/30 p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-black uppercase tracking-tighter text-amber-400 flex items-center gap-3">
+                <LucideIcon name="graduation-cap" className="w-6 h-6" />
+                T444 Wizard ({wizardStep + 1}/10) — {stepTitles[wizardStep]}
+              </h2>
+              <button onClick={() => setWizardOpen(false)} className="p-2 bg-slate-800/50 hover:bg-slate-700 rounded-xl text-slate-400 hover:text-white transition-all">
+                <LucideIcon name="x" className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Step Content */}
+          <div className="p-6 max-h-[calc(90vh-140px)] overflow-y-auto custom-scrollbar">
+            {renderStepContent()}
+          </div>
+
+          {/* Footer Navigation */}
+          <div className="sticky bottom-0 bg-[#0a0c10]/95 backdrop-blur-sm border-t border-slate-800/50 p-6 flex items-center justify-between">
+            <button onClick={() => setWizardStep(s => Math.max(s - 1, 0))} disabled={wizardStep === 0} className="px-6 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-slate-400 text-xs font-bold uppercase rounded-xl transition-all flex items-center gap-2">
+              <LucideIcon name="chevron-left" className="w-4 h-4" />
+              Back
+            </button>
+            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">
+              Step {wizardStep + 1}/10
+            </div>
+            <button onClick={handleStepAction} disabled={wizardStep === 9} className="px-6 py-2 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed text-black font-black text-xs uppercase rounded-xl transition-all flex items-center gap-2">
+              {wizardStep === 9 ? 'Hoàn Tất' : 'Next'}
+              <LucideIcon name="chevron-right" className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
   const ReviewView = ({ baseUrl, safeFetch, ensureLongId, handleSelectPlace, selectedId, setMessage }) => {
     const [items, setItems] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
@@ -1235,7 +1805,6 @@ const App = () => {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={() => setWizardOpen(true)} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-[10px] font-black uppercase tracking-widest text-white transition-all" title="Wizard T444">Wizard T444</button>
             <button onClick={handleQuickTransliterate} disabled={translating} className="p-3 bg-blue-500/10 hover:bg-blue-500 rounded-xl transition-all border border-blue-500/20" title="Bóc tách địa giới"><LucideIcon name="zap" className={'w-5 h-5 ' + (translating ? 'animate-pulse' : 'text-blue-500 hover:text-black')} /></button>
             <button onClick={handleSave} disabled={saving || !details} className="px-8 py-3 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-xs font-black flex items-center gap-2.5 transition-all shadow-xl shadow-amber-900/20 uppercase tracking-widest text-black">
               {saving ? <LucideIcon name="loader-2" className="w-4 h-4 animate-spin" /> : <LucideIcon name="save" className="w-4 h-4" />} Lưu Mapping
@@ -1974,150 +2543,6 @@ const App = () => {
           </div>
         </div>
       </main>
-
-      {/* T445 Wizard Modal */}
-      {wizardOpen && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-[250] p-4">
-          <div className="bg-[#11151c] w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-700 shadow-2xl">
-            <div className="sticky top-0 border-b border-slate-700 p-5 bg-[#11151c] flex items-center justify-between">
-              <h2 className="text-lg font-black text-white">T444 Wizard ({wizardStep + 1}/9) — {wizardStepTitles[wizardStep]}</h2>
-              <button onClick={() => setWizardOpen(false)} className="text-slate-400 hover:text-white text-xl font-bold">×</button>
-            </div>
-            <div className="p-6 space-y-4">
-              {wizardStep === 0 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B0: Backup Database trước khi chạy.</p>
-                  <button disabled={wizardBusy} onClick={async () => {
-                    setWizardBusy(true); setWizardLogs(['Đang backup...']);
-                    const res = await safeFetch(baseUrl + '/daoanh/api/admin/backup', { method: 'POST', timeout: 60000 });
-                    setWizardLogs(prev => [...prev, res?.backup_path ? ('OK: ' + res.backup_path) : ('Lỗi: ' + (res?.error || 'unknown'))]);
-                    setWizardBusy(false);
-                  }} className="px-4 py-2 bg-amber-600 text-black rounded-xl text-xs font-black uppercase">Backup Now</button>
-                </div>
-              )}
-              {wizardStep === 1 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B1: Fix 3.800 ID (preview).</p>
-                  <button disabled={wizardBusy} onClick={async () => {
-                    setWizardBusy(true);
-                    const res = await safeFetch(baseUrl + '/daoanh/api/admin/fix-ids', { method: 'POST', timeout: 60000 });
-                    setWizardLogs([res?.success ? ('Fixed: ' + (res.fixed || 0)) : ('Lỗi: ' + (res?.error || 'unknown'))]);
-                    setWizardBusy(false);
-                  }} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-black uppercase">Run Fix IDs</button>
-                </div>
-              )}
-              {wizardStep === 2 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B2: Load Schema (dry-run).</p>
-                  <button disabled={wizardBusy} onClick={async () => {
-                    setWizardBusy(true);
-                    const res = await safeFetch(baseUrl + '/daoanh/api/admin/load-schema', { method: 'POST', timeout: 60000 });
-                    if (res?.success && res.columns) {
-                      const msgs = res.columns.map(c => `${c.column}: ${c.action}${c.error ? ' (' + c.error + ')' : ''}`);
-                      setWizardLogs(msgs);
-                    } else {
-                      setWizardLogs([res?.success ? 'Schema OK' : ('Lỗi: ' + (res?.message || res?.error || 'unknown'))]);
-                    }
-                    setWizardBusy(false);
-                  }} className="px-4 py-2 bg-slate-600 text-white rounded-xl text-xs font-black uppercase">Dry-run</button>
-                  <button disabled={wizardBusy} onClick={async () => {
-                    setWizardBusy(true);
-                    const res = await safeFetch(baseUrl + '/daoanh/api/admin/load-schema', { 
-                      method: 'POST', 
-                      timeout: 60000,
-                      headers: {'Content-Type': 'application/json'},
-                      body: JSON.stringify({apply: true})
-                    });
-                    if (res?.success && res.columns) {
-                      const msgs = res.columns.map(c => `${c.column}: ${c.action}${c.error ? ' (' + c.error + ')' : ''}`);
-                      setWizardLogs(msgs);
-                    } else {
-                      setWizardLogs([res?.success ? 'Schema applied' : ('Lỗi: ' + (res?.message || res?.error || 'unknown'))]);
-                    }
-                    setWizardBusy(false);
-                  }} className="px-4 py-2 bg-amber-600 text-black rounded-xl text-xs font-black uppercase">Apply</button>
-                </div>
-              )}
-              {wizardStep === 3 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B3: Load Dictionary (auto).</p>
-                  <button disabled={wizardBusy} onClick={async () => {
-                    setWizardBusy(true);
-                    const res = await safeFetch(baseUrl + '/daoanh/api/admin/load-dictionary', { method: 'POST', timeout: 60000 });
-                    setWizardLogs([res?.success ? ('Loaded: ' + (res.count || 0)) : ('Lỗi: ' + (res?.error || 'unknown'))]);
-                    setWizardBusy(false);
-                  }} className="px-4 py-2 bg-slate-600 text-white rounded-xl text-xs font-black uppercase">Auto Run</button>
-                </div>
-              )}
-              {wizardStep === 4 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B4: Edit 7 Rules (form).</p>
-                  <textarea className="w-full h-32 bg-[#0a0c10] border border-slate-700 rounded-xl p-3 text-xs text-slate-300" placeholder="Hán | Cũ | Mới" />
-                  <button className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase">Save Rules</button>
-                </div>
-              )}
-              {wizardStep === 5 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B5: Gemini Batch 1 (polling).</p>
-                  <button disabled={wizardBusy} onClick={async () => {
-                    setWizardBusy(true);
-                    const res = await safeFetch(baseUrl + '/daoanh/api/admin/batch-monitor', { timeout: 10000 });
-                    if (res?.success) {
-                      const pct = res.total ? Math.round(res.progress / res.total * 100) : 0;
-                      setWizardProgress({ done: res.progress, total: res.total });
-                      setWizardLogs([...res.logs.slice(-20), `OK: ${pct}% (${res.progress}/${res.total})`]);
-                    } else {
-                      setWizardLogs(['Lỗi: ' + (res?.message || res?.error || 'unknown')]);
-                    }
-                    setWizardBusy(false);
-                  }} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-black uppercase">Poll Status</button>
-                  <div className="text-xs text-slate-400">Progress: {wizardProgress.done}/{wizardProgress.total}</div>
-                  <div className="h-2 bg-slate-800 rounded"><div className="h-2 bg-amber-500 rounded" style={{width: (wizardProgress.total ? (wizardProgress.done/wizardProgress.total*100) : 0) + '%'}}></div></div>
-                  <pre className="h-32 overflow-y-auto bg-[#0a0c10] border border-slate-700 rounded-xl p-3 text-[10px] text-slate-400">{wizardLogs.join('\n')}</pre>
-                </div>
-              )}
-              {wizardStep === 6 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B7: Sample 100 Review.</p>
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-black uppercase">Approve Selected</button>
-                </div>
-              )}
-              {wizardStep === 7 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B8: Gemini Batch 2 (polling).</p>
-                  <button disabled={wizardBusy} onClick={async () => {
-                    setWizardBusy(true);
-                    const res = await safeFetch(baseUrl + '/daoanh/api/admin/batch-monitor', { timeout: 10000 });
-                    if (res?.success) {
-                      const pct = res.total ? Math.round(res.progress / res.total * 100) : 0;
-                      setWizardProgress({ done: res.progress, total: res.total });
-                      setWizardLogs([...res.logs.slice(-20), `OK: ${pct}% (${res.progress}/${res.total})`]);
-                    } else {
-                      setWizardLogs(['Lỗi: ' + (res?.message || res?.error || 'unknown')]);
-                    }
-                    setWizardBusy(false);
-                  }} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-black uppercase">Poll Status</button>
-                  <div className="text-xs text-slate-400">Progress: {wizardProgress.done}/{wizardProgress.total}</div>
-                  <pre className="h-32 overflow-y-auto bg-[#0a0c10] border border-slate-700 rounded-xl p-3 text-[10px] text-slate-400">{wizardLogs.join('\n')}</pre>
-                </div>
-              )}
-              {wizardStep === 8 && (
-                <div className="space-y-3">
-                  <p className="text-sm text-slate-300">B9: Report + CSV downloads.</p>
-                  <a href={baseUrl + '/daoanh/api/admin/export-csv?type=full'} className="inline-block px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase">Download CSV</a>
-                </div>
-              )}
-              <div className="text-xs text-slate-500 mt-2">Logs:</div>
-              <pre className="h-20 overflow-y-auto bg-[#0a0c10] border border-slate-700 rounded-xl p-3 text-[10px] text-slate-400">{wizardLogs.join('\n')}</pre>
-            </div>
-            <div className="sticky bottom-0 border-t border-slate-700 p-5 flex justify-between bg-[#11151c]">
-              <button onClick={() => setWizardStep(s => Math.max(0, s - 1))} disabled={wizardStep === 0} className="px-4 py-2 bg-slate-700 text-white rounded-xl text-xs font-black uppercase disabled:opacity-40">← Back</button>
-              <div className="text-xs text-slate-500">Step {wizardStep + 1}/9</div>
-              <button onClick={() => setWizardStep(s => Math.min(8, s + 1))} disabled={wizardStep === 8} className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-black uppercase disabled:opacity-40">Next →</button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* TOAST */}
       {message && (<div className={'fixed bottom-12 right-12 p-6 rounded-3xl flex items-center gap-4 animate-in fade-in slide-in-from-right-12 z-[200] border backdrop-blur-xl ' + (message.type === 'success' ? 'bg-emerald-950/90 text-emerald-400 border-emerald-500/30 shadow-2xl' : 'bg-red-950/90 text-red-400 border-red-500/30 shadow-2xl') + ' font-sans font-bold shadow-2xl'}><LucideIcon name={message.type === 'error' ? 'alert-circle' : 'check-circle-2'} className="w-6 h-6" /><span className="font-black text-sm uppercase tracking-tight">{message.text}</span></div>)}

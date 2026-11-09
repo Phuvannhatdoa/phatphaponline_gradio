@@ -1,0 +1,8 @@
+[baseline_no_change] PASS (gate KHÔNG bắt)
+[wikidata_verified_and_commercial] FAIL (gate BẮT được) -> Nguồn verified ['CBETA', 'Wikidata'] != danh sách Admin duyệt ['CBETA']
+[wikidata_verified_only] FAIL (gate BẮT được) -> Nguồn verified ['CBETA', 'Wikidata'] != danh sách Admin duyệt ['CBETA']
+[cbeta_commercial_allowed] FAIL (gate BẮT được) -> CBETA verified nhưng không phải phi thương mại: noncommercial=1, data_commercial=1
+[wikidata_in_allowlist_commercial] FAIL (gate BẮT được) -> Wikidata verified nhưng không phải phi thương mại: noncommercial=0, data_commercial=1
+[unverified_backfilled_license] FAIL (gate BẮT được) -> DILA.license_spdx đã backfill khi chưa verified: 'CC-BY-4.0'
+
+=== EXIT CODE: 0 ===

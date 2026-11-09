@@ -1,0 +1,69 @@
+def calculate_edge_color_and_divergence(edge_row):
+    """T410 (2026-10-19) — MÀU THEO NGUỒN (không phải theo số nguồn).
+
+    edge_row: dict/Row có 3 cột boolean/int dila_asserted, marcus_asserted, ttl_asserted
+    (lineage_asserted KHÔNG tham gia quy tắc màu — admin chỉ chỉ định 3 nguồn này).
+
+    Quy tắc MÀU THEO NGUỒN (admin chốt 2026-10-19):
+      - 1 nguồn   -> màu NGUỒN ĐÓ (dila/marcus/ttl), nét LIỀN
+      - >=2 nguồn -> màu ĐỒNG THUẬN (agree), nét LIỀN
+      - 0 nguồn   -> màu CHƯA RÕ (unknown), nét ĐỨT  (an toàn, không xảy ra thực tế)
+
+    "Xám chấm = chưa rõ chiều" chỉ dùng cho nét đứt; cạnh 1 nguồn VẪN nét liền
+    (chiều đã rõ, chỉ thiếu nguồn xác nhận thứ 2).
+
+    Trả về dict:
+      edge_color_token : 'dila'|'marcus'|'ttl'|'agree'|'unknown' (frontend đổi sang CSS var --edge-*)
+      edge_sources     : list nguồn đã assert, ví dụ ['dila','marcus']
+      n_sources        : số nguồn
+      edge_color       : hex mặc định nền TỐI — fallback cho client cũ / edge_color
+      edge_dashed      : True khi CHƯA rõ chiều (chỉ n_sources == 0)
+      is_divergence    : True khi đúng 1 nguồn (cần khảo cứu thêm; dùng cho đếm tree_status)
+    """
+    dila_v = bool(edge_row.get('dila_asserted')) if hasattr(edge_row, 'get') else bool(edge_row['dila_asserted'])
+    marc_v = bool(edge_row.get('marcus_asserted')) if hasattr(edge_row, 'get') else bool(edge_row['marcus_asserted'])
+    ttl_v = bool(edge_row.get('ttl_asserted')) if hasattr(edge_row, 'get') else bool(edge_row['ttl_asserted'])
+
+    # Hex nền tối (fallback). Bản sáng và bản chuẩn nằm ở CSS --edge-* trong places.html.
+    COLOR_DILA = '#38bdf8'
+    COLOR_MARCUS = '#facc15'
+    COLOR_TTL = '#dc2626'
+    COLOR_AGREE = '#f1f5f9'
+    COLOR_UNKNOWN = '#94a3b8'
+
+    sources = []
+    if dila_v:
+        sources.append('dila')
+    if marc_v:
+        sources.append('marcus')
+    if ttl_v:
+        sources.append('ttl')
+
+    if len(sources) >= 2:
+        return {
+            'edge_color_token': 'agree', 'edge_sources': sources, 'n_sources': len(sources),
+            'edge_color': COLOR_AGREE, 'dashed': False, 'is_divergence': False,
+        }
+    if len(sources) == 1:
+        only = sources[0]
+        hex_by_token = {'dila': COLOR_DILA, 'marcus': COLOR_MARCUS, 'ttl': COLOR_TTL}
+        return {
+            'edge_color_token': only, 'edge_sources': sources, 'n_sources': 1,
+            'edge_color': hex_by_token[only], 'dashed': False, 'is_divergence': True,
+        }
+    return {
+        'edge_color_token': 'unknown', 'edge_sources': [], 'n_sources': 0,
+        'edge_color': COLOR_UNKNOWN, 'dashed': True, 'is_divergence': False,
+    }
+
+
+
+
+def api_monk_root_ancestor(dila_id):
+    """GET /daoanh/api/monk/<dila_id>/root-ancestor
+    BFS lên (thầy) từ dila_id đến khi không còn thầy → trả về khai tổ (root nodes).
+    Mục đích: tìm vị khai tổ của tông phái đang hiển thị trong Pháp Mạch.
+    Max 60 bước để tránh vòng lặp vô hạn."""
+    conn = get_db_connection()
+    try:
+        # T186: cho phép ttl_persons (danh tăng

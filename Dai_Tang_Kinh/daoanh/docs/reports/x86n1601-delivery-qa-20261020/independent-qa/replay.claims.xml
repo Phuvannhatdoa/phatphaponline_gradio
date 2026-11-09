@@ -1,0 +1,421 @@
+<?xml version="1.0" ?>
+<lineageDataset xmlns="urn:ptda:research:lineage:1" schemaVersion="1.0" workId="X86n1601" status="candidate">
+  <sourceManifest>
+    <fileName>X86n1601.source.xml</fileName>
+    <sourceUrl>https://raw.githubusercontent.com/Phuvannhatdoa/phatphaponline_gradio/truyen-dang-the-pho-clean/X86n1601.xml</sourceUrl>
+    <sha256>60a282bf78795048395dfdb6ab2ac0d7912bbd6b527338d9664f58994e84f178</sha256>
+    <downloadTime>2026-10-21T00:28:54.797983Z</downloadTime>
+    <rights>CBETA 佛典寶藏. Electronic version. CC BY-NC-SA 4.0</rights>
+  </sourceManifest>
+  <processingScope>
+    <workId>X86n1601</workId>
+    <juanProcessed>001 (patriarchal lineage chart)</juanProcessed>
+    <estimatedRelations>9</estimatedRelations>
+    <unprocessedSections>juan 002-009</unprocessedSections>
+  </processingScope>
+  <persons>
+    <person id="person_000">
+      <sourcePersonId>itemX86p0320a2001</sourcePersonId>
+      <nameZh>釋迦牟尼佛</nameZh>
+      <generationLabel>始祖</generationLabel>
+    </person>
+    <person id="person_001">
+      <sourcePersonId>itemX86p0321a0101</sourcePersonId>
+      <nameZh>摩訶迦葉</nameZh>
+      <generationLabel>第一祖</generationLabel>
+    </person>
+    <person id="person_002">
+      <sourcePersonId>itemX86p0321a1001</sourcePersonId>
+      <nameZh>阿難尊者</nameZh>
+      <generationLabel>二祖</generationLabel>
+    </person>
+    <person id="person_003">
+      <sourcePersonId>itemX86p0321a1901</sourcePersonId>
+      <nameZh>商那和修</nameZh>
+      <generationLabel>三祖</generationLabel>
+    </person>
+    <person id="person_004">
+      <sourcePersonId>itemX86p0321a2801</sourcePersonId>
+      <nameZh>優波毱多</nameZh>
+      <generationLabel>四祖</generationLabel>
+    </person>
+    <person id="person_005">
+      <sourcePersonId>itemX86p0321a3701</sourcePersonId>
+      <nameZh>提多迦</nameZh>
+      <generationLabel>五祖</generationLabel>
+    </person>
+    <person id="person_006">
+      <sourcePersonId>itemX86p0321a4301</sourcePersonId>
+      <nameZh>彌遮迦</nameZh>
+      <generationLabel>六祖</generationLabel>
+    </person>
+    <person id="person_007">
+      <sourcePersonId>itemX86p0321a4901</sourcePersonId>
+      <nameZh>婆須蜜</nameZh>
+      <generationLabel>七祖</generationLabel>
+    </person>
+    <person id="person_008">
+      <sourcePersonId>itemX86p0321a5501</sourcePersonId>
+      <nameZh>佛陀難提</nameZh>
+      <generationLabel>八祖</generationLabel>
+    </person>
+    <person id="person_009">
+      <sourcePersonId>itemX86p0321a6101</sourcePersonId>
+      <nameZh>伏駄密多</nameZh>
+      <generationLabel>九祖</generationLabel>
+    </person>
+    <person id="person_010">
+      <sourcePersonId>itemX86p0321a6701</sourcePersonId>
+      <nameZh>脇尊者</nameZh>
+      <generationLabel>十祖</generationLabel>
+    </person>
+    <person id="person_011">
+      <sourcePersonId>itemX86p0321a7301</sourcePersonId>
+      <nameZh>富那夜奢</nameZh>
+      <generationLabel>十一祖</generationLabel>
+    </person>
+    <person id="person_012">
+      <sourcePersonId>itemX86p0321a7901</sourcePersonId>
+      <nameZh>馬鳴大士</nameZh>
+      <generationLabel>十二祖</generationLabel>
+    </person>
+    <person id="person_013">
+      <sourcePersonId>itemX86p0322a0101</sourcePersonId>
+      <nameZh>迦毗摩羅</nameZh>
+      <generationLabel>十三祖</generationLabel>
+    </person>
+    <person id="person_014">
+      <sourcePersonId>itemX86p0322a0701</sourcePersonId>
+      <nameZh>龍樹尊者</nameZh>
+      <generationLabel>十四祖</generationLabel>
+    </person>
+    <person id="person_015">
+      <sourcePersonId>itemX86p0322a1301</sourcePersonId>
+      <nameZh>迦那提婆</nameZh>
+      <generationLabel>十五祖</generationLabel>
+    </person>
+    <person id="person_016">
+      <sourcePersonId>itemX86p0322a1901</sourcePersonId>
+      <nameZh>羅睺羅多</nameZh>
+      <generationLabel>十六祖</generationLabel>
+    </person>
+    <person id="person_017">
+      <sourcePersonId>itemX86p0322a2501</sourcePersonId>
+      <nameZh>僧伽難提</nameZh>
+      <generationLabel>十七祖</generationLabel>
+    </person>
+    <person id="person_018">
+      <sourcePersonId>itemX86p0322a3101</sourcePersonId>
+      <nameZh>伽耶舍多</nameZh>
+      <generationLabel>十八祖</generationLabel>
+    </person>
+    <person id="person_019">
+      <sourcePersonId>itemX86p0322a3701</sourcePersonId>
+      <nameZh>鳩摩羅多</nameZh>
+      <generationLabel>十九祖</generationLabel>
+    </person>
+    <person id="person_020">
+      <sourcePersonId>itemX86p0322a4301</sourcePersonId>
+      <nameZh>闍夜多</nameZh>
+      <generationLabel>二十祖</generationLabel>
+    </person>
+    <person id="person_021">
+      <sourcePersonId>itemX86p0322a4901</sourcePersonId>
+      <nameZh>婆修槃頭</nameZh>
+      <generationLabel>二十一祖</generationLabel>
+    </person>
+    <person id="person_022">
+      <sourcePersonId>itemX86p0322a5501</sourcePersonId>
+      <nameZh>摩拏羅</nameZh>
+      <generationLabel>二十二祖</generationLabel>
+    </person>
+    <person id="person_023">
+      <sourcePersonId>itemX86p0322a6101</sourcePersonId>
+      <nameZh>鶴勒那</nameZh>
+      <generationLabel>二十三祖</generationLabel>
+    </person>
+    <person id="person_024">
+      <sourcePersonId>itemX86p0322a6701</sourcePersonId>
+      <nameZh>師子尊者</nameZh>
+      <generationLabel>二十四祖</generationLabel>
+    </person>
+    <person id="person_025">
+      <sourcePersonId>itemX86p0323a0101</sourcePersonId>
+      <nameZh>婆舍斯多</nameZh>
+      <generationLabel>二十五祖</generationLabel>
+    </person>
+    <person id="person_026">
+      <sourcePersonId>itemX86p0323a0701</sourcePersonId>
+      <nameZh>不如密多</nameZh>
+      <generationLabel>二十六祖</generationLabel>
+    </person>
+    <person id="person_027">
+      <sourcePersonId>itemX86p0323a1301</sourcePersonId>
+      <nameZh>般若多羅</nameZh>
+      <generationLabel>二十七祖</generationLabel>
+    </person>
+    <person id="person_028">
+      <sourcePersonId>itemX86p0323a1901</sourcePersonId>
+      <nameZh>菩提達磨</nameZh>
+      <generationLabel>二十八祖</generationLabel>
+    </person>
+    <person id="person_029">
+      <sourcePersonId>itemX86p0323a3601</sourcePersonId>
+      <nameZh>慧可</nameZh>
+      <generationLabel>二十九祖</generationLabel>
+    </person>
+    <person id="person_030">
+      <sourcePersonId>itemX86p0323a4701</sourcePersonId>
+      <nameZh>僧璨</nameZh>
+      <generationLabel>三十祖</generationLabel>
+    </person>
+    <person id="person_031">
+      <sourcePersonId>itemX86p0323a5601</sourcePersonId>
+      <nameZh>道信</nameZh>
+      <generationLabel>三十一祖</generationLabel>
+    </person>
+    <person id="person_032">
+      <sourcePersonId>itemX86p0323a6501</sourcePersonId>
+      <nameZh>弘忍</nameZh>
+      <generationLabel>三十二祖</generationLabel>
+    </person>
+    <person id="person_033">
+      <sourcePersonId>itemX86p0324a0101</sourcePersonId>
+      <nameZh>慧能</nameZh>
+      <generationLabel>三十三祖</generationLabel>
+    </person>
+  </persons>
+  <mentions>
+    <mention id="mention_000">
+      <personId>person_000</personId>
+      <text>釋迦牟尼佛</text>
+    </mention>
+    <mention id="mention_001">
+      <personId>person_001</personId>
+      <text>摩訶迦葉</text>
+    </mention>
+    <mention id="mention_002">
+      <personId>person_002</personId>
+      <text>阿難尊者</text>
+    </mention>
+    <mention id="mention_003">
+      <personId>person_003</personId>
+      <text>商那和修</text>
+    </mention>
+    <mention id="mention_004">
+      <personId>person_004</personId>
+      <text>優波毱多</text>
+    </mention>
+    <mention id="mention_005">
+      <personId>person_005</personId>
+      <text>提多迦</text>
+    </mention>
+    <mention id="mention_006">
+      <personId>person_006</personId>
+      <text>彌遮迦</text>
+    </mention>
+    <mention id="mention_007">
+      <personId>person_007</personId>
+      <text>婆須蜜</text>
+    </mention>
+    <mention id="mention_008">
+      <personId>person_008</personId>
+      <text>佛陀難提</text>
+    </mention>
+    <mention id="mention_009">
+      <personId>person_009</personId>
+      <text>伏駄密多</text>
+    </mention>
+    <mention id="mention_010">
+      <personId>person_010</personId>
+      <text>脇尊者</text>
+    </mention>
+    <mention id="mention_011">
+      <personId>person_011</personId>
+      <text>富那夜奢</text>
+    </mention>
+    <mention id="mention_012">
+      <personId>person_012</personId>
+      <text>馬鳴大士</text>
+    </mention>
+    <mention id="mention_013">
+      <personId>person_013</personId>
+      <text>迦毗摩羅</text>
+    </mention>
+    <mention id="mention_014">
+      <personId>person_014</personId>
+      <text>龍樹尊者</text>
+    </mention>
+    <mention id="mention_015">
+      <personId>person_015</personId>
+      <text>迦那提婆</text>
+    </mention>
+    <mention id="mention_016">
+      <personId>person_016</personId>
+      <text>羅睺羅多</text>
+    </mention>
+    <mention id="mention_017">
+      <personId>person_017</personId>
+      <text>僧伽難提</text>
+    </mention>
+    <mention id="mention_018">
+      <personId>person_018</personId>
+      <text>伽耶舍多</text>
+    </mention>
+    <mention id="mention_019">
+      <personId>person_019</personId>
+      <text>鳩摩羅多</text>
+    </mention>
+    <mention id="mention_020">
+      <personId>person_020</personId>
+      <text>闍夜多</text>
+    </mention>
+    <mention id="mention_021">
+      <personId>person_021</personId>
+      <text>婆修槃頭</text>
+    </mention>
+    <mention id="mention_022">
+      <personId>person_022</personId>
+      <text>摩拏羅</text>
+    </mention>
+    <mention id="mention_023">
+      <personId>person_023</personId>
+      <text>鶴勒那</text>
+    </mention>
+    <mention id="mention_024">
+      <personId>person_024</personId>
+      <text>師子尊者</text>
+    </mention>
+    <mention id="mention_025">
+      <personId>person_025</personId>
+      <text>婆舍斯多</text>
+    </mention>
+    <mention id="mention_026">
+      <personId>person_026</personId>
+      <text>不如密多</text>
+    </mention>
+    <mention id="mention_027">
+      <personId>person_027</personId>
+      <text>般若多羅</text>
+    </mention>
+    <mention id="mention_028">
+      <personId>person_028</personId>
+      <text>菩提達磨</text>
+    </mention>
+    <mention id="mention_029">
+      <personId>person_029</personId>
+      <text>慧可</text>
+    </mention>
+    <mention id="mention_030">
+      <personId>person_030</personId>
+      <text>僧璨</text>
+    </mention>
+    <mention id="mention_031">
+      <personId>person_031</personId>
+      <text>道信</text>
+    </mention>
+    <mention id="mention_032">
+      <personId>person_032</personId>
+      <text>弘忍</text>
+    </mention>
+    <mention id="mention_033">
+      <personId>person_033</personId>
+      <text>慧能</text>
+    </mention>
+  </mentions>
+  <evidence/>
+  <relationClaims>
+    <relationClaim id="claim_0001">
+      <subjectPersonId>person_000</subjectPersonId>
+      <objectPersonId>person_001</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>即賢劫第四尊示生中天竺國，剎利種，釋迦其姓也。父淨飯聖王，母摩耶聖后。周昭王九年甲寅四月八日降誕， 捨轉輪聖王位出家，成無上道，轉大法輪。其後七十九歲，垂般涅槃，乃以大法印付囑摩訶迦葉。 穆王三十六年壬申二月十五日中夜入滅。後一千一十七年，教被華夏，即漢明帝永平十年丁卯歲也。 按傳燈諸錄，首紀七佛，次列諸祖。唯東山傳法正宗記則謂正宗者，必以親相師承為効，故以釋迦文佛為始祖，</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+    <relationClaim id="claim_0002">
+      <subjectPersonId>person_005</subjectPersonId>
+      <objectPersonId>person_006</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>摩伽陀國人。父夢金 日而生，遇優波尊者， 為釋夢義，得受正法。 後付彌遮迦，化火自 焚，即周莊王世也。</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+    <relationClaim id="claim_0003">
+      <subjectPersonId>person_006</subjectPersonId>
+      <objectPersonId>person_007</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>中印度人至北天竺 國，見城堞間有金色 瑞雲，曰：此大乘氣也。 遇婆須蜜，付以法。周 襄王世，化火自焚。</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+    <relationClaim id="claim_0004">
+      <subjectPersonId>person_007</subjectPersonId>
+      <objectPersonId>person_008</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>北天竺國人，姓頗羅 墮。行化至迦摩羅國， 以論義服，佛陀難提 付以正法。周定王世， 示寂本座，塔葬全身。</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+    <relationClaim id="claim_0005">
+      <subjectPersonId>person_012</subjectPersonId>
+      <objectPersonId>person_013</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>波羅奈國人，亦名功 勝，以其功德殊勝故 也。攝伏迦毗摩羅為 弟子，遂以法付之。周 顯王世，趣大寂滅。</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+    <relationClaim id="claim_0006">
+      <subjectPersonId>person_014</subjectPersonId>
+      <objectPersonId>person_015</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>西天竺國人，廣造眾 論，開釋正法，以應機 宜。將垂滅度，乃以其 法印付迦那提婆，當 秦始皇世也。</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+    <relationClaim id="claim_0007">
+      <subjectPersonId>person_024</subjectPersonId>
+      <objectPersonId>person_025</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>中天竺國婆羅門氏， 以法授婆舍斯多，自 以宿業當酬，獨留罽 賓而遇害，即魏廢帝 齊王曹芳之世。</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+    <relationClaim id="claim_0008">
+      <subjectPersonId>person_027</subjectPersonId>
+      <objectPersonId>person_028</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>東印度人。初以童子 遇不如蜜多，顯其聖 迹，遂出家傳法。遊化 南印度，得菩提達磨 付法。宋孝武世入滅。</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+    <relationClaim id="claim_0009">
+      <subjectPersonId>person_030</subjectPersonId>
+      <objectPersonId>person_031</objectPersonId>
+      <sourceRelationTerm>dharma transmission</sourceRelationTerm>
+      <proposedRelationType>dharma_transmission</proposedRelationType>
+      <directionStatus>subject_to_object</directionStatus>
+      <evidenceFragment>不知何許人。以處士 見慧可大師，受度傳 法，隱舒州皖公山三 十載。後得道信，付以 法眼。隋煬帝大業二 年丙寅十月十五日 立化。唐玄宗諡鑑智， 塔曰覺寂。</evidenceFragment>
+      <extractionRule>mention_in_biography</extractionRule>
+      <reviewStatus>pending</reviewStatus>
+    </relationClaim>
+  </relationClaims>
+  <generationLabels/>
+  <unresolvedCases/>
+</lineageDataset>

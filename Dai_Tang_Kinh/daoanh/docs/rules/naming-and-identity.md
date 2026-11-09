@@ -9,9 +9,6 @@
 | Time | DILA Time ID | `T...` | `time_periods.time_id` |
 | Event (T97) | UUID | `uuid` | `events.event_id` |
 | Time mention | auto-increment | integer | `time_mentions.mention_id` |
-| VN monk (không có DILA ID) | slug nội bộ | `vo_ngon_thong` | `vn_person_authority.id` |
-
-**Ngoại lệ VN (Admin 2026-11-08):** thiền sư Việt Nam chưa có DILA ID dùng slug của `vn_person_authority.id` làm khóa khai tổ dòng (`scripts/anchors_khai_to_dong.json`, trường `id_source = vn_person_authority`). Slug không phải tên hiển thị và không được dùng để đoán ID DILA.
 
 **Cảnh báo:** `people.id` = DILA person ID — **không có** field `people.dila_id`.
 

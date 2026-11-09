@@ -1,0 +1,18 @@
+=== T166 identity schema ===
+  [MISS] translation_cache.identity_status
+  [MISS] translation_cache.identity_issues
+  [MISS] translation_cache.identity_lock_hash
+  [MISS] translation_rules.identity_lock_policy
+
+  [MISS] index idx_tc_identity
+
+  translation_cache: 1771 row (0 có constitution_hash) — baseline cho mass-miss T166 §9
+
+[SQL plan]
+  run   ALTER TABLE translation_cache ADD COLUMN identity_status TEXT
+  run   ALTER TABLE translation_cache ADD COLUMN identity_issues TEXT
+  run   ALTER TABLE translation_cache ADD COLUMN identity_lock_hash TEXT
+  run   ALTER TABLE translation_rules ADD COLUMN identity_lock_policy TEXT DEFAULT 'P-PARTIAL'
+  run   CREATE INDEX IF NOT EXISTS idx_tc_identity ON translation_cache(identity_status)
+
+  backup → E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\backups\lineage_t166_20261028_112453.db

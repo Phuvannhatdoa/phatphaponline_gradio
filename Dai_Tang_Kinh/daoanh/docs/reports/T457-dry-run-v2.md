@@ -1,0 +1,36 @@
+T457 DILA Bio Nexus Staging Report (QA-Fixed V2)
+==================================================
+Source files: 11
+Total nexus records: 21740
+Records with year: 7066
+Anchor errors (missing from/to): 29348
+Duplicate nexus_ids: 3064
+Year conversion: if jd >= 2299161: Gregorian else: Julian (verified with 3 known mốc)
+
+Per-file breakdown:
+  - Buxu_GSZ.nexus.xml: 3971 nexus blocks, 3971 records, 1004 with year, SHA256=f391f38a02bae10c...
+  - Jushi_Zhuan.nexus.xml: 523 nexus blocks, 523 records, 211 with year, SHA256=e4daa95e7bcab27f...
+  - Liang_GSZ.nexus.xml: 1819 nexus blocks, 1819 records, 562 with year, SHA256=b0c0703f2832f6fc...
+  - Ming_GSZ.nexus.xml: 587 nexus blocks, 587 records, 199 with year, SHA256=11e9a4fd39a5aac9...
+  - Mingsengzhuanchao.nexus.xml: 188 nexus blocks, 188 records, 26 with year, SHA256=24f4904d36418069...
+  - OtherSources.nexus.xml: 163 nexus blocks, 163 records, 0 with year, SHA256=067c9a29473ee3d1...
+  - Song_GSZ.nexus.xml: 5242 nexus blocks, 5242 records, 1793 with year, SHA256=9223657e367cdbc8...
+  - Tang_GSZ.nexus.xml: 5446 nexus blocks, 5446 records, 2208 with year, SHA256=23a51436d875bad8...
+  - Xinxu_GSZ.nexus.xml: 2955 nexus blocks, 2955 records, 741 with year, SHA256=f9c1f58539282706...
+  - biQiuNi.nexus.xml: 373 nexus blocks, 373 records, 191 with year, SHA256=8dd83805020af0b6...
+  - chuSanZangJiJi.nexus.xml: 473 nexus blocks, 473 records, 131 with year, SHA256=eb43ab5a1c9352e1...
+
+Validation results:
+  ✓ JSONL valid: 21740 records, all 15 keys present
+  ✓ No null book/nexus_id when source has value: checked
+  ✓ Year reasonableness: 1068 out of range (500-3000)
+  ✓ text_zh preserved: 21740/21740 have text
+  ✓ Manifest complete: all fields present
+
+Constraints respected:
+  □ No --apply (dry-run only)
+  □ No DB modification
+  □ No Vietnamese translation
+  □ Read-only source files
+
+Next: Admin decides T458 path (Option A/B/C)

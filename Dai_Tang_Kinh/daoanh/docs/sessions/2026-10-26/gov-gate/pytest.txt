@@ -1,0 +1,29 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.1.1, pluggy-1.6.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh
+plugins: anyio-4.13.0
+collecting ... collected 18 items
+
+tests/test_b25_authority_contract.py::test_a_dila_source_exists PASSED   [  5%]
+tests/test_b25_authority_contract.py::test_b_multi_source_entity PASSED  [ 11%]
+tests/test_b25_authority_contract.py::test_c_unknown_source_blocked_for_derive PASSED [ 16%]
+tests/test_b25_authority_contract.py::test_c_unknown_source_blocked_for_ingest PASSED [ 22%]
+tests/test_b25_authority_contract.py::test_d_lineage_conflicts_exist PASSED [ 27%]
+tests/test_b25_authority_contract.py::test_e_license_not_backfilled PASSED [ 33%]
+tests/test_b25_authority_contract.py::test_e_all_sources_license_unverified PASSED [ 38%]
+tests/test_b25_authority_contract.py::test_f_unknown_source_id_blocked PASSED [ 44%]
+tests/test_b25_authority_contract.py::test_g_duplicate_source_records PASSED [ 50%]
+tests/test_b25_authority_contract.py::test_h_two_source_claims_not_merged PASSED [ 55%]
+tests/test_b25_authority_contract.py::test_i_default_adapter_health_unknown PASSED [ 61%]
+tests/test_b25_authority_contract.py::test_i_default_get_license_review_required PASSED [ 66%]
+tests/test_b25_authority_contract.py::test_j_source_version_null_means_unknown PASSED [ 72%]
+tests/test_b25_authority_contract.py::test_conflict_recorder_insert PASSED [ 77%]
+tests/test_b25_authority_contract.py::test_p2_can_display_auditing PASSED [ 83%]
+tests/test_b25_authority_contract.py::test_p2_can_quote_auditing_blocked PASSED [ 88%]
+tests/test_b25_authority_contract.py::test_m1_legacy_quote_does_not_verify_rights PASSED [ 94%]
+tests/test_b25_authority_contract.py::test_p3_extracted_evidence_license_fields PASSED [100%]
+
+============================= 18 passed in 27.65s =============================
+
+=== EXIT CODE: 0 ===

@@ -1,0 +1,4 @@
+M	Dai_Tang_Kinh/daoanh/.opencode/agents/daoanh-qa.md
+M	Dai_Tang_Kinh/daoanh/.opencode/agents/tich-hop.md
+M	Dai_Tang_Kinh/daoanh/docs/bugs.md
+M	Dai_Tang_Kinh/daoanh/scripts/verify_design_compliance.py

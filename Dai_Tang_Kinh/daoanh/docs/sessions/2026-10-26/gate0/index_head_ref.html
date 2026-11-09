@@ -1,0 +1,1161 @@
+﻿<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đạo Ảnh</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+/* ── Design tokens ─────────────────────────────────── */
+:root {
+  --bg:       #F2F0EC;
+  --bg2:      #ECEAE6;
+  --surface:  #FFFFFF;
+  --border:   #DDD8CE;
+  --gold:     #B8941E;
+  --gold-dim: rgba(184,148,30,0.10);
+  --gold-glow:rgba(184,148,30,0.22);
+  --amethyst: #7B64CC;
+  --amethyst-dim: rgba(123,100,204,0.10);
+  --text-hi:  #1A1E28;
+  --text-mid: #4A5160;
+  --text-lo:  #8A909E;
+  --danger:   #D04040;
+  --shadow:   0 2px 12px rgba(0,0,0,0.08);
+  --r:        12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:       #070C14;
+    --bg2:      #0A1120;
+    --surface:  #0F1824;
+    --border:   #1D2C3D;
+    --gold:     #C8A84B;
+    --gold-dim: rgba(200,168,75,0.12);
+    --gold-glow:rgba(200,168,75,0.25);
+    --amethyst: #9E8CDB;
+    --amethyst-dim: rgba(158,140,219,0.12);
+    --text-hi:  #EDF0F3;
+    --text-mid: #A0ACBA;
+    --text-lo:  #5A6680;
+    --shadow:   0 2px 16px rgba(0,0,0,0.4);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg:       #070C14;
+  --bg2:      #0A1120;
+  --surface:  #0F1824;
+  --border:   #1D2C3D;
+  --gold:     #C8A84B;
+  --gold-dim: rgba(200,168,75,0.12);
+  --gold-glow:rgba(200,168,75,0.25);
+  --amethyst: #9E8CDB;
+  --amethyst-dim: rgba(158,140,219,0.12);
+  --text-hi:  #EDF0F3;
+  --text-mid: #A0ACBA;
+  --text-lo:  #5A6680;
+  --shadow:   0 2px 16px rgba(0,0,0,0.4);
+}
+
+/* ── Reset ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-hi);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+input { font-family: inherit; }
+
+/* ── Header ─────────────────────────────────────────── */
+.hd {
+  position: sticky; top: 0; z-index: 100;
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 24px;
+  gap: 24px;
+  backdrop-filter: blur(12px);
+}
+.hd-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.hd-logo-mark {
+  width: 32px; height: 32px;
+  background: var(--gold);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+  letter-spacing: -0.02em;
+}
+.hd-logo-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-hi);
+  letter-spacing: 0.02em;
+}
+.hd-logo-sub {
+  font-size: 11px;
+  color: var(--text-lo);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.hd-spacer { flex: 1; }
+.hd-nav {
+  display: flex; gap: 4px;
+}
+.hd-nav-link {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-mid);
+  font-weight: 500;
+  background: none; border: none;
+  transition: color 0.15s, background 0.15s;
+}
+.hd-nav-link:hover, .hd-nav-link.active {
+  color: var(--text-hi);
+  background: var(--gold-dim);
+}
+.hd-nav-link.active { color: var(--gold); }
+.hd-theme-btn {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-lo);
+  transition: color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.hd-theme-btn:hover { color: var(--gold); border-color: var(--gold); }
+.hd-theme-btn svg { width: 16px; height: 16px; }
+
+/* ── Hero ─────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 24px 64px;
+  text-align: center;
+}
+/* Ambient Hán tự texture */
+.hero::before {
+  content: '道影藏經祖師法門禪宗地圖法藏梵文戒律傳承圖志識心菩提涅槃般若波羅蜜多心經大悲咒';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+  color: var(--gold);
+  opacity: 0.04;
+  pointer-events: none;
+  user-select: none;
+  padding: 24px;
+  word-break: break-all;
+}
+.hero-inner { position: relative; max-width: 640px; margin: 0 auto; }
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  color: var(--text-hi);
+  line-height: 1.25;
+  text-wrap: balance;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-mid);
+  margin-bottom: 32px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Search */
+.search-wrap {
+  display: flex;
+  gap: 0;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow), 0 0 0 0 var(--gold-glow);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.search-wrap:focus-within {
+  border-color: var(--gold);
+  box-shadow: var(--shadow), 0 0 0 3px var(--gold-glow);
+}
+.search-input {
+  flex: 1;
+  padding: 14px 18px;
+  background: none;
+  border: none;
+  color: var(--text-hi);
+  font-size: 15px;
+  outline: none;
+}
+.search-input::placeholder { color: var(--text-lo); }
+.search-btn {
+  padding: 10px 20px;
+  margin: 6px;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 6px;
+  transition: opacity 0.15s;
+}
+.search-btn:hover { opacity: 0.88; }
+.search-btn svg { width: 16px; height: 16px; }
+
+/* ── Search result panel ─────────────────────────── */
+.sr-wrap {
+  max-width: 760px;
+  margin: 28px auto 0;
+  position: relative;
+  z-index: 10;
+  display: none;
+}
+.sr-wrap.visible { display: block; }
+.sr-card {
+  background: var(--surface);
+  border: 1.5px solid var(--gold);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 0 0 4px var(--gold-glow);
+  animation: srIn 0.25s cubic-bezier(.22,.68,0,1.3);
+}
+@keyframes srIn {
+  from { opacity:0; transform:translateY(-12px) scale(0.97) }
+  to   { opacity:1; transform:translateY(0) scale(1) }
+}
+.sr-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.sr-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--gold-dim);
+  color: var(--gold);
+  border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.sr-names { flex: 1; min-width: 0; }
+.sr-name-vi {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-hi);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.sr-name-han {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  color: var(--gold);
+  font-weight: 500;
+  margin-left: 10px;
+  opacity: 0.85;
+}
+.sr-name-en {
+  font-size: 13px;
+  color: var(--text-lo);
+  margin-top: 3px;
+  font-style: italic;
+}
+.sr-close {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-lo);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.sr-close:hover { color: var(--text-hi); }
+.sr-close svg { width: 14px; height: 14px; }
+
+.sr-body {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 0;
+}
+@media (max-width: 620px) {
+  .sr-body { grid-template-columns: 1fr; }
+  .sr-map { border-left: none !important; border-top: 1px solid var(--border); }
+}
+
+.sr-meta { padding: 18px 22px 20px; }
+.sr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+  margin-bottom: 16px;
+}
+.sr-field label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  margin-bottom: 3px;
+}
+.sr-field span {
+  font-size: 14px;
+  color: var(--text-hi);
+  font-weight: 500;
+}
+.sr-field span.muted { color: var(--text-lo); font-style: italic; font-weight: 400; }
+
+.sr-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.sr-tag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text-mid);
+}
+
+.sr-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.sr-sources-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  margin-right: 4px;
+}
+.sr-source {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 5px;
+  background: var(--amethyst-dim);
+  color: var(--amethyst);
+  border: 1px solid color-mix(in srgb, var(--amethyst) 25%, transparent);
+  font-family: monospace;
+  letter-spacing: 0.04em;
+}
+
+.sr-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sr-btn {
+  padding: 8px 16px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.sr-btn svg { width: 14px; height: 14px; }
+.sr-btn.primary { background: var(--gold); color: var(--bg); }
+.sr-btn.secondary {
+  background: var(--bg2);
+  color: var(--text-hi);
+  border: 1px solid var(--border);
+}
+.sr-btn:hover { opacity: 0.82; }
+
+/* Map panel */
+.sr-map {
+  border-left: 1px solid var(--border);
+  background: var(--bg2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 12px 14px;
+  gap: 8px;
+  min-height: 220px;
+  min-width: 200px;
+}
+.sr-map #sr-minimap { border-radius: 6px; overflow: hidden; }
+.minimap-tip { background: #fff; border: 1px solid #B8941E; color: #1A1E28; font-size: 11px; font-weight: 600; padding: 3px 7px; border-radius: 4px; white-space: nowrap; }
+.sr-coord {
+  font-size: 11px;
+  color: var(--text-lo);
+  font-family: monospace;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+.sr-map-label {
+  font-size: 11px;
+  color: var(--text-mid);
+  font-weight: 500;
+  text-align: center;
+}
+
+.search-tags {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.search-tag {
+  padding: 4px 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--text-mid);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.search-tag:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+
+/* ── Stats strip ─────────────────────────────────── */
+.stats-strip {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 18px 24px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-wrap: wrap;
+}
+.stat-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.stat-num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--text-lo);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.stat-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--border);
+  align-self: center;
+}
+
+/* ── Module grid ──────────────────────────────────── */
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 24px 72px;
+}
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  margin-bottom: 20px;
+}
+.modules {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+@media (max-width: 700px) {
+  .modules { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .modules { grid-template-columns: 1fr; }
+}
+
+.mod-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px 22px 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+.mod-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--card-accent, var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+.mod-card:hover {
+  border-color: var(--card-accent, var(--gold));
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+.mod-card:hover::after { transform: scaleX(1); }
+.mod-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Card accent variants */
+.mod-card[data-accent="gold"]     { --card-accent: var(--gold); }
+.mod-card[data-accent="amethyst"] { --card-accent: var(--amethyst); }
+.mod-card[data-accent="teal"]     { --card-accent: #4ADEAC; }
+.mod-card[data-accent="rose"]     { --card-accent: #F07979; }
+.mod-card[data-accent="sky"]      { --card-accent: #60B4E8; }
+.mod-card[data-accent="amber"]    { --card-accent: #F0A830; }
+
+.mod-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--gold-dim);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  color: var(--card-accent, var(--gold));
+  background: color-mix(in srgb, var(--card-accent, var(--gold)) 12%, transparent);
+}
+.mod-icon svg { width: 22px; height: 22px; }
+
+.mod-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-hi);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+.mod-desc {
+  font-size: 13px;
+  color: var(--text-lo);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.mod-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--card-accent, var(--gold));
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.mod-count svg { width: 12px; height: 12px; }
+
+.mod-arrow {
+  position: absolute;
+  top: 20px; right: 18px;
+  color: var(--border);
+  transition: color 0.2s, transform 0.2s;
+}
+.mod-card:hover .mod-arrow {
+  color: var(--card-accent, var(--gold));
+  transform: translate(2px, -2px);
+}
+.mod-arrow svg { width: 18px; height: 18px; }
+
+/* ── Recent section ──────────────────────────────── */
+.recent-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-mid);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.recent-title svg { width: 15px; height: 15px; color: var(--text-lo); }
+.recent-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 13px;
+}
+.recent-item:hover {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+.recent-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--bg2);
+  color: var(--text-lo);
+  flex-shrink: 0;
+}
+.recent-name {
+  font-weight: 500;
+  color: var(--text-hi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.recent-han {
+  color: var(--text-lo);
+  font-family: 'Noto Serif SC', serif;
+  margin-left: auto;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* ── Footer ──────────────────────────────────────── */
+.ft {
+  border-top: 1px solid var(--border);
+  padding: 20px 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-lo);
+  background: var(--surface);
+}
+.ft strong { color: var(--text-mid); font-weight: 600; }
+
+/* ── Module grid (T75 — direct-link cards) ─────── */
+.da-modules { max-width: 960px; margin: 0 auto; padding: 0 24px 56px; }
+.da-modules-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  margin-bottom: 20px;
+}
+.da-modules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 700px) { .da-modules-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 420px)  { .da-modules-grid { grid-template-columns: 1fr; } }
+
+.da-mod-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--mod-color, var(--gold));
+  border-radius: var(--r);
+  padding: 20px 16px 18px;
+  display: block;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.da-mod-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.da-mod-icon { font-size: 22px; margin-bottom: 10px; line-height: 1; }
+.da-mod-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-hi);
+  margin-bottom: 6px;
+}
+.da-mod-desc { font-size: 12px; color: var(--text-lo); line-height: 1.55; }
+
+/* ── Preview panel (click module) ───────────────── */
+.preview-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  margin-bottom: 32px;
+  animation: panelIn 0.2s ease;
+}
+.preview-panel.visible { display: block; }
+@keyframes panelIn {
+  from { opacity:0; transform:translateY(8px) }
+  to   { opacity:1; transform:translateY(0) }
+}
+.preview-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.preview-header h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-hi);
+}
+.preview-close {
+  margin-left: auto;
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-lo);
+  transition: color 0.15s;
+}
+.preview-close:hover { color: var(--text-hi); }
+.preview-close svg { width: 14px; height: 14px; }
+.preview-body {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+.preview-actions {
+  display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;
+}
+.preview-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  transition: opacity 0.15s;
+}
+.preview-btn.primary {
+  background: var(--gold);
+  color: var(--bg);
+}
+.preview-btn.secondary {
+  background: var(--bg2);
+  color: var(--text-hi);
+  border: 1px solid var(--border);
+}
+.preview-btn:hover { opacity: 0.85; }
+
+/* ── License section ───────────────────────────── */
+.lic-section {
+  max-width: 900px;
+  margin: 0 auto 48px;
+  padding: 0 20px;
+}
+.lic-heading {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 20px;
+}
+.lic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .lic-grid { grid-template-columns: 1fr; }
+}
+.lic-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+.lic-logo {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.lic-name {
+  font-size: 11px;
+  color: var(--text-lo);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.lic-body {
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+.lic-body em { color: var(--text-hi); font-style: normal; }
+.lic-body strong { color: var(--gold); font-weight: 600; }
+.lic-footer-note {
+  font-size: 11.5px;
+  color: var(--text-lo);
+  margin-top: 16px;
+  line-height: 1.6;
+  text-align: center;
+}
+.lic-footer-note a { color: var(--gold); text-decoration: none; }
+.lic-footer-note a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<!-- ── Header ─────────────────────────────────── -->
+<header class="hd">
+  <a class="hd-logo" href="/daoanh/home.html">
+    <div class="hd-logo-mark">道</div>
+    <div>
+      <div class="hd-logo-text">Đạo Ảnh</div>
+    </div>
+  </a>
+  <div class="hd-spacer"></div>
+  <nav class="hd-nav">
+    <a class="hd-nav-link active" href="/daoanh/home.html">Trang chủ</a>
+    <a class="hd-nav-link" href="/daoanh/places">Địa đồ</a>
+    <a class="hd-nav-link" href="/daoanh/about">Về Dự án</a>
+    <a class="hd-nav-link" href="/daoanh/opendata">Dữ liệu mở</a>
+    <a class="hd-nav-link" href="/daoanh/community">Cộng đồng</a>
+  </nav>
+  <button class="hd-theme-btn" id="themeBtn" title="Đổi sáng/tối" aria-label="Toggle theme">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="10" cy="10" r="4"/>
+      <path d="M10 2v1.5M10 16.5V18M2 10h1.5M16.5 10H18M4.5 4.5l1 1M14.5 14.5l1 1M4.5 15.5l1-1M14.5 5.5l1-1" stroke-linecap="round"/>
+    </svg>
+  </button>
+</header>
+
+<!-- ── Hero ──────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Kho dữ liệu Phật học · Đại Tạng Kinh Việt Nam</div>
+    <h1 class="hero-title">Tra cứu Kinh Văn,<br>Địa Danh & Tăng Nhân</h1>
+    <p class="hero-sub">Hệ thống tích hợp CBETA, DILA, Marcus SNA và 8,000+ địa danh Phật giáo toàn cầu</p>
+    <form class="search-wrap" onsubmit="handleSearch(event)">
+      <input class="search-input" id="heroSearch" type="search"
+        placeholder="Tìm kinh văn, tăng nhân, địa danh... (vd: Tâm Kinh, Thiếu Lâm, Huyền Trang)">
+      <button class="search-btn" type="submit">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="8.5" cy="8.5" r="5.5"/>
+          <path d="M15 15l-3.5-3.5" stroke-linecap="round"/>
+        </svg>
+        Tìm
+      </button>
+    </form>
+    <div class="search-tags">
+      <span class="search-tag" onclick="showPlaceDemo()">Thiếu Lâm Tự</span>
+      <span class="search-tag" onclick="setSearch('Huyền Trang')">Huyền Trang</span>
+      <span class="search-tag" onclick="setSearch('Tâm Kinh')">Tâm Kinh</span>
+      <span class="search-tag" onclick="setSearch('Long Môn Thạch Quật')">Long Môn</span>
+      <span class="search-tag" onclick="setSearch('Tổ Đình Thiền Lâm')">Thiền Lâm</span>
+    </div>
+
+    <!-- ── Thiếu Lâm Tự demo result panel ─── -->
+    <div class="sr-wrap" id="placeResult">
+      <div class="sr-card">
+        <div class="sr-head">
+          <div class="sr-names">
+            <div>
+              <span class="sr-name-vi">Thiếu Lâm Tự</span>
+              <span class="sr-name-han">少林寺</span>
+            </div>
+            <div class="sr-name-en">Shaolin Temple</div>
+          </div>
+          <span class="sr-type-badge">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="11" height="11"><path d="M8 1.5C5 1.5 2.5 4 2.5 7c0 4 5.5 7.5 5.5 7.5S13.5 11 13.5 7c0-3-2.5-5.5-5.5-5.5z"/><circle cx="8" cy="7" r="1.5"/></svg>
+            Địa Danh
+          </span>
+          <button class="sr-close" onclick="closePlaceDemo()" title="Đóng">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 3l10 10M13 3L3 13"/></svg>
+          </button>
+        </div>
+        <div class="sr-body">
+          <div class="sr-meta">
+            <div class="sr-grid">
+              <div class="sr-field">
+                <label>Vị trí</label>
+                <span>Đăng Phong, Hà Nam, Trung Quốc</span>
+              </div>
+              <div class="sr-field">
+                <label>Thành lập</label>
+                <span>495 AD (Bắc Ngụy)</span>
+              </div>
+              <div class="sr-field">
+                <label>Tông phái</label>
+                <span>Thiền Tông (Ch'an)</span>
+              </div>
+              <div class="sr-field">
+                <label>ID hệ thống</label>
+                <span style="font-family:monospace;font-size:12px">PL000000023255</span>
+              </div>
+              <div class="sr-field">
+                <label>Núi</label>
+                <span>Tung Sơn (嵩山)</span>
+              </div>
+              <div class="sr-field">
+                <label>Ghi chú</label>
+                <span class="muted">Xem thêm trên bản đồ</span>
+              </div>
+            </div>
+
+            <div class="sr-tags">
+              <span class="sr-tag">Tự viện</span>
+              <span class="sr-tag">Thiền Tông</span>
+              <span class="sr-tag">Trung Quốc</span>
+              <span class="sr-tag">Bắc Ngụy</span>
+            </div>
+
+            <div class="sr-sources">
+              <span class="sr-sources-label">Nguồn</span>
+              <span class="sr-source">DILA BGIS</span>
+              <span class="sr-source">CBETA</span>
+            </div>
+
+            <div class="sr-actions">
+              <a class="sr-btn primary" href="/daoanh/places.html?fly=34.5885,112.9343&select=PL000000023255">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 1.5C5 1.5 2.5 4 2.5 7c0 4 5.5 7.5 5.5 7.5S13.5 11 13.5 7c0-3-2.5-5.5-5.5-5.5z"/><circle cx="8" cy="7" r="1.5"/></svg>
+                Xem trên bản đồ
+              </a>
+              <button class="sr-btn secondary" onclick="alert('Liên kết đến trang chi tiết sẽ có sau.')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V9"/><path d="M13 1L7 7M9 1h4v4"/></svg>
+                Chi tiết đầy đủ
+              </button>
+            </div>
+          </div>
+
+          <!-- Mini map Leaflet -->
+          <div class="sr-map">
+            <div id="sr-minimap" style="width:100%;height:180px;border-radius:8px;overflow:hidden;z-index:1"></div>
+            <div class="sr-coord">34.5885° N, 112.9343° E</div>
+            <div class="sr-map-label">Đăng Phong · Hà Nam<br>Trung Quốc</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Stats strip ───────────────────────────── -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <span class="stat-num">8,241</span>
+    <span class="stat-label">Địa danh</span>
+  </div>
+  <div class="stat-dot"></div>
+  <div class="stat-item">
+    <span class="stat-num">13,520</span>
+    <span class="stat-label">Mục lục kinh</span>
+  </div>
+  <div class="stat-dot"></div>
+  <div class="stat-item">
+    <span class="stat-num">5,800+</span>
+    <span class="stat-label">Tu sĩ DILA</span>
+  </div>
+  <div class="stat-dot"></div>
+  <div class="stat-item">
+    <span class="stat-num">1,200+</span>
+    <span class="stat-label">Dòng truyền thừa</span>
+  </div>
+</div>
+
+<!-- ── Module cards (T75 — direct navigation) ──── -->
+<section class="da-modules">
+  <div class="da-modules-title">Khám phá theo chủ đề</div>
+  <div class="da-modules-grid">
+    <a class="da-mod-card" href="/daoanh/places"   style="--mod-color:#C9A84C">
+      <div class="da-mod-icon">🗺</div>
+      <div class="da-mod-name">Địa Danh</div>
+      <div class="da-mod-desc">Bản đồ 8,241 địa điểm Phật giáo toàn cầu — tự viện, tháp, hang đá, thánh địa</div>
+    </a>
+    <a class="da-mod-card" href="/daoanh/tripitaka" style="--mod-color:#8B5CF6">
+      <div class="da-mod-icon">📖</div>
+      <div class="da-mod-name">Đại Tạng</div>
+      <div class="da-mod-desc">13,520 mục kinh điển Hán tạng CBETA · SAT Tokyo</div>
+    </a>
+    <a class="da-mod-card" href="/daoanh/people"   style="--mod-color:#14B8A6">
+      <div class="da-mod-icon">🧘</div>
+      <div class="da-mod-name">Tu Sĩ</div>
+      <div class="da-mod-desc">Cao tăng, thiền sư, tổ sư — DILA Person Authority</div>
+    </a>
+    <a class="da-mod-card" href="/daoanh/lineage"  style="--mod-color:#F43F5E">
+      <div class="da-mod-icon">🌿</div>
+      <div class="da-mod-name">Truyền Thừa</div>
+      <div class="da-mod-desc">Dòng truyền, pháp mạch — Marcus SNA 1,200+ lineage</div>
+    </a>
+    <a class="da-mod-card" href="/daoanh/timeline"  style="--mod-color:#0EA5E9">
+      <div class="da-mod-icon">📅</div>
+      <div class="da-mod-name">Niên Đại</div>
+      <div class="da-mod-desc">Trục thời gian lịch sử Phật giáo — triều đại, sự kiện</div>
+    </a>
+    <a class="da-mod-card" href="/daoanh/graph"    style="--mod-color:#F59E0B">
+      <div class="da-mod-icon">🕸</div>
+      <div class="da-mod-name">Đồ Thị Quan Hệ</div>
+      <div class="da-mod-desc">Mạng lưới liên kết kinh điển · tăng nhân · địa danh</div>
+    </a>
+  </div>
+</section>
+
+<section class="lic-section" aria-label="Tuyên bố bản quyền dữ liệu">
+  <h2 class="lic-heading">Tuyên bố Pháp lý & Bản quyền Dữ liệu</h2>
+  <div class="lic-grid">
+    <div class="lic-card">
+      <div class="lic-logo">CBETA</div>
+      <div class="lic-name">Chinese Buddhist Electronic Text Association</div>
+      <div class="lic-body">
+        Dữ liệu kinh điển Hán văn (Đại Chính Tạng và các tạng khác) được cung cấp bởi
+        CBETA tại <em>cbeta.org</em>. Sử dụng theo giấy phép
+        <strong>CC BY-NC-SA 4.0</strong> — phi thương mại, ghi nguồn, chia sẻ tương tự.
+        Đạo Ảnh chỉ lập chỉ mục và tái trình bày; không sửa đổi nội dung gốc.
+      </div>
+    </div>
+    <div class="lic-card">
+      <div class="lic-logo">DILA</div>
+      <div class="lic-name">Dharma Drum Institute of Liberal Arts — BGIS</div>
+      <div class="lic-body">
+        Dữ liệu địa lý Phật giáo (Buddhist Geography Information System) do DILA phát
+        triển tại <em>dila.edu.tw</em>. Dùng cho mục đích nghiên cứu học thuật phi thương
+        mại. Đạo Ảnh tích hợp API địa danh BGIS; mọi quyền thuộc về DILA.
+      </div>
+    </div>
+    <div class="lic-card">
+      <div class="lic-logo">SNA</div>
+      <div class="lic-name">Marcus Bingenheimer — Buddhist Social Network Analysis</div>
+      <div class="lic-body">
+        Dữ liệu mạng lưới xã hội tăng nhân Phật giáo do Marcus Bingenheimer (Temple
+        University) biên soạn. Sử dụng theo điều khoản nghiên cứu học thuật; trích dẫn:
+        <em>Bingenheimer, M. et al.</em>. Đạo Ảnh hiển thị quan hệ mạng lưới; không
+        tái phân phối bộ dữ liệu gốc.
+      </div>
+    </div>
+  </div>
+  <p class="lic-footer-note">
+    Đạo Ảnh là hệ thống tra cứu độc lập, phi lợi nhuận. Không có liên kết thương mại
+    với bất kỳ nguồn dữ liệu nào ở trên. Nếu có vấn đề về bản quyền, vui lòng liên hệ
+    qua trang <a href="/daoanh/about">Về Dự án</a>.
+  </p>
+</section>
+
+<footer class="ft">
+  © 2026 <strong>Đạo Ảnh</strong> · Hệ thống tra cứu Đại Tạng Kinh Việt Nam ·
+  Dữ liệu: CBETA · DILA · Marcus SNA
+</footer>
+
+<script>
+/* ── Theme toggle ──────────────────────────────── */
+const themes = ['', 'light', 'dark'];
+let ti = 0;
+const btn = document.getElementById('themeBtn');
+btn.addEventListener('click', () => {
+  ti = (ti + 1) % themes.length;
+  const t = themes[ti];
+  if (t) document.documentElement.setAttribute('data-theme', t);
+  else document.documentElement.removeAttribute('data-theme');
+});
+
+/* ── Search ────────────────────────────────────── */
+function handleSearch(e) {
+  e.preventDefault();
+  const q = document.getElementById('heroSearch').value.trim();
+  if (!q) return;
+  if (q.includes('Thiếu Lâm') || q.includes('少林')) {
+    showPlaceDemo();
+    return;
+  }
+  window.location.href = '/daoanh/places?q=' + encodeURIComponent(q);
+}
+function setSearch(val) {
+  document.getElementById('heroSearch').value = val;
+  document.getElementById('heroSearch').focus();
+}
+
+/* ── Thiếu Lâm Tự demo panel ───────────────────── */
+let _minimap = null;
+function showPlaceDemo() {
+  document.getElementById('heroSearch').value = 'Thiếu Lâm Tự';
+  const panel = document.getElementById('placeResult');
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Init Leaflet minimap (lazy, once)
+  setTimeout(() => {
+    const el = document.getElementById('sr-minimap');
+    if (!el || _minimap) { if (_minimap) _minimap.invalidateSize(); return; }
+    _minimap = L.map(el, { zoomControl: true, attributionControl: false, scrollWheelZoom: true, dragging: true })
+      .setView([34.5885, 112.9343], 8);
+    L.tileLayer('https://mt1.google.com/vt/lyrs=m&hl=vi&x={x}&y={y}&z={z}', { maxZoom: 20 }).addTo(_minimap);
+    L.circleMarker([34.5885, 112.9343], {
+      radius: 8, color: '#B8941E', fillColor: '#B8941E', fillOpacity: 0.9, weight: 2
+    }).bindTooltip('少林寺 · Thiếu Lâm Tự', { permanent: true, direction: 'top', offset: [0, -10],
+      className: 'minimap-tip' }).addTo(_minimap).openTooltip();
+  }, 80);
+}
+function closePlaceDemo() {
+  document.getElementById('placeResult').classList.remove('visible');
+}
+
+</script>
+</body>
+</html>

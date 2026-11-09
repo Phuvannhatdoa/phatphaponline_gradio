@@ -1,0 +1,9 @@
+# PTDA Pilot - Python Dependencies
+# No external dependencies required for core extraction
+# Extraction uses only Python standard library (xml, hashlib, datetime)
+
+# Optional: For XSD validation (if needed)
+# xmlschema>=2.3.0
+
+# Optional: For better XML pretty-printing
+# lxml>=4.9.0

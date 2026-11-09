@@ -1,0 +1,9 @@
+=== T166 identity schema ===
+  [MISS] translation_cache.identity_status
+  [MISS] translation_cache.identity_issues
+  [MISS] translation_cache.identity_lock_hash
+  [MISS] translation_rules.identity_lock_policy
+
+  [MISS] index idx_tc_identity
+
+  translation_cache: 1771 row (0 có constitution_hash) — baseline cho mass-miss T166 §9

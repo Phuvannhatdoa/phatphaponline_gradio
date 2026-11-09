@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đạo Ảnh - Hệ thống Mapping Địa danh Phật giáo</title>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;600;800&family=Noto+Serif+Vietnamese:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #0a0c10;
+    --card-dark: #11151c;
+    --accent: #f59e0b;
+    --text-main: #e2e8f0;
+  }
+  body {
+    margin:0; padding:0; background: var(--bg-dark); color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .serif { font-family: 'Noto Serif Vietnamese', serif; }
+  .inter { font-family: 'Inter', sans-serif; }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  ::selection { background: #f59e0b30; color: var(--accent); }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+  @keyframes pulse-red { 0% { opacity:1; } 50% { opacity:0.5; } 100% { opacity:1; } }
+  .animate-pulse-red { animation: pulse-red 2s infinite; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo, useRef } = React;
+
+// Same-origin API base. Never hardcode host/port — works behind
+// local_gateway.py (8080) and behind VPS nginx alike.
+const API_BASE = '/daoanh/api/admin';
+
+const ICON_SVGS = {
+  'database': [24,24,['<ellipse cx="12" cy="5" rx="9" ry="3"/>','<path d="M3 5V19a9 3 0 0 0 18 0V5"/>','<path d="M3 12a9 3 0 0 0 18 0"/>']],
+  'search': [24,24,['<circle cx="11" cy="11" r="8"/>','<path d="m21 21-4.35-4.35"/>']],
+  'map-pin': [24,24,['<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>','<circle cx="12" cy="10" r="3"/>']],
+  'loader-2': [24,24,['<path d="M21 12a9 9 0 1 1-6.219-8.56"/>']],
+  'zap': [24,24,['<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>']],
+  'save': [24,24,['<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>','<polyline points="17 21 17 13 7 13 7 21"/>','<polyline points="7 3 7 8 15 8"/>']],
+  'languages': [24,24,['<path d="m5 8 6 6"/>','<path d="m4 14 6-6 2-3"/>','<path d="M2 5h12"/>','<path d="M7 2h1"/>','<path d="m22 22-5-10-5 10"/>','<path d="M14 18h6"/>']],
+  'graduation-cap': [24,24,['<path d="M22 10v6M2 10l10-5 10 5-10 5z"/>','<path d="M6 12v5c3 3 9 3 12 0v-5"/>']],
+  'milestone': [24,24,['<path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6Z"/>','<path d="M12 13v8"/>','<path d="M12 3v3"/>']],
+  'shield-check': [24,24,['<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>','<path d="m9 12 2 2 4-4"/>']],
+  'sparkles': [24,24,['<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>','<path d="M5 3v4"/>','<path d="M19 17v4"/>','<path d="M3 5h4"/>','<path d="M17 19h4"/>']],
+  'globe': [24,24,['<circle cx="12" cy="12" r="10"/>','<path d="M2 12h20"/>','<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>']],
+  'file-text': [24,24,['<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>','<path d="M14 2v4a2 2 0 0 0 2 2h4"/>','<path d="M10 9H8"/>','<path d="M16 13H8"/>','<path d="M16 17H8"/>']],
+  'alert-circle': [24,24,['<circle cx="12" cy="12" r="10"/>','<line x1="12" y1="8" x2="12" y2="12"/>','<line x1="12" y1="16" x2="12.01" y2="16"/>']],
+  'check-circle-2': [24,24,['<circle cx="12" cy="12" r="10"/>','<path d="m9 12 2 2 4-4"/>']],
+  'quote': [24,24,['<path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25 .75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>','<path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25 .75 2 2 2h.75c0 2.25 .25 4-2.75 4v3c0 1 0 1 1 1z"/>']],
+  'info': [24,24,['<circle cx="12" cy="12" r="10"/>','<path d="M12 16v-4"/>','<path d="M12 8h.01"/>']],
+  'scale': [24,24,['<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>','<path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>','<path d="M7 21h10"/>','<path d="M12 3v18"/>','<path d="M5 8h14"/>']],
+  'alert-triangle': [24,24,['<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>','<path d="M12 9v4"/>','<path d="M12 17h.01"/>']],
+};
+
+const LucideIcon = ({ name, className, ...props }) => {
+  const icon = ICON_SVGS[name];
+  if (icon) {
+    const [w, h, pathsArr] = icon;
+    const paths = Array.isArray(pathsArr) ? pathsArr.join('') : (pathsArr || '');
+    return <span dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${className || ''}">${paths}</svg>` }} />;
+  }
+  return <i className={className} {...props}></i>;
+};
+
+const stepTitles = [
+  'B0: Backup DB',
+  'B1: Fix 3.800 ID',
+  'B2: Add DB Columns',
+  'B3: Load Dictionary',
+  'B4: Edit 7 Rules',
+  'B5: Gemini Batch 1',
+  'B7: Sample 100 Review',
+  'B8: Gemini Batch 2',
+  'B9: Report'
+];
+
+const stepDescriptions = [
+  'Backup database lineage.db để khôi phục nếu xảy ra lỗi.',
+  'Xem preview 3.800 ID và chọn ID để sửa. Export CSV nếu cần.',
+  'Tự động thêm cột source, needs_review, reason, updated_at vào DB.',
+  'Tự động load 2.446 từ điển vào DB.',
+  'Form table: Hán | Cũ | Mới, save inline. Cập nhật 7 rules.',
+  'Real-time progress + log stream (polling) + error list.',
+  'View grid + hierarchical filter + checkbox + Approve 100 rows.',
+  'Real-time progress + log + error list (như B5).',
+  'Stats + missing/duplicate list + 3 CSV downloads.'
+];
+
+// stepTitles/stepDescriptions already fold the "no B6" gap into their
+// positional index (9 entries: B0,B1,B2,B3,B4,B5,B7,B8,B9), so the wizard
+// position maps 1:1 onto that index — no separate skip-list needed.
+const stepOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+async function postJSON(path, body) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body || {})
+  });
+  let data = null;
+  try { data = await res.json(); } catch (e) { /* non-JSON response */ }
+  if (!res.ok) {
+    throw new Error((data && data.error) || `HTTP ${res.status}`);
+  }
+  return data;
+}
+
+// ── Step components (declared before use in stepComponents map below) ──
+
+const BackupStep = ({ data, update, setMessage }) => {
+  const [busy, setBusy] = useState(false);
+  const run = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/backup', {});
+      update({ backup_status: 'done', backup_path: resp.backup_path });
+      setMessage({ type: 'success', text: resp.message || 'Backup xong' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Backup lỗi: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="p-8">
+      <h2 className="text-xl font-bold mb-6">T444 Wizard — {stepTitles[0]}</h2>
+      <p className="text-slate-400 mb-4">{stepDescriptions[0]}</p>
+      <div className="space-y-4">
+        <button
+          onClick={run}
+          disabled={busy}
+          className="bg-amber-600 hover:bg-amber-500 disabled:opacity-50 px-4 py-2 rounded text-[10px] font-black uppercase"
+        >
+          {busy ? 'Đang backup…' : 'Backup Database Now'}
+        </button>
+        {data.backup_status !== 'idle' && (
+          <p className="text-sm text-emerald-400">{data.backup_status}: {data.backup_path || ''}</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const FixIdStep = ({ data, update, setMessage }) => {
+  const [busy, setBusy] = useState(false);
+  const loadPreview = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/fix-ids', { action: 'preview' });
+      update({ count: resp.count, csv_ready: false });
+      setMessage({ type: 'success', text: resp.message || 'Preview loaded' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi preview: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  const exportCsv = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/fix-ids', { action: 'export', selected_ids: data.selected_ids || [] });
+      update({ csv_ready: true });
+      setMessage({ type: 'success', text: resp.message || 'CSV exported' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi export: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="p-8">
+      <h2 className="text-xl font-bold mb-6">T444 Wizard — {stepTitles[1]}</h2>
+      <p className="text-slate-400 mb-4">{stepDescriptions[1]}</p>
+      <div className="space-y-4">
+        <p className="text-sm text-slate-500">Số ID cần fix: {data.count || 3800}</p>
+        <button onClick={loadPreview} disabled={busy} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 px-4 py-2 rounded">
+          Load Preview
+        </button>
+        <p className="text-xs text-slate-500">Chọn ID để sửa: <span className="font-mono">{(data.selected_ids || []).length}</span></p>
+        <button onClick={exportCsv} disabled={busy} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 px-4 py-2 rounded mt-2">
+          Export CSV
+        </button>
+        {data.csv_ready && <p className="text-xs text-emerald-400">CSV sẵn sàng.</p>}
+      </div>
+    </div>
+  );
+};
+
+const SchemaStep = ({ data, update, setMessage }) => {
+  const [busy, setBusy] = useState(false);
+  const apply = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/load-schema', {});
+      update({ schema_applied: true });
+      setMessage({ type: 'success', text: resp.message || 'Schema applied' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi schema: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="p-8">
+      <h2 className="text-xl font-bold mb-6">T444 Wizard — {stepTitles[2]}</h2>
+      <p className="text-slate-400 mb-4">{stepDescriptions[2]}</p>
+      <div className="space-y-4">
+        <button onClick={apply} disabled={busy} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 px-4 py-2 rounded">
+          {busy ? 'Đang áp dụng…' : 'Apply Schema'}
+        </button>
+        <p className="text-xs text-slate-500">Cột cần thêm: source, needs_review, reason, updated_at</p>
+        {data.schema_applied && <p className="text-xs text-emerald-400">Schema đã áp dụng.</p>}
+      </div>
+    </div>
+  );
+};
+
+const DictionaryStep = ({ data, update, setMessage }) => {
+  const [busy, setBusy] = useState(false);
+  const load = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/load-dictionary', {});
+      update({ dictionary_loaded: true, count: resp.count });
+      setMessage({ type: 'success', text: resp.message || 'Dictionary loaded' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi load dictionary: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="p-8">
+      <h2 className="text-xl font-bold mb-6">T444 Wizard — {stepTitles[3]}</h2>
+      <p className="text-slate-400 mb-4">{stepDescriptions[3]}</p>
+      <div className="space-y-4">
+        <button onClick={load} disabled={busy} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 px-4 py-2 rounded">
+          {busy ? 'Đang load…' : 'Load Dictionary'}
+        </button>
+        {data.dictionary_loaded && <p className="text-xs text-emerald-400">{data.count || 0} từ điển đã load vào DB.</p>}
+      </div>
+    </div>
+  );
+};
+
+const RulesStep = ({ data, update, setMessage }) => {
+  const [busy, setBusy] = useState(false);
+  const save = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/update-rules', { rules: data.rules || [] });
+      update({ pending_save: false });
+      setMessage({ type: 'success', text: resp.message || 'Rules updated' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi lưu rules: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="p-8">
+      <h2 className="text-xl font-bold mb-6">T444 Wizard — {stepTitles[4]}</h2>
+      <p className="text-slate-400 mb-4">{stepDescriptions[4]}</p>
+      <div className="space-y-4">
+        <p className="text-sm text-slate-500">7 rules editing form (Hán | Cũ | Mới) — chờ T444 cấp dữ liệu rule thật.</p>
+        <button onClick={save} disabled={busy} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 px-4 py-2 rounded">
+          Update Rules
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const BatchMonitorStep = ({ data, update, setMessage, bCode }) => {
+  const [busy, setBusy] = useState(false);
+  const start = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/batch-start', { step: bCode });
+      update({ batch_status: resp.status || 'running' });
+      setMessage({ type: 'success', text: 'Batch started' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi start batch: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  // Poll /daoanh/api/admin/batch-monitor every 2s while this step is active
+  // and a batch is running (replaces the WebSocket in the original spec —
+  // this app.py's Flask setup does not have WS support).
+  useEffect(() => {
+    if (data.batch_status !== 'running') return undefined;
+    let cancelled = false;
+    const tick = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/batch-monitor`);
+        const json = await res.json();
+        if (!cancelled) {
+          update({
+            progress: json.progress || 0,
+            logs: json.logs || [],
+            errors: json.errors || [],
+            batch_status: json.status || data.batch_status
+          });
+        }
+      } catch (e) { /* network hiccup, keep polling */ }
+    };
+    tick();
+    const id = setInterval(tick, 2000);
+    return () => { cancelled = true; clearInterval(id); };
+  }, [data.batch_status]);
+
+  return (
+    <div className="p-8">
+      <h2 className="text-xl font-bold mb-6">T444 Wizard — {stepTitles[bCode === 'b5' ? 5 : 7]}</h2>
+      <p className="text-slate-400 mb-4">{stepDescriptions[bCode === 'b5' ? 5 : 7]}</p>
+      <div className="space-y-4">
+        <p className="text-sm text-slate-500">Batch status: {data.batch_status || 'idle'}</p>
+        <p className="text-sm text-slate-500">Progress: {data.progress || 0}%</p>
+        <button onClick={start} disabled={busy || data.batch_status === 'running'} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 px-4 py-2 rounded">
+          {data.batch_status === 'running' ? 'Đang chạy…' : 'Start Batch'}
+        </button>
+        <div className="space-y-1 max-h-40 overflow-y-auto custom-scrollbar">
+          {(data.logs || []).map((log, i) => (
+            <p key={i} className="text-[9px] text-slate-400">{log}</p>
+          ))}
+        </div>
+        {(data.errors || []).length > 0 && (
+          <div>
+            <p className="text-sm text-red-400">Lỗi ({data.errors.length}):</p>
+            {data.errors.slice(0, 5).map((err, i) => (
+              <p key={i} className="text-[9px] text-red-300">{err}</p>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const SampleStep = ({ data, update, setMessage }) => {
+  const [busy, setBusy] = useState(false);
+  const load = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/approve-sample', { action: 'load', category: data.categoryFilter || '' });
+      update({ sample_data: resp.sample || [] });
+      setMessage({ type: 'success', text: resp.message || 'Sample loaded' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi load sample: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  const approve = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/approve-sample', { action: 'approve', selected: data.selected || [] });
+      setMessage({ type: 'success', text: resp.message || 'Sample approved' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi approve: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="p-8">
+      <h2 className="text-xl font-bold mb-6">T444 Wizard — {stepTitles[6]}</h2>
+      <p className="text-slate-400 mb-4">{stepDescriptions[6]}</p>
+      <div className="space-y-4">
+        <input
+          type="text"
+          value={data.categoryFilter || ''}
+          onChange={e => update({ categoryFilter: e.target.value })}
+          placeholder="Filter by category..."
+          className="w-full bg-transparent border border-slate-700 rounded px-3 py-2 text-[10px] mb-4"
+        />
+        <button onClick={load} disabled={busy} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 px-4 py-2 rounded">
+          Load Sample
+        </button>
+        <p className="text-xs text-slate-500">{(data.sample_data || []).length} rows ready for review</p>
+        <button onClick={approve} disabled={busy || !(data.sample_data || []).length} className="bg-amber-600 hover:bg-amber-500 disabled:opacity-50 px-4 py-2 rounded">
+          Approve Selected
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ReportStep = ({ data, update, setMessage }) => {
+  const [busy, setBusy] = useState(false);
+  const stats = data.stats || { ok: 0, review: 0, error: 0 };
+  const generate = async () => {
+    setBusy(true);
+    try {
+      const resp = await postJSON('/report', {});
+      update({ stats: resp.stats, missing: resp.missing || [], duplicate: resp.duplicate || [] });
+      setMessage({ type: 'success', text: 'Report generated' });
+    } catch (e) {
+      setMessage({ type: 'error', text: `Lỗi report: ${e.message}` });
+    } finally {
+      setBusy(false);
+    }
+  };
+  const downloadCsv = (type) => {
+    window.open(`${API_BASE}/export-csv?type=${type}`, '_blank');
+  };
+  return (
+    <div className="p-8">
+      <h2 className="text-xl font-bold mb-6">T444 Wizard — {stepTitles[8]}</h2>
+      <p className="text-slate-400 mb-4">{stepDescriptions[8]}</p>
+      <div className="grid grid-cols-3 gap-4">
+        <div>
+          <p className="text-sm text-slate-500">OK</p>
+          <p className="text-2xl font-bold text-emerald-500">{stats.ok}</p>
+        </div>
+        <div>
+          <p className="text-sm text-slate-500">Review</p>
+          <p className="text-2xl font-bold text-amber-500">{stats.review}</p>
+        </div>
+        <div>
+          <p className="text-sm text-slate-500">Error</p>
+          <p className="text-2xl font-bold text-rose-500">{stats.error}</p>
+        </div>
+      </div>
+      <div className="mt-6">
+        <button onClick={generate} disabled={busy} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 px-4 py-2 rounded">
+          Generate Report
+        </button>
+      </div>
+      <div className="mt-6 space-y-2">
+        <p className="text-sm text-slate-500">Missing: {(data.missing || []).length}</p>
+        <p className="text-sm text-slate-500">Duplicate: {(data.duplicate || []).length}</p>
+        <div className="flex gap-2 mt-2">
+          <button onClick={() => downloadCsv('missing')} className="bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded text-[10px]">CSV Missing</button>
+          <button onClick={() => downloadCsv('duplicate')} className="bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded text-[10px]">CSV Duplicate</button>
+          <button onClick={() => downloadCsv('full')} className="bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded text-[10px]">CSV Full</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Maps logical step index (see stepOrder) -> component + stepData key.
+const stepComponents = {
+  0: { Component: BackupStep, key: 'b0' },
+  1: { Component: FixIdStep, key: 'b1' },
+  2: { Component: SchemaStep, key: 'b2' },
+  3: { Component: DictionaryStep, key: 'b3' },
+  4: { Component: RulesStep, key: 'b4' },
+  5: { Component: BatchMonitorStep, key: 'b5' },
+  6: { Component: SampleStep, key: 'b7' },
+  7: { Component: BatchMonitorStep, key: 'b8' },
+  8: { Component: ReportStep, key: 'b9' }
+};
+
+const WIZARD_RESUME_KEY = 't445_wizard_step';
+
+function App() {
+  // ── wizard navigation state ──────────────────────────────────────
+  const [wizardStep, setWizardStep] = useState(() => {
+    try {
+      const saved = parseInt(window.localStorage.getItem(WIZARD_RESUME_KEY) || '0', 10);
+      return Number.isFinite(saved) && saved >= 0 && saved < stepOrder.length ? saved : 0;
+    } catch (e) { return 0; }
+  });
+
+  useEffect(() => {
+    try { window.localStorage.setItem(WIZARD_RESUME_KEY, String(wizardStep)); } catch (e) { /* ignore */ }
+  }, [wizardStep]);
+
+  // ── per-step data state ───────────────────────────────────────────
+  const [stepData, setStepData] = useState({
+    b0: { backup_status: 'idle', backup_path: null },
+    b1: { count: 3800, selected_ids: [], csv_ready: false },
+    b2: { schema_applied: false },
+    b3: { dictionary_loaded: false, count: 0 },
+    b4: { rules: [], editing_id: null, pending_save: false },
+    b5: { batch_status: 'idle', progress: 0, logs: [], errors: [] },
+    b7: { sample_data: [], categoryFilter: '', selected: [] },
+    b8: { batch_status: 'idle', progress: 0, logs: [], errors: [] },
+    b9: { stats: { ok: 0, review: 0, error: 0 }, missing: [], duplicate: [] }
+  });
+
+  const [message, setMessage] = useState(null);
+  useEffect(() => {
+    if (!message) return undefined;
+    const t = setTimeout(() => setMessage(null), 4000);
+    return () => clearTimeout(t);
+  }, [message]);
+
+  const activeCode = stepOrder[wizardStep];
+  const entry = stepComponents[activeCode];
+
+  if (!entry) {
+    return <div className="p-8 text-center"><h2>Step {wizardStep + 1}/{stepOrder.length}</h2><p>Step chưa triển khai</p></div>;
+  }
+
+  const { Component: StepComponent, key: dataKey } = entry;
+  const update = (patch) => setStepData(prev => ({ ...prev, [dataKey]: { ...prev[dataKey], ...patch } }));
+  const extraProps = (dataKey === 'b5' || dataKey === 'b8') ? { bCode: dataKey } : {};
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      {/* Header */}
+      <header className="sticky top-0 z-10 border-b border-slate-800/30 bg-[var(--card-dark)] p-6 flex items-center justify-between">
+        <h1 className="text-2xl font-black text-white">T444 Gemini Places Wizard</h1>
+        <div className="text-sm text-slate-500">
+          Step {wizardStep + 1}/{stepOrder.length} — {stepTitles[activeCode]}
+        </div>
+      </header>
+
+      {/* Toast */}
+      {message && (
+        <div className={`fixed top-20 right-6 z-20 px-4 py-2 rounded text-xs font-bold ${message.type === 'error' ? 'bg-rose-600' : message.type === 'info' ? 'bg-slate-700' : 'bg-emerald-600'}`}>
+          {message.text}
+        </div>
+      )}
+
+      {/* Wizard Content */}
+      <main className="flex-1 overflow-y-auto custom-scrollbar">
+        <StepComponent data={stepData[dataKey]} update={update} setMessage={setMessage} {...extraProps} />
+      </main>
+
+      {/* Footer Navigation */}
+      <footer className="sticky bottom-0 border-t border-slate-800/30 bg-[var(--card-dark)] p-6 flex justify-between items-center">
+        <button
+          onClick={() => setWizardStep(s => Math.max(s - 1, 0))}
+          disabled={wizardStep === 0}
+          className="bg-slate-700 hover:bg-slate-600 disabled:opacity-40 px-4 py-2 rounded text-[10px] font-black uppercase transition-colors"
+        >
+          ← Back
+        </button>
+        <div className="text-xs text-slate-500">Step {wizardStep + 1}/{stepOrder.length}</div>
+        <button
+          onClick={() => setWizardStep(s => Math.min(s + 1, stepOrder.length - 1))}
+          disabled={wizardStep === stepOrder.length - 1}
+          className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 px-4 py-2 rounded text-[10px] font-black uppercase transition-colors"
+        >
+          Next →
+        </button>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

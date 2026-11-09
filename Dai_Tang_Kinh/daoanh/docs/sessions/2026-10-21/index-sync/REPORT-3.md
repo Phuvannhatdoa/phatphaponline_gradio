@@ -1,0 +1,462 @@
+# REPORT-3 — dong bo index ve HEAD (2026-10-21)
+
+- HEAD (khong doi): `164beef12d12157772cfe6fc09f6d19c9cc89f53`
+- Staged truoc: `M Dai_Tang_Kinh/daoanh/.opencode/opencode.json`
+- Staged sau: rong (`git diff --cached --name-status`)
+- File: `Dai_Tang_Kinh/daoanh/.opencode/opencode.json` — ton tai tren dia: True; `git diff HEAD -- <file>` rong
+- Backup index goc: `index-sync/index.before-fix3.bak` (460285 bytes)
+- Baseline: `index-sync/pre-fix3.txt`
+- Rollback: copy `index.before-fix3.bak` de ghi de `.git/index` (chi thay index, khong dong vao worktree/HEAD)
+
+## git status --short sau fix
+```
+ M AGENTS.md
+ M Dai_Tang_Kinh/.claude/agents/opencode.md
+ M Dai_Tang_Kinh/.claude/agents/openrouter.md
+ M Dai_Tang_Kinh/.claude/skills/daoanh-task/SKILL.md
+ M Dai_Tang_Kinh/agents/SESSION.md
+ M Dai_Tang_Kinh/daoanh/.claude/settings.json
+ M Dai_Tang_Kinh/daoanh/.opencode/skills/daoanh-task/SKILL.md
+ M Dai_Tang_Kinh/daoanh/AGENTS.md
+ M Dai_Tang_Kinh/daoanh/admin/index.html
+ M Dai_Tang_Kinh/daoanh/admin/namevimap.html
+ M Dai_Tang_Kinh/daoanh/admin/placevn.html
+ M Dai_Tang_Kinh/daoanh/app.py
+ D Dai_Tang_Kinh/daoanh/app_5002.log.err
+ M Dai_Tang_Kinh/daoanh/app_local.err
+ D Dai_Tang_Kinh/daoanh/app_local.log.err
+ D Dai_Tang_Kinh/daoanh/app_local2.err
+ D Dai_Tang_Kinh/daoanh/app_local_t360.err
+ D Dai_Tang_Kinh/daoanh/check_schema.py
+ M Dai_Tang_Kinh/daoanh/dashboard/dashboard_process.html
+ M Dai_Tang_Kinh/daoanh/docs/Mimo-Flash/X-T171-person-name-standard.md
+ M Dai_Tang_Kinh/daoanh/docs/ROLLBACK.md
+ M Dai_Tang_Kinh/daoanh/docs/bugs.md
+ M Dai_Tang_Kinh/daoanh/docs/process/HARNESS_WORKFLOW.md
+ D Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-19/BUG-036/places.html.bak
+ D Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-19/BUG-041/places.html.bak
+ D Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-19/BUG-043/places.html.bak
+ D Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-19/places.html.bak
+ D Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-19/places.html.round2.applied.bak
+ D Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-19/places.html.round2.bak
+ D Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-20/T430/places.html.bak
+ D Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-20/T435/namevimap.html.bak
+ M Dai_Tang_Kinh/daoanh/docs/tasktodo.md
+ D Dai_Tang_Kinh/daoanh/gateway_backend.err
+ D Dai_Tang_Kinh/daoanh/gateway_local.err
+ D Dai_Tang_Kinh/daoanh/gateway_local.log.err
+ M Dai_Tang_Kinh/daoanh/index.html
+ M Dai_Tang_Kinh/daoanh/local_gateway.py
+ M Dai_Tang_Kinh/daoanh/places.html
+ M Dai_Tang_Kinh/daoanh/scripts/ai_batch_transliterate_places_districts.py
+ M Dai_Tang_Kinh/daoanh/scripts/audit_h3_conflicts.py
+ M Dai_Tang_Kinh/daoanh/scripts/backup_db_daily.py
+ M Dai_Tang_Kinh/daoanh/scripts/bgis_spatial_join.py
+ M Dai_Tang_Kinh/daoanh/scripts/build3_license_firewall.py
+ M Dai_Tang_Kinh/daoanh/scripts/build3_source_registry_extend.py
+ M Dai_Tang_Kinh/daoanh/scripts/cbeta_build_text_passages.py
+ D Dai_Tang_Kinh/daoanh/scripts/dila_dynasty_range_extract.py
+ D Dai_Tang_Kinh/daoanh/scripts/dila_note_founding_extract.py
+ M Dai_Tang_Kinh/daoanh/scripts/etl_entity_claims.py
+ M Dai_Tang_Kinh/daoanh/scripts/etl_gen_compute.py
+ M Dai_Tang_Kinh/daoanh/scripts/notify_done.ps1
+ D Dai_Tang_Kinh/daoanh/scripts/t22_ld1_fix_era_name_founding.py
+ D Dai_Tang_Kinh/daoanh/scripts/t22_ld2_dynasty_era_lookup.py
+ D Dai_Tang_Kinh/daoanh/scripts/t22_ld3_review_remaining.py
+ D Dai_Tang_Kinh/daoanh/scripts/t22d_regex_dila_notes.py
+ D Dai_Tang_Kinh/daoanh/scripts/t80_founding_coverage.py
+ M Dai_Tang_Kinh/daoanh/scripts/tester-agent.mjs
+ D Dai_Tang_Kinh/daoanh/server_local.err
+ M Dai_Tang_Kinh/daoanh/sync_to_vps.ps1
+ D Dai_Tang_Kinh/daoanh/tasks/BUG-012-persistent-marker-refire-selectitem.md
+ D Dai_Tang_Kinh/daoanh/tasks/BUG-013-unified-dila-null-places-fallback.md
+ D Dai_Tang_Kinh/daoanh/tasks/BUG-014-nexus-giat-lag-canh-chong-cheo-khi-mo-ho-so-dila.md
+ M Dai_Tang_Kinh/daoanh/tasks/BUG-025-cay-ve-sai-thay-quy-son-linh-huu-tu-nghia-tan-thay-vi-hoai-hai.md
+ D Dai_Tang_Kinh/daoanh/tasks/G208-safe-commit-revert-procedure.md
+ D Dai_Tang_Kinh/daoanh/tasks/T100-academic-16-tabs-framework.md
+ D Dai_Tang_Kinh/daoanh/tasks/T101-graph-nexus-bug-fix.md
+ D Dai_Tang_Kinh/daoanh/tasks/T108-schema-design.md
+ D Dai_Tang_Kinh/daoanh/tasks/T109-provenance-conflict-workflow.md
+ D Dai_Tang_Kinh/daoanh/tasks/T110-glossary-vietnamese-pipeline.md
+ D Dai_Tang_Kinh/daoanh/tasks/T111-persona-display-disclaimer.md
+ D Dai_Tang_Kinh/daoanh/tasks/T112-source-pending-activation.md
+ D Dai_Tang_Kinh/daoanh/tasks/T113-qa-uat-compliance-meter.md
+ D Dai_Tang_Kinh/daoanh/tasks/T114-roadmap-meta-update.md
+ D Dai_Tang_Kinh/daoanh/tasks/T115-source-authority-matrix-referee.md
+ D Dai_Tang_Kinh/daoanh/tasks/T116-system-registry-handover.md
+ D Dai_Tang_Kinh/daoanh/tasks/T118-research-audit-tier-api.md
+ D Dai_Tang_Kinh/daoanh/tasks/T119-editor-dashboard-bulk-review.md
+ D Dai_Tang_Kinh/daoanh/tasks/T120-unified-lookup-wikidata-enrichment.md
+ D Dai_Tang_Kinh/daoanh/tasks/T122-batch-d-immediate-fix-bundle.md
+ D Dai_Tang_Kinh/daoanh/tasks/T123-style-constitution-ban-dich-ptda.md
+ D Dai_Tang_Kinh/daoanh/tasks/T124-deepsearch-ui-safe-fallback.md
+ D Dai_Tang_Kinh/daoanh/tasks/T125-qa-tab-safe-fallback.md
+ D Dai_Tang_Kinh/daoanh/tasks/T126-qa-backend-real.md
+ D Dai_Tang_Kinh/daoanh/tasks/T127-tree-design-system-refactor.md
+ D Dai_Tang_Kinh/daoanh/tasks/T128-relation-detail-panel-translate-reader.md
+ D Dai_Tang_Kinh/daoanh/tasks/T129-pedigree-refinement.md
+ D Dai_Tang_Kinh/daoanh/tasks/T130-phap-mach-direct-lineage.md
+ D Dai_Tang_Kinh/daoanh/tasks/T131-b21-source-governance-refine.md
+ D Dai_Tang_Kinh/daoanh/tasks/T132-b25-trusted-source-conformance.md
+ D Dai_Tang_Kinh/daoanh/tasks/T133-ops-quality-golive.md
+ D Dai_Tang_Kinh/daoanh/tasks/T134-curation-workflow-conformance.md
+ D Dai_Tang_Kinh/daoanh/tasks/T135-doctrine-retrieval-conformance.md
+ D Dai_Tang_Kinh/daoanh/tasks/T136-conflict-engine-conformance.md
+ D Dai_Tang_Kinh/daoanh/tasks/T137-zen-lineage-integration-audit.md
+ D Dai_Tang_Kinh/daoanh/tasks/T138-zen-lineage-render-policy.md
+ D Dai_Tang_Kinh/daoanh/tasks/T140-phap-mach-ui-ux-fix.md
+ D Dai_Tang_Kinh/daoanh/tasks/T141-nexus-busbar-truyenthua-arrows.md
+ D Dai_Tang_Kinh/daoanh/tasks/T142-nexus-sidebar-toggle-smooth-expand.md
+ D Dai_Tang_Kinh/daoanh/tasks/T143-sidebar-toggle-goc-1h-unified.md
+ D Dai_Tang_Kinh/daoanh/tasks/T144-nexus-doubleclick-set-root.md
+ D Dai_Tang_Kinh/daoanh/tasks/T145-bio-vi-admin-editor-inspector.md
+ D Dai_Tang_Kinh/daoanh/tasks/T146-optimal-solution-docs-closure.md
+ D Dai_Tang_Kinh/daoanh/tasks/T147-dila-person-index-and-translate-persist-fix.md
+ D Dai_Tang_Kinh/daoanh/tasks/T148-dila-full-inspector.md
+ D Dai_Tang_Kinh/daoanh/tasks/T149-fix-name-zh-import-bug.md
+ D Dai_Tang_Kinh/daoanh/tasks/T150-lineage-audit-review-pipeline.md
+ D Dai_Tang_Kinh/daoanh/tasks/T150b-reseed-namevi-post-t149.md
+ D Dai_Tang_Kinh/daoanh/tasks/T151-phap-mach-ancestor-spine-docs-closure.md
+ D Dai_Tang_Kinh/daoanh/tasks/T152-phap-mach-spine-code-telemetry.md
+ D Dai_Tang_Kinh/daoanh/tasks/T153-dila-index-unified-tabbar.md
+ D Dai_Tang_Kinh/daoanh/tasks/T154-agents-readme-refresh.md
+ D Dai_Tang_Kinh/daoanh/tasks/T155-repo-hygiene-ssot-guard.md
+ D Dai_Tang_Kinh/daoanh/tasks/T156-lineage-relation-conflict-comparison.md
+ D Dai_Tang_Kinh/daoanh/tasks/T157-dila-direction-inversion-fix.md
+ D Dai_Tang_Kinh/daoanh/tasks/T158-lineage-consensus.md
+ D Dai_Tang_Kinh/daoanh/tasks/T159-fix-phap-tu-translation.md
+ D Dai_Tang_Kinh/daoanh/tasks/T160-deploy-pipeline-local-to-vps.md
+ D Dai_Tang_Kinh/daoanh/tasks/T161-bug-fix-batch-nexus-evidence-api.md
+ D Dai_Tang_Kinh/daoanh/tasks/T163-unify-dila-lineage-relation-card.md
+ D Dai_Tang_Kinh/daoanh/tasks/T164-lineage-tree-ui-cleanup.md
+ D Dai_Tang_Kinh/daoanh/tasks/T165-dash-regen-t130-closure.md
+ D Dai_Tang_Kinh/daoanh/tasks/T166-bio-edit-write-path-guard.md
+ D Dai_Tang_Kinh/daoanh/tasks/T166-dashboard-hygiene-batch.md
+ M Dai_Tang_Kinh/daoanh/tasks/T167-rules-constrained-buddhist-translation-engine.md
+ D Dai_Tang_Kinh/daoanh/tasks/T168-t165-spec-v2-review-accepted.md
+ D Dai_Tang_Kinh/daoanh/tasks/T169-place-groq-audit-build.md
+ D Dai_Tang_Kinh/daoanh/tasks/T169-t165-engine-build.md
+ D Dai_Tang_Kinh/daoanh/tasks/T170-dila-place-person-v41-amend.md
+ D Dai_Tang_Kinh/daoanh/tasks/T170-dila-place-person-v41-verify.md
+ D Dai_Tang_Kinh/daoanh/tasks/T172-hanviet-charwise-debug.md
+ D Dai_Tang_Kinh/daoanh/tasks/T178-t165-build-gap-d3-13-17.md
+ D Dai_Tang_Kinh/daoanh/tasks/T179-per-rule-fingerprint-phase8.md
+ D Dai_Tang_Kinh/daoanh/tasks/T18-bdrc-integration-decision.md
+ D Dai_Tang_Kinh/daoanh/tasks/T181-cbeta-bulk-import-lazy-translate.md
+ D Dai_Tang_Kinh/daoanh/tasks/T182-t168-plan-correction.md
+ D Dai_Tang_Kinh/daoanh/tasks/T184-t169-spec-verify-fixes.md
+ D Dai_Tang_Kinh/daoanh/tasks/T185-ttl-full-import.md
+ D Dai_Tang_Kinh/daoanh/tasks/T186-ttl-persons-vn-lineage.md
+ D Dai_Tang_Kinh/daoanh/tasks/T187-primary-teacher-classification.md
+ D Dai_Tang_Kinh/daoanh/tasks/T188-t171-spec-logic-fixes.md
+ D Dai_Tang_Kinh/daoanh/tasks/T189-t170-build-docs-correct.md
+ D Dai_Tang_Kinh/daoanh/tasks/T190-t171-build-docs-correction.md
+ D Dai_Tang_Kinh/daoanh/tasks/T191-t172-build-docs-correction.md
+ D Dai_Tang_Kinh/daoanh/tasks/T192-t173-plan-doc-correction.md
+ D Dai_Tang_Kinh/daoanh/tasks/T193-t174-plan-doc-correction.md
+ D Dai_Tang_Kinh/daoanh/tasks/T194-t176-plan-doc-correction.md
+ D Dai_Tang_Kinh/daoanh/tasks/T195-t176-p0-correction.md
+ D Dai_Tang_Kinh/daoanh/tasks/T196-git-update-ref-master-blocked.md
+ D Dai_Tang_Kinh/daoanh/tasks/T197-t177-review-correction.md
+ D Dai_Tang_Kinh/daoanh/tasks/T198-invalidate-soft-vs-hard.md
+ D Dai_Tang_Kinh/daoanh/tasks/T199-vnpa-canonical-row-and-han-trim.md
+ D Dai_Tang_Kinh/daoanh/tasks/T201-canonical-lock-dila-id-dead-code-fix.md
+ D Dai_Tang_Kinh/daoanh/tasks/T204-ttl-preflight-guard-and-match-person.md
+ D Dai_Tang_Kinh/daoanh/tasks/T205-repair-broken-ttl-files.md
+ D Dai_Tang_Kinh/daoanh/tasks/T206-fix-mojibake-eth-to-dstroke.md
+ D Dai_Tang_Kinh/daoanh/tasks/T207-fix-db-mojibake-and-restore-lexicon-lookup.md
+ D Dai_Tang_Kinh/daoanh/tasks/T208-lexicon-altkey-safe-lookup.md
+ D Dai_Tang_Kinh/daoanh/tasks/T209-ttl-empty-and-subject-collision-guard.md
+ D Dai_Tang_Kinh/daoanh/tasks/T211-fix-wrong-subject-uri.md
+ D Dai_Tang_Kinh/daoanh/tasks/T212-safe-canonical-curation-d1a.md
+ D Dai_Tang_Kinh/daoanh/tasks/T213-vnpa-orphan-211-classification.md
+ D Dai_Tang_Kinh/daoanh/tasks/T214-db-dila-null-forensic.md
+ D Dai_Tang_Kinh/daoanh/tasks/T215-dila-ttl-evidence-and-self-edges.md
+ D Dai_Tang_Kinh/daoanh/tasks/T217-vnpa-etl-preservation-guard.md
+ D Dai_Tang_Kinh/daoanh/tasks/T218-glossary-resolver-pre-translation-lookup.md
+ D Dai_Tang_Kinh/daoanh/tasks/T219-pl-corrupt-canonical-name-vi-fix.md
+ M Dai_Tang_Kinh/daoanh/tasks/T22-nlp-fosi-zhi-founding-dates.md
+ D Dai_Tang_Kinh/daoanh/tasks/T220-vnpa-etl-preserve-relations.md
+ D Dai_Tang_Kinh/daoanh/tasks/T224-geo-spatial-timeline-founding-phase2.md
+ D Dai_Tang_Kinh/daoanh/tasks/T226-academic-ttl-profile-v2.md
+ D Dai_Tang_Kinh/daoanh/tasks/T227-db-ttl-v2-export.md
+ D Dai_Tang_Kinh/daoanh/tasks/T230-source-catalog-audit.md
+ D Dai_Tang_Kinh/daoanh/tasks/T231-m1-license-gate-wiring.md
+ M Dai_Tang_Kinh/daoanh/tasks/T232-evidence-based-generation-engine.md
+ D Dai_Tang_Kinh/daoanh/tasks/T234-data-honesty-audit-gate.md
+ D Dai_Tang_Kinh/daoanh/tasks/T235-cbeta-person-citation-panel.md
+ D Dai_Tang_Kinh/daoanh/tasks/T236-cbeta-passage-reader.md
+ D Dai_Tang_Kinh/daoanh/tasks/T237-cbeta-corpus-search-reader.md
+ D Dai_Tang_Kinh/daoanh/tasks/T238-cbeta-text-browser-toc.md
+ D Dai_Tang_Kinh/daoanh/tasks/T239-xcm-tab-namevimap.md
+ D Dai_Tang_Kinh/daoanh/tasks/T240-xcm-rejected-clickable.md
+ D Dai_Tang_Kinh/daoanh/tasks/T241-vn-temple-gps-t0t1.md
+ D Dai_Tang_Kinh/daoanh/tasks/T242-vn-temple-gps-t0t1-implementation.md
+ D Dai_Tang_Kinh/daoanh/tasks/T243-m7-data-normalize-places.md
+ D Dai_Tang_Kinh/daoanh/tasks/T251-ld2-missing-era-gap.md
+ D Dai_Tang_Kinh/daoanh/tasks/T252-h3-remaining-132-policy.md
+ D Dai_Tang_Kinh/daoanh/tasks/T253-person-import-phase0-audit.md
+ D Dai_Tang_Kinh/daoanh/tasks/T254-dup-id-renumber.md
+ D Dai_Tang_Kinh/daoanh/tasks/T256-gate-vpa-admin-confirmed-only.md
+ D Dai_Tang_Kinh/daoanh/tasks/T257-reject-ttl-mismatch-button.md
+ D Dai_Tang_Kinh/daoanh/tasks/T259-entity-evidence-provenance-panel.md
+ D Dai_Tang_Kinh/daoanh/tasks/T260-evidence-claim-inspector-cross-source.md
+ D Dai_Tang_Kinh/daoanh/tasks/T261-marcus-object-label-enrichment.md
+ D Dai_Tang_Kinh/daoanh/tasks/T262-structured-marcus-citation-inspection.md
+ D Dai_Tang_Kinh/daoanh/tasks/T263-h3-year-conflict-resolution.md
+ M Dai_Tang_Kinh/daoanh/tasks/T265-h3-year-support-plan.md
+ M Dai_Tang_Kinh/daoanh/tasks/T266-t74b-gemini-free-draft-plan.md
+ D Dai_Tang_Kinh/daoanh/tasks/T267-t199-logic-audit-and-bug025-026-restore.md
+ M Dai_Tang_Kinh/daoanh/tasks/T269-ai-dich-rules-enforcement.md
+ M Dai_Tang_Kinh/daoanh/tasks/T270-nois-phap-ttl-marcus-consensus.md
+ D Dai_Tang_Kinh/daoanh/tasks/T271-t202-post-review-revision.md
+ M Dai_Tang_Kinh/daoanh/tasks/T272-data-curation-pack-v2.md
+ D Dai_Tang_Kinh/daoanh/tasks/T273-review-destruction-events.md
+ M Dai_Tang_Kinh/daoanh/tasks/T275-ttl-anchor-generation.md
+ M Dai_Tang_Kinh/daoanh/tasks/T276-spec-t170-review-fixes.md
+ M Dai_Tang_Kinh/daoanh/tasks/T277-archive-and-future-integration.md
+ D Dai_Tang_Kinh/daoanh/tasks/T278-link-dila-indian-patriarchs.md
+ D Dai_Tang_Kinh/daoanh/tasks/T309-t275-kiem-cay-lam-te-tren-trinh-duyet.md
+ D Dai_Tang_Kinh/daoanh/tasks/T34-tam-tang-integration.md
+ M "Dai_Tang_Kinh/daoanh/tasks/T354-mo-lineage-m\303\251-linh-hoa-thuong-so-doi-sai.md"
+ D Dai_Tang_Kinh/daoanh/tasks/T355-hoang-nhan-truoc-hue-nang-so-doi-sai.md
+ M Dai_Tang_Kinh/daoanh/tasks/T356-t224-readonly-audit-contract.md
+ M Dai_Tang_Kinh/daoanh/tasks/T359-person-detail-4-sections-missing.md
+ D Dai_Tang_Kinh/daoanh/tasks/T366-extract-xml-to-sidecars.md
+ D Dai_Tang_Kinh/daoanh/tasks/T372-admin-person-page-a000074-fields-missing.md
+ M Dai_Tang_Kinh/daoanh/tasks/T374-git-health-and-revert-procedure.md
+ D Dai_Tang_Kinh/daoanh/tasks/T375-resolve-duplicate-task-ids.md
+ M Dai_Tang_Kinh/daoanh/tasks/T376-tasktodo-archive-done.md
+ M Dai_Tang_Kinh/daoanh/tasks/T377-root-cleanup-archive.md
+ M Dai_Tang_Kinh/daoanh/tasks/T378-app-split-zenlineage-blueprint.md
+ M Dai_Tang_Kinh/daoanh/tasks/T379-data-loss-audit-1011-1012.md
+ D Dai_Tang_Kinh/daoanh/tasks/T380-selective-restore-4-tables.md
+ D Dai_Tang_Kinh/daoanh/tasks/T381-build-dharma-lineage-3sources.md
+ D Dai_Tang_Kinh/daoanh/tasks/T385-pause-auto-deploy.md
+ M Dai_Tang_Kinh/daoanh/tasks/T387-sqlite-backup-api-and-safe-sync.md
+ D Dai_Tang_Kinh/daoanh/tasks/T390-dashboard-process-executive-redesign.md
+ M Dai_Tang_Kinh/daoanh/tasks/T392-cleanup-april2026-docs.md
+ D Dai_Tang_Kinh/daoanh/tasks/T393-fojin-local-test-runbook.md
+ D Dai_Tang_Kinh/daoanh/tasks/T394-zenodo-10004109-phase2-reconciliation.md
+ D Dai_Tang_Kinh/daoanh/tasks/T404-places-search-autocomplete-jank.md
+ D Dai_Tang_Kinh/daoanh/tasks/T405-places-name-zh-index.md
+ M Dai_Tang_Kinh/daoanh/tasks/T406-flyto-nan-error.md
+ D Dai_Tang_Kinh/daoanh/tasks/T411-lineage-pane-remove-yfork-text-list.md
+ M Dai_Tang_Kinh/daoanh/tasks/T414-dharma-transmission-edge-labels.md
+ M Dai_Tang_Kinh/daoanh/tasks/T415-audit-vn-person-authority-crosswalk.md
+ M Dai_Tang_Kinh/daoanh/tasks/T417-search-empty-lineage.md
+ D Dai_Tang_Kinh/daoanh/tasks/T418-gemini-translation-incomplete.md
+ M Dai_Tang_Kinh/daoanh/tasks/T419-lineage-search-no-navigate.md
+ D Dai_Tang_Kinh/daoanh/tasks/T421-bug043-ai-dich-truyen-thua-ten-han.md
+ D Dai_Tang_Kinh/daoanh/tasks/T422-dila-edge-dedupe-unique.md
+ D Dai_Tang_Kinh/daoanh/tasks/T423-register-ttl-source-and-mapping.md
+ M Dai_Tang_Kinh/daoanh/tasks/T425-edge-columns-and-tree-views.md
+ D Dai_Tang_Kinh/daoanh/tasks/T427-2-etl-load-hang.md
+ M Dai_Tang_Kinh/daoanh/tasks/T429-thiendang-thepho-dataset-phase0-2.md
+ D Dai_Tang_Kinh/daoanh/tasks/T432-places-districts-claude-analysis.md
+ D Dai_Tang_Kinh/daoanh/tasks/T433-places-districts-claude-import.md
+ D Dai_Tang_Kinh/daoanh/tasks/T434-places-districts-gemini-batch.md
+ D Dai_Tang_Kinh/daoanh/tasks/T435-bug048-claude-column-no-count.md
+ D Dai_Tang_Kinh/daoanh/tasks/T439-sync-agent-config-opencode-claude.md
+ M Dai_Tang_Kinh/daoanh/tasks/T449-audit-h3-evidence-guard.md
+ M Dai_Tang_Kinh/daoanh/tasks/T451-claude-place-name-import.md
+ D Dai_Tang_Kinh/daoanh/tasks/T52-doi-chieu-tam-tang.md
+ D Dai_Tang_Kinh/daoanh/tasks/T55-trich-dan-tu-dong.md
+ D Dai_Tang_Kinh/daoanh/tasks/T62-person-name-bulk-pattern-fix.md
+ D Dai_Tang_Kinh/daoanh/tasks/T63-bio-vi-lexicon-phase1.md
+ D Dai_Tang_Kinh/daoanh/tasks/T64-wikidata-timeline-import.md
+ D Dai_Tang_Kinh/daoanh/tasks/T64b-wikidata-name-match.md
+ D Dai_Tang_Kinh/daoanh/tasks/T65-bio-vi-lexicon-phase2.md
+ D Dai_Tang_Kinh/daoanh/tasks/T66-place-desc-vi-dila-note.md
+ D Dai_Tang_Kinh/daoanh/tasks/T67-hitl-canonical-decision-provenance.md
+ D Dai_Tang_Kinh/daoanh/tasks/T68-source-authority-conflict.md
+ D Dai_Tang_Kinh/daoanh/tasks/T69-wire-evidence-entity-claims.md
+ D Dai_Tang_Kinh/daoanh/tasks/T73-admin-review-bio-vi.md
+ D Dai_Tang_Kinh/daoanh/tasks/T74-place-desc-vi-gemini-translate.md
+ M Dai_Tang_Kinh/daoanh/tasks/T80-lo1-hoan-thien-task-dang-do.md
+ D Dai_Tang_Kinh/daoanh/tasks/T81-dashboard-an-task-done.md
+ D Dai_Tang_Kinh/daoanh/tasks/T82-schema-freeze-data-lock.md
+ D Dai_Tang_Kinh/daoanh/tasks/T83-review-bootstrap-priority-layers.md
+ D Dai_Tang_Kinh/daoanh/tasks/T96-per-segment-translation.md
+ D Dai_Tang_Kinh/daoanh/tasks/T97-timeline-event-evidence-layer.md
+ D Dai_Tang_Kinh/daoanh/tasks/T97b-place-tu-si-timeline-events.md
+?? Dai_Tang_Kinh/.opencode/agents/tester.md
+?? Dai_Tang_Kinh/agents/claude_code_planner.md
+?? Dai_Tang_Kinh/agents/deepseek_tester.md
+?? Dai_Tang_Kinh/agents/dila_team.md
+?? Dai_Tang_Kinh/agents/opencode_developer.md
+?? Dai_Tang_Kinh/agents/orchestrator.md
+?? Dai_Tang_Kinh/daoanh/.claude/hooks/
+?? Dai_Tang_Kinh/daoanh/.opencode/agents/coder.md
+?? Dai_Tang_Kinh/daoanh/.opencode/agents/coordinator.md
+?? Dai_Tang_Kinh/daoanh/.opencode/agents/daoanh-task.md
+?? Dai_Tang_Kinh/daoanh/.opencode/agents/harness.md
+?? Dai_Tang_Kinh/daoanh/.opencode/agents/tester.md
+?? Dai_Tang_Kinh/daoanh/CODEPREVIEW_Investigation_Tester_Agent.md
+?? Dai_Tang_Kinh/daoanh/T27_Note_for_Admin.md
+?? Dai_Tang_Kinh/daoanh/_archive/2026-10-25-junk-cleanup/
+?? Dai_Tang_Kinh/daoanh/_check_db.py
+?? Dai_Tang_Kinh/daoanh/_check_db2.py
+?? Dai_Tang_Kinh/daoanh/_check_db3.py
+?? Dai_Tang_Kinh/daoanh/_check_db4.py
+?? Dai_Tang_Kinh/daoanh/_find_cases.py
+?? Dai_Tang_Kinh/daoanh/_test_api.py
+?? Dai_Tang_Kinh/daoanh/_test_import.py
+?? Dai_Tang_Kinh/daoanh/_test_multi.py
+?? Dai_Tang_Kinh/daoanh/check_agents.py
+?? Dai_Tang_Kinh/daoanh/check_all.py
+?? Dai_Tang_Kinh/daoanh/check_all2.py
+?? Dai_Tang_Kinh/daoanh/check_all3.py
+?? Dai_Tang_Kinh/daoanh/check_attrs.py
+?? Dai_Tang_Kinh/daoanh/check_extract.py
+?? Dai_Tang_Kinh/daoanh/check_nexus_struct.py
+?? Dai_Tang_Kinh/daoanh/check_ns.py
+?? Dai_Tang_Kinh/daoanh/check_ns2.py
+?? Dai_Tang_Kinh/daoanh/debug_field.py
+?? Dai_Tang_Kinh/daoanh/debug_ids.py
+?? Dai_Tang_Kinh/daoanh/docs/BUG-049_ETL_PASS_BUTTON_FIX_REPORT.md
+?? Dai_Tang_Kinh/daoanh/docs/BUG-051_PLACES_LINEAGE_ARROWS_REPORT.md
+?? Dai_Tang_Kinh/daoanh/docs/BUG050_NAMEVIMAP_STUCK_LOADING_REPORT.md
+?? Dai_Tang_Kinh/daoanh/docs/Handoff-2026-10-20-x86n1601-pilot-qa.md
+?? Dai_Tang_Kinh/daoanh/docs/Handoff-2026-10-21-T445-opencode.md
+?? Dai_Tang_Kinh/daoanh/docs/Handoff-2026-10-21-x86n1601-pilot-qa.md
+?? Dai_Tang_Kinh/daoanh/docs/Handoff-2026-10-22-T453-dila-catalog.md
+?? Dai_Tang_Kinh/daoanh/docs/Handoff-2026-10-22-t148-dila-db-parse.md
+?? Dai_Tang_Kinh/daoanh/docs/Handoff-2026-10-24-T461.md
+?? Dai_Tang_Kinh/daoanh/docs/Handoff-2026-10-25-T22-parked.md
+?? Dai_Tang_Kinh/daoanh/docs/QA-TESTER-RUNBOOK.md
+?? Dai_Tang_Kinh/daoanh/docs/T435_BUG048_FINAL_REPORT.md
+?? Dai_Tang_Kinh/daoanh/docs/T435_BUG048_ROUND2_SWITCHTAB_FIX_REPORT.md
+?? Dai_Tang_Kinh/daoanh/docs/T436_T437_VERIFY_FIX_REPORT.md
+?? Dai_Tang_Kinh/daoanh/docs/T447-translation-gateway-plan.md
+?? Dai_Tang_Kinh/daoanh/docs/archive/T22-2026-10-25/
+?? Dai_Tang_Kinh/daoanh/docs/evidence/20261022_T389_gen_legacy.txt
+?? Dai_Tang_Kinh/daoanh/docs/evidence/20261023_T414_transmission_dryrun.tsv
+?? Dai_Tang_Kinh/daoanh/docs/project-docs/
+?? Dai_Tang_Kinh/daoanh/docs/reports/DILA-PLACE-GEMINI-PLAN-REVIEW-2026-10-21.md
+?? Dai_Tang_Kinh/daoanh/docs/reports/T457-dry-run-v2.md
+?? Dai_Tang_Kinh/daoanh/docs/reports/T457-dry-run-v3.md
+?? Dai_Tang_Kinh/daoanh/docs/reports/T457-dry-run-v4.md
+?? Dai_Tang_Kinh/daoanh/docs/reports/T457-dry-run.md
+?? Dai_Tang_Kinh/daoanh/docs/reports/T459-dry-run.md
+?? Dai_Tang_Kinh/daoanh/docs/reports/T460-dry-run.md
+?? Dai_Tang_Kinh/daoanh/docs/reports/academic-3levels/
+?? Dai_Tang_Kinh/daoanh/docs/reports/nexus-vi-pilot-20261023/
+?? Dai_Tang_Kinh/daoanh/docs/reports/runtime-tests/run-LPEHFB/
+?? Dai_Tang_Kinh/daoanh/docs/reports/runtime-tests/run-MDNTy8/
+?? Dai_Tang_Kinh/daoanh/docs/reports/thiendang-thepho/
+?? Dai_Tang_Kinh/daoanh/docs/reports/weekly-backup-review-2026-10-25.md
+?? Dai_Tang_Kinh/daoanh/docs/reports/x86n1601-delivery-qa-20261020/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/COORDINATOR-REPORT.md
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/OPEN-ITEMS.md
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/T445-debugger-wip/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/app.py.bak_T440
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/app.py.bak_T446
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/app.py.bak_T448
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/app.py.bak_r2
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/bugs-entries/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/build/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/claude_place_name_dryrun.csv
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/commit-cfg/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/draft-bugs-entries.md
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/index-sync/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/namevimap.html.bak_T440
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/namevimap.html.bak_T446
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/namevimap.html.bak_T448
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/namevimap.html.bak_r2
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/qa/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/rename-t451/cas_update.py
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/tasks-archive-manifest.txt
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-22/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-23/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-25/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-25_T445-wizard-fix/
+?? Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-25_t449-audit-h3-guard.md
+?? Dai_Tang_Kinh/daoanh/find_bio.py
+?? Dai_Tang_Kinh/daoanh/nb5.py
+?? Dai_Tang_Kinh/daoanh/nexus_struct.py
+?? Dai_Tang_Kinh/daoanh/read_nexus.py
+?? Dai_Tang_Kinh/daoanh/read_pkg.py
+?? Dai_Tang_Kinh/daoanh/read_tester.js
+?? Dai_Tang_Kinh/daoanh/research/
+?? Dai_Tang_Kinh/daoanh/run_t457.py
+?? Dai_Tang_Kinh/daoanh/run_t457_full.py
+?? Dai_Tang_Kinh/daoanh/run_t457_simple.py
+?? Dai_Tang_Kinh/daoanh/run_t458.py
+?? Dai_Tang_Kinh/daoanh/scripts/ai_batch_transliterate_place.py
+?? Dai_Tang_Kinh/daoanh/scripts/db_safe_backup.py
+?? Dai_Tang_Kinh/daoanh/scripts/harness_coder_openrouter.py
+?? Dai_Tang_Kinh/daoanh/scripts/import_claude_place_name_dryrun.py
+?? Dai_Tang_Kinh/daoanh/scripts/t414_label_transmission.py
+?? Dai_Tang_Kinh/daoanh/scripts/t430_import_claude_place_xml.py
+?? Dai_Tang_Kinh/daoanh/scripts/t453_dila_catalog_import.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_extract_bio_nexus.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_final.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_final_v2.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_final_v3.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_final_v4.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_staging_parse.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_staging_v2.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_staging_v3.py
+?? Dai_Tang_Kinh/daoanh/scripts/t457_staging_v4.py
+?? Dai_Tang_Kinh/daoanh/scripts/t458_check_bio_nexus_vi.py
+?? Dai_Tang_Kinh/daoanh/scripts/t459_staging.py
+?? Dai_Tang_Kinh/daoanh/scripts/t460_staging.py
+?? Dai_Tang_Kinh/daoanh/scripts/thiendang_thepho/
+?? Dai_Tang_Kinh/daoanh/static/notify/TieuThien1.png
+?? Dai_Tang_Kinh/daoanh/static/notify/TieuThien2.png
+?? Dai_Tang_Kinh/daoanh/static/notify/TieuThien3.png
+?? Dai_Tang_Kinh/daoanh/static/notify/TieuThien4.png
+?? Dai_Tang_Kinh/daoanh/static/notify/TieuThien5.png
+?? Dai_Tang_Kinh/daoanh/static/notify/TieuThien6.png
+?? Dai_Tang_Kinh/daoanh/static/notify/TieuThien7.png
+?? Dai_Tang_Kinh/daoanh/tasks/T440-tab-place-claude-gemini-tudien.md
+?? Dai_Tang_Kinh/daoanh/tasks/T441-etl-load-only-unpassed.md
+?? Dai_Tang_Kinh/daoanh/tasks/T442-places-districts-claude-analysis.md
+?? Dai_Tang_Kinh/daoanh/tasks/T443-places-districts-claude-import.md
+?? Dai_Tang_Kinh/daoanh/tasks/T444-places-districts-gemini-batch.md
+?? Dai_Tang_Kinh/daoanh/tasks/T446-tab-place-live-compare.md
+?? Dai_Tang_Kinh/daoanh/tasks/T447-translation-gateway-rules.md
+?? Dai_Tang_Kinh/daoanh/tasks/T452-dila-time-authority-reimport.md
+?? Dai_Tang_Kinh/daoanh/tasks/T453-dila-catalog-a-import-vi.md
+?? Dai_Tang_Kinh/daoanh/tasks/T454-namevi-places-suffix-huy-cleanup.md
+?? Dai_Tang_Kinh/daoanh/tasks/T455-person-name-vi-standardize-from-dila-catalog.md
+?? Dai_Tang_Kinh/daoanh/tasks/T456-home-search-autocomplete-dila-catalog.md
+?? Dai_Tang_Kinh/daoanh/tasks/T457-dila-biographies-nexus-import.md
+?? Dai_Tang_Kinh/daoanh/tasks/T458-cloud-translate-bio-nexus-passages.md
+?? Dai_Tang_Kinh/daoanh/tasks/T459-suttacentral-parallels-link.md
+?? Dai_Tang_Kinh/daoanh/tasks/T460-nti-buddhist-dictionary-vi.md
+?? Dai_Tang_Kinh/daoanh/tasks/T461-undone-task-triage-execution-plan.md
+?? Dai_Tang_Kinh/daoanh/tasks/T462-harness-coder-tester-loop.md
+?? Dai_Tang_Kinh/daoanh/tasks/T463-placevn-wizard-ui-b0-b9.md
+?? Dai_Tang_Kinh/daoanh/tasks/T464-bug051-agent-team-menu.md
+?? Dai_Tang_Kinh/daoanh/tasks/archive_done/
+?? Dai_Tang_Kinh/daoanh/tasks/backup/T427-2-etl-load-hang.md
+?? Dai_Tang_Kinh/daoanh/tasks/backup/T435-bug048-claude-column-no-count.md
+?? Dai_Tang_Kinh/daoanh/tasks/backup/T436-bug049-etl-pass-button-error.md
+?? Dai_Tang_Kinh/daoanh/tasks/backup/T437-bug050-namevimap-stuck-loading.md
+?? Dai_Tang_Kinh/daoanh/tasks/backup/T438-bug051-places-lineage-arrows-missing.md
+?? Dai_Tang_Kinh/daoanh/temp_check.py
+?? Dai_Tang_Kinh/daoanh/temp_check2.py
+?? Dai_Tang_Kinh/daoanh/temp_check3.py
+?? Dai_Tang_Kinh/daoanh/temp_t457_output.txt
+?? Dai_Tang_Kinh/daoanh/test_rt.txt
+?? Dai_Tang_Kinh/daoanh/tests/test_t387_db_safe_backup.py
+?? Dai_Tang_Kinh/daoanh/tests/test_t449_audit_h3_guard.py
+?? Dai_Tang_Kinh/daoanh/ttt.py
+?? Dai_Tang_Kinh/daoanh/ttt2.py
+?? Dai_Tang_Kinh/daoanh/ttt3.py
+?? Dai_Tang_Kinh/daoanh/ttt4.py
+?? Dai_Tang_Kinh/daoanh/ttt5.py
+?? Dai_Tang_Kinh/daoanh/validate_t457.py
+?? Dai_Tang_Kinh/dashboard/
+?? Dai_Tang_Kinh/debug_output.txt
+?? Dai_Tang_Kinh/t457_final_output.txt
+?? Dai_Tang_Kinh/t457_v2_output.txt
+?? Dai_Tang_Kinh/t457_v3_output.txt
+?? Dai_Tang_Kinh/t457_v4_output.txt
+?? Dai_Tang_Kinh/tasks/
+?? _t188tmp/lk.txt
+?? check_dila.py
+?? docs/
+```

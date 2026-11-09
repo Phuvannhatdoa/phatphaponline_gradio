@@ -5,7 +5,7 @@ module: Editorial / LLM Translation
 priority: high
 status: built
 owner: claudecode
-depends_on: [T73, T123, T158-glossary-resolver]
+depends_on: [T73, T123, T218]
 created: 2026-09-24
 updated: 2026-09-25
 spec_path: docs/Mimo-Flash/T165-rules-constrained-translation-engine-SPEC.md

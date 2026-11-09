@@ -1,0 +1,11 @@
+total_status_before_lines=255
+mismatch_count=0
+NINE exists=True Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/T263-damaged/2026-10-08_T263_h3_conflicts.tsv
+NINE exists=True Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/T263-damaged/2026-10-08_T263_h3_conflicts_summary.tsv
+NINE exists=True Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/permission/opencode.json.before
+NINE exists=True Dai_Tang_Kinh/daoanh/tasks/T449-audit-h3-evidence-guard.md
+NINE exists=True Dai_Tang_Kinh/daoanh/.opencode/opencode.json
+NINE exists=True Dai_Tang_Kinh/daoanh/docs/ROLLBACK.md
+NINE exists=True Dai_Tang_Kinh/daoanh/docs/tasktodo.md
+NINE exists=True Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-20_BUG-pl-id-404.md
+NINE exists=True Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-20_BUG-placevn-baseurl.md

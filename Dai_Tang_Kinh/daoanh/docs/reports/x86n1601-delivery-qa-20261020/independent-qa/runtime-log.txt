@@ -1,0 +1,74 @@
+ZIP_SHA256 e2506b23422a4c8371e17eaf2205ae5ab1743c471bc6e653dec04a9bfa9c8c09
+SOURCE_SIZE 796393
+MANIFEST_HASH source/X86n1601.source.xml True
+REAL_XSD_VALIDATION True 
+
+=== PTDA Claims XML Validation ===
+
+✓ Root element: schemaVersion=1.0, workId=X86n1601, status=candidate
+✓ All required sections present
+✓ 34 persons defined
+✓ 34 mentions defined (all reference valid persons)
+✓ 9 relation claims defined (all valid, no self-loops)
+✓ Source manifest valid (SHA-256: 60a282bf78795048...)
+
+✓✓✓ VALIDATION PASSED ✓✓✓
+
+BUNDLED_VALIDATOR True
+
+=== PTDA Pilot Extraction Tests ===
+
+TEST 1: First patriarch (Shakyamuni Buddha) correctly extracted
+  ✓ PASS: First patriarch name contains '釋迦'
+
+TEST 2: Transmission from Shakyamuni to Mahakashyapa
+  ✓ PASS: Transmission goes from person_000 to person_001
+
+TEST 3: All relation claims have 'pending' review status
+  ✓ PASS: All claims have review_status='pending'
+
+TEST 4: No self-referential relations (self-loops)
+  ✓ PASS: No self-loops detected
+
+TEST 5: All referenced persons in claims exist in persons list
+  ✓ PASS: All 9 claims reference existing persons
+
+TEST 6: Source SHA-256 hash is valid format (64 hex chars)
+  ✓ PASS: SHA-256 = 60a282bf78795048...
+
+TEST 7: All claims have non-empty evidence fragments
+  ✓ PASS: All claims have evidence text
+
+TEST 8: Negative test - no cross-generational jumps without evidence
+  ✓ PASS: No suspicious long-distance relations without strong evidence
+
+
+========================================
+Tests: 8 passed, 0 failed out of 8
+========================================
+
+BUNDLED_TESTS_PATH_ADAPTED True
+Extracted 34 persons with biographies
+  [0] 始祖     釋迦牟尼佛           bio= 251 chars
+  [1] 第一祖    摩訶迦葉            bio=  84 chars
+  [2] 二祖     阿難尊者            bio=  76 chars
+  [3] 三祖     商那和修            bio=  84 chars
+  [4] 四祖     優波毱多            bio=  82 chars
+  [5] 五祖     提多迦             bio=  51 chars
+  [6] 六祖     彌遮迦             bio=  51 chars
+  [7] 七祖     婆須蜜             bio=  52 chars
+  [8] 八祖     佛陀難提            bio=  51 chars
+  [9] 九祖     伏駄密多            bio=  51 chars
+Extracted 9 transmission relations
+
+REPLAY_EQUAL_EXCEPT_DOWNLOAD_TIME True
+Extracted 2 persons with biographies
+  [0] 第一祖    甲師              bio=  18 chars
+  [1] 第二祖    乙師              bio=   7 chars
+Extracted 1 transmission relations
+
+NEGATIVE_FIXTURE_CLAIMS [{"claim_id": "claim_0001", "subject_person_id": "person_000", "subject_name": "甲師", "object_person_id": "person_001", "object_name": "乙師", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "甲師未曾傳法予乙師，乙師不是其弟子。", "xml_path": "//*[@xml:id='test1']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending"}]
+NEGATIVE_SEMANTIC_TEST_PASS False
+CLAIM_ROWS [{"claim_id": "claim_0001", "subject_person_id": "person_000", "subject_name": "釋迦牟尼佛", "object_person_id": "person_001", "object_name": "摩訶迦葉", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "即賢劫第四尊示生中天竺國，剎利種，釋迦其姓也。父淨飯聖王，母摩耶聖后。周昭王九年甲寅四月八日降誕， 捨轉輪聖王位出家，成無上道，轉大法輪。其後七十九歲，垂般涅槃，乃以大法印付囑摩訶迦葉。 穆王三十六年壬申二月十五日中夜入滅。後一千一十七年，教被華夏，即漢明帝永平十年丁卯歲也。 按傳燈諸錄，首紀七佛，次列諸祖。唯東山傳法正宗記則謂正宗者，必以親相師承為効，故以釋迦文佛為始祖，", "xml_path": "//*[@xml:id='itemX86p0320a2001']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0320a2001", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0320a21", "source_lb_last": "0320a26", "evidence_in_replayed_bio": true}, {"claim_id": "claim_0002", "subject_person_id": "person_005", "subject_name": "提多迦", "object_person_id": "person_006", "object_name": "彌遮迦", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "摩伽陀國人。父夢金 日而生，遇優波尊者， 為釋夢義，得受正法。 後付彌遮迦，化火自 焚，即周莊王世也。", "xml_path": "//*[@xml:id='itemX86p0321a3701']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0321a3701", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0321a38", "source_lb_last": "0321a42", "evidence_in_replayed_bio": true}, {"claim_id": "claim_0003", "subject_person_id": "person_006", "subject_name": "彌遮迦", "object_person_id": "person_007", "object_name": "婆須蜜", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "中印度人至北天竺 國，見城堞間有金色 瑞雲，曰：此大乘氣也。 遇婆須蜜，付以法。周 襄王世，化火自焚。", "xml_path": "//*[@xml:id='itemX86p0321a4301']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0321a4301", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0321a44", "source_lb_last": "0321a48", "evidence_in_replayed_bio": true}, {"claim_id": "claim_0004", "subject_person_id": "person_007", "subject_name": "婆須蜜", "object_person_id": "person_008", "object_name": "佛陀難提", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "北天竺國人，姓頗羅 墮。行化至迦摩羅國， 以論義服，佛陀難提 付以正法。周定王世， 示寂本座，塔葬全身。", "xml_path": "//*[@xml:id='itemX86p0321a4901']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0321a4901", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0321a50", "source_lb_last": "0321a54", "evidence_in_replayed_bio": true}, {"claim_id": "claim_0005", "subject_person_id": "person_012", "subject_name": "馬鳴大士", "object_person_id": "person_013", "object_name": "迦毗摩羅", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "波羅奈國人，亦名功 勝，以其功德殊勝故 也。攝伏迦毗摩羅為 弟子，遂以法付之。周 顯王世，趣大寂滅。", "xml_path": "//*[@xml:id='itemX86p0321a7901']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0321a7901", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0321a80", "source_lb_last": "0321a84", "evidence_in_replayed_bio": true}, {"claim_id": "claim_0006", "subject_person_id": "person_014", "subject_name": "龍樹尊者", "object_person_id": "person_015", "object_name": "迦那提婆", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "西天竺國人，廣造眾 論，開釋正法，以應機 宜。將垂滅度，乃以其 法印付迦那提婆，當 秦始皇世也。", "xml_path": "//*[@xml:id='itemX86p0322a0701']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0322a0701", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0322a08", "source_lb_last": "0322a12", "evidence_in_replayed_bio": true}, {"claim_id": "claim_0007", "subject_person_id": "person_024", "subject_name": "師子尊者", "object_person_id": "person_025", "object_name": "婆舍斯多", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "中天竺國婆羅門氏， 以法授婆舍斯多，自 以宿業當酬，獨留罽 賓而遇害，即魏廢帝 齊王曹芳之世。", "xml_path": "//*[@xml:id='itemX86p0322a6701']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0322a6701", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0322a68", "source_lb_last": "0322a72", "evidence_in_replayed_bio": true}, {"claim_id": "claim_0008", "subject_person_id": "person_027", "subject_name": "般若多羅", "object_person_id": "person_028", "object_name": "菩提達磨", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "東印度人。初以童子 遇不如蜜多，顯其聖 迹，遂出家傳法。遊化 南印度，得菩提達磨 付法。宋孝武世入滅。", "xml_path": "//*[@xml:id='itemX86p0323a1301']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0323a1301", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0323a14", "source_lb_last": "0323a18", "evidence_in_replayed_bio": true}, {"claim_id": "claim_0009", "subject_person_id": "person_030", "subject_name": "僧璨", "object_person_id": "person_031", "object_name": "道信", "source_relation_term": "dharma transmission", "proposed_relation_type": "dharma_transmission", "direction_status": "subject_to_object", "evidence_text": "不知何許人。以處士 見慧可大師，受度傳 法，隱舒州皖公山三 十載。後得道信，付以 法眼。隋煬帝大業二 年丙寅十月十五日 立化。唐玄宗諡鑑智， 塔曰覺寂。", "xml_path": "//*[@xml:id='itemX86p0323a4701']/descendant::tei:*", "extraction_rule": "mention_in_biography", "review_status": "pending", "source_item_id": "itemX86p0323a4701", "locator_scope": "subject item bounds, edition X; not exact claim span", "source_lb_first": "0323a48", "source_lb_last": "0323a55", "evidence_in_replayed_bio": true}]
+
+PACKAGE_UNCHANGED True

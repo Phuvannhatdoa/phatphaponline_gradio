@@ -1,0 +1,58 @@
+def _t158_neighbors_consensus(conn, person_id, direction, include_single=False):
+    """T158 — Lấy neighbors từ lineage_edge_consensus thay vì marcus_networks.
+    direction: 'up' = thầy (person là trò), 'down' = trò (person là thầy).
+    include_single: True → bao gồm cả single_source edges (cho optional filter).
+    T187: LEFT JOIN lineage_primary_teacher để thêm is_primary vào kết quả.
+    direction='up' ORDER BY is_primary DESC, ttl_asserted DESC, agreeing_source_count DESC
+    → thầy truyền pháp ấn luôn đứng đầu, thầy tham học (is_primary=-1) xếp cuối.
+    """
+    vis_cond = "1" if include_single else "c.is_default_visible=1"
+    if direction == 'up':
+        sql = (
+            "SELECT c.teacher_id AS id, c.source_badge, c.agreeing_source_count,"
+            " c.dila_asserted, c.marcus_asserted, c.ttl_asserted,"
+            " c.consensus_status, c.is_default_visible,"
+            " COALESCE(lpt.is_primary, 0) AS is_primary,"
+            " lpt.evidence_source AS pt_evidence, lpt.confidence AS pt_confidence"
+            " FROM lineage_edge_consensus c"
+            " LEFT JOIN lineage_primary_teacher lpt"
+            "   ON lpt.teacher_id=c.teacher_id AND lpt.disciple_id=c.disciple_id"
+            f" WHERE c.disciple_id=? AND c.relation_type='dharma_transmission' AND {vis_cond}"
+            " ORDER BY COALESCE(lpt.is_primary,0) DESC, c.ttl_asserted DESC, c.agreeing_source_count DESC"
+        )
+    else:
+        sql = (
+            "SELECT c.disciple_id AS id, c.source_badge, c.agreeing_source_count,"
+            " c.dila_asserted, c.marcus_asserted, c.ttl_asserted,"
+            " c.consensus_status, c.is_default_visible,"
+            " COALESCE(lpt.is_primary, 0) AS is_primary,"
+            " lpt.evidence_source AS pt_evidence, lpt.confidence AS pt_confidence"
+            " FROM lineage_edge_consensus c"
+            " LEFT JOIN lineage_primary_teacher lpt"
+            "   ON lpt.teacher_id=c.teacher_id AND lpt.disciple_id=c.disciple_id"
+            f" WHERE c.teacher_id=? AND c.relation_type='dharma_transmission' AND {vis_cond}"
+            " ORDER BY c.agreeing_source_count DESC, c.disciple_id"
+        )
+    rows = conn.execute(sql, (person_id,)).fetchall()
+    return [dict(r) for r in rows], len(rows)
+
+
+
+
+def _t426_neighbors_view(conn, person_id, direction, view_name):
+    """T426 — Lấy neighbors từ VIEW T425 (v_tree_dila/marcus/ttl/overlay).
+    direction: 'up' = thầy (person là trò), 'down' = trò (person là thầy).
+    view_name: 'dila', 'marcus', 'ttl', 'overlay'.
+    Không có is_primary (VIEW không join lineage_primary_teacher).
+    """
+    if view_name not in ('dila', 'marcus', 'ttl', 'overlay'):
+        return [], 0
+
+    if view_name == 'overlay':
+        # v_tree_overlay dùng teacher_id/disciple_id, đã GROUP BY
+        if direction == 'up':
+            sql = (
+                "SELECT teacher_id AS id, '' AS source_badge, n_sources AS agreeing_source_count,"
+                " 1 AS is_primary"
+                " FROM v_tree_overlay"
+     

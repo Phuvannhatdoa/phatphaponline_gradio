@@ -1,0 +1,716 @@
+{"cbeta_id": "A1057", "title_zh": "新譯大方廣佛華嚴經音義", "hvdic_vi": "tân dịch đại phương quảng phật hoa nghiêm kinh âm nghĩa", "chars_without_reading": 0, "ts": "2026-10-28T21:40:17"}
+{"cbeta_id": "A1267", "title_zh": "大唐開元釋教廣品歷章", "hvdic_vi": "đại đường khai nguyên thích giáo quảng phẩm lịch chương", "chars_without_reading": 0, "ts": "2026-10-28T21:40:25"}
+{"cbeta_id": "A1490", "title_zh": "天聖釋教總錄", "hvdic_vi": "thiên thánh thích giáo tổng lục", "chars_without_reading": 0, "ts": "2026-10-28T21:40:29"}
+{"cbeta_id": "A1493", "title_zh": "大中祥符法寶錄", "hvdic_vi": "đại trung tường phù pháp bảo lục", "chars_without_reading": 0, "ts": "2026-10-28T21:40:40"}
+{"cbeta_id": "A1494", "title_zh": "景祐新修法寶錄", "hvdic_vi": "cảnh hữu tân tu pháp bảo lục", "chars_without_reading": 0, "ts": "2026-10-28T21:40:42"}
+{"cbeta_id": "A1504", "title_zh": "佛說大乘僧伽吒法義經", "hvdic_vi": "phật thuyết đại thừa tăng già tra pháp nghĩa kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:40:47"}
+{"cbeta_id": "A1505", "title_zh": "佛說清淨毘奈耶最上大乘經", "hvdic_vi": "phật thuyết thanh tịnh bì nại gia tối thượng đại thừa kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:40:50"}
+{"cbeta_id": "A1548", "title_zh": "因明論理門十四過類疏", "hvdic_vi": "nhân minh luận lý môn thập tứ quá loại sơ", "chars_without_reading": 0, "ts": "2026-10-28T21:40:54"}
+{"cbeta_id": "A1561", "title_zh": "瑜伽師地論義演", "hvdic_vi": "du già sư địa luận nghĩa diễn", "chars_without_reading": 0, "ts": "2026-10-28T21:40:57"}
+{"cbeta_id": "B0001", "title_zh": "均如大師華嚴學全書", "hvdic_vi": "quân như đại sư hoa nghiêm học toàn thư", "chars_without_reading": 0, "ts": "2026-10-28T21:41:00"}
+{"cbeta_id": "B0002", "title_zh": "華嚴經疏論纂要", "hvdic_vi": "hoa nghiêm kinh sơ luận toản yếu", "chars_without_reading": 0, "ts": "2026-10-28T21:41:03"}
+{"cbeta_id": "B0003", "title_zh": "南傳長部經典", "hvdic_vi": "nam truyện trưởng bộ kinh điển", "chars_without_reading": 0, "ts": "2026-10-28T21:41:06"}
+{"cbeta_id": "B0004", "title_zh": "南傳中部經典", "hvdic_vi": "nam truyện trung bộ kinh điển", "chars_without_reading": 0, "ts": "2026-10-28T21:41:08"}
+{"cbeta_id": "B0005", "title_zh": "南傳小部經典", "hvdic_vi": "nam truyện tiểu bộ kinh điển", "chars_without_reading": 0, "ts": "2026-10-28T21:41:10"}
+{"cbeta_id": "B0006", "title_zh": "泰國大藏經小部經", "hvdic_vi": "thái quốc đại tàng kinh tiểu bộ kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:12"}
+{"cbeta_id": "B0007", "title_zh": "發趣論", "hvdic_vi": "phát thú luận", "chars_without_reading": 0, "ts": "2026-10-28T21:41:14"}
+{"cbeta_id": "B0008", "title_zh": "大發趣論註", "hvdic_vi": "đại phát thú luận chú", "chars_without_reading": 0, "ts": "2026-10-28T21:41:16"}
+{"cbeta_id": "B0009", "title_zh": "冠導阿毗達磨俱舍論", "hvdic_vi": "quan đạo a bì đạt ma câu xá luận", "chars_without_reading": 0, "ts": "2026-10-28T21:41:18"}
+{"cbeta_id": "B0010", "title_zh": "南傳轉法輪經", "hvdic_vi": "nam truyện chuyển pháp luân kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:20"}
+{"cbeta_id": "B0011", "title_zh": "轉法輪經", "hvdic_vi": "chuyển pháp luân kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:23"}
+{"cbeta_id": "B0012", "title_zh": "三寶經", "hvdic_vi": "tam bảo kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:24"}
+{"cbeta_id": "B0013", "title_zh": "吉祥經", "hvdic_vi": "cát tường kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:27"}
+{"cbeta_id": "B0014", "title_zh": "婆羅門正法經", "hvdic_vi": "bà la môn chính pháp kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:29"}
+{"cbeta_id": "B0015", "title_zh": "南傳羯臘摩經", "hvdic_vi": "nam truyện yết lạp ma kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:32"}
+{"cbeta_id": "B0016", "title_zh": "南傳大悲經", "hvdic_vi": "nam truyện đại bi kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:35"}
+{"cbeta_id": "B0017", "title_zh": "南傳法句經", "hvdic_vi": "nam truyện pháp cú kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:38"}
+{"cbeta_id": "B0018", "title_zh": "南傳大般湼槃經", "hvdic_vi": "nam truyện đại bàn niết bàn kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:40"}
+{"cbeta_id": "B0019", "title_zh": "南傳念安般經", "hvdic_vi": "nam truyện niệm an bàn kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:42"}
+{"cbeta_id": "B0020", "title_zh": "隨念三寶經淺說", "hvdic_vi": "tuỳ niệm tam bảo kinh thiển thuyết", "chars_without_reading": 0, "ts": "2026-10-28T21:41:45"}
+{"cbeta_id": "B0021", "title_zh": "毒語心經", "hvdic_vi": "độc ngữ tâm kinh", "chars_without_reading": 0, "ts": "2026-10-28T21:41:48"}
+{"cbeta_id": "B0022", "title_zh": "新譯薄伽梵母智慧到彼岸心經詮釋", "hvdic_vi": "tân dịch bạc già phạm mẫu trí tuệ đáo bỉ ngạn tâm kinh thuyên thích", "chars_without_reading": 0, "ts": "2026-10-28T21:41:50"}
+{"cbeta_id": "B0023", "title_zh": "金剛般若波羅蜜經講義", "hvdic_vi": "kim cương bàn nhược ba la mật kinh giảng nghĩa", "chars_without_reading": 0, "ts": "2026-10-28T21:41:52"}
+{"cbeta_id": "B0024", "title_zh": "佛說阿彌陀經註釋會要", "hvdic_vi": "phật thuyết a my đà kinh chú thích hội yếu", "chars_without_reading": 0, "ts": "2026-10-28T21:41:58"}
+{"cbeta_id": "B0025", "title_zh": "阿毗達摩攝義論", "hvdic_vi": "a bì đạt ma nhiếp nghĩa luận", "chars_without_reading": 0, "ts": "2026-10-28T21:42:02"}
+{"cbeta_id": "B0026", "title_zh": "四分比丘尼戒本註解", "hvdic_vi": "tứ phân tỷ khâu ni giới bản chú giải", "chars_without_reading": 0, "ts": "2026-10-28T21:42:07"}
+{"cbeta_id": "B0027", "title_zh": "瑜伽師地論戒品纂釋", "hvdic_vi": "du già sư địa luận giới phẩm toản thích", "chars_without_reading": 0, "ts": "2026-10-28T21:42:11"}
+{"cbeta_id": "B0028", "title_zh": "菩提正道菩薩戒論", "hvdic_vi": "bồ đề chính đạo bồ tát giới luận", "chars_without_reading": 0, "ts": "2026-10-28T21:42:16"}
+{"cbeta_id": "B0029", "title_zh": "菩薩戒品釋", "hvdic_vi": "bồ tát giới phẩm thích", "chars_without_reading": 0, "ts": "2026-10-28T21:42:20"}
+{"cbeta_id": "B0030", "title_zh": "現觀莊嚴論中八品七十義略解", "hvdic_vi": "hiện quan trang nghiêm luận trung bát phẩm thất thập nghĩa lược giải", "chars_without_reading": 0, "ts": "2026-10-28T21:42:23"}
+{"cbeta_id": "B0031", "title_zh": "現觀莊嚴論略釋", "hvdic_vi": "hiện quan trang nghiêm luận lược thích", "chars_without_reading": 0, "ts": "2026-10-28T21:42:27"}
+{"cbeta_id": "B0032", "title_zh": "七十空性論科攝", "hvdic_vi": "thất thập không tính luận khoa nhiếp", "chars_without_reading": 0, "ts": "2026-10-28T21:42:29"}
+{"cbeta_id": "B0033", "title_zh": "大乘修心七義論釋", "hvdic_vi": "đại thừa tu tâm thất nghĩa luận thích", "chars_without_reading": 0, "ts": "2026-10-28T21:42:33"}
+{"cbeta_id": "B0034", "title_zh": "辨法法性論", "hvdic_vi": "biện pháp pháp tính luận", "chars_without_reading": 0, "ts": "2026-10-28T21:42:37"}
+{"cbeta_id": "B0035", "title_zh": "西藏傳本攝大乘論", "hvdic_vi": "tây tàng truyện bản nhiếp đại thừa luận", "chars_without_reading": 0, "ts": "2026-10-28T21:42:43"}
+{"cbeta_id": "B0036", "title_zh": "三自性論", "hvdic_vi": "tam tự tính luận", "chars_without_reading": 0, "ts": "2026-10-28T21:42:48"}
+{"cbeta_id": "B0037", "title_zh": "集量論釋略抄", "hvdic_vi": "tập lượng luận thích lược sao", "chars_without_reading": 0, "ts": "2026-10-28T21:42:52"}
+{"cbeta_id": "B0038", "title_zh": "安慧三十唯識釋略抄", "hvdic_vi": "an tuệ tam thập duy thức thích lược sao", "chars_without_reading": 0, "ts": "2026-10-28T21:42:58"}
+{"cbeta_id": "B0039", "title_zh": "觀所緣釋論會譯", "hvdic_vi": "quan sở duyên thích luận hội dịch", "chars_without_reading": 0, "ts": "2026-10-28T21:43:03"}
+{"cbeta_id": "B0040", "title_zh": "集量論略解", "hvdic_vi": "tập lượng luận lược giải", "chars_without_reading": 0, "ts": "2026-10-28T21:43:08"}
+{"cbeta_id": "B0041", "title_zh": "正理滴論", "hvdic_vi": "chính lý chích luận", "chars_without_reading": 0, "ts": "2026-10-28T21:43:13"}
+{"cbeta_id": "B0042", "title_zh": "正理滴論", "hvdic_vi": "chính lý chích luận", "chars_without_reading": 0, "ts": "2026-10-28T21:43:22"}
+{"cbeta_id": "B0043", "title_zh": "釋量論略解", "hvdic_vi": "thích lượng luận lược giải", "chars_without_reading": 0, "ts": "2026-10-28T21:43:27"}
+{"cbeta_id": "B0044", "title_zh": "入中論善顯密意疏", "hvdic_vi": "nhập trung luận thiện hiển mật ý sơ", "chars_without_reading": 0, "ts": "2026-10-28T21:43:34"}
+{"cbeta_id": "B0045", "title_zh": "入中論講記", "hvdic_vi": "nhập trung luận giảng ký", "chars_without_reading": 0, "ts": "2026-10-28T21:43:42"}
+{"cbeta_id": "B0046", "title_zh": "中論略義", "hvdic_vi": "trung luận lược nghĩa", "chars_without_reading": 0, "ts": "2026-10-28T21:43:47"}
+{"cbeta_id": "B0047", "title_zh": "中論文句釋", "hvdic_vi": "trung luận văn cú thích", "chars_without_reading": 0, "ts": "2026-10-28T21:43:50"}
+{"cbeta_id": "B0048", "title_zh": "辨了不了義善說藏論", "hvdic_vi": "biện liễu bất liễu nghĩa thiện thuyết tàng luận", "chars_without_reading": 0, "ts": "2026-10-28T21:43:56"}
+{"cbeta_id": "B0049", "title_zh": "菩提道炬論", "hvdic_vi": "bồ đề đạo cự luận", "chars_without_reading": 0, "ts": "2026-10-28T21:44:02"}
+{"cbeta_id": "B0050", "title_zh": "地道建立", "hvdic_vi": "địa đạo kiến lập", "chars_without_reading": 0, "ts": "2026-10-28T21:44:07"}
+{"cbeta_id": "B0051", "title_zh": "菩提道次恒修教授", "hvdic_vi": "bồ đề đạo thứ hằng tu giáo thụ", "chars_without_reading": 0, "ts": "2026-10-28T21:44:16"}
+{"cbeta_id": "B0052", "title_zh": "緣起讚", "hvdic_vi": "duyên khởi tán", "chars_without_reading": 0, "ts": "2026-10-28T21:44:22"}
+{"cbeta_id": "B0053", "title_zh": "集諸學頌", "hvdic_vi": "tập chư học tụng", "chars_without_reading": 0, "ts": "2026-10-28T21:44:27"}
+{"cbeta_id": "B0054", "title_zh": "菩提道次第論攝頌", "hvdic_vi": "bồ đề đạo thứ đệ luận nhiếp tụng", "chars_without_reading": 0, "ts": "2026-10-28T21:44:33"}
+{"cbeta_id": "B0055", "title_zh": "菩提道次第論極略頌", "hvdic_vi": "bồ đề đạo thứ đệ luận cực lược tụng", "chars_without_reading": 0, "ts": "2026-10-28T21:44:37"}
+{"cbeta_id": "B0056", "title_zh": "西藏法寶貫珠", "hvdic_vi": "tây tàng pháp bảo quán châu", "chars_without_reading": 0, "ts": "2026-10-28T21:44:43"}
+{"cbeta_id": "B0057", "title_zh": "密宗道次第論", "hvdic_vi": "mật tông đạo thứ đệ luận", "chars_without_reading": 0, "ts": "2026-10-28T21:44:50"}
+{"cbeta_id": "B0058", "title_zh": "涅般道大手印瑜伽法要釋", "hvdic_vi": "niết bàn đạo đại thủ ấn du già pháp yếu thích", "chars_without_reading": 0, "ts": "2026-10-28T21:44:55"}
+{"cbeta_id": "B0059", "title_zh": "明行道六成就法", "hvdic_vi": "minh hành đạo lục thành tựu pháp", "chars_without_reading": 0, "ts": "2026-10-28T21:45:01"}
+{"cbeta_id": "B0060", "title_zh": "頗哇心要轉識自在法", "hvdic_vi": "phả oa tâm yếu chuyển thức tự tại pháp", "chars_without_reading": 0, "ts": "2026-10-28T21:45:07"}
+{"cbeta_id": "B0061", "title_zh": "椎擊三要訣勝法解", "hvdic_vi": "truỳ kích tam yếu quyết thắng pháp giải", "chars_without_reading": 0, "ts": "2026-10-28T21:45:11"}
+{"cbeta_id": "B0062", "title_zh": "貢噶上師恒河大手印直講", "hvdic_vi": "cống cát thượng sư hằng hà đại thủ ấn trực giảng", "chars_without_reading": 0, "ts": "2026-10-28T21:45:15"}
+{"cbeta_id": "B0063", "title_zh": "大密妙義深道六法引導廣論纂要", "hvdic_vi": "đại mật diệu nghĩa thâm đạo lục pháp dẫn đạo quảng luận toản yếu", "chars_without_reading": 0, "ts": "2026-10-28T21:45:19"}
+{"cbeta_id": "B0064", "title_zh": "大圓滿", "hvdic_vi": "đại viên mãn", "chars_without_reading": 0, "ts": "2026-10-28T21:45:22"}
+{"cbeta_id": "B0065", "title_zh": "菩提道次第略論", "hvdic_vi": "bồ đề đạo thứ đệ lược luận", "chars_without_reading": 0, "ts": "2026-10-28T21:45:25"}
+{"cbeta_id": "B0066", "title_zh": "菩提道次第直講", "hvdic_vi": "bồ đề đạo thứ đệ trực giảng", "chars_without_reading": 0, "ts": "2026-10-28T21:45:29"}
+{"cbeta_id": "B0067", "title_zh": "菩提道次第廣論", "hvdic_vi": "bồ đề đạo thứ đệ quảng luận", "chars_without_reading": 0, "ts": "2026-10-28T21:45:35"}
+{"cbeta_id": "B0068", "title_zh": "密宗道次第廣論", "hvdic_vi": "mật tông đạo thứ đệ quảng luận", "chars_without_reading": 0, "ts": "2026-10-28T21:45:43"}
+{"cbeta_id": "B0069", "title_zh": "七系付法傳", "hvdic_vi": "thất hệ phó pháp truyện", "chars_without_reading": 0, "ts": "2026-10-28T21:45:50"}
+{"cbeta_id": "B0070", "title_zh": "安樂妙寶", "hvdic_vi": "an nhạc diệu bảo", "chars_without_reading": 0, "ts": "2026-10-28T21:45:54"}
+{"cbeta_id": "B0071", "title_zh": "蓮華生大士應化史略", "hvdic_vi": "liên hoa sinh đại sĩ ưng hoá sử lược", "chars_without_reading": 0, "ts": "2026-10-28T21:45:58"}
+{"cbeta_id": "B0072", "title_zh": "阿底峽尊者傳", "hvdic_vi": "a để hạp tôn giả truyện", "chars_without_reading": 0, "ts": "2026-10-28T21:46:02"}
+{"cbeta_id": "B0073", "title_zh": "木納記", "hvdic_vi": "mộc nạp ký", "chars_without_reading": 0, "ts": "2026-10-28T21:46:07"}
+{"cbeta_id": "B0074", "title_zh": "宗喀巴大師傳", "hvdic_vi": "tông khách ba đại sư truyện", "chars_without_reading": 0, "ts": "2026-10-28T21:46:11"}
+{"cbeta_id": "B0075", "title_zh": "西藏王臣護法記", "hvdic_vi": "tây tàng vương thần hộ pháp ký", "chars_without_reading": 0, "ts": "2026-10-28T21:46:16"}
+{"cbeta_id": "B0076", "title_zh": "印度佛教史", "hvdic_vi": "ấn độ phật giáo sử", "chars_without_reading": 0, "ts": "2026-10-28T21:46:22"}
+{"cbeta_id": "B0077", "title_zh": "洛陽伽藍記校釋", "hvdic_vi": "lạc dương già lam ký hiệu thích", "chars_without_reading": 0, "ts": "2026-10-28T21:46:26"}
+{"cbeta_id": "B0078", "title_zh": "洛陽伽藍記校注", "hvdic_vi": "lạc dương già lam ký hiệu chú", "chars_without_reading": 0, "ts": "2026-10-28T21:46:29"}
+{"cbeta_id": "B0079", "title_zh": "釋氏六帖", "hvdic_vi": "thích thị lục thiếp", "chars_without_reading": 0, "ts": "2026-10-28T21:46:34"}
+{"cbeta_id": "B0080", "title_zh": "大唐西域記", "hvdic_vi": "đại đường tây vực ký", "chars_without_reading": 0, "ts": "2026-10-28T21:46:37"}
+{"cbeta_id": "B0081", "title_zh": "雙峰山曹侯溪寶林傳", "hvdic_vi": "song phong sơn tào hầu hoát bảo lâm truyện", "chars_without_reading": 0, "ts": "2026-10-28T21:46:40"}
+{"cbeta_id": "B0082", "title_zh": "傳燈玉英集", "hvdic_vi": "truyện đăng ngọc anh tập", "chars_without_reading": 0, "ts": "2026-10-28T21:46:42"}
+{"cbeta_id": "B0083", "title_zh": "密藏開禪師遺稿", "hvdic_vi": "mật tàng khai thiền sư di cảo", "chars_without_reading": 0, "ts": "2026-10-28T21:46:45"}
+{"cbeta_id": "B0084", "title_zh": "藏逸經書標目", "hvdic_vi": "tàng dật kinh thư tiêu mục", "chars_without_reading": 0, "ts": "2026-10-28T21:46:47"}
+{"cbeta_id": "B0085", "title_zh": "憨山大師年譜疏註", "hvdic_vi": "hàm sơn đại sư niên phổ sơ chú", "chars_without_reading": 0, "ts": "2026-10-28T21:46:49"}
+{"cbeta_id": "B0086", "title_zh": "南朝寺考", "hvdic_vi": "nam triêu tự khảo", "chars_without_reading": 0, "ts": "2026-10-28T21:46:52"}
+{"cbeta_id": "B0087", "title_zh": "合訂天台三聖二和詩集", "hvdic_vi": "hợp đính thiên đài tam thánh nhị hoà thi tập", "chars_without_reading": 0, "ts": "2026-10-28T21:46:55"}
+{"cbeta_id": "B0088", "title_zh": "古今圖書集成選輯", "hvdic_vi": "cổ kim đồ thư tập thành tuyển tập", "chars_without_reading": 0, "ts": "2026-10-28T21:46:58"}
+{"cbeta_id": "B0089", "title_zh": "太平廣記選輯", "hvdic_vi": "thái bình quảng ký tuyển tập", "chars_without_reading": 0, "ts": "2026-10-28T21:47:01"}
+{"cbeta_id": "B0090", "title_zh": "酉陽雜俎選輯", "hvdic_vi": "dậu dương tạp trở tuyển tập", "chars_without_reading": 0, "ts": "2026-10-28T21:47:05"}
+{"cbeta_id": "B0091", "title_zh": "正史選輯", "hvdic_vi": "chính sử tuyển tập", "chars_without_reading": 0, "ts": "2026-10-28T21:47:08"}
+{"cbeta_id": "B0092", "title_zh": "唐會要、五代會要、明書、明會典選輯", "hvdic_vi": "đường hội yếu , ngũ đại hội yếu , minh thư , minh hội điển tuyển tập", "chars_without_reading": 0, "ts": "2026-10-28T21:47:11"}
+{"cbeta_id": "B0093", "title_zh": "象教皮編", "hvdic_vi": "tượng giáo bì biên", "chars_without_reading": 0, "ts": "2026-10-28T21:47:14"}
+{"cbeta_id": "B0094", "title_zh": "冊府元龜選輯", "hvdic_vi": "sách phủ nguyên quy tuyển tập", "chars_without_reading": 0, "ts": "2026-10-28T21:47:17"}
+{"cbeta_id": "B0095", "title_zh": "入唐求法巡禮行記", "hvdic_vi": "nhập đường cầu pháp tuần lễ hành ký", "chars_without_reading": 0, "ts": "2026-10-28T21:47:19"}
+{"cbeta_id": "B0096", "title_zh": "佛教繪畫史料", "hvdic_vi": "phật giáo hội hoạch sử liệu", "chars_without_reading": 0, "ts": "2026-10-28T21:47:22"}
+{"cbeta_id": "B0097", "title_zh": "歸元鏡", "hvdic_vi": "quy nguyên kính", "chars_without_reading": 0, "ts": "2026-10-28T21:47:25"}
+{"cbeta_id": "B0098", "title_zh": "高旻寺規約", "hvdic_vi": "cao mân tự quy ước", "chars_without_reading": 0, "ts": "2026-10-28T21:47:27"}
+{"cbeta_id": "B0099", "title_zh": "相宗絡索", "hvdic_vi": "tương tông lạc tác", "chars_without_reading": 0, "ts": "2026-10-28T21:47:30"}
+{"cbeta_id": "B0100", "title_zh": "解惑編", "hvdic_vi": "giải hoặc biên", "chars_without_reading": 0, "ts": "2026-10-28T21:47:32"}
+{"cbeta_id": "B0101", "title_zh": "絕觀論", "hvdic_vi": "tuyệt quan luận", "chars_without_reading": 0, "ts": "2026-10-28T21:47:35"}
+{"cbeta_id": "B0102", "title_zh": "續原教論", "hvdic_vi": "tục nguyên giáo luận", "chars_without_reading": 0, "ts": "2026-10-28T21:47:37"}
+{"cbeta_id": "B0103", "title_zh": "禪林象器箋", "hvdic_vi": "thiền lâm tượng khí tiên", "chars_without_reading": 0, "ts": "2026-10-28T21:47:40"}
+{"cbeta_id": "B0104", "title_zh": "諸佛世尊如來菩薩尊者名稱歌曲", "hvdic_vi": "chư phật thế tôn như lai bồ tát tôn giả danh xưng ca khúc", "chars_without_reading": 0, "ts": "2026-10-28T21:47:45"}
+{"cbeta_id": "B0105", "title_zh": "天樂鳴空集", "hvdic_vi": "thiên nhạc minh không tập", "chars_without_reading": 0, "ts": "2026-10-28T21:47:49"}
+{"cbeta_id": "B0106", "title_zh": "黃蘗無念禪師復問", "hvdic_vi": "hoàng bách vô niệm thiền sư phục vấn", "chars_without_reading": 0, "ts": "2026-10-28T21:47:54"}
+{"cbeta_id": "B0107", "title_zh": "南宋江陰軍乾明院羅漢尊號碑", "hvdic_vi": "nam tống giang âm quân càn minh viện la hán tôn hiệu bi", "chars_without_reading": 0, "ts": "2026-10-28T21:47:58"}
+{"cbeta_id": "B0108", "title_zh": "寂音尊者智證傳", "hvdic_vi": "tịch âm tôn giả trí chứng truyện", "chars_without_reading": 0, "ts": "2026-10-28T21:48:03"}
+{"cbeta_id": "B0109", "title_zh": "石門文字禪", "hvdic_vi": "thạch môn văn tự thiền", "chars_without_reading": 0, "ts": "2026-10-28T21:48:09"}
+{"cbeta_id": "B0110", "title_zh": "無依道人錄", "hvdic_vi": "vô y đạo nhân lục", "chars_without_reading": 0, "ts": "2026-10-28T21:48:13"}
+{"cbeta_id": "B0111", "title_zh": "普明禪師牧牛圖頌", "hvdic_vi": "phổ minh thiền sư mục ngưu đồ tụng", "chars_without_reading": 0, "ts": "2026-10-28T21:48:17"}
+{"cbeta_id": "B0112", "title_zh": "牧牛圖頌", "hvdic_vi": "mục ngưu đồ tụng", "chars_without_reading": 0, "ts": "2026-10-28T21:48:20"}
+{"cbeta_id": "B0113", "title_zh": "學佛考訓", "hvdic_vi": "học phật khảo huấn", "chars_without_reading": 0, "ts": "2026-10-28T21:48:23"}
+{"cbeta_id": "B0114", "title_zh": "艸峰憲禪師語錄", "hvdic_vi": "thảo phong hiến thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-28T21:48:27"}
+{"cbeta_id": "B0115", "title_zh": "三峰藏和尚語錄", "hvdic_vi": "tam phong tàng hoà thượng ngữ lục", "chars_without_reading": 0, "ts": "2026-10-28T21:48:30"}
+{"cbeta_id": "B0116", "title_zh": "金剛般若波羅蜜經集註", "hvdic_vi": "kim cương bàn nhược ba la mật kinh tập chú", "chars_without_reading": 0, "ts": "2026-10-28T21:48:33"}
+{"cbeta_id": "B0117", "title_zh": "三藏法數", "hvdic_vi": "tam tàng pháp sổ", "chars_without_reading": 0, "ts": "2026-10-28T21:48:36"}
+{"cbeta_id": "B0118", "title_zh": "律宗燈譜", "hvdic_vi": "luật tông đăng phổ", "chars_without_reading": 0, "ts": "2026-10-28T21:48:38"}
+{"cbeta_id": "B0119", "title_zh": "天然和尚年譜", "hvdic_vi": "thiên nhiên hoà thượng niên phổ", "chars_without_reading": 0, "ts": "2026-10-28T21:48:41"}
+{"cbeta_id": "B0120", "title_zh": "雲棲大師遺稿", "hvdic_vi": "vân thê đại sư di cảo", "chars_without_reading": 0, "ts": "2026-10-28T21:48:44"}
+{"cbeta_id": "B0121", "title_zh": "雲棲大師塔銘", "hvdic_vi": "vân thê đại sư tháp minh", "chars_without_reading": 0, "ts": "2026-10-28T21:48:47"}
+{"cbeta_id": "B0122", "title_zh": "雲棲紀事", "hvdic_vi": "vân thê kỷ sự", "chars_without_reading": 0, "ts": "2026-10-28T21:48:50"}
+{"cbeta_id": "B0123", "title_zh": "竹窗隨筆", "hvdic_vi": "trúc song tuỳ bút", "chars_without_reading": 0, "ts": "2026-10-28T21:48:53"}
+{"cbeta_id": "B0124", "title_zh": "竹窗二筆", "hvdic_vi": "trúc song nhị bút", "chars_without_reading": 0, "ts": "2026-10-28T21:48:55"}
+{"cbeta_id": "B0125", "title_zh": "竹窗三筆", "hvdic_vi": "trúc song tam bút", "chars_without_reading": 0, "ts": "2026-10-28T21:48:58"}
+{"cbeta_id": "B0126", "title_zh": "正訛集", "hvdic_vi": "chính ngoa tập", "chars_without_reading": 0, "ts": "2026-10-28T21:49:01"}
+{"cbeta_id": "B0127", "title_zh": "雲棲共住規約", "hvdic_vi": "vân thê cộng trú quy ước", "chars_without_reading": 0, "ts": "2026-10-28T21:49:04"}
+{"cbeta_id": "B0128", "title_zh": "直道錄", "hvdic_vi": "trực đạo lục", "chars_without_reading": 0, "ts": "2026-10-28T21:49:06"}
+{"cbeta_id": "B0129", "title_zh": "山房雜錄", "hvdic_vi": "sơn phòng tạp lục", "chars_without_reading": 0, "ts": "2026-10-28T21:49:09"}
+{"cbeta_id": "B0130", "title_zh": "靈峰宗論", "hvdic_vi": "linh phong tông luận", "chars_without_reading": 0, "ts": "2026-10-28T21:49:11"}
+{"cbeta_id": "B0131", "title_zh": "法海觀瀾", "hvdic_vi": "pháp hải quan lan", "chars_without_reading": 0, "ts": "2026-10-28T21:49:13"}
+{"cbeta_id": "B0132", "title_zh": "尚直編", "hvdic_vi": "thượng trực biên", "chars_without_reading": 0, "ts": "2026-10-28T21:49:15"}
+{"cbeta_id": "B0133", "title_zh": "尚理編", "hvdic_vi": "thượng lý biên", "chars_without_reading": 0, "ts": "2026-10-28T21:49:17"}
+{"cbeta_id": "B0134", "title_zh": "闢邪集", "hvdic_vi": "tịch tà tập", "chars_without_reading": 0, "ts": "2026-10-28T21:49:20"}
+{"cbeta_id": "B0135", "title_zh": "蒲室集", "hvdic_vi": "bồ thất tập", "chars_without_reading": 0, "ts": "2026-10-28T21:49:22"}
+{"cbeta_id": "B0136", "title_zh": "選佛譜", "hvdic_vi": "tuyển phật phổ", "chars_without_reading": 0, "ts": "2026-10-28T21:49:24"}
+{"cbeta_id": "B0137", "title_zh": "正名錄", "hvdic_vi": "chính danh lục", "chars_without_reading": 0, "ts": "2026-10-28T21:49:26"}
+{"cbeta_id": "B0138", "title_zh": "開元寺志", "hvdic_vi": "khai nguyên tự chí", "chars_without_reading": 0, "ts": "2026-10-28T21:49:28"}
+{"cbeta_id": "B0139", "title_zh": "獻花巖志", "hvdic_vi": "hiến hoa nham chí", "chars_without_reading": 0, "ts": "2026-10-28T21:49:32"}
+{"cbeta_id": "B0140", "title_zh": "雪峰志", "hvdic_vi": "tuyết phong chí", "chars_without_reading": 0, "ts": "2026-10-28T21:49:34"}
+{"cbeta_id": "B0141", "title_zh": "嵩山少林寺輯志", "hvdic_vi": "tung sơn thiểu lâm tự tập chí", "chars_without_reading": 0, "ts": "2026-10-28T21:49:38"}
+{"cbeta_id": "B0142", "title_zh": "新校定的敦煌寫本神會和尚遺著兩種", "hvdic_vi": "tân hiệu định đích đôn hoàng tả bản thần hội hoà thượng di trước lưỡng chủng", "chars_without_reading": 0, "ts": "2026-10-28T21:49:40"}
+{"cbeta_id": "B0143", "title_zh": "神會和尚語錄的第三個敦煌寫本：南陽和尚問答雜徵義", "hvdic_vi": "thần hội hoà thượng ngữ lục đích đệ tam cá đôn hoàng tả bản : nam dương hoà thượng vấn đáp tạp trưng nghĩa", "chars_without_reading": 0, "ts": "2026-10-28T21:49:42"}
+{"cbeta_id": "B0144", "title_zh": "祖堂集", "hvdic_vi": "tổ đường tập", "chars_without_reading": 0, "ts": "2026-10-28T21:49:44"}
+{"cbeta_id": "B0145", "title_zh": "天目中峰廣錄", "hvdic_vi": "thiên mục trung phong quảng lục", "chars_without_reading": 0, "ts": "2026-10-28T21:49:46"}
+{"cbeta_id": "B0146", "title_zh": "房山雲居寺石經──經文、題記、碑銘等拓片之選輯", "hvdic_vi": "phòng sơn vân cư tự thạch kinh kinh văn , đề ký , bi minh đẳng thác phiến chi tuyển tập", "chars_without_reading": 2, "ts": "2026-10-28T21:49:48"}
+{"cbeta_id": "B0147", "title_zh": "三階教殘卷", "hvdic_vi": "tam giai giáo tàn quyển", "chars_without_reading": 0, "ts": "2026-10-28T21:49:50"}
+{"cbeta_id": "B0148", "title_zh": "東坡禪喜集", "hvdic_vi": "đông pha thiền hỷ tập", "chars_without_reading": 0, "ts": "2026-10-28T21:49:52"}
+{"cbeta_id": "B0149", "title_zh": "鳴道集說", "hvdic_vi": "minh đạo tập thuyết", "chars_without_reading": 0, "ts": "2026-10-28T21:49:55"}
+{"cbeta_id": "B0150", "title_zh": "道餘錄", "hvdic_vi": "đạo dư lục", "chars_without_reading": 0, "ts": "2026-10-28T21:49:57"}
+{"cbeta_id": "B0151", "title_zh": "新續高僧傳", "hvdic_vi": "tân tục cao tăng truyện", "chars_without_reading": 0, "ts": "2026-10-28T21:49:59"}
+{"cbeta_id": "B0152", "title_zh": "普濟玉琳國師語錄", "hvdic_vi": "phổ tế ngọc lâm quốc sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-28T21:50:02"}
+{"cbeta_id": "B0153", "title_zh": "法藏碎金錄", "hvdic_vi": "pháp tàng toái kim lục", "chars_without_reading": 0, "ts": "2026-10-28T21:50:05"}
+{"cbeta_id": "B0154", "title_zh": "宋文憲公護法錄", "hvdic_vi": "tống văn hiến công hộ pháp lục", "chars_without_reading": 0, "ts": "2026-10-28T21:50:07"}
+{"cbeta_id": "B0155", "title_zh": "聖朝破邪集", "hvdic_vi": "thánh triêu phá tà tập", "chars_without_reading": 0, "ts": "2026-10-28T21:50:09"}
+{"cbeta_id": "B0156", "title_zh": "佛法金湯", "hvdic_vi": "phật pháp kim thang", "chars_without_reading": 0, "ts": "2026-10-28T21:50:11"}
+{"cbeta_id": "B0157", "title_zh": "楊仁山居士遺著", "hvdic_vi": "dương nhân sơn cư sĩ di trước", "chars_without_reading": 0, "ts": "2026-10-28T21:50:13"}
+{"cbeta_id": "B0158", "title_zh": "陰騭文圖", "hvdic_vi": "âm chất văn đồ", "chars_without_reading": 0, "ts": "2026-10-28T21:50:16"}
+{"cbeta_id": "B0159", "title_zh": "了凡四訓", "hvdic_vi": "liễu phàm tứ huấn", "chars_without_reading": 0, "ts": "2026-10-28T21:50:18"}
+{"cbeta_id": "B0160", "title_zh": "金陵梵剎志", "hvdic_vi": "kim lăng phạm sát chí", "chars_without_reading": 0, "ts": "2026-10-28T21:50:20"}
+{"cbeta_id": "B0161", "title_zh": "武林梵志", "hvdic_vi": "võ lâm phạm chí", "chars_without_reading": 0, "ts": "2026-10-28T21:50:22"}
+{"cbeta_id": "B0162", "title_zh": "黃檗山志", "hvdic_vi": "hoàng phách sơn chí", "chars_without_reading": 0, "ts": "2026-10-28T21:50:24"}
+{"cbeta_id": "B0163", "title_zh": "重修曹溪通志", "hvdic_vi": "trùng tu tào hoát thông chí", "chars_without_reading": 0, "ts": "2026-10-28T21:50:26"}
+{"cbeta_id": "B0164", "title_zh": "普陀洛迦新志", "hvdic_vi": "phổ đà lạc ca tân chí", "chars_without_reading": 0, "ts": "2026-10-28T21:50:29"}
+{"cbeta_id": "B0165", "title_zh": "清涼山志", "hvdic_vi": "thanh lương sơn chí", "chars_without_reading": 0, "ts": "2026-10-28T21:50:32"}
+{"cbeta_id": "B0166", "title_zh": "九華山志", "hvdic_vi": "cửu hoa sơn chí", "chars_without_reading": 0, "ts": "2026-10-28T21:50:34"}
+{"cbeta_id": "B0167", "title_zh": "峨眉山志", "hvdic_vi": "nga my sơn chí", "chars_without_reading": 0, "ts": "2026-10-28T21:50:36"}
+{"cbeta_id": "B0170", "title_zh": "朝鮮佛教通史", "hvdic_vi": "triêu tiên phật giáo thông sử", "chars_without_reading": 0, "ts": "2026-10-28T21:51:13"}
+{"cbeta_id": "B0172", "title_zh": "出定後語", "hvdic_vi": "xuất định hậu ngữ", "chars_without_reading": 0, "ts": "2026-10-28T21:51:32"}
+{"cbeta_id": "B0173", "title_zh": "元亨釋書", "hvdic_vi": "nguyên hanh thích thư", "chars_without_reading": 0, "ts": "2026-10-28T21:51:35"}
+{"cbeta_id": "B0174", "title_zh": "參天台五台山記", "hvdic_vi": "tam thiên đài ngũ đài sơn ký", "chars_without_reading": 0, "ts": "2026-10-28T21:51:45"}
+{"cbeta_id": "B0175", "title_zh": "喫茶養生記", "hvdic_vi": "khiết trà dưỡng sinh ký", "chars_without_reading": 0, "ts": "2026-10-28T21:51:47"}
+{"cbeta_id": "B0176", "title_zh": "四宗要文", "hvdic_vi": "tứ tông yếu văn", "chars_without_reading": 0, "ts": "2026-10-28T21:51:49"}
+{"cbeta_id": "B0177", "title_zh": "本朝諸宗要集", "hvdic_vi": "bản triêu chư tông yếu tập", "chars_without_reading": 0, "ts": "2026-10-28T21:51:52"}
+{"cbeta_id": "B0178", "title_zh": "東大寺六宗未決義", "hvdic_vi": "đông đại tự lục tông vị quyết nghĩa", "chars_without_reading": 0, "ts": "2026-10-28T21:51:54"}
+{"cbeta_id": "B0179", "title_zh": "八海含藏", "hvdic_vi": "bát hải hàm tàng", "chars_without_reading": 0, "ts": "2026-10-28T21:51:56"}
+{"cbeta_id": "B0180", "title_zh": "華嚴通關", "hvdic_vi": "hoa nghiêm thông quan", "chars_without_reading": 0, "ts": "2026-10-28T21:52:02"}
+{"cbeta_id": "JA069", "title_zh": "觀無量壽佛經疏妙宗鈔", "hvdic_vi": "quan vô lượng thọ phật kinh sơ diệu tông sao", "chars_without_reading": 0, "ts": "2026-10-29T07:33:39"}
+{"cbeta_id": "JA070", "title_zh": "天台智者大師禪門口訣", "hvdic_vi": "thiên đài trí giả đại sư thiền môn khẩu quyết", "chars_without_reading": 0, "ts": "2026-10-29T07:33:45"}
+{"cbeta_id": "JA071", "title_zh": "請觀音經疏", "hvdic_vi": "thỉnh quan âm kinh sơ", "chars_without_reading": 0, "ts": "2026-10-29T07:33:51"}
+{"cbeta_id": "JA072", "title_zh": "請觀音經疏闡義鈔", "hvdic_vi": "thỉnh quan âm kinh sơ xiển nghĩa sao", "chars_without_reading": 0, "ts": "2026-10-29T07:33:59"}
+{"cbeta_id": "JA073", "title_zh": "釋摩訶般若波羅蜜經覺意三昧", "hvdic_vi": "thích ma ha bàn nhược ba la mật kinh giác ý tam muội", "chars_without_reading": 0, "ts": "2026-10-29T07:34:05"}
+{"cbeta_id": "JA074", "title_zh": "四念處", "hvdic_vi": "tứ niệm xứ", "chars_without_reading": 0, "ts": "2026-10-29T07:34:10"}
+{"cbeta_id": "JA075", "title_zh": "仁王護國般若經疏", "hvdic_vi": "nhân vương hộ quốc bàn nhược kinh sơ", "chars_without_reading": 0, "ts": "2026-10-29T07:34:13"}
+{"cbeta_id": "JA076", "title_zh": "佛說仁王護國般若波羅蜜經疏神寶記", "hvdic_vi": "phật thuyết nhân vương hộ quốc bàn nhược ba la mật kinh sơ thần bảo ký", "chars_without_reading": 0, "ts": "2026-10-29T07:34:17"}
+{"cbeta_id": "JA077", "title_zh": "天台八教大意", "hvdic_vi": "thiên đài bát giáo đại ý", "chars_without_reading": 0, "ts": "2026-10-29T07:34:22"}
+{"cbeta_id": "JA078", "title_zh": "四教義", "hvdic_vi": "tứ giáo nghĩa", "chars_without_reading": 0, "ts": "2026-10-29T07:34:26"}
+{"cbeta_id": "JA079", "title_zh": "國清百錄", "hvdic_vi": "quốc thanh bách lục", "chars_without_reading": 0, "ts": "2026-10-29T07:34:28"}
+{"cbeta_id": "JA080", "title_zh": "釋禪波羅蜜次第法門", "hvdic_vi": "thích thiền ba la mật thứ đệ pháp môn", "chars_without_reading": 0, "ts": "2026-10-29T07:34:31"}
+{"cbeta_id": "JA081", "title_zh": "法界次第初門", "hvdic_vi": "pháp giới thứ đệ sơ môn", "chars_without_reading": 0, "ts": "2026-10-29T07:34:35"}
+{"cbeta_id": "JA082", "title_zh": "方等三昧行法", "hvdic_vi": "phương đẳng tam muội hành pháp", "chars_without_reading": 0, "ts": "2026-10-29T07:34:38"}
+{"cbeta_id": "JA083", "title_zh": "淨土十疑論", "hvdic_vi": "tịnh thổ thập nghi luận", "chars_without_reading": 0, "ts": "2026-10-29T07:34:40"}
+{"cbeta_id": "JA084", "title_zh": "觀心論疏", "hvdic_vi": "quan tâm luận sơ", "chars_without_reading": 0, "ts": "2026-10-29T07:34:43"}
+{"cbeta_id": "JA085", "title_zh": "南嶽思大禪師立誓願文", "hvdic_vi": "nam nhạc tư đại thiền sư lập thệ nguyện văn", "chars_without_reading": 0, "ts": "2026-10-29T07:34:46"}
+{"cbeta_id": "JA086", "title_zh": "隋天台智者大師別傳", "hvdic_vi": "tuỳ thiên đài trí giả đại sư biệt truyện", "chars_without_reading": 0, "ts": "2026-10-29T07:34:48"}
+{"cbeta_id": "JA087", "title_zh": "止觀大意", "hvdic_vi": "chỉ quan đại ý", "chars_without_reading": 0, "ts": "2026-10-29T07:34:50"}
+{"cbeta_id": "JA088", "title_zh": "始終心要", "hvdic_vi": "thuỷ chung tâm yếu", "chars_without_reading": 0, "ts": "2026-10-29T07:34:52"}
+{"cbeta_id": "JA089", "title_zh": "修懺要旨", "hvdic_vi": "tu sám yếu chỉ", "chars_without_reading": 0, "ts": "2026-10-29T07:34:55"}
+{"cbeta_id": "JA090", "title_zh": "十不二門", "hvdic_vi": "thập bất nhị môn", "chars_without_reading": 0, "ts": "2026-10-29T07:34:57"}
+{"cbeta_id": "JA091", "title_zh": "十不二門指要鈔", "hvdic_vi": "thập bất nhị môn chỉ yếu sao", "chars_without_reading": 0, "ts": "2026-10-29T07:35:00"}
+{"cbeta_id": "JA092", "title_zh": "科金剛錍", "hvdic_vi": "khoa kim cương phê", "chars_without_reading": 0, "ts": "2026-10-29T07:35:01"}
+{"cbeta_id": "JA093", "title_zh": "法智遺編觀心二百問", "hvdic_vi": "pháp trí di biên quan tâm nhị bách vấn", "chars_without_reading": 0, "ts": "2026-10-29T07:35:03"}
+{"cbeta_id": "JA094", "title_zh": "天台傳佛心印記", "hvdic_vi": "thiên đài truyện phật tâm ấn ký", "chars_without_reading": 0, "ts": "2026-10-29T07:35:05"}
+{"cbeta_id": "JA095", "title_zh": "淨土境觀要門", "hvdic_vi": "tịnh thổ cảnh quan yếu môn", "chars_without_reading": 0, "ts": "2026-10-29T07:35:08"}
+{"cbeta_id": "JA096", "title_zh": "禪宗永嘉集　證道歌", "hvdic_vi": "thiền tông vĩnh gia tập chứng đạo ca", "chars_without_reading": 1, "ts": "2026-10-29T07:35:10"}
+{"cbeta_id": "JA097", "title_zh": "首楞嚴經義海", "hvdic_vi": "thủ lăng nghiêm kinh nghĩa hải", "chars_without_reading": 0, "ts": "2026-10-29T07:35:12"}
+{"cbeta_id": "JA098", "title_zh": "大方廣佛華嚴經疏", "hvdic_vi": "đại phương quảng phật hoa nghiêm kinh sơ", "chars_without_reading": 0, "ts": "2026-10-29T07:35:14"}
+{"cbeta_id": "JA099", "title_zh": "大方廣佛華嚴經隨疏演義鈔", "hvdic_vi": "đại phương quảng phật hoa nghiêm kinh tuỳ sơ diễn nghĩa sao", "chars_without_reading": 0, "ts": "2026-10-29T07:35:16"}
+{"cbeta_id": "JA100", "title_zh": "華嚴一乘教義分齊章", "hvdic_vi": "hoa nghiêm nhất thừa giáo nghĩa phân tề chương", "chars_without_reading": 0, "ts": "2026-10-29T07:35:18"}
+{"cbeta_id": "JA101", "title_zh": "華嚴經明法品內立三寶章", "hvdic_vi": "hoa nghiêm kinh minh pháp phẩm nội lập tam bảo chương", "chars_without_reading": 0, "ts": "2026-10-29T07:35:20"}
+{"cbeta_id": "JA102", "title_zh": "修華嚴奧止妄盡還源觀", "hvdic_vi": "tu hoa nghiêm áo chỉ vọng tận hoàn nguyên quan", "chars_without_reading": 0, "ts": "2026-10-29T07:35:22"}
+{"cbeta_id": "JA103", "title_zh": "原人論", "hvdic_vi": "nguyên nhân luận", "chars_without_reading": 0, "ts": "2026-10-29T07:35:24"}
+{"cbeta_id": "JA104", "title_zh": "華嚴經旨歸", "hvdic_vi": "hoa nghiêm kinh chỉ quy", "chars_without_reading": 0, "ts": "2026-10-29T07:35:26"}
+{"cbeta_id": "JA105", "title_zh": "註華嚴法界觀門", "hvdic_vi": "chú hoa nghiêm pháp giới quan môn", "chars_without_reading": 0, "ts": "2026-10-29T07:35:28"}
+{"cbeta_id": "JA106", "title_zh": "華嚴法界玄鏡", "hvdic_vi": "hoa nghiêm pháp giới huyền kính", "chars_without_reading": 0, "ts": "2026-10-29T07:35:30"}
+{"cbeta_id": "JA107", "title_zh": "般若波羅蜜多心經略疏", "hvdic_vi": "bàn nhược ba la mật đa tâm kinh lược sơ", "chars_without_reading": 0, "ts": "2026-10-29T07:35:32"}
+{"cbeta_id": "JA108", "title_zh": "般若心經略疏連珠記", "hvdic_vi": "bàn nhược tâm kinh lược sơ liên châu ký", "chars_without_reading": 0, "ts": "2026-10-29T07:35:34"}
+{"cbeta_id": "JA109", "title_zh": "佛說盂蘭盆經疏", "hvdic_vi": "phật thuyết vu lan bồn kinh sơ", "chars_without_reading": 0, "ts": "2026-10-29T07:35:36"}
+{"cbeta_id": "JA110", "title_zh": "金師子章雲間類解", "hvdic_vi": "kim sư tử chương vân gian loại giải", "chars_without_reading": 0, "ts": "2026-10-29T07:35:38"}
+{"cbeta_id": "JA111", "title_zh": "佛說阿彌陀經疏", "hvdic_vi": "phật thuyết a my đà kinh sơ", "chars_without_reading": 0, "ts": "2026-10-29T07:35:40"}
+{"cbeta_id": "JA112", "title_zh": "楞伽阿跋多羅寶經註解", "hvdic_vi": "lăng già a bạt đa la bảo kinh chú giải", "chars_without_reading": 0, "ts": "2026-10-29T07:35:43"}
+{"cbeta_id": "JA113", "title_zh": "般若波羅蜜多心經註解", "hvdic_vi": "bàn nhược ba la mật đa tâm kinh chú giải", "chars_without_reading": 0, "ts": "2026-10-29T07:35:46"}
+{"cbeta_id": "JA114", "title_zh": "金剛般若波羅蜜經註解", "hvdic_vi": "kim cương bàn nhược ba la mật kinh chú giải", "chars_without_reading": 0, "ts": "2026-10-29T07:35:48"}
+{"cbeta_id": "JA115", "title_zh": "大明太宗文皇帝御製序讚文", "hvdic_vi": "đại minh thái tông văn hoàng đế ngự chế tự tán văn", "chars_without_reading": 0, "ts": "2026-10-29T07:35:50"}
+{"cbeta_id": "JA116", "title_zh": "諸佛世尊如來菩薩尊者神僧名經", "hvdic_vi": "chư phật thế tôn như lai bồ tát tôn giả thần tăng danh kinh", "chars_without_reading": 0, "ts": "2026-10-29T07:35:52"}
+{"cbeta_id": "JA117", "title_zh": "諸佛世尊如來菩薩尊者名稱歌曲", "hvdic_vi": "chư phật thế tôn như lai bồ tát tôn giả danh xưng ca khúc", "chars_without_reading": 0, "ts": "2026-10-29T07:35:54"}
+{"cbeta_id": "JA118", "title_zh": "神僧傳", "hvdic_vi": "thần tăng truyện", "chars_without_reading": 0, "ts": "2026-10-29T07:35:56"}
+{"cbeta_id": "JA119", "title_zh": "大明三藏法數", "hvdic_vi": "đại minh tam tàng pháp sổ", "chars_without_reading": 0, "ts": "2026-10-29T07:35:58"}
+{"cbeta_id": "JA120", "title_zh": "華嚴懸談會玄記", "hvdic_vi": "hoa nghiêm huyền đàm hội huyền ký", "chars_without_reading": 0, "ts": "2026-10-29T07:36:00"}
+{"cbeta_id": "JA121", "title_zh": "妙法蓮華經要解", "hvdic_vi": "diệu pháp liên hoa kinh yếu giải", "chars_without_reading": 0, "ts": "2026-10-29T07:36:04"}
+{"cbeta_id": "JA122", "title_zh": "大佛頂首楞嚴經會解", "hvdic_vi": "đại phật đỉnh thủ lăng nghiêm kinh hội giải", "chars_without_reading": 0, "ts": "2026-10-29T07:36:06"}
+{"cbeta_id": "JA123", "title_zh": "起信論", "hvdic_vi": "khởi tín luận", "chars_without_reading": 0, "ts": "2026-10-29T07:36:08"}
+{"cbeta_id": "JA124", "title_zh": "起信論疏筆削記", "hvdic_vi": "khởi tín luận sơ bút tước ký", "chars_without_reading": 0, "ts": "2026-10-29T07:36:10"}
+{"cbeta_id": "JA125", "title_zh": "肇論新疏", "hvdic_vi": "triệu luận tân sơ", "chars_without_reading": 0, "ts": "2026-10-29T07:36:12"}
+{"cbeta_id": "JA126", "title_zh": "肇論新疏游刃", "hvdic_vi": "triệu luận tân sơ du nhận", "chars_without_reading": 0, "ts": "2026-10-29T07:36:15"}
+{"cbeta_id": "JA127", "title_zh": "圓覺略疏之鈔", "hvdic_vi": "viên giác lược sơ chi sao", "chars_without_reading": 0, "ts": "2026-10-29T07:36:17"}
+{"cbeta_id": "JA128", "title_zh": "金剛般若經疏論纂要", "hvdic_vi": "kim cương bàn nhược kinh sơ luận toản yếu", "chars_without_reading": 0, "ts": "2026-10-29T07:36:19"}
+{"cbeta_id": "JA129", "title_zh": "金剛經纂要刊定記", "hvdic_vi": "kim cương kinh toản yếu san định ký", "chars_without_reading": 0, "ts": "2026-10-29T07:36:21"}
+{"cbeta_id": "JA130", "title_zh": "維摩詰所說經註", "hvdic_vi": "duy ma cật sở thuyết kinh chú", "chars_without_reading": 0, "ts": "2026-10-29T07:36:23"}
+{"cbeta_id": "JA131", "title_zh": "華嚴原人論解", "hvdic_vi": "hoa nghiêm nguyên nhân luận giải", "chars_without_reading": 0, "ts": "2026-10-29T07:36:25"}
+{"cbeta_id": "JA132", "title_zh": "折疑論", "hvdic_vi": "chiết nghi luận", "chars_without_reading": 0, "ts": "2026-10-29T07:36:27"}
+{"cbeta_id": "JA133", "title_zh": "天台四教儀集註", "hvdic_vi": "thiên đài tứ giáo nghi tập chú", "chars_without_reading": 0, "ts": "2026-10-29T07:36:29"}
+{"cbeta_id": "JA134", "title_zh": "教乘法數", "hvdic_vi": "giáo thừa pháp sổ", "chars_without_reading": 0, "ts": "2026-10-29T07:36:35"}
+{"cbeta_id": "JA135", "title_zh": "佛祖歷代通載", "hvdic_vi": "phật tổ lịch đại thông tải", "chars_without_reading": 0, "ts": "2026-10-29T07:36:37"}
+{"cbeta_id": "JA136", "title_zh": "禪林寶訓", "hvdic_vi": "thiền lâm bảo huấn", "chars_without_reading": 0, "ts": "2026-10-29T07:36:39"}
+{"cbeta_id": "JA137", "title_zh": "大方廣佛華嚴經疏演義鈔", "hvdic_vi": "đại phương quảng phật hoa nghiêm kinh sơ diễn nghĩa sao", "chars_without_reading": 0, "ts": "2026-10-29T07:36:41"}
+{"cbeta_id": "JA138", "title_zh": "翻譯名義集", "hvdic_vi": "phiên dịch danh nghĩa tập", "chars_without_reading": 0, "ts": "2026-10-29T07:36:44"}
+{"cbeta_id": "JA139", "title_zh": "禪宗正脈", "hvdic_vi": "thiền tông chính mạch", "chars_without_reading": 0, "ts": "2026-10-29T07:36:47"}
+{"cbeta_id": "JA140", "title_zh": "百丈清規", "hvdic_vi": "bách trượng thanh quy", "chars_without_reading": 0, "ts": "2026-10-29T07:36:50"}
+{"cbeta_id": "JA141", "title_zh": "三教平心論", "hvdic_vi": "tam giáo bình tâm luận", "chars_without_reading": 0, "ts": "2026-10-29T07:36:52"}
+{"cbeta_id": "JA142", "title_zh": "緇門警訓", "hvdic_vi": "tri môn cảnh huấn", "chars_without_reading": 0, "ts": "2026-10-29T07:36:54"}
+{"cbeta_id": "JA143", "title_zh": "鐔津文集", "hvdic_vi": "thiền tân văn tập", "chars_without_reading": 0, "ts": "2026-10-29T07:36:57"}
+{"cbeta_id": "JA144", "title_zh": "禪源諸詮集都序", "hvdic_vi": "thiền nguyên chư thuyên tập đô tự", "chars_without_reading": 0, "ts": "2026-10-29T07:36:59"}
+{"cbeta_id": "JA145", "title_zh": "八識規矩補註", "hvdic_vi": "bát thức quy củ bổ chú", "chars_without_reading": 0, "ts": "2026-10-29T07:37:01"}
+{"cbeta_id": "JA146", "title_zh": "大乘百法明門論解", "hvdic_vi": "đại thừa bách pháp minh môn luận giải", "chars_without_reading": 0, "ts": "2026-10-29T07:37:03"}
+{"cbeta_id": "JA147", "title_zh": "高麗國普照禪師修心訣", "hvdic_vi": "cao lệ quốc phổ chiếu thiền sư tu tâm quyết", "chars_without_reading": 0, "ts": "2026-10-29T07:37:05"}
+{"cbeta_id": "JA148", "title_zh": "真心直說", "hvdic_vi": "chân tâm trực thuyết", "chars_without_reading": 0, "ts": "2026-10-29T07:37:09"}
+{"cbeta_id": "JA149", "title_zh": "寶藏論", "hvdic_vi": "bảo tàng luận", "chars_without_reading": 0, "ts": "2026-10-29T07:37:11"}
+{"cbeta_id": "JA150", "title_zh": "廬山蓮宗寶鑑", "hvdic_vi": "lư sơn liên tông bảo giám", "chars_without_reading": 0, "ts": "2026-10-29T07:37:14"}
+{"cbeta_id": "JA151", "title_zh": "永明智覺禪師唯心訣", "hvdic_vi": "vĩnh minh trí giác thiền sư duy tâm quyết", "chars_without_reading": 0, "ts": "2026-10-29T07:37:17"}
+{"cbeta_id": "JA152", "title_zh": "禪宗決疑集", "hvdic_vi": "thiền tông quyết nghi tập", "chars_without_reading": 0, "ts": "2026-10-29T07:37:20"}
+{"cbeta_id": "JA153", "title_zh": "斷際禪師傳心法要", "hvdic_vi": "đoạn tế thiền sư truyện tâm pháp yếu", "chars_without_reading": 0, "ts": "2026-10-29T07:37:22"}
+{"cbeta_id": "JA154", "title_zh": "萬善同歸集", "hvdic_vi": "vạn thiện đồng quy tập", "chars_without_reading": 0, "ts": "2026-10-29T07:37:24"}
+{"cbeta_id": "JA155", "title_zh": "華嚴七字經題法界觀三十門頌", "hvdic_vi": "hoa nghiêm thất tự kinh đề pháp giới quan tam thập môn tụng", "chars_without_reading": 0, "ts": "2026-10-29T07:37:26"}
+{"cbeta_id": "JA156", "title_zh": "大明仁孝皇后夢感佛說第一希有大功德經", "hvdic_vi": "đại minh nhân hiếu hoàng hậu mộng cảm phật thuyết đệ nhất hy hữu đại công đức kinh", "chars_without_reading": 0, "ts": "2026-10-29T07:37:28"}
+{"cbeta_id": "JA157", "title_zh": "續傳燈錄", "hvdic_vi": "tục truyện đăng lục", "chars_without_reading": 0, "ts": "2026-10-29T07:37:31"}
+{"cbeta_id": "JA158", "title_zh": "密雲禪師語錄", "hvdic_vi": "mật vân thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T07:37:33"}
+{"cbeta_id": "JA159", "title_zh": "古尊宿語錄", "hvdic_vi": "cổ tôn túc ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T07:37:35"}
+{"cbeta_id": "JA160", "title_zh": "禪宗頌古聯珠通集", "hvdic_vi": "thiền tông tụng cổ liên châu thông tập", "chars_without_reading": 0, "ts": "2026-10-29T07:37:37"}
+{"cbeta_id": "JA161", "title_zh": "佛祖統紀", "hvdic_vi": "phật tổ thống kỷ", "chars_without_reading": 0, "ts": "2026-10-29T07:37:39"}
+{"cbeta_id": "JB001", "title_zh": "大方廣佛華嚴經疏鈔", "hvdic_vi": "đại phương quảng phật hoa nghiêm kinh sơ sao", "chars_without_reading": 0, "ts": "2026-10-29T07:37:41"}
+{"cbeta_id": "JB002", "title_zh": "大方廣佛新華嚴經合論", "hvdic_vi": "đại phương quảng phật tân hoa nghiêm kinh hợp luận", "chars_without_reading": 0, "ts": "2026-10-29T07:37:44"}
+{"cbeta_id": "JB003", "title_zh": "大方廣佛華嚴經綱要", "hvdic_vi": "đại phương quảng phật hoa nghiêm kinh cương yếu", "chars_without_reading": 0, "ts": "2026-10-29T07:37:47"}
+{"cbeta_id": "JB004", "title_zh": "大方廣佛華嚴經海印道場十重行願常遍禮懺儀　九會請佛儀", "hvdic_vi": "đại phương quảng phật hoa nghiêm kinh hải ấn đạo trường thập trùng hành nguyện thường biến lễ sám nghi cửu hội thỉnh phật nghi", "chars_without_reading": 1, "ts": "2026-10-29T07:37:49"}
+{"cbeta_id": "JB005", "title_zh": "大方廣佛華嚴經普賢行願品別行疏鈔", "hvdic_vi": "đại phương quảng phật hoa nghiêm kinh phổ hiền hành nguyện phẩm biệt hành sơ sao", "chars_without_reading": 0, "ts": "2026-10-29T07:37:51"}
+{"cbeta_id": "JB006", "title_zh": "略釋新華嚴經修行次第決疑論", "hvdic_vi": "lược thích tân hoa nghiêm kinh tu hành thứ đệ quyết nghi luận", "chars_without_reading": 0, "ts": "2026-10-29T07:37:54"}
+{"cbeta_id": "JB007", "title_zh": "解迷顯智成悲十明論", "hvdic_vi": "giải mê hiển trí thành bi thập minh luận", "chars_without_reading": 0, "ts": "2026-10-29T07:37:56"}
+{"cbeta_id": "JB279", "title_zh": "虛舟禪師註八識規矩頌", "hvdic_vi": "hư chu thiền sư chú bát thức quy củ tụng", "chars_without_reading": 0, "ts": "2026-10-29T08:51:56"}
+{"cbeta_id": "JB280", "title_zh": "神鼎雲外澤禪師語錄", "hvdic_vi": "thần đỉnh vân ngoại trạch thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:52:04"}
+{"cbeta_id": "JB281", "title_zh": "壇溪梓舟船禪師語錄", "hvdic_vi": "đàn hoát tử chu thuyền thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:52:13"}
+{"cbeta_id": "JB282", "title_zh": "虛舟省禪師語錄", "hvdic_vi": "hư chu tỉnh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:52:20"}
+{"cbeta_id": "JB283", "title_zh": "天台三聖詩集和韻", "hvdic_vi": "thiên đài tam thánh thi tập hoà vận", "chars_without_reading": 0, "ts": "2026-10-29T08:52:24"}
+{"cbeta_id": "JB284", "title_zh": "益州嵩山野竹禪師後錄", "hvdic_vi": "ích châu tung sơn dã trúc thiền sư hậu lục", "chars_without_reading": 0, "ts": "2026-10-29T08:52:28"}
+{"cbeta_id": "JB285", "title_zh": "兜率不磷堅禪師語錄", "hvdic_vi": "đâu suất bất lân kiên thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:52:32"}
+{"cbeta_id": "JB286", "title_zh": "攖寧靜禪師語錄", "hvdic_vi": "anh ninh tĩnh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:52:36"}
+{"cbeta_id": "JB287", "title_zh": "自閒覺禪師語錄", "hvdic_vi": "tự nhàn giác thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:52:40"}
+{"cbeta_id": "JB288", "title_zh": "憨予暹禪師語錄", "hvdic_vi": "hàm dư xiêm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:52:42"}
+{"cbeta_id": "JB289", "title_zh": "金剛經郢說", "hvdic_vi": "kim cương kinh dĩnh thuyết", "chars_without_reading": 0, "ts": "2026-10-29T08:52:45"}
+{"cbeta_id": "JB290", "title_zh": "金剛經註正訛", "hvdic_vi": "kim cương kinh chú chính ngoa", "chars_without_reading": 0, "ts": "2026-10-29T08:52:48"}
+{"cbeta_id": "JB291", "title_zh": "寶蓮淨土全書", "hvdic_vi": "bảo liên tịnh thổ toàn thư", "chars_without_reading": 0, "ts": "2026-10-29T08:52:51"}
+{"cbeta_id": "JB292", "title_zh": "注肇論疏", "hvdic_vi": "chú triệu luận sơ", "chars_without_reading": 0, "ts": "2026-10-29T08:52:54"}
+{"cbeta_id": "JB293", "title_zh": "擬寒山詩", "hvdic_vi": "nghĩ hàn sơn thi", "chars_without_reading": 0, "ts": "2026-10-29T08:52:58"}
+{"cbeta_id": "JB294", "title_zh": "雲溪俍亭挺禪師語錄", "hvdic_vi": "vân hoát lương đình đĩnh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:02"}
+{"cbeta_id": "JB295", "title_zh": "學佛考訓", "hvdic_vi": "học phật khảo huấn", "chars_without_reading": 0, "ts": "2026-10-29T08:53:06"}
+{"cbeta_id": "JB296", "title_zh": "漆園指通", "hvdic_vi": "tất viên chỉ thông", "chars_without_reading": 0, "ts": "2026-10-29T08:53:09"}
+{"cbeta_id": "JB297", "title_zh": "閱經十二種", "hvdic_vi": "duyệt kinh thập nhị chủng", "chars_without_reading": 0, "ts": "2026-10-29T08:53:16"}
+{"cbeta_id": "JB298", "title_zh": "屾峰憲禪師語錄", "hvdic_vi": "phong hiến thiền sư ngữ lục", "chars_without_reading": 1, "ts": "2026-10-29T08:53:21"}
+{"cbeta_id": "JB299", "title_zh": "三峰藏和尚語錄", "hvdic_vi": "tam phong tàng hoà thượng ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:26"}
+{"cbeta_id": "JB300", "title_zh": "朝宗禪師語錄", "hvdic_vi": "triêu tông thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:32"}
+{"cbeta_id": "JB301", "title_zh": "南嶽繼起和尚語錄", "hvdic_vi": "nam nhạc kế khởi hoà thượng ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:35"}
+{"cbeta_id": "JB302", "title_zh": "南嶽單傳記", "hvdic_vi": "nam nhạc đan truyện ký", "chars_without_reading": 0, "ts": "2026-10-29T08:53:37"}
+{"cbeta_id": "JB303", "title_zh": "燮雲璣禪師國清無畏堂語錄", "hvdic_vi": "tiếp vân ky thiền sư quốc thanh vô uý đường ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:40"}
+{"cbeta_id": "JB304", "title_zh": "靈樹遠禪師雲嵒集", "hvdic_vi": "linh thụ viễn thiền sư vân nham tập", "chars_without_reading": 0, "ts": "2026-10-29T08:53:43"}
+{"cbeta_id": "JB305", "title_zh": "國清大庾韜禪師語錄", "hvdic_vi": "quốc thanh đại dữu thao thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:45"}
+{"cbeta_id": "JB306", "title_zh": "內紹種禪師語錄", "hvdic_vi": "nội thiệu chủng thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:48"}
+{"cbeta_id": "JB307", "title_zh": "首楞嚴經如說", "hvdic_vi": "thủ lăng nghiêm kinh như thuyết", "chars_without_reading": 0, "ts": "2026-10-29T08:53:51"}
+{"cbeta_id": "JB308", "title_zh": "象崖珽禪師語錄", "hvdic_vi": "tượng nhai đĩnh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:54"}
+{"cbeta_id": "JB309", "title_zh": "雲腹智禪師語錄", "hvdic_vi": "vân phúc trí thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:53:57"}
+{"cbeta_id": "JB310", "title_zh": "雲叟住禪師語錄", "hvdic_vi": "vân tẩu trú thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:54:00"}
+{"cbeta_id": "JB311", "title_zh": "天界覺浪盛禪師全錄", "hvdic_vi": "thiên giới giác lãng thịnh thiền sư toàn lục", "chars_without_reading": 0, "ts": "2026-10-29T08:54:02"}
+{"cbeta_id": "JB312", "title_zh": "天界覺浪盛禪師嘉禾語錄", "hvdic_vi": "thiên giới giác lãng thịnh thiền sư gia hoà ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:54:05"}
+{"cbeta_id": "JB313", "title_zh": "青原愚者智禪師語錄", "hvdic_vi": "thanh nguyên ngu giả trí thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:54:07"}
+{"cbeta_id": "JB314", "title_zh": "四分律名義標釋", "hvdic_vi": "tứ phân luật danh nghĩa tiêu thích", "chars_without_reading": 0, "ts": "2026-10-29T08:54:09"}
+{"cbeta_id": "JB315", "title_zh": "四分戒本如釋", "hvdic_vi": "tứ phân giới bản như thích", "chars_without_reading": 0, "ts": "2026-10-29T08:54:12"}
+{"cbeta_id": "JB316", "title_zh": "佛說梵網經菩薩心地品下略疏", "hvdic_vi": "phật thuyết phạm võng kinh bồ tát tâm địa phẩm hạ lược sơ", "chars_without_reading": 0, "ts": "2026-10-29T08:54:14"}
+{"cbeta_id": "JB317", "title_zh": "沙彌律儀要略增註", "hvdic_vi": "sa my luật nghi yếu lược tăng chú", "chars_without_reading": 0, "ts": "2026-10-29T08:54:17"}
+{"cbeta_id": "JB318", "title_zh": "沙彌學戒儀軌頌註", "hvdic_vi": "sa my học giới nghi quỹ tụng chú", "chars_without_reading": 0, "ts": "2026-10-29T08:54:19"}
+{"cbeta_id": "JB319", "title_zh": "禮佛儀式", "hvdic_vi": "lễ phật nghi thức", "chars_without_reading": 0, "ts": "2026-10-29T08:54:22"}
+{"cbeta_id": "JB320", "title_zh": "式叉摩那尼戒本", "hvdic_vi": "thức xoa ma na ni giới bản", "chars_without_reading": 0, "ts": "2026-10-29T08:54:26"}
+{"cbeta_id": "JB321", "title_zh": "比丘尼戒錄", "hvdic_vi": "tỷ khâu ni giới lục", "chars_without_reading": 0, "ts": "2026-10-29T08:54:30"}
+{"cbeta_id": "JB322", "title_zh": "沙門日用", "hvdic_vi": "sa môn nhật dụng", "chars_without_reading": 0, "ts": "2026-10-29T08:54:34"}
+{"cbeta_id": "JB323", "title_zh": "供諸天科儀", "hvdic_vi": "cung chư thiên khoa nghi", "chars_without_reading": 0, "ts": "2026-10-29T08:54:36"}
+{"cbeta_id": "JB324", "title_zh": "禮舍利塔儀式", "hvdic_vi": "lễ xá lợi tháp nghi thức", "chars_without_reading": 0, "ts": "2026-10-29T08:54:39"}
+{"cbeta_id": "JB325", "title_zh": "解惑篇", "hvdic_vi": "giải hoặc thiên", "chars_without_reading": 0, "ts": "2026-10-29T08:54:41"}
+{"cbeta_id": "JB326", "title_zh": "木人剩稿", "hvdic_vi": "mộc nhân thặng cảo", "chars_without_reading": 0, "ts": "2026-10-29T08:54:44"}
+{"cbeta_id": "JB327", "title_zh": "六道集", "hvdic_vi": "lục đạo tập", "chars_without_reading": 0, "ts": "2026-10-29T08:54:47"}
+{"cbeta_id": "JB328", "title_zh": "七俱胝佛母所說準提陀羅尼經會釋", "hvdic_vi": "thất câu chi phật mẫu sở thuyết chuẩn đề đà la ni kinh hội thích", "chars_without_reading": 0, "ts": "2026-10-29T08:54:50"}
+{"cbeta_id": "JB329", "title_zh": "溈山警策句釋記", "hvdic_vi": "vy sơn cảnh sách cú thích ký", "chars_without_reading": 0, "ts": "2026-10-29T08:54:53"}
+{"cbeta_id": "JB330", "title_zh": "歸戒要集", "hvdic_vi": "quy giới yếu tập", "chars_without_reading": 0, "ts": "2026-10-29T08:54:57"}
+{"cbeta_id": "JB331", "title_zh": "兜率龜鏡集", "hvdic_vi": "đâu suất quy kính tập", "chars_without_reading": 0, "ts": "2026-10-29T08:54:59"}
+{"cbeta_id": "JB332", "title_zh": "觀音慈林集", "hvdic_vi": "quan âm từ lâm tập", "chars_without_reading": 0, "ts": "2026-10-29T08:55:02"}
+{"cbeta_id": "JB333", "title_zh": "般若波羅蜜多心經添足", "hvdic_vi": "bàn nhược ba la mật đa tâm kinh thiêm túc", "chars_without_reading": 0, "ts": "2026-10-29T08:55:05"}
+{"cbeta_id": "JB334", "title_zh": "持誦準提真言法要", "hvdic_vi": "trì tụng chuẩn đề chân ngôn pháp yếu", "chars_without_reading": 0, "ts": "2026-10-29T08:55:07"}
+{"cbeta_id": "JB335", "title_zh": "八關齋法", "hvdic_vi": "bát quan trai pháp", "chars_without_reading": 0, "ts": "2026-10-29T08:55:10"}
+{"cbeta_id": "JB336", "title_zh": "南海寶象林慧弓詗禪師語錄", "hvdic_vi": "nam hải bảo tượng lâm tuệ cung huýnh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:12"}
+{"cbeta_id": "JB337", "title_zh": "寶持總禪師語錄", "hvdic_vi": "bảo trì tổng thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:15"}
+{"cbeta_id": "JB338", "title_zh": "靈瑞尼祖揆符禪師妙湛錄", "hvdic_vi": "linh thuỵ ni tổ quỹ phù thiền sư diệu trạm lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:17"}
+{"cbeta_id": "JB339", "title_zh": "靈瑞禪師嵒華集", "hvdic_vi": "linh thuỵ thiền sư nham hoa tập", "chars_without_reading": 0, "ts": "2026-10-29T08:55:20"}
+{"cbeta_id": "JB340", "title_zh": "慧覺衣禪師語錄", "hvdic_vi": "tuệ giác y thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:22"}
+{"cbeta_id": "JB341", "title_zh": "佛語御禪師語錄", "hvdic_vi": "phật ngữ ngự thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:25"}
+{"cbeta_id": "JB342", "title_zh": "華嚴聖可禪師語錄", "hvdic_vi": "hoa nghiêm thánh khả thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:27"}
+{"cbeta_id": "JB343", "title_zh": "廣福山勝覺寺密印禪師語錄", "hvdic_vi": "quảng phúc sơn thắng giác tự mật ấn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:29"}
+{"cbeta_id": "JB344", "title_zh": "佛說梵網經菩薩心地品合註", "hvdic_vi": "phật thuyết phạm võng kinh bồ tát tâm địa phẩm hợp chú", "chars_without_reading": 0, "ts": "2026-10-29T08:55:31"}
+{"cbeta_id": "JB345", "title_zh": "蘇州竹庵衍禪師語錄", "hvdic_vi": "tô châu trúc am diễn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:33"}
+{"cbeta_id": "JB346", "title_zh": "古林如禪師語錄", "hvdic_vi": "cổ lâm như thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:35"}
+{"cbeta_id": "JB347", "title_zh": "成唯識論觀心法要", "hvdic_vi": "thành duy thức luận quan tâm pháp yếu", "chars_without_reading": 0, "ts": "2026-10-29T08:55:37"}
+{"cbeta_id": "JB348", "title_zh": "靈峰蕅益大師宗論", "hvdic_vi": "linh phong ích đại sư tông luận", "chars_without_reading": 1, "ts": "2026-10-29T08:55:39"}
+{"cbeta_id": "JB349", "title_zh": "佛說梵網經順硃", "hvdic_vi": "phật thuyết phạm võng kinh thuận chu", "chars_without_reading": 0, "ts": "2026-10-29T08:55:41"}
+{"cbeta_id": "JB350", "title_zh": "禪林寶訓順硃", "hvdic_vi": "thiền lâm bảo huấn thuận chu", "chars_without_reading": 0, "ts": "2026-10-29T08:55:44"}
+{"cbeta_id": "JB351", "title_zh": "道德經順硃", "hvdic_vi": "đạo đức kinh thuận chu", "chars_without_reading": 0, "ts": "2026-10-29T08:55:47"}
+{"cbeta_id": "JB352", "title_zh": "東山破峰重禪師語錄", "hvdic_vi": "đông sơn phá phong trùng thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:53"}
+{"cbeta_id": "JB353", "title_zh": "雲幻宸禪師語錄", "hvdic_vi": "vân ảo thần thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:55:57"}
+{"cbeta_id": "JB354", "title_zh": "錦屏破石卓禪師雜著", "hvdic_vi": "cẩm bình phá thạch trác thiền sư tạp trước", "chars_without_reading": 0, "ts": "2026-10-29T08:56:02"}
+{"cbeta_id": "JB355", "title_zh": "綠蘿恒秀林禪師語錄", "hvdic_vi": "lục la hằng tú lâm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:08"}
+{"cbeta_id": "JB356", "title_zh": "奇然智禪師語錄", "hvdic_vi": "kỳ nhiên trí thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:12"}
+{"cbeta_id": "JB357", "title_zh": "秀野林禪師語錄", "hvdic_vi": "tú dã lâm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:15"}
+{"cbeta_id": "JB358", "title_zh": "智覃正禪師語錄", "hvdic_vi": "trí đàm chính thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:19"}
+{"cbeta_id": "JB359", "title_zh": "百愚禪師語錄", "hvdic_vi": "bách ngu thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:24"}
+{"cbeta_id": "JB360", "title_zh": "建陽東苑晦臺鏡禪師語錄", "hvdic_vi": "kiến dương đông uyển hối đài kính thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:27"}
+{"cbeta_id": "JB361", "title_zh": "壽昌見如謐禪師語錄", "hvdic_vi": "thọ xương kiến như mật thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:31"}
+{"cbeta_id": "JB362", "title_zh": "觀濤奇禪師語錄", "hvdic_vi": "quan đào kỳ thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:33"}
+{"cbeta_id": "JB363", "title_zh": "文穆念禪師語錄", "hvdic_vi": "văn mục niệm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:35"}
+{"cbeta_id": "JB364", "title_zh": "佛古聞禪師語錄", "hvdic_vi": "phật cổ văn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:38"}
+{"cbeta_id": "JB365", "title_zh": "石璞質禪師語錄", "hvdic_vi": "thạch phác chất thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:40"}
+{"cbeta_id": "JB366", "title_zh": "大方禪師語錄", "hvdic_vi": "đại phương thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:42"}
+{"cbeta_id": "JB367", "title_zh": "寂光豁禪師語錄", "hvdic_vi": "tịch quang khoát thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:45"}
+{"cbeta_id": "JB368", "title_zh": "天台通玄寺獨朗禪師語錄", "hvdic_vi": "thiên đài thông huyền tự độc lãng thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:49"}
+{"cbeta_id": "JB369", "title_zh": "蔗菴範禪師語錄", "hvdic_vi": "giá am phạm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:51"}
+{"cbeta_id": "JB370", "title_zh": "草堂耨雲實禪師語錄", "hvdic_vi": "thảo đường nậu vân thực thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:53"}
+{"cbeta_id": "JB371", "title_zh": "佛冤禪師語錄", "hvdic_vi": "phật oan thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:56:57"}
+{"cbeta_id": "JB372", "title_zh": "印心佛敏訥禪師語錄", "hvdic_vi": "ấn tâm phật mẫn nột thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:57:01"}
+{"cbeta_id": "JB373", "title_zh": "藥師三昧行法", "hvdic_vi": "dược sư tam muội hành pháp", "chars_without_reading": 0, "ts": "2026-10-29T08:57:04"}
+{"cbeta_id": "JB374", "title_zh": "準提三昧行法", "hvdic_vi": "chuẩn đề tam muội hành pháp", "chars_without_reading": 0, "ts": "2026-10-29T08:57:08"}
+{"cbeta_id": "JB375", "title_zh": "金剛般若波羅蜜經部旨", "hvdic_vi": "kim cương bàn nhược ba la mật kinh bộ chỉ", "chars_without_reading": 0, "ts": "2026-10-29T08:57:10"}
+{"cbeta_id": "JB376", "title_zh": "藥師瑠璃光如來本願功德經直解", "hvdic_vi": "dược sư lưu ly quang như lai bản nguyện công đức kinh trực giải", "chars_without_reading": 0, "ts": "2026-10-29T08:57:13"}
+{"cbeta_id": "JB377", "title_zh": "觀世音菩薩普門品膚說", "hvdic_vi": "quan thế âm bồ tát phổ môn phẩm phu thuyết", "chars_without_reading": 0, "ts": "2026-10-29T08:57:15"}
+{"cbeta_id": "JB378", "title_zh": "佛說盂蘭盆經折中疏", "hvdic_vi": "phật thuyết vu lan bồn kinh chiết trung sơ", "chars_without_reading": 0, "ts": "2026-10-29T08:57:19"}
+{"cbeta_id": "JB379", "title_zh": "天台傳佛心印記註", "hvdic_vi": "thiên đài truyện phật tâm ấn ký chú", "chars_without_reading": 0, "ts": "2026-10-29T08:57:21"}
+{"cbeta_id": "JB380", "title_zh": "四教集註節義", "hvdic_vi": "tứ giáo tập chú tiết nghĩa", "chars_without_reading": 0, "ts": "2026-10-29T08:57:23"}
+{"cbeta_id": "JB381", "title_zh": "釋籤緣起序指明", "hvdic_vi": "thích thiêm duyên khởi tự chỉ minh", "chars_without_reading": 0, "ts": "2026-10-29T08:57:26"}
+{"cbeta_id": "JB382", "title_zh": "摩訶止觀貫義科", "hvdic_vi": "ma ha chỉ quan quán nghĩa khoa", "chars_without_reading": 0, "ts": "2026-10-29T08:57:28"}
+{"cbeta_id": "JB383", "title_zh": "憨休禪師語錄", "hvdic_vi": "hàm hưu thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:57:31"}
+{"cbeta_id": "JB384", "title_zh": "憨休禪師敲空遺響", "hvdic_vi": "hàm hưu thiền sư xao không di hưởng", "chars_without_reading": 0, "ts": "2026-10-29T08:57:34"}
+{"cbeta_id": "JB385", "title_zh": "佛祖正傳古今捷錄", "hvdic_vi": "phật tổ chính truyện cổ kim tiệp lục", "chars_without_reading": 0, "ts": "2026-10-29T08:57:39"}
+{"cbeta_id": "JB386", "title_zh": "遠菴僼禪師語錄", "hvdic_vi": "viễn am thiền sư ngữ lục", "chars_without_reading": 1, "ts": "2026-10-29T08:57:42"}
+{"cbeta_id": "JB387", "title_zh": "古宿尊禪師語錄", "hvdic_vi": "cổ túc tôn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:57:45"}
+{"cbeta_id": "JB388", "title_zh": "神鼎一揆禪師語錄", "hvdic_vi": "thần đỉnh nhất quỹ thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:57:49"}
+{"cbeta_id": "JB389", "title_zh": "洪山俞昭允汾禪師語錄", "hvdic_vi": "hồng sơn du chiêu duẫn phần thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:57:52"}
+{"cbeta_id": "JB390", "title_zh": "北京楚林禪師語錄", "hvdic_vi": "bắc kinh sở lâm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:57:55"}
+{"cbeta_id": "JB391", "title_zh": "長目電禪師語錄", "hvdic_vi": "trưởng mục điện thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:57:59"}
+{"cbeta_id": "JB392", "title_zh": "寒松操禪師語錄", "hvdic_vi": "hàn tùng thao thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:04"}
+{"cbeta_id": "JB393", "title_zh": "華巖還初佛禪師語錄", "hvdic_vi": "hoa nham hoàn sơ phật thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:07"}
+{"cbeta_id": "JB394", "title_zh": "翼菴禪師語錄", "hvdic_vi": "dực am thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:12"}
+{"cbeta_id": "JB395", "title_zh": "荊南內護國寺啟真誠禪師語錄", "hvdic_vi": "kinh nam nội hộ quốc tự khởi chân thành thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:16"}
+{"cbeta_id": "JB396", "title_zh": "終南山蟠龍子肅禪師語錄", "hvdic_vi": "chung nam sơn bàn long tử túc thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:21"}
+{"cbeta_id": "JB397", "title_zh": "傳授三壇弘戒法儀", "hvdic_vi": "truyện thụ tam đàn hoằng giới pháp nghi", "chars_without_reading": 0, "ts": "2026-10-29T08:58:27"}
+{"cbeta_id": "JB398", "title_zh": "緇門世譜", "hvdic_vi": "tri môn thế phổ", "chars_without_reading": 0, "ts": "2026-10-29T08:58:32"}
+{"cbeta_id": "JB399", "title_zh": "鶴林天樹植禪師語錄", "hvdic_vi": "hạc lâm thiên thụ thực thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:38"}
+{"cbeta_id": "JB400", "title_zh": "知空蘊禪師語錄", "hvdic_vi": "tri không uẩn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:42"}
+{"cbeta_id": "JB401", "title_zh": "浦峰長明炅禪師語錄", "hvdic_vi": "phố phong trưởng minh quýnh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:46"}
+{"cbeta_id": "JB402", "title_zh": "浦峰法柱棟禪師語錄", "hvdic_vi": "phố phong pháp trụ đống thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:49"}
+{"cbeta_id": "JB403", "title_zh": "首楞嚴經直指", "hvdic_vi": "thủ lăng nghiêm kinh trực chỉ", "chars_without_reading": 0, "ts": "2026-10-29T08:58:53"}
+{"cbeta_id": "JB404", "title_zh": "楞伽阿跋多羅寶經心印", "hvdic_vi": "lăng già a bạt đa la bảo kinh tâm ấn", "chars_without_reading": 0, "ts": "2026-10-29T08:58:55"}
+{"cbeta_id": "JB405", "title_zh": "長慶宗寶禪師語錄", "hvdic_vi": "trưởng khánh tông bảo thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:58:58"}
+{"cbeta_id": "JB406", "title_zh": "廬山天然禪師語錄", "hvdic_vi": "lư sơn thiên nhiên thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:02"}
+{"cbeta_id": "JB407", "title_zh": "千山剩人禪師語錄", "hvdic_vi": "thiên sơn thặng nhân thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:05"}
+{"cbeta_id": "JB408", "title_zh": "海幢阿字無禪師語錄", "hvdic_vi": "hải chàng a tự vô thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:08"}
+{"cbeta_id": "JB409", "title_zh": "丹霞澹歸禪師語錄", "hvdic_vi": "đan hà đạm quy thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:11"}
+{"cbeta_id": "JB410", "title_zh": "蓮峰禪師語錄", "hvdic_vi": "liên phong thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:13"}
+{"cbeta_id": "JB411", "title_zh": "德風禪師般若語錄", "hvdic_vi": "đức phong thiền sư bàn nhược ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:16"}
+{"cbeta_id": "JB412", "title_zh": "三塔主峰禪師語錄", "hvdic_vi": "tam tháp chủ phong thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:18"}
+{"cbeta_id": "JB413", "title_zh": "黃蓮東巖禪師語錄", "hvdic_vi": "hoàng liên đông nham thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:21"}
+{"cbeta_id": "JB414", "title_zh": "山鐸真在禪師語錄", "hvdic_vi": "sơn đạc chân tại thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:23"}
+{"cbeta_id": "JB415", "title_zh": "大悲妙雲禪師語錄", "hvdic_vi": "đại bi diệu vân thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:26"}
+{"cbeta_id": "JB416", "title_zh": "調實居士證源錄", "hvdic_vi": "điệu thực cư sĩ chứng nguyên lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:28"}
+{"cbeta_id": "JB417", "title_zh": "天則能禪師語錄", "hvdic_vi": "thiên tắc năng thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:30"}
+{"cbeta_id": "JB418", "title_zh": "晦嶽旭禪師語錄", "hvdic_vi": "hối nhạc húc thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:32"}
+{"cbeta_id": "JB419", "title_zh": "華嚴不厭樂禪師語錄", "hvdic_vi": "hoa nghiêm bất yếm nhạc thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:35"}
+{"cbeta_id": "JB420", "title_zh": "三峰半水元禪師語錄", "hvdic_vi": "tam phong bán thuỷ nguyên thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:37"}
+{"cbeta_id": "JB421", "title_zh": "鶴峰禪師語錄", "hvdic_vi": "hạc phong thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:39"}
+{"cbeta_id": "JB422", "title_zh": "林我禪師語錄", "hvdic_vi": "lâm ngã thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:41"}
+{"cbeta_id": "JB423", "title_zh": "石關禪師語錄", "hvdic_vi": "thạch quan thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:44"}
+{"cbeta_id": "JB424", "title_zh": "香嚴禪師語錄", "hvdic_vi": "hương nghiêm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:47"}
+{"cbeta_id": "JB425", "title_zh": "即非禪師全錄", "hvdic_vi": "tức phi thiền sư toàn lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:49"}
+{"cbeta_id": "JB426", "title_zh": "錦江禪燈", "hvdic_vi": "cẩm giang thiền đăng", "chars_without_reading": 0, "ts": "2026-10-29T08:59:51"}
+{"cbeta_id": "JB427", "title_zh": "青城竹浪生禪師語錄", "hvdic_vi": "thanh thành trúc lãng sinh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:54"}
+{"cbeta_id": "JB428", "title_zh": "密行忍禪師語錄", "hvdic_vi": "mật hành nhẫn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:56"}
+{"cbeta_id": "JB429", "title_zh": "盛京奉天般若古林禪師語錄", "hvdic_vi": "thịnh kinh phụng thiên bàn nhược cổ lâm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T08:59:58"}
+{"cbeta_id": "JB430", "title_zh": "玉泉其白富禪師語錄", "hvdic_vi": "ngọc tuyền kỳ bạch phú thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:01"}
+{"cbeta_id": "JB431", "title_zh": "雲峰體宗寧禪師語錄", "hvdic_vi": "vân phong thể tông ninh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:03"}
+{"cbeta_id": "JB432", "title_zh": "幻住明禪師語錄", "hvdic_vi": "ảo trú minh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:05"}
+{"cbeta_id": "JB433", "title_zh": "純備德禪師語錄", "hvdic_vi": "thuần bị đức thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:07"}
+{"cbeta_id": "JB434", "title_zh": "法幢遠禪師語錄", "hvdic_vi": "pháp chàng viễn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:09"}
+{"cbeta_id": "JB435", "title_zh": "伏獅義公禪師語錄", "hvdic_vi": "phục sư nghĩa công thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:10"}
+{"cbeta_id": "JB436", "title_zh": "參同一揆禪師語錄", "hvdic_vi": "tam đồng nhất quỹ thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:13"}
+{"cbeta_id": "JB437", "title_zh": "續燈正統", "hvdic_vi": "tục đăng chính thống", "chars_without_reading": 0, "ts": "2026-10-29T09:00:16"}
+{"cbeta_id": "JB438", "title_zh": "衡山禪師語錄", "hvdic_vi": "hành sơn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:18"}
+{"cbeta_id": "JB439", "title_zh": "高峰三山來禪師疏語", "hvdic_vi": "cao phong tam sơn lai thiền sư sơ ngữ", "chars_without_reading": 0, "ts": "2026-10-29T09:00:23"}
+{"cbeta_id": "JB440", "title_zh": "高峰喬松億禪師語錄", "hvdic_vi": "cao phong kiều tùng ức thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:28"}
+{"cbeta_id": "JB441", "title_zh": "萬峰童真禪師語錄", "hvdic_vi": "vạn phong đồng chân thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:30"}
+{"cbeta_id": "JB442", "title_zh": "大笑崇禪師語錄", "hvdic_vi": "đại tiếu sùng thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:32"}
+{"cbeta_id": "JB443", "title_zh": "玉眉亮禪師語錄", "hvdic_vi": "ngọc my lượng thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:34"}
+{"cbeta_id": "JB444", "title_zh": "卓峰玨禪師語錄", "hvdic_vi": "trác phong giác thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:36"}
+{"cbeta_id": "JB445", "title_zh": "別菴禪師同門錄", "hvdic_vi": "biệt am thiền sư đồng môn lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:38"}
+{"cbeta_id": "JB446", "title_zh": "靈隱文禪師語錄", "hvdic_vi": "linh ẩn văn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:40"}
+{"cbeta_id": "JB447", "title_zh": "東山梅溪度禪師語錄", "hvdic_vi": "đông sơn mai hoát độ thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:00:46"}
+{"cbeta_id": "JB449", "title_zh": "祖亮啟禪師語錄", "hvdic_vi": "tổ lượng khởi thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:04"}
+{"cbeta_id": "JB451", "title_zh": "赤松領禪師語錄", "hvdic_vi": "xích tùng lĩnh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:23"}
+{"cbeta_id": "JB452", "title_zh": "侶巖荷禪師語錄", "hvdic_vi": "lữ nham hà thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:25"}
+{"cbeta_id": "JB453", "title_zh": "元潔瑩禪師語錄", "hvdic_vi": "nguyên khiết oánh thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:35"}
+{"cbeta_id": "JB454", "title_zh": "頻吉祥禪師語錄", "hvdic_vi": "tần cát tường thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:37"}
+{"cbeta_id": "JB455", "title_zh": "通天逸叟高禪師語錄", "hvdic_vi": "thông thiên dật tẩu cao thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:39"}
+{"cbeta_id": "JB456", "title_zh": "通天澹崖原禪師語錄", "hvdic_vi": "thông thiên đạm nhai nguyên thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:41"}
+{"cbeta_id": "JB457", "title_zh": "白雲象林本真禪師語錄", "hvdic_vi": "bạch vân tượng lâm bản chân thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:44"}
+{"cbeta_id": "JB458", "title_zh": "正覺潤光澤禪師澡雪集", "hvdic_vi": "chính giác nhuận quang trạch thiền sư táo tuyết tập", "chars_without_reading": 0, "ts": "2026-10-29T09:01:47"}
+{"cbeta_id": "JB459", "title_zh": "香巖洗心水禪師語錄", "hvdic_vi": "hương nham tẩy tâm thuỷ thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:50"}
+{"cbeta_id": "JB460", "title_zh": "灤州萬善暉州昊禪師語錄", "hvdic_vi": "loan châu vạn thiện huy châu hạo thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:52"}
+{"cbeta_id": "JB461", "title_zh": "性空臻禪師語錄", "hvdic_vi": "tính không trăn thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:01:55"}
+{"cbeta_id": "JB462", "title_zh": "何一自禪師語錄", "hvdic_vi": "hà nhất tự thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:02:05"}
+{"cbeta_id": "JB463", "title_zh": "溈山古梅冽禪師語錄", "hvdic_vi": "vy sơn cổ mai liệt thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:02:18"}
+{"cbeta_id": "JB464", "title_zh": "華嚴起宗真禪師語錄", "hvdic_vi": "hoa nghiêm khởi tông chân thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:02:21"}
+{"cbeta_id": "JB465", "title_zh": "子雍如禪師語錄", "hvdic_vi": "tử ung như thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:02:23"}
+{"cbeta_id": "K1482", "title_zh": "大乘中觀釋論", "hvdic_vi": "đại thừa trung quan thích luận", "chars_without_reading": 0, "ts": "2026-10-29T09:14:03"}
+{"cbeta_id": "L1490", "title_zh": "妙法蓮華經玄義釋籤", "hvdic_vi": "diệu pháp liên hoa kinh huyền nghĩa thích thiêm", "chars_without_reading": 0, "ts": "2026-10-29T09:14:06"}
+{"cbeta_id": "L1557", "title_zh": "大方廣佛華嚴經疏鈔會本", "hvdic_vi": "đại phương quảng phật hoa nghiêm kinh sơ sao hội bản", "chars_without_reading": 0, "ts": "2026-10-29T09:14:08"}
+{"cbeta_id": "L1571", "title_zh": "觀自在菩薩如意輪咒課法", "hvdic_vi": "quan tự tại bồ tát như ý luân chú khoá pháp", "chars_without_reading": 0, "ts": "2026-10-29T09:14:10"}
+{"cbeta_id": "L1600", "title_zh": "大乘起信論疏", "hvdic_vi": "đại thừa khởi tín luận sơ", "chars_without_reading": 0, "ts": "2026-10-29T09:14:13"}
+{"cbeta_id": "L1608", "title_zh": "大藏聖教法寶標目", "hvdic_vi": "đại tàng thánh giáo pháp bảo tiêu mục", "chars_without_reading": 0, "ts": "2026-10-29T09:14:15"}
+{"cbeta_id": "L1629", "title_zh": "大乘百法明門論註", "hvdic_vi": "đại thừa bách pháp minh môn luận chú", "chars_without_reading": 0, "ts": "2026-10-29T09:14:18"}
+{"cbeta_id": "L1635", "title_zh": "性相通說", "hvdic_vi": "tính tương thông thuyết", "chars_without_reading": 0, "ts": "2026-10-29T09:14:20"}
+{"cbeta_id": "L1636", "title_zh": "莊子內篇註", "hvdic_vi": "trang tử nội thiên chú", "chars_without_reading": 0, "ts": "2026-10-29T09:14:22"}
+{"cbeta_id": "L1640", "title_zh": "密雲悟禪師語錄", "hvdic_vi": "mật vân ngộ thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:16:00"}
+{"cbeta_id": "L1641", "title_zh": "大覺普濟能仁琇國師語錄", "hvdic_vi": "đại giác phổ tế năng nhân tú quốc sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:16:06"}
+{"cbeta_id": "L1642", "title_zh": "明道正覺森禪師語錄", "hvdic_vi": "minh đạo chính giác sâm thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:16:09"}
+{"cbeta_id": "L1643", "title_zh": "弘覺忞禪師語錄", "hvdic_vi": "hoằng giác mân thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:16:13"}
+{"cbeta_id": "L1649", "title_zh": "山茨際禪師語錄", "hvdic_vi": "sơn tỳ tế thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:16:17"}
+{"cbeta_id": "L1651", "title_zh": "五百羅漢尊號", "hvdic_vi": "ngũ bách la hán tôn hiệu", "chars_without_reading": 0, "ts": "2026-10-29T09:16:20"}
+{"cbeta_id": "L1652", "title_zh": "明覺聰禪師語錄", "hvdic_vi": "minh giác thông thiền sư ngữ lục", "chars_without_reading": 0, "ts": "2026-10-29T09:16:22"}
+{"cbeta_id": "L1666", "title_zh": "重訂教乘法數", "hvdic_vi": "trùng đính giáo thừa pháp sổ", "chars_without_reading": 0, "ts": "2026-10-29T09:16:25"}
+{"cbeta_id": "L1668", "title_zh": "御錄宗鏡大綱", "hvdic_vi": "ngự lục tông kính đại cương", "chars_without_reading": 0, "ts": "2026-10-29T09:16:27"}
+{"cbeta_id": "L1669", "title_zh": "御錄經海一滴", "hvdic_vi": "ngự lục kinh hải nhất chích", "chars_without_reading": 0, "ts": "2026-10-29T09:16:30"}
+{"cbeta_id": "LC0001", "title_zh": "印度佛學源流略講", "hvdic_vi": "ấn độ phật học nguyên lưu lược giảng", "chars_without_reading": 0, "ts": "2026-10-29T09:16:32"}
+{"cbeta_id": "LC0002", "title_zh": "中國佛學源流略講", "hvdic_vi": "trung quốc phật học nguyên lưu lược giảng", "chars_without_reading": 0, "ts": "2026-10-29T09:16:35"}
+{"cbeta_id": "LC0003", "title_zh": "西藏佛學原論及佛學論著選集", "hvdic_vi": "tây tàng phật học nguyên luận cập phật học luận trước tuyển tập", "chars_without_reading": 0, "ts": "2026-10-29T09:16:37"}
+{"cbeta_id": "LC0004", "title_zh": "因明入正理論講解及相關論著", "hvdic_vi": "nhân minh nhập chính lý luận giảng giải cập tương quan luận trước", "chars_without_reading": 0, "ts": "2026-10-29T09:16:38"}
+{"cbeta_id": "LC0005", "title_zh": "佛教重要名相釋義及經論攷證", "hvdic_vi": "phật giáo trùng yếu danh tương thích nghĩa cập kinh luận khảo chứng", "chars_without_reading": 0, "ts": "2026-10-29T09:16:41"}
+{"cbeta_id": "LC0006", "title_zh": "歷朝藏經略考及新編漢文大藏經目錄", "hvdic_vi": "lịch triêu tàng kinh lược khảo cập tân biên hán văn đại tàng kinh mục lục", "chars_without_reading": 0, "ts": "2026-10-29T09:16:43"}
+{"cbeta_id": "LC0007", "title_zh": "經論講要", "hvdic_vi": "kinh luận giảng yếu", "chars_without_reading": 0, "ts": "2026-10-29T09:16:45"}
+{"cbeta_id": "M1540", "title_zh": "大慧普覺禪師普說", "hvdic_vi": "đại tuệ phổ giác thiền sư phổ thuyết", "chars_without_reading": 0, "ts": "2026-10-29T09:16:48"}
+{"cbeta_id": "N0001", "title_zh": "經分別", "hvdic_vi": "kinh phân biệt", "chars_without_reading": 0, "ts": "2026-10-29T09:16:50"}
+{"cbeta_id": "N0002", "title_zh": "犍度", "hvdic_vi": "kiền độ", "chars_without_reading": 0, "ts": "2026-10-29T09:16:52"}
+{"cbeta_id": "N0003", "title_zh": "附隨", "hvdic_vi": "phụ tuỳ", "chars_without_reading": 0, "ts": "2026-10-29T09:16:54"}
+{"cbeta_id": "N0004", "title_zh": "長部經典", "hvdic_vi": "trưởng bộ kinh điển", "chars_without_reading": 0, "ts": "2026-10-29T09:16:56"}
+{"cbeta_id": "N0005", "title_zh": "中部經典", "hvdic_vi": "trung bộ kinh điển", "chars_without_reading": 0, "ts": "2026-10-29T09:16:57"}
+{"cbeta_id": "N0006", "title_zh": "相應部經典", "hvdic_vi": "tương ưng bộ kinh điển", "chars_without_reading": 0, "ts": "2026-10-29T09:16:59"}
+{"cbeta_id": "N0007", "title_zh": "增支部經典", "hvdic_vi": "tăng chi bộ kinh điển", "chars_without_reading": 0, "ts": "2026-10-29T09:17:01"}
+{"cbeta_id": "N0008", "title_zh": "小誦經", "hvdic_vi": "tiểu tụng kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:03"}
+{"cbeta_id": "N0009", "title_zh": "法句經", "hvdic_vi": "pháp cú kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:05"}
+{"cbeta_id": "N0010", "title_zh": "自說經", "hvdic_vi": "tự thuyết kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:07"}
+{"cbeta_id": "N0011", "title_zh": "如是語經", "hvdic_vi": "như thị ngữ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:09"}
+{"cbeta_id": "N0012", "title_zh": "經集", "hvdic_vi": "kinh tập", "chars_without_reading": 0, "ts": "2026-10-29T09:17:11"}
+{"cbeta_id": "N0013", "title_zh": "天宮事經", "hvdic_vi": "thiên cung sự kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:14"}
+{"cbeta_id": "N0014", "title_zh": "餓鬼事經", "hvdic_vi": "ngã quỷ sự kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:16"}
+{"cbeta_id": "N0015", "title_zh": "長老偈經", "hvdic_vi": "trưởng lão kệ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:18"}
+{"cbeta_id": "N0016", "title_zh": "長老尼偈經", "hvdic_vi": "trưởng lão ni kệ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:20"}
+{"cbeta_id": "N0017", "title_zh": "譬喻經", "hvdic_vi": "thí dụ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:22"}
+{"cbeta_id": "N0018", "title_zh": "本生經", "hvdic_vi": "bản sinh kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:25"}
+{"cbeta_id": "N0019", "title_zh": "無礙解道", "hvdic_vi": "vô ngại giải đạo", "chars_without_reading": 0, "ts": "2026-10-29T09:17:27"}
+{"cbeta_id": "N0020", "title_zh": "佛種姓經", "hvdic_vi": "phật chủng tính kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:29"}
+{"cbeta_id": "N0021", "title_zh": "所行藏經", "hvdic_vi": "sở hành tàng kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:17:31"}
+{"cbeta_id": "N0022", "title_zh": "大義釋", "hvdic_vi": "đại nghĩa thích", "chars_without_reading": 0, "ts": "2026-10-29T09:17:33"}
+{"cbeta_id": "N0023", "title_zh": "小義釋", "hvdic_vi": "tiểu nghĩa thích", "chars_without_reading": 0, "ts": "2026-10-29T09:17:35"}
+{"cbeta_id": "N0024", "title_zh": "法集論", "hvdic_vi": "pháp tập luận", "chars_without_reading": 0, "ts": "2026-10-29T09:17:38"}
+{"cbeta_id": "N0025", "title_zh": "分別論", "hvdic_vi": "phân biệt luận", "chars_without_reading": 0, "ts": "2026-10-29T09:17:40"}
+{"cbeta_id": "N0026", "title_zh": "界論", "hvdic_vi": "giới luận", "chars_without_reading": 0, "ts": "2026-10-29T09:17:44"}
+{"cbeta_id": "N0027", "title_zh": "人施設論", "hvdic_vi": "nhân thi thiết luận", "chars_without_reading": 0, "ts": "2026-10-29T09:17:48"}
+{"cbeta_id": "N0028", "title_zh": "雙論", "hvdic_vi": "song luận", "chars_without_reading": 0, "ts": "2026-10-29T09:17:52"}
+{"cbeta_id": "N0029", "title_zh": "發趣論", "hvdic_vi": "phát thú luận", "chars_without_reading": 0, "ts": "2026-10-29T09:17:56"}
+{"cbeta_id": "N0030", "title_zh": "論事", "hvdic_vi": "luận sự", "chars_without_reading": 0, "ts": "2026-10-29T09:18:01"}
+{"cbeta_id": "N0031", "title_zh": "彌蘭王問經", "hvdic_vi": "my lan vương vấn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:18:04"}
+{"cbeta_id": "N0032", "title_zh": "島王統史", "hvdic_vi": "đảo vương thống sử", "chars_without_reading": 0, "ts": "2026-10-29T09:18:07"}
+{"cbeta_id": "N0033", "title_zh": "大王統史", "hvdic_vi": "đại vương thống sử", "chars_without_reading": 0, "ts": "2026-10-29T09:18:10"}
+{"cbeta_id": "N0034", "title_zh": "小王統史", "hvdic_vi": "tiểu vương thống sử", "chars_without_reading": 0, "ts": "2026-10-29T09:18:12"}
+{"cbeta_id": "N0035", "title_zh": "清淨道論", "hvdic_vi": "thanh tịnh đạo luận", "chars_without_reading": 0, "ts": "2026-10-29T09:18:15"}
+{"cbeta_id": "N0036", "title_zh": "一切善見律註序", "hvdic_vi": "nhất thiết thiện kiến luật chú tự", "chars_without_reading": 0, "ts": "2026-10-29T09:18:19"}
+{"cbeta_id": "N0037", "title_zh": "攝阿毘達磨義論", "hvdic_vi": "nhiếp a bì đạt ma nghĩa luận", "chars_without_reading": 0, "ts": "2026-10-29T09:18:21"}
+{"cbeta_id": "N0038", "title_zh": "阿育王刻文", "hvdic_vi": "a dục vương khắc văn", "chars_without_reading": 0, "ts": "2026-10-29T09:18:23"}
+{"cbeta_id": "P1519", "title_zh": "宗門統要正續集", "hvdic_vi": "tông môn thống yếu chính tục tập", "chars_without_reading": 0, "ts": "2026-10-29T09:18:25"}
+{"cbeta_id": "P1573", "title_zh": "修懺要旨", "hvdic_vi": "tu sám yếu chỉ", "chars_without_reading": 0, "ts": "2026-10-29T09:18:27"}
+{"cbeta_id": "P1581", "title_zh": "首楞嚴經義海", "hvdic_vi": "thủ lăng nghiêm kinh nghĩa hải", "chars_without_reading": 0, "ts": "2026-10-29T09:18:30"}
+{"cbeta_id": "P1590", "title_zh": "佛遺教經論疏節要", "hvdic_vi": "phật di giáo kinh luận sơ tiết yếu", "chars_without_reading": 0, "ts": "2026-10-29T09:18:33"}
+{"cbeta_id": "P1610", "title_zh": "大明太宗文皇帝御製序讚文", "hvdic_vi": "đại minh thái tông văn hoàng đế ngự chế tự tán văn", "chars_without_reading": 0, "ts": "2026-10-29T09:18:36"}
+{"cbeta_id": "P1611", "title_zh": "諸佛世尊如來菩薩尊者神僧名經", "hvdic_vi": "chư phật thế tôn như lai bồ tát tôn giả thần tăng danh kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:18:39"}
+{"cbeta_id": "P1612", "title_zh": "諸佛世尊如來菩薩尊者名稱歌曲", "hvdic_vi": "chư phật thế tôn như lai bồ tát tôn giả danh xưng ca khúc", "chars_without_reading": 0, "ts": "2026-10-29T09:18:40"}
+{"cbeta_id": "P1615", "title_zh": "大明三藏法數", "hvdic_vi": "đại minh tam tàng pháp sổ", "chars_without_reading": 0, "ts": "2026-10-29T09:18:43"}
+{"cbeta_id": "P1617", "title_zh": "妙法蓮華經要解", "hvdic_vi": "diệu pháp liên hoa kinh yếu giải", "chars_without_reading": 0, "ts": "2026-10-29T09:18:45"}
+{"cbeta_id": "P1618", "title_zh": "大佛頂萬行首楞嚴經會解", "hvdic_vi": "đại phật đỉnh vạn hành thủ lăng nghiêm kinh hội giải", "chars_without_reading": 0, "ts": "2026-10-29T09:18:48"}
+{"cbeta_id": "P1624", "title_zh": "金剛經疏論纂要", "hvdic_vi": "kim cương kinh sơ luận toản yếu", "chars_without_reading": 0, "ts": "2026-10-29T09:18:50"}
+{"cbeta_id": "P1629", "title_zh": "天台四教儀集註", "hvdic_vi": "thiên đài tứ giáo nghi tập chú", "chars_without_reading": 0, "ts": "2026-10-29T09:18:52"}
+{"cbeta_id": "P1630", "title_zh": "教乘法數", "hvdic_vi": "giáo thừa pháp sổ", "chars_without_reading": 0, "ts": "2026-10-29T09:18:55"}
+{"cbeta_id": "S0046", "title_zh": "上生經會古通今新抄", "hvdic_vi": "thượng sinh kinh hội cổ thông kim tân sao", "chars_without_reading": 0, "ts": "2026-10-29T09:18:57"}
+{"cbeta_id": "S0047", "title_zh": "上生經疏隨新抄科文", "hvdic_vi": "thượng sinh kinh sơ tuỳ tân sao khoa văn", "chars_without_reading": 0, "ts": "2026-10-29T09:19:02"}
+{"cbeta_id": "T0001", "title_zh": "長阿含經", "hvdic_vi": "trưởng a hàm kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:04"}
+{"cbeta_id": "T0002", "title_zh": "七佛經", "hvdic_vi": "thất phật kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:07"}
+{"cbeta_id": "T0003", "title_zh": "毘婆尸佛經", "hvdic_vi": "bì bà thi phật kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:10"}
+{"cbeta_id": "T0004", "title_zh": "七佛父母姓字經", "hvdic_vi": "thất phật phụ mẫu tính tự kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:12"}
+{"cbeta_id": "T0005", "title_zh": "佛般泥洹經", "hvdic_vi": "phật bàn nê hoàn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:16"}
+{"cbeta_id": "T0006", "title_zh": "般泥洹經", "hvdic_vi": "bàn nê hoàn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:20"}
+{"cbeta_id": "T0007", "title_zh": "大般涅槃經", "hvdic_vi": "đại bàn niết bàn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:23"}
+{"cbeta_id": "T0008", "title_zh": "大堅固婆羅門緣起經", "hvdic_vi": "đại kiên cố bà la môn duyên khởi kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:25"}
+{"cbeta_id": "T0009", "title_zh": "人仙經", "hvdic_vi": "nhân tiên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:27"}
+{"cbeta_id": "T0010", "title_zh": "白衣金幢二婆羅門緣起經", "hvdic_vi": "bạch y kim chàng nhị bà la môn duyên khởi kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:30"}
+{"cbeta_id": "T0011", "title_zh": "尼拘陀梵志經", "hvdic_vi": "ni câu đà phạm chí kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:32"}
+{"cbeta_id": "T0012", "title_zh": "大集法門經", "hvdic_vi": "đại tập pháp môn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:34"}
+{"cbeta_id": "T0013", "title_zh": "長阿含十報法經", "hvdic_vi": "trưởng a hàm thập báo pháp kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:36"}
+{"cbeta_id": "T0014", "title_zh": "人本欲生經", "hvdic_vi": "nhân bản dục sinh kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:38"}
+{"cbeta_id": "T0015", "title_zh": "帝釋所問經", "hvdic_vi": "đế thích sở vấn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:40"}
+{"cbeta_id": "T0016", "title_zh": "尸迦羅越六方禮經", "hvdic_vi": "thi ca la việt lục phương lễ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:42"}
+{"cbeta_id": "T0017", "title_zh": "善生子經", "hvdic_vi": "thiện sinh tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:44"}
+{"cbeta_id": "T0018", "title_zh": "信佛功德經", "hvdic_vi": "tín phật công đức kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:47"}
+{"cbeta_id": "T0019", "title_zh": "大三摩惹經", "hvdic_vi": "đại tam ma nhạ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:49"}
+{"cbeta_id": "T0020", "title_zh": "佛開解梵志阿颰經", "hvdic_vi": "phật khai giải phạm chí a kinh", "chars_without_reading": 1, "ts": "2026-10-29T09:19:51"}
+{"cbeta_id": "T0021", "title_zh": "梵網六十二見經", "hvdic_vi": "phạm võng lục thập nhị kiến kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:52"}
+{"cbeta_id": "T0022", "title_zh": "寂志果經", "hvdic_vi": "tịch chí quả kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:54"}
+{"cbeta_id": "T0023", "title_zh": "大樓炭經", "hvdic_vi": "đại lâu thán kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:56"}
+{"cbeta_id": "T0024", "title_zh": "起世經", "hvdic_vi": "khởi thế kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:19:58"}
+{"cbeta_id": "T0025", "title_zh": "起世因本經", "hvdic_vi": "khởi thế nhân bản kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:20:01"}
+{"cbeta_id": "T0026", "title_zh": "中阿含經", "hvdic_vi": "trung a hàm kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:20:05"}
+{"cbeta_id": "T0027", "title_zh": "七知經", "hvdic_vi": "thất tri kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:20:07"}
+{"cbeta_id": "T0028", "title_zh": "園生樹經", "hvdic_vi": "viên sinh thụ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:20:11"}
+{"cbeta_id": "T0029", "title_zh": "鹹水喻經", "hvdic_vi": "hàm thuỷ dụ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:20:13"}
+{"cbeta_id": "T0034", "title_zh": "法海經", "hvdic_vi": "pháp hải kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:21:39"}
+{"cbeta_id": "T0035", "title_zh": "海八德經", "hvdic_vi": "hải bát đức kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:21:45"}
+{"cbeta_id": "T0036", "title_zh": "本相猗致經", "hvdic_vi": "bản tương y trí kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:21:50"}
+{"cbeta_id": "T0037", "title_zh": "緣本致經", "hvdic_vi": "duyên bản trí kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:21:55"}
+{"cbeta_id": "T0038", "title_zh": "輪王七寶經", "hvdic_vi": "luân vương thất bảo kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:21:58"}
+{"cbeta_id": "T0039", "title_zh": "頂生王故事經", "hvdic_vi": "đỉnh sinh vương cố sự kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:03"}
+{"cbeta_id": "T0040", "title_zh": "文陀竭王經", "hvdic_vi": "văn đà kiệt vương kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:07"}
+{"cbeta_id": "T0041", "title_zh": "頻婆娑羅王經", "hvdic_vi": "tần bà sa la vương kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:10"}
+{"cbeta_id": "T0042", "title_zh": "鐵城泥犁經", "hvdic_vi": "thiết thành nê lê kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:14"}
+{"cbeta_id": "T0043", "title_zh": "閻羅王五天使者經", "hvdic_vi": "diêm la vương ngũ thiên sử giả kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:19"}
+{"cbeta_id": "T0044", "title_zh": "古來世時經", "hvdic_vi": "cổ lai thế thì kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:22"}
+{"cbeta_id": "T0045", "title_zh": "大正句王經", "hvdic_vi": "đại chính cú vương kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:25"}
+{"cbeta_id": "T0046", "title_zh": "阿那律八念經", "hvdic_vi": "a na luật bát niệm kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:27"}
+{"cbeta_id": "T0047", "title_zh": "離睡經", "hvdic_vi": "ly thuỵ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:29"}
+{"cbeta_id": "T0048", "title_zh": "是法非法經", "hvdic_vi": "thị pháp phi pháp kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:33"}
+{"cbeta_id": "T0049", "title_zh": "求欲經", "hvdic_vi": "cầu dục kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:36"}
+{"cbeta_id": "T0050", "title_zh": "受歲經", "hvdic_vi": "thâu tuế kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:38"}
+{"cbeta_id": "T0051", "title_zh": "梵志計水淨經", "hvdic_vi": "phạm chí kế thuỷ tịnh kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:41"}
+{"cbeta_id": "T0052", "title_zh": "大生義經", "hvdic_vi": "đại sinh nghĩa kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:43"}
+{"cbeta_id": "T0053", "title_zh": "苦陰經", "hvdic_vi": "khổ âm kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:47"}
+{"cbeta_id": "T0054", "title_zh": "釋摩男本四子經", "hvdic_vi": "thích ma nam bản tứ tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:50"}
+{"cbeta_id": "T0055", "title_zh": "苦陰因事經", "hvdic_vi": "khổ âm nhân sự kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:52"}
+{"cbeta_id": "T0056", "title_zh": "樂想經", "hvdic_vi": "nhạc tưởng kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:54"}
+{"cbeta_id": "T0057", "title_zh": "漏分布經", "hvdic_vi": "lậu phân bố kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:22:56"}
+{"cbeta_id": "T0058", "title_zh": "阿耨風經", "hvdic_vi": "a nậu phong kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:02"}
+{"cbeta_id": "T0059", "title_zh": "諸法本經", "hvdic_vi": "chư pháp bản kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:04"}
+{"cbeta_id": "T0060", "title_zh": "瞿曇彌記果經", "hvdic_vi": "cù đàm my ký quả kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:06"}
+{"cbeta_id": "T0061", "title_zh": "受新歲經", "hvdic_vi": "thâu tân tuế kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:09"}
+{"cbeta_id": "T0062", "title_zh": "新歲經", "hvdic_vi": "tân tuế kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:11"}
+{"cbeta_id": "T0063", "title_zh": "解夏經", "hvdic_vi": "giải hạ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:15"}
+{"cbeta_id": "T0064", "title_zh": "瞻婆比丘經", "hvdic_vi": "chiêm bà tỷ khâu kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:19"}
+{"cbeta_id": "T0065", "title_zh": "伏婬經", "hvdic_vi": "phục dâm kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:28"}
+{"cbeta_id": "T0066", "title_zh": "魔嬈亂經", "hvdic_vi": "ma nhiêu loạn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:34"}
+{"cbeta_id": "T0067", "title_zh": "弊魔試目連經", "hvdic_vi": "tệ ma thí mục liên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:40"}
+{"cbeta_id": "T0068", "title_zh": "賴吒和羅經", "hvdic_vi": "lại tra hoà la kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:47"}
+{"cbeta_id": "T0069", "title_zh": "護國經", "hvdic_vi": "hộ quốc kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:54"}
+{"cbeta_id": "T0070", "title_zh": "數經", "hvdic_vi": "sổ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:23:59"}
+{"cbeta_id": "T0071", "title_zh": "梵志頞波羅延問種尊經", "hvdic_vi": "phạm chí át ba la duyên vấn chủng tôn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:04"}
+{"cbeta_id": "T0072", "title_zh": "三歸五戒慈心厭離功德經", "hvdic_vi": "tam quy ngũ giới từ tâm yếm ly công đức kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:08"}
+{"cbeta_id": "T0073", "title_zh": "須達經", "hvdic_vi": "tu đạt kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:13"}
+{"cbeta_id": "T0074", "title_zh": "長者施報經", "hvdic_vi": "trưởng giả thi báo kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:17"}
+{"cbeta_id": "T0075", "title_zh": "佛為黃竹園老婆羅門說學經", "hvdic_vi": "phật vy hoàng trúc viên lão bà la môn thuyết học kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:24"}
+{"cbeta_id": "T0076", "title_zh": "梵摩渝經", "hvdic_vi": "phạm ma du kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:33"}
+{"cbeta_id": "T0077", "title_zh": "尊上經", "hvdic_vi": "tôn thượng kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:40"}
+{"cbeta_id": "T0078", "title_zh": "兜調經", "hvdic_vi": "đâu điệu kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:45"}
+{"cbeta_id": "T0079", "title_zh": "鸚鵡經", "hvdic_vi": "anh vũ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:51"}
+{"cbeta_id": "T0080", "title_zh": "佛為首迦長者說業報差別經", "hvdic_vi": "phật vy thủ ca trưởng giả thuyết nghiệp báo si biệt kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:24:56"}
+{"cbeta_id": "T0081", "title_zh": "分別善惡報應經", "hvdic_vi": "phân biệt thiện ác báo ưng kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:02"}
+{"cbeta_id": "T0082", "title_zh": "意經", "hvdic_vi": "ý kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:09"}
+{"cbeta_id": "T0083", "title_zh": "應法經", "hvdic_vi": "ưng pháp kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:15"}
+{"cbeta_id": "T0084", "title_zh": "分別布施經", "hvdic_vi": "phân biệt bố thi kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:20"}
+{"cbeta_id": "T0085", "title_zh": "息諍因緣經", "hvdic_vi": "tức tranh nhân duyên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:24"}
+{"cbeta_id": "T0086", "title_zh": "泥犁經", "hvdic_vi": "nê lê kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:29"}
+{"cbeta_id": "T0087", "title_zh": "齋經", "hvdic_vi": "trai kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:32"}
+{"cbeta_id": "T0088", "title_zh": "優陂夷墮舍迦經", "hvdic_vi": "ưu pha di đoạ xá ca kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:36"}
+{"cbeta_id": "T0089", "title_zh": "八關齋經", "hvdic_vi": "bát quan trai kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:39"}
+{"cbeta_id": "T0090", "title_zh": "鞞摩肅經", "hvdic_vi": "bỉ ma túc kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:41"}
+{"cbeta_id": "T0091", "title_zh": "婆羅門子命終愛念不離經", "hvdic_vi": "bà la môn tử mệnh chung ái niệm bất ly kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:44"}
+{"cbeta_id": "T0092", "title_zh": "十支居士八城人經", "hvdic_vi": "thập chi cư sĩ bát thành nhân kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:46"}
+{"cbeta_id": "T0093", "title_zh": "邪見經", "hvdic_vi": "tà kiến kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:49"}
+{"cbeta_id": "T0094", "title_zh": "箭喻經", "hvdic_vi": "tiễn dụ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:51"}
+{"cbeta_id": "T0095", "title_zh": "蟻喻經", "hvdic_vi": "nghĩ dụ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:53"}
+{"cbeta_id": "T0096", "title_zh": "治意經", "hvdic_vi": "trị ý kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:55"}
+{"cbeta_id": "T0097", "title_zh": "廣義法門經", "hvdic_vi": "quảng nghĩa pháp môn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:57"}
+{"cbeta_id": "T0098", "title_zh": "普法義經", "hvdic_vi": "phổ pháp nghĩa kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:25:59"}
+{"cbeta_id": "T0099", "title_zh": "雜阿含經", "hvdic_vi": "tạp a hàm kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:01"}
+{"cbeta_id": "T0100", "title_zh": "別譯雜阿含經", "hvdic_vi": "biệt dịch tạp a hàm kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:03"}
+{"cbeta_id": "T0101", "title_zh": "雜阿含經", "hvdic_vi": "tạp a hàm kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:06"}
+{"cbeta_id": "T0102", "title_zh": "佛說五蘊皆空經", "hvdic_vi": "phật thuyết ngũ uẩn giai không kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:07"}
+{"cbeta_id": "T0103", "title_zh": "佛說聖法印經", "hvdic_vi": "phật thuyết thánh pháp ấn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:09"}
+{"cbeta_id": "T0104", "title_zh": "佛說法印經", "hvdic_vi": "phật thuyết pháp ấn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:11"}
+{"cbeta_id": "T0105", "title_zh": "五陰譬喻經", "hvdic_vi": "ngũ âm thí dụ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:14"}
+{"cbeta_id": "T0106", "title_zh": "佛說水沫所漂經", "hvdic_vi": "phật thuyết thuỷ mạt sở phiêu kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:17"}
+{"cbeta_id": "T0107", "title_zh": "佛說不自守意經", "hvdic_vi": "phật thuyết bất tự thủ ý kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:24"}
+{"cbeta_id": "T0108", "title_zh": "佛說滿願子經", "hvdic_vi": "phật thuyết mãn nguyện tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:28"}
+{"cbeta_id": "T0109", "title_zh": "佛說轉法輪經", "hvdic_vi": "phật thuyết chuyển pháp luân kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:33"}
+{"cbeta_id": "T0110", "title_zh": "佛說三轉法輪經", "hvdic_vi": "phật thuyết tam chuyển pháp luân kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:36"}
+{"cbeta_id": "T0111", "title_zh": "佛說相應相可經", "hvdic_vi": "phật thuyết tương ưng tương khả kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:39"}
+{"cbeta_id": "T0112", "title_zh": "佛說八正道經", "hvdic_vi": "phật thuyết bát chính đạo kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:26:42"}
+{"cbeta_id": "T0127", "title_zh": "佛說四人出現世間經", "hvdic_vi": "phật thuyết tứ nhân xuất hiện thế gian kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:32:30"}
+{"cbeta_id": "T0128a", "title_zh": "須摩提女經", "hvdic_vi": "tu ma đề nữ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:32:37"}
+{"cbeta_id": "T0128b", "title_zh": "須摩提女經", "hvdic_vi": "tu ma đề nữ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:32:42"}
+{"cbeta_id": "T0129", "title_zh": "佛說三摩竭經", "hvdic_vi": "phật thuyết tam ma kiệt kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:32:46"}
+{"cbeta_id": "T0130", "title_zh": "佛說給孤長者女得度因緣經", "hvdic_vi": "phật thuyết cấp cô trưởng giả nữ đắc độ nhân duyên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:32:50"}
+{"cbeta_id": "T0131", "title_zh": "佛說婆羅門避死經", "hvdic_vi": "phật thuyết bà la môn tỵ tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:32:54"}
+{"cbeta_id": "T0132a", "title_zh": "佛說食施獲五福報經", "hvdic_vi": "phật thuyết thực thi hoạch ngũ phúc báo kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:32:58"}
+{"cbeta_id": "T0132b", "title_zh": "施食獲五福報經", "hvdic_vi": "thi thực hoạch ngũ phúc báo kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:02"}
+{"cbeta_id": "T0133", "title_zh": "頻毘娑羅王詣佛供養經", "hvdic_vi": "tần bì sa la vương nghệ phật cung dưỡng kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:07"}
+{"cbeta_id": "T0134", "title_zh": "佛說長者子六過出家經", "hvdic_vi": "phật thuyết trưởng giả tử lục quá xuất gia kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:12"}
+{"cbeta_id": "T0135", "title_zh": "佛說力士移山經", "hvdic_vi": "phật thuyết lực sĩ di sơn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:18"}
+{"cbeta_id": "T0136", "title_zh": "佛說四未曾有法經", "hvdic_vi": "phật thuyết tứ vị tằng hữu pháp kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:26"}
+{"cbeta_id": "T0137", "title_zh": "舍利弗摩訶目連遊四衢經", "hvdic_vi": "xá lợi phất ma ha mục liên du tứ cù kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:33"}
+{"cbeta_id": "T0138", "title_zh": "佛說十一想思念如來經", "hvdic_vi": "phật thuyết thập nhất tưởng tư niệm như lai kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:38"}
+{"cbeta_id": "T0139", "title_zh": "佛說四泥犁經", "hvdic_vi": "phật thuyết tứ nê lê kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:43"}
+{"cbeta_id": "T0140", "title_zh": "阿那邠邸化七子經", "hvdic_vi": "a na bân để hoá thất tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:47"}
+{"cbeta_id": "T0141", "title_zh": "佛說阿遬達經", "hvdic_vi": "phật thuyết a đạt kinh", "chars_without_reading": 1, "ts": "2026-10-29T09:33:52"}
+{"cbeta_id": "T0142a", "title_zh": "佛說玉耶女經", "hvdic_vi": "phật thuyết ngọc gia nữ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:33:57"}
+{"cbeta_id": "T0142b", "title_zh": "玉耶女經", "hvdic_vi": "ngọc gia nữ kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:04"}
+{"cbeta_id": "T0143", "title_zh": "玉耶經", "hvdic_vi": "ngọc gia kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:11"}
+{"cbeta_id": "T0144", "title_zh": "佛說大愛道般泥洹經", "hvdic_vi": "phật thuyết đại ái đạo bàn nê hoàn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:17"}
+{"cbeta_id": "T0145", "title_zh": "佛母般泥洹經", "hvdic_vi": "phật mẫu bàn nê hoàn kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:21"}
+{"cbeta_id": "T0146", "title_zh": "舍衛國王夢見十事經", "hvdic_vi": "xá vệ quốc vương mộng kiến thập sự kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:26"}
+{"cbeta_id": "T0147", "title_zh": "佛說舍衛國王十夢經", "hvdic_vi": "phật thuyết xá vệ quốc vương thập mộng kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:31"}
+{"cbeta_id": "T0148", "title_zh": "國王不梨先泥十夢經", "hvdic_vi": "quốc vương bất lê tiên nê thập mộng kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:35"}
+{"cbeta_id": "T0149", "title_zh": "佛說阿難同學經", "hvdic_vi": "phật thuyết a nan đồng học kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:39"}
+{"cbeta_id": "T0150A", "title_zh": "七處三觀經", "hvdic_vi": "thất xứ tam quan kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:44"}
+{"cbeta_id": "T0150B", "title_zh": "九橫經", "hvdic_vi": "cửu hoành kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:48"}
+{"cbeta_id": "T0151", "title_zh": "佛說阿含正行經", "hvdic_vi": "phật thuyết a hàm chính hành kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:52"}
+{"cbeta_id": "T0152", "title_zh": "六度集經", "hvdic_vi": "lục độ tập kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:34:56"}
+{"cbeta_id": "T0153", "title_zh": "菩薩本緣經", "hvdic_vi": "bồ tát bản duyên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:00"}
+{"cbeta_id": "T0154", "title_zh": "生經", "hvdic_vi": "sinh kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:03"}
+{"cbeta_id": "T0155", "title_zh": "菩薩本行經", "hvdic_vi": "bồ tát bản hành kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:07"}
+{"cbeta_id": "T0156", "title_zh": "大方便佛報恩經", "hvdic_vi": "đại phương tiện phật báo ân kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:10"}
+{"cbeta_id": "T0157", "title_zh": "悲華經", "hvdic_vi": "bi hoa kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:13"}
+{"cbeta_id": "T0158", "title_zh": "大乘悲分陀利經", "hvdic_vi": "đại thừa bi phân đà lợi kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:16"}
+{"cbeta_id": "T0159", "title_zh": "大乘本生心地觀經", "hvdic_vi": "đại thừa bản sinh tâm địa quan kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:19"}
+{"cbeta_id": "T0160", "title_zh": "菩薩本生鬘論", "hvdic_vi": "bồ tát bản sinh man luận", "chars_without_reading": 0, "ts": "2026-10-29T09:35:23"}
+{"cbeta_id": "T0161", "title_zh": "長壽王經", "hvdic_vi": "trưởng thọ vương kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:26"}
+{"cbeta_id": "T0162", "title_zh": "金色王經", "hvdic_vi": "kim sắc vương kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:29"}
+{"cbeta_id": "T0163", "title_zh": "妙色王因緣經", "hvdic_vi": "diệu sắc vương nhân duyên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:32"}
+{"cbeta_id": "T0164", "title_zh": "師子素馱娑王斷肉經", "hvdic_vi": "sư tử tố đà sa vương đoạn nhục kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:35"}
+{"cbeta_id": "T0165", "title_zh": "頂生王因緣經", "hvdic_vi": "đỉnh sinh vương nhân duyên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:38"}
+{"cbeta_id": "T0166", "title_zh": "月光菩薩經", "hvdic_vi": "nguyệt quang bồ tát kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:40"}
+{"cbeta_id": "T0167", "title_zh": "太子慕魄經", "hvdic_vi": "thái tử mộ phách kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:45"}
+{"cbeta_id": "T0168", "title_zh": "太子墓魄經", "hvdic_vi": "thái tử mộ phách kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:50"}
+{"cbeta_id": "T0169", "title_zh": "月明菩薩經", "hvdic_vi": "nguyệt minh bồ tát kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:55"}
+{"cbeta_id": "T0170", "title_zh": "德光太子經", "hvdic_vi": "đức quang thái tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:35:58"}
+{"cbeta_id": "T0171", "title_zh": "太子須大拏經", "hvdic_vi": "thái tử tu đại nã kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:02"}
+{"cbeta_id": "T0172", "title_zh": "菩薩投身飴餓虎起塔因緣經", "hvdic_vi": "bồ tát đầu thân tự ngã hổ khởi tháp nhân duyên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:05"}
+{"cbeta_id": "T0173", "title_zh": "福力太子因緣經", "hvdic_vi": "phúc lực thái tử nhân duyên kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:07"}
+{"cbeta_id": "T0174", "title_zh": "菩薩睒子經", "hvdic_vi": "bồ tát thiểm tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:11"}
+{"cbeta_id": "T0175a", "title_zh": "睒子經", "hvdic_vi": "thiểm tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:14"}
+{"cbeta_id": "T0175b", "title_zh": "佛說睒子經", "hvdic_vi": "phật thuyết thiểm tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:18"}
+{"cbeta_id": "T0175c", "title_zh": "佛說睒子經", "hvdic_vi": "phật thuyết thiểm tử kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:22"}
+{"cbeta_id": "T0176", "title_zh": "師子月佛本生經", "hvdic_vi": "sư tử nguyệt phật bản sinh kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:25"}
+{"cbeta_id": "T0177", "title_zh": "大意經", "hvdic_vi": "đại ý kinh", "chars_without_reading": 0, "ts": "2026-10-29T09:36:28"}

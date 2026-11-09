@@ -1,0 +1,1486 @@
+"""Route nhom namevi: tach tu app.py (xem docs/sessions/2026-10-27/split-app)."""
+from flask import Flask, jsonify, request, send_from_directory, Response, make_response
+import sqlite3
+import re
+import unicodedata
+import os
+import json
+import hashlib
+from datetime import datetime
+import requests
+import urllib.parse
+import shutil
+import time
+from flask_cors import CORS
+import sys as _sys
+from hanviet_normalization import normalize_text as hanviet_normalize, load_glossary as hanviet_load_glossary
+from style_constitution import (  # noqa: E402
+    source_hash as _t165_source_hash,
+    select_rules as _t165_select_rules,
+    style_lock as _t165_style_lock,
+    build_style_prompt as _t165_build_style_prompt,
+    constitution_hash as _t165_constitution_hash,
+    glossary_hash as _t165_glossary_hash,
+    invalidate_cache_for_rule as _t165_invalidate_cache_for_rule,
+    invalidate_cache_all_semantic as _t165_invalidate_cache_all_semantic,
+    lookup_cache as _t165_lookup_cache,
+    write_cache as _t165_write_cache,
+    log_prompt_metrics as _t165_log_prompt_metrics,
+    is_rules_outdated as _t165_is_rules_outdated,
+    persist_prompt_metrics as _t165_persist_prompt_metrics,
+    PROMPT_METRICS_TABLE as _T165_PROMPT_METRICS_TABLE,
+    PROMPT_FORMAT_VERSION as _T165_PROMPT_FORMAT_VERSION,
+    extract_match_terms as _t165_extract_match_terms,
+    is_trusted_translation as _t166_is_trusted,
+    is_draft_translation as _t166_is_draft,
+    identity_lock_policy as _t166_identity_lock_policy,
+)
+from canonical_lock import (  # noqa: E402
+    post_check_translation as _t166_post_check_translation,
+    # T165-P8.3: entity alignment pilot gate — reuse P8.1 contract
+    build_entity_key_map as _p8_build_entity_key_map,
+    build_entity_prompt_instruction as _p8_build_entity_prompt_instruction,
+    parse_entity_xml as _p8_parse_entity_xml,
+    check_entity_assertions as _p8_check_entity_assertions,
+)
+from vnpa_lookup import (  # noqa: E402
+    VNPA_ORDER_BY as _t200_vnpa_order_by,
+    lookup_by_dila as _t200_vnpa_lookup_by_dila,
+    map_dila_to_name as _t200_vnpa_map_dila_to_name,
+    has_duplicate_dila as _t200_vnpa_has_duplicate_dila,
+)
+from t265_routes import t265_bp
+from db_core import get_db_connection
+import re as _re86
+import threading as _t148_threading
+import xml.etree.ElementTree as _t148_ET
+import threading as _t412_threading
+import urllib.request as _urllib_req, urllib.parse as _urllib_parse
+import subprocess as _t50_sp
+import signal as _t50_sig
+from api_ttl_profile_v2 import create_ttl_profile_blueprint
+from api_ttl_anchor import create_ttl_anchor_blueprint
+from core import BASE_DIR, DB_PATH, SQLITE_DB, TTL_MASTER_DIR, TTL_OLD_DIR, _lex_lookup, _persist_canonical_decision, _t427_session_email, app, get_db, normalize_text, title_case_vi, verify_session
+import csv as _t486_csv
+
+
+
+
+@app.route('/daoanh/api/dila/hv/stats')
+def api_dila_hv_stats():
+    """GET /daoanh/api/dila/hv/stats — count theo hv_status + legacy_match (T172 §5).
+
+    Dùng cho filter badges trên admin/dila_person_index.html.
+    """
+    try:
+        conn = get_db_connection()
+        total = conn.execute('SELECT COUNT(*) FROM person_hanviet_debug').fetchone()[0]
+        by_status = [
+            {"status": r['s'], "n": r['n']}
+            for r in conn.execute(
+                "SELECT han_viet_validation_status s, COUNT(*) n FROM person_hanviet_debug "
+                "GROUP BY s").fetchall()
+        ]
+        by_legacy = [
+            {"legacy_match": r['s'], "n": r['n']}
+            for r in conn.execute(
+                "SELECT legacy_match_status s, COUNT(*) n FROM person_hanviet_debug "
+                "GROUP BY s").fetchall()
+        ]
+        translit = conn.execute(
+            "SELECT COUNT(*) FROM person_hanviet_debug WHERE is_transliteration=1"
+        ).fetchone()[0]
+        conn.close()
+        return jsonify({"ok": True, "total": total, "by_status": by_status,
+                        "by_legacy_match": by_legacy, "is_transliteration": translit,
+                        "dict_version": "t172-20260928-3dict"})
+    except Exception as e:
+        app.logger.error(f"api_dila_hv_stats error: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+
+
+@app.route('/daoanh/api/admin/namevi-map-places/save', methods=['POST'])
+def save_mapping():
+    try:
+        data = request.json
+        name_vi = title_case_vi(data.get('name_vi', ''))
+        vn_status = data.get('vn_name_status', 'reviewed')
+        conn = get_db_connection()
+        conn.execute("""
+            INSERT OR REPLACE INTO namevi_map_places (dila_id, name_vi, name_zh, gps_lat, gps_long, note_vi, district_vi, country_vi, source, needs_review, vn_name_status, confidence)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'manual', 0, ?, 1.0)
+        """, (str(data['dila_id']), name_vi, data['name_zh'], data.get('gps_lat', ''), data.get('gps_long', ''), data.get('note_vi', ''), data.get('district_vi', ''), data.get('country_vi', ''), vn_status))
+        # Also persist into places_pending.name_vi + name_vi_norm so search works
+        conn.execute("UPDATE places_pending SET name_vi = ?, name_vi_norm = ? WHERE id = ?", (name_vi, normalize_text(name_vi), str(data['dila_id'])))
+        # T67: ghi quyết định canonical + audit log + chuyển entity_hub.status='verified'
+        _vs = (data.get('verification_status') or 'verified')
+        _persist_canonical_decision(
+            conn, str(data['dila_id']), action='approve', field_name='name_vi',
+            old_value=(data.get('prev_name_vi') or ''), new_value=name_vi,
+            evidence_citations=(data.get('evidence_citations') or []),
+            authority_rank=(data.get('authority_rank') or 'admin_approved'),
+            verification_status=_vs,
+            decision_note=(data.get('decision_note') or 'Human-in-the-loop approve (Đạo Ảnh)'),
+            editor=(data.get('editor') or request.headers.get('X-Forwarded-Email') or 'admin'),
+            mark_verified=(_vs in ('verified', 'canonical')),
+        )
+        conn.commit()
+        conn.close()
+        return jsonify({"success": True, "message": "Đã lưu Mapping thành công!"})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+
+@app.route('/daoanh/api/public/transliterate')
+def public_transliterate():
+    text = request.args.get('text', '').strip()
+    if not text:
+        return jsonify({"success": False, "error": "Thiếu tham số text"}), 400
+    try:
+        import requests as req
+        import urllib.parse
+        url = "https://hvdic.thivien.net/transcript-query.json.php"
+        payload = f"mode=trans&lang=1&input={urllib.parse.quote(text)}"
+        headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
+        resp = req.post(url, headers=headers, data=payload.encode('utf-8'), timeout=10)
+        result = resp.json().get('result', [])
+        hanviet = " ".join([el.get('o', [''])[0] for el in result if el.get('o')])
+        if hanviet and hanviet != text:
+            return jsonify({"success": True, "result": hanviet})
+    except Exception:
+        pass
+    fallback = {
+        '中國': 'Trung Quốc', '中国': 'Trung Quốc', '阿富汗': 'Afghanistan',
+        '省': 'Tỉnh ', '市': 'Thành phố ', '縣': 'Huyện ', '区': 'Quận ', '區': 'Quận ',
+        '镇': 'Trấn ', '鎮': 'Trấn ', '村': 'Thôn ', '乡': 'Xã ', '鄉': 'Xã ',
+        '雲南': 'Vân Nam', '河北': 'Hà Bắc', '山西': 'Sơn Tây', '山東': 'Sơn Đông',
+        '河南': 'Hà Nam', '湖南': 'Hà Nam', '廣東': 'Quảng Đông', '廣西': 'Quảng Tây',
+        '四川': 'Tứ Xuyên', '福建': 'Phúc Kiến', '巴基斯坦': 'Pakistan', '印度': 'Ấn Độ',
+    }
+    result = text
+    for zh, vi in fallback.items():
+        result = result.replace(zh, vi)
+    return jsonify({"success": True, "result": result})
+
+
+
+@app.route('/api/monk/<dila_id>/lexicon', methods=['GET'])
+def api_monk_lexicon(dila_id):
+    """GET /api/monk/{id}/lexicon - Get lexicon entries for this monk with source priority + aliases for DILA/Marcus mapping"""
+    import re
+    lookup_id = dila_id.replace('TS-', '')
+    
+    # Try to get Unicode name from TTL file
+    full_name = lookup_id
+    ttl_file = os.path.join(TTL_OLD_DIR, f"TS-{lookup_id}.ttl")
+    if not os.path.exists(ttl_file):
+        for f in os.listdir(TTL_OLD_DIR):
+            if lookup_id.lower() in f.lower():
+                ttl_file = os.path.join(TTL_OLD_DIR, f)
+                break
+    
+    if os.path.exists(ttl_file):
+        with open(ttl_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+            match = content.find('"@vi')
+            if match:
+                start = content.rfind('rdfs:label "', 0, match)
+                if start >= 0:
+                    name_start = start + 12
+                    name_end = content.find('"', name_start)
+                    if name_end > name_start:
+                        full_name = content[name_start:name_end]
+    
+    conn = get_db()
+    try:
+        rows = conn.execute(
+            "SELECT term, definition, source FROM lexicon WHERE definition LIKE ? OR definition LIKE ? LIMIT 50",
+            (f'%{full_name}%', f'%{lookup_id}%')
+        ).fetchall()
+        
+        # Add priority weight: Han Lam > Pho Thong > Tham Khhao
+        def get_priority(src):
+            src_lower = (src or '').lower()
+            if any(s in src_lower for s in ['tu dien han viet', 'tu-dien-danh-tu', 'phat quang tu dien', 'tu dien thien tong han viet', 'tu dien da ngon ngu', 'tam tang phap so', 'phat hoc tinh tuyen', 'trich luc tu ngu', 'tu dien anh viet']):
+                return 1
+            elif any(s in src_lower for s in ['tu dien phat hoc tong hop', 'tu dien phat hoc', 'kho tang phap hoc', 'tu dien viet - pali', 'tu dien pali', 'phap so can ban']):
+                return 2
+            elif any(s in src_lower for s in ['chua van hanh', 'tham khao', 'duy luc']):
+                return 3
+            return 4
+        
+        entries = [
+            {'term': r['term'], 'definition': r['definition'], 'source': r['source'], 'priority': get_priority(r['source'])} 
+            for r in rows
+        ]
+        entries.sort(key=lambda x: x['priority'])
+        
+        # Extract aliases from highest priority entry (for DILA/Marcus mapping)
+        # Format: (白雲守端, Hakuun Shutan, 1025-1072) or (Bai Yun Shou Tuan, Hakuun Shutan, J)
+        aliases = {}
+        if entries and entries[0].get('definition'):
+            def_text = entries[0]['definition']
+            # Match (Chinese, Japanese, years) or (Chinese, Japanese, English)
+            alias_match = re.search(r'\(([^,]+),\s*([^,]+),\s*([0-9\-]+|[A-Za-z]+)\)', def_text)
+            if alias_match:
+                aliases = {
+                    'name_zh': alias_match.group(1).strip(),      # 白雲守端
+                    'name_jp': alias_match.group(2).strip(),     # Hakuun Shutan
+                    'alt_name': alias_match.group(3).strip()  # 1025-1072 or Hakuun
+                }
+            else:
+                # Try simpler pattern: just Chinese chars at start
+                zh_match = re.search(r'([\u4e00-\u9fff]+)', def_text)
+                if zh_match:
+                    aliases = {'name_zh': zh_match.group(1)}
+        
+        return jsonify({
+            'entries': entries, 
+            'count': len(entries),
+            'search_term': full_name,
+            'aliases': aliases
+        })
+    finally:
+        conn.close()
+
+
+
+@app.route('/daoanh/api/admin/namevi-queue', methods=['GET'])
+@app.route('/api/admin/namevi-queue', methods=['GET'])
+def admin_namevi_queue():
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 30, type=int)
+    filter_status = request.args.get('filter', 'all')
+    ttl_local = request.args.get('ttl_local', 'all')  # 'all' | 'has' | 'no'
+    offset = (page - 1) * per_page
+
+    # Subquery IDs đã có TTL (vn_person_authority ưu tiên, ttl_master fallback)
+    _TTL_SUBQ = """(
+        SELECT dila_id FROM vn_person_authority
+            WHERE dila_id IS NOT NULL AND name_vi IS NOT NULL AND name_vi != ''
+        UNION
+        SELECT dila_id FROM ttl_master
+            WHERE dila_id IS NOT NULL AND name_vi IS NOT NULL AND name_vi != ''
+    )"""
+
+    conn = sqlite3.connect(SQLITE_DB)
+    conn.row_factory = sqlite3.Row
+    try:
+        where_clause = "p.name_zh IS NOT NULL AND p.name_zh != ''"
+        if filter_status == 'no_auto':
+            where_clause += " AND (n.name_vi_auto IS NULL OR n.name_vi_auto = '')"
+        elif filter_status == 'auto_pending':
+            where_clause += " AND n.name_vi_auto IS NOT NULL AND n.name_vi_auto != '' AND (n.name_vi_final IS NULL OR n.name_vi_final = '')"
+        elif filter_status == 'approved':
+            where_clause += " AND n.name_vi_final IS NOT NULL AND n.name_vi_final != ''"
+        else:
+            where_clause += " AND (n.name_vi_final IS NULL OR n.name_vi_final = '')"
+
+        # TTLLocal filter
+        if ttl_local == 'has':
+            where_clause += f" AND p.id IN {_TTL_SUBQ}"
+        elif ttl_local == 'no':
+            where_clause += f" AND p.id NOT IN {_TTL_SUBQ}"
+
+        rows = conn.execute(f"""
+            SELECT p.id as dila_id, p.name_zh, p.name_vi as people_name_vi, p.birth_year, p.death_year,
+                   MAX(n.name_vi_final) as name_vi_final,
+                   MAX(n.name_vi_auto) as name_vi_auto,
+                   MAX(n.name_vi) as name_vi,
+                   MAX(n.bio_snippet) as bio_snippet,
+                   MAX(n.approved_at) as approved_at
+            FROM people p
+            LEFT JOIN name_vi_map n ON p.id = n.dila_id
+            WHERE {where_clause}
+            GROUP BY p.id
+            ORDER BY p.id
+            LIMIT ? OFFSET ?
+        """, (per_page, offset)).fetchall()
+
+        names = []
+        for r in rows:
+            # Priority: curated final > DILA source (people.name_vi) > auto-transliterate
+            display = r['name_vi_final'] or r['people_name_vi'] or r['name_vi_auto'] or None
+            names.append({
+                'dila_id': r['dila_id'],
+                'name_zh': r['name_zh'],
+                'name_vi': display,
+                'name_vi_auto': r['name_vi_auto'],
+                'name_vi_final': r['name_vi_final'],
+                'people_name_vi': r['people_name_vi'],
+                'approved_at': r['approved_at'],
+                'birth_year': r['birth_year'],
+                'death_year': r['death_year'],
+                'bio_snippet': r['bio_snippet']
+            })
+        
+        # Get counts for each filter
+        stats = {}
+        for f in ['no_auto', 'auto_pending', 'approved', 'all']:
+            w = "p.name_zh IS NOT NULL AND p.name_zh != ''"
+            if f == 'no_auto':
+                w += " AND (n.name_vi_auto IS NULL OR n.name_vi_auto = '')"
+            elif f == 'auto_pending':
+                w += " AND n.name_vi_auto IS NOT NULL AND n.name_vi_auto != '' AND (n.name_vi_final IS NULL OR n.name_vi_final = '')"
+            elif f == 'approved':
+                w += " AND n.name_vi_final IS NOT NULL AND n.name_vi_final != ''"
+            else:
+                w += " AND (n.name_vi_final IS NULL OR n.name_vi_final = '')"
+            c = conn.execute(f"SELECT COUNT(*) as c FROM (SELECT p.id FROM people p LEFT JOIN name_vi_map n ON p.id = n.dila_id WHERE {w} GROUP BY p.id)").fetchone()
+            stats[f] = c['c']
+        
+        # Đếm has/no TTL (không bị ảnh hưởng bởi filter hiện tại — dùng base all filter)
+        try:
+            _base = "p.name_zh IS NOT NULL AND p.name_zh != '' AND (n.name_vi_final IS NULL OR n.name_vi_final = '')"
+            _cnt = conn.execute(f"""
+                SELECT
+                    COUNT(CASE WHEN p.id IN {_TTL_SUBQ} THEN 1 END) as has_ttl,
+                    COUNT(CASE WHEN p.id NOT IN {_TTL_SUBQ} THEN 1 END) as no_ttl
+                FROM (
+                    SELECT p.id FROM people p
+                    LEFT JOIN name_vi_map n ON p.id = n.dila_id
+                    WHERE {_base} GROUP BY p.id
+                )
+            """).fetchone()
+            ttl_has_count = _cnt[0] if _cnt else 0
+            ttl_no_count  = _cnt[1] if _cnt else 0
+        except Exception:
+            ttl_has_count = ttl_no_count = 0
+
+        return jsonify({
+            'names': names, 'page': page, 'per_page': per_page,
+            'stats': stats, 'filter': filter_status,
+            'ttl_has_count': ttl_has_count, 'ttl_no_count': ttl_no_count,
+        })
+    finally:
+        conn.close()
+
+
+
+@app.route('/daoanh/api/admin/namevi-queue/<dila_id>', methods=['GET'])
+@app.route('/api/admin/namevi-queue/<dila_id>', methods=['GET'])
+def admin_namevi_queue_get(dila_id):
+    conn = sqlite3.connect(SQLITE_DB)
+    conn.row_factory = sqlite3.Row
+    try:
+        row = conn.execute("""
+            SELECT p.id as dila_id, p.name_zh, p.name_vi as people_name_vi, p.birth_year, p.death_year,
+                   n.name_vi, n.name_vi_auto, n.name_vi_final, n.approved_at, n.bio_snippet
+            FROM people p
+            LEFT JOIN name_vi_map n ON p.id = n.dila_id
+            WHERE p.id = ?
+        """, (dila_id,)).fetchone()
+
+        if row:
+            result = {
+                'dila_id': row['dila_id'],
+                'name_zh': row['name_zh'],
+                'name_vi': row['name_vi_final'] or row['people_name_vi'] or row['name_vi_auto'] or row['name_vi'],
+                'name_vi_auto': row['name_vi_auto'],
+                'name_vi_final': row['name_vi_final'],
+                'people_name_vi': row['people_name_vi'],
+                'approved_at': row['approved_at'],
+                'birth_year': row['birth_year'],
+                'death_year': row['death_year'],
+                'bio_snippet': row['bio_snippet'],
+                'alternative_names': '',
+                'dynasty': '',
+                'sex': '',
+                'is_monk': '',
+                'extensive_bio': '',
+                'teacher': '',
+                'students': '',
+                'works': '',
+                'bibl': ''
+            }
+            
+            # Parse from XML
+            xml_path = os.path.join(BASE_DIR, 'data', 'dila_import', 'Authority-Databases', 'authority_person', 'Buddhist_Studies_Person_Authority.xml')
+            if os.path.exists(xml_path):
+                try:
+                    with open(xml_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    match = re.search(r'<person[^>]*xml:id="' + dila_id + r'"[^>]*>(.*?)</person>', content, re.DOTALL)
+                    if match:
+                        block = match.group(1)
+                        
+                        # Get alternative names
+                        alt_names = re.findall(r'<persName[^>]*>([^<]+)</persName>', block)
+                        if alt_names:
+                            result['alternative_names'] = ' | '.join(alt_names)
+                        
+                        # Get dynasty
+                        dynasty = re.search(r'<note type="dynasty">(.*?)</note>', block)
+                        if dynasty:
+                            result['dynasty'] = dynasty.group(1).strip()
+                        
+                        # Get sex
+                        sex = re.search(r'<sex value="(\d)"/>', block)
+                        if sex:
+                            result['sex'] = 'Nam' if sex.group(1) == '1' else 'Nữ'
+                        
+                        # Get monk status
+                        monk = re.search(r'<note type="monk">([^<]+)</note>', block)
+                        if monk:
+                            result['is_monk'] = 'Có' if monk.group(1) == '是' else 'Không'
+                        
+                        # Get concise bio
+                        if not result['bio_snippet']:
+                            concise = re.search(r'<note type="concise">(.*?)</note>', block)
+                            if concise:
+                                result['bio_snippet'] = concise.group(1).strip()[:500]
+                        
+                        # Get extensive bio
+                        extensive = re.search(r'<note type="extensive">(.*?)</note>', block)
+                        if extensive:
+                            result['extensive_bio'] = extensive.group(1).strip()[:800]
+                        
+                        # Get teachers
+                        teachers = re.findall(r'<relation type="teacher"[^>]*n="([^"]+)"', block)
+                        result['teacher'] = ', '.join(teachers)
+                        
+                        # Get students
+                        students = re.findall(r'<relation type="student"[^>]*n="([^"]+)"', block)
+                        result['students'] = ', '.join(students)
+                        
+                        # Get works
+                        works = re.findall(r'<note type="worksInTripitaka">(.*?)</note>', block)
+                        if works:
+                            result['works'] = ', '.join([w.strip() for w in works])
+                        
+                        # Get bibliography
+                        bibls = re.findall(r'<bibl>(.*?)</bibl>', block)
+                        if bibls:
+                            result['bibl'] = ' | '.join([b.replace('<ref target="[^"]+">', '(').replace('</ref>', ')') for b in bibls[:5]])
+                except Exception as e:
+                    print(f"Error parsing XML: {e}")
+            
+            return jsonify(result)
+        return jsonify({'error': 'Not found'}), 404
+    finally:
+        conn.close()
+
+
+
+@app.route('/api/admin/namevi-map/xcm-stats', methods=['GET'])
+@app.route('/daoanh/api/admin/namevi-map/xcm-stats', methods=['GET'])
+def admin_namevi_xcm_stats():
+    """Thống kê nhanh cho tab Xác Minh: số đã Pass, đã Reject (—)."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'Unauthorized'}), 403
+    try:
+        conn = get_db()
+        approved = conn.execute(
+            "SELECT COUNT(*) FROM name_vi_map WHERE approved_by='admin'"
+            " AND name_vi_final IS NOT NULL AND name_vi_final != '' AND name_vi_final != '—'"
+        ).fetchone()[0]
+        rejected = conn.execute(
+            "SELECT COUNT(*) FROM name_vi_map WHERE approved_by='admin' AND name_vi_final='—'"
+        ).fetchone()[0]
+        return jsonify({'ok': True, 'approved': approved, 'rejected': rejected})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+
+
+@app.route('/daoanh/api/admin/namevi-map/delete', methods=['POST'])
+@app.route('/api/admin/namevi-map/delete', methods=['POST'])
+def admin_namevi_map_delete():
+    # T166 §7.1 — BẮT BUỘC verify_session (xóa LOCKED authority source).
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 403
+    data = request.get_json()
+    dila_id = data.get('dila_id')
+    if not dila_id:
+        return jsonify({'success': False, 'error': 'Missing dila_id'}), 400
+    conn = sqlite3.connect(SQLITE_DB)
+    try:
+        cur = conn.execute('DELETE FROM name_vi_map WHERE dila_id = ?', (dila_id,))
+        conn.commit()
+        if cur.rowcount == 0:
+            return jsonify({'success': False, 'error': 'Not found'}), 404
+        return jsonify({'success': True, 'dila_id': dila_id})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        conn.close()
+
+
+
+@app.route('/daoanh/api/admin/namevi-map/update', methods=['POST'])
+@app.route('/api/admin/namevi-map/update', methods=['POST'])
+def admin_namevi_map_update():
+    # T166 §7.1 — BẮT BUỘC verify_session.
+    # Endpoint này ghi name_vi_map.name_vi_final + approved_by='admin' + people.name_vi
+    # ⇒ đây chính là nguồn tạo LOCKED authority (SOURCE_LEVELS['name_vi_map.final+approved']=1.0).
+    # Không có auth ⇒ bất kỳ ai cũng "đúc" được nguồn LOCK (SPEC §20.2 #15).
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({"success": False, "error": "Unauthorized"}), 403
+
+    data = request.get_json()
+    dila_id = data.get('dila_id')
+    name_vi = data.get('name_vi')
+    
+    if not dila_id or not name_vi:
+        return jsonify({'success': False, 'error': 'Missing dila_id or name_vi'}), 400
+    
+    conn = sqlite3.connect(SQLITE_DB)
+    try:
+        now = datetime.now().isoformat()
+        # Tìm row canonical (confidence cao nhất) theo dila_id
+        row = conn.execute(
+            "SELECT id FROM name_vi_map WHERE dila_id = ? ORDER BY confidence DESC, id ASC LIMIT 1",
+            (dila_id,)
+        ).fetchone()
+        if row:
+            # Chỉ update name_vi + name_vi_final + approved — KHÔNG đổi name_zh
+            # Đổi name_zh gây UNIQUE(name_vi, name_zh) conflict khi có nhiều row cùng dila_id
+            try:
+                if 'name_zh' in data:
+                    conn.execute("""
+                        UPDATE name_vi_map SET
+                            name_vi = ?, name_vi_final = ?, name_zh = ?,
+                            approved_by = 'admin', approved_at = ?
+                        WHERE id = ?
+                    """, (name_vi, name_vi, data['name_zh'], now, row[0]))
+                else:
+                    conn.execute("""
+                        UPDATE name_vi_map SET
+                            name_vi = ?, name_vi_final = ?,
+                            approved_by = 'admin', approved_at = ?
+                        WHERE id = ?
+                    """, (name_vi, name_vi, now, row[0]))
+            except sqlite3.IntegrityError:
+                # UNIQUE(name_vi, name_zh) conflict — tên Việt này đã có cho tên Hán khác.
+                # Fallback: chỉ ghi name_vi_final (không đổi name_vi gốc) để tránh conflict.
+                conn.execute("""
+                    UPDATE name_vi_map SET
+                        name_vi_final = ?,
+                        approved_by = 'admin', approved_at = ?
+                    WHERE id = ?
+                """, (name_vi, now, row[0]))
+        else:
+            try:
+                conn.execute("""
+                    INSERT INTO name_vi_map (name_vi, name_vi_final, name_zh, dila_id, approved_by, approved_at, confidence, created_at)
+                    VALUES (?, ?, ?, ?, 'admin', ?, 1.0, ?)
+                """, (
+                    name_vi, name_vi,
+                    data.get('name_zh'),
+                    dila_id, now, now
+                ))
+            except sqlite3.IntegrityError:
+                # UNIQUE conflict khi INSERT — thử lại với name_zh=NULL
+                conn.execute("""
+                    INSERT INTO name_vi_map (name_vi, name_vi_final, name_zh, dila_id, approved_by, approved_at, confidence, created_at)
+                    VALUES (?, ?, NULL, ?, 'admin', ?, 1.0, ?)
+                """, (name_vi, name_vi, dila_id, now, now))
+        # Sync people.name_vi — nhưng KHÔNG ghi '—' (sentinel reject) vào people
+        if name_vi != '—':
+            conn.execute("UPDATE people SET name_vi = ? WHERE id = ?", (name_vi, dila_id))
+        conn.commit()
+        return jsonify({'success': True, 'dila_id': dila_id, 'name_vi': name_vi, 'name_vi_final': name_vi})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        conn.close()
+
+
+
+@app.route('/api/admin/namevi-map-places', methods=['GET'])
+def admin_namevi_map_places():
+    """List place Vietnamese name mappings"""
+    conn = sqlite3.connect(SQLITE_DB)
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute("SELECT * FROM name_vi_map_places ORDER BY created_at DESC").fetchall()
+        return jsonify({
+            'mappings': [dict(r) for r in rows],
+            'total': len(rows)
+        })
+    finally:
+        conn.close()
+
+
+
+@app.route('/api/admin/namevi-map-places/update', methods=['POST'])
+def admin_namevi_map_places_update():
+    """Add/update place Vietnamese name mapping"""
+    data = request.get_json()
+    name_vi = data.get('name_vi')
+    name_zh = data.get('name_zh')
+    dila_id = data.get('dila_id')
+    
+    if not name_vi:
+        return jsonify({'success': False, 'error': 'Missing name_vi'}), 400
+    
+    conn = sqlite3.connect(SQLITE_DB)
+    try:
+        now = datetime.now().isoformat()
+        conn.execute("""
+            INSERT OR REPLACE INTO name_vi_map_places (name_vi, name_zh, dila_id, created_at)
+            VALUES (?, ?, ?, ?)
+        """, (name_vi, name_zh, dila_id, now))
+        conn.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        conn.close()
+
+
+
+@app.route('/api/admin/namevi/ttl-stats', methods=['GET'])
+@app.route('/daoanh/api/admin/namevi/ttl-stats', methods=['GET'])
+def admin_namevi_ttl_stats():
+    """GET /api/admin/namevi/ttl-stats
+    Thống kê DILA IDs trong name_vi_map: đã có TTL trong DB hay chưa.
+    Query params:
+      - status: 'no_ttl' (chưa có, mặc định) | 'has_ttl' | 'all'
+      - page, per_page
+      - q: tìm kiếm theo tên / DILA ID
+    """
+    status   = request.args.get('status', 'no_ttl')
+    page     = max(1, int(request.args.get('page', 1)))
+    per_page = min(100, int(request.args.get('per_page', 50)))
+    q        = request.args.get('q', '').strip()
+    offset   = (page - 1) * per_page
+
+    try:
+        conn = get_db()
+
+        # ── bảng ttl_master có tồn tại chưa ──
+        tbl_exists = conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='ttl_master'"
+        ).fetchone()
+
+        ttl_ids = set()
+        if tbl_exists:
+            rows = conn.execute("SELECT dila_id FROM ttl_master WHERE dila_id IS NOT NULL").fetchall()
+            ttl_ids = {r[0] for r in rows}
+            # thêm từ vn_person_authority.ttl_filename
+        try:
+            vpa = conn.execute(
+                "SELECT dila_id FROM vn_person_authority WHERE ttl_filename IS NOT NULL AND ttl_filename != ''"
+            ).fetchall()
+            ttl_ids.update(r[0] for r in vpa if r[0])
+        except Exception:
+            pass
+
+        # ── tổng quan ──
+        total_nvm    = conn.execute("SELECT COUNT(*) FROM name_vi_map WHERE dila_id IS NOT NULL").fetchone()[0]
+        has_ttl_cnt  = sum(1 for did in ttl_ids if did)  # bao gồm cả VPA
+        # đếm chính xác hơn: giao giữa name_vi_map.dila_id và ttl_ids
+        nvm_dila_ids = {r[0] for r in conn.execute(
+            "SELECT dila_id FROM name_vi_map WHERE dila_id IS NOT NULL"
+        ).fetchall()}
+        has_ttl_cnt  = len(nvm_dila_ids & ttl_ids)
+        no_ttl_cnt   = total_nvm - has_ttl_cnt
+
+        # ── danh sách ──
+        q_filter  = " AND (nvm.dila_id LIKE :q OR nvm.name_zh LIKE :q OR nvm.name_vi LIKE :q)" if q else ""
+        q_param   = {'q': f'%{q}%'} if q else {}
+
+        if status == 'has_ttl':
+            # IDs ĐÃ có TTL
+            placeholders = ','.join('?' * len(ttl_ids)) if ttl_ids else "''"
+            where_clause = f"WHERE nvm.dila_id IN ({placeholders})"
+            bind_list = list(ttl_ids) if ttl_ids else []
+            count_sql = f"SELECT COUNT(*) FROM name_vi_map nvm {where_clause}"
+            if q:
+                where_clause += f" AND (nvm.dila_id LIKE ? OR nvm.name_zh LIKE ? OR nvm.name_vi LIKE ?)"
+                bind_list += [f'%{q}%', f'%{q}%', f'%{q}%']
+            list_sql = (
+                f"SELECT nvm.dila_id, nvm.name_zh, nvm.name_vi, nvm.name_vi_final, "
+                f"nvm.name_vi_auto, nvm.birth_year, nvm.death_year "
+                f"FROM name_vi_map nvm {where_clause} "
+                f"ORDER BY nvm.name_vi_final DESC, nvm.name_zh "
+                f"LIMIT {per_page} OFFSET {offset}"
+            )
+            total_list = conn.execute(count_sql, bind_list).fetchone()[0]
+            items_raw  = conn.execute(list_sql, bind_list).fetchall()
+        else:
+            # IDs CHƯA có TTL — đây là hàng đợi ưu tiên
+            if ttl_ids:
+                placeholders = ','.join(['?'] * len(ttl_ids))
+                excl = f"AND nvm.dila_id NOT IN ({placeholders})"
+                bind_excl = list(ttl_ids)
+            else:
+                excl, bind_excl = "", []
+            q_bind = ([f'%{q}%'] * 3) if q else []
+            q_where = (
+                " AND (nvm.dila_id LIKE ? OR nvm.name_zh LIKE ? OR nvm.name_vi LIKE ?)"
+                if q else ""
+            )
+            base_where = f"WHERE nvm.dila_id IS NOT NULL {excl}{q_where}"
+            count_sql  = f"SELECT COUNT(*) FROM name_vi_map nvm {base_where}"
+            # ưu tiên: đã duyệt tên Việt > có gợi ý > có năm sinh mất
+            list_sql = (
+                f"SELECT nvm.dila_id, nvm.name_zh, nvm.name_vi, nvm.name_vi_final, "
+                f"nvm.name_vi_auto, nvm.birth_year, nvm.death_year "
+                f"FROM name_vi_map nvm {base_where} "
+                f"ORDER BY "
+                f"  (nvm.name_vi_final IS NOT NULL AND nvm.name_vi_final != '') DESC, "
+                f"  (nvm.birth_year IS NOT NULL) DESC, "
+                f"  (nvm.name_vi_auto IS NOT NULL AND nvm.name_vi_auto != '') DESC, "
+                f"  nvm.name_zh "
+                f"LIMIT {per_page} OFFSET {offset}"
+            )
+            all_binds  = bind_excl + q_bind
+            total_list = conn.execute(count_sql, all_binds).fetchone()[0]
+            items_raw  = conn.execute(list_sql,  all_binds).fetchall()
+
+        # ── đếm file trên disk ──
+        ttl_disk = 0
+        if os.path.exists(TTL_MASTER_DIR):
+            ttl_disk = len([f for f in os.listdir(TTL_MASTER_DIR) if f.endswith('.ttl')])
+
+        conn.close()
+
+        def priority(row):
+            if row[3]:             return 'HIGH'    # name_vi_final
+            if row[5] or row[6]:   return 'MEDIUM'  # birth/death year
+            if row[4]:             return 'MEDIUM'  # name_vi_auto
+            return 'LOW'
+
+        items = [{
+            'dila_id':       r[0],
+            'name_zh':       r[1],
+            'name_vi':       r[3] or r[4] or r[2] or '',
+            'name_vi_final': r[3],
+            'name_vi_auto':  r[4],
+            'birth_year':    r[5],
+            'death_year':    r[6],
+            'priority':      priority(r),
+        } for r in items_raw]
+
+        return jsonify({
+            'ok':          True,
+            'total_nvm':   total_nvm,
+            'has_ttl':     has_ttl_cnt,
+            'no_ttl':      no_ttl_cnt,
+            'ttl_disk':    ttl_disk,
+            'coverage_pct': round(100 * has_ttl_cnt / total_nvm, 1) if total_nvm > 0 else 0,
+            'status':      status,
+            'total_list':  total_list,
+            'items':       items,
+        })
+    except Exception as e:
+        import traceback
+        return jsonify({'ok': False, 'error': str(e), 'trace': traceback.format_exc()}), 500
+
+
+
+
+@app.route('/api/admin/namevi/flag-list', methods=['GET'])
+@app.route('/daoanh/api/admin/namevi/flag-list', methods=['GET'])
+def admin_namevi_flag_list():
+    """GET /api/admin/namevi/flag-list
+    Trả danh sách các DILA ID có FLAG: vn_person_authority.name_vi != people.name_vi.
+    Query params:
+      - page, per_page (mặc định 50)
+      - q: tìm kiếm theo DILA ID, name_zh, hoặc name_vi
+      - hide_done: 'true' (mặc định) — ẩn các ID đã có name_vi_final trong name_vi_map
+      - sort_by: 'confidence_cross' (mặc định: p.id)
+      - sort_dir: 'desc' | 'asc' (mặc định 'desc' khi sort_by=confidence_cross)
+    """
+    page        = max(1, int(request.args.get('page', 1)))
+    per_page    = min(200, max(1, int(request.args.get('per_page', 50))))
+    q           = request.args.get('q', '').strip()
+    hide_done   = request.args.get('hide_done', 'true').lower() != 'false'
+    sort_by     = request.args.get('sort_by', '').strip()
+    sort_dir    = request.args.get('sort_dir', 'desc').strip().lower()
+    mode        = request.args.get('mode', '').strip()          # 'xcm' = tab Xác Minh
+    filter_param = request.args.get('filter', '').strip()       # 'rejected' = chỉ đã Reject (—)
+    offset      = (page - 1) * per_page
+
+    try:
+        conn = get_db()
+
+        # Điều kiện cơ bản: TTL có name_vi, DILA có name_vi, hai bên khác nhau
+        conds = [
+            "va.name_vi IS NOT NULL", "va.name_vi != ''",
+            "p.name_vi IS NOT NULL",  "p.name_vi != ''",
+            "va.name_vi != p.name_vi",
+        ]
+        params = []
+
+        if q:
+            conds.append("(p.id LIKE ? OR p.name_zh LIKE ? OR p.name_vi LIKE ? OR va.name_vi LIKE ?)")
+            like = f"%{q}%"
+            params += [like, like, like, like]
+
+        if filter_param == 'rejected':
+            # Chỉ trả row đã admin từ chối (—) — bỏ qua hide_done bình thường
+            conds.append(
+                "EXISTS ("
+                "  SELECT 1 FROM name_vi_map"
+                "  WHERE dila_id=p.id AND approved_by='admin' AND name_vi_final='—'"
+                ")"
+            )
+        elif hide_done:
+            if mode == 'xcm':
+                # Tab Xác Minh: ẩn chỉ những row đã Pass thật (approved + tên thật).
+                # Vẫn hiện row đã Reject (name_vi_final='—') để admin có thể xem lại.
+                conds.append(
+                    "NOT EXISTS ("
+                    "  SELECT 1 FROM name_vi_map"
+                    "  WHERE dila_id=p.id AND approved_by='admin'"
+                    "  AND name_vi_final IS NOT NULL AND name_vi_final != '' AND name_vi_final != '—'"
+                    ")"
+                )
+            else:
+                # Default (ETL tab): ẩn tất cả đã có name_vi_final (kể cả —)
+                conds.append(
+                    "(SELECT name_vi_final FROM name_vi_map WHERE dila_id=p.id ORDER BY approved_at DESC LIMIT 1)"
+                    " IS NULL OR "
+                    "(SELECT name_vi_final FROM name_vi_map WHERE dila_id=p.id ORDER BY approved_at DESC LIMIT 1) = ''"
+                )
+
+        where = " AND ".join(conds)
+
+        # BUG-046 fix (2026-10-19): cột Claude phải lấy từ codex_person_name, không phải va.name_vi
+        # (va.name_vi = vn_person_authority = cùng nguồn với ttl_name_vi → trùng data)
+        has_codex = True
+        codex_select = "cx.name_vi AS codex_name_vi"
+        codex_join   = "LEFT JOIN codex_person_name cx ON cx.dila_id = p.id"
+
+        # SQL score: Gemini match + TTL match (lex không thể dùng trong SQL, codex thường empty)
+        # Mỗi cột khớp = 1 điểm → sort DESC = cao nhất trước
+        sql_score = """
+            (CASE WHEN p.name_vi != '' AND ai.name_vi_ai IS NOT NULL
+                       AND ai.name_vi_ai LIKE '%' || p.name_vi || '%' THEN 1 ELSE 0 END
+           + CASE WHEN p.name_vi != '' AND va.name_vi IS NOT NULL
+                       AND va.name_vi     LIKE '%' || p.name_vi || '%' THEN 1 ELSE 0 END)
+        """
+        if sort_by == 'confidence_cross':
+            dir_sql = 'DESC' if sort_dir != 'asc' else 'ASC'
+            order_clause = f"({sql_score}) {dir_sql}, p.id"
+        else:
+            order_clause = "p.id"
+
+        sql_data = f"""
+            SELECT p.id AS dila_id,
+                   p.name_zh,
+                   va.name_vi   AS ttl_name_vi,
+                   p.name_vi    AS dila_name_vi,
+                   (SELECT name_vi_final FROM name_vi_map WHERE dila_id=p.id
+                    ORDER BY approved_at DESC LIMIT 1) AS name_vi_final,
+                   va.status    AS vnpa_status,
+                   ai.name_vi_ai AS ai_name_vi,
+                   {codex_select}
+            FROM (
+                SELECT dila_id, MAX(name_vi) AS name_vi,
+                       MAX(status) AS status
+                FROM vn_person_authority
+                WHERE dila_id IS NOT NULL AND dila_id != ''
+                GROUP BY dila_id
+            ) va
+            JOIN people p ON p.id = va.dila_id
+            LEFT JOIN ai_person_name ai ON ai.dila_id = p.id
+            {codex_join}
+            WHERE {where}
+            ORDER BY {order_clause}
+            LIMIT ? OFFSET ?
+        """
+        sql_count = f"""
+            SELECT COUNT(DISTINCT p.id)
+            FROM (
+                SELECT dila_id, MAX(name_vi) AS name_vi
+                FROM vn_person_authority
+                WHERE dila_id IS NOT NULL AND dila_id != ''
+                GROUP BY dila_id
+            ) va
+            JOIN people p ON p.id = va.dila_id
+            WHERE {where}
+        """
+
+        rows  = conn.execute(sql_data,  params + [per_page, offset]).fetchall()
+        total = conn.execute(sql_count, params).fetchone()[0]
+
+        def _confidence(status, ttl_zh, dila_zh):
+            # name_zh exact match = tín hiệu mạnh nhất
+            zh_match = bool(ttl_zh and dila_zh and ttl_zh.strip() == dila_zh.strip())
+            if status == 'verified':      return 100
+            if zh_match:                  return 99
+            if status == 'alias_zh_match': return 90
+            if status == 'auto_ttl':      return 80
+            if status == 'alias_vi_suffix': return 70
+            return 50  # pending / unknown
+
+        def _confidence_cross(dila_name_vi, codex_vi, gemini_vi, ttl_vi, lex_src):
+            """Tỉ lệ cột chứa dila_name_vi / tổng cột có dữ liệu (×100)."""
+            if not dila_name_vi:
+                return 0
+            name = dila_name_vi.lower()
+            col_vals = [codex_vi or '', gemini_vi or '', ttl_vi or '', lex_src or '']
+            non_empty = [c.lower() for c in col_vals if c.strip() and c.strip() != '—']
+            if not non_empty:
+                return 0
+            matches = sum(1 for c in non_empty if name in c)
+            return round(matches / len(non_empty) * 100)
+
+        items = []
+        for r in rows:
+            ttl_vi   = r['ttl_name_vi']  or ''
+            dila_vi  = r['dila_name_vi'] or ''
+            codex_vi = r['codex_name_vi'] or ''
+            gemini_vi = r['ai_name_vi'] or ''
+            lex_src  = _lex_lookup(ttl_vi) or _lex_lookup(dila_vi)
+            conf_cross = _confidence_cross(dila_vi, codex_vi, gemini_vi, ttl_vi, lex_src)
+            items.append({
+                'dila_id':          r['dila_id'],
+                'name_zh':          r['name_zh'] or '',
+                'ttl_name_vi':      ttl_vi,
+                'dila_name_vi':     dila_vi,
+                'name_vi_final':    r['name_vi_final'] or '',
+                'ai_name_vi':       gemini_vi,
+                'codex_name_vi':    codex_vi,
+                'confidence':       _confidence(r['vnpa_status'] or '', ttl_vi, r['name_zh'] or ''),
+                'confidence_cross': conf_cross,
+                'lexicon_source':   lex_src,
+            })
+
+        # Lưu ý: SQL đã ORDER BY score để pagination đúng (không cần sort Python)
+
+        return jsonify({
+            'ok':       True,
+            'items':    items,
+            'total':    total,
+            'page':     page,
+            'per_page': per_page,
+            'pages':    (total + per_page - 1) // per_page,
+        })
+
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+
+
+@app.route('/api/admin/ai-transliterate/status', methods=['GET'])
+@app.route('/daoanh/api/admin/ai-transliterate/status', methods=['GET'])
+def ai_transliterate_status():
+    """GET trạng thái batch AI transliterate."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'Unauthorized'}), 403
+    try:
+        conn = get_db()
+        done  = conn.execute("SELECT COUNT(*) FROM ai_person_name WHERE name_vi_ai IS NOT NULL AND name_vi_ai != ''").fetchone()[0]
+        total = conn.execute("SELECT COUNT(*) FROM people WHERE name_zh IS NOT NULL AND name_zh != ''").fetchone()[0]
+        conn.close()
+        return jsonify({'ok': True, 'done': done, 'total': total, 'pct': round(done/total*100, 1) if total else 0})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+
+
+@app.route('/api/admin/codex-transliterate/status', methods=['GET'])
+@app.route('/daoanh/api/admin/codex-transliterate/status', methods=['GET'])
+def codex_transliterate_status():
+    """GET tiến độ dịch tên Việt của Claude (bảng codex_person_name).
+    Read-only, phục vụ hiển thị số "(done/total)" ở header cột Claude
+    trên admin/namevimap.html (T435 / BUG-048)."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'Unauthorized'}), 403
+    try:
+        conn = get_db()
+        # JOIN với people để chỉ đếm dila_id còn hợp lệ trong phạm vi hiện tại
+        # (codex_person_name có thể còn dila_id cũ không còn name_zh/đã merge)
+        done = conn.execute("""
+            SELECT COUNT(DISTINCT c.dila_id) FROM codex_person_name c
+            JOIN people p ON p.id = c.dila_id
+            WHERE c.name_vi IS NOT NULL AND c.name_vi != ''
+              AND p.name_zh IS NOT NULL AND p.name_zh != ''
+        """).fetchone()[0]
+        total = conn.execute("SELECT COUNT(*) FROM people WHERE name_zh IS NOT NULL AND name_zh != ''").fetchone()[0]
+        conn.close()
+        return jsonify({'ok': True, 'done': done, 'total': total, 'pct': round(done/total*100, 1) if total else 0})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+
+
+@app.route('/api/admin/namevi/bulk-pass', methods=['POST'])
+@app.route('/daoanh/api/admin/namevi/bulk-pass', methods=['POST'])
+def admin_namevi_bulk_pass():
+    """POST /api/admin/namevi/bulk-pass
+    Body: {"min_confidence": 99, "dry_run": true}
+    Bulk-approve FLAG entries có confidence >= min_confidence và chưa có name_vi_final.
+    Approve dùng people.name_vi (DILA canonical) làm name_vi_final.
+    dry_run=true: chỉ đếm, không ghi DB.
+    Trả: {ok, count, sample (5 entries), dry_run}
+    """
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'Unauthorized'}), 401
+
+    body           = request.get_json(silent=True) or {}
+    min_conf       = int(body.get('min_confidence', 99))
+    dry_run        = bool(body.get('dry_run', True))
+
+    # Clamp: chỉ cho phép 90–100 để tránh approve sai hàng loạt
+    if min_conf < 90:
+        return jsonify({'ok': False, 'error': 'min_confidence tối thiểu là 90 để bảo đảm an toàn'}), 400
+
+    try:
+        conn = sqlite3.connect(DB_PATH, timeout=30)
+        conn.row_factory = sqlite3.Row
+
+        # Lấy tất cả FLAG entries chưa done
+        candidates = conn.execute("""
+            SELECT p.id AS dila_id,
+                   p.name_vi  AS dila_vi,
+                   p.name_zh  AS dila_zh,
+                   va.name_zh AS ttl_zh,
+                   va.status  AS vnpa_status
+            FROM (
+                SELECT dila_id, MAX(name_vi) AS name_vi,
+                       MAX(name_zh) AS name_zh, MAX(status) AS status
+                FROM vn_person_authority
+                WHERE dila_id IS NOT NULL AND dila_id != ''
+                GROUP BY dila_id
+            ) va
+            JOIN people p ON p.id = va.dila_id
+            WHERE va.name_vi != p.name_vi
+              AND (SELECT name_vi_final FROM name_vi_map
+                   WHERE dila_id = p.id ORDER BY approved_at DESC LIMIT 1)
+                  IS NULL
+        """).fetchall()
+
+        def _conf(r):
+            zh_match = bool(r['ttl_zh'] and r['dila_zh'] and
+                            r['ttl_zh'].strip() == r['dila_zh'].strip())
+            s = r['vnpa_status'] or ''
+            if s == 'verified':          return 100
+            if zh_match:                 return 99
+            if s == 'alias_zh_match':    return 90
+            if s == 'auto_ttl':          return 80
+            if s == 'alias_vi_suffix':   return 70
+            return 50
+
+        to_pass = [r for r in candidates if _conf(r) >= min_conf]
+        sample  = [{'dila_id': r['dila_id'], 'name_vi': r['dila_vi'],
+                    'confidence': _conf(r)} for r in to_pass[:5]]
+
+        if dry_run:
+            conn.close()
+            return jsonify({'ok': True, 'dry_run': True,
+                            'count': len(to_pass), 'sample': sample})
+
+        # Ghi DB
+        now = datetime.now().isoformat()
+        updated = 0
+        for r in to_pass:
+            dila_id = r['dila_id']
+            name_vi = r['dila_vi']
+            if not name_vi:
+                continue
+            existing = conn.execute(
+                "SELECT id FROM name_vi_map WHERE dila_id = ?", (dila_id,)
+            ).fetchone()
+            if existing:
+                conn.execute("""
+                    UPDATE name_vi_map
+                    SET name_vi_final = ?, name_vi = ?,
+                        approved_by = 'bulk_pass', approved_at = ?
+                    WHERE dila_id = ?
+                """, (name_vi, name_vi, now, dila_id))
+            else:
+                name_zh = r['dila_zh'] or ''
+                conn.execute("""
+                    INSERT INTO name_vi_map
+                        (dila_id, name_vi, name_vi_final, name_zh,
+                         approved_by, approved_at, confidence, created_at)
+                    VALUES (?, ?, ?, ?, 'bulk_pass', ?, 1.0, ?)
+                """, (dila_id, name_vi, name_vi, name_zh, now, now))
+            updated += 1
+
+        conn.commit()
+        conn.close()
+        return jsonify({'ok': True, 'dry_run': False,
+                        'count': updated, 'sample': sample})
+
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+
+
+
+@app.route('/api/admin/namevi/lex-lookup', methods=['GET'])
+@app.route('/daoanh/api/admin/namevi/lex-lookup', methods=['GET'])
+def admin_namevi_lex_lookup():
+    """GET /api/admin/namevi/lex-lookup?name=<name_vi>[&fallback=<fallback_name>]
+    Tra từ điển lexicon theo tên Việt. Dùng in-memory cache, trả về trong <10ms.
+    """
+    name    = request.args.get('name', '').strip()
+    fallback = request.args.get('fallback', '').strip()
+    source  = _lex_lookup(name) or (fallback and _lex_lookup(fallback)) or ''
+    return jsonify({'ok': True, 'source': source, 'name': name})
+
+
+
+
+@app.route('/api/admin/namevi-map-places/delete', methods=['POST'])
+def admin_namevi_map_places_delete():
+    """Delete place Vietnamese name mapping"""
+    data = request.get_json()
+    dila_id = data.get('dila_id')
+    if not dila_id:
+        return jsonify({'success': False, 'error': 'Missing dila_id'}), 400
+    conn = sqlite3.connect(SQLITE_DB)
+    try:
+        cur = conn.execute('DELETE FROM name_vi_map_places WHERE dila_id = ?', (dila_id,))
+        conn.commit()
+        if cur.rowcount == 0:
+            return jsonify({'success': False, 'error': 'Not found'}), 404
+        return jsonify({'success': True, 'dila_id': dila_id})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        conn.close()
+
+
+# ════════════════════════════════════════════════════════════════════════
+# T486 — Tab "Xác minh tác giả" trong namevimap.html: Admin xem/pass từng
+# contributor (person_id) có name_vi lệch giữa DB (dila_catalog_contributors
+# / people.name_vi) và file nguồn vn_dila_authority_catalog/*.vi.json.
+#
+# Nguồn số liệu: docs/sessions/2026-10-29/work-metadata/t486_dryrun.csv
+# (đã đo sẵn 1.870 dòng contributor lệch, 794 person_id). GET chỉ đọc CSV +
+# DB (KHÔNG ghi gì). POST /pass ghi theo ĐÚNG cơ chế đã có ở
+# admin_namevi_map_update() (dòng ~515-592 phía trên): UPDATE/INSERT
+# name_vi_map theo dila_id, rồi sync people.name_vi — vì name_vi_map.dila_id
+# và dila_catalog_contributors.person_id cùng là khóa people.id (đã kiểm:
+# person_id='A000457' khớp people.id='A000457'). KHÔNG tạo cột/bảng mới.
+#
+# Khác với admin_namevi_map_update(): approved_by ghi email thật của admin
+# (qua _t427_session_email(token), như routes_places.py đã làm cho tab
+# Place/Catalog) — không hard-code 'admin'.
+# ════════════════════════════════════════════════════════════════════════
+
+def _t486_session_email_strict(token):
+    """Lấy email thật của session — KHÁC `_t427_session_email()` dùng chung
+    ở core.py (dùng cho tab Place/Catalog cũ): hàm đó tự fallback về chuỗi
+    'admin' khi không lấy được email (`d.get('email') or 'admin'`, và
+    `return 'admin'` ở nhánh except/invalid), nên gọi nó rồi kiểm
+    `if not editor_email` sẽ KHÔNG BAO GIỜ đúng (luôn có giá trị truthy).
+    Hàm này gọi lại đúng endpoint /api/login/check nhưng trả về None khi
+    không có email thật, để route /pass có thể từ chối bằng 403 thay vì
+    ghi 'admin' vào approved_by. KHÔNG sửa `_t427_session_email()` trong
+    core.py vì routes_places.py/routes_misc.py (tab Place/Catalog) đang
+    dùng chung hàm đó — đổi nó sẽ ảnh hưởng tab khác."""
+    try:
+        resp = requests.post(
+            'http://127.0.0.1:5001/api/login/check',
+            json={'session_token': token},
+            timeout=5
+        )
+        d = resp.json()
+        if d.get('valid'):
+            email = (d.get('email') or '').strip()
+            return email or None
+    except Exception:
+        pass
+    return None
+
+
+_T486_DRYRUN_CSV = os.path.join(BASE_DIR, 'docs', 'sessions', '2026-10-29', 'work-metadata', 't486_dryrun.csv')
+_T486_GROUP_PRIORITY = {'C_review': 3, 'B_untrans': 2, 'A_format': 1}
+_t486_csv_cache = {'mtime': None, 'by_person': None}
+
+
+def _t486_load_csv_rows():
+    """Đọc t486_dryrun.csv, chỉ giữ field=='contributor', cache theo mtime file
+    (không đọc lại mỗi request nếu file không đổi). Trả về {} nếu file thiếu
+    (không raise — GET vẫn phải trả JSON hợp lệ, báo rõ trong 'warning')."""
+    try:
+        mtime = os.path.getmtime(_T486_DRYRUN_CSV)
+    except OSError:
+        return {}
+    if _t486_csv_cache['mtime'] == mtime and _t486_csv_cache['by_person'] is not None:
+        return _t486_csv_cache['by_person']
+    by_person = {}
+    try:
+        with open(_T486_DRYRUN_CSV, encoding='utf-8-sig', newline='') as f:
+            for row in _t486_csv.DictReader(f):
+                if row.get('field') != 'contributor':
+                    continue
+                pid = (row.get('person_id') or '').strip()
+                if not pid:
+                    continue
+                by_person.setdefault(pid, []).append(row)
+    except OSError:
+        return {}
+    _t486_csv_cache['mtime'] = mtime
+    _t486_csv_cache['by_person'] = by_person
+    return by_person
+
+
+def _t486_aggregate_person(pid, rows):
+    """Gộp nhiều dòng CSV (1 dòng/cbeta_id) của 1 person_id thành 1 bản ghi.
+    db_value: hầu hết đồng nhất theo người (nguồn là people.name_vi tại thời
+    điểm đo) — lấy giá trị xuất hiện nhiều nhất, phòng trường hợp hiếm có
+    sai khác. file_value: có thể khác nhau theo từng tác phẩm (vi.json ghi
+    tên theo từng contributor-trong-từng-tác-phẩm) — lấy giá trị xuất hiện
+    nhiều nhất (mode), các biến thể khác liệt kê trong file_value_variants
+    để Admin biết trước khi Pass. group: nhóm "nặng" nhất trong số các dòng
+    (C_review > B_untrans > A_format) vì đó là nhóm cần soát kỹ nhất."""
+    from collections import Counter
+    db_counter = Counter((r.get('db_value') or '').strip() for r in rows)
+    file_counter = Counter((r.get('file_value') or '').strip() for r in rows)
+    db_value = db_counter.most_common(1)[0][0] if db_counter else ''
+    file_value = file_counter.most_common(1)[0][0] if file_counter else ''
+    file_variants = sorted(file_counter.keys())
+    groups = [r.get('group') for r in rows if r.get('group')]
+    group = max(groups, key=lambda g: _T486_GROUP_PRIORITY.get(g, 0)) if groups else ''
+    cbeta_ids = sorted({r.get('cbeta_id') for r in rows if r.get('cbeta_id')})
+    return {
+        'person_id': pid,
+        'name_db': db_value,
+        'name_file': file_value,
+        'name_file_variants': file_variants if len(file_variants) > 1 else [],
+        'group': group,
+        'csv_cbeta_ids': cbeta_ids,
+    }
+
+
+@app.route('/daoanh/api/admin/work-verify', methods=['GET'])
+@app.route('/api/admin/work-verify', methods=['GET'])
+def admin_work_verify_list():
+    """GET /daoanh/api/admin/work-verify?group=C|B|A|ALL&page=&size=&q=
+
+    CHỈ ĐỌC (mode=ro) — không ghi DB. Gom theo person_id từ
+    t486_dryrun.csv (nhóm field='contributor', 1.870 dòng / 794 người),
+    rồi bổ sung name_zh, số tác phẩm thật (đếm trực tiếp
+    dila_catalog_contributors, không giới hạn vào các dòng có trong CSV)
+    và tối đa 5 tác phẩm tiêu biểu từ DB. Sắp theo work_count giảm dần.
+    """
+    group_filter = (request.args.get('group') or 'ALL').strip().upper()
+    group_map = {'A': 'A_format', 'B': 'B_untrans', 'C': 'C_review'}
+    if group_filter != 'ALL' and group_filter not in group_map:
+        return jsonify({
+            'ok': False,
+            'error': 'Giá trị group không hợp lệ. Dùng: A, B, C, hoặc ALL.'
+        }), 400
+    group_filter_full = group_map.get(group_filter)  # None nếu 'ALL'
+    q = (request.args.get('q') or '').strip()
+    try:
+        page = max(1, int(request.args.get('page', 1)))
+    except ValueError:
+        page = 1
+    try:
+        size = max(1, min(200, int(request.args.get('size', 50))))
+    except ValueError:
+        size = 50
+
+    by_person = _t486_load_csv_rows()
+    warning = None
+    if not by_person:
+        warning = (f'Không đọc được {_T486_DRYRUN_CSV} — kiểm lại đường dẫn CSV dry-run.')
+
+    conn = get_db()
+    try:
+        agg = [_t486_aggregate_person(pid, rows) for pid, rows in by_person.items()]
+        if group_filter_full:
+            agg = [a for a in agg if a['group'] == group_filter_full]
+
+        pids = [a['person_id'] for a in agg]
+        # Tên Hán + tên Việt hiện tại (sau khi có thể đã Pass) từ people — nguồn
+        # chuẩn duy nhất (COALESCE(p.name_vi, c.name_vi) là cách routes_lineage.py
+        # hiển thị, nên ở đây cũng ưu tiên people.name_vi khi đã có).
+        zh_map, live_vi_map, work_count_map = {}, {}, {}
+        if pids:
+            qmarks = ','.join('?' * len(pids))
+            for r in conn.execute(
+                f"SELECT id, name_zh, name_vi FROM people WHERE id IN ({qmarks})", pids
+            ).fetchall():
+                zh_map[r['id']] = r['name_zh']
+                live_vi_map[r['id']] = r['name_vi']
+            for r in conn.execute(
+                f"SELECT person_id, COUNT(DISTINCT cbeta_id) AS n FROM dila_catalog_contributors "
+                f"WHERE person_id IN ({qmarks}) GROUP BY person_id", pids
+            ).fetchall():
+                work_count_map[r['person_id']] = r['n']
+
+        items = []
+        for a in agg:
+            pid = a['person_id']
+            name_zh = zh_map.get(pid) or ''
+            live_vi = live_vi_map.get(pid)
+            # name_zh fallback: nếu people chưa có (hiếm), lấy từ dòng contributor đầu tiên trong DB.
+            if not name_zh:
+                r = conn.execute(
+                    "SELECT name_zh FROM dila_catalog_contributors WHERE person_id = ? "
+                    "AND name_zh IS NOT NULL AND name_zh != '' LIMIT 1", (pid,)
+                ).fetchone()
+                name_zh = r['name_zh'] if r else ''
+            works = [dict(w) for w in conn.execute(
+                "SELECT c.cbeta_id, w.title_zh FROM dila_catalog_contributors c "
+                "JOIN dila_catalog_works w ON w.cbeta_id = c.cbeta_id "
+                "WHERE c.person_id = ? ORDER BY c.cbeta_id LIMIT 5", (pid,)
+            ).fetchall()]
+            # "Đã Pass": phát hiện bằng cách so người.name_vi HIỆN TẠI với
+            # name_db ĐÃ ĐO trong CSV dry-run — khác đi nghĩa là đã có người
+            # ghi đè (qua đúng endpoint /pass bên dưới, vì đây là cơ chế ghi
+            # name_vi duy nhất cho người). Không thêm cột/bảng trạng thái mới.
+            passed = bool(live_vi) and live_vi.strip() != a['name_db'].strip()
+            items.append({
+                'person_id': pid,
+                'name_zh': name_zh,
+                'name_db': live_vi if live_vi is not None else a['name_db'],
+                'name_file': a['name_file'],
+                'name_file_variants': a['name_file_variants'],
+                'group': a['group'],
+                'work_count': work_count_map.get(pid, len(a['csv_cbeta_ids'])),
+                'works': works,
+                'passed': passed,
+            })
+
+        if q:
+            ql = q.strip().lower()
+            items = [it for it in items if ql in it['person_id'].lower()
+                     or ql in (it['name_zh'] or '').lower()
+                     or ql in (it['name_db'] or '').lower()
+                     or ql in (it['name_file'] or '').lower()]
+
+        items.sort(key=lambda it: it['work_count'], reverse=True)
+        total = len(items)
+        start = (page - 1) * size
+        page_items = items[start:start + size]
+
+        resp = {
+            'ok': True, 'mode': 'ro', 'total': total, 'page': page, 'size': size,
+            'pages': max(1, (total + size - 1) // size), 'items': page_items,
+        }
+        if warning:
+            resp['warning'] = warning
+        return jsonify(resp)
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+    finally:
+        conn.close()
+
+
+@app.route('/daoanh/api/admin/work-verify/<person_id>/pass', methods=['POST'])
+@app.route('/api/admin/work-verify/<person_id>/pass', methods=['POST'])
+def admin_work_verify_pass(person_id):
+    """POST /daoanh/api/admin/work-verify/<person_id>/pass — body {name_vi}.
+
+    Ghi tên Việt đã Admin duyệt cho ĐÚNG person_id này, dùng lại cơ chế
+    name_vi_map (dila_id) + sync people.name_vi — giống admin_namevi_map_update()
+    ở trên (dòng ~515-592), chỉ khác approved_by lấy email thật từ session
+    qua `_t486_session_email_strict()` (không hard-code 'admin' — khác
+    `_t427_session_email()` dùng chung ở core.py, hàm đó tự fallback
+    'admin' nên không dùng được ở đây, xem docstring của
+    `_t486_session_email_strict`). person_id của dila_catalog_contributors
+    và dila_id của name_vi_map cùng là khóa people.id (đã kiểm bằng DB:
+    person_id='A000457' == people.id='A000457'). Trước khi ghi, kiểm
+    person_id có tồn tại trong dila_catalog_contributors — không có thì
+    404, không ghi DB."""
+    token = request.headers.get('X-Session-Token', '')
+    if not verify_session(token):
+        return jsonify({'ok': False, 'error': 'Unauthorized'}), 403
+
+    data = request.get_json(silent=True) or {}
+    name_vi = (data.get('name_vi') or '').strip()
+    if not person_id:
+        return jsonify({'ok': False, 'error': 'Missing person_id'}), 400
+
+    conn_check = sqlite3.connect(SQLITE_DB)
+    try:
+        if not name_vi:
+            # T503: ô Name trống trên UI = Admin xác nhận giữ nguyên tên hiện
+            # tại trong DB (không bắt buộc gõ lại). Tự lấy people.name_vi hiện
+            # có làm giá trị Pass; nếu cả hai đều rỗng (chưa từng có tên Việt),
+            # không có gì để "giữ nguyên" → báo lỗi, không ghi DB rỗng.
+            row = conn_check.execute(
+                "SELECT name_vi FROM people WHERE id = ?", (person_id,)
+            ).fetchone()
+            current_name_vi = (row[0] or '').strip() if row else ''
+            if not current_name_vi:
+                return jsonify({
+                    'ok': False,
+                    'error': 'Chưa có tên hiện tại trong DB để giữ nguyên — vui lòng nhập tên Việt.'
+                }), 400
+            name_vi = current_name_vi
+    finally:
+        conn_check.close()
+
+    editor_email = _t486_session_email_strict(token)
+    if not editor_email:
+        return jsonify({
+            'ok': False,
+            'error': 'Không xác định được người duyệt (session email). Vui lòng đăng nhập lại.'
+        }), 403
+
+    conn = sqlite3.connect(SQLITE_DB)
+    try:
+        exists_row = conn.execute(
+            "SELECT 1 FROM dila_catalog_contributors WHERE person_id = ? LIMIT 1", (person_id,)
+        ).fetchone()
+        if not exists_row:
+            return jsonify({'ok': False, 'error': 'Không tìm thấy person_id trong dữ liệu.'}), 404
+
+        now = datetime.now().isoformat()
+        name_zh_row = conn.execute(
+            "SELECT name_zh FROM people WHERE id = ?", (person_id,)
+        ).fetchone()
+        name_zh = name_zh_row[0] if name_zh_row else None
+
+        row = conn.execute(
+            "SELECT id FROM name_vi_map WHERE dila_id = ? ORDER BY confidence DESC, id ASC LIMIT 1",
+            (person_id,)
+        ).fetchone()
+        if row:
+            try:
+                conn.execute("""
+                    UPDATE name_vi_map SET
+                        name_vi = ?, name_vi_final = ?,
+                        approved_by = ?, approved_at = ?
+                    WHERE id = ?
+                """, (name_vi, name_vi, editor_email, now, row[0]))
+            except sqlite3.IntegrityError:
+                conn.execute("""
+                    UPDATE name_vi_map SET
+                        name_vi_final = ?,
+                        approved_by = ?, approved_at = ?
+                    WHERE id = ?
+                """, (name_vi, editor_email, now, row[0]))
+        else:
+            try:
+                conn.execute("""
+                    INSERT INTO name_vi_map (name_vi, name_vi_final, name_zh, dila_id, approved_by, approved_at, confidence, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, 1.0, ?)
+                """, (name_vi, name_vi, name_zh, person_id, editor_email, now, now))
+            except sqlite3.IntegrityError:
+                conn.execute("""
+                    INSERT INTO name_vi_map (name_vi, name_vi_final, name_zh, dila_id, approved_by, approved_at, confidence, created_at)
+                    VALUES (?, ?, NULL, ?, ?, ?, 1.0, ?)
+                """, (name_vi, name_vi, person_id, editor_email, now, now))
+
+        # Sync people.name_vi — CHỈ person_id được truyền trong URL, không
+        # đụng người khác. Đây là nơi routes_lineage.py (api_global_search,
+        # public_dila_works) và các tab ETL/Catalog/Xác Minh khác đọc tên
+        # Việt của người (COALESCE(p.name_vi, c.name_vi) hoặc p.name_vi trực
+        # tiếp — xem routes_lineage.py dòng ~2439-2442, ~2452).
+        if name_vi != '—':
+            conn.execute("UPDATE people SET name_vi = ? WHERE id = ?", (name_vi, person_id))
+        conn.commit()
+        return jsonify({'ok': True, 'person_id': person_id, 'name_vi': name_vi,
+                        'approved_by': editor_email, 'approved_at': now})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+    finally:
+        conn.close()

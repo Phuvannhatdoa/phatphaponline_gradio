@@ -1,0 +1,7 @@
+<!-- T429 sample-source-fragment | R06: nhãn □□世 mất chữ | re-serialized by lxml from X86n1601.xml (SHA256 0020c4847b8107260e8674233d7833fd590cccafba2210d0ac479edd88ff75eb) -->
+<item xmlns="http://www.tei-c.org/ns/1.0" xmlns:cb="http://www.cbeta.org/ns/1.0" xml:id="itemX86p0472a1301"><note place="inline">□□世</note>壽昌慧經
+<lb ed="X" n="0472a14"/><lb ed="R147" n="0666a10"/><p xml:id="pX86p0472a1401">嗣法未詳。</p>
+<lb ed="X" n="0472a15"/><lb ed="R147" n="0666a10"/><list rend="no-marker"><item xml:id="itemX86p0472a1501"><note place="inline">□□世</note>愽山元來
+<lb ed="X" n="0472a16"/><lb ed="R147" n="0666a10"/><list rend="no-marker"><item xml:id="itemX86p0472a1601"><note place="inline">□□世</note>
+<lb ed="X" n="0472a17"/><lb ed="R147" n="0666a10"/><list rend="no-marker"><item xml:id="itemX86p0472a1701"><note place="inline">□□世</note>
+<lb ed="X" n="0472a18"/><lb ed="R147" n="0666a10"/><list rend="no-marker"><item xml:id="itemX86p0472a1801"><note place="inline">□□世</note></item></list></item></list></item></list></item></list></item>

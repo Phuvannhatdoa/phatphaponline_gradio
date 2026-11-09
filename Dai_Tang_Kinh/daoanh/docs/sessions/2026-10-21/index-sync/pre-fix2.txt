@@ -1,0 +1,3 @@
+D	Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/rename-t451/do_rename.py
+D	Dai_Tang_Kinh/daoanh/docs/sessions/2026-10-21/rename-t451/refs.md
+D	Dai_Tang_Kinh/daoanh/tasks/T451-claude-place-name-import.md

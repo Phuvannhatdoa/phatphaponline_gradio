@@ -1,0 +1,16 @@
+============================================================
+Dao Anh Main Server (app.py)
+============================================================
+DB: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\lineage.db
+TTL Old: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\data\ttl\old
+Admin: E:\Backup 2025\QuaiTieuTu\Anan Son\phatphaponline_gradio\truyenthua\visjs-app\Dai_Tang_Kinh\daoanh\admin
+============================================================
+[fts] places_search_fts đã sẵn sàng
+[fts] places_pending_fts đã sẵn sàng
+[cate] Đã build cache cate ids trong 348.9s
+[lexicon] Đã nạp 166278 dòng lexicon vào RAM trong 295.4s
+    [T130+T131] routes additive da dang ky
+ * Serving Flask app 'app'
+ * Debug mode: off
+[T148] Queried 49361 DILA_XML records from DB
+[T148] Đã index 49361 persons từ DILA XML DB trong 50.9s

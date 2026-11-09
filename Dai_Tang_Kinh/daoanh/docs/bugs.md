@@ -841,27 +841,3 @@ file `.js` tạm, chạy `node --check` cho cả 2 → exit code 0, không lỗi
 **Nguồn:** `docs/BUG-051_PLACES_LINEAGE_ARROWS_REPORT.md`
 
 ---
-
-## BUG-052 — Tab "Dịch ID Person" đánh DONE sau 1 click, trong khi chưa dịch hết các trường có Hán văn
-
-**Route/URL:** `http://127.0.0.1:8080/daoanh/admin/translation_progress.html#t50` → tab "Dịch ID Person" → ID `A000004` · kiểm chứng tại `http://127.0.0.1:8080/daoanh/admin/person.html?id=A000004`
-**Worktree:** `wt/bug052-person-translate-false-done` (chưa tích hợp vào cây chính)
-**Thời gian phát hiện:** 2026-11-07 (Admin báo)
-**Expected:** Click "Dịch ngay" cho một ID Person → dịch TOÀN BỘ trường có Hán văn của ID đó; chỉ đánh DONE khi tất cả trường đã có bản dịch; thiếu trường nào phải báo rõ, không ghi DONE.
-**Actual:** Click 1 lần → nút disable, hiện "✓ Xong"/badge "✓ Đã lưu" ngay, trong khi `person.html` vẫn "(chưa dịch)" ở toàn bộ ~9 trường Hán khác (Ghi chú năm mất, Trích dẫn nguồn gốc, Triều đại, Nghề nghiệp, Nơi xuất xứ, Tiểu sử vắn tắt, Kinh trong Đại Tạng, Trích dẫn CBETA, Tên khác).
-**Root cause (2 lỗi độc lập):**
-  - A (frontend gọi nhầm endpoint): `psTranslateOne()` gọi `POST /daoanh/api/person/<id>/translate` — route này CHỈ dịch `people.bio`→`bio_vi`, không chạm tới các trường mà `person.html` thực sự hiển thị (những trường đó đọc từ cache `dila_card` qua endpoint khác, `/dila_translate`, chưa từng được tab này gọi).
-  - B (backend thiếu field, kể cả khi gọi đúng endpoint): `api_person_dila_translate` xây `source_data` để đưa vào prompt AI nhưng THIẾU 2 khóa `death_note`/`birth_death_quote` — xác nhận bằng SQL thật: 5/5 bản dịch `dila_card` mẫu trong DB có `death_note_vi`/`birth_death_quote_vi` rỗng dù các trường khác có nội dung.
-**Evidence:** Browser thật (ảnh/`get_page_text`) — progress tab hiện A000004 "✓ Đã lưu" trong khi person.html 9/9 trường Hán "(chưa dịch)". SQL đọc trực tiếp `data/lineage.db` (read-only) xác nhận lỗi B trên 5 bản dịch mẫu.
-**Changed files:**
-  - `daoanh/app.py` — thêm `_DILA_FIELD_LABELS`, `_t148_dila_source_fields()`, `_t148_dila_missing_fields()`; `api_person_dila_translate` trả `missing_fields`/`done`; `api_dila_persons_search` thêm `dila_card_cached/_missing/_done` theo dòng; `api_dila_persons_stats` thêm `dila_card_cached`.
-  - `daoanh/admin/translation_progress.html` — `psTranslateOne`/`psProcessNext`/`psBuildQueue` chuyển sang gọi `/dila_translate`, dùng `done`/`missing_fields` thật; `psRenderRows` đổi badge theo `dila_card_done`.
-**Test evidence:**
-  - `python -m py_compile app.py` → OK
-  - Cú pháp JS mọi `<script>` trong `translation_progress.html` (qua `new Function`) → OK
-  - Validate logic bằng Hán văn THẬT của A000004 (lấy từ person.html): chưa dịch gì → 9 trường thiếu đúng khớp thực tế; mô phỏng lỗi cũ (chỉ bio) → 8 trường vẫn thiếu, `done=False` (không bị đánh DONE sai); mô phỏng dịch đủ (đúng khóa AI, vd `dynasty_vi`) → `missing=[]`, `done=True`
-  - **Chưa gọi AI thật / chưa test round-trip HTTP qua server đang chạy** — worktree không có bản sao DB thật, chưa tích hợp vào cây chính. Xem chi tiết + đề xuất bước tiếp theo trong báo cáo nguồn.
-**Trạng thái:** 🔍 ĐÃ SỬA (code, trong worktree) — **CHƯA tích hợp, CHƯA Admin xác nhận DONE, CHƯA gọi AI thật.**
-**Nguồn:** `docs/BUG-052_PERSON_TRANSLATE_FALSE_DONE_REPORT.md`
-
----

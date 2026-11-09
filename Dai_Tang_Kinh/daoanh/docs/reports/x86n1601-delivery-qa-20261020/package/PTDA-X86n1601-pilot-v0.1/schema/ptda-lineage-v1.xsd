@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:ptda:research:lineage:1" xmlns:ptda="urn:ptda:research:lineage:1" elementFormDefault="qualified">
+
+  <xs:simpleType name="StatusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="candidate"/>
+      <xs:enumeration value="draft"/>
+      <xs:enumeration value="published"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="RelationTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="dharma_transmission"/>
+      <xs:enumeration value="teacher_student"/>
+      <xs:enumeration value="study_relation"/>
+      <xs:enumeration value="unknown"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DirectionEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="subject_to_object"/>
+      <xs:enumeration value="object_to_subject"/>
+      <xs:enumeration value="bidirectional"/>
+      <xs:enumeration value="unknown"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ReviewStatusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="pending"/>
+      <xs:enumeration value="accepted"/>
+      <xs:enumeration value="rejected"/>
+      <xs:enumeration value="disputed"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="lineageDataset">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="sourceManifest" type="ptda:SourceManifestType"/>
+        <xs:element name="processingScope" type="ptda:ProcessingScopeType"/>
+        <xs:element name="persons" type="ptda:PersonsContainerType"/>
+        <xs:element name="mentions" type="ptda:MentionsContainerType"/>
+        <xs:element name="evidence" type="ptda:EvidenceContainerType"/>
+        <xs:element name="relationClaims" type="ptda:RelationClaimsContainerType"/>
+        <xs:element name="generationLabels" type="ptda:GenerationLabelsType" minOccurs="0"/>
+        <xs:element name="unresolvedCases" type="ptda:UnresolvedCasesType" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="schemaVersion" type="xs:string" use="required"/>
+      <xs:attribute name="workId" type="xs:string" use="required"/>
+      <xs:attribute name="status" type="ptda:StatusEnum" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="SourceManifestType">
+    <xs:sequence>
+      <xs:element name="fileName" type="xs:string"/>
+      <xs:element name="sourceUrl" type="xs:string"/>
+      <xs:element name="sha256" type="xs:string"/>
+      <xs:element name="downloadTime" type="xs:dateTime"/>
+      <xs:element name="versionDate" type="xs:string" minOccurs="0"/>
+      <xs:element name="rights" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProcessingScopeType">
+    <xs:sequence>
+      <xs:element name="workId" type="xs:string"/>
+      <xs:element name="juanProcessed" type="xs:string"/>
+      <xs:element name="sectionsProcessed" type="xs:string" minOccurs="0"/>
+      <xs:element name="estimatedRelations" type="xs:string" minOccurs="0"/>
+      <xs:element name="unprocessedSections" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PersonsContainerType">
+    <xs:sequence>
+      <xs:element name="person" type="ptda:PersonType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PersonType">
+    <xs:sequence>
+      <xs:element name="sourcePersonId" type="xs:string"/>
+      <xs:element name="nameZh" type="xs:string"/>
+      <xs:element name="generationLabel" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="MentionsContainerType">
+    <xs:sequence>
+      <xs:element name="mention" type="ptda:MentionType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MentionType">
+    <xs:sequence>
+      <xs:element name="personId" type="xs:IDREF"/>
+      <xs:element name="text" type="xs:string"/>
+      <xs:element name="context" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="EvidenceContainerType">
+    <xs:sequence>
+      <xs:element name="evidenceUnit" type="ptda:EvidenceUnitType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EvidenceUnitType">
+    <xs:sequence>
+      <xs:element name="evidenceId" type="xs:string"/>
+      <xs:element name="sourceFile" type="xs:string"/>
+      <xs:element name="quotedText" type="xs:string"/>
+      <xs:element name="xmlPath" type="xs:string"/>
+      <xs:element name="locator" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RelationClaimsContainerType">
+    <xs:sequence>
+      <xs:element name="relationClaim" type="ptda:RelationClaimType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RelationClaimType">
+    <xs:sequence>
+      <xs:element name="subjectPersonId" type="xs:IDREF"/>
+      <xs:element name="objectPersonId" type="xs:IDREF"/>
+      <xs:element name="sourceRelationTerm" type="xs:string"/>
+      <xs:element name="proposedRelationType" type="ptda:RelationTypeEnum"/>
+      <xs:element name="directionStatus" type="ptda:DirectionEnum"/>
+      <xs:element name="evidenceFragment" type="xs:string"/>
+      <xs:element name="extractionRule" type="xs:string"/>
+      <xs:element name="reviewStatus" type="ptda:ReviewStatusEnum"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="GenerationLabelsType">
+    <xs:sequence>
+      <xs:element name="label" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UnresolvedCasesType">
+    <xs:sequence>
+      <xs:element name="case" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

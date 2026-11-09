@@ -1,0 +1,7 @@
+EXIT_CODE=0
+═══ T166 Identity Audit ═══
+=== T166 identity status distribution ===
+  (NULL=legacy)              1771
+
+── Kết quả ──
+✅ T166 audit: PASS — schema đủ, app guard đầy đủ, auth ok, data hợp lệ

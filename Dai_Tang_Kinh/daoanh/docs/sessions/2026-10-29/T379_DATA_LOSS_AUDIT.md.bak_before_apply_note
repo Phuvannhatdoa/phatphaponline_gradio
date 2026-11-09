@@ -1,0 +1,313 @@
+# T379 — Audit sự cố mất dữ liệu 11/10–12/10 (chỉ đọc)
+
+**Ngày audit:** 2026-10-13
+**Phạm vi:** CHỈ ĐỌC — không UPDATE/DELETE/VACUUM/restore trên bất kỳ file DB nào. Mọi truy vấn
+mở bằng `sqlite3` Python module với URI `mode=ro`.
+
+---
+
+## 1. Tóm tắt kết luận
+
+- Khoảng 10:11–20:39 ngày 11/10, `data/lineage.db` bị **giảm dữ liệu đột ngột** ở 4 bảng cốt lõi
+  (`ai_person_name` 39.269→0, `passage` 44.820→7.563, `vn_person_authority` 1.507→1.074,
+  `vn_person_relations` 2.013→84) và **mất hoàn toàn 22 bảng**.
+- Dữ liệu "cao" (39.269 / 44.820 / 1.507 / 2.013) **không phải dữ liệu mới nhất thời** — nó đã
+  ổn định liên tục từ ít nhất **Oct 8 17:35** đến **Oct 11 10:11** (xác nhận qua 8 bản backup
+  khác nhau trong khoảng này, tất cả cùng số liệu). `ai_person_name` đạt đúng 39.269 dòng tại
+  `2026-10-08 10:55:39` theo `logs/ai_transliterate.log`.
+- Dữ liệu "thấp" (0 / 7.563 / 1.074 / 84, 146 bảng, ~1.4GB) **không khớp với BẤT KỲ bản backup
+  nào** trong `data/backups/` — kể cả các bản cũ nhất còn giữ (Sep 28 2026). Giá trị
+  `passage=7.563` không xuất hiện ở bất kỳ mốc thời gian nào trước 11/10 20:39. Điều này loại
+  trừ khả năng "restore đơn giản một bản backup cũ hợp lệ" như mô tả trong báo cáo T274 —
+  **không tìm thấy bản backup nguồn khớp với trạng thái đã bị thu hẹp**.
+- File `t274_build_dharma_tables.py` (script T274 thực thi) **không chứa lệnh restore/copy/DROP**
+  nào liên quan đến việc thu hẹp DB. Khi script này bắt đầu chạy, build report (bản BLOCKED, viết
+  trước) đã ghi nhận live DB **đã ở trạng thái 146 bảng / 1.4GB** — tức là việc mất dữ liệu xảy ra
+  **TRƯỚC khi T274 build script kết nối**, không phải do chính script đó gây ra trực tiếp.
+- Tuy nhiên, T274 đã **build 2 bảng mới (`dharma_lineage_base`, `dharma_lineage_ttl_vn`) trên
+  nền DB đã bị thu hẹp này và commit lại** (`163bf98`, "Files Created/Modified: daoanh/data/lineage.db
+  MODIFY"). Hành động này **đã lock-in (khóa vĩnh viễn) tổn thất dữ liệu** vào lineage.db và vào
+  git, vì không có bước xác minh row-count trước/sau so với baseline 11/10 10:11.
+- File `lineage-T274-opt-a2-20261011_195516.db` xác nhận **malformed** đúng như report T274 ghi
+  (`sqlite3.DatabaseError: database disk image is malformed`).
+- `PRAGMA quick_check` trên bản `lineage.T265-lo-D-20261011-101118.db` (11/10 10:11) = **`ok`**
+  — bản backup này toàn vẹn, an toàn để dùng làm nguồn khôi phục.
+
+---
+
+## 2. Bảng so sánh 3 bản DB
+
+| File | Số bảng | Kích thước | mtime |
+|---|---|---|---|
+| `data/lineage.db` (hiện tại) | 159 | 1,574,596,608 B (~1.47 GB) | 2026-10-13 |
+| `data/backups/lineage.T265-lo-D-20261011-101118.db` (11/10 10:11) | 175* | 1,712,578,560 B (~1.60 GB) | 2026-10-11 10:11 |
+| `data/backups/lineage_2026-10-12.db` (11/10 20:39) | 148 | 1,444,687,872 B (~1.35 GB) | 2026-10-11 20:39 |
+
+\* Đếm bằng `SELECT COUNT(*) FROM sqlite_master WHERE type='table'` ra 175 (bao gồm cả bảng
+FTS phụ trợ `place_norm_fts_*` sinh tự động — 165 là số "bảng chính" nếu loại các bảng FTS
+shadow; không ảnh hưởng kết luận).
+
+### Row count — các bảng cốt lõi + toàn bộ 20+ bảng trong `done_when`
+
+| Bảng | hiện tại | 11/10 10:11 | 11/10 20:39 | Nhận xét |
+|---|---|---|---|---|
+| `ai_person_name` | 0 | 39,269 | N/A (bảng không tồn tại) | Bảng được tái tạo trống ở hiện tại, dữ liệu KHÔNG được khôi phục |
+| `vn_person_authority` | 1,074 | 1,507 | 1,074 | Mất 433 dòng, giữ nguyên từ 20:39 đến nay |
+| `passage` | 7,563 | 44,820 | 7,563 | Mất 37,257 dòng (~37K khớp triệu chứng) |
+| `vn_person_relations` | 84 | 2,013 | 84 | Mất 1,929 dòng |
+| `lineage_founders` | N/A (bảng mất) | 17 | N/A | Bảng bị xoá hoàn toàn |
+| `lineage_primary_teacher` | 23,440 | 23,440 | N/A (bảng mất ở 20:39, sau đó được tái tạo đủ) | Đã phục hồi đủ dữ liệu ở bản hiện tại |
+| `dharma_lineage_unified` | 0 | N/A (chưa tồn tại) | N/A | Bảng mới, trống |
+| `person_gen_computed` | N/A (bảng mất) | 19,961 | N/A | Bảng bị xoá hoàn toàn |
+| `generation_v2_calculations` | N/A (bảng mất) | 0 | N/A | Bảng bị xoá (vốn đã trống) |
+| `generation_v2_scheme_revisions` | N/A (bảng mất) | 10 | N/A | Bảng bị xoá hoàn toàn |
+| `codex_name_job` | N/A (bảng mất) | 4 | N/A | Bảng bị xoá hoàn toàn |
+| `codex_name_request` | N/A (bảng mất) | 1,714 | N/A | Bảng bị xoá hoàn toàn |
+| `codex_name_revision` | N/A (bảng mất) | 1,312 | N/A | Bảng bị xoá hoàn toàn |
+| `codex_person_name` | N/A (bảng mất) | 1,312 | N/A | Bảng bị xoá hoàn toàn |
+| `ttl_persons` | N/A (bảng mất) | 211 | N/A | Bảng bị xoá hoàn toàn |
+| `ttl_v2_source_import_runs` | 1 | 1 | N/A (mất ở 20:39) | Đã phục hồi đủ ở hiện tại |
+| `ttl_v2_source_records` | 50,404 | 50,406 | N/A (mất ở 20:39) | Đã phục hồi gần đủ (lệch 2 dòng) |
+| `places_vn` | N/A (bảng mất) | 6,002 | N/A | Bảng bị xoá hoàn toàn |
+| `places_vn_pending` | N/A (bảng mất) | 14 | N/A | Bảng bị xoá hoàn toàn |
+| `place_norm_keys` | N/A (bảng mất) | 250,784 | N/A | Bảng bị xoá hoàn toàn |
+| `person_groq_audit` | N/A (bảng mất) | 0 | N/A | Bảng bị xoá (vốn đã trống) |
+| `place_groq_audit` | N/A (bảng mất) | 0 | N/A | Bảng bị xoá (vốn đã trống) |
+| `timeline_year_support` | N/A (bảng mất) | 285 | N/A | Bảng bị xoá hoàn toàn |
+| `translation_prompt_metrics` | N/A (bảng mất) | 1 | N/A | Bảng bị xoá hoàn toàn |
+| `entity_merge_log` | 0 | N/A (chưa tồn tại) | N/A | Bảng mới, trống |
+| `passage_entity_mention` | 0 | N/A (chưa tồn tại) | N/A | Bảng mới, trống |
+| `person_activity` | 0 | N/A (chưa tồn tại) | N/A | Bảng mới, trống |
+| `hanviet_char_map` | 11,300 | 11,300 | N/A (mất ở 20:39) | Đã phục hồi đủ ở hiện tại |
+| `hanviet_exception_list` | 1 | 1 | N/A (mất ở 20:39) | Đã phục hồi đủ ở hiện tại |
+| `person_hanviet_debug` | 47,036 | 47,036 | N/A (mất ở 20:39) | Đã phục hồi đủ ở hiện tại |
+| `dharma_pair_sources` | N/A (bảng mất) | 23,013 | N/A | Bảng bị xoá hoàn toàn |
+| `entity_claims` (control) | 447,885 | 447,885 | 447,885 | Không đổi — xác nhận tổn thất CHỈ khu trú ở nhóm bảng trên |
+| `data_sources` (control) | 14 | 14 | 14 | Không đổi |
+
+**Lưu ý quan trọng:** DB hiện tại (159 bảng) **không giống y hệt** bản 20:39 (148 bảng) như
+triệu chứng ban đầu mô tả. 11 bảng đã được thêm/tái tạo vào DB hiện tại sau thời điểm 20:39
+(`ai_person_name`, `hanviet_char_map`, `hanviet_exception_list`, `lineage_primary_teacher`,
+`person_hanviet_debug`, `ttl_v2_source_import_runs`, `ttl_v2_source_records`, và 4 bảng hoàn
+toàn mới `dharma_lineage_unified`, `entity_merge_log`, `passage_entity_mention`,
+`person_activity`). Trong số này, **6/7 bảng cũ đã được phục hồi đủ dữ liệu** khớp với bản
+11/10 10:11 — chỉ riêng `ai_person_name` được tái tạo lại **schema** (đúng 4 cột: `dila_id`,
+`name_vi_ai`, `model`, `created_at`) nhưng **KHÔNG có dữ liệu** (0/39.269 dòng).
+
+### Danh sách đầy đủ 22 bảng mất hoàn toàn khỏi DB hiện tại (không được tái tạo lại dưới bất kỳ hình thức nào)
+
+```
+codex_name_job
+codex_name_request
+codex_name_revision
+codex_person_name
+dharma_pair_sources
+generation_v2_calculations
+generation_v2_scheme_revisions
+lineage_founders
+person_gen_computed
+person_groq_audit
+place_groq_audit
+place_norm_fts
+place_norm_fts_config
+place_norm_fts_data
+place_norm_fts_docsize
+place_norm_fts_idx
+place_norm_keys
+places_vn
+places_vn_pending
+timeline_year_support
+translation_prompt_metrics
+ttl_persons
+```
+
+---
+
+## 3. PRAGMA quick_check
+
+Chạy trên `data/backups/lineage.T265-lo-D-20261011-101118.db` (mở `mode=ro`):
+
+```
+PRAGMA quick_check;
+→ ok
+(1 dòng kết quả)
+```
+
+**Kết luận:** bản backup 11/10 10:11 **toàn vẹn (PASS)**, không có lỗi cấu trúc. Đây là bản
+an toàn nhất để dùng làm nguồn khôi phục.
+
+---
+
+## 4. Truy nguyên T274 — lệnh backup/restore đã chạy
+
+Đọc `docs/sessions/2026-10-11_T274_COMPLETION.md` và
+`docs/sessions/2026-10-11_T274-Option-A2-BUILD-REPORT.md`:
+
+- Cả hai report đều ghi dòng **"Backup Used: Oct 10 restored"** — nhưng **không có lệnh cụ thể**
+  nào (không có đoạn `shutil.copy`, `cp`, `sqlite3 .restore`, hay command line) được trích dẫn
+  trong 2 report này. Đây là một **khẳng định mô tả trạng thái**, không phải log lệnh thực thi.
+- Bản BUILD-REPORT (bản BLOCKED, viết trước COMPLETION) ghi: *"Database Connection: OK (1.4GB
+  lineage.db, 146 tables)"* — khớp khá chính xác với trạng thái **đã bị thu hẹp** (148 bảng sau
+  khi T274 thêm 2 bảng dharma, ~1.44GB — xác nhận qua 2 backup Oct 12 có `dharma_lineage_base`
+  đã populate: `lineage_pre_t187_restore_2026-10-12.db` 149 bảng, `lineage_backup_t172_
+  20261012_205024.db` 150 bảng, cả hai đều có `ai_person_name=0, passage=7.563,
+  vn_person_authority=1.074, vn_person_relations=84, dharma_lineage_base=23.014`).
+- Tôi đã kiểm tra script thực thi `scripts/t274_build_dharma_tables.py` — **không có lệnh nào**
+  liên quan đến restore/copy file DB (không có `shutil`, `copyfile`, `copy2`, DROP TABLE trên
+  các bảng bị mất). Script chỉ `CREATE TABLE`/`INSERT` 2 bảng dharma mới trên kết nối hiện có.
+
+**Kết luận về câu hỏi "T274 có restore nhầm bản cũ đè lên bản mới không?":**
+→ **Không đủ bằng chứng để khẳng định T274 TỰ THỰC HIỆN lệnh restore.** Bằng chứng cho thấy:
+  (a) DB đã ở trạng thái thu hẹp (146 bảng) **TRƯỚC KHI** T274 build script bắt đầu kết nối —
+      nghĩa là việc restore/giảm dữ liệu là một hành động riêng, xảy ra trước đó, không nằm
+      trong chính script T274;
+  (b) **Nhưng** không tìm thấy bản backup nào trong `data/backups/` (từ Sep 28 đến nay) có
+      `passage=7.563` — số liệu "thấp" này **chưa từng xuất hiện trong lịch sử DB**. Điều này
+      loại trừ khả năng ai đó đơn giản restore một bản backup hợp lệ cũ hơn (nếu vậy, `passage`
+      phải bằng 44.820 như mọi bản backup khác, kể cả bản cũ nhất Sep 28). Nguồn gốc thực sự
+      của trạng thái "146 bảng / passage=7.563" **không xác định được** từ các file hiện có —
+      có thể là restore từ một file không còn được giữ lại, hoặc một quy trình khác (không phải
+      restore file DB đơn giản) đã xoá bảng + xoá dòng chọn lọc.
+  (c) Điều **chắc chắn** là: T274 đã build 2 bảng dharma trên nền DB đã thu hẹp này và **ghi đè
+      lại `data/lineage.db` + commit git (`163bf98`)** mà không đối chiếu row-count với baseline
+      10:11 AM — do đó T274 là bước **lock-in cuối cùng khiến tổn thất trở thành vĩnh viễn** trong
+      nhánh làm việc hiện tại, dù không phải là nguyên nhân khởi phát.
+
+### Kiểm tra `lineage-T274-opt-a2-20261011_195516.db`
+
+```
+sqlite3.DatabaseError: database disk image is malformed
+```
+
+Xác nhận đúng như report T274 đã ghi — file này **không mở được**, không dùng được làm nguồn
+khôi phục.
+
+---
+
+## 5. Mốc thời gian nghi vấn
+
+- **Oct 8, 10:55:39** — `ai_person_name` hoàn tất transliterate, đạt 39.269 dòng (theo
+  `logs/ai_transliterate.log`, batch 257/445, dòng log cuối cùng).
+- **Oct 8 17:35 → Oct 11 10:11** — trạng thái "đầy đủ" (`ai_person_name=39.269`,
+  `passage=44.820`, `vn_person_authority=1.507`, `vn_person_relations=2.013`) **ổn định liên
+  tục**, xác nhận qua 8 bản backup khác nhau trải suốt khoảng này (`T265-pre-support` x3 (Oct 8),
+  `T44-fix`, `T270-3source`, `T44-102`, `T273-review`, `T275-kinhtrieu` (Oct 10), và
+  `T265-lo-D-20261011-101118` chính là mốc 10:11 Oct 11).
+- **Giữa Oct 11 10:11 và thời điểm T274 build script kết nối (trước 19:55 Oct 11)** — khoảng
+  thời gian xảy ra tổn thất: 22 bảng bị xoá, `ai_person_name` về 0, `passage` giảm 37.257 dòng,
+  `vn_person_relations` giảm 1.929 dòng, `vn_person_authority` giảm 433 dòng. Đây là khoảng thời
+  gian **duy nhất** trong toàn bộ lịch sử backup có các số liệu này — không lặp lại ở nơi khác.
+- **Oct 11 19:55** — `lineage-T274-opt-a2-20261011_195516.db` được tạo (bị malformed).
+- **Oct 11 20:39** — `lineage_2026-10-12.db` (148 bảng) ghi nhận trạng thái sau khi T274 build
+  xong 2 bảng dharma trên nền DB đã thu hẹp.
+- **Không phát hiện pattern lặp lại**: đây là sự kiện đơn lẻ, các lần restore/backup khác trong
+  lịch sử (T265, T270, T273 series) đều giữ nguyên số liệu đầy đủ, không gây mất dữ liệu tương tự.
+
+---
+
+## 6. Khuyến nghị khôi phục (đề xuất — CHƯA thực hiện, cần Admin duyệt riêng)
+
+1. **Nguồn an toàn nhất:** `data/backups/lineage.T265-lo-D-20261011-101118.db` (11/10 10:11) —
+   `PRAGMA quick_check = ok`, có đầy đủ dữ liệu trước tổn thất, bao gồm cả 22 bảng đã mất.
+2. **Rủi ro nếu khôi phục chọn lọc theo từng bảng** (copy riêng `ai_person_name`, `passage`,
+   `vn_person_relations`, `vn_person_authority`, và 22 bảng đã xoá từ bản 10:11 vào DB hiện tại):
+   - DB hiện tại (159 bảng) đã có các thay đổi schema MỚI hơn bản 10:11 (các bảng
+     `dharma_lineage_unified`, `entity_merge_log`, `passage_entity_mention`, `person_activity`,
+     và 2 bảng `dharma_lineage_base`/`dharma_lineage_ttl_vn` từ T274) — những bảng này **không
+     tồn tại** trong bản 10:11. Nếu restore toàn bộ DB từ bản 10:11, sẽ **mất luôn các bảng/công
+     việc được làm SAU Oct 11 10:11** (T274 dharma tables, và các task từ 12/10 đến 13/10 tạo
+     ra `dharma_lineage_unified`, `entity_merge_log`, v.v.).
+   - Khôi phục chọn lọc theo bảng tránh được việc mất công việc sau này, nhưng có rủi ro
+     **mismatch khóa ngoại/tham chiếu** giữa dữ liệu "cũ" (từ 10:11) và dữ liệu "mới" (ví dụ
+     `dharma_lineage_base` dùng `vn_person_authority` — nếu restore `vn_person_authority` từ
+     1.074→1.507 dòng, cần kiểm tra lại các bảng phụ thuộc đã build sau đó có tham chiếu đúng ID
+     không, đặc biệt `person_gen_computed`, `lineage_primary_teacher` (hiện đã full 23.440,
+     khớp bản 10:11 — ít rủi ro) và `dharma_lineage_base` (xây dựng trên nền DB đã rút gọn, có
+     thể cần build lại sau khi khôi phục `vn_person_authority`/`vn_person_relations` đầy đủ).
+   - 7 bảng đã được "tự phục hồi" sau 20:39 (`hanviet_char_map`, `person_hanviet_debug`, v.v.)
+     đã khớp đúng số liệu bản 10:11 — không cần đụng tới, tránh restore trùng/ghi đè không cần
+     thiết.
+3. **Khuyến nghị cụ thể:** KHÔNG restore toàn bộ DB thay thế trực tiếp (sẽ xoá công việc Oct
+   11–13). Nên khôi phục **chọn lọc theo bảng**, theo thứ tự:
+   a. Khôi phục nguyên trạng 22 bảng bị xoá hoàn toàn (không có bản nào trong DB hiện tại để
+      xung đột — an toàn, không có rủi ro ghi đè công việc mới).
+   b. Khôi phục dữ liệu đầy đủ cho `ai_person_name` (39.269 dòng), `vn_person_authority`
+      (1.507), `vn_person_relations` (2.013), `passage` (44.820) — kiểm tra kỹ các bảng phụ
+      thuộc được build SAU khi mất dữ liệu (đặc biệt `dharma_lineage_base`/`dharma_lineage_ttl_vn`
+      của T274, và bất kỳ bảng nào tham chiếu `vn_person_authority.dila_id` đã build giữa 11/10
+      20:39 và nay) để đánh giá có cần rebuild lại hay không sau khi tăng số dòng gốc.
+   c. Backup đầy đủ `lineage.db` hiện tại (full file copy, không chỉ `.db-shm`/`.db-wal`) **trước
+      khi** thực hiện bất kỳ bước khôi phục nào ở trên.
+   d. Thực hiện trong task riêng (có backup tự động + dry-run + rollback) theo đúng
+      `CLAUDE.md` — **không nằm trong phạm vi T379** (T379 chỉ audit, không sửa).
+
+---
+
+## 7. Giới hạn của audit này
+
+- Không xác định được **chính xác lệnh/tác nhân** đã gây ra việc thu hẹp DB (146 bảng,
+  `passage=7.563`) trước khi T274 build script kết nối — không có file backup nào trong
+  `data/backups/` khớp với trạng thái này để xác nhận nguồn gốc, và 2 report T274 không ghi lại
+  lệnh cụ thể đã chạy (chỉ ghi nhận kết quả "Backup Used: Oct 10 restored" mà không có log lệnh).
+  Có thể cần tra cứu lịch sử thao tác trực tiếp của agent/session ngày 11/10 (nếu còn giữ)
+  để xác nhận thêm.
+- Không kiểm tra `git log`/`git diff` của `163bf98` trong audit này (ngoài phạm vi done_when đã
+  nêu, và để tránh bất kỳ thay đổi working tree ngoài ý — task yêu cầu "không git add/commit").
+
+---
+
+## 8. Verify lại ngày 2026-10-28 (bổ sung, chỉ đọc)
+
+**Mục đích:** đối chiếu trạng thái DB hiện tại với báo cáo 13/10 sau khi đã có T380 (selective restore).
+**Phương pháp:** mở `data/lineage.db` bằng `sqlite3` với `mode=ro`, chỉ `SELECT COUNT(*)` và kiểm tra
+`sqlite_master`. Không chạy audit lại từ đầu, không ghi file DB, không restore.
+**Nguồn tham chiếu:** `docs/ROLLBACK.md` (dòng T380 ngày 2026-10-13).
+
+### 8.1 Bốn bảng cốt lõi đã được khôi phục
+
+| Bảng | 13/10 (báo cáo này) | 28/10 (hiện tại) | Baseline 11/10 10:11 | Kết luận |
+|---|---|---|---|---|
+| `ai_person_name` | 0 | 48,673 | 39,269 | Đã khôi phục, nhiều hơn baseline |
+| `passage` | 7,563 | 44,820 | 44,820 | Khớp baseline |
+| `vn_person_authority` | 1,074 | 1,512 | 1,507 | Khôi phục, nhiều hơn baseline 5 dòng |
+| `vn_person_relations` | 84 | 2,013 | 2,013 | Khớp baseline |
+
+Kết luận: 4 bảng cốt lõi đã trở lại mức baseline hoặc cao hơn nhờ T380.
+
+### 8.2 Bảng tái tạo nhưng thiếu dữ liệu
+
+| Bảng | 28/10 | Baseline 11/10 10:11 | Ghi chú |
+|---|---|---|---|
+| `person_gen_computed` | 1,018 | 19,961 | Bảng tồn tại, chỉ phục hồi khoảng 5% số dòng |
+| `lineage_founders` | 0 | 17 | Bảng tồn tại nhưng rỗng |
+
+### 8.3 Bảng vẫn mất hoàn toàn (20 bảng)
+
+`codex_name_job`, `codex_name_request`, `codex_name_revision`, `dharma_pair_sources`,
+`generation_v2_calculations`, `generation_v2_scheme_revisions`, `person_groq_audit`,
+`place_groq_audit`, `place_norm_keys`, `places_vn`, `places_vn_pending`, `timeline_year_support`,
+`translation_prompt_metrics`, `ttl_persons`, và 5 bảng FTS `place_norm_fts`, `place_norm_fts_config`,
+`place_norm_fts_data`, `place_norm_fts_docsize`, `place_norm_fts_idx`.
+
+Ghi chú: `codex_person_name` hiện có 49,487 dòng (vượt baseline 1,312), không còn nằm trong nhóm mất.
+
+### 8.4 Trả lời câu hỏi "nguyên nhân chưa rõ thì có mất lại không?"
+
+- **Có thể.** Mục 7 đã ghi nguyên nhân gốc chưa xác định được. Nếu không tìm ra tác nhân, không có cơ sở
+  để khẳng định sự cố không lặp lại. Báo cáo này chỉ chứng minh sự cố **không lặp lại trong lịch sử backup
+  đã có** (mục 5), không chứng minh cơ chế gây mất đã bị loại bỏ.
+- Rủi ro lớn nhất không phải là mất lần nữa mà là **khóa tổn thất vào git và DB** qua các bước build sau đó
+  (như T274, commit `163bf98`). Cần một guard trước mỗi bước ghi: so row-count với baseline, và từ chối chạy
+  nếu bảng nguồn thấp bất thường.
+- Việc cần làm để giảm rủi ro thật: (a) tra log thao tác ngày 11/10 nếu còn; (b) thêm guard row-count
+  vào các script ghi DB; (c) backup full file trước mọi thao tác ghi, không chỉ `-shm`/`-wal`.
+
+### 8.5 Việc chưa làm và cần Admin quyết định
+
+1. Có khôi phục nốt 20 bảng còn thiếu từ `data/backups/lineage.T265-lo-D-20261011-101118.db` không.
+   Nguồn này đã `quick_check = ok` (mục 3).
+2. `person_gen_computed` (1,018/19,961) và `lineage_founders` (0/17) có cần phục hồi đầy đủ không.
+3. T379 frontmatter ghi `status: done`, nhưng done_when (7) yêu cầu Admin xác nhận. Cần Admin xác nhận
+   hoặc mở task con cho phần khôi phục còn lại.
+
+Backup trước khi bổ sung mục này: `docs/sessions/2026-10-28/T379_DATA_LOSS_AUDIT.md.bak_before_verify_1028`.

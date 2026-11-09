@@ -1,0 +1,83 @@
+---
+id: T500
+title: "Quan hệ quyển cho tác phẩm: ETL từ CBETA Catalog API (work → khoảng quyển → file)"
+status: pending
+created: 2026-10-29
+updated: 2026-10-29
+owner: coordinator
+module: Data / Catalog / Work volumes
+priority: high
+depends_on: [T486]
+done_when: >
+  (1) Đo coverage: số cbeta_id trong dila_catalog_works (5.747) có node trong CBETA Catalog API,
+      tách theo node thường, node_type='alt' và không có node. Báo cáo ghi vào
+      docs/sessions/2026-10-29/cbeta-volumes/coverage.md.
+  (2) Snapshot API ra data/dila_import/cbeta_catalog_api/<ngày>/ dạng JSON, kèm SHA-256 cho từng file.
+      ETL chạy offline từ snapshot, không gọi mạng khi nạp.
+  (3) Bảng additive work_volumes (work_id, juan_no, cbeta_node_n, source_snapshot) và volume_files
+      (work_id, juan_no, file_id) được tạo sau khi Admin duyệt schema. Không sửa bảng cũ.
+  (4) Mỗi work có node thường: sinh đúng juan_end - juan_start + 1 dòng cho work_volumes. Ví dụ T0220
+      có node 1–200 gắn file T05n0220a, và các node còn lại theo API.
+  (5) node_type='alt' KHÔNG sinh quyển giả. Lưu vào bảng quan hệ work_alias (work_id, alt_work_id,
+      note) hoặc báo cáo, sau khi Admin duyệt.
+  (6) Kiểm chéo: tổng quyển từ node so với dila_catalog_works.juans. Sai lệch được liệt kê vào
+      danh sách lỗi, không ghi đè.
+  (7) Nguồn qua cổng license trước khi nạp DB (commit b71a68b0). Ghi kết quả vào
+      docs/sessions/2026-10-29/cbeta-volumes/license-gate.md.
+  (8) Dry-run trước; ghi DB chỉ khi Admin --apply, có backup. Có kế hoạch revert (DROP bảng mới).
+  (9) QA (daoanh-qa) kiểm số liệu trước/sau. Admin xác nhận DONE.
+---
+
+## Mô tả
+
+Quan hệ quyển của tác phẩm hiện chưa có trong DB: chỉ có `juans` (số quyển), 36 dòng null,
+không biết quyển nào nằm ở file nào. Task này lấy node từ CBETA Catalog API (catalog_entry)
+gồm `work`, `juan_start`, `juan_end`, `file`, rồi nạp thành hai bảng mới additive.
+
+## Kiến thức đã kiểm chứng (2026-10-29)
+
+- Trường của catalog_entry: `n`, `label`, `node_type`, `work`, `category`, `creator`,
+  `juan_start`, `juan_end`, `file`. `alt` là giá trị của `node_type`, không phải tên trường.
+- Ví dụ T0220: node CBETA.003.001.001, label "T0220 大般若波羅蜜多經 (1~200卷)", quyển 1–200,
+  file T05n0220a.
+- Repo DILA-edu/cbeta-metadata: thư mục `catalog/` đã ngừng từ 2026-05-21, không dùng làm cây bộ
+  loại. `special-works/` chứa tác phẩm nhiều tập. Chưa xác minh được danh sách 201–400 và 401–600
+  của T0220 từ repo; cần lấy từ API.
+- API là cây theo tham số q: phải duyệt đệ quy từng node, không có lệnh trả đủ mọi quyển.
+
+## Các bước
+
+1. **Đo coverage** (chỉ đọc DB và API): lấy danh sách cbeta_id, truy vấn từng node, đếm node thường,
+   alt và không có node. Kết quả ghi coverage.md.
+2. **Snapshot**: lưu từng phản hồi API vào data/dila_import/cbeta_catalog_api/<ngày>/, tạo
+   SHA256SUMS.
+3. **Cổng license**: kiểm điều kiện sử dụng nội dung và metadata; ghi license-gate.md. Chưa qua
+   thì dừng ở bước 4.
+4. **Schema**: Admin duyệt hai bảng mới work_volumes và volume_files (và work_alias nếu cần).
+5. **ETL dry-run**: sinh dòng quyển từ node, kiểm chéo juans, xuất CSV lỗi.
+6. **Apply** khi Admin cho phép: backup DB trước, ghi trong một transaction.
+7. **QA** đếm trước/sau; kiểm các mẫu T0220 và một tác phẩm nhiều tập trong special-works.
+
+## Ví dụ kết quả khi Done
+
+Với T0220 (Đại Bát-nhã), DB có thêm các dòng:
+
+| work_id | juan_no | file | node |
+|---|---|---|---|
+| T0220 | 1 | T05n0220a | CBETA.003.001.001 (1–200) |
+| T0220 | 201 | (theo API) | node tiếp theo |
+
+Trên trang tác phẩm, Admin thấy "Quyển 1–200 → T05n0220a" thay vì một con số "600 quyển". Các
+tác phẩm có node alt được đánh dấu "trỏ sang tạng khác", không có quyển giả.
+
+## Ràng buộc
+
+- Chỉ ghi DB sau dry-run và Admin --apply, có backup trước.
+- Không đổi cbeta_id hay authority_id.
+- Không git add/commit/reset khi chưa có lệnh.
+- Test bằng 127.0.0.1.
+
+## Liên quan
+
+- T486: quan hệ dữ liệu tác phẩm (nguồn chuẩn tên Việt, xác minh tác giả).
+- Kế hoạch chi tiết: docs/plans/T500-cbeta-catalog-volume-relations.md.
