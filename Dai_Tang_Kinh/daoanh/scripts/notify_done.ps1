@@ -17,11 +17,23 @@ param(
 
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 # Không truyền -Image: chọn ngẫu nhiên 1 file .png trong static\notify\mascots (thêm/bớt ảnh trong thư mục là đủ, không sửa code).
+# Không chọn lại ảnh của lần trước (nhớ trong %LOCALAPPDATA%\notify_done\last_mascot.txt, ngoài repo).
 # Thư mục rỗng hoặc không tồn tại thì dùng tieu_thien_avatar.png.
 if (-not $Image) {
   $mascotDir = Join-Path (Split-Path -Parent $here) "static\notify\mascots"
+  $stateFile = Join-Path $env:LOCALAPPDATA "notify_done\last_mascot.txt"
   $pool = @(Get-ChildItem -LiteralPath $mascotDir -Filter *.png -File -ErrorAction SilentlyContinue)
-  if ($pool.Count -gt 0) { $Image = ($pool | Get-Random).FullName }
+  $last = ""
+  try { if (Test-Path -LiteralPath $stateFile) { $last = (Get-Content -LiteralPath $stateFile -Raw).Trim() } } catch {}
+  $choices = @($pool | Where-Object { $_.Name -ne $last })
+  if ($choices.Count -eq 0) { $choices = $pool }
+  if ($choices.Count -gt 0) {
+    $Image = ($choices | Get-Random).FullName
+    try {
+      New-Item -ItemType Directory -Force -Path (Split-Path -Parent $stateFile) | Out-Null
+      Set-Content -LiteralPath $stateFile -Value (Split-Path -Leaf $Image) -Encoding UTF8
+    } catch {}
+  }
   else { $Image = Join-Path $mascotDir "tieu_thien_avatar.png" }
 }
 
